@@ -23,3 +23,7 @@ Route::view('/examples/blank', 'examples.blank');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Rutas del CMS
+
+Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
