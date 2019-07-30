@@ -1830,7 +1830,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: {}
+  data: function data() {
+    return {
+      cliente: {
+        tipoPersona: '',
+        nombreCliente: '',
+        apellidoCliente: '',
+        apellidoCliente2: '',
+        emailCliente: '',
+        //Facturacion
+        nombreFacturacion: '',
+        direccionFacturacion: '',
+        coloniaFacturacion: '',
+        numeroFacturacion: '',
+        rfcFacturacion: '',
+        emailFacturacion: ''
+      }
+    };
+  },
+  methods: {
+    crearCliente: function crearCliente() {
+      var _this = this;
+
+      var URL = 'http://localhost:3000/clientes/create';
+      axios.post(URL, {
+        'tipoPersona': this.cliente.tipoPersona,
+        'nombreCliente': this.cliente.nombreCliente,
+        'apellidoCliente': this.cliente.apellidoCliente,
+        'apellidoCliente2': this.cliente.apellidoCliente2,
+        'emailCliente': this.cliente.emailCliente,
+        //Facturacion
+        'nombreFacturacion': this.cliente.nombreFacturacion,
+        'direccionFacturacion': this.cliente.direccionFacturacion,
+        'coloniaFacturacion': this.cliente.coloniaFacturacion,
+        'numeroFacturacion': this.cliente.numeroFacturacion,
+        'rfcFacturacion': this.cliente.rfcFacturacion,
+        'emailFacturacion': this.cliente.emailFacturacion
+      }).then(function (response) {
+        console.log(_this.cliente);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -20087,11 +20129,365 @@ var render = function() {
           attrs: { action: "POST" },
           on: {
             submit: function($event) {
+              $event.preventDefault()
               return _vm.crearCliente()
             }
           }
         },
-        [_vm._m(0)]
+        [
+          _c("div", { staticClass: "col-md-10 offset-md-1 registroCliente" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6 d-flex" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.tipoPersona,
+                      expression: "cliente.tipoPersona"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    name: "typePerson",
+                    value: "fisica",
+                    id: "personaFisica"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.cliente.tipoPersona, "fisica")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.cliente, "tipoPersona", "fisica")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "personaFisica" } }, [
+                  _vm._v("Persona Fisica")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6 d-flex" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.tipoPersona,
+                      expression: "cliente.tipoPersona"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    name: "typePerson",
+                    value: "moral",
+                    id: "personaMoral"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.cliente.tipoPersona, "moral")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.cliente, "tipoPersona", "moral")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "personaMoral" } }, [
+                  _vm._v("Persona Moral")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.nombreCliente,
+                      expression: "cliente.nombreCliente"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Nombres" },
+                  domProps: { value: _vm.cliente.nombreCliente },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "nombreCliente",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.apellidoCliente,
+                      expression: "cliente.apellidoCliente"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Apellido Paterno" },
+                  domProps: { value: _vm.cliente.apellidoCliente },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "apellidoCliente",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.apellidoCliente2,
+                      expression: "cliente.apellidoCliente2"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Apellido Materno" },
+                  domProps: { value: _vm.cliente.apellidoCliente2 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "apellidoCliente2",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.emailCliente,
+                      expression: "cliente.emailCliente"
+                    }
+                  ],
+                  attrs: { type: "email", placeholder: "Email" },
+                  domProps: { value: _vm.cliente.emailCliente },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.cliente, "emailCliente", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("h4", [_vm._v("Telefonos de contacto")]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("h4", [_vm._v("Datos de facturacion")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.nombreFacturacion,
+                      expression: "cliente.nombreFacturacion"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Nombre" },
+                  domProps: { value: _vm.cliente.nombreFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "nombreFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.direccionFacturacion,
+                      expression: "cliente.direccionFacturacion"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Direccion" },
+                  domProps: { value: _vm.cliente.direccionFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "direccionFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.coloniaFacturacion,
+                      expression: "cliente.coloniaFacturacion"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Colonia" },
+                  domProps: { value: _vm.cliente.coloniaFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "coloniaFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.numeroFacturacion,
+                      expression: "cliente.numeroFacturacion"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Numero" },
+                  domProps: { value: _vm.cliente.numeroFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "numeroFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-7 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.rfcFacturacion,
+                      expression: "cliente.rfcFacturacion"
+                    }
+                  ],
+                  attrs: { type: "text", name: "", id: "", placeholder: "RFC" },
+                  domProps: { value: _vm.cliente.rfcFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "rfcFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-7 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.emailFacturacion,
+                      expression: "cliente.emailFacturacion"
+                    }
+                  ],
+                  attrs: {
+                    type: "email",
+                    name: "",
+                    id: "",
+                    placeholder: "Email"
+                  },
+                  domProps: { value: _vm.cliente.emailFacturacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "emailFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ]),
+            _vm._v(" "),
+            _c("h4", [_vm._v("¿Como supo de nosotros?")]),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ]
       )
     ])
   ])
@@ -20101,137 +20497,58 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-10 offset-md-1 registroCliente" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6 d-flex" }, [
-          _c("input", {
-            attrs: {
-              type: "radio",
-              name: "personaFisica",
-              value: "fisica",
-              id: "personaFisica"
-            }
-          }),
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("select", { attrs: { name: "telefonoTipo", id: "" } }, [
+          _c("option", { attrs: { value: "celular" } }, [_vm._v("Celular")]),
           _vm._v(" "),
-          _c("label", { attrs: { for: "personaFisica" } }, [
-            _vm._v("Persona Fisica")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6 d-flex" }, [
-          _c("input", {
-            attrs: {
-              type: "radio",
-              name: "personaMoral",
-              value: "moral",
-              id: "personaMoral"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "personaMoral" } }, [
-            _vm._v("Persona Moral")
-          ])
+          _c("option", { attrs: { value: "casa" } }, [_vm._v("Casa")])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", { attrs: { type: "text", placeholder: "Nombres" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", {
-            attrs: { type: "text", placeholder: "Apellido Paterno" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", {
-            attrs: { type: "text", placeholder: "Apellido Materno" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4 mt-4" }, [
-          _c("input", { attrs: { type: "email", placeholder: "Email" } })
-        ])
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("input", { attrs: { type: "number", placeholder: "5555555555" } })
       ]),
       _vm._v(" "),
-      _c("h4", [_vm._v("Telefonos de contacto")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("select", { attrs: { name: "telefonoTipo", id: "" } }, [
-            _c("option", { attrs: { value: "celular" } }, [_vm._v("Celular")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "casa" } }, [_vm._v("Casa")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", { attrs: { type: "number", placeholder: "5555555555" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("input", { attrs: { type: "text", placeholder: "EXT" } })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
-              _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                _vm._v("Agregar")
-              ])
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", { attrs: { type: "text", placeholder: "EXT" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+              _vm._v("Agregar")
             ])
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("h4", [_vm._v("Datos de facturacion")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("input", { attrs: { type: "text", placeholder: "Nombre" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4 mt-4" }, [
-          _c("input", { attrs: { type: "text", placeholder: "Direccion" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4 mt-4" }, [
-          _c("input", { attrs: { type: "text", placeholder: "Colonia" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4 mt-4" }, [
-          _c("input", { attrs: { type: "text", placeholder: "Numero" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-7 mt-4" }, [
-          _c("input", {
-            attrs: { type: "text", name: "", id: "", placeholder: "RFC" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-7 mt-4" }, [
-          _c("input", {
-            attrs: { type: "email", name: "", id: "", placeholder: "Email" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-5 mt-4" }, [
-          _c("button", { staticClass: "btn btn-success btn-sm btn-block" }, [
-            _vm._v("Agregar Contacto")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("h4", [_vm._v("¿Como supo de nosotros?")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("select", { attrs: { name: "comoSupo", id: "" } }, [
-            _c("option", { attrs: { value: "recomendacion" } }, [
-              _vm._v("Recomendacion")
-            ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5 mt-4" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success btn-sm btn-block",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Agregar Contacto")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("select", { attrs: { name: "comoSupo", id: "" } }, [
+          _c("option", { attrs: { value: "recomendacion" } }, [
+            _vm._v("Recomendacion")
           ])
         ])
       ])

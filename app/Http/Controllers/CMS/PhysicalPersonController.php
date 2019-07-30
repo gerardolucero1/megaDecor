@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CMS;
 
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PhysicalPersonController extends Controller
 {
@@ -34,7 +36,19 @@ class PhysicalPersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cliente = new PhysicalPerson();
+        $cliente->nombre = $request->nombreCliente;
+        $cliente->apellidoPaterno = $request->apellidoCliente;
+        $cliente->apellidoMaterno = $request->apellidoCliente2;
+        $cliente->email = $request->emailCliente;
+        $cliente->nombreFacturacion = $request->nombreFacturacion;
+        $cliente->direccionFacturacion = $request->direccionFacturacion;
+        $cliente->coloniaFacturacion = $request->coloniaFacturacion;
+        $cliente->numeroFacturacion = $request->numeroFacturacion;
+        $cliente->rfcFacturacion = $request->rfcFacturacion;
+        $cliente->emailFacturacion = $request->emailFacturacion;
+
+        $cliente->save();
     }
 
     /**
