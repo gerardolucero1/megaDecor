@@ -15,7 +15,7 @@
                             We’ve put everything together, so you can start working on your Laravel project as soon as possible! Codebase assets are integrated and work seamlessly with Laravel Mix, so you can use the npm scripts as you would in any other Laravel project.
                         </p>
                         <p class="text-muted">
-                           Hola mundo
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur ullam pariatur explicabo in enim quasi sit voluptatem deleniti, quaerat qui sunt cum, provident voluptas voluptates esse veniam laboriosam quisquam nam?
                         </p>
                     </div>
                 </div>
