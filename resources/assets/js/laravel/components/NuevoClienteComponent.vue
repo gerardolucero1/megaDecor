@@ -27,7 +27,8 @@
                             <label for="personaMoral">Persona Moral</label>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- Personas Fisicas -->
+                    <div class="row" v-if="cliente.tipoPersona == 'fisica'">
                         <div class="col-md-4">
                             <input type="text" placeholder="Nombres" v-model="cliente.nombreCliente">
                         </div>
@@ -41,28 +42,69 @@
                             <input type="email" placeholder="Email" v-model="cliente.emailCliente">
                         </div>
                     </div>
+                    <!-- Personas Morales -->
+                    <div class="row" v-if="cliente.tipoPersona == 'moral'">
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Nombres" v-model="cliente.nombreCliente">
+                        </div>
+                        <div class="col-md-6">
+                            <select name="categoria" id="" v-model="cliente.categoriaCliente">
+                                <option v-bind:value="categoria.id" v-for="categoria in categorias" v-bind:key="categoria.index">{{ categoria.name }}</option>  
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="telefonos.length !== 0">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">TIPO</th>
+                                    <th scope="col">NUMERO</th>
+                                    <th scope="col">EXT</th>
+                                    <th scope="col" class="text-center">OPCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(telefono, index) in telefonos" v-bind:key="telefono.index">
+                                    <td>{{ telefono.tipo }}</td>
+                                    <td>{{ telefono.numero }}</td>
+                                    <td>{{ telefono.ext }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(index)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                    </div> 
 
                     <h4>Telefonos de contacto</h4>
 
                     <div class="row">
                         <div class="col-md-4">
-                            <select name="telefonoTipo" id="">
-                                <option value="celular">Celular</option>
-                                <option value="casa">Casa</option>
+                            <select name="telefonoTipo" id="" v-model="telefono.tipo">
+                                <option value="CELULAR">Celular</option>
+                                <option value="CASA">Casa</option>
+                                <option value="OFICINA">Oficina</option>
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <input type="number" placeholder="5555555555">
+                            <input type="number" placeholder="5555555555" v-model="telefono.numero">
                         </div>
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" placeholder="EXT">
+                                    <input type="text" placeholder="EXT" v-model="telefono.ext">
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary">Agregar</button>
+                                    <button class="btn btn-sm btn-primary" v-on:click.prevent="agregarTelefono()">Agregar</button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Nombre" v-model="telefono.nombre">
+                        </div>
+                        <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="email" placeholder="Email" v-model="telefono.email">
                         </div>
                     </div>
 
@@ -97,8 +139,8 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <select name="comoSupo" id="">
-                                <option value="recomendacion">Recomendacion</option>
+                            <select name="comoSupo" id="" v-model="cliente.categoriaAbout">
+                                <option v-bind:value="como.id" v-for="como in aboutCategorias" v-bind:key="como.index">{{ como.nombre }}</option>
                             </select>
                         </div>
                     </div>
@@ -113,11 +155,17 @@
         data(){
             return {
                 cliente: {
-                    tipoPersona: '',
+                    tipoPersona: 'fisica',
                     nombreCliente: '',
+                    
+                    // Persona Moral
+                    categoriaCliente: '',
+
+                    // Persona Fisica
                     apellidoCliente: '',
                     apellidoCliente2: '',
                     emailCliente: '',
+
 
                     //Facturacion
                     nombreFacturacion: '',
@@ -127,34 +175,143 @@
                     rfcFacturacion: '',
                     emailFacturacion: '',
 
-                }, 
+                    // Como supo
+                    categoriaAbout: '1',
+
+                },
+                telefono:{
+                    tipo: 'CELULAR',
+                    numero: '',
+                    ext: '',
+                    nombre: '',
+                    email: '',
+                },
+                telefonos: [],
+                physicalTelephones: [],
+                categorias: [],
+                aboutCategorias: [],
             } 
         },
-
+        created: function(){
+            //obtenerTelefonos();
+        },
+        mounted(){
+            this.obtenerTelefonos();
+            this.obtenerCategorias();
+            this.obtenerCategoriasNosotros();
+        },
         methods: {
+            obtenerCategoriasNosotros(){
+                let URL = 'http://localhost:3000/about-categorias';
+                axios.get(URL).then((response) => {
+                    this.aboutCategorias = response.data;
+                    console.log(this.aboutCategorias);
+                });
+            },
+            obtenerCategorias(){
+                let URL = 'http://localhost:3000/categorias';
+                axios.get(URL).then((response) => {
+                    this.categorias = response.data;
+                    console.log(this.categorias);
+                });
+            },
+            obtenerTelefonos(){
+                let URL = 'http://localhost:3000/telefonos';
+                axios.get(URL).then((response) => {
+                    this.physicalTelephones = response.data;
+                    console.log(this.physicalTelephones);
+                });
+            },
+            agregarTelefono(){
+                let existe = false;
+                if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
+                    console.log(this.telefono.tipo);
+                    let numero = this.telefono.numero;
+                    this.physicalTelephones.forEach(function(element){
+                        if(numero == element.numero){
+                            
+                            //console.log('Ya existe');
+                            existe = true;
+                        }
+                        
+                    });
+                    this.telefonos.forEach(function(element){
+                        if(numero == element.numero){
+                            //console.log('Ya existe');
+                            existe = true;
+                        }
+                        
+                    });
+                
+                }else if(this.telefono.tipo == 'OFICINA'){
+                    console.log(this.telefono.tipo);
+                    let ext = this.telefono.ext;
+                    this.physicalTelephones.forEach(function(element){
+                        if(ext == element.ext){
+                            //console.log('Ya existe');
+                            existe = true;
+                        }
+                        
+                    });
+                    this.telefonos.forEach(function(element){
+                        if(ext == element.ext){
+                            //console.log('Ya existe');
+                            existe = true;
+                        }
+                        
+                    });
+                
+                }
+                //console.log(existe);
+
+                if(!existe){
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefono = {};
+                    //this.obtenerTelefonos();
+                }else{
+                    toastr.error('El telefono que intentas agregar ya existe.', 'ERROR');
+                }
+                //this.telefonos.push({'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});  
+                
+            },
             crearCliente(){
                 let URL = 'http://localhost:3000/clientes/create';
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
+                    
+                    // Persona Moral
+                    'categoriaCliente': this.cliente.categoriaCliente,
+
+                    // Persona Fisica
                     'apellidoCliente': this.cliente.apellidoCliente,
                     'apellidoCliente2': this.cliente.apellidoCliente2,
                     'emailCliente': this.cliente.emailCliente,
 
-                    //Facturacion
-
+                    // Facturacion
                     'nombreFacturacion': this.cliente.nombreFacturacion,
                     'direccionFacturacion': this.cliente.direccionFacturacion,
                     'coloniaFacturacion': this.cliente.coloniaFacturacion,
                     'numeroFacturacion': this.cliente.numeroFacturacion,
                     'rfcFacturacion': this.cliente.rfcFacturacion,
                     'emailFacturacion': this.cliente.emailFacturacion,
+
+                    // Como supo
+                    'categoriaAbout': this.cliente.categoriaAbout,
+
+                    // Telefonos
+                    'telefonos': this.telefonos,
                 }).then((response) => {
+                    this.cliente = {};
                     console.log(this.cliente);
                 }).catch((error) => {
                     console.log(error);
                 });
                 
+            },
+            eliminarTelefono(index){
+                console.log(index);
+                this.telefonos.splice(index, 1);
             }
         }
     }

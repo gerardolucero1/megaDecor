@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhysicalPeopleTable extends Migration
+class CreateMoralPeopleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreatePhysicalPeopleTable extends Migration
      */
     public function up()
     {
-        Schema::create('physical_people', function (Blueprint $table) {
+        Schema::create('moral_people', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('cliente_id')->unsigned();
+            $table->integer('categoria_id')->unsigned();
             $table->integer('about_id')->unsigned();
             $table->string('nombre');
-            $table->string('apellidoPaterno');
-            $table->string('apellidoMaterno');
-            $table->string('email');
-
+            
             //Datos de Facturacion
 
             $table->string('nombreFacturacion');
@@ -34,6 +32,10 @@ class CreatePhysicalPeopleTable extends Migration
 
             //Relations
             $table->foreign('cliente_id')->references('id')->on('clients')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            
+            $table->foreign('categoria_id')->references('id')->on('moral_categories')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             
@@ -50,6 +52,6 @@ class CreatePhysicalPeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('physical_people');
+        Schema::dropIfExists('moral_people');
     }
 }

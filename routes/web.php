@@ -1,5 +1,9 @@
 <?php
 
+use App\Telephone;
+use App\AboutCategory;
+use App\MoralCategory;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +28,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Rutas del CMS
+// Rutas del CMS
+    // API Formularios
+    Route::get('/telefonos', function(){
+        return App\Telephone::orderBy('id', 'DESC')->get();
+    });
+
+    Route::get('/categorias', function(){
+        return App\MoralCategory::orderBy('id', 'DESC')->get();
+    });
+
+    Route::get('/about-categorias', function(){
+        return App\AboutCategory::orderBy('id', 'DESC')->get();
+    });
 
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
-Route::post('/clientes/create', 'CMS\PhysicalPersonController@store')->name('PhysicalPerson.store');
+Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+

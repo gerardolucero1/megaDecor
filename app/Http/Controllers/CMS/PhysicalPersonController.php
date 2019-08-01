@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\PhysicalPerson;
+use App\PhysicalTelephone;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,6 +37,8 @@ class PhysicalPersonController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->telefonos);
+        
         $cliente = new PhysicalPerson();
         $cliente->nombre = $request->nombreCliente;
         $cliente->apellidoPaterno = $request->apellidoCliente;
@@ -49,6 +52,20 @@ class PhysicalPersonController extends Controller
         $cliente->emailFacturacion = $request->emailFacturacion;
 
         $cliente->save();
+
+        $ultimoCliente = PhysicalPerson::orderBy('id', 'DESC')->pluck('id')->first();
+
+        foreach ($request->telefonos as $telefono){
+            $physicalTelephone = new PhysicalTelephone();
+
+            $physicalTelephone->cliente_id = $ultimoCliente;
+            $physicalTelephone->tipo = $telefono['tipo'];
+            $physicalTelephone->numero = $telefono['numero'];
+            $physicalTelephone->ext = $telefono['ext'];
+
+            $physicalTelephone->save();
+
+        }
     }
 
     /**

@@ -2,17 +2,15 @@
 
 namespace App;
 
-use App\Telephone;
 use Illuminate\Database\Eloquent\Model;
 
-class PhysicalPerson extends Model
+class MoralPerson extends Model
 {
     protected $fillable = [
         'cliente_id',
+        'categoria',
         'about_id',
         'nombre',
-        'apellidoPaterno',
-        'apellidoMaterno',
         'email',
 
         //Facturacion
@@ -29,5 +27,4 @@ class PhysicalPerson extends Model
     {
         return $this->hasOne(App\Client::class);
     }
-    
 }
