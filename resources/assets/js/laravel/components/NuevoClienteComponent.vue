@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-md-6">
                             <select name="categoria" id="" v-model="cliente.categoriaCliente">
-                                <option v-bind:value="categoria.id" v-for="categoria in categorias" v-bind:key="categoria.index">{{ categoria.name }}</option>  
+                                <option v-bind:value="categoria.id" v-for="categoria in categorias" v-bind:key="categoria.index">{{ categoria.nombre }}</option>  
                             </select>
                         </div>
                     </div>
@@ -135,6 +135,18 @@
                         </div>
                     </div>
 
+                    <h4>Tipo de credito</h4>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="creditoCliente" id="" v-model="cliente.creditoCliente">
+                                <option value="SIN CREDITO">Sin Credito</option>
+                                <option value="ORDINARIO">Ordinario</option>
+                                <option value="LABORAL">Laboral</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <h4>¿Como supo de nosotros?</h4>
 
                     <div class="row">
@@ -175,6 +187,9 @@
                     rfcFacturacion: '',
                     emailFacturacion: '',
 
+                    // Credito
+                    creditoCliente: 'SIN CREDITO',
+
                     // Como supo
                     categoriaAbout: '1',
 
@@ -190,6 +205,7 @@
                 physicalTelephones: [],
                 categorias: [],
                 aboutCategorias: [],
+                
             } 
         },
         created: function(){
@@ -201,6 +217,9 @@
             this.obtenerCategoriasNosotros();
         },
         methods: {
+            demo(){
+                console.log('HOLA');
+            },
             obtenerCategoriasNosotros(){
                 let URL = 'http://localhost:3000/about-categorias';
                 axios.get(URL).then((response) => {
@@ -223,15 +242,72 @@
                 });
             },
             agregarTelefono(){
+                this.demo();
                 let existe = false;
                 if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
-                    console.log(this.telefono.tipo);
+                    this.demo();
+                    //console.log(this.telefono.tipo);
                     let numero = this.telefono.numero;
                     this.physicalTelephones.forEach(function(element){
+
                         if(numero == element.numero){
                             
                             //console.log('Ya existe');
                             existe = true;
+                            moment.locale('es');
+                            let tiempo = moment(element.created_at).fromNow();
+                            console.log(tiempo);
+                            let cliente = '';
+                            let URL = 'http://localhost:3000/viejo-telefono';
+    
+                                axios.post(URL, {
+                                    'id': element.id,
+                                }).then((response) => {
+                                    console.log(response.data[0].nombre);
+                                    
+                                    Swal.fire({
+                                        title: 'El telefono ya existe!',
+                                        text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                        type: 'info',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Eliminar telefono antiguo'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                //Eliminar Telefono
+                                                Swal.fire({
+                                                    title: '¿Deseas eliminar este telefono?',
+                                                    text: "No podras deshacer esta accion!",
+                                                    type: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Eliminar telefono'
+                                                    }).then((result) => {
+                                                        if (result.value) {
+                                                            let URL = 'http://localhost:3000/viejo-telefono/' + element.id;
+                                                            axios.delete(URL).then((response) => {
+                                                                Swal.fire(
+                                                                'Eliminado!',
+                                                                'El telefono ha sido eliminado',
+                                                                'success'
+                                                                );
+                                                            
+                                                            }).catch((error) => {
+                                                                console.log(error.data);
+                                                            });
+                                                        
+                                                        }
+                                                    })
+                                            }
+                                        })
+
+
+                                }).catch((error) => {
+                                    console.log(error);
+                                });
+                            
                         }
                         
                     });
@@ -239,6 +315,10 @@
                         if(numero == element.numero){
                             //console.log('Ya existe');
                             existe = true;
+                            console.log(element.created_at);
+                            moment.locale('es');
+                            let tiempo = moment(element.created_at).fromNow();
+                            console.log(tiempo);
                         }
                         
                     });
@@ -269,7 +349,7 @@
                     this.telefono = {};
                     //this.obtenerTelefonos();
                 }else{
-                    toastr.error('El telefono que intentas agregar ya existe.', 'ERROR');
+                    //toastr.error('El telefono que intentas agregar ya existe.', 'ERROR');
                 }
                 //this.telefonos.push({'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});  
                 
@@ -295,6 +375,9 @@
                     'numeroFacturacion': this.cliente.numeroFacturacion,
                     'rfcFacturacion': this.cliente.rfcFacturacion,
                     'emailFacturacion': this.cliente.emailFacturacion,
+
+                    // Credito
+                    'creditoCliente': this.cliente.creditoCliente,
 
                     // Como supo
                     'categoriaAbout': this.cliente.categoriaAbout,

@@ -30,6 +30,10 @@ class CreatePhysicalPeopleTable extends Migration
             $table->string('numeroFacturacion');
             $table->string('rfcFacturacion');
             $table->string('emailFacturacion');
+
+            //Credito
+            $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);
+            
             $table->timestamps();
 
             //Relations

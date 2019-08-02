@@ -15,7 +15,7 @@ class CreateMoralCategoriesTable extends Migration
     {
         Schema::create('moral_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('nombre');
             $table->timestamps();
         });
     }

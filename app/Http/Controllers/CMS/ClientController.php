@@ -6,11 +6,56 @@ use App\Client;
 use App\Telephone;
 use App\MoralPerson;
 use App\PhysicalPerson;
+use App\AboutCategory;
+use App\MoralCategory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
 {
+    // ESta funcion retorna todos los telefonos al formulario del cliente
+    public function telefonos(){
+        return Telephone::orderBy('id', 'DESC')->get();
+    }
+
+    // Esta funcion retorna todas las categorias de las personas morales a la vista clientes
+    public function categorias(){
+        return MoralCategory::orderBy('id', 'DESC')->get();   
+    }
+
+    // Esta funcion retorna todas las opciones de ¿Como nos conocio?
+    public function aboutCategorias(){
+        return AboutCategory::orderBy('id', 'DESC')->get();
+    }
+
+    // Esta funcion se encarga de buscar si hay un telefono repetido y retorna el cliente al que le pertenece
+    public function viejoTelefono(){
+        $cliente = DB::table('moral_people')
+            ->join('telephones', 'telephones.cliente_id', '=', 'moral_people.cliente_id')
+            ->select('moral_people.nombre')
+            ->get();
+
+        $tamano = count($cliente);
+        
+        if($tamano == 0){
+
+            $cliente = DB::table('physical_people')
+            ->join('telephones', 'telephones.cliente_id', '=', 'physical_people.cliente_id')
+            ->select('physical_people.nombre')
+            ->get();
+
+        }
+
+        
+        return $cliente;
+    }
+
+    public function deleteViejoTelefono($id){
+        
+        $telefono = Telephone::find($id);
+        $telefono->delete();
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -55,6 +100,7 @@ class ClientController extends Controller
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
+            $cliente->tipoCredito = $request->creditoCliente;
             $cliente->save();
 
         }else{
@@ -71,6 +117,7 @@ class ClientController extends Controller
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
+            $cliente->tipoCredito = $request->creditoCliente;
             $cliente->save();
         }
 
