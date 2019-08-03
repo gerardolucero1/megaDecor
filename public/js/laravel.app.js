@@ -1883,6 +1883,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1928,9 +1942,6 @@ __webpack_require__.r(__webpack_exports__);
     this.obtenerCategoriasNosotros();
   },
   methods: {
-    demo: function demo() {
-      console.log('HOLA');
-    },
     obtenerCategoriasNosotros: function obtenerCategoriasNosotros() {
       var _this = this;
 
@@ -1959,90 +1970,148 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     agregarTelefono: function agregarTelefono() {
-      this.demo();
+      var _this4 = this;
+
       var existe = false;
 
       if (this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA') {
-        this.demo(); //console.log(this.telefono.tipo);
-
+        console.log('celular o casa');
         var numero = this.telefono.numero;
-        this.physicalTelephones.forEach(function (element) {
-          if (numero == element.numero) {
-            //console.log('Ya existe');
-            existe = true;
-            moment.locale('es');
-            var tiempo = moment(element.created_at).fromNow();
-            console.log(tiempo);
-            var cliente = '';
-            var URL = 'http://localhost:3000/viejo-telefono';
-            axios.post(URL, {
-              'id': element.id
-            }).then(function (response) {
-              console.log(response.data[0].nombre);
-              Swal.fire({
-                title: 'El telefono ya existe!',
-                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Eliminar telefono antiguo'
-              }).then(function (result) {
-                if (result.value) {
-                  //Eliminar Telefono
-                  Swal.fire({
-                    title: '¿Deseas eliminar este telefono?',
-                    text: "No podras deshacer esta accion!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Eliminar telefono'
-                  }).then(function (result) {
-                    if (result.value) {
-                      var _URL = 'http://localhost:3000/viejo-telefono/' + element.id;
+        console.log(numero); //Verificamos primero en el array de la BDD
 
-                      axios["delete"](_URL).then(function (response) {
-                        Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
-                      })["catch"](function (error) {
-                        console.log(error.data);
-                      });
-                    }
-                  });
-                }
-              });
-            })["catch"](function (error) {
-              console.log(error);
+        if (this.physicalTelephones.some(function (element) {
+          return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
+        })) {
+          existe = true;
+          console.log('existe'); // Buscamos el elemento con el cual coincidio
+
+          var encontrado = this.physicalTelephones.find(function (element) {
+            return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
+          });
+          moment.locale('es');
+          var tiempo = moment(encontrado.created_at).fromNow();
+          console.log(tiempo);
+          var URL = 'http://localhost:3000/viejo-telefono';
+          axios.post(URL, {
+            'id': encontrado.id
+          }).then(function (response) {
+            console.log(response.data[0].nombre);
+            Swal.fire({
+              title: 'El telefono ya existe!',
+              text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+              type: 'info',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Eliminar telefono antiguo'
+            }).then(function (result) {
+              if (result.value) {
+                //Eliminar Telefono
+                Swal.fire({
+                  title: '¿Deseas eliminar este telefono?',
+                  text: "No podras deshacer esta accion!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Eliminar telefono'
+                }).then(function (result) {
+                  if (result.value) {
+                    var _URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+
+                    axios["delete"](_URL).then(function (response) {
+                      Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
+
+                      _this4.obtenerTelefonos();
+                    })["catch"](function (error) {
+                      console.log(error.data);
+                    });
+                  }
+                });
+              }
             });
-          }
-        });
-        this.telefonos.forEach(function (element) {
-          if (numero == element.numero) {
-            //console.log('Ya existe');
-            existe = true;
-            console.log(element.created_at);
-            moment.locale('es');
-            var tiempo = moment(element.created_at).fromNow();
-            console.log(tiempo);
-          }
-        });
-      } else if (this.telefono.tipo == 'OFICINA') {
-        console.log(this.telefono.tipo);
-        var ext = this.telefono.ext;
-        this.physicalTelephones.forEach(function (element) {
-          if (ext == element.ext) {
-            //console.log('Ya existe');
-            existe = true;
-          }
-        });
-        this.telefonos.forEach(function (element) {
-          if (ext == element.ext) {
-            //console.log('Ya existe');
-            existe = true;
-          }
-        });
-      } //console.log(existe);
+          });
+        } // Verificamos despues en nuestro array local
 
+
+        if (this.telefonos.some(function (element) {
+          return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
+        })) {
+          existe = true;
+          console.log('existe');
+          Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con este numero.', 'warning');
+        }
+      } else if (this.telefono.tipo == 'OFICINA') {
+        console.log('oficina');
+        var ext = this.telefono.ext; //Verificamos primero en el array de la BDD
+
+        if (this.physicalTelephones.some(function (element) {
+          return ext == element.ext && element.tipo == 'OFICINA';
+        })) {
+          existe = true;
+          console.log('existe'); // Buscamos el elemento con el cual coincidio
+
+          var _encontrado = this.physicalTelephones.find(function (element) {
+            return ext == element.ext && element.tipo == 'OFICINA';
+          });
+
+          console.log(_encontrado);
+          moment.locale('es');
+
+          var _tiempo = moment(_encontrado.created_at).fromNow();
+
+          console.log(_tiempo);
+          var _URL2 = 'http://localhost:3000/viejo-telefono';
+          axios.post(_URL2, {
+            'id': _encontrado.id
+          }).then(function (response) {
+            console.log(response.data[0].nombre);
+            Swal.fire({
+              title: 'El telefono ya existe!',
+              text: "Este telefono esta registrado desde " + _tiempo + ' a nombre de ' + response.data[0].nombre,
+              type: 'info',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Eliminar telefono antiguo'
+            }).then(function (result) {
+              if (result.value) {
+                //Eliminar Telefono
+                Swal.fire({
+                  title: '¿Deseas eliminar este telefono?',
+                  text: "No podras deshacer esta accion!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Eliminar telefono'
+                }).then(function (result) {
+                  if (result.value) {
+                    var _URL3 = 'http://localhost:3000/viejo-telefono/' + _encontrado.id;
+
+                    axios["delete"](_URL3).then(function (response) {
+                      Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
+
+                      _this4.obtenerTelefonos();
+                    })["catch"](function (error) {
+                      console.log(error.data);
+                    });
+                  }
+                });
+              }
+            });
+          });
+        } // Verificamos despues en nuestro array local
+
+
+        if (this.telefonos.some(function (element) {
+          return ext == element.ext && element.tipo == 'OFICINA';
+        })) {
+          existe = true;
+          console.log('existe');
+          Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con esta extencion.', 'warning');
+        }
+      }
 
       if (!existe) {
         this.telefonos.push({
@@ -2052,13 +2121,10 @@ __webpack_require__.r(__webpack_exports__);
           'numero': this.telefono.numero,
           'ext': this.telefono.ext
         });
-        this.telefono = {}; //this.obtenerTelefonos();
-      } else {} //toastr.error('El telefono que intentas agregar ya existe.', 'ERROR');
-        //this.telefonos.push({'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});  
-
+      }
     },
     crearCliente: function crearCliente() {
-      var _this4 = this;
+      var _this5 = this;
 
       var URL = 'http://localhost:3000/clientes/create';
       axios.post(URL, {
@@ -2084,8 +2150,8 @@ __webpack_require__.r(__webpack_exports__);
         // Telefonos
         'telefonos': this.telefonos
       }).then(function (response) {
-        _this4.cliente = {};
-        console.log(_this4.cliente);
+        _this5.cliente = {};
+        console.log(_this5.cliente);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2111,7 +2177,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.registroCliente .row{\n    margin-bottom: 20px;\n}\n.registroCliente input[type=\"text\"], \n.registroCliente input[type=\"email\"], \n.registroCliente input[type=\"number\"], \n.registroCliente select{\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.registroCliente .row{\n    margin-bottom: 20px;\n}\n.registroCliente input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroCliente input[type=\"text\"], \n.registroCliente input[type=\"email\"], \n.registroCliente input[type=\"number\"], \n.registroCliente input[type=\"date\"], \n.registroCliente select{\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -52197,19 +52263,58 @@ var render = function() {
             _vm.telefonos.length !== 0
               ? _c("div", { staticClass: "row" }, [
                   _c("table", { staticClass: "table table-striped" }, [
-                    _vm._m(0),
+                    _c("thead", [
+                      _c("tr", [
+                        _vm.cliente.tipoPersona == "moral"
+                          ? _c("th", { attrs: { scope: "col" } }, [
+                              _vm._v("NOMBRE")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.cliente.tipoPersona == "moral"
+                          ? _c("th", { attrs: { scope: "col" } }, [
+                              _vm._v("EMAIL")
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [_vm._v("TIPO")]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("NUMERO")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [_vm._v("EXT")]),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass: "text-center",
+                            attrs: { scope: "col" }
+                          },
+                          [_vm._v("OPCIONES")]
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "tbody",
                       _vm._l(_vm.telefonos, function(telefono, index) {
                         return _c("tr", { key: telefono.index }, [
+                          _vm.cliente.tipoPersona == "moral"
+                            ? _c("td", [_vm._v(_vm._s(telefono.nombre))])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.cliente.tipoPersona == "moral"
+                            ? _c("td", [_vm._v(_vm._s(telefono.email))])
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(telefono.tipo))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(telefono.numero))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(telefono.ext))]),
                           _vm._v(" "),
-                          _c("td", [
+                          _c("td", { staticClass: "text-center" }, [
                             _c(
                               "button",
                               {
@@ -52572,7 +52677,7 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(0)
             ]),
             _vm._v(" "),
             _c("h4", [_vm._v("Tipo de credito")]),
@@ -52625,7 +52730,9 @@ var render = function() {
                     ])
                   ]
                 )
-              ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
             ]),
             _vm._v(" "),
             _c("h4", [_vm._v("¿Como supo de nosotros?")]),
@@ -52686,24 +52793,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("TIPO")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("NUMERO")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("EXT")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-          _vm._v("OPCIONES")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5 mt-4" }, [
       _c(
         "button",
@@ -52713,6 +52802,14 @@ var staticRenderFns = [
         },
         [_vm._v("Agregar Contacto")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("input", { attrs: { type: "text", placeholder: "Dias de credito" } })
     ])
   }
 ]

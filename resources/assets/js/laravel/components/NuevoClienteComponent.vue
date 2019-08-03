@@ -3,9 +3,15 @@
         margin-bottom: 20px;
     }
 
+    .registroCliente input[type="date"]{
+        border: none;
+        border: 1px solid rgba(204, 204, 204, 1);
+    }
+
     .registroCliente input[type="text"], 
     .registroCliente input[type="email"], 
     .registroCliente input[type="number"], 
+    .registroCliente input[type="date"], 
     .registroCliente select{
         width: 100%;
     }
@@ -53,11 +59,14 @@
                             </select>
                         </div>
                     </div>
-
+                    
+                    <!-- Tabla de telefonos -->
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th scope="col" v-if="cliente.tipoPersona == 'moral'">NOMBRE</th>
+                                    <th scope="col" v-if="cliente.tipoPersona == 'moral'">EMAIL</th>
                                     <th scope="col">TIPO</th>
                                     <th scope="col">NUMERO</th>
                                     <th scope="col">EXT</th>
@@ -66,10 +75,12 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(telefono, index) in telefonos" v-bind:key="telefono.index">
+                                    <td v-if="cliente.tipoPersona == 'moral'">{{ telefono.nombre }}</td>
+                                    <td v-if="cliente.tipoPersona == 'moral'">{{ telefono.email }}</td>
                                     <td>{{ telefono.tipo }}</td>
                                     <td>{{ telefono.numero }}</td>
                                     <td>{{ telefono.ext }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(index)">Eliminar</button>
                                     </td>
                                 </tr>
@@ -145,6 +156,9 @@
                                 <option value="LABORAL">Laboral</option>
                             </select>
                         </div>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Dias de credito">
+                        </div>
                     </div>
 
                     <h4>¿Como supo de nosotros?</h4>
@@ -217,9 +231,6 @@
             this.obtenerCategoriasNosotros();
         },
         methods: {
-            demo(){
-                console.log('HOLA');
-            },
             obtenerCategoriasNosotros(){
                 let URL = 'http://localhost:3000/about-categorias';
                 axios.get(URL).then((response) => {
@@ -242,116 +253,184 @@
                 });
             },
             agregarTelefono(){
-                this.demo();
                 let existe = false;
                 if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
-                    this.demo();
-                    //console.log(this.telefono.tipo);
+                    console.log('celular o casa');
                     let numero = this.telefono.numero;
-                    this.physicalTelephones.forEach(function(element){
+                    console.log(numero);
 
-                        if(numero == element.numero){
-                            
-                            //console.log('Ya existe');
-                            existe = true;
-                            moment.locale('es');
-                            let tiempo = moment(element.created_at).fromNow();
-                            console.log(tiempo);
-                            let cliente = '';
-                            let URL = 'http://localhost:3000/viejo-telefono';
-    
-                                axios.post(URL, {
-                                    'id': element.id,
-                                }).then((response) => {
-                                    console.log(response.data[0].nombre);
-                                    
+                    //Verificamos primero en el array de la BDD
+                    if(this.physicalTelephones.some(function(element){
+                        
+                        return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
+            
+                    })){
+                        existe = true;
+                        console.log('existe');
+                        
+                        // Buscamos el elemento con el cual coincidio
+                        let encontrado = this.physicalTelephones.find(function(element) {
+                            return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
+                        });
+
+                        moment.locale('es');
+                        let tiempo = moment(encontrado.created_at).fromNow();
+                        console.log(tiempo);
+                        let URL = 'http://localhost:3000/viejo-telefono';
+                        axios.post(URL, {
+                            'id': encontrado.id,
+                        }).then((response) => {
+                            console.log(response.data[0].nombre);
+
+                            Swal.fire({
+                                title: 'El telefono ya existe!',
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                type: 'info',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Eliminar telefono antiguo'
+                            }).then((result) => {
+                                if(result.value) {
+                                    //Eliminar Telefono
                                     Swal.fire({
-                                        title: 'El telefono ya existe!',
-                                        text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
-                                        type: 'info',
+                                        title: '¿Deseas eliminar este telefono?',
+                                        text: "No podras deshacer esta accion!",
+                                        type: 'warning',
                                         showCancelButton: true,
                                         confirmButtonColor: '#3085d6',
                                         cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Eliminar telefono antiguo'
-                                        }).then((result) => {
-                                            if (result.value) {
-                                                //Eliminar Telefono
-                                                Swal.fire({
-                                                    title: '¿Deseas eliminar este telefono?',
-                                                    text: "No podras deshacer esta accion!",
-                                                    type: 'warning',
-                                                    showCancelButton: true,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Eliminar telefono'
-                                                    }).then((result) => {
-                                                        if (result.value) {
-                                                            let URL = 'http://localhost:3000/viejo-telefono/' + element.id;
-                                                            axios.delete(URL).then((response) => {
-                                                                Swal.fire(
-                                                                'Eliminado!',
-                                                                'El telefono ha sido eliminado',
-                                                                'success'
-                                                                );
-                                                            
-                                                            }).catch((error) => {
-                                                                console.log(error.data);
-                                                            });
-                                                        
-                                                        }
-                                                    })
-                                            }
-                                        })
+                                        confirmButtonText: 'Eliminar telefono'
+                                    }).then((result) => {
+                                        if(result.value){
+                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            axios.delete(URL).then((response) => {
+                                                Swal.fire(
+                                                    'Eliminado!',
+                                                    'El telefono ha sido eliminado',
+                                                    'success'
+                                                );
+                                            this.obtenerTelefonos();
+                                            }).catch((error) => {
+                                                console.log(error.data);
+                                            });
+                                        }
+                                    })
+                                }
+                            })
+                        });
 
 
-                                }).catch((error) => {
-                                    console.log(error);
-                                });
-                            
-                        }
+                    }
+                    
+                    // Verificamos despues en nuestro array local
+                    if(this.telefonos.some(function(element){
                         
-                    });
-                    this.telefonos.forEach(function(element){
-                        if(numero == element.numero){
-                            //console.log('Ya existe');
-                            existe = true;
-                            console.log(element.created_at);
-                            moment.locale('es');
-                            let tiempo = moment(element.created_at).fromNow();
-                            console.log(tiempo);
-                        }
-                        
-                    });
+                        return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
+            
+                    })){
+                        existe = true;
+                        console.log('existe');
+                        Swal.fire(
+                        'Numero duplicado!',
+                        'Ya ingresaste un telefono con este numero.',
+                        'warning'
+                        )
+                    }
+                    
                 
                 }else if(this.telefono.tipo == 'OFICINA'){
-                    console.log(this.telefono.tipo);
+                    console.log('oficina');
                     let ext = this.telefono.ext;
-                    this.physicalTelephones.forEach(function(element){
-                        if(ext == element.ext){
-                            //console.log('Ya existe');
-                            existe = true;
-                        }
+
+                    //Verificamos primero en el array de la BDD
+                    if(this.physicalTelephones.some(function(element){
                         
-                    });
-                    this.telefonos.forEach(function(element){
-                        if(ext == element.ext){
-                            //console.log('Ya existe');
-                            existe = true;
-                        }
+                        return (ext == element.ext && (element.tipo == 'OFICINA'));
+            
+                    })){
+                        existe = true;
+                        console.log('existe');
+
+                        // Buscamos el elemento con el cual coincidio
+                        let encontrado = this.physicalTelephones.find(function(element) {
+                            return (ext == element.ext && (element.tipo == 'OFICINA'));
+                        });
+                        console.log(encontrado);
+
+                        moment.locale('es');
+                        let tiempo = moment(encontrado.created_at).fromNow();
+                        console.log(tiempo);
+                        let URL = 'http://localhost:3000/viejo-telefono';
+                        axios.post(URL, {
+                            'id': encontrado.id,
+                        }).then((response) => {
+                            console.log(response.data[0].nombre);
+
+                            Swal.fire({
+                                title: 'El telefono ya existe!',
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                type: 'info',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Eliminar telefono antiguo'
+                            }).then((result) => {
+                                if(result.value) {
+                                    //Eliminar Telefono
+                                    Swal.fire({
+                                        title: '¿Deseas eliminar este telefono?',
+                                        text: "No podras deshacer esta accion!",
+                                        type: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Eliminar telefono'
+                                    }).then((result) => {
+                                        if(result.value){
+                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            axios.delete(URL).then((response) => {
+                                                Swal.fire(
+                                                    'Eliminado!',
+                                                    'El telefono ha sido eliminado',
+                                                    'success'
+                                                );
+                                            this.obtenerTelefonos();
+                                            }).catch((error) => {
+                                                console.log(error.data);
+                                            });
+                                        }
+                                    })
+                                }
+                            })
+                        });
+
+                    }
+
+                    // Verificamos despues en nuestro array local
+                    if(this.telefonos.some(function(element){
                         
-                    });
+                        return (ext == element.ext && (element.tipo == 'OFICINA'));
+            
+                    })){
+                        existe = true;
+                        console.log('existe');
+                        Swal.fire(
+                        'Numero duplicado!',
+                        'Ya ingresaste un telefono con esta extencion.',
+                        'warning'
+                        )
+                    }
                 
                 }
-                //console.log(existe);
 
                 if(!existe){
                     this.telefonos.push({'nombre': this.telefono.nombre, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
-                    this.telefono = {};
-                    //this.obtenerTelefonos();
-                }else{
-                    //toastr.error('El telefono que intentas agregar ya existe.', 'ERROR');
                 }
-                //this.telefonos.push({'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});  
+
+
+                
+                
                 
             },
             crearCliente(){
