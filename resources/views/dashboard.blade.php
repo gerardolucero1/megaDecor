@@ -3,24 +3,47 @@
 @section('content')
     <!-- Page Content -->
     <div class="content">
-        <div class="my-50 text-center">
-            <h2 class="font-w700 text-black mb-10">Dashboard</h2>
-            <h3 class="h5 text-muted mb-0">Welcome to your app.</h3>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-xl-5">
-                <div class="block">
-                    <div class="block-content">
-                        <p class="text-muted">
-                            We’ve put everything together, so you can start working on your Laravel project as soon as possible! Codebase assets are integrated and work seamlessly with Laravel Mix, so you can use the npm scripts as you would in any other Laravel project.
-                        </p>
-                        <p class="text-muted">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur ullam pariatur explicabo in enim quasi sit voluptatem deleniti, quaerat qui sunt cum, provident voluptas voluptates esse veniam laboriosam quisquam nam?
-                        </p>
+        
+            <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
+                    <div class="col-6 col-lg-4  col-xl-4">
+                        <a class="block block-link-shadow text-right" href="javascript:void(0)">
+                            <div class="block-content block-content-full clearfix">
+                                <div class="float-left mt-10 d-none d-sm-block">
+                                    <i style="font-size: 40px" class="fa fa-clipboard"></i>
+                                </div>
+                                <div class="font-size-h3 font-w600 js-count-to-enabled">15</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">Presupuestos Pendientes</div>
+                            </div>
+                        </a>
                     </div>
+                    <div class="col-6 col-lg-4  col-xl-4">
+                        <a class="block block-link-shadow text-right" href="javascript:void(0)">
+                            <div class="block-content block-content-full clearfix">
+                                <div class="float-left mt-10 d-none d-sm-block">
+                                        <i style="font-size: 40px" class="fa fa-calendar"></i>
+                                </div>
+                                <div class="font-size-h3 font-w600"><span>780</span></div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">EVentos el Día de Hoy</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-lg-4  col-xl-4">
+                        <a class="block block-link-shadow text-right" href="javascript:void(0)">
+                            <div class="block-content block-content-full clearfix">
+                                <div class="float-left mt-10 d-none d-sm-block">
+                                    <i class="si si-envelope-open fa-3x text-body-bg-dark"></i>
+                                </div>
+                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">15</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">Seguimiento de prospectos</div>
+                            </div>
+                        </a>
+                    </div>
+                    
                 </div>
-            </div>
-        </div>
+                <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
+                        
+
+                </div>
     </div>
     <!-- END Page Content -->
 @endsection
