@@ -22,9 +22,6 @@ Route::view('/', 'landing');
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
-Route::view('/examples/plugin-helper', 'examples.plugin_helper');
-Route::view('/examples/plugin-init', 'examples.plugin_init');
-Route::view('/examples/blank', 'examples.blank');
 
 Auth::routes();
 
@@ -75,6 +72,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
 
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
 
 // Todo lo referente a clientes
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');

@@ -10,4 +10,8 @@ class IndexController extends Controller
     public function clientes(){
         return view('clientes');
     }
+
+    public function presupuestos(){
+        return view('presupuestos');
+    }
 }

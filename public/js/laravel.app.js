@@ -1710,6 +1710,303 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  created: function created() {
+    console.log('Funciona');
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/NuevoClienteComponent.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/NuevoClienteComponent.vue?vue&type=script&lang=js& ***!
@@ -2162,6 +2459,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.registroPresupuesto .row{\n    margin-bottom: 15px;\n}\n.registroPresupuesto input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"text\"], \n.registroPresupuesto input[type=\"email\"], \n.registroPresupuesto input[type=\"number\"], \n.registroPresupuesto input[type=\"date\"], \n.registroPresupuesto select{\n    width: 100%;\n}\n.registroPresupuesto .info p{\n    line-height: 4px;\n}\n\n", ""]);
+
+// exports
+
 
 /***/ }),
 
@@ -47995,6 +48311,36 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/NuevoClienteComponent.vue?vue&type=style&index=0&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/NuevoClienteComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -51972,6 +52318,501 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 }(__webpack_require__(/*! !webpack amd define */ "./node_modules/webpack/buildin/amd-define.js")));
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12 registroPresupuesto" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-2 offset-md-10 text-center" }, [
+              _c("p", [_vm._v("PNM 0000")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("h4", [_vm._v("Informacion del evento")]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  id: "salonMega",
+                  type: "radio",
+                  name: "tipoSalon",
+                  value: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "salonMega" } }, [
+                _vm._v("Salon Mega Mundo")
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  id: "salonFuera",
+                  type: "radio",
+                  name: "tipoSalon",
+                  value: ""
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "salonFuera" } }, [
+                _vm._v("Evento Fuera")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center" }, [
+                _c("input", {
+                  attrs: {
+                    id: "servicioFormal",
+                    type: "radio",
+                    name: "tipoServicio",
+                    value: ""
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "servicioFormal" } }, [
+                  _vm._v("Servicio Formal")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  attrs: {
+                    id: "servicioInfantil",
+                    type: "radio",
+                    name: "tipoServicio",
+                    value: ""
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "servicioInfantil" } }, [
+                  _vm._v("Servicio Infantil")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("h4", { staticClass: "text-right" }, [
+                _vm._v("Categoria del evento")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-8 offset-md-4" }, [
+                  _c("select", { attrs: { name: "", id: "" } }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("Boda")])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-4" }, [
+                    _c("div", { staticClass: "col-md-10" }, [
+                      _c("input", { attrs: { type: "date" } })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2 text-left" }, [
+                      _c("i", {
+                        staticClass: "si si-calendar",
+                        staticStyle: { "font-size": "24px" }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "checkbox", name: "", id: "pendienteFecha" }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "pendienteFecha" } }, [
+                    _vm._v("Pendiende")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("h4", [_vm._v("Hora del evento")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("input", { attrs: { type: "text" } })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("input", { attrs: { type: "text" } })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: { type: "checkbox", name: "", id: "pendienteHora" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "pendienteHora" } }, [
+                _vm._v("Pendiende")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("h4", [_vm._v("Cliente")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-9" }, [
+                  _c("select", { attrs: { name: "", id: "" } }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("Mina")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "" } }, [_vm._v("Nayeon")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                    _vm._v("Agregar")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "info" }, [
+                _c("p", [_vm._v("Mina Sharon")]),
+                _vm._v(" "),
+                _c("p", [_vm._v("6141278851")]),
+                _vm._v(" "),
+                _c("p", [_vm._v("mina_twice@gmail.com")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6 text-right" }, [
+              _c("div", { staticClass: "info" }, [
+                _c("p", [
+                  _vm._v("Ultimo evento: "),
+                  _c("span", [_vm._v("23/08/2019")])
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("span", [_vm._v("5")]),
+                  _vm._v(" eventos contratados")
+                ]),
+                _vm._v(" "),
+                _c("p", [_c("span", [_vm._v("3")]), _vm._v(" presupuestos")])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h4", [_vm._v("Lugar del Evento")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("input", {
+                attrs: { type: "radio", id: "lugarMismo", name: "lugarEvento" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "lugarMismo" } }, [
+                _vm._v("Misma Direccion")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("input", {
+                attrs: { type: "radio", id: "lugarOtro", name: "lugarEvento" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "lugarOtro" } }, [_vm._v("Otra")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("input", {
+                attrs: { type: "checkbox", id: "pendienteLugar" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "pendienteLugar" } }, [
+                _vm._v("Pendiente")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-10 mt-4" }, [
+              _c("input", { attrs: { type: "text", placeholder: "Nombre" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 mt-4" }, [
+              _c("input", { attrs: { type: "text", placeholder: "Direccion" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 mt-4" }, [
+              _c("input", { attrs: { type: "text", placeholder: "Numero" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 mt-4" }, [
+              _c("input", { attrs: { type: "text", placeholder: "Colonia" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 mt-4" }, [
+              _c("input", { attrs: { type: "text", placeholder: "C.P" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-12 mt-4" }, [
+              _c("input", {
+                attrs: {
+                  type: "text",
+                  name: "",
+                  id: "",
+                  placeholder: "Observaciones"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 mt-4" }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("# Invitados")]),
+              _vm._v(" "),
+              _c("input", { attrs: { type: "number", name: "", id: "" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3 mt-4" }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Tono del evento")]),
+              _vm._v(" "),
+              _c("input", { attrs: { type: "text", name: "", id: "" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3 mt-4" }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Tema del evento")]),
+              _vm._v(" "),
+              _c("input", { attrs: { type: "text", name: "", id: "" } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3 mt-4" }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Festejado(s)")]),
+              _vm._v(" "),
+              _c("input", { attrs: { type: "text", name: "", id: "" } }),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "mt-2",
+                attrs: { type: "number", name: "", id: "" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-1 mt-4" }, [
+              _c("button", { staticClass: "btn btn-sm btn-primary mt-4" }, [
+                _vm._v("Mas")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h4", [_vm._v("Archivos de Referencia")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("input", { attrs: { type: "file", name: "", id: "" } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10 offset-md-2" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("input", {
+                    attrs: { type: "text", placeholder: "Buscar" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                    _vm._v("Agregar Elemento")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("button", { staticClass: "btn btn-sm btn-secondary" }, [
+                    _vm._v("Agregar Paquete")
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Externo")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Servicio")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [
+                      _vm._v("Precio Unitario")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [
+                      _vm._v("Precio Final")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Ahorro")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Notas")]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [
+                      _c("input", { attrs: { type: "checkbox" } })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Nope")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Mesa")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("20")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("50")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("540")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("0")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("Mesa de dulces")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                        _vm._v("Editar")
+                      ]),
+                      _vm._v(" "),
+                      _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+                        _vm._v("Eliminar")
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-8" }, [
+                  _c("h4", [_vm._v("Mostrar en presupuesto de cliente")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "checkbox", id: "precioUnitario" }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "precioUnitario" } }, [
+                    _vm._v("Precios Unitarios")
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: { type: "checkbox", id: "descripcionPaquete" }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "descripcionPaquete" } }, [
+                    _vm._v("Descripcion Paquetes")
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", { attrs: { type: "checkbox", id: "imagenes" } }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "imagenes" } }, [
+                    _vm._v("Imagenes")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("h5", [
+                    _vm._v("Subtotal: $"),
+                    _c("span", [_vm._v("1300")])
+                  ]),
+                  _vm._v(" "),
+                  _c("input", { attrs: { type: "checkbox", id: "iva" } }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "iva" } }, [
+                    _vm._v("IVA: $"),
+                    _c("span", [_vm._v("150")])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "info mt-3" }, [
+                    _c("p", [
+                      _vm._v("TOTAL con IVA: $"),
+                      _c("span", [_vm._v("1300")])
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Ahorro General: $"),
+                      _c("span", [_vm._v("100")])
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Comision pagada en base a $ "),
+                      _c("span", [_vm._v("150")])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4 offset-md-4" }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-sm btn-block btn-primary" },
+                [_vm._v("Imprimir")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 offset-md-2 mt-4" }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-sm btn-block btn-success" },
+                [_vm._v("Guardar Presupuesto")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 mt-4" }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-sm btn-block btn-secondary" },
+                [_vm._v("Guardar Contrato")]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
 
 
 /***/ }),
@@ -64996,6 +65837,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('nuevo-cliente-component', __webpack_require__(/*! ./components/NuevoClienteComponent.vue */ "./resources/assets/js/laravel/components/NuevoClienteComponent.vue")["default"]);
+Vue.component('crear-presupuesto-component', __webpack_require__(/*! ./components/CrearPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -65069,6 +65911,93 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue":
+/*!******************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0& */ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0&");
+/* harmony import */ var _CrearPresupuestoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CrearPresupuestoComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CrearPresupuestoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/laravel/components/CrearPresupuestoComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CrearPresupuestoComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CrearPresupuestoComponent_vue_vue_type_template_id_65f54ba0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
