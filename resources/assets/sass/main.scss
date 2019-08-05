@@ -127,4 +127,6 @@
 @import 'vendor/nestable2';
 
 // User styles (your own styles/overrides)
+@import "~toastr/toastr.scss";
+@import "~sweetalert2/src/sweetalert2.scss";
 @import 'custom/main';

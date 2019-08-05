@@ -1,6 +1,11 @@
 
 window._ = require('lodash');
 
+// Dependencias extras
+window.toastr = require('toastr');
+window.moment = require('moment');
+window.Swal = require('sweetalert2');
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
