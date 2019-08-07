@@ -8,6 +8,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Vuex from 'vuex';
+import StoreData from './store';
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store(StoreData);
 
 /**
  * The following block of code may be used to automatically register your
@@ -32,6 +38,7 @@ Vue.component('crear-presupuesto-component', require('./components/CrearPresupue
 
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store,
 });
 

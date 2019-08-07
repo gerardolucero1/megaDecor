@@ -11,6 +11,6 @@ class TelephonesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Telephone::class, 32)->create();
     }
 }

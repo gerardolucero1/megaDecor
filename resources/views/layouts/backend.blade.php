@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/codebase.css') }}">
 
+        <link rel="stylesheet" href="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.css">
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
         @yield('css_after')
@@ -520,6 +521,10 @@
 
         <!-- Codebase Core JS -->
         <script src="{{ mix('js/codebase.app.js') }}"></script>
+
+        <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="https://demo.pixelcave.com/codebase/assets/js/pages/be_tables_datatables.min.js"></script>
 
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>

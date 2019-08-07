@@ -1,5 +1,6 @@
 <?php
 
+use App\MoralPerson;
 use Illuminate\Database\Seeder;
 
 class MoralPersonsSeeder extends Seeder
@@ -11,6 +12,6 @@ class MoralPersonsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\MoralPerson::class, 7)->create();
     }
 }
