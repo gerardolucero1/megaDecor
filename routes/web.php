@@ -1,5 +1,5 @@
 <?php
-
+use App\User;
 use App\Telephone;
 use App\AboutCategory;
 use App\MoralCategory;
@@ -18,13 +18,41 @@ use Illuminate\Support\Facades\DB;
 */
 
 // Example Routes
-Route::view('/', 'landing');
+Route::view('/', 'dashboard');
+
+Route::get('/', function () {
+    $users = User::all();
+    return view('dashboard',compact('users'));
+  });
+
+  Route::get('/presupuestos', function () {
+    $users = User::all();
+    return view('presupuestos',compact('users'));
+  });
+
+  Route::get('/contratos', function () {
+    $users = User::all();
+    return view('contratos',compact('users'));
+  });
+
+  Route::get('/lugares', function () {
+    $users = User::all();
+    return view('lugares',compact('users'));
+  });
+  
+  
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
 Route::view('/examples/plugin-helper', 'examples.plugin_helper');
 Route::view('/examples/plugin-init', 'examples.plugin_init');
 Route::view('/examples/blank', 'examples.blank');
+
+Route::get('/test/datepicker', function () {
+    return view('datepicker');
+});
+
+
 
 Auth::routes();
 
