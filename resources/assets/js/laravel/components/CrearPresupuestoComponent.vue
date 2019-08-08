@@ -26,6 +26,19 @@
         line-height: 4px;
     }
 
+    .resultadoInventario{
+        position: absolute;
+        z-index: 3000;
+        background-color: gray;
+        overflow: scroll;
+        height: 300px;
+    }
+
+    .producto{
+        background-color: beige;
+        border-bottom: 2px solid black;
+    }
+
 </style>
 
 <template>
@@ -212,13 +225,38 @@
                     <div class="col-md-10 offset-md-2">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" placeholder="Buscar">
+                                <buscador-component
+                                    placeholder="Buscar Productos"
+                                    event-name="results"
+                                    :list="inventario"
+                                    :keys="['servicio', 'id']"
+                                    
+                                ></buscador-component>
+
                             </div>
                             <div class="col-md-4">
                                 <button class="btn btn-sm btn-primary">Agregar Elemento</button>
                             </div>
                             <div class="col-md-4">
                                 <button class="btn btn-sm btn-secondary">Agregar Paquete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Resultado Busqueda -->
+                <div class="row" v-if="results.length < inventario.length">
+                    <div v-if="results.length !== 0" class="col-md-6 resultadoInventario">
+                        <div class="list-group" v-for="producto in results" :key="producto.id">
+                            <div class="row producto" v-on:click="agregarProducto(producto)">
+                                <div class="col-md-7">
+                                    <p>{{ producto.servicio }}</p>
+                                    <span class="badge badge-info">
+                                        {{ producto.precioUnitario }}
+                                    </span>
+                                </div>
+                                <div class="col-md-5">
+                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,17 +279,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <th scope="row">
                                     <input type="checkbox">
                                 </th>
-                                <td>Nope</td>
-                                <td>Mesa</td>
-                                <td>20</td>
-                                <td>50</td>
-                                <td>540</td>
-                                <td>0</td>
-                                <td>Mesa de dulces</td>
+                                <td>
+                                    <img v-bind:src="producto.imagen" alt="" width="100%">
+                                </td>
+                                <td>{{ producto.servicio }}</td>
+                                <td>
+                                    <input v-if="(producto.cantidad == '') || (indice == index)" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
+                                    <span v-else v-on:click="editarCantidad(index)">{{ producto.cantidad }}</span>
+                                    
+                                </td>
+                                <td>{{ producto.precioUnitario }}</td>
+                                <td>{{ producto.precioFinal}}</td>
+                                <td></td>
+                                <td>
+                                    <textarea name="" id="" cols="30" rows="2"></textarea>
+                                </td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-primary">Editar</button>
                                     <button class="btn btn-sm btn-danger">Eliminar</button>
@@ -306,9 +352,13 @@
         </div>
         <div class="row">
             <div class="col-md-9 offset-md-1">
+                <!--
                 <search-component></search-component>
                 <hr>
                 <lista-inventario-component></lista-inventario-component>
+                -->
+                <hr>
+                
             </div>
         </div>
         
@@ -318,14 +368,17 @@
 <script>
     import SearchComponent from './SearchComponent';
     import ListaInventarioComponent from './ListaInventarioComponent';
+    import BuscadorComponent from './BuscadorComponent.vue';
 
     export default {
         components: {
             SearchComponent,
             ListaInventarioComponent,
+            BuscadorComponent,
         },
         data(){
             return{
+                results: [],
                 presupuesto:{
                     vendedor_id: '',
                     cliente_id: '',
@@ -359,19 +412,72 @@
                     nombre: '',
                     edad: '',
                 },
+                inventario: [],
+                productoLocal: {
+                    'imagen': '',
+                    'servicio': '',
+                    'cantidad': '',
+                    'precioUnitario': '',
+                    'precioFinal': '',
+                    'ahorro': '',
+                    'notas': '',
+                },
+                inventarioLocal: [],
                 festejados: [],
+                indice: '',
+                cantidadActualizada: '',
             }
         },
         created(){
             this.obtenerUsuarios();
             this.obtenerClientes();
+            this.obtenerInventario();
+            this.$on('results', results => {
+                this.results = results
+            });
         },
         computed:{
-            welcome(){
-                
-            }
+
         },
         methods:{
+            //Metodos dentro de la tabla productos
+            editarCantidad(index){
+                this.indice = index;
+                console.log(this.indice);   
+            },
+            updateCantidad(index){
+                let producto = this.inventarioLocal.find(function(element, indice){
+                    return (indice == index);
+                });
+                producto.cantidad = this.cantidadActualizada;
+                producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                this.inventarioLocal.splice(index, 1, producto);
+                console.log(this.inventarioLocal);
+                this.cantidadActualizada = '';
+                this.indice = '100000000';
+            },
+            obtenerInventario(){
+                let URL = '/obtener-inventario';
+                axios.get(URL).then((response) => {
+                    this.inventario = response.data;
+                    console.log(this.inventario);
+                }).catch((error) => {
+                    console.log(error.data);
+                });
+            
+            },
+            agregarProducto(producto){
+                this.inventarioLocal.push({
+                    'imagen': producto.imagen,
+                    'servicio': producto.servicio,
+                    'cantidad': '',
+                    'precioUnitario': producto.precioUnitario,
+                    'precioFinal': '',
+                    'ahorro': '',
+                    'notas': '',
+                })
+                
+            },
             obtenerUsuarios(){
                 let URL = '/usuarios';
                 axios.get(URL).then((response) => {

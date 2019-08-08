@@ -10,6 +10,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 import Vuex from 'vuex';
 import StoreData from './store';
+import VueFuse from 'vue-fuse';
+ 
+Vue.use(VueFuse);
 
 Vue.use(Vuex);
 

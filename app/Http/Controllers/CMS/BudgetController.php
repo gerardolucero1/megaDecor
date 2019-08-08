@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\User;
+use App\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,10 @@ class BudgetController extends Controller
 {
     public function usuarios(){
         return User::orderBy('id', 'DESC')->get();
+    }
+
+    public function inventario(){
+        return Inventory::orderBy('id', 'DESC')->get();
     }
 
     public function clientes(){

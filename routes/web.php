@@ -38,6 +38,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     // API Presupuestos
     Route::get('/usuarios', 'CMS\BudgetController@usuarios');
     Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
+    Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 
 // Todo lo referente a presupuestos
 Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
