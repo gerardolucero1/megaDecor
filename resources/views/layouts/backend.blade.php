@@ -22,8 +22,12 @@
         @yield('css_before')
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/codebase.css') }}">
-        <link rel="stylesheet" href="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.css">
-    
+        <link href='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.min.css' rel='stylesheet' />
+        <link href='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.print.css' rel='stylesheet' media='print' />
+        <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+
+
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
         @yield('css_after')
@@ -225,6 +229,16 @@
                                     <i class="si si-cup"></i><span class="sidebar-mini-hide">Lugares</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="{{ request()->is('events') ? ' active' : '' }}" href="/events">
+                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Calendario</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="{{ request()->is('events2') ? ' active' : '' }}" href="/events2">
+                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Calendario(Funcional)</span>
+                                </a>
+                            </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">VR</span><span class="sidebar-mini-hidden">Various</span>
                             </li>
@@ -416,13 +430,16 @@
                         $(document).ready(function() {
                             $('#users').DataTable();
                             } );
-                        </script>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+                        </script>      
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>  
+
+    <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
         <script src="https://demo.pixelcave.com/codebase/assets/js/pages/be_tables_datatables.min.js"></script>
+        <script src='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.min.js'></script>
         @yield('js_after')
     </body>
 </html>
