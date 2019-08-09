@@ -3,6 +3,8 @@ use App\User;
 use App\Telephone;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\Event;
+use MadHatter\LaravelFullCalendar\Facades\Calendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +24,30 @@ Route::view('/', 'dashboard');
 
 Route::get('/', function () {
     $users = User::all();
-    return view('dashboard',compact('users'));
+        $events = Event::all();
+        $event = [];        
+        foreach($events as $row){
+            $enddate = $row->end_date."24:00:00";
+            
+            $event[]=\Calendar::event( $row->titulo,
+            false,
+            new \DateTime($row->start_date),
+            new \DateTime($row->end_date),
+            $row->id,
+            [
+                'color' => $row->color,
+            ]               
+            );
+        }
+        $calendar=\Calendar::addEvents($event);
+        return view('/dashboard', compact('events','calendar','users'));
   });
+
+  /*
+    $users = User::all();
+    return view('dashboard',compact('users'));
+
+  */
 
   Route::get('/presupuestos', function () {
     $users = User::all();
@@ -40,10 +64,29 @@ Route::get('/', function () {
     return view('lugares',compact('users'));
   });
   
-  
+ 
+
 Route::match(['get', 'post'], '/dashboard', function(){
-    return view('dashboard');
+    $users = User::all();
+        $events = Event::all();
+        $event = [];        
+        foreach($events as $row){
+            $enddate = $row->end_date."24:00:00";
+            
+            $event[]=\Calendar::event( $row->titulo,
+            false,
+            new \DateTime($row->start_date),
+            new \DateTime($row->end_date),
+            $row->id,
+            [
+                'color' => $row->color,
+            ]               
+            );
+        }
+        $calendar=\Calendar::addEvents($event);
+        return view('/dashboard', compact('events','calendar','users'));
 });
+
 Route::view('/examples/plugin-helper', 'examples.plugin_helper');
 Route::view('/examples/plugin-init', 'examples.plugin_init');
 Route::view('/examples/blank', 'examples.blank');
@@ -106,5 +149,12 @@ Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
 
 // Todo lo referente a clientes
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
+///CALENDAR
+Route::resource('/events','EventController');
+Route::resource('/events2','EventController2');
+Route::get('/addeventurl','EventController@display');
+Route::post('/addeventurl','EventController@guardar');
+Route::delete('/addeventurl/{id}','EventController@destroy')->name('Borrar');
 
 

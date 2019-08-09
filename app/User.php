@@ -18,7 +18,13 @@ class User extends Authenticatable
     protected $fillable = [
         'contrato', 'cliente','fecha','vendedor','lugar','version','created_at','opciones','updated_at'
     ];
-
+    /*Descomentar este codigo para cuando se tengan todos los datos
+    
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
+    */
+    
     /**
      *  (#Contrato, fecha, cliente, lugar, vendedor, versión, opciones, ultima modificiacion)
      * The attributes that should be hidden for arrays.
