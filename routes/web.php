@@ -27,6 +27,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 // Rutas del CMS
     // API Clientes
     Route::get('/telefonos', 'CMS\ClientController@telefonos');
@@ -42,9 +43,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Todo lo referente a presupuestos
 Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
 
 // Todo lo referente a clientes
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
 
 

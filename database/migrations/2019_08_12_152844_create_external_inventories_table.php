@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInventoriesTable extends Migration
+class CreateExternalInventoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,18 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('external_inventories', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cantidad');
+            $table->integer('budget_id')->unsigned();
             $table->string('servicio');
             $table->string('imagen');
             $table->integer('precioUnitario');
-            
             $table->timestamps();
+
+            //Relations
+            $table->foreign('budget_id')->references('id')->on('budgets')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -31,6 +35,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('external_inventories');
     }
 }

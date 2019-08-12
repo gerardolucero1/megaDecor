@@ -318,7 +318,7 @@
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-primary">Editar</button>
-                                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -360,7 +360,7 @@
                         <button class="btn btn-sm btn-block btn-primary">Imprimir</button>
                     </div>
                     <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success">Guardar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
                     </div>
                     <div class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-secondary">Guardar Contrato</button>
@@ -368,18 +368,79 @@
                 </div>
             </div>
         </div>
+        <!--
         <div class="row">
             <div class="col-md-9 offset-md-1">
-                <!--
+                
                 <search-component></search-component>
                 <hr>
                 <lista-inventario-component></lista-inventario-component>
-                -->
+                
                 <hr>
                 
             </div>
         </div>
-        
+        -->
+
+        <!-- Modal agregar elemento -->
+        <div class="modal fade" id="agregarElemento" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar elementos</h5>
+                    <button type="button" class="close" onClick="$('#agregarElemento').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row">
+                                <!-- Primer columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Servicio</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="productoExterno.servicio">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio unitario</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12">Imagen</label>
+                                        <div class="col-12">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input js-custom-file-input-enabled" id="example-file-input-custom" name="example-file-input-custom" data-toggle="custom-file-input" @change="obtenerImagen">
+                                                <label class="custom-file-label" for="example-file-input-custom" style="overflow-x: hidden;"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <figure>
+                                            <img :src="imagen" width="100%" alt="Thumbnail">
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -400,7 +461,7 @@
             return{
                 results: [],
                 presupuesto:{
-                    vendedor_id: '',
+                    vendedor_id: '1',
                     cliente_id: '',
                     tipoEvento: '',
                     tipoServicio: '',
@@ -433,16 +494,16 @@
                     edad: '',
                 },
                 inventario: [],
-                productoLocal: {
-                    'externo': '',
+
+                //Agregar al invenatrio producto externo
+                thumbnail: '',
+                productoExterno: {
+                    'externo': true,
                     'imagen': '',
                     'servicio': '',
-                    'cantidad': '',
                     'precioUnitario': '',
-                    'precioFinal': '',
-                    'ahorro': '',
-                    'notas': '',
                 },
+                
                 inventarioLocal: [],
                 festejados: [],
 
@@ -450,7 +511,6 @@
                 indice: '',
                 key: '',
 
-                productoExterno: '',
                 cantidadActualizada: '',
                 ahorroActualizado: '',
                 precioFinalActualizado: '',
@@ -466,7 +526,9 @@
             });
         },
         computed:{
-
+            imagen(){
+                return this.productoExterno.imagen;
+            }
         },
         filters: {
             decimales: function(value){
@@ -476,12 +538,51 @@
             }
         },
         methods:{
+            //Metodos para procesar la imagen de prodcuto extero
+            obtenerImagen(e){
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+
+                this.cargarImagen(files[0]);
+            },
+            cargarImagen(file){
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    //this.thumbnail = e.target.result;
+                    this.productoExterno.imagen = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+
+            },
+            //Agregar producto externo a la tabla de productos
+            agregarProductoExterno(){
+                console.log(this.productoExterno);
+                this.inventarioLocal.push({
+                    'externo': true,
+                    'imagen': this.productoExterno.imagen,
+                    'servicio': this.productoExterno.servicio,
+                    'cantidad': '',
+                    'precioUnitario': this.productoExterno.precioUnitario,
+                    'precioFinal': '',
+                    'ahorro': '',
+                    'notas': '',
+                    'id': '',
+                });
+                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': ''};
+            },
+            // Bus para comunicar controladores
             busEvent() {
                 // Enviar el evento por el canal click
                 EventBus.$emit('click');
             },
             //Metodos dentro de la tabla productos
-                // Externo
+                // Eliminar
+                eliminarProductoLocal(index){
+                    this.inventarioLocal.splice(index, 1);
+                },
 
                 // Cantidad
                 editarCantidad(index, key){
@@ -602,7 +703,9 @@
                     'precioFinal': '',
                     'ahorro': '',
                     'notas': '',
-                })
+                    'id': producto.id,
+                });
+                console.log(this.inventarioLocal);
                 
             },
             obtenerUsuarios(){
@@ -625,6 +728,24 @@
             },
             eliminarFestejado(index){
                 this.festejados.splice(index, 1);
+            },
+
+            // Guardar presupuesto
+            guardarPresupuesto(){
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+
+                let URL = '/presupuestos/create';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                }).then((response) => {
+                    console.log(response);
+                }).catch((error) => {
+                    console.log(error.data);
+                });
             }
         }
     }

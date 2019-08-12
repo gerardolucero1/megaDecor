@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Telephone;
+use App\Client;
 use Illuminate\Database\Eloquent\Model;
 
 class PhysicalPerson extends Model
@@ -27,7 +27,7 @@ class PhysicalPerson extends Model
 
     public function client()
     {
-        return $this->hasOne(App\Client::class);
+        return $this->belongsTo(Client::class);
     }
     
 }

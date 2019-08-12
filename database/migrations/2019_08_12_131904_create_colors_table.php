@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInventoriesTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cantidad');
-            $table->string('servicio');
-            $table->string('imagen');
-            $table->integer('precioUnitario');
-            
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('colors');
     }
 }

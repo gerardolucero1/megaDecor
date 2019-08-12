@@ -2298,6 +2298,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -2313,7 +2374,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       results: [],
       presupuesto: {
-        vendedor_id: '',
+        vendedor_id: '1',
         cliente_id: '',
         tipoEvento: '',
         tipoServicio: '',
@@ -2344,22 +2405,19 @@ __webpack_require__.r(__webpack_exports__);
         edad: ''
       },
       inventario: [],
-      productoLocal: {
-        'externo': '',
+      //Agregar al invenatrio producto externo
+      thumbnail: '',
+      productoExterno: {
+        'externo': true,
         'imagen': '',
         'servicio': '',
-        'cantidad': '',
-        'precioUnitario': '',
-        'precioFinal': '',
-        'ahorro': '',
-        'notas': ''
+        'precioUnitario': ''
       },
       inventarioLocal: [],
       festejados: [],
       //Control sobre las ediciones en la tabla de productos
       indice: '',
       key: '',
-      productoExterno: '',
       cantidadActualizada: '',
       ahorroActualizado: '',
       precioFinalActualizado: '',
@@ -2376,7 +2434,11 @@ __webpack_require__.r(__webpack_exports__);
       _this.results = results;
     });
   },
-  computed: {},
+  computed: {
+    imagen: function imagen() {
+      return this.productoExterno.imagen;
+    }
+  },
   filters: {
     decimales: function decimales(value) {
       if (!value) return '';
@@ -2385,12 +2447,56 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    //Metodos para procesar la imagen de prodcuto extero
+    obtenerImagen: function obtenerImagen(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.cargarImagen(files[0]);
+    },
+    cargarImagen: function cargarImagen(file) {
+      var _this2 = this;
+
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        //this.thumbnail = e.target.result;
+        _this2.productoExterno.imagen = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    //Agregar producto externo a la tabla de productos
+    agregarProductoExterno: function agregarProductoExterno() {
+      console.log(this.productoExterno);
+      this.inventarioLocal.push({
+        'externo': true,
+        'imagen': this.productoExterno.imagen,
+        'servicio': this.productoExterno.servicio,
+        'cantidad': '',
+        'precioUnitario': this.productoExterno.precioUnitario,
+        'precioFinal': '',
+        'ahorro': '',
+        'notas': '',
+        'id': ''
+      });
+      this.productoExterno = {
+        'externo': true,
+        'imagen': '',
+        'servicio': '',
+        'precioUnitario': ''
+      };
+    },
+    // Bus para comunicar controladores
     busEvent: function busEvent() {
       // Enviar el evento por el canal click
       _event_bus_js__WEBPACK_IMPORTED_MODULE_3__["EventBus"].$emit('click');
     },
     //Metodos dentro de la tabla productos
-    // Externo
+    // Eliminar
+    eliminarProductoLocal: function eliminarProductoLocal(index) {
+      this.inventarioLocal.splice(index, 1);
+    },
     // Cantidad
     editarCantidad: function editarCantidad(index, key) {
       this.indice = index;
@@ -2483,12 +2589,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this2 = this;
+      var _this3 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this2.inventario = response.data;
-        console.log(_this2.inventario);
+        _this3.inventario = response.data;
+        console.log(_this3.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -2502,25 +2608,27 @@ __webpack_require__.r(__webpack_exports__);
         'precioUnitario': producto.precioUnitario,
         'precioFinal': '',
         'ahorro': '',
-        'notas': ''
+        'notas': '',
+        'id': producto.id
       });
+      console.log(this.inventarioLocal);
     },
     obtenerUsuarios: function obtenerUsuarios() {
-      var _this3 = this;
+      var _this4 = this;
 
       var URL = '/usuarios';
       axios.get(URL).then(function (response) {
-        _this3.usuarios = response.data;
-        console.log(_this3.usuarios);
+        _this4.usuarios = response.data;
+        console.log(_this4.usuarios);
       });
     },
     obtenerClientes: function obtenerClientes() {
-      var _this4 = this;
+      var _this5 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this4.clientes = response.data;
-        console.log(_this4.clientes);
+        _this5.clientes = response.data;
+        console.log(_this5.clientes);
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -2531,6 +2639,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     eliminarFestejado: function eliminarFestejado(index) {
       this.festejados.splice(index, 1);
+    },
+    // Guardar presupuesto
+    guardarPresupuesto: function guardarPresupuesto() {
+      if (this.presupuesto.tipoEvento == 'INTERNO') {
+        this.presupuesto.tipoServicio = '';
+      }
+
+      var URL = '/presupuestos/create';
+      axios.post(URL, {
+        'presupuesto': this.presupuesto,
+        'festejados': this.festejados,
+        'inventario': this.inventarioLocal
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
     }
   }
 });
@@ -54316,7 +54441,24 @@ var render = function() {
                           )
                     ]),
                     _vm._v(" "),
-                    _vm._m(11, true)
+                    _c("td", { staticClass: "text-center" }, [
+                      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+                        _vm._v("Editar")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.eliminarProductoLocal(index)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
                   ])
                 }),
                 0
@@ -54325,13 +54467,237 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(12),
+        _vm._m(11),
         _vm._v(" "),
-        _vm._m(13)
+        _c("div", { staticClass: "row" }, [
+          _vm._m(12),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 offset-md-2 mt-4" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-block btn-success",
+                on: {
+                  click: function($event) {
+                    return _vm.guardarPresupuesto()
+                  }
+                }
+              },
+              [_vm._v("Guardar Presupuesto")]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(13)
+        ])
       ])
     ]),
     _vm._v(" "),
-    _vm._m(14)
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "agregarElemento",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "agregarElemento",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-lg modal-dialog-centered",
+            attrs: { id: "app", role: "document" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "modal-content",
+                staticStyle: { border: "solid gray" }
+              },
+              [
+                _vm._m(14),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-10 offset-md-1" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Servicio")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.productoExterno.servicio,
+                                    expression: "productoExterno.servicio"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Servicio"
+                                },
+                                domProps: {
+                                  value: _vm.productoExterno.servicio
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.productoExterno,
+                                      "servicio",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Precio unitario")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.productoExterno.precioUnitario,
+                                    expression: "productoExterno.precioUnitario"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Precio unitario"
+                                },
+                                domProps: {
+                                  value: _vm.productoExterno.precioUnitario
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.productoExterno,
+                                      "precioUnitario",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c("label", { staticClass: "col-12" }, [
+                              _vm._v("Imagen")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-12" }, [
+                              _c("div", { staticClass: "custom-file" }, [
+                                _c("input", {
+                                  staticClass:
+                                    "custom-file-input js-custom-file-input-enabled",
+                                  attrs: {
+                                    type: "file",
+                                    id: "example-file-input-custom",
+                                    name: "example-file-input-custom",
+                                    "data-toggle": "custom-file-input"
+                                  },
+                                  on: { change: _vm.obtenerImagen }
+                                }),
+                                _vm._v(" "),
+                                _c("label", {
+                                  staticClass: "custom-file-label",
+                                  staticStyle: { "overflow-x": "hidden" },
+                                  attrs: { for: "example-file-input-custom" }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c("figure", [
+                              _c("img", {
+                                attrs: {
+                                  src: _vm.imagen,
+                                  width: "100%",
+                                  alt: "Thumbnail"
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: {
+                        type: "button",
+                        onClick: "$('#agregarElemento').modal('hide')"
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.agregarProductoExterno()
+                        }
+                      }
+                    },
+                    [_vm._v("Save changes")]
+                  )
+                ])
+              ]
+            )
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -54494,20 +54860,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-        _vm._v("Editar")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-        _vm._v("Eliminar")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "row" }, [
@@ -54572,23 +54924,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4 offset-md-4" }, [
-        _c("button", { staticClass: "btn btn-sm btn-block btn-primary" }, [
-          _vm._v("Imprimir")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4 offset-md-2 mt-4" }, [
-        _c("button", { staticClass: "btn btn-sm btn-block btn-success" }, [
-          _vm._v("Guardar Presupuesto")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4 mt-4" }, [
-        _c("button", { staticClass: "btn btn-sm btn-block btn-secondary" }, [
-          _vm._v("Guardar Contrato")
-        ])
+    return _c("div", { staticClass: "col-md-4 offset-md-4" }, [
+      _c("button", { staticClass: "btn btn-sm btn-block btn-primary" }, [
+        _vm._v("Imprimir")
       ])
     ])
   },
@@ -54596,8 +54934,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-9 offset-md-1" }, [_c("hr")])
+    return _c("div", { staticClass: "col-md-4 mt-4" }, [
+      _c("button", { staticClass: "btn btn-sm btn-block btn-secondary" }, [
+        _vm._v("Guardar Contrato")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "exampleModalCenterTitle" }
+        },
+        [_vm._v("Agregar elementos")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            onClick: "$('#agregarElemento').modal('hide')",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]

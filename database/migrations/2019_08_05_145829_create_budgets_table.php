@@ -22,21 +22,21 @@ class CreateBudgetsTable extends Migration
             $table->string('tipoEvento');
             $table->string('tipoServicio')->nullable();
             $table->string('categoriaEvento');
-            $table->date('fechaEvento');
-            $table->boolean('pendienteFecha');
-            $table->time('horaEventoInicio');
-            $table->time('horaEventoFin');
-            $table->boolean('pendienteHora');
+            $table->date('fechaEvento')->nullable();
+            $table->boolean('pendienteFecha')->nullable();
+            $table->time('horaEventoInicio')->nullable();
+            $table->time('horaEventoFin')->nullable();
+            $table->boolean('pendienteHora')->nullable();
 
             //Lugar del evento
-            $table->enum('lugarEvento', ['MISMA', 'OTRA']);
-            $table->boolean('pendienteLugar');
-            $table->string('nombreLugar');
-            $table->string('direccionLugar');
-            $table->string('numeroLugar');
-            $table->string('coloniaLugar');
-            $table->string('CPLugar');
-            $table->mediumText('observacionesLugar');
+            $table->enum('lugarEvento', ['MISMA', 'OTRA'])->nullable();
+            $table->boolean('pendienteLugar')->nullable();
+            $table->string('nombreLugar')->nullable();
+            $table->string('direccionLugar')->nullable();
+            $table->string('numeroLugar')->nullable();
+            $table->string('coloniaLugar')->nullable();
+            $table->string('CPLugar')->nullable();
+            $table->mediumText('observacionesLugar')->nullable();
 
             //Informacion del evento
             $table->integer('numeroInvitados');

@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\User;
+use App\Client;
+use App\Celebrated;
 use Illuminate\Database\Eloquent\Model;
 
 class Budget extends Model
@@ -29,4 +32,20 @@ class Budget extends Model
         'colorEvento',
         'temaEvento',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function celebrateds()
+    {
+        return $this->hasMany(Celebrated::class);
+    }
+
 }
