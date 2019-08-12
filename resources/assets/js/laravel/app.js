@@ -22,6 +22,9 @@ window.Vue = require('vue');
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('nuevo-cliente-component', require('./components/NuevoClienteComponent.vue').default);
+Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
+Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
+Vue.component('task-list-component', require('./components/TaskListComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,5 +35,7 @@ Vue.component('nuevo-cliente-component', require('./components/NuevoClienteCompo
 
 const app = new Vue({
     el: '#app'
+
+    
 });
 

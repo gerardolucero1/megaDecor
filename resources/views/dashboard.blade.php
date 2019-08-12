@@ -40,10 +40,25 @@
                     </div>
                     
                 </div>
-                <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
-                        
-
+                <div class="row">
+                    <div class="col-md-4">
+                        <task-list-component v-ref:listTask></task-list-component>
+                        <button onclick="refreshList()">refresh</button>
+                    </div>
                 </div>
+                
     </div>
+ <script>
+   function refreshList(){
+   
+       alert('refresh');
+       app.$refs.listTask.hola();
+   }
+ 
+ </script>
+
     <!-- END Page Content -->
+    
+    @include('../modals/nuevaTareaModal')
+    @include('../modals/categoriaTareaModal')
 @endsection

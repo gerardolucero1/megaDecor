@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" v-if="telefono.tipo=='OFICINA'">
                                     <input type="text" placeholder="EXT" v-model="telefono.ext">
                                 </div>
                                 <div class="col-md-6">
@@ -232,21 +232,21 @@
         },
         methods: {
             obtenerCategoriasNosotros(){
-                let URL = 'http://localhost:3000/about-categorias';
+                let URL = '/about-categorias';
                 axios.get(URL).then((response) => {
                     this.aboutCategorias = response.data;
                     console.log(this.aboutCategorias);
                 });
             },
             obtenerCategorias(){
-                let URL = 'http://localhost:3000/categorias';
+                let URL = '/categorias';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
                     console.log(this.categorias);
                 });
             },
             obtenerTelefonos(){
-                let URL = 'http://localhost:3000/telefonos';
+                let URL = '/telefonos';
                 axios.get(URL).then((response) => {
                     this.physicalTelephones = response.data;
                     console.log(this.physicalTelephones);
@@ -276,7 +276,7 @@
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
                         console.log(tiempo);
-                        let URL = 'http://localhost:3000/viejo-telefono';
+                        let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
@@ -303,7 +303,7 @@
                                         confirmButtonText: 'Eliminar telefono'
                                     }).then((result) => {
                                         if(result.value){
-                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            let URL = '/viejo-telefono/' + encontrado.id;
                                             axios.delete(URL).then((response) => {
                                                 Swal.fire(
                                                     'Eliminado!',
@@ -361,7 +361,7 @@
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
                         console.log(tiempo);
-                        let URL = 'http://localhost:3000/viejo-telefono';
+                        let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
@@ -388,7 +388,7 @@
                                         confirmButtonText: 'Eliminar telefono'
                                     }).then((result) => {
                                         if(result.value){
-                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            let URL = '/viejo-telefono/' + encontrado.id;
                                             axios.delete(URL).then((response) => {
                                                 Swal.fire(
                                                     'Eliminado!',
@@ -434,7 +434,7 @@
                 
             },
             crearCliente(){
-                let URL = 'http://localhost:3000/clientes/create';
+                let URL = '/clientes/create';
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,

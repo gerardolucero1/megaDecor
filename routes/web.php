@@ -22,6 +22,7 @@ Route::view('/', 'landing');
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
+Route::get('/dashboard', 'CMS\IndexController@dashboard');
 Route::view('/examples/plugin-helper', 'examples.plugin_helper');
 Route::view('/examples/plugin-init', 'examples.plugin_init');
 Route::view('/examples/blank', 'examples.blank');
@@ -68,15 +69,28 @@ Route::get('/home', 'HomeController@index')->name('home');
         return $cliente;
     });
     */
+    //clientes
     Route::get('/telefonos', 'CMS\ClientController@telefonos');
     Route::get('/categorias', 'CMS\ClientController@categorias');
     Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
     Route::post('/viejo-telefono', 'CMS\ClientController@viejoTelefono');
     Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
+    //Tareas
+    Route::get('/tareas/categorias-tareas', 'CMS\TareasController@Categorias');
+    Route::get('/tareas/editar-categorias-tareas', 'CMS\TareasController@editarCategoria');
+    Route::delete('/tareas/eliminar-categoria/{id}', 'CMS\TareasController@deleteCategoria');
+    Route::delete('/tareas/eliminar-tarea/{id}', 'CMS\TareasController@deleteTarea');
+    Route::get('/tareas/obtener-tareas', 'CMS\TareasController@ObtenerTareas');
+    Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
+    Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
+    Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
 
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
 
 // Todo lo referente a clientes
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
+
+
 
 

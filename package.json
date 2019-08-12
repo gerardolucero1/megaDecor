@@ -24,6 +24,7 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "sweetalert2": "^8.15.0",
+        "tempusdominus-bootstrap-4": "^5.1.2",
         "toastr": "^2.1.4",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
