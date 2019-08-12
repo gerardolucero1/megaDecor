@@ -21,4 +21,6 @@
 
 
     @include('../modals/nuevoPresupuestoModal')
+    @include('../modals/nuevoProductoModal')
+
 @endsection

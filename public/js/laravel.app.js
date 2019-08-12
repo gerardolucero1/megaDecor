@@ -1912,6 +1912,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SearchComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchComponent */ "./resources/assets/js/laravel/components/SearchComponent.vue");
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../event-bus.js */ "./resources/assets/js/laravel/event-bus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2280,6 +2299,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+ // Importamos el evento Bus.
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2324,6 +2345,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       inventario: [],
       productoLocal: {
+        'externo': '',
         'imagen': '',
         'servicio': '',
         'cantidad': '',
@@ -2334,8 +2356,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       inventarioLocal: [],
       festejados: [],
+      //Control sobre las ediciones en la tabla de productos
       indice: '',
-      cantidadActualizada: ''
+      key: '',
+      productoExterno: '',
+      cantidadActualizada: '',
+      ahorroActualizado: '',
+      precioFinalActualizado: '',
+      notasActualizadas: ''
     };
   },
   created: function created() {
@@ -2349,11 +2377,26 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   computed: {},
+  filters: {
+    decimales: function decimales(value) {
+      if (!value) return '';
+      value = value.toFixed(2);
+      return value;
+    }
+  },
   methods: {
+    busEvent: function busEvent() {
+      // Enviar el evento por el canal click
+      _event_bus_js__WEBPACK_IMPORTED_MODULE_3__["EventBus"].$emit('click');
+    },
     //Metodos dentro de la tabla productos
-    editarCantidad: function editarCantidad(index) {
+    // Externo
+    // Cantidad
+    editarCantidad: function editarCantidad(index, key) {
       this.indice = index;
-      console.log(this.indice);
+      this.key = key[3];
+      console.log(index);
+      console.log(this.key);
     },
     updateCantidad: function updateCantidad(index) {
       var producto = this.inventarioLocal.find(function (element, indice) {
@@ -2364,8 +2407,81 @@ __webpack_require__.r(__webpack_exports__);
       this.inventarioLocal.splice(index, 1, producto);
       console.log(this.inventarioLocal);
       this.cantidadActualizada = '';
+      this.key = '';
       this.indice = '100000000';
     },
+    //Ahorro
+    editarAhorro: function editarAhorro(index, key) {
+      this.indice = index;
+      this.key = key[6];
+      console.log(index);
+      console.log(this.key);
+    },
+    updateAhorro: function updateAhorro(index) {
+      var producto = this.inventarioLocal.find(function (element, indice) {
+        return indice == index;
+      });
+
+      if (producto.cantidad == '') {
+        alert('Primero define una cantidad');
+        return;
+      } else {
+        producto.precioFinal = producto.cantidad * producto.precioUnitario;
+        producto.precioFinal = producto.precioFinal - producto.precioFinal * (this.ahorroActualizado / 100);
+        producto.ahorro = this.ahorroActualizado;
+        this.inventarioLocal.splice(index, 1, producto);
+        console.log(this.inventarioLocal);
+        this.ahorroActualizado = '';
+        this.key = '';
+        this.indice = '100000000';
+      }
+    },
+    //Precio Final
+    editarPrecioFinal: function editarPrecioFinal(index, key) {
+      this.indice = index;
+      this.key = key[5];
+      console.log(index);
+      console.log(this.key);
+    },
+    updatePrecioFinal: function updatePrecioFinal(index) {
+      var producto = this.inventarioLocal.find(function (element, indice) {
+        return indice == index;
+      });
+
+      if (producto.cantidad == '') {
+        alert('Primero define una cantidad');
+        return;
+      } else {
+        var precioNormal = producto.cantidad * producto.precioUnitario;
+        var descuento = precioNormal - this.precioFinalActualizado;
+        producto.precioFinal = this.precioFinalActualizado;
+        producto.ahorro = descuento / precioNormal * 100;
+        this.inventarioLocal.splice(index, 1, producto);
+        console.log(this.inventarioLocal);
+        this.precioFinalActualizado = '';
+        this.key = '';
+        this.indice = '100000000';
+      }
+    },
+    //Notas
+    editarNotas: function editarNotas(index, key) {
+      this.indice = index;
+      this.key = key[7];
+      console.log(index);
+      console.log(this.key);
+    },
+    updateNotas: function updateNotas(index) {
+      var producto = this.inventarioLocal.find(function (element, indice) {
+        return indice == index;
+      });
+      producto.notas = this.notasActualizadas;
+      this.inventarioLocal.splice(index, 1, producto);
+      console.log(this.inventarioLocal);
+      this.notasActualizadas = '';
+      this.key = '';
+      this.indice = '100000000';
+    },
+    //Otros metodos
     obtenerInventario: function obtenerInventario() {
       var _this2 = this;
 
@@ -2379,6 +2495,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     agregarProducto: function agregarProducto(producto) {
       this.inventarioLocal.push({
+        'externo': false,
         'imagen': producto.imagen,
         'servicio': producto.servicio,
         'cantidad': '',
@@ -2495,6 +2612,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../event-bus.js */ "./resources/assets/js/laravel/event-bus.js");
 //
 //
 //
@@ -2673,6 +2791,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// Import the EventBus.
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2710,7 +2830,11 @@ __webpack_require__.r(__webpack_exports__);
       aboutCategorias: []
     };
   },
-  created: function created() {//obtenerTelefonos();
+  created: function created() {
+    console.log('funciona');
+    _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('click', function () {
+      console.log('Bus funciona');
+    });
   },
   mounted: function mounted() {
     this.obtenerTelefonos();
@@ -2961,6 +3085,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {},
   computed: {
     search: {
       get: function get() {
@@ -2987,7 +3112,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.registroPresupuesto .row{\n    margin-bottom: 15px;\n}\n.registroPresupuesto input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n    width: 100%;\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"text\"], \n.registroPresupuesto input[type=\"email\"], \n.registroPresupuesto input[type=\"number\"], \n.registroPresupuesto input[type=\"date\"], \n.registroPresupuesto select{\n    width: 100%;\n}\n.registroPresupuesto .info p{\n    line-height: 4px;\n}\n.resultadoInventario{\n    position: absolute;\n    z-index: 3000;\n    background-color: gray;\n    overflow: scroll;\n    height: 300px;\n}\n.producto{\n    background-color: beige;\n    border-bottom: 2px solid black;\n}\n\n", ""]);
+exports.push([module.i, "\n.registroPresupuesto .row{\n    margin-bottom: 15px;\n}\n.registroPresupuesto input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n    width: 100%;\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"text\"], \n.registroPresupuesto input[type=\"email\"], \n.registroPresupuesto input[type=\"number\"], \n.registroPresupuesto input[type=\"date\"], \n.registroPresupuesto select{\n    width: 100%;\n}\n.registroPresupuesto .info p{\n    line-height: 4px;\n}\n.resultadoInventario{\n    position: absolute;\n    z-index: 3000;\n    background-color: gray;\n    overflow: scroll;\n    height: 300px;\n}\ntable tr td input{\n    border: none;\n    background-color: transparent;\n}\n.producto{\n    background-color: beige;\n    border-bottom: 2px solid black;\n}\n\n", ""]);
 
 // exports
 
@@ -53918,7 +54043,52 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.inventarioLocal, function(producto, index) {
                   return _c("tr", { key: producto.index }, [
-                    _vm._m(11, true),
+                    _c("th", { attrs: { scope: "row" } }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: producto.externo,
+                            expression: "producto.externo"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(producto.externo)
+                            ? _vm._i(producto.externo, null) > -1
+                            : producto.externo
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = producto.externo,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    producto,
+                                    "externo",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    producto,
+                                    "externo",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(producto, "externo", $$c)
+                            }
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
@@ -53929,7 +54099,8 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(producto.servicio))]),
                     _vm._v(" "),
                     _c("td", [
-                      producto.cantidad == "" || _vm.indice == index
+                      producto.cantidad == "" ||
+                      (_vm.indice == index && _vm.key == "cantidad")
                         ? _c("input", {
                             directives: [
                               {
@@ -53970,7 +54141,10 @@ var render = function() {
                             {
                               on: {
                                 click: function($event) {
-                                  return _vm.editarCantidad(index)
+                                  _vm.editarCantidad(
+                                    index,
+                                    Object.keys(producto)
+                                  )
                                 }
                               }
                             },
@@ -53980,13 +54154,169 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(producto.precioUnitario))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(producto.precioFinal))]),
+                    _c("td", [
+                      producto.precioFinal == "" ||
+                      (_vm.indice == index && _vm.key == "precioFinal")
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.precioFinalActualizado,
+                                expression: "precioFinalActualizado"
+                              }
+                            ],
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.precioFinalActualizado },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.updatePrecioFinal(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.precioFinalActualizado = $event.target.value
+                              }
+                            }
+                          })
+                        : _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.editarPrecioFinal(
+                                    index,
+                                    Object.keys(producto)
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(producto.precioFinal))]
+                          )
+                    ]),
                     _vm._v(" "),
-                    _c("td"),
+                    _c("td", [
+                      producto.ahorro == "" ||
+                      (_vm.indice == index && _vm.key == "ahorro")
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ahorroActualizado,
+                                expression: "ahorroActualizado"
+                              }
+                            ],
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.ahorroActualizado },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.updateAhorro(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ahorroActualizado = $event.target.value
+                              }
+                            }
+                          })
+                        : _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.editarAhorro(index, Object.keys(producto))
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(producto.ahorro))]
+                          )
+                    ]),
                     _vm._v(" "),
-                    _vm._m(12, true),
+                    _c("td", [
+                      producto.notas == "" ||
+                      (_vm.indice == index && _vm.key == "notas")
+                        ? _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.notasActualizadas,
+                                expression: "notasActualizadas"
+                              }
+                            ],
+                            attrs: { name: "", id: "", cols: "30", rows: "2" },
+                            domProps: { value: _vm.notasActualizadas },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.updateNotas(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.notasActualizadas = $event.target.value
+                              }
+                            }
+                          })
+                        : _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.editarNotas(index, Object.keys(producto))
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(producto.notas) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                    ]),
                     _vm._v(" "),
-                    _vm._m(13, true)
+                    _vm._m(11, true)
                   ])
                 }),
                 0
@@ -53995,13 +54325,13 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(14),
+        _vm._m(12),
         _vm._v(" "),
-        _vm._m(15)
+        _vm._m(13)
       ])
     ]),
     _vm._v(" "),
-    _vm._m(16)
+    _vm._m(14)
   ])
 }
 var staticRenderFns = [
@@ -54103,9 +54433,14 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
-      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-        _vm._v("Agregar Elemento")
-      ])
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-sm btn-primary",
+          attrs: { "data-toggle": "modal", "data-target": "#agregarElemento" }
+        },
+        [_vm._v("Agregar Elemento")]
+      )
     ])
   },
   function() {
@@ -54149,26 +54484,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Ahorro")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Notas")]),
+        _c("th", { attrs: { scope: "col", width: "252" } }, [_vm._v("Notas")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", { attrs: { scope: "row" } }, [
-      _c("input", { attrs: { type: "checkbox" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("textarea", { attrs: { name: "", id: "", cols: "30", rows: "2" } })
     ])
   },
   function() {
@@ -68992,6 +69311,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SearchComponent_vue_vue_type_template_id_9d4db638___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/event-bus.js":
+/*!**************************************************!*\
+  !*** ./resources/assets/js/laravel/event-bus.js ***!
+  \**************************************************/
+/*! exports provided: EventBus */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventBus", function() { return EventBus; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 
 /***/ }),
 

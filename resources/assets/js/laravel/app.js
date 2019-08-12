@@ -43,5 +43,6 @@ Vue.component('crear-presupuesto-component', require('./components/CrearPresupue
 const app = new Vue({
     el: '#app',
     store,
+    
 });
 

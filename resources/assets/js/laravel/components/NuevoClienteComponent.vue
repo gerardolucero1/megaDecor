@@ -177,6 +177,9 @@
 </template>
 
 <script>
+// Import the EventBus.
+    import { EventBus } from '../event-bus.js';
+
     export default {
         data(){
             return {
@@ -223,7 +226,10 @@
             } 
         },
         created: function(){
-            //obtenerTelefonos();
+            console.log('funciona');
+            EventBus.$on('click', () => {
+                console.log('Bus funciona');
+            });
         },
         mounted(){
             this.obtenerTelefonos();

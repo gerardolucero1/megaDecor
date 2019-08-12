@@ -9,7 +9,11 @@
 </template>
 
 <script>
+
     export default {
+        created(){
+            
+        },
         computed: {
             search: {
                 get(){

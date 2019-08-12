@@ -34,6 +34,11 @@
         height: 300px;
     }
 
+    table tr td input{
+        border: none;
+        background-color: transparent;
+    }
+
     .producto{
         background-color: beige;
         border-bottom: 2px solid black;
@@ -235,7 +240,7 @@
 
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-sm btn-primary">Agregar Elemento</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento">Agregar Elemento</button>
                             </div>
                             <div class="col-md-4">
                                 <button class="btn btn-sm btn-secondary">Agregar Paquete</button>
@@ -274,29 +279,42 @@
                                 <th scope="col">Precio Unitario</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
-                                <th scope="col">Notas</th>
+                                <th scope="col" width="252">Notas</th>
                                 <th scope="col">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <th scope="row">
-                                    <input type="checkbox">
+                                    <input type="checkbox" v-model="producto.externo">
                                 </th>
                                 <td>
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
-                                    <input v-if="(producto.cantidad == '') || (indice == index)" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                    <span v-else v-on:click="editarCantidad(index)">{{ producto.cantidad }}</span>
+                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
+                                    <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
                                 <td>{{ producto.precioUnitario }}</td>
-                                <td>{{ producto.precioFinal}}</td>
-                                <td></td>
                                 <td>
-                                    <textarea name="" id="" cols="30" rows="2"></textarea>
+                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal }}</span>
+                                </td>
+                                <td>
+                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                </td>
+                                <td>
+                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
+                                        
+                                    </textarea>
+                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                        {{ producto.notas }}
+                                    </span>
+                                    
+
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-primary">Editar</button>
@@ -369,6 +387,8 @@
     import SearchComponent from './SearchComponent';
     import ListaInventarioComponent from './ListaInventarioComponent';
     import BuscadorComponent from './BuscadorComponent.vue';
+    // Importamos el evento Bus.
+    import { EventBus } from '../event-bus.js';
 
     export default {
         components: {
@@ -414,6 +434,7 @@
                 },
                 inventario: [],
                 productoLocal: {
+                    'externo': '',
                     'imagen': '',
                     'servicio': '',
                     'cantidad': '',
@@ -424,8 +445,16 @@
                 },
                 inventarioLocal: [],
                 festejados: [],
+
+                //Control sobre las ediciones en la tabla de productos
                 indice: '',
+                key: '',
+
+                productoExterno: '',
                 cantidadActualizada: '',
+                ahorroActualizado: '',
+                precioFinalActualizado: '',
+                notasActualizadas: '',
             }
         },
         created(){
@@ -439,23 +468,120 @@
         computed:{
 
         },
+        filters: {
+            decimales: function(value){
+                if (!value) return '';
+                value = value.toFixed(2);
+                return value;
+            }
+        },
         methods:{
+            busEvent() {
+                // Enviar el evento por el canal click
+                EventBus.$emit('click');
+            },
             //Metodos dentro de la tabla productos
-            editarCantidad(index){
-                this.indice = index;
-                console.log(this.indice);   
-            },
-            updateCantidad(index){
-                let producto = this.inventarioLocal.find(function(element, indice){
-                    return (indice == index);
-                });
-                producto.cantidad = this.cantidadActualizada;
-                producto.precioFinal = producto.cantidad * producto.precioUnitario;
-                this.inventarioLocal.splice(index, 1, producto);
-                console.log(this.inventarioLocal);
-                this.cantidadActualizada = '';
-                this.indice = '100000000';
-            },
+                // Externo
+
+                // Cantidad
+                editarCantidad(index, key){
+                    this.indice = index;
+                    this.key = key[3];
+                    console.log(index);
+                    console.log(this.key);
+                       
+                },
+                updateCantidad(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    producto.cantidad = this.cantidadActualizada;
+                    producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                    this.inventarioLocal.splice(index, 1, producto);
+                    console.log(this.inventarioLocal);
+                    this.cantidadActualizada = '';
+                    this.key = '';
+                    this.indice = '100000000';
+                },
+
+                //Ahorro
+                editarAhorro(index, key){
+                    this.indice = index;
+                    this.key = key[6]; 
+                    console.log(index);
+                    console.log(this.key);  
+                },
+                updateAhorro(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    if(producto.cantidad == ''){
+                        alert('Primero define una cantidad');
+                        return;
+                    }else{
+                        producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                        producto.precioFinal = producto.precioFinal - (producto.precioFinal * (this.ahorroActualizado / 100));
+                        producto.ahorro = this.ahorroActualizado;
+                        this.inventarioLocal.splice(index, 1, producto);
+                        console.log(this.inventarioLocal);
+                        this.ahorroActualizado = '';
+                        this.key = '';
+                        this.indice = '100000000';
+                    }
+                    
+                },
+
+                //Precio Final
+                editarPrecioFinal(index, key){
+                    this.indice = index;
+                    this.key = key[5];
+                    console.log(index);
+                    console.log(this.key);  
+                },
+                updatePrecioFinal(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    if(producto.cantidad == ''){
+                        alert('Primero define una cantidad');
+                        return;
+                    }else{
+                        let precioNormal = producto.cantidad * producto.precioUnitario;
+                        let descuento = precioNormal - this.precioFinalActualizado;
+                        producto.precioFinal = this.precioFinalActualizado;
+                        producto.ahorro = (descuento / precioNormal) * 100;
+                        
+                        this.inventarioLocal.splice(index, 1, producto);
+                        console.log(this.inventarioLocal);
+                        this.precioFinalActualizado = '';
+                        this.key = '';
+                        this.indice = '100000000';
+                    }
+                    
+                },
+
+                //Notas
+                editarNotas(index, key){
+                    this.indice = index; 
+                    this.key = key[7];
+                    console.log(index);
+                    console.log(this.key); 
+                },
+                updateNotas(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    
+                        producto.notas = this.notasActualizadas;
+                        this.inventarioLocal.splice(index, 1, producto);
+                        console.log(this.inventarioLocal);
+                        this.notasActualizadas = '';
+                        this.key = '';
+                        this.indice = '100000000';
+                    
+                },
+
+            //Otros metodos
             obtenerInventario(){
                 let URL = '/obtener-inventario';
                 axios.get(URL).then((response) => {
@@ -468,6 +594,7 @@
             },
             agregarProducto(producto){
                 this.inventarioLocal.push({
+                    'externo': false,
                     'imagen': producto.imagen,
                     'servicio': producto.servicio,
                     'cantidad': '',
