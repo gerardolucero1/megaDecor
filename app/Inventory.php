@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\BudgetPack;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
@@ -12,4 +13,9 @@ class Inventory extends Model
         'imagen',
         'precioUnitario',
     ];
+
+    public function budgetPacks()
+    {
+        return $this->belongsToMany(BudgetPack::class);
+    }
 }

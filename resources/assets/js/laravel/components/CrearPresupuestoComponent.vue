@@ -1,4 +1,11 @@
 <style>
+    .logo-presupuesto{
+        width: 25%;
+        height: 130px;
+        background-position: center;
+        background-size: cover;
+    }
+
     .registroPresupuesto .row{
         margin-bottom: 15px;
     }
@@ -14,6 +21,7 @@
         border: 1px solid rgba(204, 204, 204, 1);
     }
 
+    .modalAgregarPaquete input[type="text"],
     .registroPresupuesto input[type="text"], 
     .registroPresupuesto input[type="email"], 
     .registroPresupuesto input[type="number"], 
@@ -51,7 +59,15 @@
         <div class="row">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-4 offset-md-8 text-right info">
+                    <div class="col-md-8 text-left">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('https://thebiaslistcom.files.wordpress.com/2019/07/nature-im-so-pretty.jpg')">
+
+                        </div>
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('https://4.bp.blogspot.com/-h2GiZzyOE5Q/WKzED4RMxWI/AAAAAAAAFpA/V3KRWZd8AY80Wa7JsBWHBzYb5G-8aUjDQCLcB/s1600/01-1483422852234.jpg')">
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right info">
                         <p>PNM 0000</p>
                         <p>Vendedor: <span>Gerardo Lucero</span></p>
                         <p>Fecha de presupuesto: <span>23/08/2019</span></p>
@@ -116,25 +132,58 @@
                         <h4>Cliente</h4>
                         <div class="row">
                             <div class="col-md-9">
-                                <select name="" id="" v-model="presupuesto.cliente_id">
+                                <buscador-component
+                                    placeholder="Buscar Clientes"
+                                    event-name="clientResults"
+                                    :list="clientes"
+                                    :keys="['nombre', 'email']"
+                                    
+                                ></buscador-component>
+
+                                <!-- Resultado Busqueda -->
+                                <div class="row" v-if="clientResults.length < clientes.length">
+                                    <div v-if="clientResults.length !== 0" class="col-md-6 resultadoInventario">
+                                        <div class="list-group" v-for="cliente in clientResults" :key="cliente.id">
+                                            <div class="row producto" v-on:click="obtenerCliente(cliente)">
+                                                <div class="col-md-7">
+                                                    <p>{{ cliente.nombre }}</p>
+                                                    <span class="badge badge-info">
+                                                        {{ cliente.email }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--
+                                <select name="" id="" v-model="presupuesto.client_id">
                                     <option v-bind:value="cliente.id" v-for="cliente in clientes" v-bind:key="cliente.index">{{ cliente.nombre }}</option>
                                 </select>
+                                -->
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-sm btn-primary">Agregar</button>
                             </div>
                         </div>
-                        <div class="info">
-                            <p>Mina Sharon</p>
-                            <p>6141278851</p>
-                            <p>mina_twice@gmail.com</p>
+                        <div v-if="clienteSeleccionado" class="info">
+                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p>{{ clienteSeleccionado.email }}</p>
+                            <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
+                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                            </p>
                         </div>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-6 text-right" v-if="clienteSeleccionado">
                         <div class="info">
-                            <p>Ultimo evento: <span>23/08/2019</span></p>
-                            <p><span>5</span> eventos contratados</p>
-                            <p><span>3</span> presupuestos</p>
+                            <p>Ultimo evento: 
+                                <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
+                                <span v-else>Primer Evento</span>
+                            </p>
+                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> eventos contratados</p>
+                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> presupuestos</p>
                         </div>
                     </div>
                 </div>
@@ -240,10 +289,10 @@
 
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento">Agregar Elemento</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false">Agregar Elemento</button>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-sm btn-secondary">Agregar Paquete</button>
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete">Agregar Paquete</button>
                             </div>
                         </div>
                     </div>
@@ -331,13 +380,19 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <h4>Mostrar en presupuesto de cliente</h4>
-                                <input type="checkbox" id="precioUnitario">
+                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                <label for="precio">Precios</label>
+                                <br>
+                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
                                 <label for="precioUnitario">Precios Unitarios</label>
                                 <br>
-                                <input type="checkbox" id="descripcionPaquete">
+                                <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
-                                <input type="checkbox" id="imagenes">
+                                <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
+                                <label for="descuento">Descuentos</label>
+                                <br>
+                                <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-4 mt-4">
@@ -381,6 +436,135 @@
             </div>
         </div>
         -->
+
+        
+
+        <!-- Modal agregar paquete -->
+        <div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Armar paquete</h5>
+                    <button type="button" class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <buscador-component
+                                    placeholder="Buscar Productos"
+                                    event-name="resultsPaquetes"
+                                    :list="inventario"
+                                    :keys="['servicio', 'id']"
+                                    
+                                ></buscador-component>
+                                        </div>
+                                    </div>
+                                    <!-- Resultado Busqueda -->
+                                    <div class="row" v-if="resultsPaquetes.length < inventario.length">
+                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
+                                            <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
+                                                <div class="row producto" v-on:click="agregarProductoPaquete(producto)">
+                                                    <div class="col-md-7">
+                                                        <p>{{ producto.servicio }}</p>
+                                                        <span class="badge badge-info">
+                                                            {{ producto.precioUnitario }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Primer columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Servicio</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paquete.servicio">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio final</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
+                                    <input type="checkbox" id="guardarPaquete" v-model="paquete.guardarPaquete">
+                                    <label for="guardarPaquete">Guardar paquete</label>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="categoriaPaquete">Categoria</label>
+                                        <div class="col-md-12">
+                                            <select id="categoriaPaquete" name="categoriaPaquete" v-model="paquete.categoria">
+                                                <option value="BODA">Boda</option>
+                                                <option value="CUMPLEANOS">Cumpleaños</option>
+                                                <option value="XV">XV Años</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Imagen</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio unitario</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="paquete.inventario">
+                                            <tr v-for="(producto, index) in paquete.inventario" v-bind:key="producto.index">
+                                                <th scope="row">
+                                                    <img :src="producto.imagen" width="100%">
+                                                </th>
+                                                <td>{{ producto.nombre }}</td>
+                                                <td>
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                                </td>
+                                                <td>{{ producto.precioUnitario }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="guardarPaquete()">Guardar paquete</button>
+                </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Modal agregar elemento -->
         <div class="modal fade" id="agregarElemento" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true">
@@ -434,6 +618,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Close</button>
                     <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
@@ -441,6 +626,7 @@
                 </div>
             </div>
         </div>
+
     </section>
 </template>
 
@@ -460,11 +646,26 @@
         data(){
             return{
                 results: [],
+                resultsPaquetes: [],
+                clientResults: [],
+                clienteSeleccionado: {
+                    id: '',
+                    nombre: '',
+                    email: '',
+                    nombreLugar: '',
+                    direccionLugar: '',
+                    numeroLugar: '',
+                    coloniaLugar: '',
+                    telefonos: [],
+                    presupuestos: [],
+                },
+                ultimoEvento: '',
+                //clienteSeleccionadoTelefonos: [],
                 presupuesto:{
                     vendedor_id: '1',
-                    cliente_id: '',
-                    tipoEvento: '',
-                    tipoServicio: '',
+                    client_id: '',
+                    tipoEvento: 'EXTERNO',
+                    tipoServicio: 'FORMAL',
                     categoriaEvento: '',
                     fechaEvento: '',
                     pendienteFecha: '',
@@ -486,6 +687,13 @@
                     numeroInvitados: '',
                     colorEvento: '',
                     temaEvento: '',
+
+                    //Opciones presupuesto
+                    opcionPrecio: '',
+                    opcionPrecioUnitario: '',
+                    opcionDescripcionPaquete: '',
+                    opcionImagen: '',
+                    opcionDescuento: '',
                 },
                 usuarios: [],
                 clientes: [],
@@ -495,6 +703,8 @@
                 },
                 inventario: [],
 
+                //Control de elemento externo
+                controlElementoExterno: false,
                 //Agregar al invenatrio producto externo
                 thumbnail: '',
                 productoExterno: {
@@ -515,6 +725,20 @@
                 ahorroActualizado: '',
                 precioFinalActualizado: '',
                 notasActualizadas: '',
+
+                //Paquetes
+                paquete: {
+                    servicio: '',
+                    precioFinal: '',
+                    guardarPaquete: false,
+                    categoria: '',
+                    inventario: [],
+                },
+                precioSugerido: 0,
+                cantidadPaquete: '',
+
+                paqueteLocal: [],
+
             }
         },
         created(){
@@ -524,11 +748,17 @@
             this.$on('results', results => {
                 this.results = results
             });
+            this.$on('clientResults', clientResults => {
+                this.clientResults = clientResults
+            });
+            this.$on('resultsPaquetes', resultsPaquetes => {
+                this.resultsPaquetes = resultsPaquetes
+            });
         },
         computed:{
-            imagen(){
+            imagen: function(){
                 return this.productoExterno.imagen;
-            }
+            },
         },
         filters: {
             decimales: function(value){
@@ -537,7 +767,149 @@
                 return value;
             }
         },
+        watch: {
+            'presupuesto.lugarEvento': function(val){
+                if(val == 'MISMA'){
+                    this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
+                    this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
+                    this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+
+                }else{
+                     this.presupuesto.nombreLugar = '';
+                    this.presupuesto.direccionLugar = '';
+                    this.presupuesto.numeroLugar = '';
+                    this.presupuesto.coloniaLugar = '';
+                }
+                
+            }
+            /*
+            demo: {
+                deep: true,
+                handler: (nuevoValor, valorAnterior) => {
+                    console.log('el viejo valor era ', valorAnterior, ' y ahora es ', nuevoValor);
+                }
+            }
+            */
+        },
         methods:{
+            //Metodos para los paquetes
+            agregarProductoPaquete(producto){
+                this.paquete.inventario.push({
+                    'externo': false,
+                    'nombre': producto.servicio,
+                    'imagen': producto.imagen,
+                    'precioUnitario': producto.precioUnitario,
+                    'precioFinal': '',
+                    'cantidad': '',
+                    'id': producto.id,
+                });
+                console.log(this.paquete.inventario);
+            },
+                    actualizarPrecioSugerido(){
+                        for (var i = 0; i < this.paquete.inventario.length; i++) {
+                            this.precioSugerido+= this.paquete.inventario[i].precioFinal;
+                        }
+                    },
+                    //Eliminar producto de paquete
+                    eliminarProductoPaquete(index){
+                        this.paquete.inventario.splice(index, 1);
+
+                        this.precioSugerido = 0;
+
+                        for (var i = 0; i < this.paquete.inventario.length; i++) {
+                            
+                            this.precioSugerido+= this.paquete.inventario[i].precioFinal;
+                        }
+                    },
+                    //Actualizar la cantidad del paquete
+                    editarCantidadPaquete(index, key){
+                        console.log(key);
+                        this.indice = index;
+                        this.key = key[5];
+                        console.log(index);
+                        console.log(this.key);
+                       
+                    },
+                    updateCantidadPaquete(index){
+                        this.precioSugerido = 0;
+                        let producto = this.paquete.inventario.find(function(element, indice){
+                            return (indice == index);
+                        });
+
+                        producto.cantidad = this.cantidadPaquete;
+                        producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                        this.paquete.inventario.splice(index, 1, producto);
+                        console.log(this.inventarioLocal);
+                        this.cantidadPaquete = '';
+                        this.key = '';
+                        this.indice = '100000000';
+
+                        this.actualizarPrecioSugerido();
+                        
+                    },
+            guardarPaquete(){
+                //this.paqueteLocal.push(this.paquete);
+                this.inventarioLocal.push({
+                    'externo': false,
+                    'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
+                    'servicio': this.paquete.servicio,
+                    'cantidad': '',
+                    'precioUnitario': this.paquete.precioFinal,
+                    'precioFinal': '',
+                    'ahorro': '',
+                    'notas': '',
+                    'paquete': this.paquete,
+                    'tipo': 'PAQUETE',
+                    'id': '',
+                });
+                console.log(this.inventarioLocal);
+
+
+            },
+            // Metodo para obtener el cliente seleccionado
+            obtenerCliente(cliente){
+                //let URL = '/obtener-cliente/' + cliente.id;
+                let URL = '/obtener-cliente';
+                axios.post(URL, {
+                    'id': cliente.id,
+                    'accion': 'telefonos',
+                }).then((response) => {
+                    this.clienteSeleccionado.telefonos = response.data;    
+                }).catch((error) => {
+                    console.log(error.data);
+                });
+
+                axios.post(URL, {
+                    'id': cliente.id,
+                    'accion': 'presupuestos',
+                }).then((response) => {
+                    this.clienteSeleccionado.presupuestos = [];
+                    this.ultimoEvento = '';
+                    if(response.data.length !== 0){
+                        this.clienteSeleccionado.presupuestos = response.data;
+                        let arreglo = response.data
+                            arreglo.sort(function(a,b){
+                                    return new Date(b.fechaEvento) - new Date(a.fechaEvento);
+                            });
+                        this.ultimoEvento = arreglo.shift();
+                        this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
+                    }
+                }).catch((error) => {
+                    console.log(error.data);
+                });
+
+                this.clienteSeleccionado.id = cliente.id;
+                this.clienteSeleccionado.nombre = cliente.nombre;
+                this.clienteSeleccionado.email = cliente.email;
+
+                this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+
+                this.presupuesto.client_id = cliente.id;
+            },
             //Metodos para procesar la imagen de prodcuto extero
             obtenerImagen(e){
                 let files = e.target.files || e.dataTransfer.files;
@@ -559,19 +931,33 @@
             },
             //Agregar producto externo a la tabla de productos
             agregarProductoExterno(){
-                console.log(this.productoExterno);
-                this.inventarioLocal.push({
-                    'externo': true,
-                    'imagen': this.productoExterno.imagen,
-                    'servicio': this.productoExterno.servicio,
-                    'cantidad': '',
-                    'precioUnitario': this.productoExterno.precioUnitario,
-                    'precioFinal': '',
-                    'ahorro': '',
-                    'notas': '',
-                    'id': '',
-                });
-                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': ''};
+                if(this.controlElementoExterno){
+                    this.paquete.inventario.push({
+                        'externo': true,
+                        'nombre': this.productoExterno.servicio,
+                        'imagen': this.productoExterno.imagen,
+                        'precioUnitario': this.productoExterno.precioUnitario,
+                        'precioFinal': '',
+                        'cantidad': '',
+                        'id': '',
+                    });
+                }else{
+                    this.inventarioLocal.push({
+                        'externo': true,
+                        'imagen': this.productoExterno.imagen,
+                        'servicio': this.productoExterno.servicio,
+                        'cantidad': '',
+                        'precioUnitario': this.productoExterno.precioUnitario,
+                        'precioFinal': '',
+                        'ahorro': '',
+                        'notas': '',
+                        'paquete': '',
+                        'tipo': 'PRODUCTO',
+                        'id': '',
+                    });
+                }
+                
+                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': ''};
             },
             // Bus para comunicar controladores
             busEvent() {
@@ -703,6 +1089,8 @@
                     'precioFinal': '',
                     'ahorro': '',
                     'notas': '',
+                    'paquete': '',
+                    'tipo': 'PRODUCTO',
                     'id': producto.id,
                 });
                 console.log(this.inventarioLocal);
@@ -742,9 +1130,28 @@
                     'festejados': this.festejados,
                     'inventario': this.inventarioLocal,
                 }).then((response) => {
-                    console.log(response);
+                    console.log(response.data);
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'No puede haber dos eventos en salon en la misma fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire(
+                            'Creado!',
+                            'El presupuesto ha sido creado',
+                            'success'
+                        );
+                    }   
+                    
                 }).catch((error) => {
                     console.log(error.data);
+                    Swal.fire(
+                        'Error!',
+                        'Algo ha ocurrido mal',
+                        'error'
+                    );
                 });
             }
         }

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\CMS;
 
 use App\User;
 use App\Budget;
+use App\Client;
 use App\Inventory;
+use App\Telephone;
+use App\BudgetPack;
 use App\Celebrated;
 use App\BudgetInventory;
 use App\ExternalInventory;
@@ -22,16 +25,34 @@ class BudgetController extends Controller
         return Inventory::orderBy('id', 'DESC')->get();
     }
 
+    // Retorna todos los clientes con sus presupeustos a la vista
+
+    public function clientesPresupuestos(){
+        return Client::with('budgets')->orderBy('id', 'DESC')->get();
+    }
+
+    public function cliente(Request $request){
+
+        if($request->accion == 'telefonos'){
+            return Telephone::orderBy('id', 'DESC')->where('client_id', $request->id)->get();
+        }
+
+        if($request->accion == 'presupuestos'){
+            return Budget::orderBy('id', 'DESC')->where('client_id', $request->id)->get();
+        }
+        
+    }
     // Retorna todos los clientes a la vista
     public function clientes(){
+
         $clientes_morales = DB::table('clients')
-            ->join('moral_people', 'moral_people.cliente_id', '=', 'clients.id')
-            ->select('clients.id',  'moral_people.nombre')
+            ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+            ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
-            ->join('physical_people', 'physical_people.cliente_id', '=', 'clients.id')
-            ->select('clients.id',  'physical_people.nombre')
+            ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+            ->select( 'clients.id', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion')
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -40,6 +61,16 @@ class BudgetController extends Controller
     }
 
     public function store(Request $request){
+    
+        if($request->presupuesto['tipoEvento'] == 'INTERNO'){
+            $fecha = $request->presupuesto['fechaEvento'];
+            $evento = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha)->first();
+            if(!is_null($evento)){
+                return 1;
+            }
+        }
+        
+
         $ultimoFolio = Budget::orderBy('id', 'DESC')->pluck('folio')->first();
         
         //$ultimoFolio = 'NM10000';
@@ -64,7 +95,7 @@ class BudgetController extends Controller
 
         $presupuesto->folio             = $folio;
         $presupuesto->vendedor_id       = $request->presupuesto['vendedor_id'];
-        $presupuesto->cliente_id        = $request->presupuesto['cliente_id'];
+        $presupuesto->client_id         = $request->presupuesto['client_id'];
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
@@ -84,6 +115,11 @@ class BudgetController extends Controller
         $presupuesto->numeroInvitados   = $request->presupuesto['numeroInvitados'];
         $presupuesto->colorEvento       = $request->presupuesto['colorEvento'];
         $presupuesto->temaEvento        = $request->presupuesto['temaEvento'];
+        $presupuesto->opcionPrecioUnitario        = $request->presupuesto['opcionPrecioUnitario'];
+        $presupuesto->opcionDescripcionPaquete        = $request->presupuesto['opcionDescripcionPaquete'];
+        $presupuesto->opcionImagen        = $request->presupuesto['opcionImagen'];
+        $presupuesto->opcionPrecio        = $request->presupuesto['opcionPrecio'];
+        $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->pluck('id')->first();
@@ -98,23 +134,49 @@ class BudgetController extends Controller
         }
 
         foreach($request->inventario as $item){
-            $producto = new BudgetInventory();
+            if($item['tipo'] == 'PRODUCTO'){
+                $producto = new BudgetInventory();
 
-            $producto->budget_id = $ultimoPresupuesto;
-            //$producto->imagen = $item['imagen'];
-            $producto->imagen = 'Imagen de prueba';
-            $producto->servicio = $item['servicio'];
-            $producto->cantidad = $item['cantidad'];
-            $producto->precioUnitario = $item['precioUnitario'];
-            $producto->precioFinal = $item['precioFinal'];
-            $producto->ahorro = $item['ahorro'];
-            $producto->notas = $item['notas'];
-            $producto->save();
-            if(!$item['externo']){
-                $producto = Inventory::find($item['id']);
-
-                $producto->cantidad = ($producto->cantidad) - ($item['cantidad']);
+                $producto->budget_id = $ultimoPresupuesto;
+                //$producto->imagen = $item['imagen'];
+                $producto->imagen = 'Imagen de prueba';
+                $producto->servicio = $item['servicio'];
+                $producto->cantidad = $item['cantidad'];
+                $producto->precioUnitario = $item['precioUnitario'];
+                $producto->precioFinal = $item['precioFinal'];
+                $producto->ahorro = $item['ahorro'];
+                $producto->notas = $item['notas'];
                 $producto->save();
+                
+                if(!$item['externo']){
+                    $producto = Inventory::find($item['id']);
+
+                    $producto->disponible = ($producto->disponible) - ($item['cantidad']);
+                    $producto->save();
+                }
+            }else{
+                $paquete = new BudgetPack();
+
+                $paquete->budget_id = $ultimoPresupuesto;
+                $paquete->servicio = $item['servicio'];
+                $paquete->precioFinal = $item['precioFinal'];
+                $paquete->categoria = $item['paquete']['categoria'];
+                $paquete->guardarPaquete = $item['paquete']['guardarPaquete'];
+                $paquete->save();
+
+                //$paquete->inventories()->attach($item['paquete']->get('inventario'));
+
+                    foreach($item['paquete']['inventario'] as $objeto){
+                        
+                        if(!$objeto['externo']){
+                            //$paquete->inventories()->attach($objeto);                                                       
+                            $producto = Inventory::find($objeto['id']);
+
+                            $producto->disponible = ($producto->disponible) - ($objeto['cantidad']);
+                            $producto->save();
+                            
+                        }
+                    }
             }
         }
 

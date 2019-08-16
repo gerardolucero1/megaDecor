@@ -12,7 +12,7 @@ class Budget extends Model
     protected $fillable = [
         'folio',
         'vendedor_id',
-        'cliente_id',
+        'client_id',
         'tipoEvento',
         'tipoServicio',
         'categoriaEvento',
@@ -31,6 +31,11 @@ class Budget extends Model
         'numeroInvitados',
         'colorEvento',
         'temaEvento',
+        'opcionPrecioUnitario',
+        'opcionDescripcionPaquete',
+        'opcionImagen',
+        'opcionPrecio',
+        'opcionDescuento',
     ];
 
     public function user()

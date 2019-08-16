@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MoralPerson extends Model
 {
     protected $fillable = [
-        'cliente_id',
+        'client_id',
         'categoria_id',
         'about_id',
         'nombre',

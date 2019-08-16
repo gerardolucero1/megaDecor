@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PhysicalPerson extends Model
 {
     protected $fillable = [
-        'cliente_id',
+        'client_id',
         'about_id',
         'nombre',
         'apellidoPaterno',

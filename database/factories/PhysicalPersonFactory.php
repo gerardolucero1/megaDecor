@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 $factory->define(PhysicalPerson::class, function (Faker $faker) {
     static $cliente_id = 1;
     return [
-        'cliente_id' => $cliente_id++,
+        'client_id' => $cliente_id++,
         'about_id' => rand(1, 5),
         'nombre' => $faker->name,
         'apellidoPaterno' => $faker->lastName,

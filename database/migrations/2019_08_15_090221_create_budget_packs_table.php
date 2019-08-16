@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTelephonesTable extends Migration
+class CreateBudgetPacksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateTelephonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('telephones', function (Blueprint $table) {
+        Schema::create('budget_packs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id')->unsigned();
-            $table->string('nombre')->nullable();
-            $table->string('email')->nullable();
-            $table->enum('tipo', ['CASA', 'CELULAR', 'OFICINA']);
-            $table->string('numero');
-            $table->integer('ext');
+            $table->integer('budget_id')->unsigned();
+            $table->string('servicio');
+            $table->integer('precioFinal');
+            $table->string('categoria');
+            $table->boolean('guardarPaquete');
             $table->timestamps();
 
             //Relations
-            $table->foreign('client_id')->references('id')->on('clients')
+            $table->foreign('budget_id')->references('id')->on('budgets')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -37,6 +36,6 @@ class CreateTelephonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('telephones');
+        Schema::dropIfExists('budget_packs');
     }
 }

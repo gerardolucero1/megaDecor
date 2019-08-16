@@ -27,4 +27,9 @@ class Client extends Model
         return $this->hasMany(PhysicalPerson::class);
     }
 
+    public function budgets()
+    {
+        return $this->hasMany(Budget::class);
+    }
+
 }

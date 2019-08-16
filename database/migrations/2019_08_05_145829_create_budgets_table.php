@@ -17,7 +17,7 @@ class CreateBudgetsTable extends Migration
             $table->increments('id');
             $table->string('folio');
             $table->integer('vendedor_id')->unsigned();
-            $table->integer('cliente_id')->unsigned();
+            $table->integer('client_id')->unsigned();
 
             $table->string('tipoEvento');
             $table->string('tipoServicio')->nullable();
@@ -43,6 +43,13 @@ class CreateBudgetsTable extends Migration
             $table->string('colorEvento');
             $table->string('temaEvento');
 
+            //Opciones presupuesto
+            $table->boolean('opcionPrecio')->nullable();
+            $table->boolean('opcionPrecioUnitario')->nullable();
+            $table->boolean('opcionDescripcionPaquete')->nullable();
+            $table->boolean('opcionImagen')->nullable();
+            $table->boolean('opcionDescuento')->nullable();
+
             $table->timestamps();
 
             //Relations
@@ -50,7 +57,7 @@ class CreateBudgetsTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('cliente_id')->references('id')->on('clients')
+            $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
