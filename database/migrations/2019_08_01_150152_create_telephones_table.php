@@ -20,7 +20,7 @@ class CreateTelephonesTable extends Migration
             $table->string('email')->nullable();
             $table->enum('tipo', ['CASA', 'CELULAR', 'OFICINA']);
             $table->string('numero');
-            $table->integer('ext');
+            $table->integer('ext')->nullable();
             $table->timestamps();
 
             //Relations

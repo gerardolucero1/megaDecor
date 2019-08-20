@@ -26,37 +26,41 @@
                     <div class="row">
                         <div class="col-md-6 d-flex">
                             <input type="radio" name="typePerson" value="fisica" id="personaFisica" v-model="cliente.tipoPersona">
-                            <label for="personaFisica">Persona Fisica</label>
+                            <label for="personaFisica" style="padding-left:10px;"> Persona Fisica</label>
                         </div>
                         <div class="col-md-6 d-flex">
                             <input type="radio" name="typePerson" value="moral" id="personaMoral" v-model="cliente.tipoPersona">
-                            <label for="personaMoral">Persona Moral</label>
+                            <label for="personaMoral" style="padding-left:10px;"> Persona Moral</label>
                         </div>
                     </div>
                     <!-- Personas Fisicas -->
                     <div class="row" v-if="cliente.tipoPersona == 'fisica'">
                         <div class="col-md-4">
-                            <input type="text" placeholder="Nombres" v-model="cliente.nombreCliente">
+                            <input type="text" required="required" placeholder="Nombre(s)" v-model="cliente.nombreCliente">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" placeholder="Apellido Paterno" v-model="cliente.apellidoCliente">
+                            <input type="text" required="required" placeholder="Apellido Paterno" v-model="cliente.apellidoCliente">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" placeholder="Apellido Materno" v-model="cliente.apellidoCliente2">
+                            <input type="text" required="required" placeholder="Apellido Materno" v-model="cliente.apellidoCliente2">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <input type="email" placeholder="Email" v-model="cliente.emailCliente">
+                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
                         </div>
                     </div>
                     <!-- Personas Morales -->
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">
                         <div class="col-md-6">
-                            <input type="text" placeholder="Nombres" v-model="cliente.nombreCliente">
+                            <label for="">Nombre de la empresa</label>
+                            <input type="text" placeholder="Nombre" v-model="cliente.nombreCliente">
                         </div>
                         <div class="col-md-6">
-                            <select name="categoria" id="" v-model="cliente.categoriaCliente">
-                                <option v-bind:value="categoria.id" v-for="categoria in categorias" v-bind:key="categoria.index">{{ categoria.nombre }}</option>  
+                            <label for="">Tipo de Empresa</label>
+                            <select name="categoria"  v-model="cliente.categoriaCliente">
+                                <option v-for="tipoE in tiposE" value="1" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
+                            <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
+
                         </div>
                     </div>
                     
@@ -103,7 +107,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" v-if="telefono.tipo=='OFICINA'">
                                     <input type="text" placeholder="EXT" v-model="telefono.ext">
                                 </div>
                                 <div class="col-md-6">
@@ -115,7 +119,7 @@
                             <input type="text" placeholder="Nombre" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="email" placeholder="Email" v-model="telefono.email">
+                            <input type="email" id="email" placeholder="Email" v-model="telefono.email">
                         </div>
                     </div>
 
@@ -139,11 +143,9 @@
                             <input type="text" name="" id="" placeholder="RFC" v-model="cliente.rfcFacturacion">
                         </div>
                         <div class="col-md-7 mt-4">
-                            <input type="email" name="" id="" placeholder="Email" v-model="cliente.emailFacturacion">
+                            <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
                         </div>
-                        <div class="col-md-5 mt-4">
-                            <button type="submit" class="btn btn-success btn-sm btn-block">Agregar Contacto</button>
-                        </div>
+                       
                     </div>
 
                     <h4>Tipo de credito</h4>
@@ -162,19 +164,32 @@
                     </div>
 
                     <h4>¿Como supo de nosotros?</h4>
-
+                    
                     <div class="row">
                         <div class="col-md-6">
-                            <select name="comoSupo" id="" v-model="cliente.categoriaAbout">
-                                <option v-bind:value="como.id" v-for="como in aboutCategorias" v-bind:key="como.index">{{ como.nombre }}</option>
+                            <select name="comoSupo" id="" >
+                                <option v-for="tipo in tipos" v-bind:key="tipo.index">{{ tipo.nombre }}</option>
                             </select>
+                            <p data-toggle="modal" data-target="#comoSupoModal" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
+
                         </div>
+                       
                     </div>
+                     <div class="row float-right">
+                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-success" type="submit">Agregar Cliente</button>
+                        </div>
                 </div>
             </form>
         </div>
     </div>
 </template>
+<script>
+function emailCopy(){
+    var emailpf = document.getElementById('emailPF').value;
+    alert(emailpf);
+    }
+</script>
 
 <script>
 // Import the EventBus.
@@ -183,6 +198,19 @@
     export default {
         data(){
             return {
+                //Como lo supo
+                tipo: {
+                    nombre: '',
+                },
+                tipos: [],
+                mostrar: 1,
+                //Tipo empresa
+                tipoE: {
+                    nombre: '',
+                },
+                tiposE: [],
+                mostrarE: 1,
+        
                 cliente: {
                     tipoPersona: 'fisica',
                     nombreCliente: '',
@@ -226,33 +254,61 @@
             } 
         },
         created: function(){
+       this.obtenerComoSupo();
+       this.obtenerTipoEmpresa();
+            EventBus.$on('nuevaComoSupo', funcion => {
+  this.obtenerComoSupo();
+});
+ EventBus.$on('nuevoTipoEmpresa', funcion => {
+  this.obtenerTipoEmpresa();
+});
             console.log('funciona');
             EventBus.$on('click', () => {
                 console.log('Bus funciona');
             });
         },
+        
         mounted(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
             this.obtenerCategoriasNosotros();
+            
         },
         methods: {
+            emailClick(){
+    var emailpf = document.getElementById('emailPF').value;
+    document.getElementById('emailDF').value=emailpf;
+    },
+    obtenerTipoEmpresa(){
+                let URL = '/clientes/tipo-empresa';
+                axios.get(URL).then((response) => {
+                    this.tiposE = response.data;
+                    console.log(this.tiposE);
+                });
+                },
             obtenerCategoriasNosotros(){
-                let URL = 'http://localhost:3000/about-categorias';
+                let URL = '/about-categorias';
                 axios.get(URL).then((response) => {
                     this.aboutCategorias = response.data;
                     console.log(this.aboutCategorias);
                 });
             },
+            obtenerComoSupo(){
+                let URL = '/clientes/comoSupo';
+                axios.get(URL).then((response) => {
+                    this.tipos = response.data;
+                    console.log(this.tipos);
+                });
+                },
             obtenerCategorias(){
-                let URL = 'http://localhost:3000/categorias';
+                let URL = '/categorias';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
                     console.log(this.categorias);
                 });
             },
             obtenerTelefonos(){
-                let URL = 'http://localhost:3000/telefonos';
+                let URL = '/telefonos';
                 axios.get(URL).then((response) => {
                     this.physicalTelephones = response.data;
                     console.log(this.physicalTelephones);
@@ -282,7 +338,7 @@
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
                         console.log(tiempo);
-                        let URL = 'http://localhost:3000/viejo-telefono';
+                        let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
@@ -309,7 +365,7 @@
                                         confirmButtonText: 'Eliminar telefono'
                                     }).then((result) => {
                                         if(result.value){
-                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            let URL = '/viejo-telefono/' + encontrado.id;
                                             axios.delete(URL).then((response) => {
                                                 Swal.fire(
                                                     'Eliminado!',
@@ -367,7 +423,7 @@
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
                         console.log(tiempo);
-                        let URL = 'http://localhost:3000/viejo-telefono';
+                        let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
@@ -394,7 +450,7 @@
                                         confirmButtonText: 'Eliminar telefono'
                                     }).then((result) => {
                                         if(result.value){
-                                            let URL = 'http://localhost:3000/viejo-telefono/' + encontrado.id;
+                                            let URL = '/viejo-telefono/' + encontrado.id;
                                             axios.delete(URL).then((response) => {
                                                 Swal.fire(
                                                     'Eliminado!',
@@ -440,7 +496,7 @@
                 
             },
             crearCliente(){
-                let URL = 'http://localhost:3000/clientes/create';
+                let URL = '/clientes/create';
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
@@ -472,6 +528,14 @@
                 }).then((response) => {
                     this.cliente = {};
                     console.log(this.cliente);
+                    Swal.fire({
+                                title: 'Cliente Registrado con exito',
+                                text: "",
+                                type: 'success',
+                                showCancelButton: false,
+                                cancelButtonColor: '#d33',
+                                
+                            })
                 }).catch((error) => {
                     console.log(error);
                 });

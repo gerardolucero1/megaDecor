@@ -31,6 +31,11 @@ const store = new Vuex.Store(StoreData);
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('nuevo-cliente-component', require('./components/NuevoClienteComponent.vue').default);
+Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
+Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
+Vue.component('task-list-component', require('./components/TaskListComponent.vue').default);
+Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
+Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
 
 /**
@@ -39,10 +44,11 @@ Vue.component('crear-presupuesto-component', require('./components/CrearPresupue
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
+var EventBus = new Vue;
 const app = new Vue({
     el: '#app',
     store,
     
 });
+
 
