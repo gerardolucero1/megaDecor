@@ -24,7 +24,7 @@
         color: #2F7AD4;
         cursor: pointer;
     }
-    .btn-categorias{
+    .btn-comosupo{
         cursor: pointer;
         color: #2F7AD4;
     }
@@ -36,26 +36,26 @@
                 <div class="card card-default">
                     
                     <div class="card-body">
-                        <form action="POST" v-on:submit.prevent="crearCategoriaTarea()">
+                        <form action="POST" v-on:submit.prevent="crearComoSupo()">
                             <div class="row">
-                        <label for="">Nombre de categoría</label>
-                        <input type="text" v-model="categoria.nombre">
+                        <label for="">Como supo de nosotros</label>
+                        <input type="text" v-model="tipo.nombre">
                         </div>
                         
                        
                         <div class="row float-right" style="width:100%">
-                            <button class="btn btn-success" type="submit">Agregar Categoria</button>
+                            <button class="btn btn-success" type="submit">Agregar Elemento</button>
                         </div>
                         
                         </form>
                         <div class="row" style="width:100%">
-                            <p v-on:click="demo()" class="btn-categorias"><i class="fa fa-list-ul"></i> Ver Categorias Guardadas</p>
+                            <p v-on:click="demo()" class="btn-comosupo"><i class="fa fa-list-ul"></i> Ver Elementos Guardado</p>
                         </div>
-                        <div v-if="mostrar == 0" class="row" id="lista_categorias" style="height:150px; overflow:scroll">
-                            <table v-if="categoria != null" style="width:100%">
-                                <tr v-for="categoria in categorias" v-bind:key="categoria.index" style="border-bottom:solid; border-color:grey; border-width:1px">
-                                    <td style="padding-right:10px">{{ categoria.nombre }}</td>
-                                    <td><i v-on:click.prevent="eliminarCategorias(categoria)" class="fa fa-remove" style="color:red; cursor: pointer"></i></td>
+                        <div v-if="mostrar == 0" class="row" id="lista_tipos" style="height:150px; overflow:scroll">
+                            <table v-if="tipo != null" style="width:100%">
+                                <tr v-for="tipo in tipos" v-bind:key="tipo.index" style="border-bottom:solid; border-color:grey; border-width:1px">
+                                    <td style="padding-right:10px">{{ tipo.nombre }}</td>
+                                    <td><i v-on:click.prevent="eliminarComoSupo(tipo)" class="fa fa-remove" style="color:red; cursor: pointer"></i></td>
                                     
                                 </tr>
                             </table>
@@ -67,6 +67,14 @@
     </div>
 </template>
 <!--  Script para timepicker-->
+<script type="text/javascript">
+// Importamos el evento Bus.
+    
+            
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
    <script> 
 
    import { EventBus } from '../eventBus.js';
@@ -74,16 +82,16 @@
     export default {
         data(){
             return{
-                categoria: {
+                tipo: {
                     nombre: '',
                 },
-                categorias: [],
+                tipos: [],
                 mostrar: 1,
             }
              
         },
         created(){
-            this.obtenerCategorias();
+            this.obtenerComoSupo();
         },
         methods: {
             demo(){
@@ -95,42 +103,41 @@
                console.log(this.mostrar); 
             },
     emitGlobalClickEvent() {
-
-      EventBus.$emit('clic');
+      EventBus.$emit('nuevaComoSupo');
     },
-            obtenerCategorias(){
-                let URL = '/tareas/categorias-tareas';
+            obtenerComoSupo(){
+                let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
-                    this.categorias = response.data;
-                    console.log(this.categorias);
+                    this.tipos = response.data;
+                    console.log(this.tipos);
                 });
                 },
-            eliminarCategorias(categoria){
-                var url= '/tareas/eliminar-categoria/'+categoria.id;
+            eliminarComoSupo(tipo){
+                var url= '/clientes/eliminar-comoSupo/'+tipo.id;
                 axios.delete(url).then(response =>{
-                    EventBus.$emit('clic');
-                    this.obtenerCategorias();  
+                    EventBus.$emit('nuevaComoSupo');
+                    this.obtenerComoSupo();  
                       
                 })
                
             },  
                 
-                crearCategoriaTarea(){
-                let URL = '/tareas/createcategory';
+                crearComoSupo(){
+                let URL = '/clientes/crearComoSupo';
                 axios.post(URL, {
-                    'nombre': this.categoria.nombre,
+                    'nombre': this.tipo.nombre,
                     
               
                 
           
 
                 }).then((response) => {
-                    this.categoria = {};
-                    this.obtenerCategorias(); 
-                    EventBus.$emit('clic');
+                    this.tipo = {};
+                    this.obtenerComoSupo(); 
+                    EventBus.$emit('nuevaComoSupo');
                     Swal.fire({
-                                title: 'Categoria registrada con exito',
-                                text: "Se registro tu nueva categoria",
+                                title: 'Elemento registrado con exito',
+                                text: "Se registro tu nueva opción",
                                 type: 'success',
                                 showCancelButton: false,
                                 cancelButtonColor: '#d33',

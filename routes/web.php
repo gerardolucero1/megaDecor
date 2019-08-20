@@ -74,7 +74,14 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/categorias', 'CMS\ClientController@categorias');
     Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
     Route::post('/viejo-telefono', 'CMS\ClientController@viejoTelefono');
+    Route::post('/clientes/crearTipoEmpresa', 'CMS\ClientController@createC')->name('NuevoTipo.createC');
+    Route::get('/clientes/tipo-empresa', 'CMS\ClientController@TipoEmpresa');
     Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
+    Route::delete('/clientes/eliminar-tipo-empresa/{id}', 'CMS\ClientController@deleteTipo');
+    //Como supo de nosotors
+    Route::post('/clientes/crearComoSupo', 'CMS\ClientController@createComoSupo')->name('NuevoComoSupo.createComoSupo');
+    Route::get('/clientes/comoSupo', 'CMS\ClientController@ComoSupo');
+    Route::delete('/clientes/eliminar-comoSupo/{id}', 'CMS\ClientController@deleteComoSupo');
     //Tareas
     Route::get('/tareas/categorias-tareas', 'CMS\TareasController@Categorias');
     Route::get('/tareas/editar-categorias-tareas', 'CMS\TareasController@editarCategoria');
@@ -86,6 +93,10 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
 
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
+Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+
 
 // Todo lo referente a clientes
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');

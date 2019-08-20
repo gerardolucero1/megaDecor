@@ -42,20 +42,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <task-list-component v-ref:listTask></task-list-component>
-                        <button onclick="refreshList()">refresh</button>
+                        <task-list-component ></task-list-component>
                     </div>
                 </div>
                 
     </div>
- <script>
-   function refreshList(){
-   
-       alert('refresh');
-       app.$refs.listTask.hola();
-   }
- 
- </script>
 
     <!-- END Page Content -->
     

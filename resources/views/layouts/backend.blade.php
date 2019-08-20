@@ -23,6 +23,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/codebase.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+        
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
 
 
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
@@ -32,7 +35,7 @@
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
-    <body>
+    <body onload="fechaActual()">
         <!-- Page Container -->
         <!--
             Available classes for #page-container:
@@ -151,7 +154,7 @@
                             <!-- Logo -->
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
-                                    <i class="si si-fire text-primary"></i>
+                                    <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 100%">
                                     <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
                                 </a>
                             </div>
@@ -202,31 +205,17 @@
                                 <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
                                     <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
                                 </a>
-                            </li>
-                            <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">VR</span><span class="sidebar-mini-hidden">Various</span>
-                            </li>
-                            <li class="{{ request()->is('examples/*') ? ' open' : '' }}">
                                 <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-bulb"></i><span class="sidebar-mini-hide">Examples</span></a>
-                                <ul>
-                                    <li>
-                                        <a class="{{ request()->is('examples/plugin-helper') ? ' active' : '' }}" href="/examples/plugin-helper">Plugin with JS Helper</a>
-                                    </li>
-                                    <li>
-                                        <a class="{{ request()->is('examples/plugin-init') ? ' active' : '' }}" href="/examples/plugin-init">Plugin with JS Init</a>
-                                    </li>
-                                    <li>
-                                        <a class="{{ request()->is('examples/blank') ? ' active' : '' }}" href="/examples/blank">Blank</a>
-                                    </li>
-                                </ul>
+                                <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
                             </li>
                             <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">More</span>
+                                <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>
                             </li>
                             <li>
                                 <a href="/">
-                                    <i class="si si-globe"></i><span class="sidebar-mini-hide">Landing</span>
+                                    <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
                                 </a>
                             </li>
                         </ul>
@@ -243,205 +232,26 @@
                 <div class="content-header">
                     <!-- Left Section -->
                     <div class="content-header-section">
-                        <!-- Toggle Sidebar -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
-                            <i class="fa fa-navicon"></i>
-                        </button>
-                        <!-- END Toggle Sidebar -->
-
-                        <!-- Open Search Section -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <!-- END Open Search Section -->
-
-                        <!-- Layout Options (used just for demonstration) -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-circle btn-dual-secondary" id="page-header-options-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-wrench"></i>
-                            </button>
-                            <div class="dropdown-menu min-width-300" aria-labelledby="page-header-options-dropdown">
-                                <h5 class="h6 text-center py-10 mb-10 border-b text-uppercase">Settings</h5>
-                                <h6 class="dropdown-header">Color Themes</h6>
-                                <div class="row no-gutters text-center mb-5">
-                                    <div class="col-2 mb-5">
-                                        <a class="text-default" data-toggle="theme" data-theme="default" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-elegance" data-toggle="theme" data-theme="/css/themes/elegance.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-pulse" data-toggle="theme" data-theme="/css/themes/pulse.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-flat" data-toggle="theme" data-theme="/css/themes/flat.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-corporate" data-toggle="theme" data-theme="/css/themes/corporate.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-earth" data-toggle="theme" data-theme="/css/themes/earth.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <h6 class="dropdown-header">Header</h6>
-                                <div class="row gutters-tiny text-center mb-5">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-action="header_fixed_toggle">Fixed Mode</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-action="header_style_classic">Classic Style</button>
-                                    </div>
-                                </div>
-                                <h6 class="dropdown-header">Sidebar</h6>
-                                <div class="row gutters-tiny text-center mb-5">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_off">Light</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_on">Dark</button>
-                                    </div>
-                                </div>
-                                <div class="d-none d-xl-block">
-                                    <h6 class="dropdown-header">Main Content</h6>
-                                    <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="content_layout_toggle">Toggle Layout</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END Layout Options -->
                     </div>
-                    <!-- END Left Section -->
-
-                    <!-- Right Section -->
                     <div class="content-header-section">
                         <!-- User Dropdown -->
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user d-sm-none"></i>
-                                <span class="d-none d-sm-inline-block">J. Smith</span>
-                                <i class="fa fa-angle-down ml-5"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
-                                <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">User</h5>
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i class="si si-user mr-5"></i> Profile
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                    <span><i class="si si-envelope-open mr-5"></i> Inbox</span>
-                                    <span class="badge badge-primary">3</span>
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i class="si si-note mr-5"></i> Invoices
-                                </a>
-                                <div class="dropdown-divider"></div>
-
-                                <!-- Toggle Side Overlay -->
-                                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="layout" data-action="side_overlay_toggle">
-                                    <i class="si si-wrench mr-5"></i> Settings
-                                </a>
-                                <!-- END Side Overlay -->
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i class="si si-logout mr-5"></i> Sign Out
-                                </a>
-                            </div>
-                        </div>
+                        
                         <!-- END User Dropdown -->
 
                         <!-- Notifications -->
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-flag"></i>
-                                <span class="badge badge-primary badge-pill">5</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right min-width-300" aria-labelledby="page-header-notifications">
-                                <h5 class="h6 text-center py-10 mb-0 border-b text-uppercase">Notifications</h5>
-                                <ul class="list-unstyled my-20">
-                                    <li>
-                                        <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                            <div class="ml-5 mr-15">
-                                                <i class="fa fa-fw fa-check text-success"></i>
-                                            </div>
-                                            <div class="media-body pr-10">
-                                                <p class="mb-0">You’ve upgraded to a VIP account successfully!</p>
-                                                <div class="text-muted font-size-sm font-italic">15 min ago</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                            <div class="ml-5 mr-15">
-                                                <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
-                                            </div>
-                                            <div class="media-body pr-10">
-                                                <p class="mb-0">Please check your payment info since we can’t validate them!</p>
-                                                <div class="text-muted font-size-sm font-italic">50 min ago</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                            <div class="ml-5 mr-15">
-                                                <i class="fa fa-fw fa-times text-danger"></i>
-                                            </div>
-                                            <div class="media-body pr-10">
-                                                <p class="mb-0">Web server stopped responding and it was automatically restarted!</p>
-                                                <div class="text-muted font-size-sm font-italic">4 hours ago</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                            <div class="ml-5 mr-15">
-                                                <i class="fa fa-fw fa-exclamation-triangle text-warning"></i>
-                                            </div>
-                                            <div class="media-body pr-10">
-                                                <p class="mb-0">Please consider upgrading your plan. You are running out of space.</p>
-                                                <div class="text-muted font-size-sm font-italic">16 hours ago</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="text-body-color-dark media mb-15" href="javascript:void(0)">
-                                            <div class="ml-5 mr-15">
-                                                <i class="fa fa-fw fa-plus text-primary"></i>
-                                            </div>
-                                            <div class="media-body pr-10">
-                                                <p class="mb-0">New purchases! +$250</p>
-                                                <div class="text-muted font-size-sm font-italic">1 day ago</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-center mb-0" href="javascript:void(0)">
-                                    <i class="fa fa-flag mr-5"></i> View All
-                                </a>
-                            </div>
-                        </div>
                         <!-- END Notifications -->
 
                         <!-- Toggle Side Overlay -->
                         <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="side_overlay_toggle">
-                            <i class="fa fa-tasks"></i>
-                        </button>
+                        
+                        <p id="fechaActual" style="font-style: italic">Fecha Actual</p>
+                        <script>
+                            function fechaActual(){
+                                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                                var f=new Date();
+                                document.getElementById('fechaActual').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
+                            }
+                        </script>
                         <!-- END Toggle Side Overlay -->
                     </div>
                     <!-- END Right Section -->
@@ -499,29 +309,43 @@
             <footer id="page-footer" class="opacity-0">
                 <div class="content py-20 font-size-xs clearfix">
                     <div class="float-right">
-                        Crafted with <i class="fa fa-heart text-pulse"></i> by <a class="font-w600" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+                        Desarrollado por <a class="font-w600" href="https:partnergrammer.com" target="_blank"><span><img src="media/photos/icon_parnergrammer.png" style="width: 17px; margin-top: -5px;" alt=""></span> Partnergrammer</a>
                     </div>
                     <div class="float-left">
-                        <a class="font-w600" href="https://1.envato.market/95j" target="_blank">Codebase</a> &copy; <span class="js-year-copy"></span>
+                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank">Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
                     </div>
                 </div>
             </footer>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
-
+        
+        
+        
+        
         <!-- Codebase Core JS -->
         <script src="{{ mix('js/codebase.app.js') }}"></script>
-
+        
+<script>  
+$(document).ready( function () {
+    $('#TablaClientes').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaClientesArchivados').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaPresupuestosArchivados').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaPresupuestos').DataTable();
+} ); 
+</script>
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
-
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
          <!--librerias tempobootstrap -->
-         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
          
 
-        @yield('js_after')
+        @yield('scripts')
     </body>
 </html>

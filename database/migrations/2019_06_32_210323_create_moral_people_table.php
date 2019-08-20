@@ -22,12 +22,12 @@ class CreateMoralPeopleTable extends Migration
             
             //Datos de Facturacion
 
-            $table->string('nombreFacturacion');
-            $table->string('direccionFacturacion');
-            $table->string('coloniaFacturacion');
-            $table->string('numeroFacturacion');
-            $table->string('rfcFacturacion');
-            $table->string('emailFacturacion');
+            $table->string('nombreFacturacion')->nullable();
+            $table->string('direccionFacturacion')->nullable();
+            $table->string('coloniaFacturacion')->nullable();
+            $table->string('numeroFacturacion')->nullable();
+            $table->string('rfcFacturacion')->nullable();
+            $table->string('emailFacturacion')->nullable();
 
             //Credito
             $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);

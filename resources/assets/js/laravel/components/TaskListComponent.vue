@@ -11,11 +11,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="height:350px; overflow:scroll;">
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>
                                        
-                                    <table  class="table table-vcenter">
+                                    <table id="example"  class="table table-vcenter">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
@@ -49,9 +49,7 @@
 </template>
 
 <script>
-function hola(){
-    alert('estas dentro');
-}
+import { EventBus } from '../eventBus.js';
     export default {
         data(){
             return{
@@ -65,6 +63,9 @@ function hola(){
         },
         created(){
             this.obtenerTareas();
+            EventBus.$on('nuevaTarea', funcion => {
+  this.obtenerTareas();
+});
         },
         methods: {
             obtenerTareas(){
@@ -72,6 +73,7 @@ function hola(){
                 axios.get(URL).then((response) => {
                     this.tareas = response.data;
                     console.log(this.tareas);
+                    
                 });
                 },
                 detalleTarea(task){

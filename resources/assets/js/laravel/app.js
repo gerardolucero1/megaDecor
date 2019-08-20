@@ -25,6 +25,8 @@ Vue.component('nuevo-cliente-component', require('./components/NuevoClienteCompo
 Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
 Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
 Vue.component('task-list-component', require('./components/TaskListComponent.vue').default);
+Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
+Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -32,10 +34,9 @@ Vue.component('task-list-component', require('./components/TaskListComponent.vue
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
+var EventBus = new Vue;
 const app = new Vue({
-    el: '#app'
-
-    
+    el: '#app'    
 });
+
 

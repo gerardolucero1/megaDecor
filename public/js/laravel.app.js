@@ -1719,14 +1719,7 @@ module.exports = function isBuffer (obj) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventBuss_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBuss.js */ "./resources/assets/js/laravel/eventBuss.js");
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 //
 //
 //
@@ -1820,6 +1813,9 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(this.mostrar);
     },
+    emitGlobalClickEvent: function emitGlobalClickEvent() {
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
+    },
     obtenerCategorias: function obtenerCategorias() {
       var _this = this;
 
@@ -1834,6 +1830,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var url = '/tareas/eliminar-categoria/' + categoria.id;
       axios["delete"](url).then(function (response) {
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
+
         _this2.obtenerCategorias();
       });
     },
@@ -1848,10 +1846,171 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.obtenerCategorias();
 
-        _eventBuss_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('click');
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
         Swal.fire({
           title: 'Categoria registrada con exito',
           text: "Se registro tu nueva categoria",
+          type: 'success',
+          showCancelButton: false,
+          cancelButtonColor: '#d33'
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tipo: {
+        nombre: ''
+      },
+      tipos: [],
+      mostrar: 1
+    };
+  },
+  created: function created() {
+    this.obtenerComoSupo();
+  },
+  methods: {
+    demo: function demo() {
+      if (this.mostrar == 1) {
+        this.mostrar = 0;
+      } else {
+        this.mostrar = 1;
+      }
+
+      console.log(this.mostrar);
+    },
+    emitGlobalClickEvent: function emitGlobalClickEvent() {
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
+    },
+    obtenerComoSupo: function obtenerComoSupo() {
+      var _this = this;
+
+      var URL = '/clientes/comoSupo';
+      axios.get(URL).then(function (response) {
+        _this.tipos = response.data;
+        console.log(_this.tipos);
+      });
+    },
+    eliminarComoSupo: function eliminarComoSupo(tipo) {
+      var _this2 = this;
+
+      var url = '/clientes/eliminar-comoSupo/' + tipo.id;
+      axios["delete"](url).then(function (response) {
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
+
+        _this2.obtenerComoSupo();
+      });
+    },
+    crearComoSupo: function crearComoSupo() {
+      var _this3 = this;
+
+      var URL = '/clientes/crearComoSupo';
+      axios.post(URL, {
+        'nombre': this.tipo.nombre
+      }).then(function (response) {
+        _this3.tipo = {};
+
+        _this3.obtenerComoSupo();
+
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
+        Swal.fire({
+          title: 'Elemento registrado con exito',
+          text: "Se registro tu nueva opción",
           type: 'success',
           showCancelButton: false,
           cancelButtonColor: '#d33'
@@ -1874,10 +2033,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventBuss_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBuss.js */ "./resources/assets/js/laravel/eventBuss.js");
-//
-//
-//
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 //
 //
 //
@@ -1994,9 +2150,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.obtenerCategorias();
-    this.obtenerClientesFisicos(); // Listen for the i-got-clicked event and its payload.
-
-    _eventBuss_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('clic', function (funcion) {
+    this.obtenerClientesFisicos();
+    _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('clic', function (funcion) {
       _this.obtenerCategorias();
     });
   },
@@ -2009,6 +2164,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.categorias = response.data;
         console.log(_this2.categorias);
       });
+    },
+    emitGlobalClickEvent: function emitGlobalClickEvent() {
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaTarea');
     },
     obtenerClientesFisicos: function obtenerClientesFisicos() {
       var _this3 = this;
@@ -2031,7 +2189,7 @@ __webpack_require__.r(__webpack_exports__);
         'fecha': this.tarea.fecha
       }).then(function (response) {
         _this4.tarea = {};
-        console.log(_this4.tarea);
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaTarea');
         Swal.fire({
           title: 'Tarea Registrada con exito',
           text: "Se registro tu nueva tarea",
@@ -2041,6 +2199,13 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (error) {
         console.log(error);
+        Swal.fire({
+          title: 'Error al agregar tarea',
+          text: "Comprueba que completaste todos los campos correctamente o verifica tu conexión a internet",
+          type: 'error',
+          showCancelButton: false,
+          cancelButtonColor: '#d33'
+        });
       });
     }
   }
@@ -2057,6 +2222,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 //
 //
 //
@@ -2235,9 +2401,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      //Como lo supo
+      tipo: {
+        nombre: ''
+      },
+      tipos: [],
+      mostrar: 1,
+      //Tipo empresa
+      tipoE: {
+        nombre: ''
+      },
+      tiposE: [],
+      mostrarE: 1,
       cliente: {
         tipoPersona: 'fisica',
         nombreCliente: '',
@@ -2272,7 +2466,17 @@ __webpack_require__.r(__webpack_exports__);
       aboutCategorias: []
     };
   },
-  created: function created() {//obtenerTelefonos();
+  created: function created() {
+    var _this = this;
+
+    this.obtenerComoSupo();
+    this.obtenerTipoEmpresa();
+    _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevaComoSupo', function (funcion) {
+      _this.obtenerComoSupo();
+    });
+    _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevoTipoEmpresa', function (funcion) {
+      _this.obtenerTipoEmpresa();
+    });
   },
   mounted: function mounted() {
     this.obtenerTelefonos();
@@ -2280,35 +2484,57 @@ __webpack_require__.r(__webpack_exports__);
     this.obtenerCategoriasNosotros();
   },
   methods: {
+    emailClick: function emailClick() {
+      var emailpf = document.getElementById('emailPF').value;
+      document.getElementById('emailDF').value = emailpf;
+    },
+    obtenerTipoEmpresa: function obtenerTipoEmpresa() {
+      var _this2 = this;
+
+      var URL = '/clientes/tipo-empresa';
+      axios.get(URL).then(function (response) {
+        _this2.tiposE = response.data;
+        console.log(_this2.tiposE);
+      });
+    },
     obtenerCategoriasNosotros: function obtenerCategoriasNosotros() {
-      var _this = this;
+      var _this3 = this;
 
       var URL = '/about-categorias';
       axios.get(URL).then(function (response) {
-        _this.aboutCategorias = response.data;
-        console.log(_this.aboutCategorias);
+        _this3.aboutCategorias = response.data;
+        console.log(_this3.aboutCategorias);
+      });
+    },
+    obtenerComoSupo: function obtenerComoSupo() {
+      var _this4 = this;
+
+      var URL = '/clientes/comoSupo';
+      axios.get(URL).then(function (response) {
+        _this4.tipos = response.data;
+        console.log(_this4.tipos);
       });
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this2 = this;
+      var _this5 = this;
 
       var URL = '/categorias';
       axios.get(URL).then(function (response) {
-        _this2.categorias = response.data;
-        console.log(_this2.categorias);
+        _this5.categorias = response.data;
+        console.log(_this5.categorias);
       });
     },
     obtenerTelefonos: function obtenerTelefonos() {
-      var _this3 = this;
+      var _this6 = this;
 
       var URL = '/telefonos';
       axios.get(URL).then(function (response) {
-        _this3.physicalTelephones = response.data;
-        console.log(_this3.physicalTelephones);
+        _this6.physicalTelephones = response.data;
+        console.log(_this6.physicalTelephones);
       });
     },
     agregarTelefono: function agregarTelefono() {
-      var _this4 = this;
+      var _this7 = this;
 
       var existe = false;
 
@@ -2360,7 +2586,7 @@ __webpack_require__.r(__webpack_exports__);
                     axios["delete"](_URL).then(function (response) {
                       Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
 
-                      _this4.obtenerTelefonos();
+                      _this7.obtenerTelefonos();
                     })["catch"](function (error) {
                       console.log(error.data);
                     });
@@ -2430,7 +2656,7 @@ __webpack_require__.r(__webpack_exports__);
                     axios["delete"](_URL3).then(function (response) {
                       Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
 
-                      _this4.obtenerTelefonos();
+                      _this7.obtenerTelefonos();
                     })["catch"](function (error) {
                       console.log(error.data);
                     });
@@ -2462,7 +2688,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     crearCliente: function crearCliente() {
-      var _this5 = this;
+      var _this8 = this;
 
       var URL = '/clientes/create';
       axios.post(URL, {
@@ -2488,8 +2714,15 @@ __webpack_require__.r(__webpack_exports__);
         // Telefonos
         'telefonos': this.telefonos
       }).then(function (response) {
-        _this5.cliente = {};
-        console.log(_this5.cliente);
+        _this8.cliente = {};
+        console.log(_this8.cliente);
+        Swal.fire({
+          title: 'Cliente Registrado con exito',
+          text: "",
+          type: 'success',
+          showCancelButton: false,
+          cancelButtonColor: '#d33'
+        });
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2512,6 +2745,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 //
 //
 //
@@ -2562,9 +2796,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-function hola() {
-  alert('estas dentro');
-}
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2576,20 +2807,25 @@ function hola() {
     };
   },
   created: function created() {
+    var _this = this;
+
     this.obtenerTareas();
+    _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevaTarea', function (funcion) {
+      _this.obtenerTareas();
+    });
   },
   methods: {
     obtenerTareas: function obtenerTareas() {
-      var _this = this;
+      var _this2 = this;
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this.tareas = response.data;
-        console.log(_this.tareas);
+        _this2.tareas = response.data;
+        console.log(_this2.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
-      var _this2 = this;
+      var _this3 = this;
 
       Swal.fire({
         title: '¿Terminaste esta tarea?',
@@ -2603,9 +2839,170 @@ function hola() {
         if (result.value) {
           var url = '/tareas/eliminar-tarea/' + task;
           axios["delete"](url).then(function (response) {
-            _this2.obtenerTareas();
+            _this3.obtenerTareas();
           });
         }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tipo: {
+        nombre: ''
+      },
+      tipos: [],
+      mostrar: 1
+    };
+  },
+  created: function created() {
+    this.obtenerTipoEmpresa();
+  },
+  methods: {
+    demo: function demo() {
+      if (this.mostrar == 1) {
+        this.mostrar = 0;
+      } else {
+        this.mostrar = 1;
+      }
+
+      console.log(this.mostrar);
+    },
+    emitGlobalClickEvent: function emitGlobalClickEvent() {
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoTipoEmpresa');
+    },
+    obtenerTipoEmpresa: function obtenerTipoEmpresa() {
+      var _this = this;
+
+      var URL = '/clientes/tipo-empresa';
+      axios.get(URL).then(function (response) {
+        _this.tipos = response.data;
+        console.log(_this.tipos);
+      });
+    },
+    eliminarTipoEmpresa: function eliminarTipoEmpresa(tipo) {
+      var _this2 = this;
+
+      var url = '/clientes/eliminar-tipo-empresa/' + tipo.id;
+      axios["delete"](url).then(function (response) {
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoTipoEmpresa');
+
+        _this2.obtenerTipoEmpresa();
+      });
+    },
+    crearTipoEmpresa: function crearTipoEmpresa() {
+      var _this3 = this;
+
+      var URL = '/clientes/crearTipoEmpresa';
+      axios.post(URL, {
+        'nombre': this.tipo.nombre
+      }).then(function (response) {
+        _this3.tipo = {};
+
+        _this3.obtenerTipoEmpresa();
+
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoTipoEmpresa');
+        Swal.fire({
+          title: 'tipo registrado con exito',
+          text: "Se registro tu nuevo tipo de empresa",
+          type: 'success',
+          showCancelButton: false,
+          cancelButtonColor: '#d33'
+        });
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   }
@@ -2626,6 +3023,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 // module
 exports.push([module.i, "\n.registroTarea .row{\n    margin-bottom: 20px;\n}\n.registroTarea input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroTarea input[type=\"text\"], \n.registroTarea input[type=\"email\"], \n.registroTarea input[type=\"number\"], \n.registroTarea input[type=\"date\"], \n.registroTarea select{\n    width: 100%;\n    padding: 8px;\n}\n.btn-text{\n    color:black;\n}\n.btn-text:hover{\n    color: #2F7AD4;\n    cursor: pointer;\n}\n.btn-categorias{\n    cursor: pointer;\n    color: #2F7AD4;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.registroTarea .row{\n    margin-bottom: 20px;\n}\n.registroTarea input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroTarea input[type=\"text\"], \n.registroTarea input[type=\"email\"], \n.registroTarea input[type=\"number\"], \n.registroTarea input[type=\"date\"], \n.registroTarea select{\n    width: 100%;\n    padding: 8px;\n}\n.btn-text{\n    color:black;\n}\n.btn-text:hover{\n    color: #2F7AD4;\n    cursor: pointer;\n}\n.btn-comosupo{\n    cursor: pointer;\n    color: #2F7AD4;\n}\n", ""]);
 
 // exports
 
@@ -2664,6 +3080,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 // module
 exports.push([module.i, "\n.registroCliente .row{\n    margin-bottom: 20px;\n}\n.registroCliente input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroCliente input[type=\"text\"], \n.registroCliente input[type=\"email\"], \n.registroCliente input[type=\"number\"], \n.registroCliente input[type=\"date\"], \n.registroCliente select{\n    width: 100%;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.registroTarea .row{\n    margin-bottom: 20px;\n}\n.registroTarea input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroTarea input[type=\"text\"], \n.registroTarea input[type=\"email\"], \n.registroTarea input[type=\"number\"], \n.registroTarea input[type=\"date\"], \n.registroTarea select{\n    width: 100%;\n    padding: 8px;\n}\n.btn-text{\n    color:black;\n}\n.btn-text:hover{\n    color: #2F7AD4;\n    cursor: pointer;\n}\n.btn-tipos{\n    cursor: pointer;\n    color: #2F7AD4;\n}\n", ""]);
 
 // exports
 
@@ -48511,6 +48946,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ComoSupoComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=style&index=0&lang=css&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=style&index=0&lang=css& ***!
@@ -48550,6 +49015,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./NuevoClienteComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/NuevoClienteComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -52581,36 +53076,41 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "p",
-                    {
-                      staticClass: "btn-categorias",
-                      on: {
-                        click: function($event) {
-                          return _vm.demo()
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fa fa-list-ul" }),
-                      _vm._v(" Categorias")
-                    ]
-                  )
-                ])
+                _vm._m(0)
               ]
             ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row", staticStyle: { width: "100%" } }, [
+              _c(
+                "p",
+                {
+                  staticClass: "btn-categorias",
+                  on: {
+                    click: function($event) {
+                      return _vm.demo()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-list-ul" }),
+                  _vm._v(" Ver Categorias Guardadas")
+                ]
+              )
+            ]),
             _vm._v(" "),
             _vm.mostrar == 0
               ? _c(
                   "div",
-                  { staticClass: "row", attrs: { id: "lista_categorias" } },
+                  {
+                    staticClass: "row",
+                    staticStyle: { height: "150px", overflow: "scroll" },
+                    attrs: { id: "lista_categorias" }
+                  },
                   [
                     _vm.categoria != null
                       ? _c(
                           "table",
+                          { staticStyle: { width: "100%" } },
                           _vm._l(_vm.categorias, function(categoria) {
                             return _c(
                               "tr",
@@ -52643,9 +53143,7 @@ var render = function() {
                                       }
                                     }
                                   })
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(1, true)
+                                ])
                               ]
                             )
                           }),
@@ -52666,26 +53164,183 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row float-right" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-success", attrs: { type: "submit" } },
-        [_vm._v("Agregar Categoria")]
-      )
+    return _c(
+      "div",
+      { staticClass: "row float-right", staticStyle: { width: "100%" } },
+      [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "submit" } },
+          [_vm._v("Agregar Categoria")]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12 registroTarea" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "form",
+              {
+                attrs: { action: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.crearComoSupo()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Como supo de nosotros")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tipo.nombre,
+                        expression: "tipo.nombre"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.tipo.nombre },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.tipo, "nombre", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row", staticStyle: { width: "100%" } }, [
+              _c(
+                "p",
+                {
+                  staticClass: "btn-comosupo",
+                  on: {
+                    click: function($event) {
+                      return _vm.demo()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-list-ul" }),
+                  _vm._v(" Ver Elementos Guardado")
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.mostrar == 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "row",
+                    staticStyle: { height: "150px", overflow: "scroll" },
+                    attrs: { id: "lista_tipos" }
+                  },
+                  [
+                    _vm.tipo != null
+                      ? _c(
+                          "table",
+                          { staticStyle: { width: "100%" } },
+                          _vm._l(_vm.tipos, function(tipo) {
+                            return _c(
+                              "tr",
+                              {
+                                key: tipo.index,
+                                staticStyle: {
+                                  "border-bottom": "solid",
+                                  "border-color": "grey",
+                                  "border-width": "1px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "td",
+                                  { staticStyle: { "padding-right": "10px" } },
+                                  [_vm._v(_vm._s(tipo.nombre))]
+                                ),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("i", {
+                                    staticClass: "fa fa-remove",
+                                    staticStyle: {
+                                      color: "red",
+                                      cursor: "pointer"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.eliminarComoSupo(tipo)
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
     ])
-  },
+  ])
+}
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { attrs: { href: "/tareas/editar-categorias-tareas" } }, [
-        _c("i", {
-          staticClass: "fa fa-edit",
-          staticStyle: { color: "blue", cursor: "pointer" }
-        })
-      ])
-    ])
+    return _c(
+      "div",
+      { staticClass: "row float-right", staticStyle: { width: "100%" } },
+      [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "submit" } },
+          [_vm._v("Agregar Elemento")]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -52765,29 +53420,7 @@ var render = function() {
                           }
                         }
                       },
-                      [
-                        _c(
-                          "option",
-                          { attrs: { value: "", disabled: "disabled" } },
-                          [_vm._v("Vendedores")]
-                        ),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Vendedor 1")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Vendedor 2")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Vendedor 3")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "1" } }, [
-                          _vm._v("Vendedor 4")
-                        ])
-                      ]
+                      [_vm._m(1)]
                     )
                   ]),
                   _vm._v(" "),
@@ -52830,23 +53463,21 @@ var render = function() {
                       },
                       [
                         _c(
-                          "option",
-                          { attrs: { value: "", disabled: "disabled" } },
-                          [_vm._v("Clientes")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.clientesFisicos, function(cliente) {
-                          return _c(
-                            "option",
-                            {
-                              key: cliente.index,
-                              domProps: { value: cliente.id }
-                            },
-                            [_vm._v(_vm._s(cliente.nombre))]
-                          )
-                        })
-                      ],
-                      2
+                          "optgroup",
+                          { attrs: { label: "Seleccionar un vendedor" } },
+                          _vm._l(_vm.clientesFisicos, function(cliente) {
+                            return _c(
+                              "option",
+                              {
+                                key: cliente.index,
+                                domProps: { value: cliente.id }
+                              },
+                              [_vm._v(_vm._s(cliente.nombre))]
+                            )
+                          }),
+                          0
+                        )
+                      ]
                     )
                   ])
                 ]),
@@ -52892,7 +53523,7 @@ var render = function() {
                       [
                         _c(
                           "option",
-                          { attrs: { value: "", disabled: "disabled" } },
+                          { attrs: { selected: "", disabled: "" } },
                           [_vm._v("Categorias")]
                         ),
                         _vm._v(" "),
@@ -52910,12 +53541,12 @@ var render = function() {
                       2
                     ),
                     _vm._v(" "),
-                    _vm._m(1)
+                    _vm._m(2)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-6" }, [
                     _c("label", { attrs: { for: "" } }, [
-                      _vm._v("Selecciona una Fecha y Hora")
+                      _vm._v("Selecciona una Fecha")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -52985,7 +53616,7 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _vm._m(2)
+                            _vm._m(3)
                           ]
                         )
                       ]
@@ -53023,7 +53654,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm._m(4)
               ]
             )
           ])
@@ -53049,6 +53680,18 @@ var staticRenderFns = [
         _c("br")
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("optgroup", { attrs: { label: "Seleccionar un vendedor" } }, [
+      _c("option", { attrs: { value: "1" } }, [_vm._v("Todos los vendedores")]),
+      _vm._v(" "),
+      _c("option", { attrs: { value: "1" } }, [_vm._v("Vendedor 1")]),
+      _vm._v(" "),
+      _c("option", { attrs: { value: "1" } }, [_vm._v("Vendedor 2")])
+    ])
   },
   function() {
     var _vm = this
@@ -53172,9 +53815,14 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "personaFisica" } }, [
-                  _vm._v("Persona Fisica")
-                ])
+                _c(
+                  "label",
+                  {
+                    staticStyle: { "padding-left": "10px" },
+                    attrs: { for: "personaFisica" }
+                  },
+                  [_vm._v(" Persona Fisica")]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-6 d-flex" }, [
@@ -53203,9 +53851,14 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "personaMoral" } }, [
-                  _vm._v("Persona Moral")
-                ])
+                _c(
+                  "label",
+                  {
+                    staticStyle: { "padding-left": "10px" },
+                    attrs: { for: "personaMoral" }
+                  },
+                  [_vm._v(" Persona Moral")]
+                )
               ])
             ]),
             _vm._v(" "),
@@ -53221,7 +53874,11 @@ var render = function() {
                           expression: "cliente.nombreCliente"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "Nombres" },
+                      attrs: {
+                        type: "text",
+                        required: "required",
+                        placeholder: "Nombre(s)"
+                      },
                       domProps: { value: _vm.cliente.nombreCliente },
                       on: {
                         input: function($event) {
@@ -53248,7 +53905,11 @@ var render = function() {
                           expression: "cliente.apellidoCliente"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "Apellido Paterno" },
+                      attrs: {
+                        type: "text",
+                        required: "required",
+                        placeholder: "Apellido Paterno"
+                      },
                       domProps: { value: _vm.cliente.apellidoCliente },
                       on: {
                         input: function($event) {
@@ -53275,7 +53936,11 @@ var render = function() {
                           expression: "cliente.apellidoCliente2"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "Apellido Materno" },
+                      attrs: {
+                        type: "text",
+                        required: "required",
+                        placeholder: "Apellido Materno"
+                      },
                       domProps: { value: _vm.cliente.apellidoCliente2 },
                       on: {
                         input: function($event) {
@@ -53302,9 +53967,14 @@ var render = function() {
                           expression: "cliente.emailCliente"
                         }
                       ],
-                      attrs: { type: "email", placeholder: "Email" },
+                      attrs: {
+                        type: "email",
+                        id: "emailPF",
+                        placeholder: "Email"
+                      },
                       domProps: { value: _vm.cliente.emailCliente },
                       on: {
+                        change: _vm.emailClick,
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -53324,6 +53994,10 @@ var render = function() {
             _vm.cliente.tipoPersona == "moral"
               ? _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-6" }, [
+                    _c("label", { attrs: { for: "" } }, [
+                      _vm._v("Nombre de la empresa")
+                    ]),
+                    _vm._v(" "),
                     _c("input", {
                       directives: [
                         {
@@ -53333,7 +54007,7 @@ var render = function() {
                           expression: "cliente.nombreCliente"
                         }
                       ],
-                      attrs: { type: "text", placeholder: "Nombres" },
+                      attrs: { type: "text", placeholder: "Nombre" },
                       domProps: { value: _vm.cliente.nombreCliente },
                       on: {
                         input: function($event) {
@@ -53351,6 +54025,10 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
+                    _c("label", { attrs: { for: "" } }, [
+                      _vm._v("Tipo de Empresa")
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "select",
                       {
@@ -53362,7 +54040,7 @@ var render = function() {
                             expression: "cliente.categoriaCliente"
                           }
                         ],
-                        attrs: { name: "categoria", id: "" },
+                        attrs: { name: "categoria" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -53383,18 +54061,17 @@ var render = function() {
                           }
                         }
                       },
-                      _vm._l(_vm.categorias, function(categoria) {
+                      _vm._l(_vm.tiposE, function(tipoE) {
                         return _c(
                           "option",
-                          {
-                            key: categoria.index,
-                            domProps: { value: categoria.id }
-                          },
-                          [_vm._v(_vm._s(categoria.nombre))]
+                          { key: tipoE.index, attrs: { value: "1" } },
+                          [_vm._v(_vm._s(tipoE.nombre))]
                         )
                       }),
                       0
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0)
                   ])
                 ])
               : _vm._e(),
@@ -53633,7 +54310,11 @@ var render = function() {
                           expression: "telefono.email"
                         }
                       ],
-                      attrs: { type: "email", placeholder: "Email" },
+                      attrs: {
+                        type: "email",
+                        id: "email",
+                        placeholder: "Email"
+                      },
                       domProps: { value: _vm.telefono.email },
                       on: {
                         input: function($event) {
@@ -53799,7 +54480,7 @@ var render = function() {
                   attrs: {
                     type: "email",
                     name: "",
-                    id: "",
+                    id: "emailDF",
                     placeholder: "Email"
                   },
                   domProps: { value: _vm.cliente.emailFacturacion },
@@ -53816,9 +54497,7 @@ var render = function() {
                     }
                   }
                 })
-              ]),
-              _vm._v(" "),
-              _vm._m(0)
+              ])
             ]),
             _vm._v(" "),
             _c("h4", [_vm._v("Tipo de credito")]),
@@ -53882,47 +54561,20 @@ var render = function() {
               _c("div", { staticClass: "col-md-6" }, [
                 _c(
                   "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.cliente.categoriaAbout,
-                        expression: "cliente.categoriaAbout"
-                      }
-                    ],
-                    attrs: { name: "comoSupo", id: "" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.cliente,
-                          "categoriaAbout",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
-                    }
-                  },
-                  _vm._l(_vm.aboutCategorias, function(como) {
-                    return _c(
-                      "option",
-                      { key: como.index, domProps: { value: como.id } },
-                      [_vm._v(_vm._s(como.nombre))]
-                    )
+                  { attrs: { name: "comoSupo", id: "" } },
+                  _vm._l(_vm.tipos, function(tipo) {
+                    return _c("option", { key: tipo.index }, [
+                      _vm._v(_vm._s(tipo.nombre))
+                    ])
                   }),
                   0
-                )
+                ),
+                _vm._v(" "),
+                _vm._m(2)
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
           ])
         ]
       )
@@ -53934,16 +54586,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5 mt-4" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success btn-sm btn-block",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Agregar Contacto")]
-      )
-    ])
+    return _c(
+      "p",
+      {
+        staticStyle: { cursor: "pointer", "padding-top": "5px" },
+        attrs: { "data-toggle": "modal", "data-target": "#tipoEmpresaModal" }
+      },
+      [
+        _c("i", {
+          staticClass: "fa fa-edit",
+          staticStyle: { color: "#2F7AD4", "padding-right": "5px" }
+        }),
+        _vm._v("Administrar Tipos de empresa")
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -53951,6 +54607,47 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6" }, [
       _c("input", { attrs: { type: "text", placeholder: "Dias de credito" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      {
+        staticStyle: { cursor: "pointer", "padding-top": "5px" },
+        attrs: { "data-toggle": "modal", "data-target": "#comoSupoModal" }
+      },
+      [
+        _c("i", {
+          staticClass: "fa fa-edit",
+          staticStyle: { color: "#2F7AD4", "padding-right": "5px" }
+        }),
+        _vm._v('Administrar "¿Como Supo de nosotros?"')
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row float-right" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          staticStyle: { "margin-right": "10px" },
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cancelar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [_vm._v("Agregar Cliente")]
+      )
     ])
   }
 ]
@@ -53985,54 +54682,65 @@ var render = function() {
       _c("div", { staticClass: "block" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "block-content" }, [
-          _vm.tareas == 0
-            ? _c("div", [_vm._v("No hay Tareas para hoy")])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("table", { staticClass: "table table-vcenter" }, [
-            _vm._m(1),
+        _c(
+          "div",
+          {
+            staticClass: "block-content",
+            staticStyle: { height: "350px", overflow: "scroll" }
+          },
+          [
+            _vm.tareas == 0
+              ? _c("div", [_vm._v("No hay Tareas para hoy")])
+              : _vm._e(),
             _vm._v(" "),
             _c(
-              "tbody",
-              _vm._l(_vm.tareas, function(tarea) {
-                return _c("tr", { key: tarea.index }, [
-                  _c("td", [_vm._v(_vm._s(tarea.id))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "d-none d-sm-table-cell" }, [
-                    _c("span", {}, [_vm._v(_vm._s(tarea.categoria))])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-center" }, [
-                    _c("div", { staticClass: "btn-group" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-sm btn-secondary js-tooltip-enabled",
-                          attrs: {
-                            type: "button",
-                            "data-toggle": "tooltip",
-                            title: "",
-                            "data-original-title": "Edit"
-                          },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.detalleTarea(tarea.id)
-                            }
-                          }
-                        },
-                        [_c("i", { staticClass: "si si-eye" })]
-                      )
+              "table",
+              { staticClass: "table table-vcenter", attrs: { id: "example" } },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.tareas, function(tarea) {
+                    return _c("tr", { key: tarea.index }, [
+                      _c("td", [_vm._v(_vm._s(tarea.id))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+                        _c("span", {}, [_vm._v(_vm._s(tarea.categoria))])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-center" }, [
+                        _c("div", { staticClass: "btn-group" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-sm btn-secondary js-tooltip-enabled",
+                              attrs: {
+                                type: "button",
+                                "data-toggle": "tooltip",
+                                title: "",
+                                "data-original-title": "Edit"
+                              },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.detalleTarea(tarea.id)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "si si-eye" })]
+                          )
+                        ])
+                      ])
                     ])
-                  ])
-                ])
-              }),
-              0
+                  }),
+                  0
+                )
+              ]
             )
-          ])
-        ])
+          ]
+        )
       ])
     ]
   )
@@ -54086,6 +54794,172 @@ var staticRenderFns = [
         )
       ])
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12 registroTarea" }, [
+        _c("div", { staticClass: "card card-default" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "form",
+              {
+                attrs: { action: "POST" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.crearTipoEmpresa()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("label", { attrs: { for: "" } }, [
+                    _vm._v("Tipo de Empresa")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.tipo.nombre,
+                        expression: "tipo.nombre"
+                      }
+                    ],
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.tipo.nombre },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.tipo, "nombre", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "row", staticStyle: { width: "100%" } }, [
+              _c(
+                "p",
+                {
+                  staticClass: "btn-tipos",
+                  on: {
+                    click: function($event) {
+                      return _vm.demo()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-list-ul" }),
+                  _vm._v(" Ver tipos Guardadas")
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.mostrar == 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "row",
+                    staticStyle: { height: "150px", overflow: "scroll" },
+                    attrs: { id: "lista_tipos" }
+                  },
+                  [
+                    _vm.tipo != null
+                      ? _c(
+                          "table",
+                          { staticStyle: { width: "100%" } },
+                          _vm._l(_vm.tipos, function(tipo) {
+                            return _c(
+                              "tr",
+                              {
+                                key: tipo.index,
+                                staticStyle: {
+                                  "border-bottom": "solid",
+                                  "border-color": "grey",
+                                  "border-width": "1px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "td",
+                                  { staticStyle: { "padding-right": "10px" } },
+                                  [_vm._v(_vm._s(tipo.nombre))]
+                                ),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("i", {
+                                    staticClass: "fa fa-remove",
+                                    staticStyle: {
+                                      color: "red",
+                                      cursor: "pointer"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.eliminarTipoEmpresa(tipo)
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "row float-right", staticStyle: { width: "100%" } },
+      [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "submit" } },
+          [_vm._v("Agregar Tipo de Empresa")]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -66274,12 +67148,15 @@ Vue.component('nuevo-cliente-component', __webpack_require__(/*! ./components/Nu
 Vue.component('nueva-tarea-component', __webpack_require__(/*! ./components/NuevaTareaComponent.vue */ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue")["default"]);
 Vue.component('categoria-tarea-component', __webpack_require__(/*! ./components/CategoriasTareas.vue */ "./resources/assets/js/laravel/components/CategoriasTareas.vue")["default"]);
 Vue.component('task-list-component', __webpack_require__(/*! ./components/TaskListComponent.vue */ "./resources/assets/js/laravel/components/TaskListComponent.vue")["default"]);
+Vue.component('tipo-empresa-component', __webpack_require__(/*! ./components/TipoEmpresaComponent.vue */ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue")["default"]);
+Vue.component('como-supo-component', __webpack_require__(/*! ./components/ComoSupoComponent.vue */ "./resources/assets/js/laravel/components/ComoSupoComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+var EventBus = new Vue();
 var app = new Vue({
   el: '#app'
 });
@@ -66354,15 +67231,14 @@ if (token) {
 /*!*********************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CategoriasTareas.vue ***!
   \*********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CategoriasTareas_vue_vue_type_template_id_f044619a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CategoriasTareas.vue?vue&type=template&id=f044619a& */ "./resources/assets/js/laravel/components/CategoriasTareas.vue?vue&type=template&id=f044619a&");
 /* harmony import */ var _CategoriasTareas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CategoriasTareas.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/CategoriasTareas.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CategoriasTareas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CategoriasTareas_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _CategoriasTareas_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CategoriasTareas.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/CategoriasTareas.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CategoriasTareas_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CategoriasTareas.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/CategoriasTareas.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -66394,7 +67270,7 @@ component.options.__file = "resources/assets/js/laravel/components/CategoriasTar
 /*!**********************************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CategoriasTareas.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66438,19 +67314,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/laravel/components/ComoSupoComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ComoSupoComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ComoSupoComponent.vue?vue&type=template&id=41cb281d& */ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d&");
+/* harmony import */ var _ComoSupoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ComoSupoComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ComoSupoComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ComoSupoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/laravel/components/ComoSupoComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ComoSupoComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ComoSupoComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ComoSupoComponent.vue?vue&type=template&id=41cb281d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ComoSupoComponent.vue?vue&type=template&id=41cb281d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue":
 /*!************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/NuevaTareaComponent.vue ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NuevaTareaComponent_vue_vue_type_template_id_5f943f34___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NuevaTareaComponent.vue?vue&type=template&id=5f943f34& */ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=template&id=5f943f34&");
 /* harmony import */ var _NuevaTareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NuevaTareaComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _NuevaTareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _NuevaTareaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _NuevaTareaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NuevaTareaComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _NuevaTareaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NuevaTareaComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -66482,7 +67444,7 @@ component.options.__file = "resources/assets/js/laravel/components/NuevaTareaCom
 /*!*************************************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/NuevaTareaComponent.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66617,15 +67579,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************************!*\
   !*** ./resources/assets/js/laravel/components/TaskListComponent.vue ***!
   \**********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskListComponent_vue_vue_type_template_id_4787962e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TaskListComponent.vue?vue&type=template&id=4787962e& */ "./resources/assets/js/laravel/components/TaskListComponent.vue?vue&type=template&id=4787962e&");
 /* harmony import */ var _TaskListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaskListComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/TaskListComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _TaskListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _TaskListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -66655,7 +67616,7 @@ component.options.__file = "resources/assets/js/laravel/components/TaskListCompo
 /*!***********************************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/TaskListComponent.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66683,10 +67644,97 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/laravel/eventBuss.js":
-/*!**************************************************!*\
-  !*** ./resources/assets/js/laravel/eventBuss.js ***!
-  \**************************************************/
+/***/ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue":
+/*!*************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/TipoEmpresaComponent.vue ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29& */ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29&");
+/* harmony import */ var _TipoEmpresaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TipoEmpresaComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _TipoEmpresaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/laravel/components/TipoEmpresaComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TipoEmpresaComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29& ***!
+  \********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/TipoEmpresaComponent.vue?vue&type=template&id=1d2eaa29&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TipoEmpresaComponent_vue_vue_type_template_id_1d2eaa29___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/eventBus.js":
+/*!*************************************************!*\
+  !*** ./resources/assets/js/laravel/eventBus.js ***!
+  \*************************************************/
 /*! exports provided: EventBus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

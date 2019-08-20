@@ -37,32 +37,34 @@
                             <div class="col-md-6">
                                 <label for="">Selecciona un Vendedor</label>
                             <select v-model="tarea.vendedor">
-                                <option value="" disabled="disabled">Vendedores</option>
+                                <optgroup label="Seleccionar un vendedor">
+                                <option value="1">Todos los vendedores</option>
                                 <option value="1">Vendedor 1</option>
                                 <option value="1">Vendedor 2</option>
-                                <option value="1">Vendedor 3</option>
-                                <option value="1">Vendedor 4</option>
+                                </optgroup>
                                 </select>
                                 </div>
                                  <div class="col-md-6">
                                 <label for="">Selecciona un Cliente</label>
                             <select name="categoria" id="" v-model="tarea.cliente">
-                                <option value="" disabled="disabled">Clientes</option>
+                                <optgroup label="Seleccionar un vendedor">
                                 <option v-bind:value="cliente.id" v-for="cliente in clientesFisicos" v-bind:key="cliente.index">{{ cliente.nombre }}</option>  
+                                </optgroup>
                             </select>
+                            
                                 </div>
                         </div>
                         <div class="row">
                            <div class="col-md-6">
                                 <label for="">Selecciona Una Categoria </label>
                                 <select name="categoria" id="" v-model="tarea.categoria">
-                                    <option value="" disabled="disabled">Categorias</option>
+                                    <option selected disabled>Categorias</option>
                                 <option v-bind:value="categoria.nombre" v-for="categoria in categorias" v-bind:key="categoria.index">{{ categoria.nombre }}</option>  
                             </select>
                             <p class="btn-text" data-toggle="modal" data-target="#categoriaTareaModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                             </div>
                             <div class="col-sm-6">
-                                <label for="">Selecciona una Fecha y Hora</label>
+                                <label for="">Selecciona una Fecha</label>
                                 <input type="date" v-model="tarea.fecha">
             <div class="form-group" style="display:none">
                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -73,13 +75,13 @@
                 </div>
             </div>
         </div>
-       
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Notas relacionadas con la nueva tarea</label>
                                 <textarea required name="" id="" style="width:100%" rows="6" v-model="tarea.notas"></textarea>
                             </div>
+                            
                         </div>
                         <div class="row float-right">
                             <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -93,14 +95,8 @@
     </div>
 </template>
 <!--  Script para timepicker-->
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-            </script>
    <script>   
-import { EventBus } from '../eventBuss.js';
-
+import { EventBus } from '../eventBus.js';
     export default {
         data(){
             return{
@@ -120,7 +116,7 @@ import { EventBus } from '../eventBuss.js';
         created(){
             this.obtenerCategorias();
             this.obtenerClientesFisicos();
-            // Listen for the i-got-clicked event and its payload.
+            
 EventBus.$on('clic', funcion => {
   this.obtenerCategorias();
 });
@@ -133,6 +129,10 @@ EventBus.$on('clic', funcion => {
                     console.log(this.categorias);
                 });
                 },
+    emitGlobalClickEvent() {
+
+      EventBus.$emit('nuevaTarea');
+    },
             obtenerClientesFisicos(){
                 let URL = '/tareas/clientes-fisicos';
                 axios.get(URL).then((response) => {
@@ -153,7 +153,7 @@ EventBus.$on('clic', funcion => {
 
                 }).then((response) => {
                     this.tarea = {};
-                    console.log(this.tarea);
+                    EventBus.$emit('nuevaTarea');
                     Swal.fire({
                                 title: 'Tarea Registrada con exito',
                                 text: "Se registro tu nueva tarea",
@@ -164,6 +164,14 @@ EventBus.$on('clic', funcion => {
                             })
                 }).catch((error) => {
                     console.log(error);
+                    Swal.fire({
+                                title: 'Error al agregar tarea',
+                                text: "Comprueba que completaste todos los campos correctamente o verifica tu conexión a internet",
+                                type: 'error',
+                                showCancelButton: false,
+                                cancelButtonColor: '#d33',
+                                
+                            })
                 });
                 
             }
