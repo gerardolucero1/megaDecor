@@ -2545,6 +2545,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -2603,7 +2609,9 @@ __webpack_require__.r(__webpack_exports__);
         opcionPrecioUnitario: '',
         opcionDescripcionPaquete: '',
         opcionImagen: '',
-        opcionDescuento: ''
+        opcionDescuento: '',
+        //Presupuesto o contrato
+        tipo: ''
       },
       usuarios: [],
       clientes: [],
@@ -2641,7 +2649,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       precioSugerido: 0,
       cantidadPaquete: '',
-      paqueteLocal: []
+      //IVA
+      iva: 16,
+      verIVA: false
     };
   },
   created: function created() {
@@ -2663,13 +2673,59 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     imagen: function imagen() {
       return this.productoExterno.imagen;
+    },
+    calcularSubtotal: function calcularSubtotal() {
+      //Arreglo javascript de objetos json
+      var json = this.inventarioLocal; //convirtiendo a json
+
+      json = JSON.stringify(json); //Convirtiendo a objeto javascript
+
+      var data = JSON.parse(json);
+      var suma = 0; //Recorriendo el objeto
+
+      for (var x in data) {
+        suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+      }
+
+      return suma;
+    },
+    calcularIva: function calcularIva() {
+      return this.calcularSubtotal * (this.iva / 100);
+    },
+    calcularAhorro: function calcularAhorro() {
+      var ahorro = 0;
+      this.inventarioLocal.forEach(function (element) {
+        var precioNormal = element.cantidad * element.precioUnitario;
+        ahorro = ahorro + (precioNormal - element.precioFinal);
+      });
+      return ahorro;
     }
   },
   filters: {
-    decimales: function decimales(value) {
-      if (!value) return '';
-      value = value.toFixed(2);
-      return value;
+    decimales: function decimales(x) {
+      var posiciones = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+      var s = x.toString();
+      var l = s.length;
+      var decimalLength = s.indexOf('.') + 1;
+
+      if (l - decimalLength <= posiciones) {
+        return x;
+      } // Parte decimal del número
+
+
+      var isNeg = x < 0;
+      var decimal = x % 1;
+      var entera = isNeg ? Math.ceil(x) : Math.floor(x); // Parte decimal como número entero
+      // Ejemplo: parte decimal = 0.77
+      // decimalFormated = 0.77 * (10^posiciones)
+      // si posiciones es 2 ==> 0.77 * 100
+      // si posiciones es 3 ==> 0.77 * 1000
+
+      var decimalFormated = Math.floor(Math.abs(decimal) * Math.pow(10, posiciones)); // Sustraemos del número original la parte decimal
+      // y le sumamos la parte decimal que hemos formateado
+
+      var finalNum = entera + decimalFormated / Math.pow(10, posiciones) * (isNeg ? -1 : 1);
+      return finalNum;
     }
   },
   watch: {
@@ -2686,17 +2742,16 @@ __webpack_require__.r(__webpack_exports__);
         this.presupuesto.coloniaLugar = '';
       }
     }
-    /*
-    demo: {
-        deep: true,
-        handler: (nuevoValor, valorAnterior) => {
-            console.log('el viejo valor era ', valorAnterior, ' y ahora es ', nuevoValor);
-        }
-    }
-    */
-
   },
   methods: {
+    //Mostrar el IVA
+    mostrarIVA: function mostrarIVA() {
+      if (this.verIVA) {
+        this.verIVA = false;
+      } else {
+        this.verIVA = true;
+      }
+    },
     //Metodos para los paquetes
     agregarProductoPaquete: function agregarProductoPaquete(producto) {
       this.paquete.inventario.push({
@@ -2747,7 +2802,6 @@ __webpack_require__.r(__webpack_exports__);
       this.actualizarPrecioSugerido();
     },
     guardarPaquete: function guardarPaquete() {
-      //this.paqueteLocal.push(this.paquete);
       this.inventarioLocal.push({
         'externo': false,
         'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
@@ -3016,8 +3070,14 @@ __webpack_require__.r(__webpack_exports__);
     eliminarFestejado: function eliminarFestejado(index) {
       this.festejados.splice(index, 1);
     },
-    // Guardar presupuesto
-    guardarPresupuesto: function guardarPresupuesto() {
+    // Guardar como presupuesto
+    guardarPresupuesto: function guardarPresupuesto(valor) {
+      if (valor == 1) {
+        this.presupuesto.tipo = 'PRESUPUESTO';
+      } else {
+        this.presupuesto.tipo = 'CONTRATO';
+      }
+
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';
       }
@@ -54683,7 +54743,7 @@ var render = function() {
                             expression: "producto.externo"
                           }
                         ],
-                        attrs: { type: "checkbox" },
+                        attrs: { type: "checkbox", disabled: "disabled" },
                         domProps: {
                           checked: Array.isArray(producto.externo)
                             ? _vm._i(producto.externo, null) > -1
@@ -54834,7 +54894,13 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v(_vm._s(producto.precioFinal))]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("decimales")(producto.precioFinal)
+                                )
+                              )
+                            ]
                           )
                     ]),
                     _vm._v(" "),
@@ -54975,7 +55041,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-8" }, [
+              _c("div", { staticClass: "col-md-5" }, [
                 _c("h4", [_vm._v("Mostrar en presupuesto de cliente")]),
                 _vm._v(" "),
                 _c("input", {
@@ -55237,7 +55303,88 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(9)
+              _c("div", { staticClass: "col-md-3" }, [
+                _vm.verIVA
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.iva,
+                          expression: "iva"
+                        }
+                      ],
+                      attrs: { type: "text", width: "20%" },
+                      domProps: { value: _vm.iva },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.iva = $event.target.value
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 mt-4" }, [
+                _c("h5", [
+                  _vm._v("Subtotal: $"),
+                  _c("span", [
+                    _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularSubtotal)))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("input", { attrs: { type: "checkbox", id: "iva" } }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "iva" } }, [
+                  _vm._v("IVA: $"),
+                  _c("span", [
+                    _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularIva)))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "info mt-3" }, [
+                  _c("p", [
+                    _vm._v("TOTAL con IVA: $"),
+                    _c("span", [
+                      _vm._v(
+                        _vm._s(
+                          _vm._f("decimales")(
+                            _vm.calcularSubtotal + _vm.calcularIva
+                          )
+                        )
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("Ahorro General: $"),
+                    _c("span", [
+                      _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularAhorro)))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.mostrarIVA()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "si si-pencil" }),
+                      _vm._v(" Editar iva")
+                    ]
+                  )
+                ])
+              ])
             ])
           ])
         ]),
@@ -55252,7 +55399,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-block btn-success",
                 on: {
                   click: function($event) {
-                    return _vm.guardarPresupuesto()
+                    return _vm.guardarPresupuesto(1)
                   }
                 }
               },
@@ -55260,7 +55407,20 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(11)
+          _c("div", { staticClass: "col-md-4 mt-4" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-block btn-secondary",
+                on: {
+                  click: function($event) {
+                    return _vm.guardarPresupuesto(2)
+                  }
+                }
+              },
+              [_vm._v("Guardar Contrato")]
+            )
+          ])
         ])
       ])
     ]),
@@ -55293,7 +55453,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(12),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -55381,7 +55541,7 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _vm._m(13, true)
+                                                _vm._m(12, true)
                                               ]
                                             )
                                           ]
@@ -55639,7 +55799,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(14),
+                            _vm._m(13),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -55822,7 +55982,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(14),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -56133,26 +56293,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mt-4" }, [
-      _c("h5", [_vm._v("Subtotal: $"), _c("span", [_vm._v("1300")])]),
-      _vm._v(" "),
-      _c("input", { attrs: { type: "checkbox", id: "iva" } }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "iva" } }, [
-        _vm._v("IVA: $"),
-        _c("span", [_vm._v("150")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "info mt-3" }, [
-        _c("p", [_vm._v("TOTAL con IVA: $"), _c("span", [_vm._v("1300")])]),
-        _vm._v(" "),
-        _c("p", [_vm._v("Ahorro General: $"), _c("span", [_vm._v("100")])]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("Comision pagada en base a $ "),
-          _c("span", [_vm._v("150")])
-        ])
-      ])
+    return _c("p", [
+      _vm._v("Comision pagada en base a $ "),
+      _c("span", [_vm._v("150")])
     ])
   },
   function() {
@@ -56162,16 +56305,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-4 offset-md-4" }, [
       _c("button", { staticClass: "btn btn-sm btn-block btn-primary" }, [
         _vm._v("Imprimir")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mt-4" }, [
-      _c("button", { staticClass: "btn btn-sm btn-block btn-secondary" }, [
-        _vm._v("Guardar Contrato")
       ])
     ])
   },

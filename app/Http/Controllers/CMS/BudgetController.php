@@ -11,7 +11,9 @@ use App\BudgetPack;
 use App\Celebrated;
 use App\BudgetInventory;
 use App\ExternalInventory;
+use App\BudgetPackInventory;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -94,6 +96,7 @@ class BudgetController extends Controller
         $presupuesto = new Budget();
 
         $presupuesto->folio             = $folio;
+        $presupuesto->tipo              = $request->presupuesto['tipo'];
         $presupuesto->vendedor_id       = $request->presupuesto['vendedor_id'];
         $presupuesto->client_id         = $request->presupuesto['client_id'];
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
@@ -138,15 +141,28 @@ class BudgetController extends Controller
                 $producto = new BudgetInventory();
 
                 $producto->budget_id = $ultimoPresupuesto;
+                
                 //$producto->imagen = $item['imagen'];
-                $producto->imagen = 'Imagen de prueba';
                 $producto->servicio = $item['servicio'];
                 $producto->cantidad = $item['cantidad'];
                 $producto->precioUnitario = $item['precioUnitario'];
                 $producto->precioFinal = $item['precioFinal'];
                 $producto->ahorro = $item['ahorro'];
                 $producto->notas = $item['notas'];
-                $producto->save();
+                $producto->externo = $item['externo'];
+                if($item['externo']){
+                    //Otra Imagen
+                    if($item['imagen']){
+
+                        $image = $item['imagen'];
+                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                        \Image::make($item['imagen'])->save(public_path('presupuesto/').$name);
+                        $producto->fill(['imagen' => asset('presupuesto/'.$name)])->save();
+                    }
+                }else{
+                    $producto->imagen = $item['imagen'];
+                    $producto->save();
+                }
                 
                 if(!$item['externo']){
                     $producto = Inventory::find($item['id']);
@@ -164,12 +180,35 @@ class BudgetController extends Controller
                 $paquete->guardarPaquete = $item['paquete']['guardarPaquete'];
                 $paquete->save();
 
-                //$paquete->inventories()->attach($item['paquete']->get('inventario'));
+                $ultimoPack = BudgetPack::orderBy('id', 'DESC')->pluck('id')->first();
 
                     foreach($item['paquete']['inventario'] as $objeto){
+                        $producto = new BudgetPackInventory();
+
+                        $producto->budget_pack_id = $ultimoPack;
+                        
+                        $producto->servicio = $objeto['nombre'];
+                        $producto->cantidad = $objeto['cantidad'];
+                        $producto->precioUnitario = $objeto['precioUnitario'];
+                        $producto->precioFinal = $objeto['precioFinal'];
+                        $producto->externo = $objeto['externo'];
+                        if($objeto['externo']){
+                            //Otra Imagen
+                            if($objeto['imagen']){
+        
+                                $image = $objeto['imagen'];
+                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                                \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
+                                $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
+                            }
+                        }else{
+                            $producto->imagen = $objeto['imagen'];
+                            $producto->save();
+                        }
+
                         
                         if(!$objeto['externo']){
-                            //$paquete->inventories()->attach($objeto);                                                       
+                            //$paquete->inventories()->attach($objeto['id']);                                                       
                             $producto = Inventory::find($objeto['id']);
 
                             $producto->disponible = ($producto->disponible) - ($objeto['cantidad']);

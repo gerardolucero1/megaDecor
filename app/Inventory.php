@@ -13,9 +13,4 @@ class Inventory extends Model
         'imagen',
         'precioUnitario',
     ];
-
-    public function budgetPacks()
-    {
-        return $this->belongsToMany(BudgetPack::class);
-    }
 }

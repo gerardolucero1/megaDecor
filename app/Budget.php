@@ -36,6 +36,7 @@ class Budget extends Model
         'opcionImagen',
         'opcionPrecio',
         'opcionDescuento',
+        'tipo',
     ];
 
     public function user()
@@ -53,4 +54,8 @@ class Budget extends Model
         return $this->hasMany(Celebrated::class);
     }
 
+    public function budgetPacks()
+    {
+        return $this->hasMany(BudgetPack::class);
+    }
 }

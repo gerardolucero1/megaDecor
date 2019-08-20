@@ -335,7 +335,7 @@
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo">
+                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
                                 <td>
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
@@ -349,7 +349,7 @@
                                 <td>{{ producto.precioUnitario }}</td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal }}</span>
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
@@ -378,7 +378,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
                                 <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
                                 <label for="precio">Precios</label>
@@ -395,15 +395,21 @@
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
                             </div>
+                            <div class="col-md-3">
+                                <input v-if="verIVA" type="text" v-model="iva" width="20%">
+                            </div>
                             <div class="col-md-4 mt-4">
-                                <h5>Subtotal: $<span>1300</span></h5>
+                                <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
                                 <input type="checkbox" id="iva">
-                                <label for="iva">IVA: $<span>150</span></label>
+                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: $<span>1300</span></p>
-                                    <p>Ahorro General: $<span>100</span></p>
+                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p>Comision pagada en base a $ <span>150</span></p>
+
+                                    <button class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                 </div>
                             </div>
                         </div>
@@ -415,10 +421,10 @@
                         <button class="btn btn-sm btn-block btn-primary">Imprimir</button>
                     </div>
                     <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto(1)">Guardar Presupuesto</button>
                     </div>
                     <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary">Guardar Contrato</button>
+                        <button class="btn btn-sm btn-block btn-secondary" @click="guardarPresupuesto(2)">Guardar Contrato</button>
                     </div>
                 </div>
             </div>
@@ -694,6 +700,9 @@
                     opcionDescripcionPaquete: '',
                     opcionImagen: '',
                     opcionDescuento: '',
+
+                    //Presupuesto o contrato
+                    tipo: '',
                 },
                 usuarios: [],
                 clientes: [],
@@ -737,7 +746,9 @@
                 precioSugerido: 0,
                 cantidadPaquete: '',
 
-                paqueteLocal: [],
+                //IVA
+                iva: 16,
+                verIVA: false,
 
             }
         },
@@ -759,12 +770,61 @@
             imagen: function(){
                 return this.productoExterno.imagen;
             },
+            calcularSubtotal: function(){
+                //Arreglo javascript de objetos json
+                let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+                }
+
+                return suma;
+            },
+            calcularIva: function(){
+                return this.calcularSubtotal * (this.iva / 100);
+            },
+            calcularAhorro: function(){
+                let ahorro = 0;
+                this.inventarioLocal.forEach(function(element){
+                    let precioNormal = element.cantidad * element.precioUnitario;
+                    ahorro = ahorro + (precioNormal - element.precioFinal);
+                })
+
+                return ahorro;
+            },
         },
         filters: {
-            decimales: function(value){
-                if (!value) return '';
-                value = value.toFixed(2);
-                return value;
+            decimales: function (x, posiciones = 2) {
+                var s = x.toString()
+                var l = s.length
+                var decimalLength = s.indexOf('.') + 1
+
+                if (l - decimalLength <= posiciones){
+                    return x
+                }
+                // Parte decimal del número
+                var isNeg  = x < 0
+                var decimal =  x % 1
+                var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
+                // Parte decimal como número entero
+                // Ejemplo: parte decimal = 0.77
+                // decimalFormated = 0.77 * (10^posiciones)
+                // si posiciones es 2 ==> 0.77 * 100
+                // si posiciones es 3 ==> 0.77 * 1000
+                var decimalFormated = Math.floor(
+                    Math.abs(decimal) * Math.pow(10, posiciones)
+                )
+                // Sustraemos del número original la parte decimal
+                // y le sumamos la parte decimal que hemos formateado
+                var finalNum = entera + 
+                    ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
+                
+                return finalNum;
             }
         },
         watch: {
@@ -782,17 +842,17 @@
                     this.presupuesto.coloniaLugar = '';
                 }
                 
-            }
-            /*
-            demo: {
-                deep: true,
-                handler: (nuevoValor, valorAnterior) => {
-                    console.log('el viejo valor era ', valorAnterior, ' y ahora es ', nuevoValor);
-                }
-            }
-            */
+            },
         },
         methods:{
+            //Mostrar el IVA
+            mostrarIVA(){
+                if(this.verIVA){
+                    this.verIVA = false;
+                }else{
+                    this.verIVA = true;
+                }
+            },
             //Metodos para los paquetes
             agregarProductoPaquete(producto){
                 this.paquete.inventario.push({
@@ -849,7 +909,6 @@
                         
                     },
             guardarPaquete(){
-                //this.paqueteLocal.push(this.paquete);
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
@@ -1118,8 +1177,14 @@
                 this.festejados.splice(index, 1);
             },
 
-            // Guardar presupuesto
-            guardarPresupuesto(){
+            // Guardar como presupuesto
+            guardarPresupuesto(valor){
+                if(valor == 1){
+                    this.presupuesto.tipo = 'PRESUPUESTO';
+                }else{
+                    this.presupuesto.tipo = 'CONTRATO';
+                }
+
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1153,7 +1218,7 @@
                         'error'
                     );
                 });
-            }
+            },
         }
     }
 </script>

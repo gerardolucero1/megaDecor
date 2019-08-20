@@ -16,6 +16,10 @@ class CreateBudgetsTable extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('folio');
+            
+            //Presupuesto o contrato
+            $table->enum('tipo', ['PRESUPUESTO', 'CONTRATO']);
+
             $table->integer('vendedor_id')->unsigned();
             $table->integer('client_id')->unsigned();
 

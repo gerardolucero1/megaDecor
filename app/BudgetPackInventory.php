@@ -2,25 +2,22 @@
 
 namespace App;
 
-use App\Budget;
 use Illuminate\Database\Eloquent\Model;
 
-class BudgetInventory extends Model
+class BudgetPackInventory extends Model
 {
     protected $fillable = [
-        'budget_id',
+        'budget_pack_id',
         'servicio',
         'imagen',
         'cantidad',
         'precioUnitario',
         'precioFinal',
-        'ahorro',
-        'notas',
         'externo',
     ];
 
     public function budget()
     {
-        return $this->belongsTo(Budget::class);
+        return $this->belongsTo(BudgetPack::class);
     }
 }

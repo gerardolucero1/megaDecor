@@ -15,8 +15,8 @@ class BudgetPack extends Model
         'guardarPaquete',
     ];
 
-    public function inventories()
+    public function budget()
     {
-        return $this->belongsToMany(Inventory::class);
+        return $this->belongsTo(Budget::class);
     }
 }
