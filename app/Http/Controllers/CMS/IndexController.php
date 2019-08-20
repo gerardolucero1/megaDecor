@@ -25,9 +25,7 @@ class IndexController extends Controller
         return view('clientes',compact('clientes'));    
     }
 
-    public function presupuestos(){
-        return view('presupuestos');
-    }
+   
     public function contratos(){
         return view('contratos');
     }
