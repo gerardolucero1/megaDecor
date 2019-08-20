@@ -28,6 +28,7 @@
 
 
 
+        <link rel="stylesheet" href="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.css">
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
         @yield('css_after')

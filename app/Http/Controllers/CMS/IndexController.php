@@ -38,4 +38,8 @@ class IndexController extends Controller
         $tasks = Task::orderBy('id', 'DESC')->get();
         return view('dashboard', compact('tasks'));
     }
+
+    public function presupuestos(){
+        return view('presupuestos');
+    }
 }

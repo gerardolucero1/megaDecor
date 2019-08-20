@@ -6,9 +6,11 @@
 
     <section class="container">
         <div class="row">
-            <div class="col-md-4 text-center">
-                
-            </div>
+                <div class="col-md-4 text-center">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#nuevoPresupuestoModal">
+                            Nuevo Presupuesto
+                        </button>
+                    </div>
             
            
         </div>
@@ -130,9 +132,9 @@
                
     </section>
    
-    @include('../modals/nuevoClienteModal')
-    @include('../modals/tiposEmpresaModal')
-    @include('../modals/comoSupoModal')
+    
+    @include('../modals/nuevoPresupuestoModal')
+    @include('../modals/nuevoProductoModal')
 @endsection
 @section("scripts")
 <script>

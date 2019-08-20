@@ -192,7 +192,9 @@ function emailCopy(){
 </script>
 
 <script>
-import { EventBus } from '../eventBus.js';
+// Import the EventBus.
+    import { EventBus } from '../event-bus.js';
+
     export default {
         data(){
             return {
@@ -260,6 +262,10 @@ import { EventBus } from '../eventBus.js';
  EventBus.$on('nuevoTipoEmpresa', funcion => {
   this.obtenerTipoEmpresa();
 });
+            console.log('funciona');
+            EventBus.$on('click', () => {
+                console.log('Bus funciona');
+            });
         },
         
         mounted(){
