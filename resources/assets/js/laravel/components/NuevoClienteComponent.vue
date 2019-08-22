@@ -57,7 +57,7 @@
                         <div class="col-md-6">
                             <label for="">Tipo de Empresa</label>
                             <select name="categoria"  v-model="cliente.categoriaCliente">
-                                <option v-for="tipoE in tiposE" value="1" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
+                                <option v-for="tipoE in tiposE" v-bind:value="tipoE.nombre" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 

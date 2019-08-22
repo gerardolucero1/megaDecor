@@ -2865,6 +2865,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -2893,9 +2902,11 @@ __webpack_require__.r(__webpack_exports__);
         presupuestos: []
       },
       ultimoEvento: '',
-      //clienteSeleccionadoTelefonos: [],
+      //Usuario y usuarios
+      usuarioActual: '',
+      usuarios: [],
       presupuesto: {
-        vendedor_id: '1',
+        vendedor_id: '',
         client_id: '',
         tipoEvento: 'EXTERNO',
         tipoServicio: 'FORMAL',
@@ -2927,7 +2938,6 @@ __webpack_require__.r(__webpack_exports__);
         //Presupuesto o contrato
         tipo: ''
       },
-      usuarios: [],
       clientes: [],
       festejado: {
         nombre: '',
@@ -2965,15 +2975,19 @@ __webpack_require__.r(__webpack_exports__);
       cantidadPaquete: '',
       //IVA
       iva: 16,
-      verIVA: false
+      verIVA: false,
+      // Ultimo presupuesto
+      ultimoPresupuesto: ''
     };
   },
   created: function created() {
     var _this = this;
 
-    this.obtenerUsuarios();
+    this.obtenerUltimoPresupuesto();
     this.obtenerClientes();
     this.obtenerInventario();
+    this.obtenerUsuario();
+    this.obtenerUsuarios();
     this.$on('results', function (results) {
       _this.results = results;
     });
@@ -3013,6 +3027,28 @@ __webpack_require__.r(__webpack_exports__);
         ahorro = ahorro + (precioNormal - element.precioFinal);
       });
       return ahorro;
+    },
+    obtenerFecha: function obtenerFecha() {
+      var fecha = moment().format("DD/MM/YYYY");
+      return fecha;
+    },
+    obtenerFolio: function obtenerFolio() {
+      if (this.ultimoPresupuesto.length !== 0) {
+        var cadena = this.ultimoPresupuesto.folio,
+            separador = "M",
+            data = cadena.split(separador);
+        console.log(data[1]);
+
+        if (this.presupuesto.tipoEvento == 'EXTERNO') {
+          var nuevoFolio = 'NM' + (parseInt(data[1]) + 1);
+          return nuevoFolio;
+        } else {
+          var _nuevoFolio = 'M' + (parseInt(data[1]) + 1);
+
+          return _nuevoFolio;
+        } //return nuevoFolio;
+
+      }
     }
   },
   filters: {
@@ -3058,6 +3094,40 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    obtenerUsuario: function obtenerUsuario() {
+      var _this2 = this;
+
+      var URL = '/obtener-usuario';
+      axios.get(URL).then(function (response) {
+        _this2.usuarioActual = response.data;
+        _this2.presupuesto.vendedor_id = _this2.usuarioActual.id;
+        console.log(_this2.usuarioActual);
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
+    },
+    obtenerUsuarios: function obtenerUsuarios() {
+      var _this3 = this;
+
+      var URL = '/obtener-usuarios';
+      axios.get(URL).then(function (response) {
+        _this3.usuarios = response.data;
+        console.log(_this3.usuarios);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    obtenerUltimoPresupuesto: function obtenerUltimoPresupuesto() {
+      var _this4 = this;
+
+      var URL = '/obtener-ultimo-presupuesto';
+      axios.get(URL).then(function (response) {
+        _this4.ultimoPresupuesto = response.data;
+        console.log(_this4.ultimoPresupuesto);
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
+    },
     //Mostrar el IVA
     mostrarIVA: function mostrarIVA() {
       if (this.verIVA) {
@@ -3133,7 +3203,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Metodo para obtener el cliente seleccionado
     obtenerCliente: function obtenerCliente(cliente) {
-      var _this2 = this;
+      var _this5 = this;
 
       //let URL = '/obtener-cliente/' + cliente.id;
       var URL = '/obtener-cliente';
@@ -3141,7 +3211,7 @@ __webpack_require__.r(__webpack_exports__);
         'id': cliente.id,
         'accion': 'telefonos'
       }).then(function (response) {
-        _this2.clienteSeleccionado.telefonos = response.data;
+        _this5.clienteSeleccionado.telefonos = response.data;
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -3149,18 +3219,18 @@ __webpack_require__.r(__webpack_exports__);
         'id': cliente.id,
         'accion': 'presupuestos'
       }).then(function (response) {
-        _this2.clienteSeleccionado.presupuestos = [];
-        _this2.ultimoEvento = '';
+        _this5.clienteSeleccionado.presupuestos = [];
+        _this5.ultimoEvento = '';
 
         if (response.data.length !== 0) {
-          _this2.clienteSeleccionado.presupuestos = response.data;
+          _this5.clienteSeleccionado.presupuestos = response.data;
           var arreglo = response.data;
           arreglo.sort(function (a, b) {
             return new Date(b.fechaEvento) - new Date(a.fechaEvento);
           });
-          _this2.ultimoEvento = arreglo.shift();
+          _this5.ultimoEvento = arreglo.shift();
 
-          _this2.clienteSeleccionado.presupuestos.push(_this2.ultimoEvento);
+          _this5.clienteSeleccionado.presupuestos.push(_this5.ultimoEvento);
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -3181,14 +3251,14 @@ __webpack_require__.r(__webpack_exports__);
       this.cargarImagen(files[0]);
     },
     cargarImagen: function cargarImagen(file) {
-      var _this3 = this;
+      var _this6 = this;
 
       var reader = new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
         //this.thumbnail = e.target.result;
-        _this3.productoExterno.imagen = e.target.result;
+        _this6.productoExterno.imagen = e.target.result;
       };
 
       reader.readAsDataURL(file);
@@ -3331,12 +3401,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this4 = this;
+      var _this7 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this4.inventario = response.data;
-        console.log(_this4.inventario);
+        _this7.inventario = response.data;
+        console.log(_this7.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -3357,22 +3427,13 @@ __webpack_require__.r(__webpack_exports__);
       });
       console.log(this.inventarioLocal);
     },
-    obtenerUsuarios: function obtenerUsuarios() {
-      var _this5 = this;
-
-      var URL = '/usuarios';
-      axios.get(URL).then(function (response) {
-        _this5.usuarios = response.data;
-        console.log(_this5.usuarios);
-      });
-    },
     obtenerClientes: function obtenerClientes() {
-      var _this6 = this;
+      var _this8 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this6.clientes = response.data;
-        console.log(_this6.clientes);
+        _this8.clientes = response.data;
+        console.log(_this8.clientes);
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -55001,7 +55062,7 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12 registroPresupuesto" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-8 text-left" }, [
+          _c("div", { staticClass: "col-md-9 text-left" }, [
             _vm.presupuesto.tipoEvento == "INTERNO"
               ? _c("div", {
                   staticClass: "img-fluid logo-presupuesto",
@@ -55019,7 +55080,68 @@ var render = function() {
                 })
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "col-md-3 text-right info" }, [
+            _c("p", [_vm._v(_vm._s(_vm.obtenerFolio))]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-8" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.vendedor_id,
+                        expression: "presupuesto.vendedor_id"
+                      }
+                    ],
+                    attrs: { name: "vendedor", id: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.presupuesto,
+                          "vendedor_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.usuarios, function(usuario) {
+                    return _c(
+                      "option",
+                      {
+                        key: usuario.index,
+                        domProps: {
+                          value: usuario.id,
+                          selected: _vm.usuarioActual.id
+                        }
+                      },
+                      [_vm._v(_vm._s(usuario.name))]
+                    )
+                  }),
+                  0
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "mt-3" }, [
+              _vm._v("Fecha de presupuesto: "),
+              _c("span", [_vm._v(_vm._s(_vm.obtenerFecha))])
+            ])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -57539,15 +57661,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 text-right info" }, [
-      _c("p", [_vm._v("PNM 0000")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Vendedor: "), _c("span", [_vm._v("Gerardo Lucero")])]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("Fecha de presupuesto: "),
-        _c("span", [_vm._v("23/08/2019")])
-      ])
+    return _c("div", { staticClass: "col-md-4 text-right" }, [
+      _c("label", [_vm._v("Vendedor: ")])
     ])
   },
   function() {
@@ -58552,7 +58667,10 @@ var render = function() {
                       _vm._l(_vm.tiposE, function(tipoE) {
                         return _c(
                           "option",
-                          { key: tipoE.index, attrs: { value: "1" } },
+                          {
+                            key: tipoE.index,
+                            domProps: { value: tipoE.nombre }
+                          },
                           [_vm._v(_vm._s(tipoE.nombre))]
                         )
                       }),

@@ -178,6 +178,9 @@ return [
         // Intervention Image
         Intervention\Image\ImageServiceProvider::class,
 
+        // Laravel Collective
+        Collective\Html\HtmlServiceProvider::class,
+
     ],
 
     /*
@@ -231,6 +234,10 @@ return [
 
         //Intervention Image
         'Image' => Intervention\Image\Facades\Image::class,
+
+        //Laravel Collective
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

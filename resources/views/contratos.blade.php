@@ -102,4 +102,4 @@ function archivarCliente(){
    
 </script>
 
-@endsectiont
+@endsection

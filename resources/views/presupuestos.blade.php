@@ -136,36 +136,37 @@
     @include('../modals/nuevoPresupuestoModal')
     @include('../modals/nuevoProductoModal')
 @endsection
-@section("scripts")
-<script>
-function archivarCliente(){
-    Swal.fire({
-                                title: '¿Estas seguro de archivar este presupuesto?',
-                                text: "Al archivar un presupuesto dejara de estar disponible en la tabla de presupuestos",
-                                type: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Confirmar'
-                                
-                            }).then((result) => {
-                            if (result.value) {
-                                var url= '/presupuestos/eliminar-presupuestos/'+task;
-                                axios.delete(url).then(response =>{
-                                    this.obtenerTareas();
-                                    }) 
-                                }
-                          
-})
-   }
-function presupuestosArchivados(){
-    document.getElementById('presupuestosArchivados').style.display="block";
-    document.getElementById('PresupuestosActivos').style.display="none";
-}
-function PresupuestosActivos(){
-    document.getElementById('presupuestosArchivados').style.display="none";
-    document.getElementById('PresupuestosActivos').style.display="block";
-}
-</script>
 
-@endsectiont
+@section("scripts")
+    <script>
+    function archivarCliente(){
+        Swal.fire({
+            title: '¿Estas seguro de archivar este presupuesto?',
+            text: "Al archivar un presupuesto dejara de estar disponible en la tabla de presupuestos",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar'
+            
+        }).then((result) => {
+        if (result.value) {
+            var url= '/presupuestos/eliminar-presupuestos/'+task;
+            axios.delete(url).then(response =>{
+                this.obtenerTareas();
+                }) 
+            }
+                            
+        })
+    }
+    function presupuestosArchivados(){
+        document.getElementById('presupuestosArchivados').style.display="block";
+        document.getElementById('PresupuestosActivos').style.display="none";
+    }
+    function PresupuestosActivos(){
+        document.getElementById('presupuestosArchivados').style.display="none";
+        document.getElementById('PresupuestosActivos').style.display="block";
+    }
+    </script>
+
+@endsection

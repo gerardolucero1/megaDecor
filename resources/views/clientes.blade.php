@@ -185,4 +185,4 @@ function VerActivos(){
 }
 </script>
 
-@endsectiont
+@endsection

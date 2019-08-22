@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-9 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('https://thebiaslistcom.files.wordpress.com/2019/07/nature-im-so-pretty.jpg')">
 
                         </div>
@@ -67,10 +67,19 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-right info">
-                        <p>PNM 0000</p>
-                        <p>Vendedor: <span>Gerardo Lucero</span></p>
-                        <p>Fecha de presupuesto: <span>23/08/2019</span></p>
+                    <div class="col-md-3 text-right info">
+                        <p>{{ obtenerFolio }}</p>
+                        <div class="row">
+                            <div class="col-md-4 text-right">
+                                <label>Vendedor: </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -666,9 +675,13 @@
                     presupuestos: [],
                 },
                 ultimoEvento: '',
-                //clienteSeleccionadoTelefonos: [],
+
+                //Usuario y usuarios
+                usuarioActual: '',
+                usuarios: [],
+
                 presupuesto:{
-                    vendedor_id: '1',
+                    vendedor_id: '',
                     client_id: '',
                     tipoEvento: 'EXTERNO',
                     tipoServicio: 'FORMAL',
@@ -704,7 +717,6 @@
                     //Presupuesto o contrato
                     tipo: '',
                 },
-                usuarios: [],
                 clientes: [],
                 festejado: {
                     nombre: '',
@@ -750,12 +762,18 @@
                 iva: 16,
                 verIVA: false,
 
+                // Ultimo presupuesto
+                ultimoPresupuesto: '',
+
             }
         },
         created(){
-            this.obtenerUsuarios();
+            this.obtenerUltimoPresupuesto();
             this.obtenerClientes();
             this.obtenerInventario();
+            this.obtenerUsuario();
+            this.obtenerUsuarios();
+            
             this.$on('results', results => {
                 this.results = results
             });
@@ -764,7 +782,8 @@
             });
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
-            });
+            });    
+
         },
         computed:{
             imagen: function(){
@@ -797,6 +816,28 @@
 
                 return ahorro;
             },
+            obtenerFecha: function(){
+                let fecha = moment().format("DD/MM/YYYY");
+                return fecha;
+            },
+            obtenerFolio: function(){
+                if(this.ultimoPresupuesto.length !== 0){
+                    let cadena = this.ultimoPresupuesto.folio,
+                        separador = "M",
+                        data = cadena.split(separador);
+                        console.log(data[1]);
+                    if(this.presupuesto.tipoEvento == 'EXTERNO'){
+                        let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
+                        return nuevoFolio
+                    }else{
+                        let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        return nuevoFolio
+                    }
+                    //return nuevoFolio;
+                }
+                
+
+            }
         },
         filters: {
             decimales: function (x, posiciones = 2) {
@@ -845,6 +886,37 @@
             },
         },
         methods:{
+            obtenerUsuario(){
+                let URL = '/obtener-usuario';
+
+                axios.get(URL).then((response) => {
+                    this.usuarioActual = response.data;
+                    this.presupuesto.vendedor_id = this.usuarioActual.id;
+                    console.log(this.usuarioActual);
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
+            obtenerUsuarios(){
+                let URL = '/obtener-usuarios';
+
+                axios.get(URL).then((response) => {
+                    this.usuarios = response.data;
+                    console.log(this.usuarios)
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
+            obtenerUltimoPresupuesto(){
+                let URL = '/obtener-ultimo-presupuesto';
+
+                axios.get(URL).then((response) => {
+                    this.ultimoPresupuesto = response.data;
+                    console.log(this.ultimoPresupuesto);
+                }).catch((error) => {
+                    console.log(error.data)
+                });
+            },
             //Mostrar el IVA
             mostrarIVA(){
                 if(this.verIVA){
@@ -1154,13 +1226,6 @@
                 });
                 console.log(this.inventarioLocal);
                 
-            },
-            obtenerUsuarios(){
-                let URL = '/usuarios';
-                axios.get(URL).then((response) => {
-                    this.usuarios = response.data;
-                    console.log(this.usuarios);
-                })
             },
             obtenerClientes(){
                 let URL = '/obtener-clientes';
