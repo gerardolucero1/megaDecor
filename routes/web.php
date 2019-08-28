@@ -2,12 +2,17 @@
 
 use App\User;
 use App\Budget;
+use App\Client;
 use App\Telephone;
+use App\MoralPerson;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
+use App\Mail\NuevoPresupuesto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+        Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
 
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
@@ -84,6 +90,30 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
+    //Emails
+    Route::post('enviar-email', function(Request $request){
+        
+        $presupuesto    = $request->presupuesto;
+        $inventario     = $request->inventario;
+        $festejados     = $request->festejados;
+
+        
+        $cliente        = Client::orderBy('id', 'DESC')->where('id', $presupuesto['client_id'])->first();        
+
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }else{
+            $persona = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }
+    
+        Mail::to('gera_conecta@hotmail.com', 'Administrador')
+            ->cc($persona->email)
+            ->send(new NuevoPresupuesto($presupuesto, $inventario, $festejados));
+    });
+
+    //Generar PDF's
+    Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
 
 });
 

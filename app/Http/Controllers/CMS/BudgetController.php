@@ -14,7 +14,9 @@ use App\ExternalInventory;
 use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 
 class BudgetController extends Controller
@@ -123,6 +125,21 @@ class BudgetController extends Controller
         $presupuesto->opcionImagen        = $request->presupuesto['opcionImagen'];
         $presupuesto->opcionPrecio        = $request->presupuesto['opcionPrecio'];
         $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
+        $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
+        $presupuesto->impresion         = $request->presupuesto['impresion'];
+
+        if($request->presupuesto['tipo'] == 'CONTRATO'){
+            $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
+            $presupuesto->horaFin                   = $request->facturacion['horaFin'];
+            $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
+            $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
+            $presupuesto->notasFacturacion          = $request->facturacion['notasFacturacion'];
+            $presupuesto->nombreFacturacion         = $request->facturacion['nombreFacturacion'];
+            $presupuesto->direccionFacturacion      = $request->facturacion['direccionFacturacion'];
+            $presupuesto->numeroFacturacion         = $request->facturacion['numeroFacturacion'];
+            $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
+            $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
+        }
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->pluck('id')->first();
@@ -218,6 +235,24 @@ class BudgetController extends Controller
                     }
             }
         }
+
+    }
+
+    public function obtenerUltimoPresupuesto(){
+        return Budget::orderBy('id', 'DESC')->first();
+    }
+
+    public function pdf($id){        
+
+        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        $presupuesto->impresion = 1;
+        $presupuesto->save();
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.budget', compact('presupuesto'));
+
+        return $pdf->stream();
 
     }
 }

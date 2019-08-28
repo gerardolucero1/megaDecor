@@ -191,8 +191,10 @@
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> eventos contratados</p>
-                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> presupuestos</p>
+                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
+                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
+                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
+                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
                     </div>
                 </div>
@@ -375,7 +377,7 @@
 
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">Editar</button>
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary">Editar</button>
                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                 </td>
                             </tr>
@@ -409,7 +411,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input type="checkbox" id="iva">
+                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
 
@@ -427,13 +429,13 @@
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <button class="btn btn-sm btn-block btn-primary">Imprimir</button>
+                        <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
                     </div>
                     <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto(1)">Guardar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
                     </div>
                     <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary" @click="guardarPresupuesto(2)">Guardar Contrato</button>
+                        <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
                     </div>
                 </div>
             </div>
@@ -642,6 +644,193 @@
             </div>
         </div>
 
+        <!-- Modal ver contratos -->
+        <div class="modal fade" id="verContratos" tabindex="-1" role="dialog" aria-labelledby="verContratos" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Contratos</h5>
+                    <button type="button" class="close" onClick="$('#verContratos').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="clienteSeleccionadoContratos.length !== 0">
+                        <div class="col-md-12">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Lista de contratos</h3>
+                                <div class="block-options">
+                                    <div class="block-options-item">
+                                        <code></code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <table class="table table-striped table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>FECHA</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <th class="text-center" style="width: 100px;">ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="contrato in clienteSeleccionadoContratos" :key="contrato.index">
+                                            <th class="text-center" scope="row">1</th>
+                                            <td>{{ contrato.fechaEvento }}</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                <span class="badge badge-primary">{{ contrato.tipoEvento }}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal ver presupuestos -->
+        <div class="modal fade" id="verPresupuestos" tabindex="-1" role="dialog" aria-labelledby="verPresupuestos" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Presupuestos</h5>
+                    <button type="button" class="close" onClick="$('#verPresupuestos').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="clienteSeleccionadoPresupuestos.length !== 0">
+                        <div class="col-md-12">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Lista de presupuestos</h3>
+                                <div class="block-options">
+                                    <div class="block-options-item">
+                                        <code></code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <table class="table table-striped table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>FECHA</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <th class="text-center" style="width: 100px;">ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="presupuesto in clienteSeleccionadoPresupuestos" :key="presupuesto.index">
+                                            <th class="text-center" scope="row">1</th>
+                                            <td>{{ presupuesto.fechaEvento }}</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                <span class="badge badge-primary">{{ presupuesto.tipoEvento }}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal ver presupuestos -->
+        <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Guardar Contrato</h5>
+                    <button type="button" class="close" onClick="$('#guardarContrato').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="hora-1">Hora de inicio</label>
+                            <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="hora-2">Hora de fin</label>
+                            <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="hora-2">Hora de entrega</label>
+                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
+                                <option value="MAÑANA">Mañana</option>
+                                <option value="TARDE">Tarde</option>
+                                <option value="MEDIO DIA">Medio dia</option>
+                                <option value="NOCHE">Noche</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label form="fecha-hora">Fecha y hora de recoleccion</label>
+                            <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
+                            <label form="requireFactura">Factura</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label form="notasFactura">Notas facturacion</label>
+                            <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
+                        </div>
+                        <div class="col-md-5 mt-4">
+                            <input class="form-control" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <input class="form-control" type="text" placeholder="Numero" v-model="facturacion.numeroFacturacion">
+                        </div>
+                        <div class="col-md-5 mt-4">
+                            <input class="form-control" type="text" placeholder="Colonia" v-model="facturacion.coloniaFacturacion">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -650,7 +839,7 @@
     import ListaInventarioComponent from './ListaInventarioComponent';
     import BuscadorComponent from './BuscadorComponent.vue';
     // Importamos el evento Bus.
-    import { EventBus } from '../event-bus.js';
+    import { EventBus } from '../eventBus.js';
 
     export default {
         components: {
@@ -674,6 +863,8 @@
                     telefonos: [],
                     presupuestos: [],
                 },
+                clienteSeleccionadoContratos: [],
+                clienteSeleccionadoPresupuestos: [],
                 ultimoEvento: '',
 
                 //Usuario y usuarios
@@ -713,9 +904,13 @@
                     opcionDescripcionPaquete: '',
                     opcionImagen: '',
                     opcionDescuento: '',
+                    opcionIVA: '',
 
                     //Presupuesto o contrato
                     tipo: '',
+
+                    //Impresion
+                    impresion: false,
                 },
                 clientes: [],
                 festejado: {
@@ -765,6 +960,26 @@
                 // Ultimo presupuesto
                 ultimoPresupuesto: '',
 
+                //Imprimir presupuesto
+                imprimir: false,
+
+                //Datos facturacion
+                requiereFactura: false,
+                facturacion: {
+                    //Tiempos
+                    horaInicio: '',
+                    horaFin: '',
+                    horaEntrega: '',
+                    fechaRecoleccion: '',
+                    notasFacturacion: '',
+
+                    //Datos
+                    nombreFacturacion: '',
+                    direccionFacturacion: '',
+                    numeroFacturacion: '',
+                    coloniaFacturacion: '',
+                    emailFacturacion: '',
+                }
             }
         },
         created(){
@@ -837,6 +1052,16 @@
                 }
                 
 
+            },
+            calcularContratos: function(){
+                let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
+                this.clienteSeleccionadoContratos = contratos;
+                return this.clienteSeleccionadoContratos.length;
+            },
+            calcularPresupuestos: function(){
+                let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
+                this.clienteSeleccionadoPresupuestos = presupuestos;
+                return this.clienteSeleccionadoPresupuestos.length;
             }
         },
         filters: {
@@ -881,6 +1106,23 @@
                     this.presupuesto.direccionLugar = '';
                     this.presupuesto.numeroLugar = '';
                     this.presupuesto.coloniaLugar = '';
+                }
+                
+            },
+            'requiereFactura': function(val){
+                if(val){
+                    this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
+                    this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
+                    this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
+                    this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
+                    this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+
+                }else{
+                    this.facturacion.nombreFacturacion = '';
+                    this.facturacion.direccionFacturacion = '';
+                    this.facturacion.numeroFacturacion = '';
+                    this.facturacion.coloniaFacturacion = '';
+                    this.facturacion.emailFacturacion = '';
                 }
                 
             },
@@ -1243,13 +1485,8 @@
             },
 
             // Guardar como presupuesto
-            guardarPresupuesto(valor){
-                if(valor == 1){
-                    this.presupuesto.tipo = 'PRESUPUESTO';
-                }else{
-                    this.presupuesto.tipo = 'CONTRATO';
-                }
-
+            guardarPresupuesto(){
+                this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1260,7 +1497,19 @@
                     'festejados': this.festejados,
                     'inventario': this.inventarioLocal,
                 }).then((response) => {
-                    console.log(response.data);
+                    this.imprimir = true;
+                    let URL = '/enviar-email';
+
+                    axios.post(URL, {
+                        'presupuesto': this.presupuesto,
+                        'festejados': this.festejados,
+                        'inventario': this.inventarioLocal,
+                    }).then((response) => {
+                        console.log('Email Enviado');
+                    }).catch((error) => {
+                        console.log(error.data);
+                    });
+                    
                     if(response.data == 1){
                         Swal.fire(
                             'Error!',
@@ -1283,6 +1532,81 @@
                         'error'
                     );
                 });
+            },
+            // Guardar como contrato
+            guardarContrato(){
+                this.presupuesto.tipo = 'CONTRATO';
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+
+                if(this.requiereFactura){
+                    for (const prop in this.facturacion) {
+                        
+                        if(this.facturacion[prop] == ''){
+                            Swal.fire(
+                                'Error',
+                                'Los datos de facturacion deben ser completados',
+                                'error'
+                            );
+                            return;
+                        }
+                        
+                        
+                    }
+                }
+                let URL = '/presupuestos/create';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                    'facturacion': this.facturacion,
+                }).then((response) => {
+                    this.imprimir = true;
+                    
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'No puede haber dos eventos en salon en la misma fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire(
+                            'Creado!',
+                            'El presupuesto ha sido creado',
+                            'success'
+                        );
+                    }   
+                    
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                        'Error!',
+                        'Algo ha ocurrido mal',
+                        'error'
+                    );
+                });
+            },
+            imprimirPDF(){
+                if(!this.imprimir){
+                    Swal.fire(
+                        'Error!',
+                        'Primero guarda el presupuesto',
+                        'error'
+                    );
+                }else{
+                    let URL = '/obtener-ultimo-presupuesto';
+
+                    axios.get(URL).then((response) => {
+                        this.imprimir = false;
+                        let data = response.data;
+
+                        //window.location.href = '/presupuestos/generar-pdf/' + data.id;
+                        window.open('/presupuestos/generar-pdf/' + data.id);
+                    }).catch((error) => {
+                        console.log(error.data);
+                    })
+                }
             },
         }
     }

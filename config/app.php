@@ -181,6 +181,9 @@ return [
         // Laravel Collective
         Collective\Html\HtmlServiceProvider::class,
 
+        //DomPDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
     ],
 
     /*
@@ -238,6 +241,9 @@ return [
         //Laravel Collective
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        //DomPDF
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

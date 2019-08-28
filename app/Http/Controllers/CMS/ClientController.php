@@ -112,6 +112,12 @@ class ClientController extends Controller
         // Guardo un nuevo cliente.
         $cliente = new Client();
         $cliente->clave = $aleatoria;
+        $cliente->nombreCliente = $request->nombreCliente;
+        if($request->tipoPersona == 'fisica'){
+            $cliente->tipoPersona = 'FISICA';
+        }else{
+            $cliente->tipoPersona = 'MORAL';
+        }
         $cliente->save();
 
         // Obtengo el ultimo cliente guardado en la base de datos.
@@ -157,7 +163,7 @@ class ClientController extends Controller
         foreach ($request->telefonos as $telephone){
             $telefono = new Telephone();
 
-            $telefono->cliente_id = $ultimoCliente;
+            $telefono->client_id = $ultimoCliente;
             $telefono->nombre = $telephone['nombre'];
             $telefono->email = $telephone['email'];
             $telefono->tipo = $telephone['tipo'];
