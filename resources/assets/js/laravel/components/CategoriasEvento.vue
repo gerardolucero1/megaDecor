@@ -98,14 +98,14 @@
       EventBus.$emit('clic');
     },
             obtenerCategorias(){
-                let URL = '/tareas/categorias-tareas';
+                let URL = '/presupuestos/categorias-eventos';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
                     console.log(this.categorias);
                 });
                 },
             eliminarCategorias(categoria){
-                var url= '/tareas/eliminar-categoria/'+categoria.id;
+                var url= '/presupuestos/eliminar-categoria/'+categoria.id;
                 axios.delete(url).then(response =>{
                     EventBus.$emit('clic');
                     this.obtenerCategorias();  
@@ -115,7 +115,7 @@
             },  
                 
                 crearCategoriaTarea(){
-                let URL = '/tareas/createcategory';
+                let URL = '/presupuestos/createcategory';
                 axios.post(URL, {
                     'nombre': this.categoria.nombre,
                     

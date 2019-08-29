@@ -209,6 +209,7 @@
                                 <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                 <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
                                 <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>

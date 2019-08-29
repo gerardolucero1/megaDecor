@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-9 text-right">
                            
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
                                         </button>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#VistaCalendario">
@@ -73,6 +73,7 @@
                
     </section>
    
+    @include('../modals/nuevoPresupuestoModal')
     @include('../modals/nuevoClienteModal')
     @include('../modals/tiposEmpresaModal')
     @include('../modals/comoSupoModal')

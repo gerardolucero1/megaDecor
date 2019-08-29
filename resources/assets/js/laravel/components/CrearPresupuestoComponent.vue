@@ -37,9 +37,9 @@
     .resultadoInventario{
         position: absolute;
         z-index: 3000;
-        background-color: gray;
+        background-color: white;
         overflow: scroll;
-        height: 300px;
+        max-height: 300px;
     }
 
     table tr td input{
@@ -48,8 +48,8 @@
     }
 
     .producto{
-        background-color: beige;
-        border-bottom: 2px solid black;
+        background-color: white;
+        border-bottom: 1px dotted gray;
     }
 
 </style>
@@ -59,11 +59,11 @@
         <div class="row">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-9 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('https://thebiaslistcom.files.wordpress.com/2019/07/nature-im-so-pretty.jpg')">
+                    <div class="col-md-8 text-left">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('https://4.bp.blogspot.com/-h2GiZzyOE5Q/WKzED4RMxWI/AAAAAAAAFpA/V3KRWZd8AY80Wa7JsBWHBzYb5G-8aUjDQCLcB/s1600/01-1483422852234.jpg')">
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
@@ -90,7 +90,7 @@
                         <br>
                         <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
                         <label for="salonFuera">Evento Fuera</label>
-                            <div class="text-center" v-if="presupuesto.tipoEvento == 'EXTERNO'">
+                            <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
                                 <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
                                 <label for="servicioFormal">Servicio Formal</label>
                                 <br>
@@ -99,14 +99,16 @@
                             </div>
                     </div>
                     <div class="col-md-6">
-                        <h4 class="text-right">Categoria del evento</h4>
-                        <div class="row">
+                        
+                        <div class="row" >
                             <div class="col-md-8 offset-md-4">
+                                <h4 class="">Categoria del evento</h4>
                                 <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
                                 </select>
+                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -122,27 +124,35 @@
 
                             </div>
                         </div>
-                        <h4>Hora del evento</h4>
+                        
                         <div class="row">
-                            
-                            <div class="col-md-6">
+                            <div class="col-md-8 offset-md-4 row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoInicio">
                             </div>
-                            <div class="col-md-6">
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoFin">
                             </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                            Pendiende</label>
+                            </div>
+                          
                         </div>
-                        <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                        <label for="pendienteHora">Pendiende</label>
+                        
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Cliente</h4>
                         <div class="row">
                             <div class="col-md-9">
                                 <buscador-component
-                                    placeholder="Buscar Clientes"
+                                    placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
                                     :keys="['nombre', 'email']"
@@ -174,7 +184,7 @@
                                 -->
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-sm btn-primary">Agregar</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">Registrar Nuevo Cliente</button>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
@@ -199,7 +209,7 @@
                     </div>
                 </div>
                 <h4>Lugar del Evento</h4>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -1129,6 +1139,8 @@
         },
         created(){
             this.obtenerUltimoPresupuesto();
+            this.obtenerUsuarios();
+            //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
             this.obtenerInventario();
             this.obtenerUsuario();
@@ -1142,8 +1154,9 @@
             });
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
-            });    
+            });
 
+            
         },
         computed:{
             imagen: function(){

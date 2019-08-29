@@ -33,6 +33,7 @@ const store = new Vuex.Store(StoreData);
 Vue.component('nuevo-cliente-component', require('./components/NuevoClienteComponent.vue').default);
 Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
 Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
+Vue.component('categoria-evento-component', require('./components/CategoriasEvento.vue').default);
 Vue.component('task-list-component', require('./components/TaskListComponent.vue').default);
 Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
