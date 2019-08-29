@@ -377,7 +377,9 @@
 
                                 </td>
                                 <td class="text-center">
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary">Editar</button>
+                                    <!--
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
+                                    -->
                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                 </td>
                             </tr>
@@ -831,6 +833,133 @@
             </div>
         </div>
 
+        <!-- Modal editar paquete -->
+        <div class="modal fade modalAgregarPaquete" id="editarPaquete" tabindex="-1" role="dialog" aria-labelledby="editarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Editar paquete</h5>
+                    <button type="button" class="close" onClick="$('#editarPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <buscador-component
+                                    placeholder="Buscar Productos"
+                                    event-name="resultsPaquetes"
+                                    :list="inventario"
+                                    :keys="['servicio', 'id']"
+                                    
+                                ></buscador-component>
+                                        </div>
+                                    </div>
+                                    <!-- Resultado Busqueda -->
+                                    <div class="row" v-if="resultsPaquetes.length < inventario.length">
+                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
+                                            <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
+                                                <div class="row producto" v-on:click="agregarProductoPaqueteEditado(producto)">
+                                                    <div class="col-md-7">
+                                                        <p>{{ producto.servicio }}</p>
+                                                        <span class="badge badge-info">
+                                                            {{ producto.precioUnitario }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Primer columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Servicio</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paqueteEdicion.servicio">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio final</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paqueteEdicion.precioUnitario">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
+                                    <input type="checkbox" id="guardarPaquete" v-model="paqueteEdicion.paquete.guardarPaquete">
+                                    <label for="guardarPaquete">Guardar paquete</label>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="categoriaPaquete">Categoria</label>
+                                        <div class="col-md-12">
+                                            <select id="categoriaPaquete" name="categoriaPaquete" v-model="paqueteEdicion.paquete.categoria">
+                                                <option value="BODA">Boda</option>
+                                                <option value="CUMPLEANOS">Cumpleaños</option>
+                                                <option value="XV">XV Años</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Imagen</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio unitario</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="paquete.inventario">
+                                            <tr v-for="(producto, index) in paqueteEdicion.paquete.inventario" v-bind:key="producto.index">
+                                                <th scope="row">
+                                                    <img :src="producto.imagen" width="100%">
+                                                </th>
+                                                <td>{{ producto.nombre }}</td>
+                                                <td>
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                                </td>
+                                                <td>{{ producto.precioUnitario }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -932,6 +1061,22 @@
                 
                 inventarioLocal: [],
                 festejados: [],
+
+                //Edicion de paquete
+                indicePaqueteEdicion: '',
+                paqueteEdicion:{
+                    externo: '',
+                    imagen: '',
+                    servicio: '',
+                    cantidad: '',
+                    precioUnitario: '',
+                    precioFinal: '',
+                    ahorro: '',
+                    notas: '',
+                    paquete: '',
+                    tipo: '',
+                    id: '',
+                },
 
                 //Control sobre las ediciones en la tabla de productos
                 indice: '',
@@ -1128,6 +1273,49 @@
             },
         },
         methods:{
+            editarPaquete(producto, index){
+                this.paqueteEdicion.externo = producto.externo;
+                this.paqueteEdicion.imagen = producto.imagen;
+                this.paqueteEdicion.servicio = producto.servicio;
+                this.paqueteEdicion.cantidad = producto.cantidad;
+                this.paqueteEdicion.precioUnitario = producto.precioUnitario;
+                this.paqueteEdicion.precioFinal = producto.precioFinal;
+                this.paqueteEdicion.ahorro = producto.ahorro;
+                this.paqueteEdicion.notas = producto.notas;
+                this.paqueteEdicion.paquete = producto.paquete;
+                this.paqueteEdicion.tipo = producto.tipo;
+                this.paqueteEdicion.id = producto.id;
+
+                this.indicePaqueteEdicion = index;
+
+                $('#editarPaquete').modal('show');
+            },
+            agregarProductoPaqueteEditado(producto){
+                this.paqueteEdicion.paquete.inventario.push({
+                    'externo': false,
+                    'nombre': producto.servicio,
+                    'imagen': producto.imagen,
+                    'precioUnitario': producto.precioUnitario,
+                    'precioFinal': '',
+                    'cantidad': '',
+                    'id': producto.id,
+                });
+            },
+            guardarPaqueteEdicion(){
+                this.inventarioLocal.splice(this.indicePaqueteEdicion, 1, this.paqueteEdicion);
+                this.paqueteEdicion.externo = '';
+                this.paqueteEdicion.imagen = '';
+                this.paqueteEdicion.servicio = '';
+                this.paqueteEdicion.cantidad = '';
+                this.paqueteEdicion.precioUnitario = '';
+                this.paqueteEdicion.precioFinal = '';
+                this.paqueteEdicion.ahorro = '';
+                this.paqueteEdicion.notas = '';
+                this.paqueteEdicion.paquete = '';
+                this.paqueteEdicion.tipo = '';
+                this.paqueteEdicion.id = '';
+                this.indicePaqueteEdicion = '';
+            },
             obtenerUsuario(){
                 let URL = '/obtener-usuario';
 

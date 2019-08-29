@@ -3063,6 +3063,135 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -3150,6 +3279,21 @@ __webpack_require__.r(__webpack_exports__);
       },
       inventarioLocal: [],
       festejados: [],
+      //Edicion de paquete
+      indicePaqueteEdicion: '',
+      paqueteEdicion: {
+        externo: '',
+        imagen: '',
+        servicio: '',
+        cantidad: '',
+        precioUnitario: '',
+        precioFinal: '',
+        ahorro: '',
+        notas: '',
+        paquete: '',
+        tipo: '',
+        id: ''
+      },
       //Control sobre las ediciones en la tabla de productos
       indice: '',
       key: '',
@@ -3335,6 +3479,47 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    editarPaquete: function editarPaquete(producto, index) {
+      this.paqueteEdicion.externo = producto.externo;
+      this.paqueteEdicion.imagen = producto.imagen;
+      this.paqueteEdicion.servicio = producto.servicio;
+      this.paqueteEdicion.cantidad = producto.cantidad;
+      this.paqueteEdicion.precioUnitario = producto.precioUnitario;
+      this.paqueteEdicion.precioFinal = producto.precioFinal;
+      this.paqueteEdicion.ahorro = producto.ahorro;
+      this.paqueteEdicion.notas = producto.notas;
+      this.paqueteEdicion.paquete = producto.paquete;
+      this.paqueteEdicion.tipo = producto.tipo;
+      this.paqueteEdicion.id = producto.id;
+      this.indicePaqueteEdicion = index;
+      $('#editarPaquete').modal('show');
+    },
+    agregarProductoPaqueteEditado: function agregarProductoPaqueteEditado(producto) {
+      this.paqueteEdicion.paquete.inventario.push({
+        'externo': false,
+        'nombre': producto.servicio,
+        'imagen': producto.imagen,
+        'precioUnitario': producto.precioUnitario,
+        'precioFinal': '',
+        'cantidad': '',
+        'id': producto.id
+      });
+    },
+    guardarPaqueteEdicion: function guardarPaqueteEdicion() {
+      this.inventarioLocal.splice(this.indicePaqueteEdicion, 1, this.paqueteEdicion);
+      this.paqueteEdicion.externo = '';
+      this.paqueteEdicion.imagen = '';
+      this.paqueteEdicion.servicio = '';
+      this.paqueteEdicion.cantidad = '';
+      this.paqueteEdicion.precioUnitario = '';
+      this.paqueteEdicion.precioFinal = '';
+      this.paqueteEdicion.ahorro = '';
+      this.paqueteEdicion.notas = '';
+      this.paqueteEdicion.paquete = '';
+      this.paqueteEdicion.tipo = '';
+      this.paqueteEdicion.id = '';
+      this.indicePaqueteEdicion = '';
+    },
     obtenerUsuario: function obtenerUsuario() {
       var _this2 = this;
 
@@ -56830,14 +57015,6 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-center" }, [
-                      producto.tipo == "PAQUETE"
-                        ? _c(
-                            "button",
-                            { staticClass: "btn btn-sm btn-primary" },
-                            [_vm._v("Editar")]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
                       _c(
                         "button",
                         {
@@ -58694,6 +58871,563 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade modalAgregarPaquete",
+        staticStyle: { "overflow-y": "scroll" },
+        attrs: {
+          id: "editarPaquete",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editarElemento",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-lg modal-dialog-centered",
+            attrs: { id: "app", role: "document" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "modal-content",
+                staticStyle: { border: "solid gray" }
+              },
+              [
+                _vm._m(26),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-10 offset-md-1" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col-md-12" },
+                              [
+                                _c("buscador-component", {
+                                  attrs: {
+                                    placeholder: "Buscar Productos",
+                                    "event-name": "resultsPaquetes",
+                                    list: _vm.inventario,
+                                    keys: ["servicio", "id"]
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm.resultsPaquetes.length < _vm.inventario.length
+                            ? _c("div", { staticClass: "row" }, [
+                                _vm.resultsPaquetes.length !== 0
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-md-6 resultadoInventario"
+                                      },
+                                      _vm._l(_vm.resultsPaquetes, function(
+                                        producto
+                                      ) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: producto.id,
+                                            staticClass: "list-group"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "row producto",
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.agregarProductoPaqueteEditado(
+                                                      producto
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "col-md-7" },
+                                                  [
+                                                    _c("p", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          producto.servicio
+                                                        )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "badge badge-info"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                        " +
+                                                            _vm._s(
+                                                              producto.precioUnitario
+                                                            ) +
+                                                            "\n                                                    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._m(27, true)
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  : _vm._e()
+                              ])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-block btn-info",
+                              attrs: {
+                                "data-toggle": "modal",
+                                "data-target": "#agregarElemento"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.controlElementoExterno = true
+                                }
+                              }
+                            },
+                            [_vm._v("Agregar producto")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Servicio")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.paqueteEdicion.servicio,
+                                    expression: "paqueteEdicion.servicio"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Servicio"
+                                },
+                                domProps: {
+                                  value: _vm.paqueteEdicion.servicio
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.paqueteEdicion,
+                                      "servicio",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Precio final")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.paqueteEdicion.precioUnitario,
+                                    expression: "paqueteEdicion.precioUnitario"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Precio unitario"
+                                },
+                                domProps: {
+                                  value: _vm.paqueteEdicion.precioUnitario
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.paqueteEdicion,
+                                      "precioUnitario",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("h4", [
+                            _vm._v("Precio sugerido: $"),
+                            _c("span", {
+                              domProps: {
+                                textContent: _vm._s(_vm.precioSugerido)
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value:
+                                  _vm.paqueteEdicion.paquete.guardarPaquete,
+                                expression:
+                                  "paqueteEdicion.paquete.guardarPaquete"
+                              }
+                            ],
+                            attrs: { type: "checkbox", id: "guardarPaquete" },
+                            domProps: {
+                              checked: Array.isArray(
+                                _vm.paqueteEdicion.paquete.guardarPaquete
+                              )
+                                ? _vm._i(
+                                    _vm.paqueteEdicion.paquete.guardarPaquete,
+                                    null
+                                  ) > -1
+                                : _vm.paqueteEdicion.paquete.guardarPaquete
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a =
+                                    _vm.paqueteEdicion.paquete.guardarPaquete,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.paqueteEdicion.paquete,
+                                        "guardarPaquete",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.paqueteEdicion.paquete,
+                                        "guardarPaquete",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(
+                                    _vm.paqueteEdicion.paquete,
+                                    "guardarPaquete",
+                                    $$c
+                                  )
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "guardarPaquete" } }, [
+                            _vm._v("Guardar paquete")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "categoriaPaquete" }
+                              },
+                              [_vm._v("Categoria")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.paqueteEdicion.paquete.categoria,
+                                      expression:
+                                        "paqueteEdicion.paquete.categoria"
+                                    }
+                                  ],
+                                  attrs: {
+                                    id: "categoriaPaquete",
+                                    name: "categoriaPaquete"
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.paqueteEdicion.paquete,
+                                        "categoria",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "BODA" } }, [
+                                    _vm._v("Boda")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "CUMPLEANOS" } },
+                                    [_vm._v("Cumpleaños")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "XV" } }, [
+                                    _vm._v("XV Años")
+                                  ])
+                                ]
+                              )
+                            ])
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("table", { staticClass: "table table-hover" }, [
+                            _vm._m(28),
+                            _vm._v(" "),
+                            _vm.paquete.inventario
+                              ? _c(
+                                  "tbody",
+                                  _vm._l(
+                                    _vm.paqueteEdicion.paquete.inventario,
+                                    function(producto, index) {
+                                      return _c("tr", { key: producto.index }, [
+                                        _c("th", { attrs: { scope: "row" } }, [
+                                          _c("img", {
+                                            attrs: {
+                                              src: producto.imagen,
+                                              width: "100%"
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(_vm._s(producto.nombre))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          producto.cantidad == "" ||
+                                          (_vm.indice == index &&
+                                            _vm.key == "cantidad")
+                                            ? _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.cantidadPaquete,
+                                                    expression:
+                                                      "cantidadPaquete"
+                                                  }
+                                                ],
+                                                attrs: { type: "number" },
+                                                domProps: {
+                                                  value: _vm.cantidadPaquete
+                                                },
+                                                on: {
+                                                  keyup: function($event) {
+                                                    if (
+                                                      !$event.type.indexOf(
+                                                        "key"
+                                                      ) &&
+                                                      _vm._k(
+                                                        $event.keyCode,
+                                                        "enter",
+                                                        13,
+                                                        $event.key,
+                                                        "Enter"
+                                                      )
+                                                    ) {
+                                                      return null
+                                                    }
+                                                    return _vm.updateCantidadPaquete(
+                                                      index
+                                                    )
+                                                  },
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.cantidadPaquete =
+                                                      $event.target.value
+                                                  }
+                                                }
+                                              })
+                                            : _c(
+                                                "span",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.editarCantidadPaquete(
+                                                        index,
+                                                        Object.keys(producto)
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(producto.cantidad)
+                                                  )
+                                                ]
+                                              )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(
+                                            _vm._s(producto.precioUnitario)
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-sm btn-danger",
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.eliminarProductoPaquete(
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Eliminar")]
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    }
+                                  ),
+                                  0
+                                )
+                              : _vm._e()
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: {
+                        type: "button",
+                        onClick: "$('#editarPaquete').modal('hide')"
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.guardarPaqueteEdicion()
+                        }
+                      }
+                    },
+                    [_vm._v("Editar paquete")]
+                  )
+                ])
+              ]
+            )
+          ]
+        )
+      ]
     )
   ])
 }
@@ -59172,6 +59906,63 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "exampleModalCenterTitle" }
+        },
+        [_vm._v("Editar paquete")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            onClick: "$('#editarPaquete').modal('hide')",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
+      ])
     ])
   }
 ]

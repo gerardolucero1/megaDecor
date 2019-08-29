@@ -129,6 +129,27 @@
                             </div>
                         </div>
                 </div>
+
+                <section class="container">
+                    <table class="table table-light">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($presupuestos as $presupuesto)
+                                <tr>
+                                    <td>{{ $presupuesto->id }}</td>
+                                    <td>
+                                        <button>Editar</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </section>
                
     </section>
    

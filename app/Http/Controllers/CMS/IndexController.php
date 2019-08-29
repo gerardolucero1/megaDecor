@@ -38,6 +38,7 @@ class IndexController extends Controller
     }
 
     public function presupuestos(){
-        return view('presupuestos');
+        $presupuestos = Budget::orderBy('id', 'DESC')->get();
+        return view('presupuestos', compact('presupuestos'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\User;
+use stdClass;
 use App\Budget;
 use App\Client;
 use App\Inventory;
