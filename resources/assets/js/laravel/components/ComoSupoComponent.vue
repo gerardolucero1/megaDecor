@@ -67,14 +67,6 @@
     </div>
 </template>
 <!--  Script para timepicker-->
-<script type="text/javascript">
-// Importamos el evento Bus.
-    
-            
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
    <script> 
 
    import { EventBus } from '../eventBus.js';
@@ -105,6 +97,7 @@
     emitGlobalClickEvent() {
       EventBus.$emit('nuevaComoSupo');
     },
+  
             obtenerComoSupo(){
                 let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
@@ -116,8 +109,7 @@
                 var url= '/clientes/eliminar-comoSupo/'+tipo.id;
                 axios.delete(url).then(response =>{
                     EventBus.$emit('nuevaComoSupo');
-                    this.obtenerComoSupo();  
-                      
+                    this.obtenerComoSupo();    
                 })
                
             },  
@@ -135,6 +127,7 @@
                     this.tipo = {};
                     this.obtenerComoSupo(); 
                     EventBus.$emit('nuevaComoSupo');
+                    console.log('Bus enviado');
                     Swal.fire({
                                 title: 'Elemento registrado con exito',
                                 text: "Se registro tu nueva opción",
@@ -145,7 +138,7 @@
                                 
                             });
                 }).catch((error) => {
-                    console.log(error);
+                    console.log(error.data);
                 });
                 
             }

@@ -39,8 +39,6 @@
                             <select v-model="tarea.vendedor">
                                 <optgroup label="Seleccionar un vendedor">
                                 <option value="1">Todos los vendedores</option>
-                                <option value="1">Vendedor 1</option>
-                                <option value="1">Vendedor 2</option>
                                 </optgroup>
                                 </select>
                                 </div>
@@ -65,7 +63,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="">Selecciona una Fecha</label>
-                                <input type="date" v-model="tarea.fecha">
+                                <input required type="date" v-model="tarea.fecha">
             <div class="form-group" style="display:none">
                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                     <input v-model="tarea.fechaINABILITADO" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>

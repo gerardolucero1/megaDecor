@@ -177,7 +177,11 @@ return [
 
         // Intervention Image
         Intervention\Image\ImageServiceProvider::class,
-
+        
+        //Collective
+        Collective\Html\HtmlServiceProvider::class,
+        //Shinobi
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
     ],
 
     /*
@@ -231,6 +235,10 @@ return [
 
         //Intervention Image
         'Image' => Intervention\Image\Facades\Image::class,
+
+        //Collective
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

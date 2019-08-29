@@ -22,16 +22,17 @@ Route::view('/', 'landing');
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
-Route::get('/dashboard', 'CMS\IndexController@dashboard');
-Route::view('/examples/plugin-helper', 'examples.plugin_helper');
-Route::view('/examples/plugin-init', 'examples.plugin_init');
-Route::view('/examples/blank', 'examples.blank');
+
+
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth'] 
+], function(){
 
-  
-    //clientes
+//ruta dashboard
+Route::get('/dashboard', 'CMS\IndexController@dashboard');
+
 // Rutas del CMS
     // API Clientes
     Route::get('/telefonos', 'CMS\ClientController@telefonos');
@@ -67,6 +68,11 @@ Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
     Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
     Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 
+
+    //Pantalla Usuarios
+    Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+
+
 // Todo lo referente a presupuestos
 Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
 Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
@@ -75,7 +81,26 @@ Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupu
 Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
 
+});
+  
+    //clientes
 
 
 
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function(){
+    Route::post('roles/store')->name('roles.store')
+    ->middleware('permission:roles.create');
+});
+
+
+
+
+
+//Rutas para permisos

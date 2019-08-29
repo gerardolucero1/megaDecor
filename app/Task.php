@@ -11,7 +11,8 @@ class Task extends Model
         'categoria',
         'cliente_id',
         'fecha',
-        'notas'
+        'notas',
+        'completa'
 
     ];
 }

@@ -16,15 +16,15 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <div class="col-md-7">
-                        <h3 class="block-title" style="color:green">Clientes Activos</h3>
+                        <h3 class="block-title" style="color:green">Usuarios Activos</h3>
                     </div>
                     <div class="col-md-5 text-right">
                            
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
-                                            <i class="fa fa-user-plus"></i> <i>Nuevo Cliente</i> 
-                                        </button>
+                    <button  class="btn btn-primary">
+                                            <i class="fa fa-user-plus"></i> <i>Nuevo Usario</i> 
+                                    </button>
                                     <button onclick="VerArchivados()" class="btn btn-secondary">
-                                                <i class="fa fa-user-times"></i> <i>Clientes Archivados</i> 
+                                                <i class="fa fa-user-times"></i> <i>Usuarios Archivados</i> 
                                             </button>
                     </div>
                     </div>
@@ -33,28 +33,26 @@
                             <thead>
                                 <tr role="row">
                                     <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
-                                    <th class="sorting" rowspan="1" colspan="1">Nombre</th>
-                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
-                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
-                                    <th rowspan="1" colspan="1">Correo Electronico</th>
-                                    <th rowspan="1" colspan="1">Presupuestos</th>
-                                    <th rowspan="1" colspan="1">Opciones</th></tr>
+                                    <th class="sorting" rowspan="1" colspan="1">Usuario</th>
+                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Numero</th>
+                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Contraseña</th>
+                                    <th rowspan="1" colspan="1">Tipo</th>
+                                    <th rowspan="1" colspan="1">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>                    
-                                    @foreach ($CompleteClients as $cliente)                     
+                                                   
                                 <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{$cliente->id}}</td>
-                                    <td class="font-w600">{{$cliente->nombre}} 
-                                        @if(array_key_exists('apellidoPaterno', $cliente))
-                                        {{$cliente->apellidoPaterno}}
-                                        @endif
+                                <td class="text-center sorting_1"></td>
+                                    <td class="font-w600"> 
+                                        
+                                       
+                                       
 
                                         </td>
                                     <td class="d-none d-sm-table-cell"></td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
+                                    <td class="d-none d-sm-table-cell"></td>
+                                    <td class="d-none d-sm-table-cell"></td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
                                             <i class="fa fa-user"></i>
@@ -64,7 +62,7 @@
                                             </button>
                                     </td>
                                 </tr>
-                                @endforeach
+                               
                             
                             </tbody>
                      </table>
@@ -77,12 +75,12 @@
                         <div class="block">
                             <div class="block-header block-header-default">
                                 <div class="col-md-7">
-                                <h3 class="block-title" style="color:indianred">Clientes Archivados</h3>
+                                <h3 class="block-title" style="color:indianred">Usuarios Archivados</h3>
                             </div>
                             <div class="col-md-5 text-right">
                                    
                                             <button onclick="VerActivos()" class="btn btn-success">
-                                                        <i class="si si-user-following"></i> <i>Ver Clientes Activos</i> 
+                                                        <i class="si si-user-following"></i> <i>Ver Usuarios Activos</i> 
                                                     </button>
                             </div>
                             </div>
@@ -90,13 +88,12 @@
                              <table style="font-size: 12px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientesArchivados" role="grid" >
                                     <thead>
                                         <tr role="row">
-                                            <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
-                                            <th class="sorting" rowspan="1" colspan="1">Nombre</th>
-                                            <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
-                                            <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
-                                            <th rowspan="1" colspan="1">Correo Electronico</th>
-                                            <th rowspan="1" colspan="1">Presupuestos</th>
-                                            <th rowspan="1" colspan="1">Opciones</th></tr>
+                                                <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
+                                                <th class="sorting" rowspan="1" colspan="1">Usuario</th>
+                                                <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Numero</th>
+                                                <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Contraseña</th>
+                                                <th rowspan="1" colspan="1">Tipo</th>
+                                                <th rowspan="1" colspan="1">Opciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>                    
