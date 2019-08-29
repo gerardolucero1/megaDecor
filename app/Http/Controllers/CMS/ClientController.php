@@ -157,7 +157,7 @@ class ClientController extends Controller
         foreach ($request->telefonos as $telephone){
             $telefono = new Telephone();
 
-            $telefono->cliente_id = $ultimoCliente;
+            $telefono->client_id = $ultimoCliente;
             $telefono->nombre = $telephone['nombre'];
             $telefono->email = $telephone['email'];
             $telefono->tipo = $telephone['tipo'];

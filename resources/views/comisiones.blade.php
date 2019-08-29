@@ -166,4 +166,4 @@ function PresupuestosActivos(){
 }
 </script>
 
-@endsectiont
+@endsection

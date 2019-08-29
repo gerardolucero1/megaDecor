@@ -42,7 +42,7 @@
                                 </tr>
                             </thead>
                             <tbody>                    
-                                    @foreach ($clientes as $cliente)                     
+                                    @foreach ($CompleteClients as $cliente)                     
                                 <tr role="row" class="odd">
                                 <td class="text-center sorting_1">{{$cliente->id}}</td>
                                     <td class="font-w600">{{$cliente->nombre}} 
@@ -52,9 +52,9 @@
 
                                         </td>
                                     <td class="d-none d-sm-table-cell"></td>
-                                    <td class="d-none d-sm-table-cell"></td>
+                                    <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
-                                    <td class="d-none d-sm-table-cell">12</td>
+                                    <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
                                             <i class="fa fa-user"></i>
@@ -185,4 +185,4 @@ function VerActivos(){
 }
 </script>
 
-@endsectiont
+@endsection

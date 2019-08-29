@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\MoralCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class MoralPerson extends Model
 {
     protected $fillable = [
-        'cliente_id',
-        'categoria',
+        'client_id',
+        'categoria_id',
         'about_id',
         'nombre',
         'email',
@@ -25,6 +26,11 @@ class MoralPerson extends Model
 
     public function client()
     {
-        return $this->hasOne(App\Client::class);
+        return $this->belongsTo(Client::class);
+    }
+
+    public function moralCategory()
+    {
+        return $this->belongsTo(MoralCategory::class);
     }
 }

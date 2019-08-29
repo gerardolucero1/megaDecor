@@ -22,54 +22,19 @@ Route::view('/', 'landing');
 Route::match(['get', 'post'], '/dashboard', function(){
     return view('dashboard');
 });
-Route::get('/dashboard', 'CMS\IndexController@dashboard');
-Route::view('/examples/plugin-helper', 'examples.plugin_helper');
-Route::view('/examples/plugin-init', 'examples.plugin_init');
-Route::view('/examples/blank', 'examples.blank');
+
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth'] 
+], function(){
+
+//ruta dashboard
+Route::get('/dashboard', 'CMS\IndexController@dashboard');
 
 // Rutas del CMS
-    // API Formularios
-
-    /*
-    Route::get('/telefonos', function(){
-        return App\Telephone::orderBy('id', 'DESC')->get();
-    });
-
-    Route::get('/categorias', function(){
-        return App\MoralCategory::orderBy('id', 'DESC')->get();
-    });
-
-    Route::get('/about-categorias', function(){
-        return App\AboutCategory::orderBy('id', 'DESC')->get();
-    });
-
-    Route::post('/viejo-telefono', function(Request $request){
-
-        $cliente = DB::table('moral_people')
-            ->join('telephones', 'telephones.cliente_id', '=', 'moral_people.cliente_id')
-            ->select('moral_people.nombre')
-            ->get();
-
-        $tamano = count($cliente);
-        
-        if($tamano == 0){
-
-            $cliente = DB::table('physical_people')
-            ->join('telephones', 'telephones.cliente_id', '=', 'physical_people.cliente_id')
-            ->select('physical_people.nombre')
-            ->get();
-
-        }
-
-        
-        return $cliente;
-    });
-    */
-    //clientes
+    // API Clientes
     Route::get('/telefonos', 'CMS\ClientController@telefonos');
     Route::get('/categorias', 'CMS\ClientController@categorias');
     Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
@@ -97,11 +62,45 @@ Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupues
 Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
 Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
+    // API Presupuestos
+    Route::get('/usuarios', 'CMS\BudgetController@usuarios');
+    Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+    Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
+    Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+
+
+    //Pantalla Usuarios
+    Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+
+
+// Todo lo referente a presupuestos
+Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
 
 // Todo lo referente a clientes
+Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
 Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
 
+});
+  
+    //clientes
 
 
 
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function(){
+    Route::post('roles/store')->name('roles.store')
+    ->middleware('permission:roles.create');
+});
+
+
+
+
+
+//Rutas para permisos

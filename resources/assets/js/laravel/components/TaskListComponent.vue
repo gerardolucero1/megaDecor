@@ -1,7 +1,14 @@
+<style>
+       .row-tasks{
+          color:black; 
+       }
+       .row-tasks:hover{
+           background:#F5F5F5;
+       }
+   </style> 
 <template>
-   
         <div class="js-appear-enabled animated fadeIn" data-toggle="appear">
-                               
+                              
                             <div class="block">
                                 <div class="block-header block-header-default">
                                     <h3 class="block-title">Tareas</h3>
@@ -25,16 +32,17 @@
                                         </thead>
                                         <tbody>
                                                
-                                                <tr v-for="tarea in tareas" v-bind:key="tarea.index">
-                                                <td>{{ tarea.id }}</td>
+                                                <tr class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
+                                                <td>{{ tarea.cliente }}</td>
                                                 <td class="d-none d-sm-table-cell">
                                                     <span class="">{{ tarea.categoria }}</span>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group">
-                                                        <button v-on:click.prevent="detalleTarea(tarea.id)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                        <button v-if="tarea.completa==0" v-on:click.prevent="detalleTarea(tarea.id)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                             <i class="si si-eye"></i>
                                                         </button>
+                                                        <i v-if="tarea.completa==1" style="color:#2A9050" class="fa fa-check"></i>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -63,7 +71,7 @@ import { EventBus } from '../eventBus.js';
         },
         created(){
             this.obtenerTareas();
-            EventBus.$on('nuevaTarea', funcion => {
+    EventBus.$on('nuevaTarea', funcion => {
   this.obtenerTareas();
 });
         },

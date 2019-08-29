@@ -8,6 +8,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Vuex from 'vuex';
+import StoreData from './store';
+import VueFuse from 'vue-fuse';
+ 
+Vue.use(VueFuse);
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store(StoreData);
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,9 +33,11 @@ window.Vue = require('vue');
 Vue.component('nuevo-cliente-component', require('./components/NuevoClienteComponent.vue').default);
 Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
 Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
+Vue.component('categoria-evento-component', require('./components/CategoriasEvento.vue').default);
 Vue.component('task-list-component', require('./components/TaskListComponent.vue').default);
 Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
+Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -36,7 +47,9 @@ Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue
 
 var EventBus = new Vue;
 const app = new Vue({
-    el: '#app'    
+    el: '#app',
+    store,
+    
 });
 
 

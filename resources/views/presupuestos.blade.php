@@ -6,9 +6,7 @@
 
     <section class="container">
         <div class="row">
-            <div class="col-md-4 text-center">
-                
-            </div>
+               
             
            
         </div>
@@ -20,7 +18,7 @@
                     </div>
                     <div class="col-md-9 text-right">
                            
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
                                         </button>
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
@@ -44,18 +42,17 @@
                                      <th>Ultima Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
-                                </tr>
                             </thead>
                             <tbody>                    
-                                                    
+                            @foreach ($Presupuestos as $budget)                          
                                 <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">NM10945</td>
-                                    <td class="">Lunes 10/10/2019</td>
-                                    <td class="d-none d-sm-table-cell">Jose Moreno</td>
-                                    <td class="d-none d-sm-table-cell">Jardin San Jose</td>
-                                    <td class="d-none d-sm-table-cell">Karen</td>
+                                    <td class="text-center sorting_1">{{$budget->folio}}</td>
+                                    <td class="">{{$budget->fechaEvento}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
                                     <td class="d-none d-sm-table-cell text-center">3/3</td>
-                                    <td class="d-none d-sm-table-cell">10/10/2019</td>
+                                    <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
                                     
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
@@ -66,6 +63,7 @@
                                             </button>
                                     </td>
                                 </tr>
+                            @endforeach
                             
                             </tbody>
                      </table>
@@ -102,9 +100,9 @@
                                 </tr>
                             </thead>
                             <tbody>                    
-                                                    
+                                        
                                 <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">NM10945</td>
+                                <td class="text-center sorting_1">{{$budget->folio}}</td>
                                     <td class="">Lunes 10/10/2019</td>
                                     <td class="d-none d-sm-table-cell">Mario Moreno</td>
                                     <td class="d-none d-sm-table-cell">Jardin San Jose</td>
@@ -121,7 +119,7 @@
                                             </button>
                                     </td>
                                 </tr>
-                            
+                        
                             </tbody>
                      </table>
                             </div>
@@ -130,9 +128,11 @@
                
     </section>
    
+    
+    @include('../modals/nuevoPresupuestoModal')
+    @include('../modals/categoriaEventoModal')
+    @include('../modals/nuevoProductoModal')
     @include('../modals/nuevoClienteModal')
-    @include('../modals/tiposEmpresaModal')
-    @include('../modals/comoSupoModal')
 @endsection
 @section("scripts")
 <script>
@@ -166,4 +166,4 @@ function PresupuestosActivos(){
 }
 </script>
 
-@endsectiont
+@endsection
