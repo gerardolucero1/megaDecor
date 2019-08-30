@@ -44,26 +44,28 @@
                                 </tr>
                             </thead>
                             <tbody>                    
+                            @if (!is_null($Presupuestos))
                             @foreach ($Presupuestos as $budget)                          
-                                <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">{{$budget->folio}}</td>
-                                    <td class="">{{$budget->fechaEvento}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
-                                    <td class="d-none d-sm-table-cell text-center">3/3</td>
-                                    <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
-                                    
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                            <i class="fa fa-eye"></i>
+                            <tr role="row" class="odd">
+                                <td class="text-center sorting_1">{{$budget->folio}}</td>
+                                <td class="">{{$budget->fechaEvento}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
+                                <td class="d-none d-sm-table-cell text-center">3/3</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
+                                
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                            <i class="fa fa-remove"></i>
                                         </button>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                            @endif
                             
                             </tbody>
                      </table>
@@ -102,7 +104,7 @@
                             <tbody>                    
                                         
                                 <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{$budget->folio}}</td>
+                                <td class="text-center sorting_1"></td>
                                     <td class="">Lunes 10/10/2019</td>
                                     <td class="d-none d-sm-table-cell">Mario Moreno</td>
                                     <td class="d-none d-sm-table-cell">Jardin San Jose</td>
@@ -126,26 +128,7 @@
                         </div>
                 </div>
 
-                <section class="container">
-                    <table class="table table-light">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($presupuestos as $presupuesto)
-                                <tr>
-                                    <td>{{ $presupuesto->id }}</td>
-                                    <td>
-                                        <button>Editar</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </section>
+                
                
     </section>
    

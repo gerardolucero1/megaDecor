@@ -3021,6 +3021,333 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -3169,6 +3496,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.obtenerUltimoPresupuesto();
+    this.obtenerUsuarios(); //Obtenemos todos los clientes para el buscados
+
     this.obtenerClientes();
     this.obtenerInventario();
     this.obtenerUsuario();
@@ -55646,7 +55975,7 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12 registroPresupuesto" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-9 text-left" }, [
+          _c("div", { staticClass: "col-md-8 text-left" }, [
             _vm.presupuesto.tipoEvento == "INTERNO"
               ? _c("div", {
                   staticClass: "img-fluid logo-presupuesto",
@@ -56320,67 +56649,44 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", [
-                      _c("span", [
-                        _vm._v(
-                          _vm._s(_vm.clienteSeleccionado.presupuestos.length)
+                      _c("span", [_vm._v(_vm._s(_vm.calcularContratos))]),
+                      _vm._v(" eventos contratados")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _c("span", [_vm._v(_vm._s(_vm.calcularPresupuestos))]),
+                      _vm._v(" presupuestos")
+                    ]),
+                    _vm._v(" "),
+                    _vm.calcularContratos
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-sm btn-primary d-inline-block",
+                            attrs: {
+                              "data-toggle": "modal",
+                              "data-target": "#verContratos"
+                            }
+                          },
+                          [_vm._v("Ver Contratos")]
                         )
-                      ])
-                    })
-                  ],
-                  2
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm.clienteSeleccionado
-            ? _c("div", { staticClass: "col-md-6 text-right" }, [
-                _c("div", { staticClass: "info" }, [
-                  _c("p", [
-                    _vm._v("Ultimo evento: \n                            "),
-                    _vm.clienteSeleccionado && _vm.ultimoEvento
-                      ? _c("span", [
-                          _vm._v(_vm._s(_vm.ultimoEvento.fechaEvento))
-                        ])
-                      : _c("span", [_vm._v("Primer Evento")])
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c("span", [_vm._v(_vm._s(_vm.calcularContratos))]),
-                    _vm._v(" eventos contratados")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c("span", [_vm._v(_vm._s(_vm.calcularPresupuestos))]),
-                    _vm._v(" presupuestos")
-                  ]),
-                  _vm._v(" "),
-                  _vm.calcularContratos
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-sm btn-primary d-inline-block",
-                          attrs: {
-                            "data-toggle": "modal",
-                            "data-target": "#verContratos"
-                          }
-                        },
-                        [_vm._v("Ver Contratos")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.calcularPresupuestos
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-sm btn-info d-inline-block",
-                          attrs: {
-                            "data-toggle": "modal",
-                            "data-target": "#verPresupuestos"
-                          }
-                        },
-                        [_vm._v("Ver Presupuestos")]
-                      )
-                    : _vm._e()
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.calcularPresupuestos
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info d-inline-block",
+                            attrs: {
+                              "data-toggle": "modal",
+                              "data-target": "#verPresupuestos"
+                            }
+                          },
+                          [_vm._v("Ver Presupuestos")]
+                        )
+                      : _vm._e()
+                  ])
                 ])
               : _vm._e()
           ]
@@ -57666,9 +57972,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(11),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 offset-md-2 mt-4" }, [
+          _c("div", { staticClass: "col-md-4 offset-md-4" }, [
             _c(
               "button",
               {
@@ -57698,7 +58002,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(10)
+          _vm._m(11)
         ])
       ])
     ]),
@@ -58467,13 +58771,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(16),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(16),
+                          _vm._m(17),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -58482,7 +58786,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(17),
+                                _vm._m(18),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -58525,7 +58829,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(18, true)
+                                        _vm._m(19, true)
                                       ])
                                     }
                                   ),
@@ -58539,7 +58843,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(19)
+                _vm._m(20)
               ]
             )
           ]
@@ -58574,13 +58878,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(20),
+                _vm._m(21),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(21),
+                          _vm._m(22),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -58589,7 +58893,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(22),
+                                _vm._m(23),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -58639,7 +58943,7 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(23, true)
+                                          _vm._m(24, true)
                                         ]
                                       )
                                     }
@@ -58654,7 +58958,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(24)
+                _vm._m(25)
               ]
             )
           ]
@@ -58689,7 +58993,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(25),
+                _vm._m(26),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -59138,7 +59442,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(26),
+                _vm._m(27),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -59226,7 +59530,7 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _vm._m(27, true)
+                                                _vm._m(28, true)
                                               ]
                                             )
                                           ]
@@ -59502,7 +59806,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(28),
+                            _vm._m(29),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -61008,14 +61312,9 @@ var render = function() {
                         }
                       },
                       _vm._l(_vm.tiposE, function(tipoE) {
-                        return _c(
-                          "option",
-                          {
-                            key: tipoE.index,
-                            domProps: { value: tipoE.nombre }
-                          },
-                          [_vm._v(_vm._s(tipoE.nombre))]
-                        )
+                        return _c("option", { key: tipoE.index }, [
+                          _vm._v(_vm._s(tipoE.nombre))
+                        ])
                       }),
                       0
                     ),
