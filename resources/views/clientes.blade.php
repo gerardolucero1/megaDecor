@@ -51,7 +51,7 @@
                                         @endif
 
                                         </td>
-                                    <td class="d-none d-sm-table-cell"></td>
+                                    <td class="d-none d-sm-table-cell">{{$cliente->created_at}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>

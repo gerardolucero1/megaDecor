@@ -38,6 +38,7 @@ Vue.component('task-list-component', require('./components/TaskListComponent.vue
 Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
+Vue.component('settings-master-component', require('./components/SettingsMasterComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

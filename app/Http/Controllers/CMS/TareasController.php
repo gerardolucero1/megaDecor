@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 use App\Http\Controllers\Controller;
 use App\TaskCategory;
 use App\Task;
+use App\User;
 use App\PhysicalPerson;
 use stdClass;
 
@@ -21,7 +22,7 @@ class TareasController extends Controller
         return PhysicalPerson::orderBy('id', 'DESC')->get();   
     }
     public function obtenerTareas(){
-
+        $fecha_actual= date('Y-m-d',time());
         $clientes_morales = DB::table('clients')
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
         ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
@@ -37,7 +38,8 @@ class TareasController extends Controller
 
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
-        ->select('clients.id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
+        ->where('tasks.fecha', '=', $fecha_actual)
         ->get();
 
         $Tasks=[];
@@ -45,11 +47,19 @@ class TareasController extends Controller
        // $tamanoClientes=count($clientes);
        // $tamanoTareas=count($tareas);
         foreach ($tareas as $tarea) {
+
+
+            $vendedor = User::orderBy('id', 'DESC')->where('id', $tarea->vendedor_id)->first();
+            
+
              $tarea->id;
             foreach($clientes as $cliente){
                 if($cliente->id==$tarea->id){
                 $Task = new stdClass();
+                $Task->fecha_actual = $fecha_actual;
+                $Task->vendedor = $vendedor->name;
                 $Task->id = $tarea->id;
+                $Task->id_cliente = $tarea->client_id;
                 $Task->cliente = $cliente->nombre;
                 $Task->notas = $tarea->notas;
                 $Task->categoria = $tarea->categoria;
