@@ -15,16 +15,16 @@ class CreateTelephonesTable extends Migration
     {
         Schema::create('telephones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cliente_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->string('nombre')->nullable();
             $table->string('email')->nullable();
             $table->enum('tipo', ['CASA', 'CELULAR', 'OFICINA']);
             $table->string('numero');
-            $table->integer('ext');
+            $table->integer('ext')->nullable();
             $table->timestamps();
 
             //Relations
-            $table->foreign('cliente_id')->references('id')->on('clients')
+            $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

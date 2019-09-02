@@ -15,7 +15,7 @@ class CreatePhysicalPeopleTable extends Migration
     {
         Schema::create('physical_people', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cliente_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->integer('about_id')->unsigned();
             $table->string('nombre');
             $table->string('apellidoPaterno');
@@ -24,12 +24,12 @@ class CreatePhysicalPeopleTable extends Migration
 
             //Datos de Facturacion
 
-            $table->string('nombreFacturacion');
-            $table->string('direccionFacturacion');
-            $table->string('coloniaFacturacion');
-            $table->string('numeroFacturacion');
-            $table->string('rfcFacturacion');
-            $table->string('emailFacturacion');
+            $table->string('nombreFacturacion')->nullable();
+            $table->string('direccionFacturacion')->nullable();
+            $table->string('coloniaFacturacion')->nullable();
+            $table->string('numeroFacturacion')->nullable();
+            $table->string('rfcFacturacion')->nullable();
+            $table->string('emailFacturacion')->nullable();
 
             //Credito
             $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);
@@ -37,7 +37,7 @@ class CreatePhysicalPeopleTable extends Migration
             $table->timestamps();
 
             //Relations
-            $table->foreign('cliente_id')->references('id')->on('clients')
+            $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             

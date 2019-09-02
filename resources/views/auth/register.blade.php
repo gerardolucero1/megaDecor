@@ -1,22 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.simple')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
+<div class="bg-gd-emerald">
+    <div class="hero-static content content-full bg-white js-appear-enabled animated fadeIn" data-toggle="appear">
+        <div class="py-30 px-5 text-center">
+            <a class="link-effect font-w700" href="index.php">
+                <i class="si si-fire"></i>
+                <span class="font-size-xl text-primary-dark">code</span><span class="font-size-xl">base</span>
+            </a>
+            <h1 class="h2 font-w700 mt-50 mb-10">Crear cuenta</h1>
+            <h2 class="h4 font-w400 text-muted mb-0">Profavor ingresa tus datos</h2>
+        </div>
+        <div class="row justify-content-center px-5">
+            <div class="col-sm-8 col-md-6 col-xl-4">
+                <form class="js-validation-signup" method="POST" action="{{ route('register') }}" novalidate="novalidate">
+                    @csrf
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="form-material">
+                                <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                                <label for="name">Nombre</label>
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -24,13 +27,12 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="form-material">
+                                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                                <label for="email">Email</label>
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -38,13 +40,12 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="form-material">
+                                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <label for="password">Contraseña</label>
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -52,24 +53,28 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <div class="form-material">
+                                <input type="password" class="form-control" id="password-confirm" name="password_confirmation" required>
+                                <label for="password-confirm">Repite tu contraseña</label>
                             </div>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
+                    </div>
+                    <div class="form-group row gutters-tiny">
+                        <div class="col-12 mb-10">
+                            <button type="submit" class="btn btn-block btn-hero btn-noborder btn-rounded btn-alt-success">
+                                <i class="si si-user-follow mr-10"></i> Registrarse
+                            </button>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-12">
+                            <a class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="{{ route('login') }}">
+                                <i class="si si-login text-muted mr-10"></i> ¿Ya tienes cuenta?
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

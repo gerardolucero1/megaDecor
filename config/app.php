@@ -177,6 +177,17 @@ return [
         App\Providers\RouteServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
 
+        // Intervention Image
+        Intervention\Image\ImageServiceProvider::class,
+
+        //DomPDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        
+        //Collective
+        Collective\Html\HtmlServiceProvider::class,
+        //Shinobi
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
     ],
 
     /*
@@ -228,6 +239,16 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Calendar' => MaddHatter\LaravelFullcalendar\SFacades\Calendar::class,
+
+        //Intervention Image
+        'Image' => Intervention\Image\Facades\Image::class,
+
+        //DomPDF
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        //Collective
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

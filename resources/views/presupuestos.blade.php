@@ -1,112 +1,174 @@
 @extends('layouts.backend')
-@section('styles')
-        <link rel="stylesheet" media="all" href="https://public-assets.envato-static.com/assets/market/core/index-ea981150062d8d0bb0eb8b55d331a9b35bf4b1c953d28e897045ddf63c9bebfe.css" />
-        <link rel="stylesheet" media="all" href="https://public-assets.envato-static.com/assets/market/pages/preview/index-004d35cdd5d555cdd3e956d1b916825642de06529f0fe91fd9f390813761d2fc.css" />
-        <link rel="stylesheet" media="all" href="https://cookiebot-assets.envato-static.com/cookiebot.css" />
-
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/themeforest.net/apple-touch-icon-72x72-precomposed.png" sizes="72x72" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/themeforest.net/apple-touch-icon-114x114-precomposed.png" sizes="114x114" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/themeforest.net/apple-touch-icon-144x144-precomposed.png" sizes="144x144" />
-        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="https://public-assets.envato-static.com/icons/themeforest.net/apple-touch-icon-precomposed.png" />
-
-        <script src="https://public-assets.envato-static.com/assets/market/pages/full_screen_preview/index-96b0ff9bb57e0a7c7b9207bc83b24b75539435928baaa36ec23261ef25632ba6.js"></script>
-        
-        
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-       
-
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-       
-        
+@section('style')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 @endsection
 @section('content')
-    <!-- Page Content -->
-<div class="col-sm-12">   
-<div class="row mt-10">  
-                <div class="col">
-                <button type="button" class="btn btn-primary btn-block">Calendario</button>
-                </div> 
-                <div class="col">
-                <button type="button" class="btn btn-primary btn-block">Nuevo Cliente</button>
-                </div> 
-                <div class="col">
-                <button type="button" class="btn btn-primary btn-block">Nuevo Presupuesto</button>
-                </div> 
-                </div> 
-            <br>
-            <hr>  
-     </div>
-        
-   
 
-     <div class="row">  
- <div class="col-sm-12">
- 
-    <div class="block">
-        <div class="block-header block-header-default">
-            <h3 class="block-title">Presupuestos<small>  PartnerGrammer</small></h3>
-                </div>
-                <div class="block-content block-content-full">
-                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                            
-                            <div class="row">
-                                <div class="col-sm-12">
-                                        <table class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
-                                            <thead>
-                                                <tr role="row">
-                                                <th class="text-center sorting_asc" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending">ID</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">cliente</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">contrato</th>                    
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">fecha</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">vendedor</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">lugar</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">version</th>                    
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">opciones</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">Acceso</th>
-                                                <th class="text-center sorting_disabled" style="width: 15%;" rowspan="1" colspan="1" aria-label="Profile">Perfil</th>
-                                                
-                                                </tr>
-                                            </thead>
-                                            <tbody>      
-                                            @foreach($users as $user)
-                                            <tr role="row" class="odd">
-                                                    <td class="text-center sorting_1">{{$user->id}}</td>
-                                                    <td class="font-w600">{{$user->cliente}}</td>
-                                                    <td class="d-none d-sm-table-cell">{{$user->contrato}}</td>                        
-                                                    <td class="d-none d-sm-table-cell">{{$user->fecha}}</td>
-                                                    <td class="d-none d-sm-table-cell">{{$user->vendedor}}</td>
-                                                    <td class="d-none d-sm-table-cell">{{$user->lugar}}</td>
-                                                    <td class="d-none d-sm-table-cell">{{$user->version}}</td>
-                                                    <td class="d-none d-sm-table-cell">{{$user->opciones}}</td>                
-                                                    <td class="d-none d-sm-table-cell">
-                                                        <span class="badge badge-success">VIP</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="View Customer">
-                                                            <i class="fa fa-user"></i>
-                                                        </button>
-                                                    </td>                                                
-                                                </tr>
-                                                @endforeach
-                                                </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+    <section class="container">
+        <div class="row">
+               
+            
+           
+        </div>
+        <div class="content" id="PresupuestosActivos">
+                <div class="block">
+                    <div class="block-header block-header-default">
+                        <div class="col-md-3">
+                        <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
+                    </div>
+                    <div class="col-md-9 text-right">
+                           
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
+                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
+                                        </button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
+                                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
+                                            </button>
+                                    <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                                                <i class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                                            </button>
+                    </div>
+                    </div>
+                    <div style="padding:15px; padding-top:30px;">
+                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                            <thead>
+                                <tr role="row">
+                                    <th>#Presupuesto</th>
+                                    <th>Fecha Evento</th>
+                                    <th>Cliente</th>
+                                    <th>Lugar</th>
+                                    <th>Vendedor</th>
+                                    <th>Version</th>
+                                     <th>Ultima Modificación</th>
+                                     <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>                    
+                            @if (!is_null($Presupuestos))
+                            @foreach ($Presupuestos as $budget)                          
+                            <tr role="row" class="odd">
+                                <td class="text-center sorting_1">{{$budget->folio}}</td>
+                                <td class="">{{$budget->fechaEvento}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
+                                <td class="d-none d-sm-table-cell text-center">3/3</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
+                                
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                            <i class="fa fa-remove"></i>
+                                        </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                            @endif
+                            
+                            </tbody>
+                     </table>
                             </div>
                         </div>
+                </div>
+                <!-- Vista presupuestos archivados -->
+                <div class="content" id="presupuestosArchivados" style="display: none">
+                <div class="block">
+                    <div class="block-header block-header-default">
+                        <div class="col-md-3">
+                        <h3 class="block-title" style="color:indianred">Presupuestos Archivados</h3>
                     </div>
+                    <div class="col-md-9 text-right">
+                           
+                                    <button onclick="PresupuestosActivos()" class="btn btn-success">
+                                                <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
+                                            </button>
+                    </div>
+                    </div>
+                    <div style="padding:15px; padding-top:30px;">
+                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados" role="grid" >
+                            <thead>
+                                <tr role="row">
+                                    <th>#Presupuesto</th>
+                                    <th>Fecha Evento</th>
+                                    <th>Cliente</th>
+                                    <th>Lugar</th>
+                                    <th>Vendedor</th>
+                                    <th>Version</th>
+                                     <th>Ultima Modificación</th>
+                                     <th>Opciones</th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>                    
+                                        
+                                <tr role="row" class="odd">
+                                <td class="text-center sorting_1"></td>
+                                    <td class="">Lunes 10/10/2019</td>
+                                    <td class="d-none d-sm-table-cell">Mario Moreno</td>
+                                    <td class="d-none d-sm-table-cell">Jardin San Jose</td>
+                                    <td class="d-none d-sm-table-cell">Karen</td>
+                                    <td class="d-none d-sm-table-cell text-center">3/3</td>
+                                    <td class="d-none d-sm-table-cell">10/10/2019</td>
+                                    
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                    </td>
+                                </tr>
+                        
+                            </tbody>
+                     </table>
+                            </div>
+                        </div>
                 </div>
-            </div>      
-                   <script>
-                    $(document).ready(function() {
-                        $('#users').DataTable();
-                        } );
-                    </script>
-             
-                </div>
-    <!-- END Page Content -->
+
+                
+               
+    </section>
+   
+    
+    @include('../modals/nuevoPresupuestoModal')
+    @include('../modals/categoriaEventoModal')
+    @include('../modals/nuevoProductoModal')
+    @include('../modals/nuevoClienteModal')
+@endsection
+
+@section("scripts")
+    <script>
+    function archivarCliente(){
+        Swal.fire({
+            title: '¿Estas seguro de archivar este presupuesto?',
+            text: "Al archivar un presupuesto dejara de estar disponible en la tabla de presupuestos",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar'
+            
+        }).then((result) => {
+        if (result.value) {
+            var url= '/presupuestos/eliminar-presupuestos/'+task;
+            axios.delete(url).then(response =>{
+                this.obtenerTareas();
+                }) 
+            }
+                            
+        })
+    }
+    function presupuestosArchivados(){
+        document.getElementById('presupuestosArchivados').style.display="block";
+        document.getElementById('PresupuestosActivos').style.display="none";
+    }
+    function PresupuestosActivos(){
+        document.getElementById('presupuestosArchivados').style.display="none";
+        document.getElementById('PresupuestosActivos').style.display="block";
+    }
+    </script>
+
 @endsection

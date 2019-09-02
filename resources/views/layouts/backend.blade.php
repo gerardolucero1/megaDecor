@@ -22,12 +22,13 @@
         @yield('css_before')
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/codebase.css') }}">
-        <link href='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.min.css' rel='stylesheet' />
-        <link href='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.print.css' rel='stylesheet' media='print' />
-        <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
-        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+        
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 
+
+        <link rel="stylesheet" href="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.css">
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
         @yield('css_after')
@@ -35,7 +36,7 @@
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
-    <body>
+    <body onload="fechaActual()">
         <!-- Page Container -->
         <!--
             Available classes for #page-container:
@@ -154,7 +155,8 @@
                             <!-- Logo -->
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
-                                    <img src="{{asset('/media/favicons/mega.png')}}" style="width:60%; height:80%;">
+                                    <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 100%">
+                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -179,21 +181,17 @@
                            
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="javascript:void(0)">Partnergrammer User</a>
+                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="javascript:void(0)">{{ Auth::user()->name }}</a>
                                 </li>
-                                <br>
                                 <li class="list-inline-item">
-                                    <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                                    <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
-                                        <i class="si si-drop"></i>
+                                    <a class="link-effect text-dual-primary-dark" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                        <i class="si si-logout"></i>
                                     </a>
-                                </li>
-                                <li class="list-inline-item">                                   
-
-                                <a class="link-effect text-dual-primary-dark {{ request()->is('dashboard') ? ' active' : '' }}" href="/login">
-                                    <i class="si si-logout"></i><span class="sidebar-mini-hide"></span>
-                                </a>
-
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                 </li>
                             </ul>
                         </div>
@@ -238,26 +236,20 @@
                                 <a class="{{ request()->is('events2') ? ' active' : '' }}" href="/events2">
                                     <i class="si si-cup"></i><span class="sidebar-mini-hide">Calendario(Funcional)</span>
                                 </a>
+                                <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
+                                <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">VR</span><span class="sidebar-mini-hidden">Various</span>
+                                <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>
                             </li>
-                            <li class="{{ request()->is('examples/*') ? ' open' : '' }}">
-                                <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
-                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-bulb"></i><span class="sidebar-mini-hide">Examples</span></a>
-                                <ul>
-                                    <li>
-                                        <a class="{{ request()->is('examples/plugin-helper') ? ' active' : '' }}" href="/examples/plugin-helper">Plugin with JS Helper</a>
-                                    </li>
-                                    <li>
-                                        <a class="{{ request()->is('examples/plugin-init') ? ' active' : '' }}" href="/examples/plugin-init">Plugin with JS Init</a>
-                                    </li>
-                                    <li>
-                                        <a class="{{ request()->is('examples/blank') ? ' active' : '' }}" href="/examples/blank">Blank</a>
-                                    </li>
-                                </ul>
+                            <li>
+                                <a href="/">
+                                    <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
+                                </a>
                             </li>
-                         
                         </ul>
                     </div>
                     <!-- END Side Navigation -->
@@ -272,90 +264,28 @@
                 <div class="content-header">
                     <!-- Left Section -->
                     <div class="content-header-section">
-                        <!-- Toggle Sidebar -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
-                            <i class="fa fa-navicon"></i>
-                        </button>
-                        <!-- END Toggle Sidebar -->
-
-                        <!-- Open Search Section -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="header_search_on">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <!-- END Open Search Section -->
-
-                        <!-- Layout Options (used just for demonstration) -->
-                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-circle btn-dual-secondary" id="page-header-options-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-wrench"></i>
-                            </button>
-                            <div class="dropdown-menu min-width-300" aria-labelledby="page-header-options-dropdown">
-                                <h5 class="h6 text-center py-10 mb-10 border-b text-uppercase">Settings</h5>
-                                <h6 class="dropdown-header">Color Themes</h6>
-                                <div class="row no-gutters text-center mb-5">
-                                    <div class="col-2 mb-5">
-                                        <a class="text-default" data-toggle="theme" data-theme="default" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-elegance" data-toggle="theme" data-theme="/css/themes/elegance.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-pulse" data-toggle="theme" data-theme="/css/themes/pulse.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-flat" data-toggle="theme" data-theme="/css/themes/flat.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-corporate" data-toggle="theme" data-theme="/css/themes/corporate.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col-2 mb-5">
-                                        <a class="text-earth" data-toggle="theme" data-theme="/css/themes/earth.css" href="javascript:void(0)">
-                                            <i class="fa fa-2x fa-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <h6 class="dropdown-header">Header</h6>
-                                <div class="row gutters-tiny text-center mb-5">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary" data-toggle="layout" data-action="header_fixed_toggle">Fixed Mode</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary d-none d-lg-block mb-10" data-toggle="layout" data-action="header_style_classic">Classic Style</button>
-                                    </div>
-                                </div>
-                                <h6 class="dropdown-header">Sidebar</h6>
-                                <div class="row gutters-tiny text-center mb-5">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_off">Light</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="sidebar_style_inverse_on">Dark</button>
-                                    </div>
-                                </div>
-                                <div class="d-none d-xl-block">
-                                    <h6 class="dropdown-header">Main Content</h6>
-                                    <button type="button" class="btn btn-sm btn-block btn-alt-secondary mb-10" data-toggle="layout" data-action="content_layout_toggle">Toggle Layout</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END Layout Options -->
                     </div>
-                    <!-- END Left Section -->
+                    <div class="content-header-section">
+                        <!-- User Dropdown -->
+                        
+                        <!-- END User Dropdown -->
 
-                   
+                        <!-- Notifications -->
+                        <!-- END Notifications -->
+
+                        <!-- Toggle Side Overlay -->
+                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                        
+                        <p id="fechaActual" style="font-style: italic">Fecha Actual</p>
+                        <script>
+                            function fechaActual(){
+                                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                                var f=new Date();
+                                document.getElementById('fechaActual').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
+                            }
+                        </script>
+                        <!-- END Toggle Side Overlay -->
+                    </div>
                     <!-- END Right Section -->
                 </div>
                 <!-- END Header Content -->
@@ -411,7 +341,10 @@
             <footer id="page-footer" class="opacity-0">
                 <div class="content py-20 font-size-xs clearfix">
                     <div class="float-right">
-                        Created by Partnergrammer
+                        Desarrollado por <a class="font-w600" href="https:partnergrammer.com" target="_blank"><span><img src="media/photos/icon_parnergrammer.png" style="width: 17px; margin-top: -5px;" alt=""></span> Partnergrammer</a>
+                    </div>
+                    <div class="float-left">
+                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank">Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
                     </div>
                  
                 </div>
@@ -419,27 +352,33 @@
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
-
+        
+        
+        
+        
         <!-- Codebase Core JS -->
         <script src="{{ mix('js/codebase.app.js') }}"></script>
-
+        
+<script>  
+$(document).ready( function () {
+    $('#TablaClientes').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaClientesArchivados').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaPresupuestosArchivados').DataTable();
+} ); 
+$(document).ready( function () {
+    $('#TablaPresupuestos').DataTable();
+} ); 
+</script>
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+         <!--librerias tempobootstrap -->
+         
 
-        <script>
-                        $(document).ready(function() {
-                            $('#users').DataTable();
-                            } );
-                        </script>      
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>  
-
-    <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="https://demo.pixelcave.com/codebase/assets/js/pages/be_tables_datatables.min.js"></script>
-        <script src='https://unpkg.com/fullcalendar@3.10.0/dist/fullcalendar.min.js'></script>
-        @yield('js_after')
+        @yield('scripts')
     </body>
 </html>

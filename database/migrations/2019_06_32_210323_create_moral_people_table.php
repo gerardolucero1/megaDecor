@@ -15,19 +15,19 @@ class CreateMoralPeopleTable extends Migration
     {
         Schema::create('moral_people', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cliente_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->integer('categoria_id')->unsigned();
             $table->integer('about_id')->unsigned();
             $table->string('nombre');
             
             //Datos de Facturacion
 
-            $table->string('nombreFacturacion');
-            $table->string('direccionFacturacion');
-            $table->string('coloniaFacturacion');
-            $table->string('numeroFacturacion');
-            $table->string('rfcFacturacion');
-            $table->string('emailFacturacion');
+            $table->string('nombreFacturacion')->nullable();
+            $table->string('direccionFacturacion')->nullable();
+            $table->string('coloniaFacturacion')->nullable();
+            $table->string('numeroFacturacion')->nullable();
+            $table->string('rfcFacturacion')->nullable();
+            $table->string('emailFacturacion')->nullable();
 
             //Credito
             $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);
@@ -35,7 +35,7 @@ class CreateMoralPeopleTable extends Migration
             $table->timestamps();
 
             //Relations
-            $table->foreign('cliente_id')->references('id')->on('clients')
+            $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             

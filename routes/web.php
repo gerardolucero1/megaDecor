@@ -1,12 +1,18 @@
 <?php
+
 use App\User;
+use App\Budget;
+use App\Client;
 use App\Telephone;
+use App\MoralPerson;
 use App\AboutCategory;
 use App\MoralCategory;
-use App\Event;
-use MadHatter\LaravelFullCalendar\Facades\Calendar;
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
+use App\Mail\NuevoPresupuesto;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,85 +26,170 @@ use Illuminate\Support\Facades\DB;
 */
 
 // Example Routes
-Route::view('/', 'dashboard');
+Route::view('/', 'landing');
+Auth::routes();
 
-Route::get('/', function () {
-    $users = User::all();
-        $events = Event::all();
-        $event = [];        
-        foreach($events as $row){
-            $enddate = $row->end_date."24:00:00";
-            
-            $event[]=\Calendar::event( $row->titulo,
-            false,
-            new \DateTime($row->start_date),
-            new \DateTime($row->end_date),
-            $row->id,
-            [
-                'color' => $row->color,
-            ]               
-            );
+Route::group(['middleware' => ['auth']], function () {
+    Route::match(['get', 'post'], '/dashboard', function(){
+        return view('dashboard');
+    });
+    Route::get('/dashboard', 'CMS\IndexController@dashboard');
+
+    Route::get('/obtener-usuario', function(){
+        return Auth::user();
+    });
+
+    Route::get('/obtener-ultimo-presupuesto', function(){
+        return Budget::orderBy('id', 'DESC')->first();
+    });
+
+    Route::get('/obtener-usuarios', function(){
+        return User::orderBy('id', 'DESC')->get();
+    });
+    
+    // Rutas del CMS
+        // API Clientes
+        Route::get('/telefonos', 'CMS\ClientController@telefonos');
+        Route::get('/categorias', 'CMS\ClientController@categorias');
+        Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
+        Route::post('/viejo-telefono', 'CMS\ClientController@viejoTelefono');
+        Route::post('/clientes/crearTipoEmpresa', 'CMS\ClientController@createC')->name('NuevoTipo.createC');
+        Route::get('/clientes/tipo-empresa', 'CMS\ClientController@TipoEmpresa');
+        Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
+        Route::delete('/clientes/eliminar-tipo-empresa/{id}', 'CMS\ClientController@deleteTipo');
+        //Como supo de nosotors
+        Route::post('/clientes/crearComoSupo', 'CMS\ClientController@createComoSupo')->name('NuevoComoSupo.createComoSupo');
+        Route::get('/clientes/comoSupo', 'CMS\ClientController@ComoSupo');
+        Route::delete('/clientes/eliminar-comoSupo/{id}', 'CMS\ClientController@deleteComoSupo');
+        //Tareas
+        Route::get('/tareas/categorias-tareas', 'CMS\TareasController@Categorias');
+        Route::get('/tareas/editar-categorias-tareas', 'CMS\TareasController@editarCategoria');
+        Route::delete('/tareas/eliminar-categoria/{id}', 'CMS\TareasController@deleteCategoria');
+        Route::delete('/tareas/eliminar-tarea/{id}', 'CMS\TareasController@deleteTarea');
+        Route::get('/tareas/obtener-tareas', 'CMS\TareasController@ObtenerTareas');
+        Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
+        Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
+        Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
+
+    Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+    Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+    Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
+    Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
+    Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+
+        // API Presupuestos
+        Route::get('/usuarios', 'CMS\BudgetController@usuarios');
+        Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+        Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
+        Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+        Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
+
+        //Pantalla Usuarios
+        Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+
+    // Todo lo referente a presupuestos
+    Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+    Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
+
+    // Todo lo referente a clientes
+    Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+    Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
+    //Emails
+    Route::post('enviar-email', function(Request $request){
+        
+        $presupuesto    = $request->presupuesto;
+        $inventario     = $request->inventario;
+        $festejados     = $request->festejados;
+
+        
+        $cliente        = Client::orderBy('id', 'DESC')->where('id', $presupuesto['client_id'])->first();        
+
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }else{
+            $persona = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
         }
-        $calendar=\Calendar::addEvents($event);
-        return view('/dashboard', compact('events','calendar','users'));
-  });
+    
+        Mail::to('gera_conecta@hotmail.com', 'Administrador')
+            ->cc($persona->email)
+            ->send(new NuevoPresupuesto($presupuesto, $inventario, $festejados));
+    });
 
+    //Generar PDF's
+    Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
 
-  Route::resource('category','ProductController');  
-  /*
-    $users = User::all();
-    return view('dashboard',compact('users'));
+});
 
-  */
-
-  Route::get('/presupuestos', function () {
-    $users = User::all();
-    return view('presupuestos',compact('users'));
-  });
-
-
-
-
-  Route::get('/contratos', function () {
-    $users = User::all();
-    return view('contratos',compact('users'));
-  });
-
-  Route::get('/lugares', function () {
-    $users = User::all();
-    return view('lugares',compact('users'));
-  });
-  
- 
-
+/*
 Route::match(['get', 'post'], '/dashboard', function(){
-    $users = User::all();
-        $events = Event::all();
-        $event = [];        
-        foreach($events as $row){
-            $enddate = $row->end_date."24:00:00";
-            
-            $event[]=\Calendar::event( $row->titulo,
-            false,
-            new \DateTime($row->start_date),
-            new \DateTime($row->end_date),
-            $row->id,
-            [
-                'color' => $row->color,
-            ]               
-            );
-        }
-        $calendar=\Calendar::addEvents($event);
-        return view('/dashboard', compact('events','calendar','users'));
+    return view('dashboard');
 });
 
-Route::view('/examples/plugin-helper', 'examples.plugin_helper');
-Route::view('/examples/plugin-init', 'examples.plugin_init');
-Route::view('/examples/blank', 'examples.blank');
 
-Route::get('/test/datepicker', function () {
-    return view('datepicker');
+
+Auth::routes();
+
+Route::group(['middleware' => ['auth'] 
+], function(){
+
+//ruta dashboard
+Route::get('/dashboard', 'CMS\IndexController@dashboard');
+
+// Rutas del CMS
+    // API Clientes
+    Route::get('/telefonos', 'CMS\ClientController@telefonos');
+    Route::get('/categorias', 'CMS\ClientController@categorias');
+    Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
+    Route::post('/viejo-telefono', 'CMS\ClientController@viejoTelefono');
+    Route::post('/clientes/crearTipoEmpresa', 'CMS\ClientController@createC')->name('NuevoTipo.createC');
+    Route::get('/clientes/tipo-empresa', 'CMS\ClientController@TipoEmpresa');
+    Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
+    Route::delete('/clientes/eliminar-tipo-empresa/{id}', 'CMS\ClientController@deleteTipo');
+    //Como supo de nosotors
+    Route::post('/clientes/crearComoSupo', 'CMS\ClientController@createComoSupo')->name('NuevoComoSupo.createComoSupo');
+    Route::get('/clientes/comoSupo', 'CMS\ClientController@ComoSupo');
+    Route::delete('/clientes/eliminar-comoSupo/{id}', 'CMS\ClientController@deleteComoSupo');
+    //Tareas
+    Route::get('/tareas/categorias-tareas', 'CMS\TareasController@Categorias');
+    Route::get('/tareas/editar-categorias-tareas', 'CMS\TareasController@editarCategoria');
+    Route::delete('/tareas/eliminar-categoria/{id}', 'CMS\TareasController@deleteCategoria');
+    Route::delete('/tareas/eliminar-tarea/{id}', 'CMS\TareasController@deleteTarea');
+    Route::get('/tareas/obtener-tareas', 'CMS\TareasController@ObtenerTareas');
+    Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
+    Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
+    Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
+
+Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
+Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+
+    // API Presupuestos
+    Route::get('/usuarios', 'CMS\BudgetController@usuarios');
+    Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+    Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
+    Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+
+
+    //Pantalla Usuarios
+    Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+
+
+// Todo lo referente a presupuestos
+Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
+
+// Todo lo referente a clientes
+Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+
 });
+  
+    //clientes
+
+
+
 
 
 
@@ -106,60 +197,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Rutas del CMS
-    // API Formularios
-
-    /*
-    Route::get('/telefonos', function(){
-        return App\Telephone::orderBy('id', 'DESC')->get();
-    });
-
-    Route::get('/categorias', function(){
-        return App\MoralCategory::orderBy('id', 'DESC')->get();
-    });
-
-    Route::get('/about-categorias', function(){
-        return App\AboutCategory::orderBy('id', 'DESC')->get();
-    });
-
-    Route::post('/viejo-telefono', function(Request $request){
-
-        $cliente = DB::table('moral_people')
-            ->join('telephones', 'telephones.cliente_id', '=', 'moral_people.cliente_id')
-            ->select('moral_people.nombre')
-            ->get();
-
-        $tamano = count($cliente);
-        
-        if($tamano == 0){
-
-            $cliente = DB::table('physical_people')
-            ->join('telephones', 'telephones.cliente_id', '=', 'physical_people.cliente_id')
-            ->select('physical_people.nombre')
-            ->get();
-
-        }
-
-        
-        return $cliente;
-    });
-    */
-    Route::get('/telefonos', 'CMS\ClientController@telefonos');
-    Route::get('/categorias', 'CMS\ClientController@categorias');
-    Route::get('/about-categorias', 'CMS\ClientController@aboutCategorias');
-    Route::post('/viejo-telefono', 'CMS\ClientController@viejoTelefono');
-    Route::delete('/viejo-telefono/{id}', 'CMS\ClientController@deleteViejoTelefono');
-
-Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
-
-// Todo lo referente a clientes
-Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
-
-///CALENDAR
-Route::resource('/events','EventController');
-Route::resource('/events2','EventController2');
-Route::get('/addeventurl','EventController@display');
-Route::post('/addeventurl','EventController@guardar');
-Route::delete('/addeventurl/{id}','EventController@destroy')->name('Borrar');
+Route::middleware(['auth'])->group(function(){
+    Route::post('roles/store')->name('roles.store')
+    ->middleware('permission:roles.create');
+});
 
 
+
+
+
+//Rutas para permisos
+
+*/
