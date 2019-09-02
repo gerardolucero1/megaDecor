@@ -41,6 +41,35 @@
                     
                 </div>
                 <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
+
+                <table class="table table-hover table-striped">
+      
+      <tbody>      
+                                            @foreach($users as $user)
+                                            <tr role="row" class="odd">
+                                                    <td class="text-center sorting_1">{{$user->id}}</td>
+                                                    <td class="font-w600">{{$user->cliente}}</td>
+                                                    <td class="d-none d-sm-table-cell">{{$user->contrato}}</td>                        
+                                                    <td class="d-none d-sm-table-cell">{{$user->fecha}}</td>
+                                                    <td class="d-none d-sm-table-cell">{{$user->vendedor}}</td>
+                                                    <td class="d-none d-sm-table-cell">{{$user->lugar}}</td>
+                                                    <td class="d-none d-sm-table-cell">{{$user->version}}</td>
+                                                    <td class="d-none d-sm-table-cell">{{$user->opciones}}</td>                
+                                                    <td class="d-none d-sm-table-cell">
+                                                        <span class="badge badge-success">VIP</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" 
+                                                        class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" 
+                                                        data-original-title="View Customer" href="/updateCategory">
+                                                            <i class="fa fa-user"></i>
+                                                        </button>
+                                                    </td>                                                
+                                                </tr>
+                                                @endforeach
+                                                </tbody>
+      
+  </div>
                         
 
                 </div>

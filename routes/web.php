@@ -43,6 +43,8 @@ Route::get('/', function () {
         return view('/dashboard', compact('events','calendar','users'));
   });
 
+
+  Route::resource('category','ProductController');  
   /*
     $users = User::all();
     return view('dashboard',compact('users'));
@@ -53,6 +55,9 @@ Route::get('/', function () {
     $users = User::all();
     return view('presupuestos',compact('users'));
   });
+
+
+
 
   Route::get('/contratos', function () {
     $users = User::all();
