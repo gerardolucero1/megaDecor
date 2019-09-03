@@ -17,9 +17,14 @@ class CreateBudgetPacksTable extends Migration
             $table->increments('id');
             $table->integer('budget_id')->unsigned();
             $table->string('servicio');
+            $table->integer('cantidad');
+            $table->integer('precioUnitario');
             $table->integer('precioFinal');
+            $table->integer('ahorro');
+            $table->string('notas');
             $table->string('categoria');
             $table->boolean('guardarPaquete');
+            $table->integer('version')->nullable();
             $table->timestamps();
 
             //Relations

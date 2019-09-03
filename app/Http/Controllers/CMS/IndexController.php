@@ -122,4 +122,10 @@ class IndexController extends Controller
         //dd($clientes);
         return view('presupuestos',compact('Presupuestos'));   
     }
+
+    public function editarPresupuesto($id){
+        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        return view('presupuesto', compact('presupuesto'));
+    }
 }

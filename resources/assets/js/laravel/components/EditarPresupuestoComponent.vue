@@ -55,7 +55,7 @@
 </style>
 
 <template>
-    <section class="container">
+    <section class="container mt-3">
         <div class="row">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
@@ -67,7 +67,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-3 text-right info">
+                    <div class="col-md-4 text-right info">
                         <p>{{ obtenerFolio }}</p>
                         <div class="row">
                             <div class="col-md-4 text-right">
@@ -362,7 +362,7 @@
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
-                                <td>
+                                <td data-name="cantidad">
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
@@ -433,7 +433,7 @@
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p>Comision pagada en base a $ <span>150</span></p>
 
-                                    <button class="btn btn-sm btn-primary" @click="mostrarSettings()"><i class="si si-pencil"></i> Settings</button>
+                                    <button class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                 </div>
                             </div>
                         </div>
@@ -441,14 +441,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                        <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
-                    </div>
-                    <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
+                    <div class="col-md-4 offset-md-4 mt-4">
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Editar Presupuesto</button>
                     </div>
                 </div>
             </div>
@@ -777,73 +771,6 @@
             </div>
         </div>
 
-        <!-- Modal ver presupuestos -->
-        <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
-            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content" style="border: solid gray">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Guardar Contrato</h5>
-                    <button type="button" class="close" onClick="$('#guardarContrato').modal('hide')" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="hora-1">Hora de inicio</label>
-                            <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="hora-2">Hora de fin</label>
-                            <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="hora-2">Hora de entrega</label>
-                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
-                                <option value="MAÑANA">Mañana</option>
-                                <option value="TARDE">Tarde</option>
-                                <option value="MEDIO DIA">Medio dia</option>
-                                <option value="NOCHE">Noche</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label form="fecha-hora">Fecha y hora de recoleccion</label>
-                            <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
-                        </div>
-                        <div class="col-md-6 mt-4">
-                            <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
-                            <label form="requireFactura">Factura</label>
-                        </div>
-                        <div class="col-md-12">
-                            <label form="notasFactura">Notas facturacion</label>
-                            <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
-                        </div>
-                        <div class="col-md-12 mt-4">
-                            <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
-                        </div>
-                        <div class="col-md-5 mt-4">
-                            <input class="form-control" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
-                        </div>
-                        <div class="col-md-2 mt-4">
-                            <input class="form-control" type="text" placeholder="Numero" v-model="facturacion.numeroFacturacion">
-                        </div>
-                        <div class="col-md-5 mt-4">
-                            <input class="form-control" type="text" placeholder="Colonia" v-model="facturacion.coloniaFacturacion">
-                        </div>
-                        <div class="col-md-6 mt-4">
-                            <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Modal editar paquete -->
         <div class="modal fade modalAgregarPaquete" id="editarPaquete" tabindex="-1" role="dialog" aria-labelledby="editarElemento" aria-hidden="true" style="overflow-y: scroll;">
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -1012,6 +939,8 @@
                 usuarios: [],
 
                 presupuesto:{
+                    id: '',
+                    folio: '',
                     vendedor_id: '',
                     client_id: '',
                     tipoEvento: 'EXTERNO',
@@ -1052,15 +981,11 @@
                     //Impresion
                     impresion: false,
 
-                    //Version
-                    version: 1,
-
                     //Total
                     total: '',
 
                     comision: '',
                 },
-
                 clientes: [],
                 festejado: {
                     nombre: '',
@@ -1144,7 +1069,9 @@
                     numeroFacturacion: '',
                     coloniaFacturacion: '',
                     emailFacturacion: '',
-                }
+                },
+
+                demoP: '',
             }
         },
         created(){
@@ -1165,6 +1092,8 @@
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
             });
+
+            this.obtenerPresupuesto();
 
             
         },
@@ -1557,11 +1486,11 @@
 
                 // Cantidad
                 editarCantidad(index, key){
-                    //console.log(key);
+                    console.log(key);
                     this.indice = index;
                     this.key = key[3];
                     console.log(index);
-                    console.log(this.key);
+                    //console.log(this.key);
                        
                 },
                 updateCantidad(index){
@@ -1704,7 +1633,7 @@
                     this.presupuesto.tipoServicio = ''
                 }
 
-                let URL = '/presupuestos/create';
+                let URL = '/presupuestos/create/version';
                 axios.post(URL, {
                     'presupuesto': this.presupuesto,
                     'festejados': this.festejados,
@@ -1746,81 +1675,191 @@
                     );
                 });
             },
-            // Guardar como contrato
-            guardarContrato(){
-                this.presupuesto.tipo = 'CONTRATO';
-                if(this.presupuesto.tipoEvento == 'INTERNO'){
-                    this.presupuesto.tipoServicio = ''
-                }
+            obtenerPresupuesto(){
+              let data = window.location.pathname.split('/');
+              let path = data[3];
+              let URL = '/obtener-presupuesto/' + path;
 
-                if(this.requiereFactura){
-                    for (const prop in this.facturacion) {
-                        
-                        if(this.facturacion[prop] == ''){
-                            Swal.fire(
-                                'Error',
-                                'Los datos de facturacion deben ser completados',
-                                'error'
-                            );
-                            return;
-                        }
-                        
-                        
-                    }
-                }
-                let URL = '/presupuestos/create';
+              axios.get(URL).then((response) => {
+                console.log(response.data);
+
+                this.presupuesto = response.data;
+
+                let cliente = this.clientResults.find(function(element){
+                  return element.id = response.data.client_id;
+                })
+
+
+                //Obtener el cliente seleccionado
+                let URL = '/obtener-cliente';
                 axios.post(URL, {
-                    'presupuesto': this.presupuesto,
-                    'festejados': this.festejados,
-                    'inventario': this.inventarioLocal,
-                    'facturacion': this.facturacion,
+                    'id': cliente.id,
+                    'accion': 'telefonos',
                 }).then((response) => {
-                    this.imprimir = true;
-                    
-                    if(response.data == 1){
-                        Swal.fire(
-                            'Error!',
-                            'No puede haber dos eventos en salon en la misma fecha',
-                            'error'
-                        );
-                    }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El presupuesto ha sido creado',
-                            'success'
-                        );
-                    }   
-                    
+                    this.clienteSeleccionado.telefonos = response.data;    
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Error!',
-                        'Algo ha ocurrido mal',
-                        'error'
-                    );
                 });
-            },
-            imprimirPDF(){
-                if(!this.imprimir){
-                    Swal.fire(
-                        'Error!',
-                        'Primero guarda el presupuesto',
-                        'error'
-                    );
-                }else{
-                    let URL = '/obtener-ultimo-presupuesto';
 
-                    axios.get(URL).then((response) => {
-                        this.imprimir = false;
-                        let data = response.data;
+                axios.post(URL, {
+                    'id': cliente.id,
+                    'accion': 'presupuestos',
+                }).then((response) => {
+                    this.clienteSeleccionado.presupuestos = [];
+                    this.ultimoEvento = '';
+                    if(response.data.length !== 0){
+                        this.clienteSeleccionado.presupuestos = response.data;
+                        let arreglo = response.data
+                            arreglo.sort(function(a,b){
+                                    return new Date(b.fechaEvento) - new Date(a.fechaEvento);
+                            });
+                        this.ultimoEvento = arreglo.shift();
+                        this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
+                    }
+                }).catch((error) => {
+                    console.log(error.data);
+                });
 
-                        //window.location.href = '/presupuestos/generar-pdf/' + data.id;
-                        window.open('/presupuestos/generar-pdf/' + data.id);
-                    }).catch((error) => {
-                        console.log(error.data);
-                    })
-                }
-            },
+                this.clienteSeleccionado.id = cliente.id;
+                this.clienteSeleccionado.nombre = cliente.nombre;
+                this.clienteSeleccionado.email = cliente.email;
+
+                this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+
+                this.presupuesto.client_id = cliente.id;
+
+                //Obtener los festejados
+                let direction = '/obtener-festejados/' + this.presupuesto.id;
+
+                axios.get(direction).then((response) => {
+                  this.festejados = response.data;
+                }).catch((error) => {
+                  console.log(error.data);
+                })
+
+                //Obtener el inventario
+
+                let direction2 = '/obtener-inventario-1/' + this.presupuesto.id;
+
+                axios.get(direction2).then((response) => {
+                  let arreglo = [];
+                  response.data.forEach(function(element){
+                    if(!element.externo){
+                      let objeto = {
+                        'externo': false,
+                        'imagen': element.imagen,
+                        'servicio': element.servicio,
+                        'cantidad': element.cantidad,
+                        'precioUnitario': element.precioUnitario,
+                        'precioFinal': element.precioFinal,
+                        'ahorro': element.ahorro,
+                        'notas': element.notas,
+                        'paquete': '',
+                        'tipo': 'PRODUCTO',
+                        'id': element.id,
+                      }
+                      arreglo.push(objeto);
+                    }else{
+                      let objeto = {
+                        'externo': true,
+                        'imagen': element.imagen,
+                        'servicio': element.servicio,
+                        'cantidad': element.cantidad,
+                        'precioUnitario': element.precioUnitario,
+                        'precioFinal': element.precioFinal,
+                        'ahorro': element.ahorro,
+                        'notas': element.notas,
+                        'paquete': '',
+                        'tipo': 'PRODUCTO',
+                        'id': element.id,
+                      }
+                      arreglo.push(objeto);
+                    }
+                    
+                    return arreglo;
+                  });
+                this.inventarioLocal = arreglo;
+                })
+
+                let direction3 = '/obtener-paquetes/' + this.presupuesto.id;
+
+                axios.get(direction3).then((response) => {
+                    
+                    let arregloPaquetes = [];
+
+                    response.data.forEach(function(element){
+                        let URL = '/obtener-elementos-paquetes/' + element.id;
+
+                        var arregloElementos = [];
+                        axios.get(URL).then((response) => {
+                            
+                            
+                            response.data.forEach(function(element){
+                                if(element.externo){
+                                    let demo = {
+                                        'externo': true,
+                                        'nombre': element.servicio,
+                                        'imagen': element.imagen,
+                                        'precioUnitario': element.precioUnitario,
+                                        'precioFinal': element.precioFinal,
+                                        'cantidad': element.cantidad,
+                                        'id': '',
+                                    }
+                                arregloElementos.push(demo);
+                                }else{
+                                    let demo = {
+                                        'externo': false,
+                                        'nombre': element.servicio,
+                                        'imagen': element.imagen,
+                                        'precioUnitario': element.precioUnitario,
+                                        'precioFinal': element.precioFinal,
+                                        'cantidad': element.cantidad,
+                                        'id': '',
+                                    }
+                                arregloElementos.push(demo);
+                                }
+                                return arregloElementos;
+                            });
+                           return arregloElementos; 
+                        })
+                        console.log(arregloElementos);
+
+                        let objeto = {
+                            'externo': false,
+                            'imagen': 'https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg',
+                            'servicio': element.servicio,
+                            'cantidad': element.cantidad,
+                            'precioUnitario': element.precioUnitario,
+                            'precioFinal': element.precioFinal,
+                            'ahorro': element.ahorro,
+                            'notas': element.notas,
+                            'paquete': {
+                                'categoria': element.categoria,
+                                'guardarPaquete': element.guardarPaquete,
+                                'precioFinal': element.precioFinal,
+                                'servicio': element.servicio,
+                                'inventario': arregloElementos,
+                            },
+                            'tipo': 'PAQUETE',
+                            'id': element.id,
+                        }
+                        arregloPaquetes.push(objeto);   
+                    }); 
+                this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
+
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+                
+
+
+              }).catch((error) => {
+                console.log(error.data);
+              })
+            }
         }
     }
 </script>

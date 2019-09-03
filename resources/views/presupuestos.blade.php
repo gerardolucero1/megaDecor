@@ -56,12 +56,15 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
                                 
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                    <a href="{{ route('editar.presupuesto', $budget->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ route('ver.presupuesto', $budget->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i>
-                                    </button>
+                                    </a>
                                     <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                            <i class="fa fa-remove"></i>
-                                        </button>
+                                        <i class="fa fa-remove"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -117,8 +120,8 @@
                                             <i class="fa fa-eye"></i>
                                         </button>
                                         <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
+                                            <i class="fa fa-remove"></i>
+                                        </button>
                                     </td>
                                 </tr>
                         

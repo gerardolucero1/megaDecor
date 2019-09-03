@@ -51,6 +51,11 @@ class Budget extends Model
         'numeroFacturacion',
         'coloniaFacturacion',
         'emailFacturacion',
+
+        //version
+        'version',
+        'comision',
+        'total',
     ];
 
     public function user()
