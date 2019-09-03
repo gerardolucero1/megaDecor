@@ -36,7 +36,8 @@
                                                
                                                 <tr style="font-size:11px" class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
                                                 <td>{{ tarea.cliente }}</td>
-                                                <td>{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id!=2">{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id==2">Todos</td>
                                                 <td class="d-none d-sm-table-cell">
                                                     <span class="">{{ tarea.categoria }}</span>
                                                 </td>
@@ -68,14 +69,12 @@ import { EventBus } from '../eventBus.js';
                     vendedor_id: '',
                 },
                 tareas: [],
-                usuarios: [],
                 
             }
              
         },
         created(){
             this.obtenerTareas();
-            this.obtenerUsuarios();
     EventBus.$on('nuevaTarea', funcion => {
   this.obtenerTareas();
 });
@@ -89,22 +88,18 @@ import { EventBus } from '../eventBus.js';
                     
                 });
                 },
-                obtenerUsuarios(){
-                let URL = '/obtener-usuarios';
-
-                axios.get(URL).then((response) => {
-                    this.usuarios = response.data;
-                    console.log(this.usuarios)
-                }).catch((error) => {
-                    console.log(error);
-                })
-            },
                 detalleTarea(task){
+                    if(task.vendedor_id==2){
+                        var condicion = false;
+                    }else{
+                        var condicion = true;
+                    }
     Swal.fire({
                                 title: task.categoria+" "+task.cliente,
                                 text: "Detalles: "+task.notas,
                                 type: 'info',
                                 showCancelButton: true,
+                                showConfirmButton: condicion,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Tarea Finalizada',

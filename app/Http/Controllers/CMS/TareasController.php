@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\TaskCategory;
 use App\Task;
 use App\User;
+use Auth;
 use App\PhysicalPerson;
 use stdClass;
 
@@ -41,7 +42,11 @@ class TareasController extends Controller
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
         ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
         ->where('tasks.fecha', '=', $fecha_actual)
-        //->where('tasks.vendedor_id', '=', Auth::user()->id)
+        
+        ->where(function($q) {
+            $q->where('tasks.vendedor_id', '=', Auth::user()->id)
+              ->orWhere('tasks.vendedor_id', '2');
+        })
         ->get();
 
         $Tasks=[];
@@ -66,29 +71,12 @@ class TareasController extends Controller
                 $Task->notas = $tarea->notas;
                 $Task->categoria = $tarea->categoria;
                 $Task->completa = $tarea->completa;
+                $Task->vendedor_id = $tarea->vendedor_id;
                 array_push($Tasks,$Task);
                 }
             }
         }
-        //dd($Tasks);
-       /*for($i=0; $i<$tamanoTareas; $i++){
-            for($j=0; $j<$tamanoClientes; $j++){
-            if($clientes[$j]['id']==$tareas[$i]['id']){
-                
-                //$Task = new stdClass();
-                $Task->id = $tareas[$i]['id'];
-                $Task->cliente = $clientes[$j]['nombre'].$clientes[$j]['apellidoPaterno'];
-                $Task->notas = $tareas=[$i]['notas'];
-                $Task->categoria = $tareas=[$i]['categoria'];
-                //$Task->cliente = 'Gerardo';
-                //dd($Task);
-                //array_push($Tasks,$Task); 
-               }
-            }
-        } */
-
-        //return view('clientes',compact('resultTasks'));   
-        //dd($Tasks);
+       
         return $Tasks;
     
         

@@ -4309,7 +4309,10 @@ __webpack_require__.r(__webpack_exports__);
         fecha: ''
       },
       clientesFisicos: [],
-      categorias: []
+      categorias: [],
+      //Usuario y usuarios
+      usuarioActual: '',
+      usuarios: []
     };
   },
   created: function created() {
@@ -4317,6 +4320,8 @@ __webpack_require__.r(__webpack_exports__);
 
     this.obtenerCategorias();
     this.obtenerClientesFisicos();
+    this.obtenerUsuario();
+    this.obtenerUsuarios();
     _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('clic', function (funcion) {
       _this.obtenerCategorias();
     });
@@ -4327,8 +4332,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/categorias-tareas';
       axios.get(URL).then(function (response) {
-        _this2.categorias = response.data;
-        console.log(_this2.categorias);
+        _this2.categorias = response.data; // console.log(this.categorias);
       });
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
@@ -4339,12 +4343,30 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/clientes-fisicos';
       axios.get(URL).then(function (response) {
-        _this3.clientesFisicos = response.data;
-        console.log(_this3.clientesFisicos);
+        _this3.clientesFisicos = response.data; // console.log(this.clientesFisicos);
+      });
+    },
+    obtenerUsuario: function obtenerUsuario() {
+      var _this4 = this;
+
+      var URL = '/obtener-usuario';
+      axios.get(URL).then(function (response) {
+        _this4.usuarioActual = response.data;
+        _this4.presupuesto.vendedor_id = _this4.usuarioActual.id;
+      })["catch"](function (error) {});
+    },
+    obtenerUsuarios: function obtenerUsuarios() {
+      var _this5 = this;
+
+      var URL = '/obtener-usuarios';
+      axios.get(URL).then(function (response) {
+        _this5.usuarios = response.data;
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
     crearTarea: function crearTarea() {
-      var _this4 = this;
+      var _this6 = this;
 
       var URL = '/tareas/create';
       axios.post(URL, {
@@ -4354,7 +4376,7 @@ __webpack_require__.r(__webpack_exports__);
         'textoNotas': this.tarea.notas,
         'fecha': this.tarea.fecha
       }).then(function (response) {
-        _this4.tarea = {};
+        _this6.tarea = {};
         _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaTarea');
         Swal.fire({
           title: 'Tarea Registrada con exito',
@@ -4389,6 +4411,21 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5126,6 +5163,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5133,15 +5171,13 @@ __webpack_require__.r(__webpack_exports__);
       tarea: {
         vendedor_id: ''
       },
-      tareas: [],
-      usuarios: []
+      tareas: []
     };
   },
   created: function created() {
     var _this = this;
 
     this.obtenerTareas();
-    this.obtenerUsuarios();
     _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevaTarea', function (funcion) {
       _this.obtenerTareas();
     });
@@ -5156,25 +5192,21 @@ __webpack_require__.r(__webpack_exports__);
         console.log(_this2.tareas);
       });
     },
-    obtenerUsuarios: function obtenerUsuarios() {
+    detalleTarea: function detalleTarea(task) {
       var _this3 = this;
 
-      var URL = '/obtener-usuarios';
-      axios.get(URL).then(function (response) {
-        _this3.usuarios = response.data;
-        console.log(_this3.usuarios);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    detalleTarea: function detalleTarea(task) {
-      var _this4 = this;
+      if (task.vendedor_id == 2) {
+        var condicion = false;
+      } else {
+        var condicion = true;
+      }
 
       Swal.fire({
         title: task.categoria + " " + task.cliente,
         text: "Detalles: " + task.notas,
         type: 'info',
         showCancelButton: true,
+        showConfirmButton: condicion,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Tarea Finalizada',
@@ -5184,7 +5216,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
-            _this4.obtenerTareas();
+            _this3.obtenerTareas();
           });
         }
       });
@@ -60833,8 +60865,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.presupuesto.vendedor_id,
-                            expression: "presupuesto.vendedor_id"
+                            value: _vm.tarea.vendedor,
+                            expression: "tarea.vendedor"
                           }
                         ],
                         attrs: { name: "vendedor", id: "" },
@@ -60849,8 +60881,8 @@ var render = function() {
                                 return val
                               })
                             _vm.$set(
-                              _vm.presupuesto,
-                              "vendedor_id",
+                              _vm.tarea,
+                              "vendedor",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -60859,7 +60891,7 @@ var render = function() {
                         }
                       },
                       [
-                        _c("option", { attrs: { value: "all" } }, [
+                        _c("option", { attrs: { value: "2" } }, [
                           _vm._v("Todos los vendedores")
                         ]),
                         _vm._v(" "),
@@ -61515,9 +61547,42 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm._m(0)
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("label", { attrs: { for: "" } }, [
+                      _vm._v("Direccion de la empresa")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.direccionEmpresa,
+                          expression: "cliente.direccionEmpresa"
+                        }
+                      ],
+                      attrs: { type: "text", placeholder: "Nombre" },
+                      domProps: { value: _vm.cliente.direccionEmpresa },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.cliente,
+                            "direccionEmpresa",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
                   ])
                 ])
               : _vm._e(),
+            _vm._v(" "),
+            _c("h4", [_vm._v("Telefonos de contacto")]),
             _vm._v(" "),
             _vm.telefonos.length !== 0
               ? _c("div", { staticClass: "row" }, [
@@ -61597,7 +61662,13 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("h4", [_vm._v("Telefonos de contacto")]),
+            _vm.telefonos.length == 0
+              ? _c("div", { staticClass: "row" }, [
+                  _c("p", { staticStyle: { "text-align": "center" } }, [
+                    _vm._v('"Sin contactos registrados"')
+                  ])
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-4" }, [
@@ -61749,26 +61820,83 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.telefono.email,
-                          expression: "telefono.email"
+                          value: _vm.telefono.app,
+                          expression: "telefono.app"
                         }
                       ],
-                      attrs: {
-                        type: "email",
-                        id: "email",
-                        placeholder: "Email"
-                      },
-                      domProps: { value: _vm.telefono.email },
+                      attrs: { type: "text", placeholder: "Apellido Paterno" },
+                      domProps: { value: _vm.telefono.app },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.telefono, "email", $event.target.value)
+                          _vm.$set(_vm.telefono, "app", $event.target.value)
                         }
                       }
                     })
                   ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.cliente.tipoPersona == "moral"
+                ? _c("div", { staticClass: "col-md-4" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.telefono.apm,
+                          expression: "telefono.apm"
+                        }
+                      ],
+                      attrs: { type: "text", placeholder: "Apellido Materno" },
+                      domProps: { value: _vm.telefono.apm },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.telefono, "apm", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.cliente.tipoPersona == "moral"
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-md-4",
+                      staticStyle: { "padding-top": "10px" }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.telefono.email,
+                            expression: "telefono.email"
+                          }
+                        ],
+                        attrs: {
+                          type: "email",
+                          id: "email",
+                          placeholder: "Email"
+                        },
+                        domProps: { value: _vm.telefono.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.telefono, "email", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
                 : _vm._e()
             ]),
             _vm._v(" "),
@@ -62331,7 +62459,13 @@ var render = function() {
                       [
                         _c("td", [_vm._v(_vm._s(tarea.cliente))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(tarea.vendedor))]),
+                        tarea.vendedor_id != 2
+                          ? _c("td", [_vm._v(_vm._s(tarea.vendedor))])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        tarea.vendedor_id == 2
+                          ? _c("td", [_vm._v("Todos")])
+                          : _vm._e(),
                         _vm._v(" "),
                         _c("td", { staticClass: "d-none d-sm-table-cell" }, [
                           _c("span", {}, [_vm._v(_vm._s(tarea.categoria))])

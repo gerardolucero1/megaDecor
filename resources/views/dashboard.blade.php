@@ -59,7 +59,11 @@
                                     <i class="si si-star fa-3x text-body-bg-dark"></i>
                                 </div>
                                 <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">{{ $ArrayEmpleadoDelMes->name }}</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                    @if(!is_null($ArrayEmpleadoDelMes))
+                                    {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
+                                    @endif
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -92,4 +96,6 @@
     @include('../modals/nuevoClienteModal')
     @include('../modals/nuevaTareaModal')
     @include('../modals/categoriaTareaModal')
+    @include('../modals/tiposEmpresaModal')
+    @include('../modals/comoSupoModal')
 @endsection

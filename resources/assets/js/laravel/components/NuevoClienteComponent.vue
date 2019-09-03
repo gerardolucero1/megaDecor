@@ -62,9 +62,17 @@
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
+                        <div class="col-md-12">
+                            <label for="">Direccion de la empresa</label>
+                            <input type="text" placeholder="Nombre" v-model="cliente.direccionEmpresa">
+                        </div>
                     </div>
                     
                     <!-- Tabla de telefonos -->
+                    
+                    
+
+                    <h4>Telefonos de contacto</h4>
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
@@ -91,8 +99,9 @@
                             </tbody>
                         </table>  
                     </div> 
-
-                    <h4>Telefonos de contacto</h4>
+                    <div class="row" v-if="telefonos.length == 0">
+                        <p style="text-align:center">"Sin contactos registrados"</p>
+                        </div>
 
                     <div class="row">
                         <div class="col-md-4">
@@ -119,6 +128,12 @@
                             <input type="text" placeholder="Nombre" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Paterno" v-model="telefono.app">
+                        </div>
+                        <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Materno" v-model="telefono.apm">
+                        </div>
+                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="email" id="email" placeholder="Email" v-model="telefono.email">
                         </div>
                     </div>
