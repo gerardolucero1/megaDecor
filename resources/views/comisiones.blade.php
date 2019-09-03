@@ -22,8 +22,8 @@
         </div>
     
         <div class="content">
-        <button class="btn btn-secondary">
-                <i class="si si-settings"></i> Configurar comisiones
+        <button class="btn btn-secondary" >
+                <i class="si si-settings"></i> <a href="/settings">Configurar comisiones</a>
              </button>
             </div>
             <div class="content" id="PresupuestosActivos">

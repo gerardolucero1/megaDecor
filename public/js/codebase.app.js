@@ -20775,7 +20775,7 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/codebase/app.js */"./resources/assets/js/codebase/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Gizflores\Desktop\MegaMundo\2\megaDecor\resources\assets\js\codebase\app.js */"./resources/assets/js/codebase/app.js");
 
 
 /***/ })

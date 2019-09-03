@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-usuarios', function(){
         return User::orderBy('id', 'DESC')->get();
     });
+
+    Route::resource('settings','SettingsController');
     
     // Rutas del CMS
         // API Clientes
@@ -75,7 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
-    Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+    Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');    
 
         // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');

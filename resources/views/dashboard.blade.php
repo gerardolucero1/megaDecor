@@ -59,7 +59,13 @@
                                     <i class="si si-star fa-3x text-body-bg-dark"></i>
                                 </div>
                                 <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">{{ $ArrayEmpleadoDelMes->name }}</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                @if(!is_null($ArrayEmpleadoDelMes)) 
+                                {{$ArrayEmpleadoDelMes->name}}
+                                @else
+                                <p>No hay empleado del mes</p>             
+                                @endif
+                                </div>
                             </div>
                         </a>
                     </div>

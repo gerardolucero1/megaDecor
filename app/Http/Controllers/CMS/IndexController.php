@@ -67,6 +67,7 @@ class IndexController extends Controller
     public function comisiones(){
         return view('comisiones');
     }
+
     public function dashboard(){
         $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
@@ -81,15 +82,20 @@ class IndexController extends Controller
         ->get();
         
         $ventas=0;
-        foreach ($EmpleadoDelMes as $EmpleadoMes) {
-
-            if(($EmpleadoMes->ventas_count) > $ventas){
-                $ventas = $EmpleadoMes->ventas_count;
-                $vendedorMes=$EmpleadoMes->vendedor_id;
-            }
-         
+        //dd($EmpleadoDelMes);
+        if(count($EmpleadoDelMes)>0){
+            foreach ($EmpleadoDelMes as $EmpleadoMes) {
+                if(($EmpleadoMes->ventas_count) > $ventas){
+                    $ventas = $EmpleadoMes->ventas_count;
+                    $vendedorMes=$EmpleadoMes->vendedor_id;
+                }
+                         
+            }             
+        $ArrayEmpleadoDelMes = User::orderBy('id', 'DESC')->where('id', $vendedorMes)->first();           
         }
-        $ArrayEmpleadoDelMes = User::orderBy('id', 'DESC')->where('id', $vendedorMes)->first();
+        else{
+            $ArrayEmpleadoDelMes=null;
+        }
         //dd($ArrayEmpleadoDelMes);
         //$NombreEmpleadoDelMes = $ArrayEmpleadoDelMes->name;
 
