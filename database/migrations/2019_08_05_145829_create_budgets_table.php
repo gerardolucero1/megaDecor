@@ -53,6 +53,22 @@ class CreateBudgetsTable extends Migration
             $table->boolean('opcionDescripcionPaquete')->nullable();
             $table->boolean('opcionImagen')->nullable();
             $table->boolean('opcionDescuento')->nullable();
+            $table->boolean('opcionIVA')->nullable();
+
+            //Datos de facturacion
+            $table->time('horaInicio')->nullable();
+            $table->time('horaFin')->nullable();
+            $table->string('horaEntrega')->nullable();
+            $table->dateTime('fechaRecoleccion')->nullable();
+            $table->string('notasFacturacion')->nullable();
+            $table->string('nombreFacturacion')->nullable();
+            $table->string('direccionFacturacion')->nullable();
+            $table->string('numeroFacturacion')->nullable();
+            $table->string('coloniaFacturacion')->nullable();
+            $table->string('emailFacturacion')->nullable();
+
+            //Impresion
+            $table->boolean('impresion')->nullable();
 
             $table->timestamps();
 

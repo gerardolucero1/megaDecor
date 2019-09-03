@@ -180,18 +180,17 @@
                             </a>
                             <ul class="list-inline mt-10">
                                 <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="javascript:void(0)">J. Smith</a>
+                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase" href="javascript:void(0)">{{ Auth::user()->name }}</a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                                    <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
-                                        <i class="si si-drop"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="link-effect text-dual-primary-dark" href="javascript:void(0)">
+                                    <a class="link-effect text-dual-primary-dark" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
                                         <i class="si si-logout"></i>
                                     </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                 </li>
                             </ul>
                         </div>
@@ -210,6 +209,7 @@
                                 <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                 <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
                                 <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
                                 <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>

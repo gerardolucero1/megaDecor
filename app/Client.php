@@ -11,6 +11,8 @@ class Client extends Model
 {
     protected $fillable = [
         'clave',
+        'tipoPersona',
+        'nombreCliente',
     ];
 
     public function telephones(){

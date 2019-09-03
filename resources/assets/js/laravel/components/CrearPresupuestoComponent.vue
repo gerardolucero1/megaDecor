@@ -37,9 +37,9 @@
     .resultadoInventario{
         position: absolute;
         z-index: 3000;
-        background-color: gray;
+        background-color: white;
         overflow: scroll;
-        height: 300px;
+        max-height: 300px;
     }
 
     table tr td input{
@@ -48,8 +48,8 @@
     }
 
     .producto{
-        background-color: beige;
-        border-bottom: 2px solid black;
+        background-color: white;
+        border-bottom: 1px dotted gray;
     }
 
 </style>
@@ -60,20 +60,29 @@
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
                     <div class="col-md-8 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('https://thebiaslistcom.files.wordpress.com/2019/07/nature-im-so-pretty.jpg')">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('https://4.bp.blogspot.com/-h2GiZzyOE5Q/WKzED4RMxWI/AAAAAAAAFpA/V3KRWZd8AY80Wa7JsBWHBzYb5G-8aUjDQCLcB/s1600/01-1483422852234.jpg')">
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-right info">
-                        <p>PNM 0000</p>
-                        <p>Vendedor: <span>Gerardo Lucero</span></p>
-                        <p>Fecha de presupuesto: <span>23/08/2019</span></p>
+                    <div class="col-md-3 text-right info">
+                        <p>{{ obtenerFolio }}</p>
+                        <div class="row">
+                            <div class="col-md-4 text-right">
+                                <label>Vendedor: </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
@@ -81,7 +90,7 @@
                         <br>
                         <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
                         <label for="salonFuera">Evento Fuera</label>
-                            <div class="text-center" v-if="presupuesto.tipoEvento == 'EXTERNO'">
+                            <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
                                 <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
                                 <label for="servicioFormal">Servicio Formal</label>
                                 <br>
@@ -90,14 +99,16 @@
                             </div>
                     </div>
                     <div class="col-md-6">
-                        <h4 class="text-right">Categoria del evento</h4>
-                        <div class="row">
+                        
+                        <div class="row" >
                             <div class="col-md-8 offset-md-4">
+                                <h4 class="">Categoria del evento</h4>
                                 <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
                                 </select>
+                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -113,27 +124,35 @@
 
                             </div>
                         </div>
-                        <h4>Hora del evento</h4>
+                        
                         <div class="row">
-                            
-                            <div class="col-md-6">
+                            <div class="col-md-8 offset-md-4 row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoInicio">
                             </div>
-                            <div class="col-md-6">
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoFin">
                             </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                            Pendiende</label>
+                            </div>
+                          
                         </div>
-                        <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                        <label for="pendienteHora">Pendiende</label>
+                        
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Cliente</h4>
                         <div class="row">
                             <div class="col-md-9">
                                 <buscador-component
-                                    placeholder="Buscar Clientes"
+                                    placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
                                     :keys="['nombre', 'email']"
@@ -165,7 +184,7 @@
                                 -->
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-sm btn-primary">Agregar</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">Registrar Nuevo Cliente</button>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
@@ -182,13 +201,15 @@
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> eventos contratados</p>
-                            <p><span>{{ clienteSeleccionado.presupuestos.length }}</span> presupuestos</p>
+                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
+                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
+                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
+                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
                     </div>
                 </div>
                 <h4>Lugar del Evento</h4>
-                <div class="row">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -366,7 +387,9 @@
 
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-primary">Editar</button>
+                                    <!--
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
+                                    -->
                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                 </td>
                             </tr>
@@ -400,7 +423,7 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input type="checkbox" id="iva">
+                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
 
@@ -418,13 +441,13 @@
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4">
-                        <button class="btn btn-sm btn-block btn-primary">Imprimir</button>
+                        <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
                     </div>
                     <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto(1)">Guardar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
                     </div>
                     <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary" @click="guardarPresupuesto(2)">Guardar Contrato</button>
+                        <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
                     </div>
                 </div>
             </div>
@@ -633,6 +656,320 @@
             </div>
         </div>
 
+        <!-- Modal ver contratos -->
+        <div class="modal fade" id="verContratos" tabindex="-1" role="dialog" aria-labelledby="verContratos" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Contratos</h5>
+                    <button type="button" class="close" onClick="$('#verContratos').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="clienteSeleccionadoContratos.length !== 0">
+                        <div class="col-md-12">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Lista de contratos</h3>
+                                <div class="block-options">
+                                    <div class="block-options-item">
+                                        <code></code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <table class="table table-striped table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>FECHA</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <th class="text-center" style="width: 100px;">ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="contrato in clienteSeleccionadoContratos" :key="contrato.index">
+                                            <th class="text-center" scope="row">1</th>
+                                            <td>{{ contrato.fechaEvento }}</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                <span class="badge badge-primary">{{ contrato.tipoEvento }}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal ver presupuestos -->
+        <div class="modal fade" id="verPresupuestos" tabindex="-1" role="dialog" aria-labelledby="verPresupuestos" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Presupuestos</h5>
+                    <button type="button" class="close" onClick="$('#verPresupuestos').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="clienteSeleccionadoPresupuestos.length !== 0">
+                        <div class="col-md-12">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Lista de presupuestos</h3>
+                                <div class="block-options">
+                                    <div class="block-options-item">
+                                        <code></code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                <table class="table table-striped table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 50px;">#</th>
+                                            <th>FECHA</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <th class="text-center" style="width: 100px;">ACCIONES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="presupuesto in clienteSeleccionadoPresupuestos" :key="presupuesto.index">
+                                            <th class="text-center" scope="row">1</th>
+                                            <td>{{ presupuesto.fechaEvento }}</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                <span class="badge badge-primary">{{ presupuesto.tipoEvento }}</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal ver presupuestos -->
+        <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Guardar Contrato</h5>
+                    <button type="button" class="close" onClick="$('#guardarContrato').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="hora-1">Hora de inicio</label>
+                            <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="hora-2">Hora de fin</label>
+                            <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="hora-2">Hora de entrega</label>
+                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
+                                <option value="MAÑANA">Mañana</option>
+                                <option value="TARDE">Tarde</option>
+                                <option value="MEDIO DIA">Medio dia</option>
+                                <option value="NOCHE">Noche</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label form="fecha-hora">Fecha y hora de recoleccion</label>
+                            <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
+                            <label form="requireFactura">Factura</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label form="notasFactura">Notas facturacion</label>
+                            <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
+                        </div>
+                        <div class="col-md-5 mt-4">
+                            <input class="form-control" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <input class="form-control" type="text" placeholder="Numero" v-model="facturacion.numeroFacturacion">
+                        </div>
+                        <div class="col-md-5 mt-4">
+                            <input class="form-control" type="text" placeholder="Colonia" v-model="facturacion.coloniaFacturacion">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal editar paquete -->
+        <div class="modal fade modalAgregarPaquete" id="editarPaquete" tabindex="-1" role="dialog" aria-labelledby="editarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Editar paquete</h5>
+                    <button type="button" class="close" onClick="$('#editarPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <buscador-component
+                                    placeholder="Buscar Productos"
+                                    event-name="resultsPaquetes"
+                                    :list="inventario"
+                                    :keys="['servicio', 'id']"
+                                    
+                                ></buscador-component>
+                                        </div>
+                                    </div>
+                                    <!-- Resultado Busqueda -->
+                                    <div class="row" v-if="resultsPaquetes.length < inventario.length">
+                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
+                                            <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
+                                                <div class="row producto" v-on:click="agregarProductoPaqueteEditado(producto)">
+                                                    <div class="col-md-7">
+                                                        <p>{{ producto.servicio }}</p>
+                                                        <span class="badge badge-info">
+                                                            {{ producto.precioUnitario }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Primer columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Servicio</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paqueteEdicion.servicio">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio final</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paqueteEdicion.precioUnitario">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
+                                    <input type="checkbox" id="guardarPaquete" v-model="paqueteEdicion.paquete.guardarPaquete">
+                                    <label for="guardarPaquete">Guardar paquete</label>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="categoriaPaquete">Categoria</label>
+                                        <div class="col-md-12">
+                                            <select id="categoriaPaquete" name="categoriaPaquete" v-model="paqueteEdicion.paquete.categoria">
+                                                <option value="BODA">Boda</option>
+                                                <option value="CUMPLEANOS">Cumpleaños</option>
+                                                <option value="XV">XV Años</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Imagen</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Precio unitario</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="paquete.inventario">
+                                            <tr v-for="(producto, index) in paqueteEdicion.paquete.inventario" v-bind:key="producto.index">
+                                                <th scope="row">
+                                                    <img :src="producto.imagen" width="100%">
+                                                </th>
+                                                <td>{{ producto.nombre }}</td>
+                                                <td>
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                                </td>
+                                                <td>{{ producto.precioUnitario }}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -641,7 +978,7 @@
     import ListaInventarioComponent from './ListaInventarioComponent';
     import BuscadorComponent from './BuscadorComponent.vue';
     // Importamos el evento Bus.
-    import { EventBus } from '../event-bus.js';
+    import { EventBus } from '../eventBus.js';
 
     export default {
         components: {
@@ -665,10 +1002,16 @@
                     telefonos: [],
                     presupuestos: [],
                 },
+                clienteSeleccionadoContratos: [],
+                clienteSeleccionadoPresupuestos: [],
                 ultimoEvento: '',
-                //clienteSeleccionadoTelefonos: [],
+
+                //Usuario y usuarios
+                usuarioActual: '',
+                usuarios: [],
+
                 presupuesto:{
-                    vendedor_id: '1',
+                    vendedor_id: '',
                     client_id: '',
                     tipoEvento: 'EXTERNO',
                     tipoServicio: 'FORMAL',
@@ -700,11 +1043,14 @@
                     opcionDescripcionPaquete: '',
                     opcionImagen: '',
                     opcionDescuento: '',
+                    opcionIVA: '',
 
                     //Presupuesto o contrato
                     tipo: '',
+
+                    //Impresion
+                    impresion: false,
                 },
-                usuarios: [],
                 clientes: [],
                 festejado: {
                     nombre: '',
@@ -725,6 +1071,22 @@
                 
                 inventarioLocal: [],
                 festejados: [],
+
+                //Edicion de paquete
+                indicePaqueteEdicion: '',
+                paqueteEdicion:{
+                    externo: '',
+                    imagen: '',
+                    servicio: '',
+                    cantidad: '',
+                    precioUnitario: '',
+                    precioFinal: '',
+                    ahorro: '',
+                    notas: '',
+                    paquete: '',
+                    tipo: '',
+                    id: '',
+                },
 
                 //Control sobre las ediciones en la tabla de productos
                 indice: '',
@@ -750,12 +1112,40 @@
                 iva: 16,
                 verIVA: false,
 
+                // Ultimo presupuesto
+                ultimoPresupuesto: '',
+
+                //Imprimir presupuesto
+                imprimir: false,
+
+                //Datos facturacion
+                requiereFactura: false,
+                facturacion: {
+                    //Tiempos
+                    horaInicio: '',
+                    horaFin: '',
+                    horaEntrega: '',
+                    fechaRecoleccion: '',
+                    notasFacturacion: '',
+
+                    //Datos
+                    nombreFacturacion: '',
+                    direccionFacturacion: '',
+                    numeroFacturacion: '',
+                    coloniaFacturacion: '',
+                    emailFacturacion: '',
+                }
             }
         },
         created(){
+            this.obtenerUltimoPresupuesto();
             this.obtenerUsuarios();
+            //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
             this.obtenerInventario();
+            this.obtenerUsuario();
+            this.obtenerUsuarios();
+            
             this.$on('results', results => {
                 this.results = results
             });
@@ -765,6 +1155,8 @@
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
             });
+
+            
         },
         computed:{
             imagen: function(){
@@ -797,6 +1189,38 @@
 
                 return ahorro;
             },
+            obtenerFecha: function(){
+                let fecha = moment().format("DD/MM/YYYY");
+                return fecha;
+            },
+            obtenerFolio: function(){
+                if(this.ultimoPresupuesto.length !== 0){
+                    let cadena = this.ultimoPresupuesto.folio,
+                        separador = "M",
+                        data = cadena.split(separador);
+                        console.log(data[1]);
+                    if(this.presupuesto.tipoEvento == 'EXTERNO'){
+                        let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
+                        return nuevoFolio
+                    }else{
+                        let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        return nuevoFolio
+                    }
+                    //return nuevoFolio;
+                }
+                
+
+            },
+            calcularContratos: function(){
+                let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
+                this.clienteSeleccionadoContratos = contratos;
+                return this.clienteSeleccionadoContratos.length;
+            },
+            calcularPresupuestos: function(){
+                let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
+                this.clienteSeleccionadoPresupuestos = presupuestos;
+                return this.clienteSeleccionadoPresupuestos.length;
+            }
         },
         filters: {
             decimales: function (x, posiciones = 2) {
@@ -843,8 +1267,99 @@
                 }
                 
             },
+            'requiereFactura': function(val){
+                if(val){
+                    this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
+                    this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
+                    this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
+                    this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
+                    this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+
+                }else{
+                    this.facturacion.nombreFacturacion = '';
+                    this.facturacion.direccionFacturacion = '';
+                    this.facturacion.numeroFacturacion = '';
+                    this.facturacion.coloniaFacturacion = '';
+                    this.facturacion.emailFacturacion = '';
+                }
+                
+            },
         },
         methods:{
+            editarPaquete(producto, index){
+                this.paqueteEdicion.externo = producto.externo;
+                this.paqueteEdicion.imagen = producto.imagen;
+                this.paqueteEdicion.servicio = producto.servicio;
+                this.paqueteEdicion.cantidad = producto.cantidad;
+                this.paqueteEdicion.precioUnitario = producto.precioUnitario;
+                this.paqueteEdicion.precioFinal = producto.precioFinal;
+                this.paqueteEdicion.ahorro = producto.ahorro;
+                this.paqueteEdicion.notas = producto.notas;
+                this.paqueteEdicion.paquete = producto.paquete;
+                this.paqueteEdicion.tipo = producto.tipo;
+                this.paqueteEdicion.id = producto.id;
+
+                this.indicePaqueteEdicion = index;
+
+                $('#editarPaquete').modal('show');
+            },
+            agregarProductoPaqueteEditado(producto){
+                this.paqueteEdicion.paquete.inventario.push({
+                    'externo': false,
+                    'nombre': producto.servicio,
+                    'imagen': producto.imagen,
+                    'precioUnitario': producto.precioUnitario,
+                    'precioFinal': '',
+                    'cantidad': '',
+                    'id': producto.id,
+                });
+            },
+            guardarPaqueteEdicion(){
+                this.inventarioLocal.splice(this.indicePaqueteEdicion, 1, this.paqueteEdicion);
+                this.paqueteEdicion.externo = '';
+                this.paqueteEdicion.imagen = '';
+                this.paqueteEdicion.servicio = '';
+                this.paqueteEdicion.cantidad = '';
+                this.paqueteEdicion.precioUnitario = '';
+                this.paqueteEdicion.precioFinal = '';
+                this.paqueteEdicion.ahorro = '';
+                this.paqueteEdicion.notas = '';
+                this.paqueteEdicion.paquete = '';
+                this.paqueteEdicion.tipo = '';
+                this.paqueteEdicion.id = '';
+                this.indicePaqueteEdicion = '';
+            },
+            obtenerUsuario(){
+                let URL = '/obtener-usuario';
+
+                axios.get(URL).then((response) => {
+                    this.usuarioActual = response.data;
+                    this.presupuesto.vendedor_id = this.usuarioActual.id;
+                    console.log(this.usuarioActual);
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
+            obtenerUsuarios(){
+                let URL = '/obtener-usuarios';
+
+                axios.get(URL).then((response) => {
+                    this.usuarios = response.data;
+                    console.log(this.usuarios)
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
+            obtenerUltimoPresupuesto(){
+                let URL = '/obtener-ultimo-presupuesto';
+
+                axios.get(URL).then((response) => {
+                    this.ultimoPresupuesto = response.data;
+                    console.log(this.ultimoPresupuesto);
+                }).catch((error) => {
+                    console.log(error.data)
+                });
+            },
             //Mostrar el IVA
             mostrarIVA(){
                 if(this.verIVA){
@@ -1155,13 +1670,6 @@
                 console.log(this.inventarioLocal);
                 
             },
-            obtenerUsuarios(){
-                let URL = '/usuarios';
-                axios.get(URL).then((response) => {
-                    this.usuarios = response.data;
-                    console.log(this.usuarios);
-                })
-            },
             obtenerClientes(){
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
@@ -1178,13 +1686,8 @@
             },
 
             // Guardar como presupuesto
-            guardarPresupuesto(valor){
-                if(valor == 1){
-                    this.presupuesto.tipo = 'PRESUPUESTO';
-                }else{
-                    this.presupuesto.tipo = 'CONTRATO';
-                }
-
+            guardarPresupuesto(){
+                this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1195,7 +1698,19 @@
                     'festejados': this.festejados,
                     'inventario': this.inventarioLocal,
                 }).then((response) => {
-                    console.log(response.data);
+                    this.imprimir = true;
+                    let URL = '/enviar-email';
+
+                    axios.post(URL, {
+                        'presupuesto': this.presupuesto,
+                        'festejados': this.festejados,
+                        'inventario': this.inventarioLocal,
+                    }).then((response) => {
+                        console.log('Email Enviado');
+                    }).catch((error) => {
+                        console.log(error.data);
+                    });
+                    
                     if(response.data == 1){
                         Swal.fire(
                             'Error!',
@@ -1218,6 +1733,81 @@
                         'error'
                     );
                 });
+            },
+            // Guardar como contrato
+            guardarContrato(){
+                this.presupuesto.tipo = 'CONTRATO';
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+
+                if(this.requiereFactura){
+                    for (const prop in this.facturacion) {
+                        
+                        if(this.facturacion[prop] == ''){
+                            Swal.fire(
+                                'Error',
+                                'Los datos de facturacion deben ser completados',
+                                'error'
+                            );
+                            return;
+                        }
+                        
+                        
+                    }
+                }
+                let URL = '/presupuestos/create';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                    'facturacion': this.facturacion,
+                }).then((response) => {
+                    this.imprimir = true;
+                    
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'No puede haber dos eventos en salon en la misma fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire(
+                            'Creado!',
+                            'El presupuesto ha sido creado',
+                            'success'
+                        );
+                    }   
+                    
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                        'Error!',
+                        'Algo ha ocurrido mal',
+                        'error'
+                    );
+                });
+            },
+            imprimirPDF(){
+                if(!this.imprimir){
+                    Swal.fire(
+                        'Error!',
+                        'Primero guarda el presupuesto',
+                        'error'
+                    );
+                }else{
+                    let URL = '/obtener-ultimo-presupuesto';
+
+                    axios.get(URL).then((response) => {
+                        this.imprimir = false;
+                        let data = response.data;
+
+                        //window.location.href = '/presupuestos/generar-pdf/' + data.id;
+                        window.open('/presupuestos/generar-pdf/' + data.id);
+                    }).catch((error) => {
+                        console.log(error.data);
+                    })
+                }
             },
         }
     }

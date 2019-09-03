@@ -36,7 +36,21 @@ class Budget extends Model
         'opcionImagen',
         'opcionPrecio',
         'opcionDescuento',
+        'opcionIVA',
         'tipo',
+        'impresion',
+
+        //Datos facturacion
+        'horaInicio',
+        'horaFin',
+        'horaEntrega',
+        'fechaRecoleccion',
+        'notasFacturacion',
+        'nombreFacturacion',
+        'direccionFacturacion',
+        'numeroFacturacion',
+        'coloniaFacturacion',
+        'emailFacturacion',
     ];
 
     public function user()

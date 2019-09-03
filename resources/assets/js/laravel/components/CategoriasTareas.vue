@@ -95,7 +95,6 @@
                console.log(this.mostrar); 
             },
     emitGlobalClickEvent() {
-
       EventBus.$emit('clic');
     },
             obtenerCategorias(){

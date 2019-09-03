@@ -178,6 +178,14 @@ return [
         // Intervention Image
         Intervention\Image\ImageServiceProvider::class,
 
+        //DomPDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        
+        //Collective
+        Collective\Html\HtmlServiceProvider::class,
+        //Shinobi
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
     ],
 
     /*
@@ -231,6 +239,13 @@ return [
 
         //Intervention Image
         'Image' => Intervention\Image\Facades\Image::class,
+
+        //DomPDF
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        //Collective
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

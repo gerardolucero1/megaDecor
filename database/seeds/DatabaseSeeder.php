@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PhysicalPersonsSeeder::class);
         $this->call(MoralPersonsSeeder::class);
         $this->call(TelephonesSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
         
     }
 }
