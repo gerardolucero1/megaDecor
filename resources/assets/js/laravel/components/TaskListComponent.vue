@@ -68,12 +68,14 @@ import { EventBus } from '../eventBus.js';
                     vendedor_id: '',
                 },
                 tareas: [],
+                usuarios: [],
                 
             }
              
         },
         created(){
             this.obtenerTareas();
+            this.obtenerUsuarios();
     EventBus.$on('nuevaTarea', funcion => {
   this.obtenerTareas();
 });
@@ -87,6 +89,16 @@ import { EventBus } from '../eventBus.js';
                     
                 });
                 },
+                obtenerUsuarios(){
+                let URL = '/obtener-usuarios';
+
+                axios.get(URL).then((response) => {
+                    this.usuarios = response.data;
+                    console.log(this.usuarios)
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
                 detalleTarea(task){
     Swal.fire({
                                 title: task.categoria+" "+task.cliente,

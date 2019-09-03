@@ -36,10 +36,12 @@ class TareasController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
         //dd($clientes);
 
+        
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
         ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
         ->where('tasks.fecha', '=', $fecha_actual)
+        //->where('tasks.vendedor_id', '=', Auth::user()->id)
         ->get();
 
         $Tasks=[];

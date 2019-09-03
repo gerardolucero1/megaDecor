@@ -4297,7 +4297,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5134,13 +5133,15 @@ __webpack_require__.r(__webpack_exports__);
       tarea: {
         vendedor_id: ''
       },
-      tareas: []
+      tareas: [],
+      usuarios: []
     };
   },
   created: function created() {
     var _this = this;
 
     this.obtenerTareas();
+    this.obtenerUsuarios();
     _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevaTarea', function (funcion) {
       _this.obtenerTareas();
     });
@@ -5155,8 +5156,19 @@ __webpack_require__.r(__webpack_exports__);
         console.log(_this2.tareas);
       });
     },
-    detalleTarea: function detalleTarea(task) {
+    obtenerUsuarios: function obtenerUsuarios() {
       var _this3 = this;
+
+      var URL = '/obtener-usuarios';
+      axios.get(URL).then(function (response) {
+        _this3.usuarios = response.data;
+        console.log(_this3.usuarios);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    detalleTarea: function detalleTarea(task) {
+      var _this4 = this;
 
       Swal.fire({
         title: task.categoria + " " + task.cliente,
@@ -5172,7 +5184,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
-            _this3.obtenerTareas();
+            _this4.obtenerTareas();
           });
         }
       });
@@ -60821,10 +60833,11 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.tarea.vendedor,
-                            expression: "tarea.vendedor"
+                            value: _vm.presupuesto.vendedor_id,
+                            expression: "presupuesto.vendedor_id"
                           }
                         ],
+                        attrs: { name: "vendedor", id: "" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -60836,8 +60849,8 @@ var render = function() {
                                 return val
                               })
                             _vm.$set(
-                              _vm.tarea,
-                              "vendedor",
+                              _vm.presupuesto,
+                              "vendedor_id",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -60845,7 +60858,26 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._m(1)]
+                      [
+                        _c("option", { attrs: { value: "all" } }, [
+                          _vm._v("Todos los vendedores")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.usuarios, function(usuario) {
+                          return _c(
+                            "option",
+                            {
+                              key: usuario.index,
+                              domProps: {
+                                value: usuario.id,
+                                selected: _vm.usuarioActual.id
+                              }
+                            },
+                            [_vm._v(_vm._s(usuario.name))]
+                          )
+                        })
+                      ],
+                      2
                     )
                   ]),
                   _vm._v(" "),
@@ -60966,7 +60998,7 @@ var render = function() {
                       2
                     ),
                     _vm._v(" "),
-                    _vm._m(2)
+                    _vm._m(1)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-6" }, [
@@ -61041,7 +61073,7 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _vm._m(3)
+                            _vm._m(2)
                           ]
                         )
                       ]
@@ -61079,7 +61111,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(4)
+                _vm._m(3)
               ]
             )
           ])
@@ -61105,14 +61137,6 @@ var staticRenderFns = [
         _c("br")
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("optgroup", { attrs: { label: "Seleccionar un vendedor" } }, [
-      _c("option", { attrs: { value: "1" } }, [_vm._v("Todos los vendedores")])
-    ])
   },
   function() {
     var _vm = this

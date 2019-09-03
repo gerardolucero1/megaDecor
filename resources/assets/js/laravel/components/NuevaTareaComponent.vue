@@ -36,10 +36,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="">Selecciona un Vendedor</label>
-                            <select v-model="tarea.vendedor">
-                                <optgroup label="Seleccionar un vendedor">
-                                <option value="1">Todos los vendedores</option>
-                                </optgroup>
+                            <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option value="all">Todos los vendedores</option>
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
                                 </select>
                                 </div>
                                  <div class="col-md-6">
@@ -108,6 +107,7 @@ import { EventBus } from '../eventBus.js';
                 },
                 clientesFisicos: [],
                 categorias: [],
+                
             }
              
         },

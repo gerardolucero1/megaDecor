@@ -65,8 +65,51 @@ class IndexController extends Controller
         return view('pantallaUsuarios');
     }
     public function comisiones(){
-        return view('comisiones');
+        $fecha_actual= date('Y-m-d',time());
+        //Empleado del mes
+        $EmpleadoDelMes = DB::table('budgets')
+        ->select(DB::raw('count(*) as ventas_count, vendedor_id'))
+        ->where('tipo', '=', 'PRESUPUESTO')
+        ->groupBy('vendedor_id')
+        ->get();
+        
+        $ventas=0;
+        foreach ($EmpleadoDelMes as $EmpleadoMes) {
+            if(($EmpleadoMes->ventas_count) > $ventas){
+                $ventas = $EmpleadoMes->ventas_count;
+                $vendedorMes=$EmpleadoMes->vendedor_id;
+            }
+        }
+        $ArrayEmpleadoDelMes = User::orderBy('id', 'DESC')->where('id', $vendedorMes)->first();
+        
+        $Usuarios = User::orderBy('id', 'DESC')->get();
+
+        //Construir arreglo que se enviara a la lista
+        $CompleteUsers=[];
+
+        foreach($Usuarios as $usuario){
+            $num_ventas=0;
+        foreach($EmpleadoDelMes as $Empleado){
+            
+            if($Empleado->vendedor_id == $usuario->id){
+                $num_ventas = $Empleado->ventas_count;
+            } 
+        }
+            $CompleteUser = new stdClass();
+            $CompleteUser->id = $usuario->id;
+            $CompleteUser->name = $usuario->name;
+            $CompleteUser->ventas = $num_ventas;
+            
+            array_push($CompleteUsers,$CompleteUser); 
     }
+        
+
+   
+       
+        return view('comisiones', compact( 'ArrayEmpleadoDelMes', 'CompleteUsers'));
+   
+    }
+    //Vista dasboard
     public function dashboard(){
         $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
