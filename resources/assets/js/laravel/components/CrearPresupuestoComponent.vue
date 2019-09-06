@@ -420,7 +420,11 @@
                             </div>
                             <div class="col-md-3">
                                 <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <input v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                <select v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                    <option value="100">Comision completa</option>
+                                    <option value="50">Comision a la mitad</option>
+                                    <option value="0">Introducir manualmente</option>
+                                </select>
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>

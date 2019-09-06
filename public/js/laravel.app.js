@@ -3349,6 +3349,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -60911,30 +60915,52 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.verSettings
-                  ? _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.comision,
-                          expression: "presupuesto.comision"
-                        }
-                      ],
-                      attrs: { type: "text", width: "20%" },
-                      domProps: { value: _vm.presupuesto.comision },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.comision,
+                            expression: "presupuesto.comision"
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "comision",
-                            $event.target.value
-                          )
+                        ],
+                        attrs: { type: "text", width: "20%" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "comision",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
-                      }
-                    })
+                      },
+                      [
+                        _c("option", { attrs: { value: "100" } }, [
+                          _vm._v("Comision completa")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "50" } }, [
+                          _vm._v("Comision a la mitad")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Introducir manualmente")
+                        ])
+                      ]
+                    )
                   : _vm._e()
               ]),
               _vm._v(" "),
