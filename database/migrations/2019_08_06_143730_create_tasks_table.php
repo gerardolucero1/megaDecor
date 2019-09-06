@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->integer('cliente_id');
             $table->string('fecha');
             $table->text('notas');
-            $table->integer('completa')->unsigned();
+            $table->integer('completa')->default(0);
             $table->timestamps();
         });
     }

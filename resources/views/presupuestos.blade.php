@@ -52,7 +52,7 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
-                                <td class="d-none d-sm-table-cell text-center">3/3</td>
+                                <td class="d-none d-sm-table-cell text-center">{{$budget->version}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
                                 
                                 <td class="text-center">
