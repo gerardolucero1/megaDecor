@@ -343,10 +343,12 @@ $(document).ready( function () {
 </script>
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
+       
         <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
          <!--librerias tempobootstrap -->
          
 
         @yield('scripts')
+        
     </body>
 </html>

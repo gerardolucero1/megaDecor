@@ -4,12 +4,11 @@
 <div class="bg-gd-dusk">
     <div class="hero-static content content-full bg-white js-appear-enabled animated fadeIn" data-toggle="appear">
         <div class="py-30 px-5 text-center">
-            <a class="link-effect font-w700" href="index.php">
-                <i class="si si-fire"></i>
-                <span class="font-size-xl text-primary-dark">code</span><span class="font-size-xl">base</span>
+            <a class="link-effect font-w700" href="">
+                <img src="http://megamundodecor.com/images/mega-mundo-decor.png" width="20%">
             </a>
-            <h1 class="h2 font-w700 mt-50 mb-10">Welcome to Your Dashboard</h1>
-            <h2 class="h4 font-w400 text-muted mb-0">Please sign in</h2>
+            <h1 class="h2 font-w700 mt-50 mb-10">Sistema administrativo Mega Mundo Decor</h1>
+            <h2 class="h4 font-w400 text-muted mb-0">Ingresa tus datos para acceder al sistema</h2>
         </div>
         <div class="row justify-content-center px-5">
             <div class="col-sm-8 col-md-6 col-xl-4">

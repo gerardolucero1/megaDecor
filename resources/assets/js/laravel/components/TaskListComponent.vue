@@ -23,7 +23,7 @@
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>
                                        
-                                    <table id="example"  class="table table-vcenter">
+                                    <table v-if="tareas != 0" id="example"  class="table table-vcenter">
                                         <thead>
                                             <tr style="font-size:11px">
                                                 <th>Cliente</th>

@@ -17245,6 +17245,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -80679,6 +80685,24 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("label", { attrs: { for: "material-gridl" } }, [
             _vm._v("Bono monetario para vendedor del mes")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-6" }, [
+        _c("div", { staticClass: "form-material" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              id: "material-gridl",
+              value: "2000",
+              name: "material-gridl"
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "material-gridl" } }, [
+            _vm._v("Minimo de venta para comisión")
           ])
         ])
       ]),

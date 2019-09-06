@@ -27,7 +27,7 @@
         </div>
     
         <div >
-        <button class="btn btn-secondary">
+        <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                 <i class="si si-settings"></i> Configurar comisiones
              </button>
             </div>
@@ -68,8 +68,12 @@
                                 <td class="text-center sorting_1">{{ $usuario->name}}</td>
                                     <td class="">{{ $usuario->ventas}}</td>
                                     <td class="d-none d-sm-table-cell">Agosto</td>
-                                    <td class="d-none d-sm-table-cell">$150,000</td>
-                                    <td class="d-none d-sm-table-cell">$15,000</td>
+                                    <td class="d-none d-sm-table-cell">${{ $usuario->totalventas}}</td>
+                                    <td class="d-none d-sm-table-cell">$
+                                        @php
+                                         echo number_format((intval($usuario->totalventas))*50)
+                                        @endphp
+                                         </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Lista de eventos" data-original-title="View Customer">
                                             <i class="fa fa-list-ul"></i>
@@ -140,6 +144,7 @@
     @include('../modals/nuevoClienteModal')
     @include('../modals/tiposEmpresaModal')
     @include('../modals/comoSupoModal')
+    @include('../modals/settingsMaster')
 @endsection
 @section("scripts")
 <script>

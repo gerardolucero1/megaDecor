@@ -82,7 +82,71 @@ class TareasController extends Controller
         
 
 
+    
+
+       
+        $clientes_morales = DB::table('clients')
+        ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+        ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+        ->get();
+
+        $clientes_fisicos = DB::table('clients')
+        ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion')
+        ->get();
+        
+        $clientes = $clientes_morales->merge($clientes_fisicos);
+        //dd($clientes);
+
+        $fecha_actual= date('Y-m-d',time());
+        $tareas = DB::table('tasks')
+        ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
+        ->where('tasks.fecha', '=', $fecha_actual)
+        
+        ->where(function($q) {
+            $q->where('tasks.vendedor_id', '=', Auth::user()->id)
+              ->orWhere('tasks.vendedor_id', '2');
+        })
+        ->get();
+
+        $Tasks=[];
+
+       // $tamanoClientes=count($clientes);
+       // $tamanoTareas=count($tareas);
+        foreach ($tareas as $tarea) {
+
+
+            $vendedor = User::orderBy('id', 'DESC')->where('id', $tarea->vendedor_id)->first();
+            
+
+             $tarea->id;
+            foreach($clientes as $cliente){
+                if($cliente->id==$tarea->id){
+                $Task = new stdClass();
+                $Task->fecha_actual = $fecha_actual;
+                $Task->vendedor = $vendedor->name;
+                $Task->id = $tarea->id;
+                $Task->id_cliente = $tarea->client_id;
+                $Task->cliente = $cliente->nombre;
+                $Task->notas = $tarea->notas;
+                $Task->categoria = $tarea->categoria;
+                $Task->completa = $tarea->completa;
+                $Task->vendedor_id = $tarea->vendedor_id;
+                array_push($Tasks,$Task);
+                }
+            }
+        }
+       
+        return $Tasks;
+    
+        
+
+
     }
+
+
+
     public function store(Request $request){
         //dd($request);
         // Guardo una nueva tarea

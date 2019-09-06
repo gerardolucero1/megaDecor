@@ -12,9 +12,9 @@
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                     <i class="fa fa-user-plus"></i> <i>Nuevo Cliente</i> 
                             </button>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#reporteVentas">
+                            <a class="btn btn-primary" href="http://localhost:8000/reporte_ventas_Agosto2019.xlsx">
                                     <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
-                            </button>
+                            </a>
                             <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                                     <i class="si si-settings"></i> <i>Configuraciones</i> 
                             </button>
@@ -73,16 +73,90 @@
                                 <div class="float-left mt-10 d-none d-sm-block">
                                     <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
                                 </div>
-                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">0</div>
+                            <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">0</div>
                                 <div class="font-size-sm font-w600 text-uppercase text-muted">Creditos Atrasados</div>
                             </div>
                         </a>
                     </div>
+                    <div class="col-6 col-lg-4  col-xl-4"></div>
+                    <div class="col-6 col-lg-4  col-xl-4">
+                            <a  class="block block-link-shadow text-right" href="javascript:void(0)">
+                                <div class="block-content block-content-full clearfix">
+                                    <div class="float-left mt-10 d-none d-sm-block">
+                                        <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
+                                    </div>
+                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" ><span style="font-size: 10px; color:gray">Año Actual / Año Pasado</span><br>{{ count($presupuestosAnoActual) }} / {{ count($presupuestosAnoPasado) }}</div>
+                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $presupuestosAnoActual >= $presupuestosAnoPasado)
+                                            style="color:green"
+                                            @else
+                                            style="color:orange"
+                                            @endif>{{ round($porcentajeActual , 1) }}% / 100%</span><br>Meta ventas Mensual</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6 col-lg-4  col-xl-4">
+                                <a  class="block block-link-shadow text-right" href="javascript:void(0)">
+                                    <div class="block-content block-content-full clearfix">
+                                        <div class="float-left mt-10 d-none d-sm-block">
+                                            <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
+                                        </div>
+                                    <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" ><span style="font-size: 10px; color:gray">Año Actual / Año Pasado</span><br>${{ $ventasAnoActual }} / ${{ $ventasAnoPasado }}</div>
+                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $ventasAnoActual >= $ventasAnoPasado)
+                                                style="color:green"
+                                                @else
+                                                style="color:orange"
+                                                @endif>{{ round($porcentajeActualDinero , 1) }}% / 100%</span><br>Meta Ingresos Mensual</div>
+                                    </div>
+                                </a>
+                            </div>
+                            
                     
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <task-list-component ></task-list-component>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                            <div class="block">
+                                <div class="block-content block-content-full text-center bg-gd-sea">
+                                    
+                                    <p onclick="addevent()" class="font-size-lg font-w600 text-white mb-0">
+                                        Ventas del mes de
+                                    </p>
+                                    <p class="font-size-sm text-uppercase font-w600 text-white-op mb-0">
+                                        Septiembre 2019
+                                    </p>
+                                </div>
+                                <div class="block-content block-content-full">
+                                    <table class="table table-borderless table-striped table-hover mb-0">
+                                        <tbody>
+                                            @foreach($ElementosVendedores as $ElementoVendedor)
+                                            <tr>
+                                                <td class="text-center" style="width: 40px;">01</td>
+                                                <td>
+                                                    <strong>{{$ElementoVendedor->name}}</strong>
+                                                </td>
+                                                <td class="text-center" style="width: 40px;">
+                                                    <strong class="text-success">{{$ElementoVendedor->ventas}}</strong>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="block-content block-content-full text-center bg-body-light">
+                                <a class="btn btn-alt-secondary" href="{{ route('comisiones') }}">
+                                        <i class="fa fa-eye mr-5"></i> Ver Comisiones
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-md-12">
+                        <div class="block">
+                            <div class="block-content block-content-full">
+                        <div id='calendar'></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -98,4 +172,12 @@
     @include('../modals/categoriaTareaModal')
     @include('../modals/tiposEmpresaModal')
     @include('../modals/comoSupoModal')
+@endsection
+@section('scripts')
+
+   <script>
+      
+   
+
+   </script>
 @endsection
