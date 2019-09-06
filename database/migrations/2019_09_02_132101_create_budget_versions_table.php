@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBudgetsTable extends Migration
+class CreateBudgetVersionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateBudgetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('budgets', function (Blueprint $table) {
+        Schema::create('budget_versions', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->integer('budget_id')->unsigned();
             $table->string('folio');
             
             //Presupuesto o contrato
@@ -75,16 +77,10 @@ class CreateBudgetsTable extends Migration
             $table->double('comision')->nullable();
             $table->double('total')->nullable();
 
-            
-
             $table->timestamps();
 
             //Relations
-            $table->foreign('vendedor_id')->references('id')->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-
-            $table->foreign('client_id')->references('id')->on('clients')
+            $table->foreign('budget_id')->references('id')->on('budgets')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -97,6 +93,6 @@ class CreateBudgetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('budgets');
+        Schema::dropIfExists('budget_versions');
     }
 }

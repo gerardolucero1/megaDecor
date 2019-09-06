@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
+    Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
@@ -83,6 +84,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
         Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
+        Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
+        Route::get('/obtener-festejados/{id}', 'CMS\BudgetController@obtenerFestejados');
+        Route::get('/obtener-inventario-1/{id}', 'CMS\BudgetController@obtenerInventario1');
+        Route::get('/obtener-paquetes/{id}', 'CMS\BudgetController@obtenerPaquetes');
+        Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
+        
 
         //Pantalla Usuarios
         Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
@@ -90,6 +97,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
+    Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
+
+        //Versiones
+        Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
 
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');

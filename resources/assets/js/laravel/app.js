@@ -8,10 +8,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 import Vuex from 'vuex';
 import StoreData from './store';
 import VueFuse from 'vue-fuse';
- 
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 Vue.use(VueFuse);
 
 Vue.use(Vuex);
@@ -39,6 +41,8 @@ Vue.component('tipo-empresa-component', require('./components/TipoEmpresaCompone
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
 Vue.component('settings-master-component', require('./components/SettingsMasterComponent.vue').default);
+Vue.component('editar-presupuesto-component', require('./components/EditarPresupuestoComponent.vue').default);
+Vue.component('ver-presupuesto-component', require('./components/VerPresupuestoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -53,4 +57,71 @@ const app = new Vue({
     
 });
 
+
+document.addEventListener('DOMContentLoaded', function() {
+var calendarEl = document.getElementById('calendar');
+
+var calendar = new Calendar(calendarEl, {
+  plugins: [ dayGridPlugin ],
+  dateClick: function() {
+    alert('a day has been clicked!');
+  },
+});
+
+
+calendar.batchRendering(function() {
+    
+    //Obtenemos todas las tareas
+    let URL = '/tareas/obtener-tareas';
+    axios.get(URL).then((response) => {
+        var tareas = response.data;
+       
+        
+        //tareas.forEach(function(element) {  
+         // });
+
+          calendar.changeView('dayGridMonth');
+          calendar.addEvent({ title: 'Llamada', start: '2019-09-03' });
+          calendar.addEvent({ title: 'Visita', start: '2019-09-02', color: '#F19A65' });
+          calendar.addEvent({ title: 'Evento', start: '2019-09-02', color: '#65F198' });
+          calendar.addEvent({ title: 'Llamada', start: '2019-09-02' });
+          calendar.addEvent({ title: 'Evento', start: '2019-09-04', color: '#65F198' });
+          calendar.addEvent({ title: 'Visita', start: '2019-09-16', color: '#F19A65' });
+          
+          calendar.addEvent({ title: 'Visita', start: '2019-09-15', color: '#F19A65' });
+          calendar.addEvent({ title: 'Llamada', start: '2019-09-12' });
+          calendar.addEvent({ title: 'Evento', start: '2019-09-12', color: '#65F198' });
+          calendar.addEvent({ title: 'Visita', start: '2019-09-15', color: '#F19A65' });
+
+
+          calendar.addEvent({ title: 'Llamada', start: '2019-10-05' });
+          calendar.addEvent({ title: 'Visita', start: '2019-10-12', color: '#F19A65' });
+          calendar.addEvent({ title: 'Evento', start: '2019-10-21', color: '#65F198' });
+          calendar.addEvent({ title: 'Llamada', start: '2019-10-13' });
+          calendar.addEvent({ title: 'Evento', start: '2019-10-14', color: '#65F198' });
+          calendar.addEvent({ title: 'Visita', start: '2019-10-18', color: '#F19A65' });
+          
+          calendar.addEvent({ title: 'Visita', start: '2019-10-20', color: '#F19A65' });
+          calendar.addEvent({ title: 'Llamada', start: '2019-10-10' });
+          calendar.addEvent({ title: 'Evento', start: '2019-10-02', color: '#65F198' });
+          calendar.addEvent({ title: 'Visita', start: '2019-10-05', color: '#F19A65' });
+          
+          
+
+
+            
+
+        
+    });
+    
+  });
+
+
+calendar.render();
+
+});
+
+
+
+ 
 

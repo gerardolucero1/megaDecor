@@ -18,6 +18,7 @@ class CreateCelebratedsTable extends Migration
             $table->integer('budget_id')->unsigned();
             $table->string('nombre');
             $table->integer('edad');
+            $table->string('version');
             $table->timestamps();
 
             //Relations
