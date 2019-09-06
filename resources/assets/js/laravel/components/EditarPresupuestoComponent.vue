@@ -986,6 +986,7 @@
 
                     comision: '',
                 },
+                guardarVersion: false,
                 clientes: [],
                 festejado: {
                     nombre: '',
@@ -1081,7 +1082,6 @@
             this.obtenerClientes();
             this.obtenerInventario();
             this.obtenerUsuario();
-            this.obtenerUsuarios();
             
             this.$on('results', results => {
                 this.results = results
@@ -1093,7 +1093,8 @@
                 this.resultsPaquetes = resultsPaquetes
             });
 
-            this.obtenerPresupuesto();
+
+            
 
             
         },
@@ -1138,7 +1139,6 @@
                     let cadena = this.ultimoPresupuesto.folio,
                         separador = "M",
                         data = cadena.split(separador);
-                        console.log(data[1]);
                     if(this.presupuesto.tipoEvento == 'EXTERNO'){
                         let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
                         return nuevoFolio
@@ -1275,7 +1275,6 @@
                 axios.get(URL).then((response) => {
                     this.usuarioActual = response.data;
                     this.presupuesto.vendedor_id = this.usuarioActual.id;
-                    console.log(this.usuarioActual);
                 }).catch((error) => {
                     console.log(error.data);
                 })
@@ -1285,7 +1284,6 @@
 
                 axios.get(URL).then((response) => {
                     this.usuarios = response.data;
-                    console.log(this.usuarios)
                 }).catch((error) => {
                     console.log(error);
                 })
@@ -1295,7 +1293,6 @@
 
                 axios.get(URL).then((response) => {
                     this.ultimoPresupuesto = response.data;
-                    console.log(this.ultimoPresupuesto);
                 }).catch((error) => {
                     console.log(error.data)
                 });
@@ -1319,7 +1316,6 @@
                     'cantidad': '',
                     'id': producto.id,
                 });
-                console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
@@ -1339,11 +1335,8 @@
                     },
                     //Actualizar la cantidad del paquete
                     editarCantidadPaquete(index, key){
-                        console.log(key);
                         this.indice = index;
                         this.key = key[5];
-                        console.log(index);
-                        console.log(this.key);
                        
                     },
                     updateCantidadPaquete(index){
@@ -1355,7 +1348,6 @@
                         producto.cantidad = this.cantidadPaquete;
                         producto.precioFinal = producto.cantidad * producto.precioUnitario;
                         this.paquete.inventario.splice(index, 1, producto);
-                        console.log(this.inventarioLocal);
                         this.cantidadPaquete = '';
                         this.key = '';
                         this.indice = '100000000';
@@ -1377,7 +1369,6 @@
                     'tipo': 'PAQUETE',
                     'id': '',
                 });
-                console.log(this.inventarioLocal);
 
 
             },
@@ -1389,7 +1380,7 @@
                     'id': cliente.id,
                     'accion': 'telefonos',
                 }).then((response) => {
-                    this.clienteSeleccionado.telefonos = response.data;    
+                    this.clienteSeleccionado.telefonos = response.data;  
                 }).catch((error) => {
                     console.log(error.data);
                 });
@@ -1486,11 +1477,8 @@
 
                 // Cantidad
                 editarCantidad(index, key){
-                    console.log(key);
                     this.indice = index;
                     this.key = key[3];
-                    console.log(index);
-                    //console.log(this.key);
                        
                 },
                 updateCantidad(index){
@@ -1500,7 +1488,6 @@
                     producto.cantidad = this.cantidadActualizada;
                     producto.precioFinal = producto.cantidad * producto.precioUnitario;
                     this.inventarioLocal.splice(index, 1, producto);
-                    console.log(this.inventarioLocal);
                     this.cantidadActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
@@ -1510,8 +1497,6 @@
                 editarAhorro(index, key){
                     this.indice = index;
                     this.key = key[6]; 
-                    console.log(index);
-                    console.log(this.key);  
                 },
                 updateAhorro(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -1525,7 +1510,6 @@
                         producto.precioFinal = producto.precioFinal - (producto.precioFinal * (this.ahorroActualizado / 100));
                         producto.ahorro = this.ahorroActualizado;
                         this.inventarioLocal.splice(index, 1, producto);
-                        console.log(this.inventarioLocal);
                         this.ahorroActualizado = '';
                         this.key = '';
                         this.indice = '100000000';
@@ -1537,8 +1521,6 @@
                 editarPrecioFinal(index, key){
                     this.indice = index;
                     this.key = key[5];
-                    console.log(index);
-                    console.log(this.key);  
                 },
                 updatePrecioFinal(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -1554,7 +1536,6 @@
                         producto.ahorro = (descuento / precioNormal) * 100;
                         
                         this.inventarioLocal.splice(index, 1, producto);
-                        console.log(this.inventarioLocal);
                         this.precioFinalActualizado = '';
                         this.key = '';
                         this.indice = '100000000';
@@ -1566,8 +1547,6 @@
                 editarNotas(index, key){
                     this.indice = index; 
                     this.key = key[7];
-                    console.log(index);
-                    console.log(this.key); 
                 },
                 updateNotas(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -1576,7 +1555,6 @@
                     
                         producto.notas = this.notasActualizadas;
                         this.inventarioLocal.splice(index, 1, producto);
-                        console.log(this.inventarioLocal);
                         this.notasActualizadas = '';
                         this.key = '';
                         this.indice = '100000000';
@@ -1588,7 +1566,6 @@
                 let URL = '/obtener-inventario';
                 axios.get(URL).then((response) => {
                     this.inventario = response.data;
-                    console.log(this.inventario);
                 }).catch((error) => {
                     console.log(error.data);
                 });
@@ -1608,14 +1585,14 @@
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
                 });
-                console.log(this.inventarioLocal);
                 
             },
             obtenerClientes(){
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
-                    console.log(this.clientes);
+                    console.log('Estos son los clientes: ', this.clientes);
+                    this.obtenerPresupuesto();
                 })
             },
             agregarFestejado(){
@@ -1638,6 +1615,7 @@
                     'presupuesto': this.presupuesto,
                     'festejados': this.festejados,
                     'inventario': this.inventarioLocal,
+                    'guardarVersion': this.guardarVersion,
                 }).then((response) => {
                     this.imprimir = true;
                     let URL = '/enviar-email';
@@ -1676,19 +1654,18 @@
                 });
             },
             obtenerPresupuesto(){
-              let data = window.location.pathname.split('/');
-              let path = data[3];
-              let URL = '/obtener-presupuesto/' + path;
+                let data = window.location.pathname.split('/');
+                let path = data[3];
+                let URL = '/obtener-presupuesto/' + path;
 
-              axios.get(URL).then((response) => {
-                console.log(response.data);
+                axios.get(URL).then((response) => {
+                    this.presupuesto = response.data;
 
-                this.presupuesto = response.data;
+                    let cliente = this.clientes.find(function(element){
+                        return element.id == response.data.client_id;
+                    })
 
-                let cliente = this.clientResults.find(function(element){
-                  return element.id = response.data.client_id;
-                })
-
+                    console.log('Este es el cliente', cliente);
 
                 //Obtener el cliente seleccionado
                 let URL = '/obtener-cliente';
@@ -1825,7 +1802,6 @@
                             });
                            return arregloElementos; 
                         })
-                        console.log(arregloElementos);
 
                         let objeto = {
                             'externo': false,
@@ -1859,6 +1835,8 @@
               }).catch((error) => {
                 console.log(error.data);
               })
+              
+             
             }
         }
     }

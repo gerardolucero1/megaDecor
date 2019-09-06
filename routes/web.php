@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-inventario-1/{id}', 'CMS\BudgetController@obtenerInventario1');
         Route::get('/obtener-paquetes/{id}', 'CMS\BudgetController@obtenerPaquetes');
         Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
+        Route::get('/obtener-cliente-presupuesto/{id}', 'CMS\BudgetController@obtenerClientePresupuesto');
         
 
         //Pantalla Usuarios
@@ -97,9 +98,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
+    Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
+    Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
+    Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
 
         //Versiones
         Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
+        Route::get('/obtener-versiones/{id}', 'CMS\BudgetController@getVersions')->name('presupuestos.index.version');
+        Route::get('/obtener-version/{id}', 'CMS\BudgetController@obtenerVersion');
+        //Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
 
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');

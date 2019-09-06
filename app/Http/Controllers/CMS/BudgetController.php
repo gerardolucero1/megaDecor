@@ -10,7 +10,9 @@ use App\Inventory;
 use App\Telephone;
 use App\BudgetPack;
 use App\Celebrated;
+use App\MoralPerson;
 use App\BudgetVersion;
+use App\PhysicalPerson;
 use App\BudgetInventory;
 use App\ExternalInventory;
 use App\BudgetPackInventory;
@@ -63,7 +65,7 @@ class BudgetController extends Controller
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
-        return $clientes;
+        return json_encode($clientes);
     }
 
     public function store(Request $request){
@@ -297,8 +299,13 @@ class BudgetController extends Controller
     //Versiones
     public function storeVersion(Request $request){
 
-        //Obtenemos el budget original
-        $version = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['id'])->first();
+        if($request->guardarVersion){
+            $version = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['budget_id'])->first();
+        }else{
+            $version = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['id'])->first(); 
+        }
+        //$version = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['id'])->first();
+        //dd($version);
 
         //Generamos una copia del budget original y la guardamos en versiones
         $oldVersion = new BudgetVersion();
@@ -350,7 +357,11 @@ class BudgetController extends Controller
         $oldVersion->save();
 
         //Obtenemos el budget original
-        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['id'])->first();
+        if($request->guardarVersion){
+            $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['budget_id'])->first();
+        }else{
+            $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $request->presupuesto['id'])->first();  
+        }
 
         //Editamos el budget original y lo actualizamos con los nuevos datos
         $presupuesto->folio             = $request->presupuesto['folio'];
@@ -516,7 +527,41 @@ class BudgetController extends Controller
 
     }
 
+    public function obtenerClientePresupuesto($id){
+        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        if($data->tipoPersona == 'FISICA'){
+            return $cliente = PhysicalPerson::where('client_id', $data->id)->first();
+        }else{
+            return $cliente = MoralPerson::where('client_id', $data->id)->first();
+        }
+        
+    }
+
     public function verPresupuesto($id){
         return view('verPresupuesto');
+    }
+
+    public function getVersions($id){
+        return BudgetVersion::orderBy('id', 'DESC')->where('budget_id', $id)->get();
+    }
+
+    public function obtenerVersion($id){
+        return BudgetVersion::where('id', $id)->first();
+    }
+
+    public function obtenerFestejadosVersion($id){
+        $presupuesto = BudgetVersion::orderBy('id', 'DESC')->where('id', $id)->first();
+        return Celebrated::orderBy('id', 'DESC')->where('budget_id', $presupuesto->budget_id)->where('version', $presupuesto->version)->get();
+    }
+
+    public function obtenerInventarioVersion1($id){
+        $presupuesto = BudgetVersion::orderBy('id', 'DESC')->where('id', $id)->first();
+        return BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $presupuesto->budget_id)->where('version', $presupuesto->version)->get();
+    }
+
+    public function obtenerPaquetesVersion($id){
+        $presupuesto = BudgetVersion::orderBy('id', 'DESC')->where('id', $id)->first();
+        return BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->budget_id)->where('version', $presupuesto->version)->get();
     }
 }
