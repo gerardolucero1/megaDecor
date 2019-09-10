@@ -19,103 +19,119 @@
                                     <i class="si si-settings"></i> <i>Configuraciones</i> 
                             </button>
                 </div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                        <a href="{{ route('presupuestos') }}" class="block block-link-shadow text-right" href="javascript:void(0)">
-                            <div class="block-content block-content-full clearfix">
+                
+
+                <div class="col-6 col-xl-3">
+                        <a class="block block-link-pop text-right bg-primary" href="{{ route('presupuestos') }}">
+                            <div class="block-content block-content-full clearfix border-black-op-b border-3x">
                                 <div class="float-left mt-10 d-none d-sm-block">
-                                    <i style="font-size: 40px" class="fa fa-clipboard"></i>
+                                    <i class="si si-bar-chart fa-3x text-primary-light"></i>
                                 </div>
-                            <div class="font-size-h3 font-w600 js-count-to-enabled">{{ count($numeroPresupuestos)}}</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">Presupuestos Abiertos</div>
+                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}">{{ count($numeroPresupuestos) }}</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-white-op">Presupuestos Activos</div>
                             </div>
                         </a>
                     </div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                        <a href="{{ route('presupuestos-hoy') }}" class="block block-link-shadow text-right" href="javascript:void(0)">
-                            <div class="block-content block-content-full clearfix">
-                                <div class="float-left mt-10 d-none d-sm-block">
-                                        <i style="font-size: 40px" class="fa fa-calendar"></i>
-                                </div>
-                            <div class="font-size-h3 font-w600"><span>{{ count($numeroPresupuestosDiaActual) }}</span></div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">EVentos el Día de Hoy</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                        <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                            <div class="block-content block-content-full clearfix">
-                                <div class="float-left mt-10 d-none d-sm-block">
-                                    <i class="si si-envelope-open fa-3x text-body-bg-dark"></i>
-                                </div>
-                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">15</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">Seguimiento de prospectos</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                        <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                            <div class="block-content block-content-full clearfix">
-                                <div class="float-left mt-10 d-none d-sm-block">
-                                    <i class="si si-star fa-3x text-body-bg-dark"></i>
-                                </div>
-                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">
-                                    @if(!is_null($ArrayEmpleadoDelMes))
-                                    {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
-                                    @endif
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                        <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                            <div class="block-content block-content-full clearfix">
-                                <div class="float-left mt-10 d-none d-sm-block">
-                                    <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
-                                </div>
-                            <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">0</div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted">Creditos Atrasados</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-lg-4  col-xl-4"></div>
-                    <div class="col-6 col-lg-4  col-xl-4">
-                            <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                                <div class="block-content block-content-full clearfix">
+                    <div class="col-6 col-xl-3">
+                            <a class="block block-link-pop text-right bg-earth" href="{{ route('presupuestos-hoy') }}">
+                                <div class="block-content block-content-full clearfix border-black-op-b border-3x">
                                     <div class="float-left mt-10 d-none d-sm-block">
-                                        <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
+                                        <i class="si si-trophy fa-3x text-earth-light"></i>
                                     </div>
-                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" ><span style="font-size: 10px; color:gray">Año Actual / Año Pasado</span><br>{{ count($presupuestosAnoActual) }} / {{ count($presupuestosAnoPasado) }}</div>
-                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $presupuestosAnoActual >= $presupuestosAnoPasado)
-                                            style="color:green"
-                                            @else
-                                            style="color:orange"
-                                            @endif>{{ round($porcentajeActual , 1) }}% / 100%</span><br>Meta ventas Mensual</div>
+                                    <div class="font-size-h3 font-w600 text-white"><span data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestosDiaActual) }}" class="js-count-to-enabled">{{ count($numeroPresupuestosDiaActual) }}</span></div>
+                                    <div class="font-size-sm font-w600 text-uppercase text-white-op">EVentos Hoy</div>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-6 col-lg-4  col-xl-4">
-                                <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                                    <div class="block-content block-content-full clearfix">
+                    <div class="col-6 col-xl-3">
+                                <a class="block block-link-pop text-right bg-corporate" href="javascript:void(0)">
+                                    <div class="block-content block-content-full clearfix border-black-op-b border-3x">
                                         <div class="float-left mt-10 d-none d-sm-block">
-                                            <i class="fa fa-dollar fa-3x text-body-bg-dark"></i>
+                                            <i class="si si-fire fa-3x text-corporate-light"></i>
                                         </div>
-                                    <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" ><span style="font-size: 10px; color:gray">Año Actual / Año Pasado</span><br>${{ $ventasAnoActual }} / ${{ $ventasAnoPasado }}</div>
-                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $ventasAnoActual >= $ventasAnoPasado)
-                                                style="color:green"
-                                                @else
-                                                style="color:orange"
-                                                @endif>{{ round($porcentajeActualDinero , 1) }}% / 100%</span><br>Meta Ingresos Mensual</div>
+                                        <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
+                                        <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos</div>
                                     </div>
                                 </a>
                             </div>
-                            
-                    
+                    <div class="col-6 col-xl-3">
+                                    <a class="block block-link-pop text-right bg-elegance" href="javascript:void(0)">
+                                        <div class="block-content block-content-full clearfix border-black-op-b border-3x">
+                                            <div class="float-left mt-10 d-none d-sm-block">
+                                                <i class="si si-envelope-letter fa-3x text-elegance-light"></i>
+                                            </div>
+                                            <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
+                                            <div class="font-size-sm font-w600 text-uppercase text-white-op">Creditos Atrasados</div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            <div class="col-md-6">
+                                    <a class="block" href="javascript:void(0)">
+                                        <div class="block-content block-content-full">
+                                            <div class="text-right">
+                                                <i class="si si-wallet fa-2x text-body-bg-dark"></i>
+                                            </div>
+                                            <div class="row pt-10 pb-30 text-center">
+                                                <div class="col-6 border-r">
+                                                    <div class="font-size-h3 font-w600">{{ count($presupuestosAnoActual) }}</div>
+                                                    <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                                            <span @if( $presupuestosAnoActual >= $presupuestosAnoPasado)
+                                                                    style="color:green"
+                                                                    @else
+                                                                    style="color:orange"
+                                                                    @endif>{{ round($porcentajeActual , 1) }}%</span><br>
+                                                        Ventas Septiembre 2019</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="font-size-h3 font-w600">{{ count($presupuestosAnoPasado) }}</div>
+                                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas Septiembre 2018</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-6">
+                                        <a class="block" href="javascript:void(0)">
+                                            <div class="block-content block-content-full">
+                                                <div class="text-right">
+                                                    <i class="si si-wallet fa-2x text-body-bg-dark"></i>
+                                                </div>
+                                                <div class="row pt-10 pb-30 text-center">
+                                                    <div class="col-6 border-r">
+                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} </div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $ventasAnoActual >= $ventasAnoPasado)
+                                                                style="color:green"
+                                                                @else
+                                                                style="color:orange"
+                                                                @endif>{{ round($porcentajeActualDinero , 1) }}%</span><br>Ingresos Septiembre 2019</div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoPasado }} </div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos Septiembre 2018</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <task-list-component ></task-list-component>
                     </div>
+
+                    <div class="col-md-8">
+                            <div class="block">
+                                <div class="block-content block-content-full">
+                                    <button class="btn btn-info">Ver todo</button>
+                                    <button class="btn btn-success">Tareas</button>
+                                    <button class="btn btn-info">Eventos</button>
+                            <div id='calendar'></div>
+                                </div>
+                            </div>
+                        </div>
+
                     <div class="col-md-6 col-xl-4">
                             <div class="block">
                                 <div class="block-content block-content-full text-center bg-gd-sea">
@@ -151,13 +167,7 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="col-md-12">
-                        <div class="block">
-                            <div class="block-content block-content-full">
-                        <div id='calendar'></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 
     </div>

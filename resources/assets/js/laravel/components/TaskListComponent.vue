@@ -19,7 +19,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content" style="height:350px; overflow:scroll;">
+                                <div class="block-content" style="height:513px; overflow:scroll;">
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>
                                        
@@ -84,7 +84,7 @@ import { EventBus } from '../eventBus.js';
                 let URL = '/tareas/obtener-tareas';
                 axios.get(URL).then((response) => {
                     this.tareas = response.data;
-                    console.log(this.tareas);
+                  //  console.log(this.tareas);
                     
                 });
                 },
@@ -107,7 +107,7 @@ import { EventBus } from '../eventBus.js';
                                 
                             }).then((result) => {
                             if (result.value) {
-                                console.log(task);
+                              //  console.log(task);
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

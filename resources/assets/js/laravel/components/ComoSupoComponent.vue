@@ -92,7 +92,7 @@
                 }else{
                     this.mostrar = 1
                 }
-               console.log(this.mostrar); 
+             //  console.log(this.mostrar); 
             },
     emitGlobalClickEvent() {
       EventBus.$emit('nuevaComoSupo');
@@ -102,7 +102,7 @@
                 let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
                     this.tipos = response.data;
-                    console.log(this.tipos);
+                   // console.log(this.tipos);
                 });
                 },
             eliminarComoSupo(tipo){
@@ -127,7 +127,7 @@
                     this.tipo = {};
                     this.obtenerComoSupo(); 
                     EventBus.$emit('nuevaComoSupo');
-                    console.log('Bus enviado');
+                   // console.log('Bus enviado');
                     Swal.fire({
                                 title: 'Elemento registrado con exito',
                                 text: "Se registro tu nueva opción",
@@ -138,7 +138,7 @@
                                 
                             });
                 }).catch((error) => {
-                    console.log(error.data);
+                   // console.log(error.data);
                 });
                 
             }

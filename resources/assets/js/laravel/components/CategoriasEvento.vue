@@ -92,17 +92,17 @@
                 }else{
                     this.mostrar = 1
                 }
-               console.log(this.mostrar); 
+              // console.log(this.mostrar); 
             },
     emitGlobalClickEvent() {
       EventBus.$emit('clic');
     },
             obtenerCategorias(){
-                let URL = '/presupuestos/categorias-eventos';
+               /* let URL = '/presupuestos/categorias-eventos';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
-                });
+                   // console.log(this.categorias);
+                });*/
                 },
             eliminarCategorias(categoria){
                 var url= '/presupuestos/eliminar-categoria/'+categoria.id;

@@ -86,6 +86,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@fullcalendar/core/locales/es.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fullcalendar/core/locales/es.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+     true ? module.exports = factory() :
+    undefined;
+}(this, function () { 'use strict';
+
+    var es = {
+        code: "es",
+        week: {
+            dow: 1,
+            doy: 4 // The week that contains Jan 4th is the first week of the year.
+        },
+        buttonText: {
+            prev: "Ant",
+            next: "Sig",
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
+            day: "Día",
+            list: "Agenda"
+        },
+        weekLabel: "Sm",
+        allDayHtml: "Todo<br/>el día",
+        eventLimitText: "más",
+        noEventsMessage: "No hay eventos para mostrar"
+    };
+
+    return es;
+
+}));
+
+
+/***/ }),
+
 /***/ "./node_modules/@fullcalendar/core/main.esm.js":
 /*!*****************************************************!*\
   !*** ./node_modules/@fullcalendar/core/main.esm.js ***!
@@ -12368,42 +12408,39 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this = this;
-
-      var URL = '/presupuestos/categorias-eventos';
-      axios.get(URL).then(function (response) {
-        _this.categorias = response.data;
-        console.log(_this.categorias);
-      });
+      /* let URL = '/presupuestos/categorias-eventos';
+       axios.get(URL).then((response) => {
+           this.categorias = response.data;
+          // console.log(this.categorias);
+       });*/
     },
     eliminarCategorias: function eliminarCategorias(categoria) {
-      var _this2 = this;
+      var _this = this;
 
       var url = '/presupuestos/eliminar-categoria/' + categoria.id;
       axios["delete"](url).then(function (response) {
         _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
 
-        _this2.obtenerCategorias();
+        _this.obtenerCategorias();
       });
     },
     crearCategoriaTarea: function crearCategoriaTarea() {
-      var _this3 = this;
+      var _this2 = this;
 
       var URL = '/presupuestos/createcategory';
       axios.post(URL, {
         'nombre': this.categoria.nombre
       }).then(function (response) {
-        _this3.categoria = {};
+        _this2.categoria = {};
 
-        _this3.obtenerCategorias();
+        _this2.obtenerCategorias();
 
         _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
         Swal.fire({
@@ -12521,9 +12558,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
@@ -12533,8 +12569,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/categorias-tareas';
       axios.get(URL).then(function (response) {
-        _this.categorias = response.data;
-        console.log(_this.categorias);
+        _this.categorias = response.data; // console.log(this.categorias);
       });
     },
     eliminarCategorias: function eliminarCategorias(categoria) {
@@ -12674,9 +12709,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } //  console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
@@ -12686,8 +12720,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/comoSupo';
       axios.get(URL).then(function (response) {
-        _this.tipos = response.data;
-        console.log(_this.tipos);
+        _this.tipos = response.data; // console.log(this.tipos);
       });
     },
     eliminarComoSupo: function eliminarComoSupo(tipo) {
@@ -12711,8 +12744,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.obtenerComoSupo();
 
-        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
-        console.log('Bus enviado');
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo'); // console.log('Bus enviado');
+
         Swal.fire({
           title: 'Elemento registrado con exito',
           text: "Se registro tu nueva opción",
@@ -12720,8 +12753,7 @@ __webpack_require__.r(__webpack_exports__);
           showCancelButton: false,
           cancelButtonColor: '#d33'
         });
-      })["catch"](function (error) {
-        console.log(error.data);
+      })["catch"](function (error) {// console.log(error.data);
       });
     }
   }
@@ -16865,8 +16897,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/tipo-empresa';
       axios.get(URL).then(function (response) {
-        _this2.tiposE = response.data;
-        console.log(_this2.tiposE);
+        _this2.tiposE = response.data; // console.log(this.tiposE);
       });
     },
     obtenerCategoriasNosotros: function obtenerCategoriasNosotros() {
@@ -16874,8 +16905,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/about-categorias';
       axios.get(URL).then(function (response) {
-        _this3.aboutCategorias = response.data;
-        console.log(_this3.aboutCategorias);
+        _this3.aboutCategorias = response.data; //   console.log(this.aboutCategorias);
       });
     },
     obtenerComoSupo: function obtenerComoSupo() {
@@ -16883,8 +16913,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/comoSupo';
       axios.get(URL).then(function (response) {
-        _this4.tipos = response.data;
-        console.log(_this4.tipos);
+        _this4.tipos = response.data; //  console.log(this.tipos);
       });
     },
     obtenerCategorias: function obtenerCategorias() {
@@ -16892,8 +16921,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/categorias';
       axios.get(URL).then(function (response) {
-        _this5.categorias = response.data;
-        console.log(_this5.categorias);
+        _this5.categorias = response.data; //  console.log(this.categorias);
       });
     },
     obtenerTelefonos: function obtenerTelefonos() {
@@ -16901,8 +16929,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/telefonos';
       axios.get(URL).then(function (response) {
-        _this6.physicalTelephones = response.data;
-        console.log(_this6.physicalTelephones);
+        _this6.physicalTelephones = response.data; //  console.log(this.physicalTelephones);
       });
     },
     agregarTelefono: function agregarTelefono() {
@@ -16911,27 +16938,27 @@ __webpack_require__.r(__webpack_exports__);
       var existe = false;
 
       if (this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA') {
-        console.log('celular o casa');
-        var numero = this.telefono.numero;
-        console.log(numero); //Verificamos primero en el array de la BDD
+        //   console.log('celular o casa');
+        var numero = this.telefono.numero; //  console.log(numero);
+        //Verificamos primero en el array de la BDD
 
         if (this.physicalTelephones.some(function (element) {
           return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
         })) {
-          existe = true;
-          console.log('existe'); // Buscamos el elemento con el cual coincidio
+          existe = true; // console.log('existe');
+          // Buscamos el elemento con el cual coincidio
 
           var encontrado = this.physicalTelephones.find(function (element) {
             return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
           });
           moment.locale('es');
-          var tiempo = moment(encontrado.created_at).fromNow();
-          console.log(tiempo);
+          var tiempo = moment(encontrado.created_at).fromNow(); //  console.log(tiempo);
+
           var URL = '/viejo-telefono';
           axios.post(URL, {
             'id': encontrado.id
           }).then(function (response) {
-            console.log(response.data[0].nombre);
+            //    console.log(response.data[0].nombre);
             Swal.fire({
               title: 'El telefono ya existe!',
               text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
@@ -16973,35 +17000,35 @@ __webpack_require__.r(__webpack_exports__);
         if (this.telefonos.some(function (element) {
           return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
         })) {
-          existe = true;
-          console.log('existe');
+          existe = true; // console.log('existe');
+
           Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con este numero.', 'warning');
         }
       } else if (this.telefono.tipo == 'OFICINA') {
-        console.log('oficina');
+        // console.log('oficina');
         var ext = this.telefono.ext; //Verificamos primero en el array de la BDD
 
         if (this.physicalTelephones.some(function (element) {
           return ext == element.ext && element.tipo == 'OFICINA';
         })) {
-          existe = true;
-          console.log('existe'); // Buscamos el elemento con el cual coincidio
+          existe = true; //   console.log('existe');
+          // Buscamos el elemento con el cual coincidio
 
           var _encontrado = this.physicalTelephones.find(function (element) {
             return ext == element.ext && element.tipo == 'OFICINA';
-          });
+          }); // console.log(encontrado);
 
-          console.log(_encontrado);
+
           moment.locale('es');
 
-          var _tiempo = moment(_encontrado.created_at).fromNow();
+          var _tiempo = moment(_encontrado.created_at).fromNow(); //   console.log(tiempo);
 
-          console.log(_tiempo);
+
           var _URL2 = '/viejo-telefono';
           axios.post(_URL2, {
             'id': _encontrado.id
           }).then(function (response) {
-            console.log(response.data[0].nombre);
+            //    console.log(response.data[0].nombre);
             Swal.fire({
               title: 'El telefono ya existe!',
               text: "Este telefono esta registrado desde " + _tiempo + ' a nombre de ' + response.data[0].nombre,
@@ -17043,8 +17070,8 @@ __webpack_require__.r(__webpack_exports__);
         if (this.telefonos.some(function (element) {
           return ext == element.ext && element.tipo == 'OFICINA';
         })) {
-          existe = true;
-          console.log('existe');
+          existe = true; //  console.log('existe');
+
           Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con esta extencion.', 'warning');
         }
       }
@@ -17086,8 +17113,8 @@ __webpack_require__.r(__webpack_exports__);
         // Telefonos
         'telefonos': this.telefonos
       }).then(function (response) {
-        _this8.cliente = {};
-        console.log(_this8.cliente);
+        _this8.cliente = {}; // console.log(this.cliente);
+
         Swal.fire({
           title: 'Cliente Registrado con exito',
           text: "",
@@ -17100,7 +17127,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     eliminarTelefono: function eliminarTelefono(index) {
-      console.log(index);
+      //  console.log(index);
       this.telefonos.splice(index, 1);
     }
   }
@@ -17252,8 +17279,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data;
-        console.log(_this2.tareas);
+        _this2.tareas = response.data; // console.log(this.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
@@ -17270,7 +17296,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
-          console.log(task);
+          //  console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this3.obtenerTareas();
@@ -17379,8 +17405,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data;
-        console.log(_this2.tareas);
+        _this2.tareas = response.data; //  console.log(this.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
@@ -17404,7 +17429,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
-          console.log(task);
+          //  console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this3.obtenerTareas();
@@ -17524,9 +17549,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoTipoEmpresa');
@@ -17536,8 +17560,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/tipo-empresa';
       axios.get(URL).then(function (response) {
-        _this.tipos = response.data;
-        console.log(_this.tipos);
+        _this.tipos = response.data; // console.log(this.tipos);
       });
     },
     eliminarTipoEmpresa: function eliminarTipoEmpresa(tipo) {
@@ -73696,7 +73719,11 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -73763,7 +73790,11 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -73852,7 +73883,11 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -80064,7 +80099,7 @@ var render = function() {
           "div",
           {
             staticClass: "block-content",
-            staticStyle: { height: "350px", overflow: "scroll" }
+            staticStyle: { height: "513px", overflow: "scroll" }
           },
           [
             _vm.tareas == 0
@@ -95534,6 +95569,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_fuse__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/main.esm.js");
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -95542,6 +95579,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/laravel/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
 
 
 
@@ -95587,111 +95625,96 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
   var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__["Calendar"](calendarEl, {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__["default"]],
-    dateClick: function dateClick() {
-      alert('a day has been clicked!');
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default.a],
+    locale: 'es',
+    // the initial locale. of not specified, uses the first one
+    eventClick: function eventClick(info) {
+      //alert('Event: ' + info.event.title);
+      //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+      //alert('View: ' + info.view.type);
+      // change the border color just for fun
+      //info.el.style.borderColor = 'orange';
+      detalleTarea(info);
     }
   });
+
+  function detalleTarea(task) {
+    if (task.event.groupId == 2) {
+      var TextButton = 'Ver ficha de evento';
+    } else {
+      var TextButton = 'Tarea completa';
+    }
+
+    Swal.fire({
+      title: task.event.title,
+      text: "Detalles: " + task.event.extendedProps.notas,
+      type: 'info',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: TextButton,
+      cancelButtonText: 'Cerrar'
+    }).then(function (result) {
+      if (result.value) {
+        if (task.event.groupId == 1) {
+          var url = '/tareas/eliminar-tarea/' + task.event.id;
+          axios["delete"](url).then(function (response) {
+            //this.obtenerTareas();
+            location.reload();
+          });
+        } else {
+          alert('detalles de evento');
+        } //  console.log(task);
+
+      }
+    });
+  }
+
+  function SoloTareas() {
+    alert('mostrar solo tareas');
+  }
+
+  function SoloEventos() {
+    alert('mostrar solo eventos');
+  }
+
   calendar.batchRendering(function () {
     //Obtenemos todas las tareas
-    var URL = '/tareas/obtener-tareas';
+    var URL = '/tareas/obtener-tareas-todas';
     axios.get(URL).then(function (response) {
-      var tareas = response.data; //tareas.forEach(function(element) {  
-      // });
+      var tareas = response.data; //Imprimimos las tareas recuperadas en el calendario
 
-      calendar.changeView('dayGridMonth');
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-03'
+      tareas.forEach(function (element) {
+        calendar.changeView('dayGridMonth');
+        calendar.addEvent({
+          id: element.id,
+          groupId: 1,
+          title: element.categoria,
+          start: element.fecha,
+          color: '#65BAF1',
+          extendedProps: {
+            notas: element.notas
+          }
+        });
       });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-02',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-02',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-02'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-04',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-16',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-15',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-12'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-12',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-15',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-05'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-12',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-21',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-13'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-14',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-18',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-20',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-10'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-02',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-05',
-        color: '#F19A65'
+    });
+    var URL2 = '/contratos/obtener-contratos-todos';
+    axios.get(URL2).then(function (response) {
+      var contratos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+      contratos.forEach(function (element) {
+        calendar.changeView('dayGridMonth');
+        calendar.addEvent({
+          id: element.id,
+          groupId: 2,
+          title: element.folio,
+          start: element.fechaEvento,
+          color: '#F0833C',
+          extendedProps: {
+            notas: element.cliente
+          }
+        });
       });
     });
   });

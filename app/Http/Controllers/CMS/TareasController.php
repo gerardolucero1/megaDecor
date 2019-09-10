@@ -36,11 +36,9 @@ class TareasController extends Controller
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
         //dd($clientes);
-
-        
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
-        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
         ->where('tasks.fecha', '=', $fecha_actual)
         
         ->where(function($q) {
@@ -51,14 +49,8 @@ class TareasController extends Controller
 
         $Tasks=[];
 
-       // $tamanoClientes=count($clientes);
-       // $tamanoTareas=count($tareas);
         foreach ($tareas as $tarea) {
-
-
             $vendedor = User::orderBy('id', 'DESC')->where('id', $tarea->vendedor_id)->first();
-            
-
              $tarea->id;
             foreach($clientes as $cliente){
                 if($cliente->id==$tarea->id){
@@ -71,20 +63,17 @@ class TareasController extends Controller
                 $Task->notas = $tarea->notas;
                 $Task->categoria = $tarea->categoria;
                 $Task->completa = $tarea->completa;
+                $Task->fecha = $tarea->fecha;
                 $Task->vendedor_id = $tarea->vendedor_id;
                 array_push($Tasks,$Task);
                 }
             }
-        }
-       
-        return $Tasks;
-    
-        
+        }       
+        return $Tasks;   
+    }
 
-
-    
-
-       
+    public function obtenerTareasTodas(){
+        $fecha_actual= date('Y-m-d',time());
         $clientes_morales = DB::table('clients')
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
         ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
@@ -97,12 +86,10 @@ class TareasController extends Controller
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
         //dd($clientes);
-
-        $fecha_actual= date('Y-m-d',time());
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
-        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.completa')
-        ->where('tasks.fecha', '=', $fecha_actual)
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
+        
         
         ->where(function($q) {
             $q->where('tasks.vendedor_id', '=', Auth::user()->id)
@@ -112,14 +99,8 @@ class TareasController extends Controller
 
         $Tasks=[];
 
-       // $tamanoClientes=count($clientes);
-       // $tamanoTareas=count($tareas);
         foreach ($tareas as $tarea) {
-
-
             $vendedor = User::orderBy('id', 'DESC')->where('id', $tarea->vendedor_id)->first();
-            
-
              $tarea->id;
             foreach($clientes as $cliente){
                 if($cliente->id==$tarea->id){
@@ -132,17 +113,13 @@ class TareasController extends Controller
                 $Task->notas = $tarea->notas;
                 $Task->categoria = $tarea->categoria;
                 $Task->completa = $tarea->completa;
+                $Task->fecha = $tarea->fecha;
                 $Task->vendedor_id = $tarea->vendedor_id;
                 array_push($Tasks,$Task);
                 }
             }
-        }
-       
-        return $Tasks;
-    
-        
-
-
+        }       
+        return $Tasks;   
     }
 
 

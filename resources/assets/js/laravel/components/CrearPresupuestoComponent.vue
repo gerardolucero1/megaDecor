@@ -171,7 +171,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -330,7 +330,7 @@
                                     </span>
                                 </div>
                                 <div class="col-md-5">
-                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                 </div>
                             </div>
                         </div>
@@ -507,7 +507,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                        <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                                     </div>
                                                 </div>
                                             </div>
