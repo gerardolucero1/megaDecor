@@ -116,23 +116,15 @@ Swal.fire({
 }
 
 
-function SoloTareas(){
-    alert('mostrar solo tareas');
-  }
-function SoloEventos(){
-      alert('mostrar solo eventos');
-  }
-
-
 calendar.batchRendering(function() {
     
     //Obtenemos todas las tareas
-    let URL = '/tareas/obtener-tareas-todas';
-    axios.get(URL).then((response) => {
+        let URL = '/tareas/obtener-tareas-todas';
+        axios.get(URL).then((response) => {
         var tareas = response.data;
 
     //Imprimimos las tareas recuperadas en el calendario
-        tareas.forEach((element) => {
+            tareas.forEach((element) => {
             calendar.changeView('dayGridMonth');
             calendar.addEvent({id: element.id, groupId: 1, title: element.categoria, start: element.fecha, color: '#65BAF1', extendedProps: {
                 notas: element.notas

@@ -95876,14 +95876,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function SoloTareas() {
-    alert('mostrar solo tareas');
-  }
-
-  function SoloEventos() {
-    alert('mostrar solo eventos');
-  }
-
   calendar.batchRendering(function () {
     //Obtenemos todas las tareas
     var URL = '/tareas/obtener-tareas-todas';
