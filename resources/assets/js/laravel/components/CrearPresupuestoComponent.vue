@@ -7,7 +7,7 @@
     }
 
     .registroPresupuesto .row{
-        margin-bottom: 15px;
+        margin-bottom: 0px;
     }
 
     .registroPresupuesto input[type="date"]{
@@ -40,16 +40,31 @@
         background-color: white;
         overflow: scroll;
         max-height: 300px;
+        -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+-moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
     }
 
     table tr td input{
         border: none;
         background-color: transparent;
     }
-
-    .producto{
-        background-color: white;
-        border-bottom: 1px dotted gray;
+    .contenedor-producto{
+        border-bottom:solid;
+        border-width: 1px; 
+        padding: 8px;
+        height: 100%;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+    .contenedor-producto:hover{
+        border-bottom:solid;
+        border-width: 1px; 
+        padding: 8px;
+        background:#FEEAB5;
+        cursor: pointer;
+        margin-bottom: 0;
+        font-size: 14px;
     }
 
 </style>
@@ -82,7 +97,7 @@
                         <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
                     <div class="col-md-6">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
@@ -146,11 +161,11 @@
                         
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-6">
+                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
+                    <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-7">
                                 <buscador-component
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
@@ -161,16 +176,15 @@
 
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
-                                    <div v-if="clientResults.length !== 0" class="col-md-6 resultadoInventario">
-                                        <div class="list-group" v-for="cliente in clientResults" :key="cliente.id">
-                                            <div class="row producto" v-on:click="obtenerCliente(cliente)">
-                                                <div class="col-md-7">
-                                                    <p>{{ cliente.nombre }}</p>
-                                                    <span class="badge badge-info">
-                                                        {{ cliente.email }}
-                                                    </span>
+                                    <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
+                                        <div v-for="cliente in clientResults" :key="cliente.id">
+                                            <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
+                                                <div class="col-md-9">
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Nombre:</span> {{ cliente.nombre }}</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Email:</span> {{ cliente.email }}</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Telefono:</span> {{ cliente.telefono }}</p>
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-3">
                                                     <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                                 </div>
                                             </div>
@@ -183,8 +197,8 @@
                                 </select>
                                 -->
                             </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">Registrar Nuevo Cliente</button>
+                            <div class="col-md-5">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
@@ -195,7 +209,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-6 text-right" v-if="clienteSeleccionado">
+                    <div class="col-md-4 text-right" v-if="clienteSeleccionado">
                         <div class="info">
                             <p>Ultimo evento: 
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
@@ -209,7 +223,7 @@
                     </div>
                 </div>
                 <h4>Lugar del Evento</h4>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -297,7 +311,7 @@
 
                 <!-- SECTION 2 -->
                 <div class="row">
-                    <div class="col-md-10 offset-md-2">
+                    <div class="col-md-10 ">
                         <div class="row">
                             <div class="col-md-4">
                                 <buscador-component
@@ -310,26 +324,23 @@
 
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false">Agregar Elemento</button>
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete">Agregar Paquete</button>
-                            </div>
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</button>
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</button>
+                                </div>
                         </div>
                     </div>
                 </div>
-                <!-- Resultado Busqueda -->
+                <!-- Resultado Busqueda items -->
                 <div class="row" v-if="results.length < inventario.length">
-                    <div v-if="results.length !== 0" class="col-md-6 resultadoInventario">
+                    <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                         <div class="list-group" v-for="producto in results" :key="producto.id">
-                            <div class="row producto" v-on:click="agregarProducto(producto)">
-                                <div class="col-md-7">
-                                    <p>{{ producto.servicio }}</p>
-                                    <span class="badge badge-info">
-                                        {{ producto.precioUnitario }}
-                                    </span>
+                            <div class="row contenedor-producto" v-on:click="agregarProducto(producto)">
+                                <div class="col-md-9">
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Producto:</span> {{ producto.servicio }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> Familia</p>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-3">
                                     <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                 </div>
                             </div>
@@ -474,7 +485,7 @@
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Armar paquete</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
                     <button type="button" class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -495,18 +506,18 @@
                                 ></buscador-component>
                                         </div>
                                     </div>
-                                    <!-- Resultado Busqueda -->
+                                    <!-- Resultado Busqueda paquetes-->
                                     <div class="row" v-if="resultsPaquetes.length < inventario.length">
-                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
+                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-12 resultadoInventario">
                                             <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
-                                                <div class="row producto" v-on:click="agregarProductoPaquete(producto)">
-                                                    <div class="col-md-7">
-                                                        <p>{{ producto.servicio }}</p>
-                                                        <span class="badge badge-info">
-                                                            {{ producto.precioUnitario }}
-                                                        </span>
+                                                <div class="row contenedor-producto" v-on:click="agregarProductoPaquete(producto)">
+                                                    <div class="col-md-9">
+                                                        
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Servicio:</span> {{ producto.servicio }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.precioUnitario }}</p>
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                                     </div>
                                                 </div>
@@ -873,20 +884,21 @@
                                     <!-- Resultado Busqueda -->
                                     <div class="row" v-if="resultsPaquetes.length < inventario.length">
                                         <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
-                                            <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
-                                                <div class="row producto" v-on:click="agregarProductoPaqueteEditado(producto)">
-                                                    <div class="col-md-7">
-                                                        <p>{{ producto.servicio }}</p>
-                                                        <span class="badge badge-info">
-                                                            {{ producto.precioUnitario }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
-                                                    </div>
+                                              <!--Inicio Prueba-->
+                                        <a class="block block-link-shadow" v-for="producto in resultsPaquetes" :key="producto.id" v-on:click="agregarProductoPaqueteEditado(producto)">
+                                            <div class="block-content block-content-full clearfix">
+                                                <div class="float-right">
+                                                    <img class="img-avatar" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                </div>
+                                                <div class="float-left mt-10">
+                                                    <div class="font-w600 mb-5">{{ producto.servicio }}</div>
+                                                    <div class="font-size-sm text-muted">{{ producto.precioUnitario }}</div>
                                                 </div>
                                             </div>
+                                        </a>
+                                        <!--Final Prueba-->
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-6">
