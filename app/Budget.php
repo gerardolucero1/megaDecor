@@ -60,7 +60,7 @@ class Budget extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'vendedor_id');
     }
 
     public function client()

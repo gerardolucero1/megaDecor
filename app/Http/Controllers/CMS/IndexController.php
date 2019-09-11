@@ -207,7 +207,12 @@ class IndexController extends Controller
             $fecha_mes_actual= date('Y-m',strtotime($fecha_actual."- 0 days"));
             $presupuestosAnoActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', 'like' , $fecha_mes_actual.'%')->where('tipo', 'CONTRATO')->get();
 
-            $porcentajeActual= (100/count($presupuestosAnoPasado)) * count($presupuestosAnoActual);
+            if(count($presupuestosAnoActual) !== 0 && count($presupuestosAnoPasado) !== 0){
+                $porcentajeActual= (100/count($presupuestosAnoPasado)) * count($presupuestosAnoActual);
+            }else{
+                $porcentajeActual = 0;
+            }
+            
             
             //calculamos total ventas del año pasado
             $ventasAnoPasado=0;
@@ -218,7 +223,11 @@ class IndexController extends Controller
             foreach($presupuestosAnoActual as $anoActual){
                 $ventasAnoActual=$ventasAnoActual+$anoActual->total;
             }
-            $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
+
+            if($ventasAnoPasado !== 0){
+                $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
+            }
+            $porcentajeActualDinero = 0;
             $ventasAnoPasado=number_format($ventasAnoPasado);
             $ventasAnoActual=number_format($ventasAnoActual);
 

@@ -112,6 +112,15 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+    Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
+
+        // API de clientes
+        Route::get('/obtener-cliente-editar/{id}', 'CMS\ClientController@obtenerCliente');
+        Route::get('/obtener-telefonos-editar/{id}', 'CMS\ClientController@obtenerTelefonos');
+        Route::post('/crear-nuevo-telefono', 'CMS\ClientController@crearTelefono');
+        Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
+        Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
+        Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
 
     //Emails
     Route::post('enviar-email', function(Request $request){

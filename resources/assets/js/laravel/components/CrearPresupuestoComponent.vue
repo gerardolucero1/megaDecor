@@ -1267,6 +1267,11 @@
             }
         },
         watch: {
+            'presupuesto.iva': function(val){
+                if(val){
+                    this.presupuesto.total = (this.presupuesto.total * (this.iva / 100));
+                }
+            },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
@@ -1439,21 +1444,29 @@
                         
                     },
             guardarPaquete(){
-                this.inventarioLocal.push({
-                    'externo': false,
-                    'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
-                    'servicio': this.paquete.servicio,
-                    'cantidad': '',
-                    'precioUnitario': this.paquete.precioFinal,
-                    'precioFinal': '',
-                    'ahorro': '',
-                    'notas': '',
-                    'paquete': this.paquete,
-                    'tipo': 'PAQUETE',
-                    'id': '',
-                });
-                console.log(this.inventarioLocal);
-
+                if(this.inventarioLocal.some((element) => {
+                    return element.servicio == this.paquete.servicio;
+                })){
+                    Swal.fire(
+                        'Registro duplicado',
+                        'Ya existe un paquete con el nombre ' + this.paquete.servicio,
+                        'warning'
+                        )
+                }else{
+                    this.inventarioLocal.push({
+                        'externo': false,
+                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
+                        'servicio': this.paquete.servicio,
+                        'cantidad': '',
+                        'precioUnitario': this.paquete.precioFinal,
+                        'precioFinal': '',
+                        'ahorro': '',
+                        'notas': '',
+                        'paquete': this.paquete,
+                        'tipo': 'PAQUETE',
+                        'id': '',
+                    });
+                }
 
             },
             // Metodo para obtener el cliente seleccionado
@@ -1521,29 +1534,42 @@
             //Agregar producto externo a la tabla de productos
             agregarProductoExterno(){
                 if(this.controlElementoExterno){
-                    this.paquete.inventario.push({
-                        'externo': true,
-                        'nombre': this.productoExterno.servicio,
-                        'imagen': this.productoExterno.imagen,
-                        'precioUnitario': this.productoExterno.precioUnitario,
-                        'precioFinal': '',
-                        'cantidad': '',
-                        'id': '',
-                    });
+                        this.paquete.inventario.push({
+                            'externo': true,
+                            'nombre': this.productoExterno.servicio,
+                            'imagen': this.productoExterno.imagen,
+                            'precioUnitario': this.productoExterno.precioUnitario,
+                            'precioFinal': '',
+                            'cantidad': '',
+                            'id': '',
+                        });
+                    
+                    
                 }else{
-                    this.inventarioLocal.push({
-                        'externo': true,
-                        'imagen': this.productoExterno.imagen,
-                        'servicio': this.productoExterno.servicio,
-                        'cantidad': '',
-                        'precioUnitario': this.productoExterno.precioUnitario,
-                        'precioFinal': '',
-                        'ahorro': '',
-                        'notas': '',
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': '',
-                    });
+                    if(this.inventarioLocal.some((element) => {
+                        return element.servicio == this.productoExterno.servicio
+                    })){
+                        Swal.fire(
+                            'Registro duplicado',
+                            'Ya existe un producto con el nombre ' + this.productoExterno.servicio,
+                            'warning'
+                            )
+                    }else{
+                        this.inventarioLocal.push({
+                            'externo': true,
+                            'imagen': this.productoExterno.imagen,
+                            'servicio': this.productoExterno.servicio,
+                            'cantidad': '',
+                            'precioUnitario': this.productoExterno.precioUnitario,
+                            'precioFinal': '',
+                            'ahorro': '',
+                            'notas': '',
+                            'paquete': '',
+                            'tipo': 'PRODUCTO',
+                            'id': '',
+                        });
+                    }
+                    
                 }
                 
                 this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': ''};
