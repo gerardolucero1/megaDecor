@@ -327,43 +327,43 @@ function emailCopy(){
                 let URL = '/clientes/tipo-empresa';
                 axios.get(URL).then((response) => {
                     this.tiposE = response.data;
-                    console.log(this.tiposE);
+                   // console.log(this.tiposE);
                 });
                 },
             obtenerCategoriasNosotros(){
                 let URL = '/about-categorias';
                 axios.get(URL).then((response) => {
                     this.aboutCategorias = response.data;
-                    console.log(this.aboutCategorias);
+                 //   console.log(this.aboutCategorias);
                 });
             },
             obtenerComoSupo(){
                 let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
                     this.tipos = response.data;
-                    console.log(this.tipos);
+                  //  console.log(this.tipos);
                 });
                 },
             obtenerCategorias(){
                 let URL = '/categorias';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
+                  //  console.log(this.categorias);
                 });
             },
             obtenerTelefonos(){
                 let URL = '/telefonos';
                 axios.get(URL).then((response) => {
                     this.physicalTelephones = response.data;
-                    console.log(this.physicalTelephones);
+                  //  console.log(this.physicalTelephones);
                 });
             },
             agregarTelefono(){
                 let existe = false;
                 if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
-                    console.log('celular o casa');
+                 //   console.log('celular o casa');
                     let numero = this.telefono.numero;
-                    console.log(numero);
+                  //  console.log(numero);
 
                     //Verificamos primero en el array de la BDD
                     if(this.physicalTelephones.some(function(element){
@@ -372,7 +372,7 @@ function emailCopy(){
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
@@ -382,12 +382,12 @@ function emailCopy(){
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                      //  console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                        //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
@@ -437,7 +437,7 @@ function emailCopy(){
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con este numero.',
@@ -447,7 +447,7 @@ function emailCopy(){
                     
                 
                 }else if(this.telefono.tipo == 'OFICINA'){
-                    console.log('oficina');
+                   // console.log('oficina');
                     let ext = this.telefono.ext;
 
                     //Verificamos primero en el array de la BDD
@@ -457,22 +457,22 @@ function emailCopy(){
             
                     })){
                         existe = true;
-                        console.log('existe');
+                     //   console.log('existe');
 
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (ext == element.ext && (element.tipo == 'OFICINA'));
                         });
-                        console.log('Se encontro el numero: ', encontrado);
+                       // console.log(encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                     //   console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                        //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
@@ -521,7 +521,7 @@ function emailCopy(){
             
                     })){
                         existe = true;
-                        console.log('existe');
+                      //  console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con esta extencion.',
@@ -575,7 +575,7 @@ function emailCopy(){
                     'telefonos': this.telefonos,
                 }).then((response) => {
                     this.cliente = {};
-                    console.log(this.cliente);
+                   // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Cliente Registrado con exito',
                                 text: "",
@@ -590,7 +590,7 @@ function emailCopy(){
                 
             },
             eliminarTelefono(index){
-                console.log(index);
+              //  console.log(index);
                 this.telefonos.splice(index, 1);
             }
         }

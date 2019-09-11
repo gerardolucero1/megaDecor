@@ -106,6 +106,57 @@ class IndexController extends Controller
         //dd($clientes);
         return view('contratos',compact('Presupuestos')); 
     }
+
+    public function contratosTodos(){
+        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->get();
+        $Presupuestos=[];
+      
+        //Obtenemos clientes morales y fisicos
+        $clientes_morales = DB::table('clients')
+        ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+        ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+        ->get();
+
+        $clientes_fisicos = DB::table('clients')
+        ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion')
+        ->get();
+        
+        $clientes = $clientes_morales->merge($clientes_fisicos);
+
+        foreach($budgets as $budget){
+         $Presupuesto   = new stdClass();
+         $Presupuesto->id = $budget->id;
+         $Presupuesto->folio = $budget->folio;
+         $Presupuesto->fechaEvento = $budget->fechaEvento;
+         //$Presupuesto->vendedor = $budget->vendedor_id;
+         $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
+         $Presupuesto->vendedor = $DatosVendedor->name;
+         $Presupuesto->version = $budget->version;
+         $Presupuesto->updated_at = $budget->updated_at;
+         
+
+         foreach($clientes as $cliente){
+             if($cliente->id===$budget->client_id){
+         $Presupuesto->cliente = $cliente->nombre;
+                if($budget->lugarEvento = 'MISMA'){
+                    $Presupuesto->lugarEvento = $cliente->direccionFacturacion; 
+                    
+                }else{
+                    $Presupuesto->lugarEvento = $budget->lugarEvento;
+                }
+                
+        }else{$Presupuesto->cliente = "--";}
+        }
+
+         array_push($Presupuestos,$Presupuesto);
+        }
+
+        //dd($clientes);
+        return $Presupuestos; 
+    }
+
+    //Pantalla usuarios
     public function pantallaUsuarios(){
         return view('pantallaUsuarios');
     }

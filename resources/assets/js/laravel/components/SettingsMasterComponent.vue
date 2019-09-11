@@ -97,7 +97,7 @@ import { EventBus } from '../eventBus.js';
                 let URL = '/tareas/obtener-tareas';
                 axios.get(URL).then((response) => {
                     this.tareas = response.data;
-                    console.log(this.tareas);
+                   // console.log(this.tareas);
                     
                 });
                 },
@@ -114,7 +114,7 @@ import { EventBus } from '../eventBus.js';
                                 
                             }).then((result) => {
                             if (result.value) {
-                                console.log(task);
+                              //  console.log(task);
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

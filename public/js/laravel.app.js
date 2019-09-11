@@ -86,6 +86,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@fullcalendar/core/locales/es.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fullcalendar/core/locales/es.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+     true ? module.exports = factory() :
+    undefined;
+}(this, function () { 'use strict';
+
+    var es = {
+        code: "es",
+        week: {
+            dow: 1,
+            doy: 4 // The week that contains Jan 4th is the first week of the year.
+        },
+        buttonText: {
+            prev: "Ant",
+            next: "Sig",
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
+            day: "Día",
+            list: "Agenda"
+        },
+        weekLabel: "Sm",
+        allDayHtml: "Todo<br/>el día",
+        eventLimitText: "más",
+        noEventsMessage: "No hay eventos para mostrar"
+    };
+
+    return es;
+
+}));
+
+
+/***/ }),
+
 /***/ "./node_modules/@fullcalendar/core/main.esm.js":
 /*!*****************************************************!*\
   !*** ./node_modules/@fullcalendar/core/main.esm.js ***!
@@ -12368,42 +12408,39 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this = this;
-
-      var URL = '/presupuestos/categorias-eventos';
-      axios.get(URL).then(function (response) {
-        _this.categorias = response.data;
-        console.log(_this.categorias);
-      });
+      /* let URL = '/presupuestos/categorias-eventos';
+       axios.get(URL).then((response) => {
+           this.categorias = response.data;
+          // console.log(this.categorias);
+       });*/
     },
     eliminarCategorias: function eliminarCategorias(categoria) {
-      var _this2 = this;
+      var _this = this;
 
       var url = '/presupuestos/eliminar-categoria/' + categoria.id;
       axios["delete"](url).then(function (response) {
         _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
 
-        _this2.obtenerCategorias();
+        _this.obtenerCategorias();
       });
     },
     crearCategoriaTarea: function crearCategoriaTarea() {
-      var _this3 = this;
+      var _this2 = this;
 
       var URL = '/presupuestos/createcategory';
       axios.post(URL, {
         'nombre': this.categoria.nombre
       }).then(function (response) {
-        _this3.categoria = {};
+        _this2.categoria = {};
 
-        _this3.obtenerCategorias();
+        _this2.obtenerCategorias();
 
         _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
         Swal.fire({
@@ -12521,9 +12558,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('clic');
@@ -12533,8 +12569,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/categorias-tareas';
       axios.get(URL).then(function (response) {
-        _this.categorias = response.data;
-        console.log(_this.categorias);
+        _this.categorias = response.data; // console.log(this.categorias);
       });
     },
     eliminarCategorias: function eliminarCategorias(categoria) {
@@ -12674,9 +12709,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } //  console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
@@ -12686,8 +12720,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/comoSupo';
       axios.get(URL).then(function (response) {
-        _this.tipos = response.data;
-        console.log(_this.tipos);
+        _this.tipos = response.data; // console.log(this.tipos);
       });
     },
     eliminarComoSupo: function eliminarComoSupo(tipo) {
@@ -12711,8 +12744,8 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.obtenerComoSupo();
 
-        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo');
-        console.log('Bus enviado');
+        _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevaComoSupo'); // console.log('Bus enviado');
+
         Swal.fire({
           title: 'Elemento registrado con exito',
           text: "Se registro tu nueva opción",
@@ -12720,8 +12753,7 @@ __webpack_require__.r(__webpack_exports__);
           showCancelButton: false,
           cancelButtonColor: '#d33'
         });
-      })["catch"](function (error) {
-        console.log(error.data);
+      })["catch"](function (error) {// console.log(error.data);
       });
     }
   }
@@ -12742,6 +12774,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -17382,8 +17426,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/tipo-empresa';
       axios.get(URL).then(function (response) {
-        _this2.tiposE = response.data;
-        console.log(_this2.tiposE);
+        _this2.tiposE = response.data; // console.log(this.tiposE);
       });
     },
     obtenerCategoriasNosotros: function obtenerCategoriasNosotros() {
@@ -17391,8 +17434,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/about-categorias';
       axios.get(URL).then(function (response) {
-        _this3.aboutCategorias = response.data;
-        console.log(_this3.aboutCategorias);
+        _this3.aboutCategorias = response.data; //   console.log(this.aboutCategorias);
       });
     },
     obtenerComoSupo: function obtenerComoSupo() {
@@ -17400,8 +17442,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/comoSupo';
       axios.get(URL).then(function (response) {
-        _this4.tipos = response.data;
-        console.log(_this4.tipos);
+        _this4.tipos = response.data; //  console.log(this.tipos);
       });
     },
     obtenerCategorias: function obtenerCategorias() {
@@ -17409,8 +17450,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/categorias';
       axios.get(URL).then(function (response) {
-        _this5.categorias = response.data;
-        console.log(_this5.categorias);
+        _this5.categorias = response.data; //  console.log(this.categorias);
       });
     },
     obtenerTelefonos: function obtenerTelefonos() {
@@ -17418,8 +17458,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/telefonos';
       axios.get(URL).then(function (response) {
-        _this6.physicalTelephones = response.data;
-        console.log(_this6.physicalTelephones);
+        _this6.physicalTelephones = response.data; //  console.log(this.physicalTelephones);
       });
     },
     agregarTelefono: function agregarTelefono() {
@@ -17428,28 +17467,28 @@ __webpack_require__.r(__webpack_exports__);
       var existe = false;
 
       if (this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA') {
-        console.log('celular o casa');
-        var numero = this.telefono.numero;
-        console.log(numero); //Verificamos primero en el array de la BDD
+        //   console.log('celular o casa');
+        var numero = this.telefono.numero; //  console.log(numero);
+        //Verificamos primero en el array de la BDD
 
         if (this.physicalTelephones.some(function (element) {
           return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
         })) {
-          existe = true;
-          console.log('existe'); // Buscamos el elemento con el cual coincidio
+          existe = true; // console.log('existe');
+          // Buscamos el elemento con el cual coincidio
 
           var encontrado = this.physicalTelephones.find(function (element) {
             return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
           });
           console.log('Se encontro el numero: ', encontrado);
           moment.locale('es');
-          var tiempo = moment(encontrado.created_at).fromNow();
-          console.log(tiempo);
+          var tiempo = moment(encontrado.created_at).fromNow(); //  console.log(tiempo);
+
           var URL = '/viejo-telefono';
           axios.post(URL, {
             'id': encontrado.id
           }).then(function (response) {
-            console.log(response.data[0].nombre);
+            //    console.log(response.data[0].nombre);
             Swal.fire({
               title: 'El telefono ya existe!',
               text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
@@ -17491,35 +17530,35 @@ __webpack_require__.r(__webpack_exports__);
         if (this.telefonos.some(function (element) {
           return numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA');
         })) {
-          existe = true;
-          console.log('existe');
+          existe = true; // console.log('existe');
+
           Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con este numero.', 'warning');
         }
       } else if (this.telefono.tipo == 'OFICINA') {
-        console.log('oficina');
+        // console.log('oficina');
         var ext = this.telefono.ext; //Verificamos primero en el array de la BDD
 
         if (this.physicalTelephones.some(function (element) {
           return ext == element.ext && element.tipo == 'OFICINA';
         })) {
-          existe = true;
-          console.log('existe'); // Buscamos el elemento con el cual coincidio
+          existe = true; //   console.log('existe');
+          // Buscamos el elemento con el cual coincidio
 
           var _encontrado = this.physicalTelephones.find(function (element) {
             return ext == element.ext && element.tipo == 'OFICINA';
-          });
+          }); // console.log(encontrado);
 
-          console.log('Se encontro el numero: ', _encontrado);
+
           moment.locale('es');
 
-          var _tiempo = moment(_encontrado.created_at).fromNow();
+          var _tiempo = moment(_encontrado.created_at).fromNow(); //   console.log(tiempo);
 
-          console.log(_tiempo);
+
           var _URL2 = '/viejo-telefono';
           axios.post(_URL2, {
             'id': _encontrado.id
           }).then(function (response) {
-            console.log(response.data[0].nombre);
+            //    console.log(response.data[0].nombre);
             Swal.fire({
               title: 'El telefono ya existe!',
               text: "Este telefono esta registrado desde " + _tiempo + ' a nombre de ' + response.data[0].nombre,
@@ -17561,8 +17600,8 @@ __webpack_require__.r(__webpack_exports__);
         if (this.telefonos.some(function (element) {
           return ext == element.ext && element.tipo == 'OFICINA';
         })) {
-          existe = true;
-          console.log('existe');
+          existe = true; //  console.log('existe');
+
           Swal.fire('Numero duplicado!', 'Ya ingresaste un telefono con esta extencion.', 'warning');
         }
       }
@@ -17609,8 +17648,8 @@ __webpack_require__.r(__webpack_exports__);
         // Telefonos
         'telefonos': this.telefonos
       }).then(function (response) {
-        _this8.cliente = {};
-        console.log(_this8.cliente);
+        _this8.cliente = {}; // console.log(this.cliente);
+
         Swal.fire({
           title: 'Cliente Registrado con exito',
           text: "",
@@ -17623,7 +17662,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     eliminarTelefono: function eliminarTelefono(index) {
-      console.log(index);
+      //  console.log(index);
       this.telefonos.splice(index, 1);
     }
   }
@@ -17775,8 +17814,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data;
-        console.log(_this2.tareas);
+        _this2.tareas = response.data; // console.log(this.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
@@ -17793,7 +17831,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
-          console.log(task);
+          //  console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this3.obtenerTareas();
@@ -17902,8 +17940,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data;
-        console.log(_this2.tareas);
+        _this2.tareas = response.data; //  console.log(this.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
@@ -17927,7 +17964,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
-          console.log(task);
+          //  console.log(task);
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this3.obtenerTareas();
@@ -18047,9 +18084,8 @@ __webpack_require__.r(__webpack_exports__);
         this.mostrar = 0;
       } else {
         this.mostrar = 1;
-      }
+      } // console.log(this.mostrar); 
 
-      console.log(this.mostrar);
     },
     emitGlobalClickEvent: function emitGlobalClickEvent() {
       _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoTipoEmpresa');
@@ -18059,8 +18095,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var URL = '/clientes/tipo-empresa';
       axios.get(URL).then(function (response) {
-        _this.tipos = response.data;
-        console.log(_this.tipos);
+        _this.tipos = response.data; // console.log(this.tipos);
       });
     },
     eliminarTipoEmpresa: function eliminarTipoEmpresa(tipo) {
@@ -19317,7 +19352,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.logo-presupuesto{\n    width: 25%;\n    height: 130px;\n    background-position: center;\n    background-size: cover;\n}\n.registroPresupuesto .row{\n    margin-bottom: 15px;\n}\n.registroPresupuesto input[type=\"date\"]{\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n    width: 100%;\n    border: none;\n    border: 1px solid rgba(204, 204, 204, 1);\n}\n.modalAgregarPaquete input[type=\"text\"],\n.registroPresupuesto input[type=\"text\"], \n.registroPresupuesto input[type=\"email\"], \n.registroPresupuesto input[type=\"number\"], \n.registroPresupuesto input[type=\"date\"], \n.registroPresupuesto select{\n    width: 100%;\n}\n.registroPresupuesto .info p{\n    line-height: 4px;\n}\n.resultadoInventario{\n    position: absolute;\n    z-index: 3000;\n    background-color: white;\n    overflow: scroll;\n    max-height: 300px;\n}\ntable tr td input{\n    border: none;\n    background-color: transparent;\n}\n.producto{\n    background-color: white;\n    border-bottom: 1px dotted gray;\n}\n\n", ""]);
+exports.push([module.i, "\n.logo-presupuesto{\n        width: 25%;\n        height: 130px;\n        background-position: center;\n        background-size: cover;\n}\n.registroPresupuesto .row{\n        margin-bottom: 0px;\n}\n.registroPresupuesto input[type=\"date\"]{\n        border: none;\n        border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n        width: 100%;\n        border: none;\n        border: 1px solid rgba(204, 204, 204, 1);\n}\n.modalAgregarPaquete input[type=\"text\"],\n    .registroPresupuesto input[type=\"text\"], \n    .registroPresupuesto input[type=\"email\"], \n    .registroPresupuesto input[type=\"number\"], \n    .registroPresupuesto input[type=\"date\"], \n    .registroPresupuesto select{\n        width: 100%;\n}\n.registroPresupuesto .info p{\n        line-height: 4px;\n}\n.resultadoInventario{\n        position: absolute;\n        z-index: 3000;\n        background-color: white;\n        overflow: scroll;\n        max-height: 300px;\nbox-shadow: 0px 5px 5px -2px rgba(38,38,38,1);\n}\ntable tr td input{\n        border: none;\n        background-color: transparent;\n}\n.contenedor-producto{\n        border-bottom:solid;\n        border-width: 1px; \n        padding: 8px;\n        height: 100%;\n        margin-bottom: 0;\n        font-size: 14px;\n}\n.contenedor-producto:hover{\n        border-bottom:solid;\n        border-width: 1px; \n        padding: 8px;\n        background:#FEEAB5;\n        cursor: pointer;\n        margin-bottom: 0;\n        font-size: 14px;\n}\n\n", ""]);
 
 // exports
 
@@ -70293,10 +70328,10 @@ var render = function() {
             staticStyle: {
               "border-bottom": "solid",
               "border-width": "1px",
-              "border-style": "dotted",
               "border-top": "none",
               "border-right": "none",
-              "border-left": "none"
+              "border-left": "none",
+              padding: "5px"
             }
           },
           [
@@ -70737,20 +70772,20 @@ var render = function() {
             staticStyle: {
               "border-bottom": "solid",
               "border-width": "1px",
-              "border-style": "dotted",
+              padding: "5px",
               "border-top": "none",
               "border-right": "none",
               "border-left": "none"
             }
           },
           [
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-8" }, [
               _c("h4", [_vm._v("Cliente")]),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
                 _c(
                   "div",
-                  { staticClass: "col-md-9" },
+                  { staticClass: "col-md-7" },
                   [
                     _c("buscador-component", {
                       attrs: {
@@ -70766,56 +70801,107 @@ var render = function() {
                           _vm.clientResults.length !== 0
                             ? _c(
                                 "div",
-                                { staticClass: "col-md-6 resultadoInventario" },
+                                {
+                                  staticClass: "col-md-12 resultadoInventario"
+                                },
                                 _vm._l(_vm.clientResults, function(cliente) {
-                                  return _c(
-                                    "div",
-                                    {
-                                      key: cliente.id,
-                                      staticClass: "list-group"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass: "row producto",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.obtenerCliente(cliente)
-                                            }
+                                  return _c("div", { key: cliente.id }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "row contenedor-producto",
+                                        staticStyle: { margin: "0" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.obtenerCliente(cliente)
                                           }
-                                        },
-                                        [
+                                        }
+                                      },
+                                      [
+                                        _c("div", { staticClass: "col-md-9" }, [
                                           _c(
-                                            "div",
-                                            { staticClass: "col-md-7" },
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "12px"
+                                              }
+                                            },
                                             [
-                                              _c("p", [
-                                                _vm._v(_vm._s(cliente.nombre))
-                                              ]),
-                                              _vm._v(" "),
                                               _c(
                                                 "span",
                                                 {
-                                                  staticClass:
-                                                    "badge badge-info"
+                                                  staticStyle: {
+                                                    "font-weight": "bolder"
+                                                  }
                                                 },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                    " +
-                                                      _vm._s(cliente.email) +
-                                                      "\n                                                "
-                                                  )
-                                                ]
+                                                [_vm._v("Nombre:")]
+                                              ),
+                                              _vm._v(
+                                                " " + _vm._s(cliente.nombre)
                                               )
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(3, true)
-                                        ]
-                                      )
-                                    ]
-                                  )
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "12px"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "bolder"
+                                                  }
+                                                },
+                                                [_vm._v("Email:")]
+                                              ),
+                                              _vm._v(
+                                                " " + _vm._s(cliente.email)
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "12px"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "bolder"
+                                                  }
+                                                },
+                                                [_vm._v("Telefono:")]
+                                              ),
+                                              _vm._v(
+                                                " " + _vm._s(cliente.telefono)
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(3, true)
+                                      ]
+                                    )
+                                  ])
                                 }),
                                 0
                               )
@@ -70860,7 +70946,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _vm.clienteSeleccionado
-              ? _c("div", { staticClass: "col-md-6 text-right" }, [
+              ? _c("div", { staticClass: "col-md-4 text-right" }, [
                   _c("div", { staticClass: "info" }, [
                     _c("p", [
                       _vm._v("Ultimo evento: \n                            "),
@@ -70924,7 +71010,6 @@ var render = function() {
             staticStyle: {
               "border-bottom": "solid",
               "border-width": "1px",
-              "border-style": "dotted",
               "border-top": "none",
               "border-right": "none",
               "border-left": "none"
@@ -71398,7 +71483,7 @@ var render = function() {
         _c("hr"),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-10 offset-md-2" }, [
+          _c("div", { staticClass: "col-md-10 " }, [
             _c("div", { staticClass: "row" }, [
               _c(
                 "div",
@@ -71417,6 +71502,8 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4" }, [
+                _vm._m(7),
+                _vm._v(" "),
                 _c(
                   "button",
                   {
@@ -71431,11 +71518,12 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Agregar Elemento")]
+                  [
+                    _c("span", { staticClass: "fa fa-plus-circle" }),
+                    _vm._v(" Nuevo Elemento")
+                  ]
                 )
-              ]),
-              _vm._v(" "),
-              _vm._m(7)
+              ])
             ])
           ])
         ]),
@@ -71445,7 +71533,7 @@ var render = function() {
               _vm.results.length !== 0
                 ? _c(
                     "div",
-                    { staticClass: "col-md-6 resultadoInventario" },
+                    { staticClass: "col-md-4 resultadoInventario" },
                     _vm._l(_vm.results, function(producto) {
                       return _c(
                         "div",
@@ -71454,7 +71542,7 @@ var render = function() {
                           _c(
                             "div",
                             {
-                              staticClass: "row producto",
+                              staticClass: "row contenedor-producto",
                               on: {
                                 click: function($event) {
                                   return _vm.agregarProducto(producto)
@@ -71462,23 +71550,57 @@ var render = function() {
                               }
                             },
                             [
-                              _c("div", { staticClass: "col-md-7" }, [
-                                _c("p", [_vm._v(_vm._s(producto.servicio))]),
+                              _c("div", { staticClass: "col-md-9" }, [
+                                _c(
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticStyle: { "font-weight": "bolder" }
+                                      },
+                                      [_vm._v("Producto:")]
+                                    ),
+                                    _vm._v(" " + _vm._s(producto.servicio))
+                                  ]
+                                ),
                                 _vm._v(" "),
                                 _c(
-                                  "span",
-                                  { staticClass: "badge badge-info" },
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
                                   [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticStyle: { "font-weight": "bolder" }
+                                      },
+                                      [_vm._v("Precio Unitario:")]
+                                    ),
                                     _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(producto.precioUnitario) +
-                                        "\n                                "
+                                      " $" + _vm._s(producto.precioUnitario)
                                     )
                                   ]
-                                )
+                                ),
+                                _vm._v(" "),
+                                _vm._m(8, true)
                               ]),
                               _vm._v(" "),
-                              _vm._m(8, true)
+                              _vm._m(9, true)
                             ]
                           )
                         ]
@@ -71493,7 +71615,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(9),
+              _vm._m(10),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -72220,7 +72342,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(10),
+                  _vm._m(11),
                   _vm._v(" "),
                   _c(
                     "button",
@@ -72274,7 +72396,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(11)
+          _vm._m(12)
         ])
       ])
     ]),
@@ -72307,7 +72429,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(12),
+                _vm._m(13),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -72339,7 +72461,7 @@ var render = function() {
                                       "div",
                                       {
                                         staticClass:
-                                          "col-md-6 resultadoInventario"
+                                          "col-md-12 resultadoInventario"
                                       },
                                       _vm._l(_vm.resultsPaquetes, function(
                                         producto
@@ -72354,7 +72476,8 @@ var render = function() {
                                             _c(
                                               "div",
                                               {
-                                                staticClass: "row producto",
+                                                staticClass:
+                                                  "row contenedor-producto",
                                                 on: {
                                                   click: function($event) {
                                                     return _vm.agregarProductoPaquete(
@@ -72366,36 +72489,105 @@ var render = function() {
                                               [
                                                 _c(
                                                   "div",
-                                                  { staticClass: "col-md-7" },
+                                                  { staticClass: "col-md-9" },
                                                   [
-                                                    _c("p", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          producto.servicio
-                                                        )
-                                                      )
-                                                    ]),
-                                                    _vm._v(" "),
                                                     _c(
-                                                      "span",
+                                                      "p",
                                                       {
-                                                        staticClass:
-                                                          "badge badge-info"
+                                                        staticStyle: {
+                                                          padding: "0",
+                                                          margin: "0",
+                                                          "line-height": "14px",
+                                                          "font-size": "12px"
+                                                        }
                                                       },
                                                       [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticStyle: {
+                                                              "font-weight":
+                                                                "bolder"
+                                                            }
+                                                          },
+                                                          [_vm._v("Servicio:")]
+                                                        ),
                                                         _vm._v(
-                                                          "\n                                                        " +
+                                                          " " +
+                                                            _vm._s(
+                                                              producto.servicio
+                                                            )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticStyle: {
+                                                          padding: "0",
+                                                          margin: "0",
+                                                          "line-height": "14px",
+                                                          "font-size": "12px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticStyle: {
+                                                              "font-weight":
+                                                                "bolder"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Precio Unitario:"
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(
+                                                          " $" +
                                                             _vm._s(
                                                               producto.precioUnitario
-                                                            ) +
-                                                            "\n                                                    "
+                                                            )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticStyle: {
+                                                          padding: "0",
+                                                          margin: "0",
+                                                          "line-height": "14px",
+                                                          "font-size": "12px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticStyle: {
+                                                              "font-weight":
+                                                                "bolder"
+                                                            }
+                                                          },
+                                                          [_vm._v("Categoría:")]
+                                                        ),
+                                                        _vm._v(
+                                                          " " +
+                                                            _vm._s(
+                                                              producto.precioUnitario
+                                                            )
                                                         )
                                                       ]
                                                     )
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _vm._m(13, true)
+                                                _vm._m(14, true)
                                               ]
                                             )
                                           ]
@@ -72653,7 +72845,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(14),
+                            _vm._m(15),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -72836,7 +73028,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(16),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -73043,13 +73235,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(16),
+                _vm._m(17),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(17),
+                          _vm._m(18),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73058,7 +73250,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(18),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73101,7 +73293,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(19, true)
+                                        _vm._m(20, true)
                                       ])
                                     }
                                   ),
@@ -73115,7 +73307,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(20)
+                _vm._m(21)
               ]
             )
           ]
@@ -73150,13 +73342,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(21),
+                _vm._m(22),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(22),
+                          _vm._m(23),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73165,7 +73357,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(23),
+                                _vm._m(24),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73215,7 +73407,7 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(24, true)
+                                          _vm._m(25, true)
                                         ]
                                       )
                                     }
@@ -73230,7 +73422,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(25)
+                _vm._m(26)
               ]
             )
           ]
@@ -73265,7 +73457,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(26),
+                _vm._m(27),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -73714,7 +73906,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(27),
+                _vm._m(28),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -73752,57 +73944,67 @@ var render = function() {
                                         producto
                                       ) {
                                         return _c(
-                                          "div",
+                                          "a",
                                           {
                                             key: producto.id,
-                                            staticClass: "list-group"
+                                            staticClass:
+                                              "block block-link-shadow",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.agregarProductoPaqueteEditado(
+                                                  producto
+                                                )
+                                              }
+                                            }
                                           },
                                           [
                                             _c(
                                               "div",
                                               {
-                                                staticClass: "row producto",
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.agregarProductoPaqueteEditado(
-                                                      producto
-                                                    )
-                                                  }
-                                                }
+                                                staticClass:
+                                                  "block-content block-content-full clearfix"
                                               },
                                               [
+                                                _vm._m(29, true),
+                                                _vm._v(" "),
                                                 _c(
                                                   "div",
-                                                  { staticClass: "col-md-7" },
+                                                  {
+                                                    staticClass:
+                                                      "float-left mt-10"
+                                                  },
                                                   [
-                                                    _c("p", [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          producto.servicio
-                                                        )
-                                                      )
-                                                    ]),
-                                                    _vm._v(" "),
                                                     _c(
-                                                      "span",
+                                                      "div",
                                                       {
                                                         staticClass:
-                                                          "badge badge-info"
+                                                          "font-w600 mb-5"
                                                       },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                        " +
-                                                            _vm._s(
-                                                              producto.precioUnitario
-                                                            ) +
-                                                            "\n                                                    "
+                                                          _vm._s(
+                                                            producto.servicio
+                                                          )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "font-size-sm text-muted"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            producto.precioUnitario
+                                                          )
                                                         )
                                                       ]
                                                     )
                                                   ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._m(28, true)
+                                                )
                                               ]
                                             )
                                           ]
@@ -74078,7 +74280,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(29),
+                            _vm._m(30),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -74287,10 +74489,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -74298,14 +74504,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
+    return _c("div", { staticClass: "col-md-5" }, [
       _c(
         "button",
         {
           staticClass: "btn btn-sm btn-primary",
           attrs: { "data-toggle": "modal", "data-target": "#nuevoClienteModal" }
         },
-        [_vm._v("Registrar Nuevo Cliente")]
+        [
+          _c("span", { staticClass: "fa fa-user-plus" }),
+          _vm._v(" Registrar Nuevo Cliente")
+        ]
       )
     ])
   },
@@ -74339,25 +74548,52 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-sm btn-secondary",
-          attrs: { "data-toggle": "modal", "data-target": "#agregarPaquete" }
-        },
-        [_vm._v("Agregar Paquete")]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm btn-secondary",
+        attrs: { "data-toggle": "modal", "data-target": "#agregarPaquete" }
+      },
+      [
+        _c("span", { staticClass: "fa fa-plus-circle" }),
+        _vm._v(" Nuevo Paquete")
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c(
+      "p",
+      {
+        staticStyle: {
+          padding: "0",
+          margin: "0",
+          "line-height": "14px",
+          "font-size": "12px"
+        }
+      },
+      [
+        _c("span", { staticStyle: { "font-weight": "bolder" } }, [
+          _vm._v("Categoría:")
+        ]),
+        _vm._v(" Familia")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -74422,7 +74658,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "exampleModalCenterTitle" }
         },
-        [_vm._v("Armar paquete")]
+        [_vm._v("Crear nuevo paquete")]
       ),
       _vm._v(" "),
       _c(
@@ -74443,10 +74679,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
   },
@@ -74777,9 +75017,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "float-right" }, [
       _c("img", {
-        staticClass: "img-fluid",
+        staticClass: "img-avatar",
         attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
       })
     ])
@@ -82270,7 +82510,7 @@ var render = function() {
           "div",
           {
             staticClass: "block-content",
-            staticStyle: { height: "350px", overflow: "scroll" }
+            staticStyle: { height: "513px", overflow: "scroll" }
           },
           [
             _vm.tareas == 0
@@ -97740,6 +97980,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_fuse__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/main.esm.js");
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -97748,6 +97990,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/laravel/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
 
 
 
@@ -97794,111 +98037,88 @@ document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
   var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__["Calendar"](calendarEl, {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__["default"]],
-    dateClick: function dateClick() {
-      alert('a day has been clicked!');
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default.a],
+    locale: 'es',
+    // the initial locale. of not specified, uses the first one
+    eventClick: function eventClick(info) {
+      //alert('Event: ' + info.event.title);
+      //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+      //alert('View: ' + info.view.type);
+      // change the border color just for fun
+      //info.el.style.borderColor = 'orange';
+      detalleTarea(info);
     }
   });
+
+  function detalleTarea(task) {
+    if (task.event.groupId == 2) {
+      var TextButton = 'Ver ficha de evento';
+    } else {
+      var TextButton = 'Tarea completa';
+    }
+
+    Swal.fire({
+      title: task.event.title,
+      text: "Detalles: " + task.event.extendedProps.notas,
+      type: 'info',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: TextButton,
+      cancelButtonText: 'Cerrar'
+    }).then(function (result) {
+      if (result.value) {
+        if (task.event.groupId == 1) {
+          var url = '/tareas/eliminar-tarea/' + task.event.id;
+          axios["delete"](url).then(function (response) {
+            //this.obtenerTareas();
+            location.reload();
+          });
+        } else {
+          alert('detalles de evento');
+        } //  console.log(task);
+
+      }
+    });
+  }
+
   calendar.batchRendering(function () {
     //Obtenemos todas las tareas
-    var URL = '/tareas/obtener-tareas';
+    var URL = '/tareas/obtener-tareas-todas';
     axios.get(URL).then(function (response) {
-      var tareas = response.data; //tareas.forEach(function(element) {  
-      // });
+      var tareas = response.data; //Imprimimos las tareas recuperadas en el calendario
 
-      calendar.changeView('dayGridMonth');
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-03'
+      tareas.forEach(function (element) {
+        calendar.changeView('dayGridMonth');
+        calendar.addEvent({
+          id: element.id,
+          groupId: 1,
+          title: element.categoria,
+          start: element.fecha,
+          color: '#65BAF1',
+          extendedProps: {
+            notas: element.notas
+          }
+        });
       });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-02',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-02',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-02'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-04',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-16',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-15',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-09-12'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-09-12',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-09-15',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-05'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-12',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-21',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-13'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-14',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-18',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-20',
-        color: '#F19A65'
-      });
-      calendar.addEvent({
-        title: 'Llamada',
-        start: '2019-10-10'
-      });
-      calendar.addEvent({
-        title: 'Evento',
-        start: '2019-10-02',
-        color: '#65F198'
-      });
-      calendar.addEvent({
-        title: 'Visita',
-        start: '2019-10-05',
-        color: '#F19A65'
+    });
+    var URL2 = '/contratos/obtener-contratos-todos';
+    axios.get(URL2).then(function (response) {
+      var contratos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+      contratos.forEach(function (element) {
+        calendar.changeView('dayGridMonth');
+        calendar.addEvent({
+          id: element.id,
+          groupId: 2,
+          title: element.folio,
+          start: element.fechaEvento,
+          color: '#F0833C',
+          extendedProps: {
+            notas: element.cliente
+          }
+        });
       });
     });
   });
@@ -99624,13 +99844,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

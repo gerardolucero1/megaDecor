@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/tareas/eliminar-categoria/{id}', 'CMS\TareasController@deleteCategoria');
         Route::delete('/tareas/eliminar-tarea/{id}', 'CMS\TareasController@deleteTarea');
         Route::get('/tareas/obtener-tareas', 'CMS\TareasController@ObtenerTareas');
+        Route::get('/tareas/obtener-tareas-todas', 'CMS\TareasController@ObtenerTareasTodas');
         Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
         Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
         Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
@@ -76,6 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
     Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
+    Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
         // API Presupuestos

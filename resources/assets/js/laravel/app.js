@@ -14,6 +14,8 @@ import StoreData from './store';
 import VueFuse from 'vue-fuse';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import esLocale from '@fullcalendar/core/locales/es';
+
 Vue.use(VueFuse);
 
 Vue.use(Vuex);
@@ -63,56 +65,85 @@ document.addEventListener('DOMContentLoaded', function() {
 var calendarEl = document.getElementById('calendar');
 
 var calendar = new Calendar(calendarEl, {
-  plugins: [ dayGridPlugin ],
-  dateClick: function() {
-    alert('a day has been clicked!');
-  },
+    plugins: [ dayGridPlugin ],
+    locales: [ esLocale],
+  locale: 'es', // the initial locale. of not specified, uses the first one
+
+  eventClick: function(info) {
+    //alert('Event: ' + info.event.title);
+    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+    //alert('View: ' + info.view.type);
+
+    // change the border color just for fun
+    //info.el.style.borderColor = 'orange';
+
+    detalleTarea(info);
+  } 
 });
+
+function detalleTarea(task){
+    if(task.event.groupId==2){
+        var TextButton='Ver ficha de evento';
+    }else{
+        var TextButton='Tarea completa';
+    }
+Swal.fire({
+                title: task.event.title,
+                text: "Detalles: "+task.event.extendedProps.notas,
+                type: 'info',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: TextButton,
+                cancelButtonText: 'Cerrar'
+                
+            }).then((result) => {
+            if (result.value) {
+                if(task.event.groupId==1){
+                    var url= '/tareas/eliminar-tarea/'+task.event.id;
+                axios.delete(url).then(response =>{
+                    //this.obtenerTareas();
+                    location.reload();
+                    }) 
+                }else{
+                    alert('detalles de evento');
+                }
+              //  console.log(task);
+                
+                }
+          
+})
+}
 
 
 calendar.batchRendering(function() {
     
     //Obtenemos todas las tareas
-    let URL = '/tareas/obtener-tareas';
-    axios.get(URL).then((response) => {
+        let URL = '/tareas/obtener-tareas-todas';
+        axios.get(URL).then((response) => {
         var tareas = response.data;
-       
+
+    //Imprimimos las tareas recuperadas en el calendario
+            tareas.forEach((element) => {
+            calendar.changeView('dayGridMonth');
+            calendar.addEvent({id: element.id, groupId: 1, title: element.categoria, start: element.fecha, color: '#65BAF1', extendedProps: {
+                notas: element.notas
+              }, });  
+          });  
+    });
+
+    let URL2 = '/contratos/obtener-contratos-todos';
+    axios.get(URL2).then((response) => {
+        var contratos = response.data;
         
-        //tareas.forEach(function(element) {  
-         // });
-
-          calendar.changeView('dayGridMonth');
-          calendar.addEvent({ title: 'Llamada', start: '2019-09-03' });
-          calendar.addEvent({ title: 'Visita', start: '2019-09-02', color: '#F19A65' });
-          calendar.addEvent({ title: 'Evento', start: '2019-09-02', color: '#65F198' });
-          calendar.addEvent({ title: 'Llamada', start: '2019-09-02' });
-          calendar.addEvent({ title: 'Evento', start: '2019-09-04', color: '#65F198' });
-          calendar.addEvent({ title: 'Visita', start: '2019-09-16', color: '#F19A65' });
-          
-          calendar.addEvent({ title: 'Visita', start: '2019-09-15', color: '#F19A65' });
-          calendar.addEvent({ title: 'Llamada', start: '2019-09-12' });
-          calendar.addEvent({ title: 'Evento', start: '2019-09-12', color: '#65F198' });
-          calendar.addEvent({ title: 'Visita', start: '2019-09-15', color: '#F19A65' });
-
-
-          calendar.addEvent({ title: 'Llamada', start: '2019-10-05' });
-          calendar.addEvent({ title: 'Visita', start: '2019-10-12', color: '#F19A65' });
-          calendar.addEvent({ title: 'Evento', start: '2019-10-21', color: '#65F198' });
-          calendar.addEvent({ title: 'Llamada', start: '2019-10-13' });
-          calendar.addEvent({ title: 'Evento', start: '2019-10-14', color: '#65F198' });
-          calendar.addEvent({ title: 'Visita', start: '2019-10-18', color: '#F19A65' });
-          
-          calendar.addEvent({ title: 'Visita', start: '2019-10-20', color: '#F19A65' });
-          calendar.addEvent({ title: 'Llamada', start: '2019-10-10' });
-          calendar.addEvent({ title: 'Evento', start: '2019-10-02', color: '#65F198' });
-          calendar.addEvent({ title: 'Visita', start: '2019-10-05', color: '#F19A65' });
-          
-          
-
-
-            
-
-        
+    //Imprimimos los contratos recuperadas en el calendario
+        contratos.forEach((element) => {
+            calendar.changeView('dayGridMonth');
+            calendar.addEvent({id: element.id, groupId: 2, title: element.folio, start: element.fechaEvento, color: '#F0833C', extendedProps: {
+                notas: element.cliente
+              }, });  
+          }); 
     });
     
   });
@@ -121,6 +152,7 @@ calendar.batchRendering(function() {
 calendar.render();
 
 });
+
 
 
 

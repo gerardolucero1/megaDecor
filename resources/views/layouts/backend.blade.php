@@ -135,10 +135,10 @@
                     <!-- Side Header -->
                     <div class="content-header content-header-fullrow px-15">
                         <!-- Mini Mode -->
-                        <div class="content-header-section sidebar-mini-visible-b">
+                        <div class="content-header-section  sidebar-mini-visible-b">
                             <!-- Logo -->
                             <span class="content-header-item font-w700 font-size-xl float-left animated fadeIn">
-                                <span class="text-dual-primary-dark">c</span><span class="text-primary">b</span>
+                                <span class="text-dual-primary-dark">m</span><span class="text-primary">m</span>
                             </span>
                             <!-- END Logo -->
                         </div>
@@ -157,7 +157,7 @@
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
                                     <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 100%">
-                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
+                                    <span class="font-size-xl text-dual-primary-dark">Mega</span><span class="font-size-xl text-primary">Mundo</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -170,14 +170,14 @@
                     <div class="content-side content-side-full content-side-user px-10 align-parent">
                         <!-- Visible only in mini mode -->
                         <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="{{ asset('media/avatars/avatar15.jpg') }}" alt="">
+                            <img class="img-avatar img-avatar32" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
                         </div>
                         <!-- END Visible only in mini mode -->
 
                         <!-- Visible only in normal mode -->
                         <div class="sidebar-mini-hidden-b text-center">
                             <a class="img-link" href="javascript:void(0)">
-                                <img class="img-avatar" src="{{ asset('media/avatars/avatar15.jpg') }}" alt="">
+                                <img class="img-avatar" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
                             </a>
                             <ul class="list-inline mt-10">
                                 <li class="list-inline-item">
@@ -213,7 +213,7 @@
                                 <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>
+                                <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
                             </li>
                             <li>
                                 <a href="/">
@@ -329,8 +329,11 @@
         <script src="{{ mix('js/codebase.app.js') }}"></script>
         
 <script>  
+
 $(document).ready( function () {
     $('#TablaClientes').DataTable();
+    Codebase.layout('sidebar_mini_on');
+    Codebase.layout('sidebar_style_inverse_on')
 } ); 
 $(document).ready( function () {
     $('#TablaClientesArchivados').DataTable();
