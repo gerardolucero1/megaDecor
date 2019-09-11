@@ -1016,6 +1016,7 @@
                 usuarios: [],
 
                 presupuesto:{
+                    folio: '',
                     vendedor_id: '',
                     client_id: '',
                     tipoEvento: 'EXTERNO',
@@ -1219,6 +1220,7 @@
                         return nuevoFolio
                     }else{
                         let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        this.presupuesto.folio = nuevoFolio;
                         return nuevoFolio
                     }
                     //return nuevoFolio;

@@ -13756,6 +13756,7 @@ __webpack_require__.r(__webpack_exports__);
       usuarioActual: '',
       usuarios: [],
       presupuesto: {
+        folio: '',
         vendedor_id: '',
         client_id: '',
         tipoEvento: 'EXTERNO',
@@ -13939,6 +13940,7 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           var _nuevoFolio = 'M' + (parseInt(data[1]) + 1);
 
+          this.presupuesto.folio = _nuevoFolio;
           return _nuevoFolio;
         } //return nuevoFolio;
 
