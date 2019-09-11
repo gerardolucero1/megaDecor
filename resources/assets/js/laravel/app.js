@@ -35,6 +35,7 @@ const store = new Vuex.Store(StoreData);
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('nuevo-cliente-component', require('./components/NuevoClienteComponent.vue').default);
+Vue.component('editar-cliente-component', require('./components/EditarClienteComponent.vue').default);
 Vue.component('nueva-tarea-component', require('./components/NuevaTareaComponent.vue').default);
 Vue.component('categoria-tarea-component', require('./components/CategoriasTareas.vue').default);
 Vue.component('categoria-evento-component', require('./components/CategoriasEvento.vue').default);

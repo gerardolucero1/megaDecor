@@ -62,9 +62,21 @@
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <label for="">Direccion de la empresa</label>
-                            <input type="text" placeholder="Nombre" v-model="cliente.direccionEmpresa">
+                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Colonia de la empresa</label>
+                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Numero de la empresa</label>
+                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <label for="">Email de la empresa</label>
+                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
                         </div>
                     </div>
                     
@@ -128,10 +140,10 @@
                             <input type="text" placeholder="Nombre" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="text" placeholder="Apellido Paterno" v-model="telefono.app">
+                            <input type="text" placeholder="Apellido Paterno" v-model="telefono.apellidoPaterno">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="text" placeholder="Apellido Materno" v-model="telefono.apm">
+                            <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="email" id="email" placeholder="Email" v-model="telefono.email">
@@ -237,6 +249,9 @@ function emailCopy(){
                     apellidoCliente: '',
                     apellidoCliente2: '',
                     emailCliente: '',
+                    direccionEmpresa: '',
+                    coloniaEmpresa: '',
+                    numeroEmpresa: '',
 
 
                     //Facturacion
@@ -259,6 +274,8 @@ function emailCopy(){
                     numero: '',
                     ext: '',
                     nombre: '',
+                    apellidoPaterno: '',
+                    apellidoMaterno: '',
                     email: '',
                 },
                 telefonos: [],
@@ -269,20 +286,32 @@ function emailCopy(){
             } 
         },
         created: function(){
-       this.obtenerComoSupo();
-       this.obtenerTipoEmpresa();
+            this.obtenerComoSupo();
+            this.obtenerTipoEmpresa();
 
-EventBus.$on('nuevaComoSupo', funcion => {
-  this.obtenerComoSupo();
-});
+            EventBus.$on('nuevaComoSupo', funcion => {
+            this.obtenerComoSupo();
+            });
 
 
-EventBus.$on('nuevoTipoEmpresa', funcion => {
-  this.obtenerTipoEmpresa();
-});
+            EventBus.$on('nuevoTipoEmpresa', funcion => {
+            this.obtenerTipoEmpresa();
+            });
            
         },
-        
+        watch:{
+            'cliente.direccionEmpresa': function(val){
+                this.cliente.direccionFacturacion = this.cliente.direccionEmpresa;
+            },
+
+            'cliente.coloniaEmpresa': function(val){
+                this.cliente.coloniaFacturacion = this.cliente.coloniaEmpresa;
+            },
+
+            'cliente.numeroEmpresa': function(val){
+                this.cliente.numeroFacturacion = this.cliente.numeroEmpresa;
+            }
+        },
         mounted(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
@@ -349,6 +378,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
                         });
+                        console.log('Se encontro el numero: ', encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
@@ -502,7 +532,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 }
 
                 if(!existe){
-                    this.telefonos.push({'nombre': this.telefono.nombre, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
                 }
 
 
@@ -515,6 +545,9 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
+                    'direccionEmpresa': this.cliente.direccionEmpresa,
+                    'coloniaEmpresa': this.cliente.coloniaEmpresa,
+                    'numeroEmpresa': this.cliente.numeroEmpresa,
                     
                     // Persona Moral
                     'categoriaCliente': this.cliente.categoriaCliente,

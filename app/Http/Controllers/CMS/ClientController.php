@@ -150,6 +150,10 @@ class ClientController extends Controller
             $cliente->categoria_id = $request->categoriaCliente;
             $cliente->about_id = $request->categoriaAbout;
             $cliente->nombre = $request->nombreCliente;
+            $cliente->email = $request->emailCliente;
+            $cliente->direccionEmpresa = $request->direccionEmpresa;
+            $cliente->coloniaEmpresa = $request->coloniaEmpresa;
+            $cliente->numeroEmpresa = $request->numeroEmpresa;
             $cliente->nombreFacturacion = $request->nombreFacturacion;
             $cliente->direccionFacturacion = $request->direccionFacturacion;
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
@@ -165,6 +169,8 @@ class ClientController extends Controller
 
             $telefono->client_id = $ultimoCliente;
             $telefono->nombre = $telephone['nombre'];
+            $telefono->apellidoPaterno = $telephone['apellidoPaterno'];
+            $telefono->apellidoMaterno = $telephone['apellidoMaterno'];
             $telefono->email = $telephone['email'];
             $telefono->tipo = $telephone['tipo'];
             $telefono->numero = $telephone['numero'];
@@ -173,5 +179,59 @@ class ClientController extends Controller
 
         }
         
+    }
+
+    public function edit($id){
+        return view('clients.edit');
+    }
+
+    public function obtenerCliente($id){
+        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        if($data->tipoPersona == 'FISICA'){
+            return $cliente = PhysicalPerson::where('client_id', $data->id)->with(['client' => function($query){
+                $query->with(['budgets']); 
+            }])->first();
+            //return $cliente->client->budgets;
+            
+        }else{
+            return $cliente = MoralPerson::where('client_id', $data->id)->with(['client' => function($query){
+                $query->with(['budgets']); 
+            }])->first();
+        }
+    }
+
+    public function obtenerTelefonos($id){
+        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        return $telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $id)->get();
+    }
+
+    public function update(Request $request, $id){
+        $cliente = Client::find($id);
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+
+            $persona->fill($request->all())->save();
+        }else{
+            $persona = MoralPerson::where('client_id', $cliente->id)->first();
+
+            $persona->fill($request->all())->save();
+        }
+
+    }
+
+    public function updateTelefono(Request $request, $id){
+        $telefono = Telephone::find($id);
+        $telefono->fill($request->all())->save();
+    }
+
+    public function deleteTelefono($id){
+        $telefono = Telephone::find($id);
+        $telefono->delete();
+    }
+
+    public function crearTelefono(Request $request){
+        $telefono = Telephone::create($request->all());
     }
 }

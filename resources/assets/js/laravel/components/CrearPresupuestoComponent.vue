@@ -431,7 +431,11 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                             </div>
                             <div class="col-md-3">
                                 <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <input v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                <select v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                    <option value="100">Comision completa</option>
+                                    <option value="50">Comision a la mitad</option>
+                                    <option value="0">Introducir manualmente</option>
+                                </select>
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
@@ -1275,6 +1279,11 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
             }
         },
         watch: {
+            'presupuesto.iva': function(val){
+                if(val){
+                    this.presupuesto.total = (this.presupuesto.total * (this.iva / 100));
+                }
+            },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
@@ -1447,21 +1456,29 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         
                     },
             guardarPaquete(){
-                this.inventarioLocal.push({
-                    'externo': false,
-                    'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
-                    'servicio': this.paquete.servicio,
-                    'cantidad': '',
-                    'precioUnitario': this.paquete.precioFinal,
-                    'precioFinal': '',
-                    'ahorro': '',
-                    'notas': '',
-                    'paquete': this.paquete,
-                    'tipo': 'PAQUETE',
-                    'id': '',
-                });
-                console.log(this.inventarioLocal);
-
+                if(this.inventarioLocal.some((element) => {
+                    return element.servicio == this.paquete.servicio;
+                })){
+                    Swal.fire(
+                        'Registro duplicado',
+                        'Ya existe un paquete con el nombre ' + this.paquete.servicio,
+                        'warning'
+                        )
+                }else{
+                    this.inventarioLocal.push({
+                        'externo': false,
+                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
+                        'servicio': this.paquete.servicio,
+                        'cantidad': '',
+                        'precioUnitario': this.paquete.precioFinal,
+                        'precioFinal': '',
+                        'ahorro': '',
+                        'notas': '',
+                        'paquete': this.paquete,
+                        'tipo': 'PAQUETE',
+                        'id': '',
+                    });
+                }
 
             },
             // Metodo para obtener el cliente seleccionado
@@ -1529,29 +1546,42 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
             //Agregar producto externo a la tabla de productos
             agregarProductoExterno(){
                 if(this.controlElementoExterno){
-                    this.paquete.inventario.push({
-                        'externo': true,
-                        'nombre': this.productoExterno.servicio,
-                        'imagen': this.productoExterno.imagen,
-                        'precioUnitario': this.productoExterno.precioUnitario,
-                        'precioFinal': '',
-                        'cantidad': '',
-                        'id': '',
-                    });
+                        this.paquete.inventario.push({
+                            'externo': true,
+                            'nombre': this.productoExterno.servicio,
+                            'imagen': this.productoExterno.imagen,
+                            'precioUnitario': this.productoExterno.precioUnitario,
+                            'precioFinal': '',
+                            'cantidad': '',
+                            'id': '',
+                        });
+                    
+                    
                 }else{
-                    this.inventarioLocal.push({
-                        'externo': true,
-                        'imagen': this.productoExterno.imagen,
-                        'servicio': this.productoExterno.servicio,
-                        'cantidad': '',
-                        'precioUnitario': this.productoExterno.precioUnitario,
-                        'precioFinal': '',
-                        'ahorro': '',
-                        'notas': '',
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': '',
-                    });
+                    if(this.inventarioLocal.some((element) => {
+                        return element.servicio == this.productoExterno.servicio
+                    })){
+                        Swal.fire(
+                            'Registro duplicado',
+                            'Ya existe un producto con el nombre ' + this.productoExterno.servicio,
+                            'warning'
+                            )
+                    }else{
+                        this.inventarioLocal.push({
+                            'externo': true,
+                            'imagen': this.productoExterno.imagen,
+                            'servicio': this.productoExterno.servicio,
+                            'cantidad': '',
+                            'precioUnitario': this.productoExterno.precioUnitario,
+                            'precioFinal': '',
+                            'ahorro': '',
+                            'notas': '',
+                            'paquete': '',
+                            'tipo': 'PRODUCTO',
+                            'id': '',
+                        });
+                    }
+                    
                 }
                 
                 this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': ''};

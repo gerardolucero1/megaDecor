@@ -86,7 +86,7 @@ a[x-apple-data-detectors] {
                   <td width="356" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="center" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>PNM</strong>: 0000</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>VENDEDOR</strong>: Lorem ipsum</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>FECHA PRESUPUESTO</strong>: MM/DD/YYYY</p></td> 
+                     <td align="center" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>{{ $presupuesto->folio }}</strong></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>VENDEDOR</strong>: {{ $presupuesto->vendedor_id }}</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>FECHA PRESUPUESTO</strong>: {{ $presupuesto->fechaEvento }}</p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -151,8 +151,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">EVENTO FUERA</li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">MM/DD/YYYY </li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->tipoEvento }}</li> 
+                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->fechaEvento }} </li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -167,7 +167,7 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">SERVICIO FORMAL<br></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->tipoServicio }}<br></li> 
                         <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">4:00PM-11:00PM</li> 
                        </ul></td> 
                      </tr> 
