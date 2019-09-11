@@ -23,6 +23,7 @@ class PhysicalPerson extends Model
         'numeroFacturacion',
         'rfcFacturacion',
         'emailFacturacion',
+        'tipoCredito',
     ];
 
     public function client()

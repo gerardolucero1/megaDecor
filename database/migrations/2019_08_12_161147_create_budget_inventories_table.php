@@ -24,6 +24,7 @@ class CreateBudgetInventoriesTable extends Migration
             $table->integer('ahorro');
             $table->string('notas');
             $table->boolean('externo');
+            $table->integer('version')->nullable();
             $table->timestamps();
 
             //Relations

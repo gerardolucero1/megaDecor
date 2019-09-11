@@ -6,27 +6,32 @@
 
     <section class="container">
 
-        <div class="row" style="padding-left: 25px; padding-right:25px;">
-                <div class="col-6 col-lg-4  col-xl-4"><a href="javascript:void(0)" class="block block-link-shadow text-right"><div class="block-content block-content-full clearfix"><div class="float-left mt-10 d-none d-sm-block"><i class="fa fa-star" style="font-size: 40px;"></i></div> 
-                    <div class="font-size-h3 font-w600 js-count-to-enabled">Margarita Robles</div> 
-                    <div class="font-size-sm font-w600 text-uppercase text-muted">Ventas: 10</div></div></a></div>
+        <div class="row">
+                <div class="col-6 col-lg-4  col-xl-4">
+                        <a  class="block block-link-shadow text-right" href="javascript:void(0)">
+                            <div class="block-content block-content-full clearfix">
+                                <div class="float-left mt-10 d-none d-sm-block">
+                                    <i class="fa fa-star fa-3x text-body-bg-dark"></i>
+                                </div>
+                                <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                    @if(!is_null($ArrayEmpleadoDelMes))
+                                        {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
+                                        @endif</div>
+                            </div>
+                        </a>
+                    </div>
 
-                    <div class="col-6 col-lg-4  col-xl-4"><a href="javascript:void(0)" class="block block-link-shadow text-right">
-                        <div class="block-content block-content-full clearfix">
-                        <div class="float-left mt-10 d-none d-sm-block">
-                        <i class="fa fa-star" style="font-size: 40px;"></i></div> 
-                        <div class="font-size-h3 font-w600 js-count-to-enabled">Margarita Robles</div> 
-                        <div class="font-size-sm font-w600 text-uppercase text-muted">Ventas: 10</div></div></a></div>
-            
+                    
            
         </div>
     
-        <div class="content">
-        <button class="btn btn-secondary">
+        <div >
+        <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                 <i class="si si-settings"></i> Configurar comisiones
              </button>
             </div>
-            <div class="content" id="PresupuestosActivos">
+            <div id="PresupuestosActivos" style="padding-top: 20px">
             
                 <div class="block">
                     <div class="block-header block-header-default">
@@ -57,19 +62,25 @@
                                 </tr>
                             </thead>
                             <tbody>                    
-                                                    
+                                 
+                                @foreach($CompleteUsers as $usuario)
                                 <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">Norma Serrano</td>
-                                    <td class="">12</td>
+                                <td class="text-center sorting_1">{{ $usuario->name}}</td>
+                                    <td class="">{{ $usuario->ventas}}</td>
                                     <td class="d-none d-sm-table-cell">Agosto</td>
-                                    <td class="d-none d-sm-table-cell">$150,000</td>
-                                    <td class="d-none d-sm-table-cell">$15,000</td>
+                                    <td class="d-none d-sm-table-cell">${{ $usuario->totalventas}}</td>
+                                    <td class="d-none d-sm-table-cell">$
+                                        @php
+                                         echo number_format((intval($usuario->totalventas))*50)
+                                        @endphp
+                                         </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Lista de eventos" data-original-title="View Customer">
                                             <i class="fa fa-list-ul"></i>
                                         </button>
                                     </td>
                                 </tr>
+                                @endforeach
                             
                             </tbody>
                      </table>
@@ -133,6 +144,7 @@
     @include('../modals/nuevoClienteModal')
     @include('../modals/tiposEmpresaModal')
     @include('../modals/comoSupoModal')
+    @include('../modals/settingsMaster')
 @endsection
 @section("scripts")
 <script>

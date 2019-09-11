@@ -19,6 +19,10 @@ class CreateMoralPeopleTable extends Migration
             $table->integer('categoria_id')->unsigned();
             $table->integer('about_id')->unsigned();
             $table->string('nombre');
+            $table->string('email');
+            $table->string('direccionEmpresa');
+            $table->string('coloniaEmpresa');
+            $table->string('numeroEmpresa');
             
             //Datos de Facturacion
 

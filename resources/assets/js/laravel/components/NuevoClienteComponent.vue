@@ -57,14 +57,34 @@
                         <div class="col-md-6">
                             <label for="">Tipo de Empresa</label>
                             <select name="categoria"  v-model="cliente.categoriaCliente">
-                                <option v-for="tipoE in tiposE" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
+                                <option v-for="tipoE in tiposE" :value="tipoE.id" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
+                        <div class="col-md-4">
+                            <label for="">Direccion de la empresa</label>
+                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Colonia de la empresa</label>
+                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Numero de la empresa</label>
+                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <label for="">Email de la empresa</label>
+                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        </div>
                     </div>
                     
                     <!-- Tabla de telefonos -->
+                    
+                    
+
+                    <h4>Telefonos de contacto</h4>
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
@@ -91,8 +111,9 @@
                             </tbody>
                         </table>  
                     </div> 
-
-                    <h4>Telefonos de contacto</h4>
+                    <div class="row" v-if="telefonos.length == 0">
+                        <p style="text-align:center">"Sin contactos registrados"</p>
+                        </div>
 
                     <div class="row">
                         <div class="col-md-4">
@@ -119,6 +140,12 @@
                             <input type="text" placeholder="Nombre" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Paterno" v-model="telefono.apellidoPaterno">
+                        </div>
+                        <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
+                        </div>
+                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="email" id="email" placeholder="Email" v-model="telefono.email">
                         </div>
                     </div>
@@ -222,6 +249,9 @@ function emailCopy(){
                     apellidoCliente: '',
                     apellidoCliente2: '',
                     emailCliente: '',
+                    direccionEmpresa: '',
+                    coloniaEmpresa: '',
+                    numeroEmpresa: '',
 
 
                     //Facturacion
@@ -244,6 +274,8 @@ function emailCopy(){
                     numero: '',
                     ext: '',
                     nombre: '',
+                    apellidoPaterno: '',
+                    apellidoMaterno: '',
                     email: '',
                 },
                 telefonos: [],
@@ -254,20 +286,32 @@ function emailCopy(){
             } 
         },
         created: function(){
-       this.obtenerComoSupo();
-       this.obtenerTipoEmpresa();
+            this.obtenerComoSupo();
+            this.obtenerTipoEmpresa();
 
-EventBus.$on('nuevaComoSupo', funcion => {
-  this.obtenerComoSupo();
-});
+            EventBus.$on('nuevaComoSupo', funcion => {
+            this.obtenerComoSupo();
+            });
 
 
-EventBus.$on('nuevoTipoEmpresa', funcion => {
-  this.obtenerTipoEmpresa();
-});
+            EventBus.$on('nuevoTipoEmpresa', funcion => {
+            this.obtenerTipoEmpresa();
+            });
            
         },
-        
+        watch:{
+            'cliente.direccionEmpresa': function(val){
+                this.cliente.direccionFacturacion = this.cliente.direccionEmpresa;
+            },
+
+            'cliente.coloniaEmpresa': function(val){
+                this.cliente.coloniaFacturacion = this.cliente.coloniaEmpresa;
+            },
+
+            'cliente.numeroEmpresa': function(val){
+                this.cliente.numeroFacturacion = this.cliente.numeroEmpresa;
+            }
+        },
         mounted(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
@@ -283,43 +327,43 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 let URL = '/clientes/tipo-empresa';
                 axios.get(URL).then((response) => {
                     this.tiposE = response.data;
-                    console.log(this.tiposE);
+                   // console.log(this.tiposE);
                 });
                 },
             obtenerCategoriasNosotros(){
                 let URL = '/about-categorias';
                 axios.get(URL).then((response) => {
                     this.aboutCategorias = response.data;
-                    console.log(this.aboutCategorias);
+                 //   console.log(this.aboutCategorias);
                 });
             },
             obtenerComoSupo(){
                 let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
                     this.tipos = response.data;
-                    console.log(this.tipos);
+                  //  console.log(this.tipos);
                 });
                 },
             obtenerCategorias(){
                 let URL = '/categorias';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
+                  //  console.log(this.categorias);
                 });
             },
             obtenerTelefonos(){
                 let URL = '/telefonos';
                 axios.get(URL).then((response) => {
                     this.physicalTelephones = response.data;
-                    console.log(this.physicalTelephones);
+                  //  console.log(this.physicalTelephones);
                 });
             },
             agregarTelefono(){
                 let existe = false;
                 if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
-                    console.log('celular o casa');
+                 //   console.log('celular o casa');
                     let numero = this.telefono.numero;
-                    console.log(numero);
+                  //  console.log(numero);
 
                     //Verificamos primero en el array de la BDD
                     if(this.physicalTelephones.some(function(element){
@@ -328,21 +372,22 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
                         });
+                        console.log('Se encontro el numero: ', encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                      //  console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                        //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
@@ -392,7 +437,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con este numero.',
@@ -402,7 +447,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     
                 
                 }else if(this.telefono.tipo == 'OFICINA'){
-                    console.log('oficina');
+                   // console.log('oficina');
                     let ext = this.telefono.ext;
 
                     //Verificamos primero en el array de la BDD
@@ -412,22 +457,22 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                     //   console.log('existe');
 
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (ext == element.ext && (element.tipo == 'OFICINA'));
                         });
-                        console.log(encontrado);
+                       // console.log(encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                     //   console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
                             'id': encontrado.id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                        //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
@@ -476,7 +521,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                      //  console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con esta extencion.',
@@ -487,7 +532,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 }
 
                 if(!existe){
-                    this.telefonos.push({'nombre': this.telefono.nombre, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
                 }
 
 
@@ -500,6 +545,9 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
+                    'direccionEmpresa': this.cliente.direccionEmpresa,
+                    'coloniaEmpresa': this.cliente.coloniaEmpresa,
+                    'numeroEmpresa': this.cliente.numeroEmpresa,
                     
                     // Persona Moral
                     'categoriaCliente': this.cliente.categoriaCliente,
@@ -527,7 +575,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     'telefonos': this.telefonos,
                 }).then((response) => {
                     this.cliente = {};
-                    console.log(this.cliente);
+                   // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Cliente Registrado con exito',
                                 text: "",
@@ -542,7 +590,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 
             },
             eliminarTelefono(index){
-                console.log(index);
+              //  console.log(index);
                 this.telefonos.splice(index, 1);
             }
         }

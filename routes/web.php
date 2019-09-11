@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/tareas/eliminar-categoria/{id}', 'CMS\TareasController@deleteCategoria');
         Route::delete('/tareas/eliminar-tarea/{id}', 'CMS\TareasController@deleteTarea');
         Route::get('/tareas/obtener-tareas', 'CMS\TareasController@ObtenerTareas');
+        Route::get('/tareas/obtener-tareas-todas', 'CMS\TareasController@ObtenerTareasTodas');
         Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
         Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
         Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
@@ -74,7 +75,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
+    Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
+    Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
         // API Presupuestos
@@ -83,6 +86,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
         Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
+        Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
+        Route::get('/obtener-festejados/{id}', 'CMS\BudgetController@obtenerFestejados');
+        Route::get('/obtener-inventario-1/{id}', 'CMS\BudgetController@obtenerInventario1');
+        Route::get('/obtener-paquetes/{id}', 'CMS\BudgetController@obtenerPaquetes');
+        Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
+        Route::get('/obtener-cliente-presupuesto/{id}', 'CMS\BudgetController@obtenerClientePresupuesto');
+        
 
         //Pantalla Usuarios
         Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
@@ -90,10 +100,29 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
+    Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
+    Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
+    Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
+    Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
+
+        //Versiones
+        Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
+        Route::get('/obtener-versiones/{id}', 'CMS\BudgetController@getVersions')->name('presupuestos.index.version');
+        Route::get('/obtener-version/{id}', 'CMS\BudgetController@obtenerVersion');
+        //Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
 
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+    Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
+
+        // API de clientes
+        Route::get('/obtener-cliente-editar/{id}', 'CMS\ClientController@obtenerCliente');
+        Route::get('/obtener-telefonos-editar/{id}', 'CMS\ClientController@obtenerTelefonos');
+        Route::post('/crear-nuevo-telefono', 'CMS\ClientController@crearTelefono');
+        Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
+        Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
+        Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
 
     //Emails
     Route::post('enviar-email', function(Request $request){

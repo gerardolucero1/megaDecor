@@ -36,10 +36,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="">Selecciona un Vendedor</label>
-                            <select v-model="tarea.vendedor">
-                                <optgroup label="Seleccionar un vendedor">
-                                <option value="1">Todos los vendedores</option>
-                                </optgroup>
+                                <select name="vendedor" id="" v-model="tarea.vendedor">
+                                    <option value="2">Todos los vendedores</option>
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
                                 </select>
                                 </div>
                                  <div class="col-md-6">
@@ -108,12 +107,17 @@ import { EventBus } from '../eventBus.js';
                 },
                 clientesFisicos: [],
                 categorias: [],
+                //Usuario y usuarios
+                usuarioActual: '',
+                usuarios: [],
             }
              
         },
         created(){
             this.obtenerCategorias();
             this.obtenerClientesFisicos();
+            this.obtenerUsuario();
+            this.obtenerUsuarios();
             
 EventBus.$on('clic', funcion => {
   this.obtenerCategorias();
@@ -124,7 +128,7 @@ EventBus.$on('clic', funcion => {
                 let URL = '/tareas/categorias-tareas';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
+                   // console.log(this.categorias);
                 });
                 },
     emitGlobalClickEvent() {
@@ -135,10 +139,31 @@ EventBus.$on('clic', funcion => {
                 let URL = '/tareas/clientes-fisicos';
                 axios.get(URL).then((response) => {
                     this.clientesFisicos = response.data;
-                    console.log(this.clientesFisicos);
+                   // console.log(this.clientesFisicos);
                 });
                 },
                 
+                 obtenerUsuario(){
+                let URL = '/obtener-usuario';
+
+                axios.get(URL).then((response) => {
+                    this.usuarioActual = response.data;
+                    this.presupuesto.vendedor_id = this.usuarioActual.id;
+                    
+                }).catch((error) => {
+                    
+                })
+            },
+            obtenerUsuarios(){
+                let URL = '/obtener-usuarios';
+
+                axios.get(URL).then((response) => {
+                    this.usuarios = response.data;
+                   
+                }).catch((error) => {
+                    console.log(error);
+                })
+            },
                 
                 crearTarea(){
                 let URL = '/tareas/create';

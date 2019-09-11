@@ -19,11 +19,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content" style="height:350px; overflow:scroll;">
+                                <div class="block-content" style="height:513px; overflow:scroll;">
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>
                                        
-                                    <table id="example"  class="table table-vcenter">
+                                    <table v-if="tareas != 0" id="example"  class="table table-vcenter">
                                         <thead>
                                             <tr style="font-size:11px">
                                                 <th>Cliente</th>
@@ -36,7 +36,8 @@
                                                
                                                 <tr style="font-size:11px" class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
                                                 <td>{{ tarea.cliente }}</td>
-                                                <td>{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id!=2">{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id==2">Todos</td>
                                                 <td class="d-none d-sm-table-cell">
                                                     <span class="">{{ tarea.categoria }}</span>
                                                 </td>
@@ -83,16 +84,22 @@ import { EventBus } from '../eventBus.js';
                 let URL = '/tareas/obtener-tareas';
                 axios.get(URL).then((response) => {
                     this.tareas = response.data;
-                    console.log(this.tareas);
+                  //  console.log(this.tareas);
                     
                 });
                 },
                 detalleTarea(task){
+                    if(task.vendedor_id==2){
+                        var condicion = false;
+                    }else{
+                        var condicion = true;
+                    }
     Swal.fire({
                                 title: task.categoria+" "+task.cliente,
                                 text: "Detalles: "+task.notas,
                                 type: 'info',
                                 showCancelButton: true,
+                                showConfirmButton: condicion,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Tarea Finalizada',
@@ -100,7 +107,7 @@ import { EventBus } from '../eventBus.js';
                                 
                             }).then((result) => {
                             if (result.value) {
-                                console.log(task);
+                              //  console.log(task);
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

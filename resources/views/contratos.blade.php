@@ -6,14 +6,23 @@
 
     <section class="container">
         <div class="row">
-            <div class="col-md-4 text-center">
-                
-            </div>
+                <div id="divCalendario" style="display:none" class="col-md-12">
+                    
+                        <div class="block">
+
+                            <div class="block-content block-content-full text-right">
+                                    <button style="margin-bottom: 15px;" class="btn btn-primary" onclick="vista_lista()">
+                                            <i class="fa fa-list"></i> <i>Vista Lista</i> 
+                                        </button>
+                        <div id='calendar'></div>
+                            </div>
+                        </div>
+                    </div>
             
            
         </div>
         <div class="content">
-                <div class="block">
+                <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title">Contratos</h3>
@@ -23,7 +32,7 @@
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
                                         </button>
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#VistaCalendario">
+                                        <button class="btn btn-primary" onclick="vista_calendario()">
                                                 <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
                                             </button>
                                     
@@ -45,15 +54,15 @@
                                 </tr>
                             </thead>
                             <tbody>                    
-                                                    
+                                    @foreach($Presupuestos as $Contrato)                 
                                 <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">NM10945</td>
-                                    <td class="">Lunes 10/10/2019</td>
-                                    <td class="d-none d-sm-table-cell">Mario Moreno</td>
-                                    <td class="d-none d-sm-table-cell">Jardin San Jose</td>
-                                    <td class="d-none d-sm-table-cell">Karen</td>
-                                    <td class="d-none d-sm-table-cell">3</td>
-                                    <td class="d-none d-sm-table-cell">10/10/2019</td>
+                                    <td class="text-center sorting_1">{{$Contrato->folio}}</td>
+                                    <td class="">{{$Contrato->fechaEvento}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$Contrato->cliente}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$Contrato->lugarEvento}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$Contrato->vendedor}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$Contrato->version}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$Contrato->updated_at}}</td>
                                     
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
@@ -64,6 +73,7 @@
                                             </button>
                                     </td>
                                 </tr>
+                                @endforeach
                             
                             </tbody>
                      </table>
@@ -80,6 +90,14 @@
 @endsection
 @section("scripts")
 <script>
+    function vista_calendario(){
+        document.getElementById('divCalendario').style.display="block";
+        document.getElementById('divLista').style.display="none";
+    }
+    function vista_lista(){
+        document.getElementById('divCalendario').style.display="none";
+        document.getElementById('divLista').style.display="block";
+    }
 function archivarCliente(){
     Swal.fire({
                                 title: '¿Estas seguro de archivar este presupuesto?',
