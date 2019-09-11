@@ -43,6 +43,8 @@
         -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
 -moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
 box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+padding: 0;
+
     }
 
     table tr td input{
@@ -50,18 +52,18 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
         background-color: transparent;
     }
     .contenedor-producto{
-        border-bottom:solid;
-        border-width: 1px; 
-        padding: 8px;
+        border-bottom:none;
+        padding-top: 8px;
+        padding-bottom: 8px;
         height: 100%;
         margin-bottom: 0;
         font-size: 14px;
     }
     .contenedor-producto:hover{
-        border-bottom:solid;
-        border-width: 1px; 
-        padding: 8px;
-        background:#FEEAB5;
+        border-bottom:none; 
+        padding-top: 8px;
+        padding-bottom: 8px;
+        background:#F2F2F2;
         cursor: pointer;
         margin-bottom: 0;
         font-size: 14px;
@@ -165,7 +167,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-7" style="">
                                 <buscador-component
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
@@ -179,14 +181,17 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                     <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
                                         <div v-for="cliente in clientResults" :key="cliente.id">
                                             <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
-                                                <div class="col-md-9">
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Nombre:</span> {{ cliente.nombre }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Email:</span> {{ cliente.email }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Telefono:</span> {{ cliente.telefono }}</p>
+                                               <div class="col-md-3">
+                                                    <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                                <div class="col-md-8">
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }}</span></p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.email }}</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">5554455</p>
+                                                    
                                                 </div>
+                                                
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +228,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     </div>
                 </div>
                 <h4>Lugar del Evento</h4>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -270,22 +275,24 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     </div>
                     <div class="col-md-3 mt-4">
                         <label for="">Festejado(s)</label>
-                        <input type="text" name="" id="" v-model="festejado.nombre">
-                        <input class="mt-2" type="number" name="" id="" v-model="festejado.edad">
+                        <input type="text" placeholder="Nombre del festejado" v-model="festejado.nombre">
+                        <input class="mt-2" type="text" placeholder="Edad o motivo de festejo" v-model="festejado.edad">
                     </div>
-                    <div class="col-md-1 mt-4">
-                        <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()">Mas</button>
+                    <div class="col-md-1 mt-4" style="padding-top:15px;">
+                        <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()"><i class="fa fa-plus-circle
+"></i>Agregar</button>
                     </div>
-                </div>
+
                 <!-- Tabla de festejados -->
-                <div class="row" v-if="festejados.length !== 0">
-                    <div class="col-md-6 offset-md-3">
+                
+                <div class="col-md-4 offset-md-8" v-if="festejados.length !== 0">
+                    <div class="col-md-12">
                         <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">NOMBRE</th>
-                                    <th scope="col">EDAD</th>
-                                    <th scope="col" class="text-center">OPCIONES</th>
+                            <thead style="font-size:12px;">
+                                <tr style="font">
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Motivo</th>
+                                    <th scope="col" class="text-center">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -293,13 +300,16 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                     <td>{{ festejado.nombre }}</td>
                                     <td>{{ festejado.edad }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)">Eliminar</button>
+                                        <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)"><i class="fa fa-remove"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>  
                 </div>
+
+                </div>
+                
                 <h4>Archivos de Referencia</h4>
                 <div class="row">
                     <div class="col-md-4">
@@ -334,15 +344,17 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 <div class="row" v-if="results.length < inventario.length">
                     <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                         <div class="list-group" v-for="producto in results" :key="producto.id">
-                            <div class="row contenedor-producto" v-on:click="agregarProducto(producto)">
-                                <div class="col-md-9">
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Producto:</span> {{ producto.servicio }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> Familia</p>
+                            <div class="row contenedor-producto" style="cursor:auto;" >
+                                <div class="col-md-3" >
+                                    <img class="img-fluid" style="margin-left:10px;" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
                                 </div>
-                                <div class="col-md-3">
-                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                <div class="col-md-7">
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"> {{ producto.servicio }}</span></p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> ${{ producto.precioUnitario }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia</p>
                                 </div>
+                                <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
+                                
                             </div>
                         </div>
                     </div>
@@ -369,7 +381,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                 <th scope="row">
                                     <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
-                                <td>
+                                <td style="width:120px;">
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
@@ -430,12 +442,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-3">
-                                <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <select v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
-                                    <option value="100">Comision completa</option>
-                                    <option value="50">Comision a la mitad</option>
-                                    <option value="0">Introducir manualmente</option>
-                                </select>
+                                
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
@@ -448,23 +455,28 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p>Comision pagada en base a $ <span>150</span></p>
 
-                                    <button class="btn btn-sm btn-primary" @click="mostrarSettings()"><i class="si si-pencil"></i> Settings</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                        <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
-                    </div>
-                    <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
-                    </div>
+                <div class="">
+                        <button class="btn btn-primary" @click="imprimirPDF()"><i class="si si-printer"></i> Imprimir</button>
+                        <button class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
+                        <button class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</button>
+                </div>
+                <div class="col-md-4" style="padding-top:20px">
+                    <h2 v-if="verSettings">Settings </h2>
+                    <label v-if="verSettings">Seleccionar comisión de presupuesto</label><br>
+                                <select v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                    <option value="100">Comision completa</option>
+                                    <option value="50">Comision a la mitad</option>
+                                    <option value="0">Introducir manualmente</option>
+                                </select>
+                    <label v-if="verSettings">IVA establecido</label>
+                    <input v-if="verSettings" type="text" v-model="iva" width="20%">
                 </div>
             </div>
         </div>
@@ -1712,10 +1724,10 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     'externo': false,
                     'imagen': producto.imagen,
                     'servicio': producto.servicio,
-                    'cantidad': '',
+                    'cantidad': '1',
                     'precioUnitario': producto.precioUnitario,
-                    'precioFinal': '',
-                    'ahorro': '',
+                    'precioFinal': producto.precioUnitario,
+                    'ahorro': '0',
                     'notas': '',
                     'paquete': '',
                     'tipo': 'PRODUCTO',
@@ -1768,13 +1780,13 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     if(response.data == 1){
                         Swal.fire(
                             'Error!',
-                            'No puede haber dos eventos en salon en la misma fecha',
+                            'El salon de eventos ya esta ocupado en esta fecha',
                             'error'
                         );
                     }else{
                         Swal.fire(
                             'Creado!',
-                            'El presupuesto ha sido creado',
+                            'El presupuesto se creo correctamente',
                             'success'
                         );
                     }   
@@ -1782,8 +1794,8 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 }).catch((error) => {
                     console.log(error.data);
                     Swal.fire(
-                        'Error!',
-                        'Algo ha ocurrido mal',
+                        'Algo salio mal!',
+                        'Verifica que completaste todos los campos correctamente antes de continuar',
                         'error'
                     );
                 });
@@ -1801,7 +1813,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         if(this.facturacion[prop] == ''){
                             Swal.fire(
                                 'Error',
-                                'Los datos de facturacion deben ser completados',
+                                'Verifica que completaste todos los campos correctamente antes de continuar',
                                 'error'
                             );
                             return;
@@ -1822,13 +1834,13 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     if(response.data == 1){
                         Swal.fire(
                             'Error!',
-                            'No puede haber dos eventos en salon en la misma fecha',
+                            'El salon de eventos ya esta ocupado para esta fecha',
                             'error'
                         );
                     }else{
                         Swal.fire(
                             'Creado!',
-                            'El presupuesto ha sido creado',
+                            'El presupuesto se creo con exito',
                             'success'
                         );
                     }   
@@ -1836,8 +1848,8 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 }).catch((error) => {
                     console.log(error.data);
                     Swal.fire(
-                        'Error!',
-                        'Algo ha ocurrido mal',
+                        'Algo anda mal!',
+                        'Verifica que completaste todos los campos correctamente',
                         'error'
                     );
                 });
@@ -1846,7 +1858,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 if(!this.imprimir){
                     Swal.fire(
                         'Error!',
-                        'Primero guarda el presupuesto',
+                        'Antes de imprimir es necesario guardar el presupuesto o contrato',
                         'error'
                     );
                 }else{

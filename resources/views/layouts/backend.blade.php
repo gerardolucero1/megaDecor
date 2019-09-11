@@ -170,7 +170,7 @@
                     <div class="content-side content-side-full content-side-user px-10 align-parent">
                         <!-- Visible only in mini mode -->
                         <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
+                            <img class="img-avatar img-avatar32" src="{{ asset('images/photo_ivonne.png') }}" alt="">
                         </div>
                         <!-- END Visible only in mini mode -->
 
