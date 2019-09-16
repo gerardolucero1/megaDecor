@@ -385,13 +385,13 @@ function emailCopy(){
                       //  console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
-                        //    console.log(response.data[0].nombre);
+                            console.log(response.data);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -470,13 +470,13 @@ function emailCopy(){
                      //   console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
                         //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',

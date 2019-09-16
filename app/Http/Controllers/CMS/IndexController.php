@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\CMS;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Task;
+use stdClass;
+use Barryvdh\DomPDF\Facade as PDF;
 Use App\Budget;
 Use App\User;
 Use App\Telephone;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use stdClass;
+use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
@@ -406,5 +408,30 @@ class IndexController extends Controller
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
 
         return view('presupuesto', compact('presupuesto'));
+    }
+
+    //Ventas
+
+    public function ventas(){
+        $contratos = Budget::orderBy('id', 'DESC')->get();
+        return view('ventas', compact('contratos'));
+    }
+
+    public function ventasFiltro(Request $request){
+        $fecha = strtotime($request->fecha);
+        $mes = date("n", $fecha);
+        $ano = date("Y", $fecha);
+        $contratos = Budget::orderBy('id', 'DESC')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->get();
+        return view('ventas', compact('contratos'));
+    }
+
+    public function ventasPDF(){
+        $contratos = Budget::orderBy('id', 'DESC')->get();
+        
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.reporteVentas', compact('contratos'));
+
+        return $pdf->stream();
     }
 }

@@ -431,11 +431,12 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                             </div>
                             <div class="col-md-3">
                                 <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <select v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
+                                <select v-if="verSettings" type="text" v-model="presupuesto.tipoComision" width="20%">
                                     <option value="100">Comision completa</option>
                                     <option value="50">Comision a la mitad</option>
                                     <option value="0">Introducir manualmente</option>
                                 </select>
+                                <input type="number" v-if="presupuesto.tipoComision == 0" v-model="presupuesto.comision">
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
@@ -549,6 +550,13 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio de venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
@@ -638,6 +646,13 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                                         <label class="col-12" for="example-text-input">Precio unitario</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
                                 </div>
@@ -1075,6 +1090,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     //Total
                     total: '',
 
+                    tipoComision: 100,
                     comision: '',
                 },
 
@@ -1094,6 +1110,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     'imagen': '',
                     'servicio': '',
                     'precioUnitario': '',
+                    'precioVenta': '',
                 },
                 
                 inventarioLocal: [],
@@ -1128,6 +1145,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 paquete: {
                     servicio: '',
                     precioFinal: '',
+                    precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
                     inventario: [],
@@ -1161,7 +1179,8 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     numeroFacturacion: '',
                     coloniaFacturacion: '',
                     emailFacturacion: '',
-                }
+                },
+                configuraciones: '',
             }
         },
         created(){
@@ -1172,6 +1191,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
             this.obtenerInventario();
             this.obtenerUsuario();
             this.obtenerUsuarios();
+            this.obtenerConfiguraciones();
             
             this.$on('results', results => {
                 this.results = results
@@ -1320,6 +1340,15 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
             },
         },
         methods:{
+            obtenerConfiguraciones: function(){
+                let URL = '/configuraciones';
+
+                axios.get(URL).then((response) => {
+                    this.configuraciones = response.data;
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
             editarPaquete(producto, index){
                 this.paqueteEdicion.externo = producto.externo;
                 this.paqueteEdicion.imagen = producto.imagen;
@@ -1412,6 +1441,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     'precioFinal': '',
                     'cantidad': '',
                     'id': producto.id,
+                    'precioVenta': producto.precioVenta,
                 });
                 console.log(this.paquete.inventario);
             },
@@ -1479,6 +1509,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         'paquete': this.paquete,
                         'tipo': 'PAQUETE',
                         'id': '',
+                        'precioVenta': this.paquete.precioVenta,
                     });
                 }
 
@@ -1556,6 +1587,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                             'precioFinal': '',
                             'cantidad': '',
                             'id': '',
+                            'precioVenta': this.productoExterno.precioVenta,
                         });
                     
                     
@@ -1581,6 +1613,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                             'paquete': '',
                             'tipo': 'PRODUCTO',
                             'id': '',
+                            'precioVenta': this.productoExterno.precioVenta,
                         });
                     }
                     
@@ -1748,6 +1781,16 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     this.presupuesto.tipoServicio = ''
                 }
 
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
                 let URL = '/presupuestos/create';
                 axios.post(URL, {
                     'presupuesto': this.presupuesto,
@@ -1812,6 +1855,17 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         
                     }
                 }
+
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
                 let URL = '/presupuestos/create';
                 axios.post(URL, {
                     'presupuesto': this.presupuesto,
