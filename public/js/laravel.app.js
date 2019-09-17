@@ -99414,8 +99414,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_6__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -99434,7 +99434,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_2___default.a);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_7___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_6___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -101280,13 +101280,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
