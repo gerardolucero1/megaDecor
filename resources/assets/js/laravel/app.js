@@ -15,12 +15,16 @@ import VueFuse from 'vue-fuse';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
+import Vuelidate from 'vuelidate';
 
 Vue.use(VueFuse);
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store(StoreData);
+
+
+Vue.use(Vuelidate);
 
 /**
  * The following block of code may be used to automatically register your

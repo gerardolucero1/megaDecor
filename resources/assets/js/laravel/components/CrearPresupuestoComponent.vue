@@ -72,402 +72,402 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
 <template>
     <section class="container">
         <div class="row">
-            <div class="col-md-12 registroPresupuesto">
-                <div class="row">
-                    <div class="col-md-8 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                <div class="col-md-12 registroPresupuesto">
+                    <div class="row">
+                        <div class="col-md-8 text-left">
+                            <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
-                        </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                            </div>
+                            <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
-                        </div>
-                    </div>
-                    <div class="col-md-3 text-right info">
-                        <p>{{ obtenerFolio }}</p>
-                        <div class="row">
-                            <div class="col-md-4 text-right">
-                                <label>Vendedor: </label>
-                            </div>
-                            <div class="col-md-8">
-                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
-                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
-                                </select>
                             </div>
                         </div>
-                        <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
-                    </div>
-                </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
-                    <div class="col-md-6">
-                        <h4>Informacion del evento</h4>
-                            <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
-                            <label for="salonMega">Salon Mega Mundo</label>
-                        <br>
-                        <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
-                        <label for="salonFuera">Evento Fuera</label>
-                            <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
-                                <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
-                                <label for="servicioFormal">Servicio Formal</label>
-                                <br>
-                                <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio">
-                                <label for="servicioInfantil">Servicio Infantil</label>
-                            </div>
-                    </div>
-                    <div class="col-md-6">
-                        
-                        <div class="row" >
-                            <div class="col-md-8 offset-md-4">
-                                <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
-                                    <option value="1">Boda</option>
-                                    <option value="2">XV Años</option>
-                                    <option value="3">Aniversario</option>
-                                </select>
-                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
-                                
-                                <div class="row mt-4">
-                                    <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento">
-                                    </div>
-                                    <div class="col-md-2 text-left">
-                                        <i class="si si-calendar" style="font-size: 24px;"></i>
-                                    </div>
-                                    
+                        <div class="col-md-3 text-right info">
+                            <p>{{ obtenerFolio }}</p>
+                            <div class="row">
+                                <div class="col-md-4 text-right">
+                                    <label>Vendedor: </label>
                                 </div>
-                                <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
-                                <label for="pendienteFecha">Pendiende</label>
-
+                                <div class="col-md-8">
+                                    <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                        <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                    </select>
+                                </div>
                             </div>
+                            <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-8 offset-md-4 row">
-                                <h4>Horario del evento</h4>
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio">
-                            </div>
-                           
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin">
-                            </div>
-                             <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                            Pendiende</label>
-                            </div>
-                          
-                        </div>
-                        
                     </div>
-                </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-8">
-                        <h4>Cliente</h4>
-                        <div class="row">
-                            <div class="col-md-7">
-                                <buscador-component
-                                    placeholder="Buscar Clientes Existentes"
-                                    event-name="clientResults"
-                                    :list="clientes"
-                                    :keys="['nombre', 'email']"
+                    <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
+                        <div class="col-md-6">
+                            <h4>Informacion del evento</h4>
+                                <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
+                                <label for="salonMega">Salon Mega Mundo</label>
+                            <br>
+                            <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
+                            <label for="salonFuera">Evento Fuera</label>
+                                <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
+                                    <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
+                                    <label for="servicioFormal">Servicio Formal</label>
+                                    <br>
+                                    <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio">
+                                    <label for="servicioInfantil">Servicio Infantil</label>
+                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                            <div class="row" >
+                                <div class="col-md-8 offset-md-4">
+                                    <h4 class="">Categoria del evento</h4>
+                                    <select name="categoriaEvento" id="" v-model.trim="$v.presupuesto.categoriaEvento.$model">
+                                        <option value="1">Boda</option>
+                                        <option value="2">XV Años</option>
+                                        <option value="3">Aniversario</option>
+                                    </select>
+                                    <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                     
-                                ></buscador-component>
+                                    <div class="row mt-4">
+                                        <div class="col-md-10">
+                                            <input type="date" v-model="presupuesto.fechaEvento">
+                                        </div>
+                                        <div class="col-md-2 text-left">
+                                            <i class="si si-calendar" style="font-size: 24px;"></i>
+                                        </div>
+                                        
+                                    </div>
+                                    <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
+                                    <label for="pendienteFecha">Pendiende</label>
 
-                                <!-- Resultado Busqueda -->
-                                <div class="row" v-if="clientResults.length < clientes.length">
-                                    <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
-                                        <div v-for="cliente in clientResults" :key="cliente.id">
-                                            <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
-                                                <div class="col-md-9">
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Nombre:</span> {{ cliente.nombre }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Email:</span> {{ cliente.email }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Telefono:</span> {{ cliente.telefono }}</p>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-8 offset-md-4 row">
+                                    <h4>Horario del evento</h4>
+                                <div class="col-md-6" style="padding-left:0">
+                                    <label>Inicio del evento</label><br>
+                                    <input type="time" v-model="presupuesto.horaEventoInicio">
+                                </div>
+                            
+                                <div class="col-md-6" style="padding-left:0">
+                                    <label>Fin del evento</label><br>
+                                    <input type="time" v-model="presupuesto.horaEventoFin">
+                                </div>
+                                <label for="pendienteHora" style="padding-top:10px">
+                                <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                                Pendiende</label>
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
+                        <div class="col-md-8">
+                            <h4>Cliente</h4>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <buscador-component
+                                        placeholder="Buscar Clientes Existentes"
+                                        event-name="clientResults"
+                                        :list="clientes"
+                                        :keys="['nombre', 'email', 'telefono']"
+                                        
+                                    ></buscador-component>
+
+                                    <!-- Resultado Busqueda -->
+                                    <div class="row" v-if="clientResults.length < clientes.length">
+                                        <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
+                                            <div v-for="cliente in clientResults" :key="cliente.id">
+                                                <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
+                                                    <div class="col-md-9">
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Nombre:</span> {{ cliente.nombre }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Email:</span> {{ cliente.email }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Telefono:</span> {{ cliente.telefono }}</p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!--
+                                    <select name="" id="" v-model="presupuesto.client_id">
+                                        <option v-bind:value="cliente.id" v-for="cliente in clientes" v-bind:key="cliente.index">{{ cliente.nombre }}</option>
+                                    </select>
+                                    -->
                                 </div>
-                                <!--
-                                <select name="" id="" v-model="presupuesto.client_id">
-                                    <option v-bind:value="cliente.id" v-for="cliente in clientes" v-bind:key="cliente.index">{{ cliente.nombre }}</option>
-                                </select>
-                                -->
+                                <div class="col-md-5">
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
+                                </div>
                             </div>
-                            <div class="col-md-5">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
+                            <div v-if="clienteSeleccionado" class="info">
+                                <p>{{ clienteSeleccionado.nombre }}</p>
+                                <p>{{ clienteSeleccionado.email }}</p>
+                                <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
+                                    {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                </p>
                             </div>
                         </div>
-                        <div v-if="clienteSeleccionado" class="info">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
-                            <p>{{ clienteSeleccionado.email }}</p>
-                            <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
-                            </p>
+                        <div class="col-md-4 text-right" v-if="clienteSeleccionado">
+                            <div class="info">
+                                <p>Ultimo evento: 
+                                    <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
+                                    <span v-else>Primer Evento</span>
+                                </p>
+                                <p><span>{{ calcularContratos }}</span> eventos contratados</p>
+                                <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
+                                    <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
+                                    <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4 text-right" v-if="clienteSeleccionado">
-                        <div class="info">
-                            <p>Ultimo evento: 
-                                <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
-                                <span v-else>Primer Evento</span>
-                            </p>
-                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
-                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
-                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
+                    <h4>Lugar del Evento</h4>
+                    <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none">
+                        <div class="col-md-4">
+                            <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
+                            <label for="lugarMismo">Misma Direccion</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
+                            <label for="lugarOtro">Otra</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
+                            <label for="pendienteLugar">Pendiente</label>
+                        </div>
+
+                        <div class="col-md-10 mt-4">
+                            <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
+                        </div>
+
+                        <div class="col-md-2 mt-4">
+                            <label for=""># Invitados</label>
+                            <input type="number" name="" id="" v-model="$v.presupuesto.numeroInvitados.$model">
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <label for="">Tono del evento</label>
+                            <input type="text" name="" id="" v-model="$v.presupuesto.colorEvento.$model">
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <label for="">Tema del evento</label>
+                            <input type="text" name="" id="" v-model="$v.presupuesto.temaEvento.$model">
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <label for="">Festejado(s)</label>
+                            <input type="text" name="" id="" v-model="festejado.nombre">
+                            <input class="mt-2" type="number" name="" id="" v-model="festejado.edad">
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()">Mas</button>
                         </div>
                     </div>
-                </div>
-                <h4>Lugar del Evento</h4>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-4">
-                        <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
-                        <label for="lugarMismo">Misma Direccion</label>
+                    <!-- Tabla de festejados -->
+                    <div class="row" v-if="festejados.length !== 0">
+                        <div class="col-md-6 offset-md-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">NOMBRE</th>
+                                        <th scope="col">EDAD</th>
+                                        <th scope="col" class="text-center">OPCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(festejado, index) in festejados" v-bind:key="festejado.index">
+                                        <td>{{ festejado.nombre }}</td>
+                                        <td>{{ festejado.edad }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>  
                     </div>
-                    <div class="col-md-4">
-                        <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
-                        <label for="lugarOtro">Otra</label>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
-                        <label for="pendienteLugar">Pendiente</label>
+                    <h4>Archivos de Referencia</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="file" name="" id="">
+                        </div>
                     </div>
 
-                    <div class="col-md-10 mt-4">
-                        <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
-                    </div>
-                    <div class="col-md-2 mt-4">
-                        <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
-                    </div>
-                    <div class="col-md-2 mt-4">
-                        <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
-                    </div>
-                    <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
-                    </div>
+                    <hr>
 
-                    <div class="col-md-2 mt-4">
-                        <label for=""># Invitados</label>
-                        <input type="number" name="" id="" v-model="presupuesto.numeroInvitados">
+                    <!-- SECTION 2 -->
+                    <div class="row">
+                        <div class="col-md-10 ">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <buscador-component
+                                        placeholder="Buscar Productos"
+                                        event-name="results"
+                                        :list="inventario"
+                                        :keys="['servicio', 'id']"
+                                        
+                                    ></buscador-component>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</button>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</button>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 mt-4">
-                        <label for="">Tono del evento</label>
-                        <input type="text" name="" id="" v-model="presupuesto.colorEvento">
+                    <!-- Resultado Busqueda items -->
+                    <div class="row" v-if="results.length < inventario.length">
+                        <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
+                            <div class="list-group" v-for="producto in results" :key="producto.id">
+                                <div class="row contenedor-producto" v-on:click="agregarProducto(producto)">
+                                    <div class="col-md-9">
+                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Producto:</span> {{ producto.servicio }}</p>
+                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
+                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> Familia</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 mt-4">
-                        <label for="">Tema del evento</label>
-                        <input type="text" name="" id="" v-model="presupuesto.temaEvento">
-                    </div>
-                    <div class="col-md-3 mt-4">
-                        <label for="">Festejado(s)</label>
-                        <input type="text" name="" id="" v-model="festejado.nombre">
-                        <input class="mt-2" type="number" name="" id="" v-model="festejado.edad">
-                    </div>
-                    <div class="col-md-1 mt-4">
-                        <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()">Mas</button>
-                    </div>
-                </div>
-                <!-- Tabla de festejados -->
-                <div class="row" v-if="festejados.length !== 0">
-                    <div class="col-md-6 offset-md-3">
-                        <table class="table table-striped">
+                    <!--Table-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">NOMBRE</th>
-                                    <th scope="col">EDAD</th>
-                                    <th scope="col" class="text-center">OPCIONES</th>
+                                    <th scope="col">Externo</th>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Servicio</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Precio Unitario</th>
+                                    <th scope="col">Precio Final</th>
+                                    <th scope="col">Ahorro</th>
+                                    <th scope="col" width="252">Notas</th>
+                                    <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(festejado, index) in festejados" v-bind:key="festejado.index">
-                                    <td>{{ festejado.nombre }}</td>
-                                    <td>{{ festejado.edad }}</td>
+                                <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
+                                    <th scope="row">
+                                        <input type="checkbox" v-model="producto.externo" disabled="disabled">
+                                    </th>
+                                    <td>
+                                        <img v-bind:src="producto.imagen" alt="" width="100%">
+                                    </td>
+                                    <td>{{ producto.servicio }}</td>
+                                    <td>
+                                        <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
+                                        <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                        
+                                    </td>
+                                    <td>{{ producto.precioUnitario }}</td>
+                                    <td>
+                                        <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
+                                        <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    </td>
+                                    <td>
+                                        <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
+                                        <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    </td>
+                                    <td>
+                                        <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
+                                            
+                                        </textarea>
+                                        <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                            {{ producto.notas }}
+                                        </span>
+                                        
+
+                                    </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)">Eliminar</button>
+                                        <!--
+                                        <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
+                                        -->
+                                        <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
-                    </div>  
-                </div>
-                <h4>Archivos de Referencia</h4>
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="file" name="" id="">
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- SECTION 2 -->
-                <div class="row">
-                    <div class="col-md-10 ">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <buscador-component
-                                    placeholder="Buscar Productos"
-                                    event-name="results"
-                                    :list="inventario"
-                                    :keys="['servicio', 'id']"
-                                    
-                                ></buscador-component>
-
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</button>
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</button>
-                                </div>
+                            </table>
                         </div>
                     </div>
-                </div>
-                <!-- Resultado Busqueda items -->
-                <div class="row" v-if="results.length < inventario.length">
-                    <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
-                        <div class="list-group" v-for="producto in results" :key="producto.id">
-                            <div class="row contenedor-producto" v-on:click="agregarProducto(producto)">
-                                <div class="col-md-9">
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Producto:</span> {{ producto.servicio }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> Familia</p>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h4>Mostrar en presupuesto de cliente</h4>
+                                    <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                    <label for="precio">Precios</label>
+                                    <br>
+                                    <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
+                                    <label for="precioUnitario">Precios Unitarios</label>
+                                    <br>
+                                    <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
+                                    <label for="descripcionPaquete">Descripcion Paquetes</label>
+                                    <br>
+                                    <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
+                                    <label for="descuento">Descuentos</label>
+                                    <br>
+                                    <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
+                                    <label for="imagenes">Imagenes</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                    <input v-if="verSettings" type="text" v-model="iva" width="20%">
+                                    <select v-if="verSettings" type="text" v-model="presupuesto.tipoComision" width="20%">
+                                        <option value="100">Comision completa</option>
+                                        <option value="50">Comision a la mitad</option>
+                                        <option value="0">Introducir manualmente</option>
+                                    </select>
+                                    <input type="number" v-if="presupuesto.tipoComision == 0" v-model="presupuesto.comision">
+                                </div>
+                                <div class="col-md-4 mt-4">
+                                    <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
+                                    <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
+                                    <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                    </label>
+
+                                    <div class="info mt-3">
+                                        <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                        <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                        <p>Comision pagada en base a $ <span>150</span></p>
+
+                                        <button class="btn btn-sm btn-primary" @click="mostrarSettings()"><i class="si si-pencil"></i> Settings</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--Table-->
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Externo</th>
-                                <th scope="col">Imagen</th>
-                                <th scope="col">Servicio</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Unitario</th>
-                                <th scope="col">Precio Final</th>
-                                <th scope="col">Ahorro</th>
-                                <th scope="col" width="252">Notas</th>
-                                <th scope="col">Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                </th>
-                                <td>
-                                    <img v-bind:src="producto.imagen" alt="" width="100%">
-                                </td>
-                                <td>{{ producto.servicio }}</td>
-                                <td>
-                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                    <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
-                                    
-                                </td>
-                                <td>{{ producto.precioUnitario }}</td>
-                                <td>
-                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
-                                </td>
-                                <td>
-                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
-                                </td>
-                                <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
-                                        
-                                    </textarea>
-                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
-                                        {{ producto.notas }}
-                                    </span>
-                                    
 
-                                </td>
-                                <td class="text-center">
-                                    <!--
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
-                                    -->
-                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h4>Mostrar en presupuesto de cliente</h4>
-                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
-                                <label for="precio">Precios</label>
-                                <br>
-                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
-                                <label for="precioUnitario">Precios Unitarios</label>
-                                <br>
-                                <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
-                                <label for="descripcionPaquete">Descripcion Paquetes</label>
-                                <br>
-                                <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
-                                <label for="descuento">Descuentos</label>
-                                <br>
-                                <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
-                                <label for="imagenes">Imagenes</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <select v-if="verSettings" type="text" v-model="presupuesto.tipoComision" width="20%">
-                                    <option value="100">Comision completa</option>
-                                    <option value="50">Comision a la mitad</option>
-                                    <option value="0">Introducir manualmente</option>
-                                </select>
-                                <input type="number" v-if="presupuesto.tipoComision == 0" v-model="presupuesto.comision">
-                            </div>
-                            <div class="col-md-4 mt-4">
-                                <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
-                                </label>
-
-                                <div class="info mt-3">
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
-                                    <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
-
-                                    <button class="btn btn-sm btn-primary" @click="mostrarSettings()"><i class="si si-pencil"></i> Settings</button>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-4 offset-md-4">
+                            <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
+                        </div>
+                        <div class="col-md-4 offset-md-2 mt-4">
+                            <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto($v.presupuesto)">Guardar Presupuesto</button>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                        <button class="btn btn-sm btn-block btn-primary" @click="imprimirPDF()">Imprimir</button>
-                    </div>
-                    <div class="col-md-4 offset-md-2 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Guardar Presupuesto</button>
-                    </div>
-                    <div class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-secondary" data-toggle="modal" data-target="#guardarContrato">Guardar Contrato</button>
-                    </div>
-                </div>
-            </div>
         </div>
         <!--
         <div class="row">
@@ -807,7 +807,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
             </div>
         </div>
 
-        <!-- Modal ver presupuestos -->
+        <!-- Modal ver guardar contrato -->
         <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
@@ -868,7 +868,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato($v.presupuesto)">Save</button>
                 </div>
                 </div>
             </div>
@@ -1011,6 +1011,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
     import BuscadorComponent from './BuscadorComponent.vue';
     // Importamos el evento Bus.
     import { EventBus } from '../eventBus.js';
+    import { required, minLength, between, email } from 'vuelidate/lib/validators';
 
     export default {
         components: {
@@ -1181,6 +1182,22 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                     emailFacturacion: '',
                 },
                 configuraciones: '',
+            }
+        },
+        validations: {
+            presupuesto: {
+                categoriaEvento: {
+                    required,
+                },
+                numeroInvitados: {
+                    required,
+                },
+                colorEvento: {
+                    required,
+                },
+                temaEvento: {
+                    required,
+                },
             }
         },
         created(){
@@ -1763,7 +1780,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
-                    console.log(this.clientes);
+                    console.log('Estos son todos los clientes: ', this.clientes);
                 })
             },
             agregarFestejado(){
@@ -1774,8 +1791,29 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                 this.festejados.splice(index, 1);
             },
 
+            checkForm(e){
+                if(e.$invalid){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Algo salio mal',
+                        footer: '<p>¿Completaste los campos requeridos?</p>'
+                    })
+                }else{
+                    this.guardarPresupuesto();
+                }
+            },
+
             // Guardar como presupuesto
-            guardarPresupuesto(){
+            guardarPresupuesto(e){
+                if(e.$invalid){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Algo salio mal',
+                        footer: '<p>¿Completaste los campos requeridos?</p>'
+                    })
+                }else{
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -1832,9 +1870,18 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         'error'
                     );
                 });
+                }
             },
             // Guardar como contrato
-            guardarContrato(){
+            guardarContrato(e){
+                if(e.$invalid){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Algo salio mal',
+                        footer: '<p>¿Completaste los campos requeridos?</p>'
+                    })
+                }else{
                 this.presupuesto.tipo = 'CONTRATO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -1897,6 +1944,7 @@ box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
                         'error'
                     );
                 });
+                }
             },
             imprimirPDF(){
                 if(!this.imprimir){
