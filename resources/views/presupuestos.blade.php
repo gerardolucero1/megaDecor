@@ -4,6 +4,11 @@
 @endsection
 @section('content')
 
+<style>
+table.dataTable td{
+box-sizing: inherit;
+}
+</style>
     <section class="container">
         <div class="row">
                
@@ -39,6 +44,7 @@
                                     <th>Lugar</th>
                                     <th>Vendedor</th>
                                     <th>Version</th>
+                                    <th>Etiquetas</th>
                                      <th>Ultima Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
@@ -53,17 +59,18 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
                                 <td class="d-none d-sm-table-cell text-center">{{$budget->version}}</td>
+                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;"><i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimio este presupuesto"  @else title="Aun no se imprime" @endif></i><i class="fa fa-send-o" style="@if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
                                 
-                                <td class="text-center">
-                                    <a href="{{ route('editar.presupuesto', $budget->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                <td class="d-flex" style="box-sizing: content-box;">
+                                    <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a href="{{ route('ver.presupuesto', $budget->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                        <i class="fa fa-remove"></i>
+                                    <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <i class="fa fa-eye"></i> 
+                                    </a> 
+                                    <button style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                        <i class="fa fa-remove"></i> 
                                     </button>
                                 </td>
                             </tr>

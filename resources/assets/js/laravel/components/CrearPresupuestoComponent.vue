@@ -179,7 +179,7 @@ padding: 0;
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
                                     <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
-                                        <div v-for="cliente in clientResults" :key="cliente.id">
+                                        <div v-for="cliente in clientResults.slice(0,20)" :key="cliente.id">
                                             <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
                                                <div class="col-md-3">
                                                     <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
@@ -343,7 +343,7 @@ padding: 0;
                 <!-- Resultado Busqueda items -->
                 <div class="row" v-if="results.length < inventario.length">
                     <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
-                        <div class="list-group" v-for="producto in results" :key="producto.id">
+                        <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
                                 <div class="col-md-3" >
                                     <img class="img-fluid" style="margin-left:10px;" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
@@ -525,7 +525,7 @@ padding: 0;
                                     <!-- Resultado Busqueda paquetes-->
                                     <div class="row" v-if="resultsPaquetes.length < inventario.length">
                                         <div v-if="resultsPaquetes.length !== 0" class="col-md-12 resultadoInventario">
-                                            <div class="list-group" v-for="producto in resultsPaquetes" :key="producto.id">
+                                            <div class="list-group" v-for="producto in resultsPaquetes.slice(0,20)" :key="producto.id">
                                                 <div class="row contenedor-producto" v-on:click="agregarProductoPaquete(producto)">
                                                     <div class="col-md-9">
                                                         

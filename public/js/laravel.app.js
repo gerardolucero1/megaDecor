@@ -17008,6 +17008,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -17023,7 +17027,8 @@ __webpack_require__.r(__webpack_exports__);
       categorias: [],
       //Usuario y usuarios
       usuarioActual: '',
-      usuarios: []
+      usuarios: [],
+      usuarioActivo: []
     };
   },
   created: function created() {
@@ -17063,7 +17068,7 @@ __webpack_require__.r(__webpack_exports__);
       var URL = '/obtener-usuario';
       axios.get(URL).then(function (response) {
         _this4.usuarioActual = response.data;
-        _this4.presupuesto.vendedor_id = _this4.usuarioActual.id;
+        _this4.usuarioActivo.id = _this4.usuarioActual.id;
       })["catch"](function (error) {});
     },
     obtenerUsuarios: function obtenerUsuarios() {
@@ -17078,6 +17083,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     crearTarea: function crearTarea() {
       var _this6 = this;
+
+      if (this.tarea.vendedor != 17) {
+        this.tarea.vendedor = this.usuarioActivo.id;
+      }
 
       var URL = '/tareas/create';
       axios.post(URL, {
@@ -70814,7 +70823,9 @@ var render = function() {
                                 {
                                   staticClass: "col-md-12 resultadoInventario"
                                 },
-                                _vm._l(_vm.clientResults, function(cliente) {
+                                _vm._l(_vm.clientResults.slice(0, 20), function(
+                                  cliente
+                                ) {
                                   return _c("div", { key: cliente.id }, [
                                     _c(
                                       "div",
@@ -71536,7 +71547,7 @@ var render = function() {
                 ? _c(
                     "div",
                     { staticClass: "col-md-4 resultadoInventario" },
-                    _vm._l(_vm.results, function(producto) {
+                    _vm._l(_vm.results.slice(0, 20), function(producto) {
                       return _c(
                         "div",
                         { key: producto.id, staticClass: "list-group" },
@@ -72492,136 +72503,148 @@ var render = function() {
                                         staticClass:
                                           "col-md-12 resultadoInventario"
                                       },
-                                      _vm._l(_vm.resultsPaquetes, function(
-                                        producto
-                                      ) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            key: producto.id,
-                                            staticClass: "list-group"
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "row contenedor-producto",
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.agregarProductoPaquete(
-                                                      producto
-                                                    )
+                                      _vm._l(
+                                        _vm.resultsPaquetes.slice(0, 20),
+                                        function(producto) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              key: producto.id,
+                                              staticClass: "list-group"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "row contenedor-producto",
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.agregarProductoPaquete(
+                                                        producto
+                                                      )
+                                                    }
                                                   }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-md-9" },
-                                                  [
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticStyle: {
-                                                          padding: "0",
-                                                          margin: "0",
-                                                          "line-height": "14px",
-                                                          "font-size": "12px"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticStyle: {
-                                                              "font-weight":
-                                                                "bolder"
-                                                            }
-                                                          },
-                                                          [_vm._v("Servicio:")]
-                                                        ),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              producto.servicio
-                                                            )
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticStyle: {
-                                                          padding: "0",
-                                                          margin: "0",
-                                                          "line-height": "14px",
-                                                          "font-size": "12px"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticStyle: {
-                                                              "font-weight":
-                                                                "bolder"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Precio Unitario:"
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(
-                                                          " $" +
-                                                            _vm._s(
-                                                              producto.precioUnitario
-                                                            )
-                                                        )
-                                                      ]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "p",
-                                                      {
-                                                        staticStyle: {
-                                                          padding: "0",
-                                                          margin: "0",
-                                                          "line-height": "14px",
-                                                          "font-size": "12px"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticStyle: {
-                                                              "font-weight":
-                                                                "bolder"
-                                                            }
-                                                          },
-                                                          [_vm._v("Categoría:")]
-                                                        ),
-                                                        _vm._v(
-                                                          " " +
-                                                            _vm._s(
-                                                              producto.precioUnitario
-                                                            )
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._m(14, true)
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      }),
+                                                },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-9" },
+                                                    [
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            padding: "0",
+                                                            margin: "0",
+                                                            "line-height":
+                                                              "14px",
+                                                            "font-size": "12px"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticStyle: {
+                                                                "font-weight":
+                                                                  "bolder"
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Servicio:"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                producto.servicio
+                                                              )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            padding: "0",
+                                                            margin: "0",
+                                                            "line-height":
+                                                              "14px",
+                                                            "font-size": "12px"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticStyle: {
+                                                                "font-weight":
+                                                                  "bolder"
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Precio Unitario:"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " $" +
+                                                              _vm._s(
+                                                                producto.precioUnitario
+                                                              )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            padding: "0",
+                                                            margin: "0",
+                                                            "line-height":
+                                                              "14px",
+                                                            "font-size": "12px"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticStyle: {
+                                                                "font-weight":
+                                                                  "bolder"
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Categoría:"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                producto.precioUnitario
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._m(14, true)
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }
+                                      ),
                                       0
                                     )
                                   : _vm._e()
@@ -80782,63 +80805,76 @@ var render = function() {
               [
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-6" }, [
-                    _c("label", { attrs: { for: "" } }, [
-                      _vm._v("Selecciona un Vendedor")
-                    ]),
+                    _vm.usuarioActivo.id == 17
+                      ? _c("label", { attrs: { for: "" } }, [
+                          _vm._v("Selecciona un Vendedor")
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
+                    _vm.usuarioActivo.id == 17
+                      ? _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.tarea.vendedor,
-                            expression: "tarea.vendedor"
-                          }
-                        ],
-                        attrs: { name: "vendedor", id: "" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.tarea,
-                              "vendedor",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "2" } }, [
-                          _vm._v("Todos los vendedores")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.usuarios, function(usuario) {
-                          return _c(
-                            "option",
-                            {
-                              key: usuario.index,
-                              domProps: {
-                                value: usuario.id,
-                                selected: _vm.usuarioActual.id
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tarea.vendedor,
+                                expression: "tarea.vendedor"
                               }
-                            },
-                            [_vm._v(_vm._s(usuario.name))]
-                          )
-                        })
-                      ],
-                      2
-                    )
+                            ],
+                            attrs: { id: "select-vendedor" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.tarea,
+                                  "vendedor",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "2" } }, [
+                              _vm._v("Todos los vendedores")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.usuarios, function(usuario) {
+                              return _c(
+                                "option",
+                                {
+                                  key: usuario.index,
+                                  domProps: { value: usuario.id }
+                                },
+                                [_vm._v(_vm._s(usuario.name))]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.usuarioActivo.id != 17
+                      ? _c("label", { attrs: { for: "" } }, [
+                          _vm._v("Vendedor Activo")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.usuarioActivo.id != 17
+                      ? _c("label", { attrs: { for: "" } }, [
+                          _vm._v(_vm._s(_vm.usuarioActual.name))
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
@@ -80887,7 +80923,7 @@ var render = function() {
                               "option",
                               {
                                 key: cliente.index,
-                                domProps: { value: cliente.id }
+                                domProps: { value: cliente.client_id }
                               },
                               [_vm._v(_vm._s(cliente.nombre))]
                             )

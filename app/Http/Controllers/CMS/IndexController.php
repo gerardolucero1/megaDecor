@@ -329,6 +329,7 @@ class IndexController extends Controller
          $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
          $Presupuesto->vendedor = $DatosVendedor->name;
          $Presupuesto->version = $budget->version;
+         $Presupuesto->impresion = $budget->impresion;
          $Presupuesto->updated_at = $budget->updated_at;
          
 
