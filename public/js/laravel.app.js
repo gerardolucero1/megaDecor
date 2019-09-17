@@ -13781,6 +13781,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -15104,6 +15110,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
 //
 //
 //
@@ -19444,7 +19453,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.logo-presupuesto{\n        width: 25%;\n        height: 130px;\n        background-position: center;\n        background-size: cover;\n}\n.registroPresupuesto .row{\n        margin-bottom: 0px;\n}\n.registroPresupuesto input[type=\"date\"]{\n        border: none;\n        border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n        width: 100%;\n        border: none;\n        border: 1px solid rgba(204, 204, 204, 1);\n}\n.modalAgregarPaquete input[type=\"text\"],\n    .registroPresupuesto input[type=\"text\"], \n    .registroPresupuesto input[type=\"email\"], \n    .registroPresupuesto input[type=\"number\"], \n    .registroPresupuesto input[type=\"date\"], \n    .registroPresupuesto select{\n        width: 100%;\n}\n.registroPresupuesto .info p{\n        line-height: 4px;\n}\n.resultadoInventario{\n        position: absolute;\n        z-index: 3000;\n        background-color: white;\n        overflow: scroll;\n        max-height: 300px;\nbox-shadow: 0px 5px 5px -2px rgba(38,38,38,1);\npadding: 0;\n}\ntable tr td input{\n        border: none;\n        background-color: transparent;\n}\n.contenedor-producto{\n        border-bottom:none;\n        padding-top: 8px;\n        padding-bottom: 8px;\n        height: 100%;\n        margin-bottom: 0;\n        font-size: 14px;\n}\n.contenedor-producto:hover{\n        border-bottom:none; \n        padding-top: 8px;\n        padding-bottom: 8px;\n        background:#F2F2F2;\n        cursor: pointer;\n        margin-bottom: 0;\n        font-size: 14px;\n}\n\n", ""]);
+exports.push([module.i, "\n.logo-presupuesto{\n      width: 25%;\n      height: 130px;\n      background-position: center;\n      background-size: cover;\n}\n.registroPresupuesto .row{\n      margin-bottom: 0px;\n}\n.registroPresupuesto input[type=\"date\"]{\n      border: none;\n      border: 1px solid rgba(204, 204, 204, 1);\n}\n.registroPresupuesto input[type=\"time\"]{\n      width: 100%;\n      border: none;\n      border: 1px solid rgba(204, 204, 204, 1);\n}\n.modalAgregarPaquete input[type=\"text\"],\n  .registroPresupuesto input[type=\"text\"], \n  .registroPresupuesto input[type=\"email\"], \n  .registroPresupuesto input[type=\"number\"], \n  .registroPresupuesto input[type=\"date\"], \n  .registroPresupuesto select{\n      width: 100%;\n}\n.registroPresupuesto .info p{\n      line-height: 4px;\n}\n.resultadoInventario{\n      position: absolute;\n      z-index: 3000;\n      background-color: white;\n      overflow: scroll;\n      max-height: 300px;\n}\ntable tr td input{\n      border: none;\n      background-color: transparent;\n}\n.contenedor-producto{\n      background-color: white;\n      border-bottom: 1px dotted gray;\n}\n.contenedor-producto:hover{\n      border-bottom:none; \n      padding-top: 8px;\n      padding-bottom: 8px;\n      background:#F2F2F2;\n      cursor: pointer;\n      margin-bottom: 0;\n      font-size: 14px;\n}\n\n", ""]);
 
 // exports
 
@@ -72287,106 +72296,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _vm.verSettings
-                  ? _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.iva,
-                          expression: "iva"
-                        }
-                      ],
-                      attrs: { type: "text", width: "20%" },
-                      domProps: { value: _vm.iva },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.iva = $event.target.value
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.verSettings
-                  ? _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.tipoComision,
-                            expression: "presupuesto.tipoComision"
-                          }
-                        ],
-                        attrs: { type: "text", width: "20%" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "tipoComision",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "100" } }, [
-                          _vm._v("Comision completa")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "50" } }, [
-                          _vm._v("Comision a la mitad")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "0" } }, [
-                          _vm._v("Introducir manualmente")
-                        ])
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.presupuesto.tipoComision == 0
-                  ? _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.comision,
-                          expression: "presupuesto.comision"
-                        }
-                      ],
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.presupuesto.comision },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "comision",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  : _vm._e()
-              ]),
+              _c("div", { staticClass: "col-md-3" }),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4 mt-4" }, [
                 _c("h5", [
@@ -77452,56 +77362,84 @@ var render = function() {
                           _vm.clientResults.length !== 0
                             ? _c(
                                 "div",
-                                { staticClass: "col-md-6 resultadoInventario" },
-                                _vm._l(_vm.clientResults, function(cliente) {
-                                  return _c(
-                                    "div",
-                                    {
-                                      key: cliente.id,
-                                      staticClass: "list-group"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass: "row producto",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.obtenerCliente(cliente)
-                                            }
+                                {
+                                  staticClass: "col-md-12 resultadoInventario"
+                                },
+                                _vm._l(_vm.clientResults.slice(0, 20), function(
+                                  cliente
+                                ) {
+                                  return _c("div", { key: cliente.id }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "row contenedor-producto",
+                                        staticStyle: { margin: "0" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.obtenerCliente(cliente)
                                           }
-                                        },
-                                        [
+                                        }
+                                      },
+                                      [
+                                        _vm._m(3, true),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "col-md-8" }, [
                                           _c(
-                                            "div",
-                                            { staticClass: "col-md-7" },
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "13px"
+                                              }
+                                            },
                                             [
-                                              _c("p", [
-                                                _vm._v(_vm._s(cliente.nombre))
-                                              ]),
-                                              _vm._v(" "),
                                               _c(
                                                 "span",
                                                 {
-                                                  staticClass:
-                                                    "badge badge-info"
+                                                  staticStyle: {
+                                                    "font-weight": "bolder"
+                                                  }
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                                    " +
-                                                      _vm._s(cliente.email) +
-                                                      "\n                                                "
+                                                    " " + _vm._s(cliente.nombre)
                                                   )
                                                 ]
                                               )
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(3, true)
-                                        ]
-                                      )
-                                    ]
-                                  )
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "11px"
+                                              }
+                                            },
+                                            [_vm._v(_vm._s(cliente.email))]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: {
+                                                padding: "0",
+                                                margin: "0",
+                                                "line-height": "14px",
+                                                "font-size": "11px"
+                                              }
+                                            },
+                                            [_vm._v("5554455")]
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ])
                                 }),
                                 0
                               )
@@ -78131,8 +78069,8 @@ var render = function() {
               _vm.results.length !== 0
                 ? _c(
                     "div",
-                    { staticClass: "col-md-6 resultadoInventario" },
-                    _vm._l(_vm.results, function(producto) {
+                    { staticClass: "col-md-4 resultadoInventario" },
+                    _vm._l(_vm.results.slice(0, 20), function(producto) {
                       return _c(
                         "div",
                         { key: producto.id, staticClass: "list-group" },
@@ -78140,31 +78078,79 @@ var render = function() {
                           _c(
                             "div",
                             {
-                              staticClass: "row producto",
-                              on: {
-                                click: function($event) {
-                                  return _vm.agregarProducto(producto)
-                                }
-                              }
+                              staticClass: "row contenedor-producto",
+                              staticStyle: { cursor: "auto" }
                             },
                             [
+                              _vm._m(8, true),
+                              _vm._v(" "),
                               _c("div", { staticClass: "col-md-7" }, [
-                                _c("p", [_vm._v(_vm._s(producto.servicio))]),
-                                _vm._v(" "),
                                 _c(
-                                  "span",
-                                  { staticClass: "badge badge-info" },
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
                                   [
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(producto.precioUnitario) +
-                                        "\n                                "
+                                    _c(
+                                      "span",
+                                      {
+                                        staticStyle: { "font-weight": "bolder" }
+                                      },
+                                      [_vm._v(" " + _vm._s(producto.servicio))]
                                     )
                                   ]
-                                )
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
+                                  [
+                                    _c("span", {
+                                      staticStyle: { "font-weight": "bolder" }
+                                    }),
+                                    _vm._v(
+                                      " $" + _vm._s(producto.precioUnitario)
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._m(9, true)
                               ]),
                               _vm._v(" "),
-                              _vm._m(8, true)
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "col-md-2",
+                                  staticStyle: { "padding-top": "15px" }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-plus-circle",
+                                    staticStyle: {
+                                      color: "#B2B2B2",
+                                      cursor: "pointer",
+                                      "font-size": "26px"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.agregarProducto(producto)
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
                             ]
                           )
                         ]
@@ -78179,7 +78165,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(9),
+              _vm._m(10),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -78884,7 +78870,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(10),
+                  _vm._m(11),
                   _vm._v(" "),
                   _c(
                     "button",
@@ -78954,7 +78940,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(11),
+                _vm._m(12),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -79042,7 +79028,7 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _vm._m(12, true)
+                                                _vm._m(13, true)
                                               ]
                                             )
                                           ]
@@ -79300,7 +79286,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(13),
+                            _vm._m(14),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -79483,7 +79469,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(14),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -79690,13 +79676,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(16),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(16),
+                          _vm._m(17),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -79705,7 +79691,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(17),
+                                _vm._m(18),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -79748,7 +79734,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(18, true)
+                                        _vm._m(19, true)
                                       ])
                                     }
                                   ),
@@ -79762,7 +79748,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(19)
+                _vm._m(20)
               ]
             )
           ]
@@ -79797,13 +79783,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(20),
+                _vm._m(21),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(21),
+                          _vm._m(22),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -79812,7 +79798,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(22),
+                                _vm._m(23),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -79862,7 +79848,7 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(23, true)
+                                          _vm._m(24, true)
                                         ]
                                       )
                                     }
@@ -79877,7 +79863,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(24)
+                _vm._m(25)
               ]
             )
           ]
@@ -79913,7 +79899,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(25),
+                _vm._m(26),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -80001,7 +79987,7 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _vm._m(26, true)
+                                                _vm._m(27, true)
                                               ]
                                             )
                                           ]
@@ -80277,7 +80263,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(27),
+                            _vm._m(28),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -80486,10 +80472,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        attrs: { src: "https://i.stack.imgur.com/l60Hf.png", alt: "" }
       })
     ])
   },
@@ -80553,12 +80539,37 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: { src: "https://i.redd.it/m2jtpv0kdff11.jpg", alt: "" }
+        staticStyle: { "margin-left": "10px" },
+        attrs: {
+          src:
+            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
+          alt: ""
+        }
       })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      {
+        staticStyle: {
+          padding: "0",
+          margin: "0",
+          "line-height": "14px",
+          "font-size": "12px"
+        }
+      },
+      [
+        _c("span", { staticStyle: { "font-weight": "bolder" } }),
+        _vm._v(" Familia")
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -100304,13 +100315,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

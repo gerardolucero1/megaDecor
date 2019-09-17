@@ -306,7 +306,7 @@ class IndexController extends Controller
     }
 
     public function presupuestos(){
-        $budgets = Budget::orderBy('id', 'ASC')->get();
+        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'PRESUPUESTO')->get();
         $Presupuestos=[];
       
         //Obtenemos clientes morales y fisicos

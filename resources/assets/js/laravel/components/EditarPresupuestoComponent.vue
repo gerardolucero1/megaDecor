@@ -161,18 +161,20 @@
 
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
-                                    <div v-if="clientResults.length !== 0" class="col-md-6 resultadoInventario">
-                                        <div class="list-group" v-for="cliente in clientResults" :key="cliente.id">
-                                            <div class="row producto" v-on:click="obtenerCliente(cliente)">
-                                                <div class="col-md-7">
-                                                    <p>{{ cliente.nombre }}</p>
-                                                    <span class="badge badge-info">
-                                                        {{ cliente.email }}
-                                                    </span>
+                                    <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
+                                        <div v-for="cliente in clientResults.slice(0,20)" :key="cliente.id">
+                                            <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
+                                               <div class="col-md-3">
+                                                    <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
+                                                <div class="col-md-8">
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }}</span></p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.email }}</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">5554455</p>
+                                                    
                                                 </div>
+                                                
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -320,18 +322,19 @@
                 </div>
                 <!-- Resultado Busqueda -->
                 <div class="row" v-if="results.length < inventario.length">
-                    <div v-if="results.length !== 0" class="col-md-6 resultadoInventario">
-                        <div class="list-group" v-for="producto in results" :key="producto.id">
-                            <div class="row producto" v-on:click="agregarProducto(producto)">
+                    <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
+                        <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
+                            <div class="row contenedor-producto" style="cursor:auto;" >
+                                <div class="col-md-3" >
+                                    <img class="img-fluid" style="margin-left:10px;" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                </div>
                                 <div class="col-md-7">
-                                    <p>{{ producto.servicio }}</p>
-                                    <span class="badge badge-info">
-                                        {{ producto.precioUnitario }}
-                                    </span>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"> {{ producto.servicio }}</span></p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> ${{ producto.precioUnitario }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia</p>
                                 </div>
-                                <div class="col-md-5">
-                                    <img class="img-fluid" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
-                                </div>
+                                <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
+                                
                             </div>
                         </div>
                     </div>

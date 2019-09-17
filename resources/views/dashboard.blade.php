@@ -12,7 +12,7 @@
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                     <i class="fa fa-user-plus"></i> <i>Nuevo Cliente</i> 
                             </button>
-                            <a class="btn btn-primary" href="http://localhost:8000/reporte_ventas_Agosto2019.xlsx">
+                            <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
                                     <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                             </a>
                             <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">

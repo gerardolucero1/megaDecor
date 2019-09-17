@@ -40,25 +40,19 @@
         background-color: white;
         overflow: scroll;
         max-height: 300px;
-        -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
--moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
-padding: 0;
-
     }
 
     table tr td input{
         border: none;
         background-color: transparent;
     }
-    .contenedor-producto{
-        border-bottom:none;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        height: 100%;
-        margin-bottom: 0;
-        font-size: 14px;
+
+  .contenedor-producto{
+        background-color: white;
+        border-bottom: 1px dotted gray;
     }
+    
+      
     .contenedor-producto:hover{
         border-bottom:none; 
         padding-top: 8px;
@@ -442,13 +436,8 @@ padding: 0;
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-3">
-                                <input v-if="verSettings" type="text" v-model="iva" width="20%">
-                                <select v-if="verSettings" type="text" v-model="presupuesto.tipoComision" width="20%">
-                                    <option value="100">Comision completa</option>
-                                    <option value="50">Comision a la mitad</option>
-                                    <option value="0">Introducir manualmente</option>
-                                </select>
-                                <input type="number" v-if="presupuesto.tipoComision == 0" v-model="presupuesto.comision">
+                               
+                               
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>

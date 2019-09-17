@@ -65,10 +65,10 @@
                                     <td class="d-none d-sm-table-cell">{{$Contrato->updated_at}}</td>
                                     
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
                                             <i class="fa fa-eye"></i>
                                         </button>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
                                                 <i class="fa fa-remove"></i>
                                             </button>
                                     </td>
@@ -100,8 +100,8 @@
     }
 function archivarCliente(){
     Swal.fire({
-                                title: '¿Estas seguro de archivar este presupuesto?',
-                                text: "Al archivar un presupuesto dejara de estar disponible en la tabla de presupuestos",
+                                title: '¿Estas seguro de archivar este contrato?',
+                                text: "Al archivar un presupuesto dejara de estar disponible en la tabla de contratos",
                                 type: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
