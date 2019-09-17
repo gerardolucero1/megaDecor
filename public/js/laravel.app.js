@@ -13778,6 +13778,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -13812,6 +13815,7 @@ __webpack_require__.r(__webpack_exports__);
       usuarioActual: '',
       usuarios: [],
       presupuesto: {
+        folio: '',
         vendedor_id: '',
         client_id: '',
         tipoEvento: 'EXTERNO',
@@ -13850,6 +13854,7 @@ __webpack_require__.r(__webpack_exports__);
         version: 1,
         //Total
         total: '',
+        tipoComision: 100,
         comision: ''
       },
       clientes: [],
@@ -13866,7 +13871,8 @@ __webpack_require__.r(__webpack_exports__);
         'externo': true,
         'imagen': '',
         'servicio': '',
-        'precioUnitario': ''
+        'precioUnitario': '',
+        'precioVenta': ''
       },
       inventarioLocal: [],
       festejados: [],
@@ -13896,6 +13902,7 @@ __webpack_require__.r(__webpack_exports__);
       paquete: {
         servicio: '',
         precioFinal: '',
+        precioVenta: '',
         guardarPaquete: false,
         categoria: '',
         inventario: []
@@ -13924,7 +13931,8 @@ __webpack_require__.r(__webpack_exports__);
         numeroFacturacion: '',
         coloniaFacturacion: '',
         emailFacturacion: ''
-      }
+      },
+      configuraciones: ''
     };
   },
   created: function created() {
@@ -13937,6 +13945,7 @@ __webpack_require__.r(__webpack_exports__);
     this.obtenerInventario();
     this.obtenerUsuario();
     this.obtenerUsuarios();
+    this.obtenerConfiguraciones();
     this.$on('results', function (results) {
       _this.results = results;
     });
@@ -13995,6 +14004,7 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           var _nuevoFolio = 'M' + (parseInt(data[1]) + 1);
 
+          this.presupuesto.folio = _nuevoFolio;
           return _nuevoFolio;
         } //return nuevoFolio;
 
@@ -14078,6 +14088,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    obtenerConfiguraciones: function obtenerConfiguraciones() {
+      var _this2 = this;
+
+      var URL = '/configuraciones';
+      axios.get(URL).then(function (response) {
+        _this2.configuraciones = response.data;
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
+    },
     editarPaquete: function editarPaquete(producto, index) {
       this.paqueteEdicion.externo = producto.externo;
       this.paqueteEdicion.imagen = producto.imagen;
@@ -14120,35 +14140,35 @@ __webpack_require__.r(__webpack_exports__);
       this.indicePaqueteEdicion = '';
     },
     obtenerUsuario: function obtenerUsuario() {
-      var _this2 = this;
+      var _this3 = this;
 
       var URL = '/obtener-usuario';
       axios.get(URL).then(function (response) {
-        _this2.usuarioActual = response.data;
-        _this2.presupuesto.vendedor_id = _this2.usuarioActual.id;
-        console.log(_this2.usuarioActual);
+        _this3.usuarioActual = response.data;
+        _this3.presupuesto.vendedor_id = _this3.usuarioActual.id;
+        console.log(_this3.usuarioActual);
       })["catch"](function (error) {
         console.log(error.data);
       });
     },
     obtenerUsuarios: function obtenerUsuarios() {
-      var _this3 = this;
+      var _this4 = this;
 
       var URL = '/obtener-usuarios';
       axios.get(URL).then(function (response) {
-        _this3.usuarios = response.data;
-        console.log(_this3.usuarios);
+        _this4.usuarios = response.data;
+        console.log(_this4.usuarios);
       })["catch"](function (error) {
         console.log(error);
       });
     },
     obtenerUltimoPresupuesto: function obtenerUltimoPresupuesto() {
-      var _this4 = this;
+      var _this5 = this;
 
       var URL = '/obtener-ultimo-presupuesto';
       axios.get(URL).then(function (response) {
-        _this4.ultimoPresupuesto = response.data;
-        console.log(_this4.ultimoPresupuesto);
+        _this5.ultimoPresupuesto = response.data;
+        console.log(_this5.ultimoPresupuesto);
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -14170,7 +14190,8 @@ __webpack_require__.r(__webpack_exports__);
         'precioUnitario': producto.precioUnitario,
         'precioFinal': '',
         'cantidad': '',
-        'id': producto.id
+        'id': producto.id,
+        'precioVenta': producto.precioVenta
       });
       console.log(this.paquete.inventario);
     },
@@ -14211,10 +14232,10 @@ __webpack_require__.r(__webpack_exports__);
       this.actualizarPrecioSugerido();
     },
     guardarPaquete: function guardarPaquete() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (this.inventarioLocal.some(function (element) {
-        return element.servicio == _this5.paquete.servicio;
+        return element.servicio == _this6.paquete.servicio;
       })) {
         Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
       } else {
@@ -14229,13 +14250,14 @@ __webpack_require__.r(__webpack_exports__);
           'notas': '',
           'paquete': this.paquete,
           'tipo': 'PAQUETE',
-          'id': ''
+          'id': '',
+          'precioVenta': this.paquete.precioVenta
         });
       }
     },
     // Metodo para obtener el cliente seleccionado
     obtenerCliente: function obtenerCliente(cliente) {
-      var _this6 = this;
+      var _this7 = this;
 
       //let URL = '/obtener-cliente/' + cliente.id;
       var URL = '/obtener-cliente';
@@ -14243,7 +14265,7 @@ __webpack_require__.r(__webpack_exports__);
         'id': cliente.id,
         'accion': 'telefonos'
       }).then(function (response) {
-        _this6.clienteSeleccionado.telefonos = response.data;
+        _this7.clienteSeleccionado.telefonos = response.data;
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -14251,18 +14273,18 @@ __webpack_require__.r(__webpack_exports__);
         'id': cliente.id,
         'accion': 'presupuestos'
       }).then(function (response) {
-        _this6.clienteSeleccionado.presupuestos = [];
-        _this6.ultimoEvento = '';
+        _this7.clienteSeleccionado.presupuestos = [];
+        _this7.ultimoEvento = '';
 
         if (response.data.length !== 0) {
-          _this6.clienteSeleccionado.presupuestos = response.data;
+          _this7.clienteSeleccionado.presupuestos = response.data;
           var arreglo = response.data;
           arreglo.sort(function (a, b) {
             return new Date(b.fechaEvento) - new Date(a.fechaEvento);
           });
-          _this6.ultimoEvento = arreglo.shift();
+          _this7.ultimoEvento = arreglo.shift();
 
-          _this6.clienteSeleccionado.presupuestos.push(_this6.ultimoEvento);
+          _this7.clienteSeleccionado.presupuestos.push(_this7.ultimoEvento);
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -14283,21 +14305,21 @@ __webpack_require__.r(__webpack_exports__);
       this.cargarImagen(files[0]);
     },
     cargarImagen: function cargarImagen(file) {
-      var _this7 = this;
+      var _this8 = this;
 
       var reader = new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
         //this.thumbnail = e.target.result;
-        _this7.productoExterno.imagen = e.target.result;
+        _this8.productoExterno.imagen = e.target.result;
       };
 
       reader.readAsDataURL(file);
     },
     //Agregar producto externo a la tabla de productos
     agregarProductoExterno: function agregarProductoExterno() {
-      var _this8 = this;
+      var _this9 = this;
 
       if (this.controlElementoExterno) {
         this.paquete.inventario.push({
@@ -14307,11 +14329,12 @@ __webpack_require__.r(__webpack_exports__);
           'precioUnitario': this.productoExterno.precioUnitario,
           'precioFinal': '',
           'cantidad': '',
-          'id': ''
+          'id': '',
+          'precioVenta': this.productoExterno.precioVenta
         });
       } else {
         if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this8.productoExterno.servicio;
+          return element.servicio == _this9.productoExterno.servicio;
         })) {
           Swal.fire('Registro duplicado', 'Ya existe un producto con el nombre ' + this.productoExterno.servicio, 'warning');
         } else {
@@ -14326,7 +14349,8 @@ __webpack_require__.r(__webpack_exports__);
             'notas': '',
             'paquete': '',
             'tipo': 'PRODUCTO',
-            'id': ''
+            'id': '',
+            'precioVenta': this.productoExterno.precioVenta
           });
         }
       }
@@ -14442,12 +14466,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this9 = this;
+      var _this10 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this9.inventario = response.data;
-        console.log(_this9.inventario);
+        _this10.inventario = response.data;
+        console.log(_this10.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -14469,12 +14493,12 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.inventarioLocal);
     },
     obtenerClientes: function obtenerClientes() {
-      var _this10 = this;
+      var _this11 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this10.clientes = response.data;
-        console.log(_this10.clientes);
+        _this11.clientes = response.data;
+        console.log(_this11.clientes);
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -14488,12 +14512,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Guardar como presupuesto
     guardarPresupuesto: function guardarPresupuesto() {
-      var _this11 = this;
+      var _this12 = this;
 
       this.presupuesto.tipo = 'PRESUPUESTO';
 
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';
+      }
+
+      if (this.presupuesto.tipoComision == 0) {
+        this.presupuesto.comision = this.presupuesto.comision;
+      } else {
+        this.presupuesto.comision = this.presupuesto.tipoComision;
+      }
+
+      if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
+        this.presupuesto.comision = 0;
       }
 
       var URL = '/presupuestos/create';
@@ -14502,12 +14536,12 @@ __webpack_require__.r(__webpack_exports__);
         'festejados': this.festejados,
         'inventario': this.inventarioLocal
       }).then(function (response) {
-        _this11.imprimir = true;
+        _this12.imprimir = true;
         var URL = '/enviar-email';
         axios.post(URL, {
-          'presupuesto': _this11.presupuesto,
-          'festejados': _this11.festejados,
-          'inventario': _this11.inventarioLocal
+          'presupuesto': _this12.presupuesto,
+          'festejados': _this12.festejados,
+          'inventario': _this12.inventarioLocal
         }).then(function (response) {
           console.log('Email Enviado');
         })["catch"](function (error) {
@@ -14526,7 +14560,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Guardar como contrato
     guardarContrato: function guardarContrato() {
-      var _this12 = this;
+      var _this13 = this;
 
       this.presupuesto.tipo = 'CONTRATO';
 
@@ -14543,6 +14577,16 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      if (this.presupuesto.tipoComision == 0) {
+        this.presupuesto.comision = this.presupuesto.comision;
+      } else {
+        this.presupuesto.comision = this.presupuesto.tipoComision;
+      }
+
+      if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
+        this.presupuesto.comision = 0;
+      }
+
       var URL = '/presupuestos/create';
       axios.post(URL, {
         'presupuesto': this.presupuesto,
@@ -14550,7 +14594,7 @@ __webpack_require__.r(__webpack_exports__);
         'inventario': this.inventarioLocal,
         'facturacion': this.facturacion
       }).then(function (response) {
-        _this12.imprimir = true;
+        _this13.imprimir = true;
 
         if (response.data == 1) {
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
@@ -14563,14 +14607,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     imprimirPDF: function imprimirPDF() {
-      var _this13 = this;
+      var _this14 = this;
 
       if (!this.imprimir) {
         Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
       } else {
         var URL = '/obtener-ultimo-presupuesto';
         axios.get(URL).then(function (response) {
-          _this13.imprimir = false;
+          _this14.imprimir = false;
           var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
           window.open('/presupuestos/generar-pdf/' + data.id);
@@ -17505,12 +17549,12 @@ __webpack_require__.r(__webpack_exports__);
 
           var URL = '/viejo-telefono';
           axios.post(URL, {
-            'id': encontrado.id
+            'id': encontrado.client_id
           }).then(function (response) {
-            //    console.log(response.data[0].nombre);
+            console.log(response.data);
             Swal.fire({
               title: 'El telefono ya existe!',
-              text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+              text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
               type: 'info',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -17575,12 +17619,12 @@ __webpack_require__.r(__webpack_exports__);
 
           var _URL2 = '/viejo-telefono';
           axios.post(_URL2, {
-            'id': _encontrado.id
+            'id': _encontrado.client_id
           }).then(function (response) {
             //    console.log(response.data[0].nombre);
             Swal.fire({
               title: 'El telefono ya existe!',
-              text: "Este telefono esta registrado desde " + _tiempo + ' a nombre de ' + response.data[0].nombre,
+              text: "Este telefono esta registrado desde " + _tiempo + ' a nombre de ' + response.data.nombre,
               type: 'info',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -17733,7 +17777,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 //
 //
 //
@@ -17809,53 +17852,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      tarea: {
-        vendedor_id: ''
-      },
-      tareas: []
+      commission: {
+        'porcentajeCrecimientoVentas': '',
+        'porcentajeCrecimientoUtilidad': '',
+        'bonoObjetivoVentas': '',
+        'bonoObjetivoNoVentas': '',
+        'comisionContrato': '',
+        'bonoVendedorMes': '',
+        'minimoVentaComision': ''
+      }
     };
   },
   created: function created() {
-    var _this = this;
-
-    this.obtenerTareas();
-    _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('nuevaTarea', function (funcion) {
-      _this.obtenerTareas();
-    });
+    this.obtenerConfiguraciones();
   },
   methods: {
-    obtenerTareas: function obtenerTareas() {
-      var _this2 = this;
+    obtenerConfiguraciones: function obtenerConfiguraciones() {
+      var _this = this;
 
-      var URL = '/tareas/obtener-tareas';
+      var URL = '/configuraciones';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data; // console.log(this.tareas);
+        _this.commission = response.data;
+      })["catch"](function (error) {
+        console.log(error.data);
       });
     },
-    detalleTarea: function detalleTarea(task) {
-      var _this3 = this;
+    guardarConfiguraciones: function guardarConfiguraciones() {
+      var _this2 = this;
 
-      Swal.fire({
-        title: task.categoria + " " + task.cliente,
-        text: "Detalles: " + task.notas,
-        type: 'info',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Tarea Finalizada',
-        cancelButtonText: 'Cerrar'
-      }).then(function (result) {
-        if (result.value) {
-          //  console.log(task);
-          var url = '/tareas/eliminar-tarea/' + task.id;
-          axios["delete"](url).then(function (response) {
-            _this3.obtenerTareas();
-          });
-        }
+      var URL = '/configuraciones/create';
+      axios.post(URL, this.commission).then(function (response) {
+        Swal.fire('Correcto', 'Configuraciones guardadas', 'success');
+
+        _this2.obtenerConfiguraciones();
+      })["catch"](function (error) {
+        Swal.fire('Incorrecto', 'Configuraciones no guardadas', 'error');
+
+        _this2.obtenerConfiguraciones();
       });
     }
   }
@@ -19466,7 +19539,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.row-tasks{\n   color:black;\n}\n.row-tasks:hover{\n    background:#F5F5F5;\n}\n", ""]);
+exports.push([module.i, "\n.row-tasks {\n  color: black;\n}\n.row-tasks:hover {\n  background: #f5f5f5;\n}\n", ""]);
 
 // exports
 
@@ -72214,7 +72287,106 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }),
+              _c("div", { staticClass: "col-md-3" }, [
+                _vm.verSettings
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.iva,
+                          expression: "iva"
+                        }
+                      ],
+                      attrs: { type: "text", width: "20%" },
+                      domProps: { value: _vm.iva },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.iva = $event.target.value
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.verSettings
+                  ? _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.tipoComision,
+                            expression: "presupuesto.tipoComision"
+                          }
+                        ],
+                        attrs: { type: "text", width: "20%" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "tipoComision",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "100" } }, [
+                          _vm._v("Comision completa")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "50" } }, [
+                          _vm._v("Comision a la mitad")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Introducir manualmente")
+                        ])
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.presupuesto.tipoComision == 0
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.presupuesto.comision,
+                          expression: "presupuesto.comision"
+                        }
+                      ],
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.presupuesto.comision },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.presupuesto,
+                            "comision",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4 mt-4" }, [
                 _c("h5", [
@@ -72760,6 +72932,50 @@ var render = function() {
                                 }
                               })
                             ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Precio de venta")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.paquete.precioVenta,
+                                    expression: "paquete.precioVenta"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Precio unitario"
+                                },
+                                domProps: { value: _vm.paquete.precioVenta },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.paquete,
+                                      "precioVenta",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
                           ])
                         ]),
                         _vm._v(" "),
@@ -73171,6 +73387,52 @@ var render = function() {
                                     _vm.$set(
                                       _vm.productoExterno,
                                       "precioUnitario",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Precio venta")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.productoExterno.precioVenta,
+                                    expression: "productoExterno.precioVenta"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Precio venta"
+                                },
+                                domProps: {
+                                  value: _vm.productoExterno.precioVenta
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.productoExterno,
+                                      "precioVenta",
                                       $event.target.value
                                     )
                                   }
@@ -82372,170 +82634,307 @@ var render = function() {
       attrs: { "data-toggle": "appear" }
     },
     [
-      _c(
-        "form",
-        {
-          attrs: { action: "POST" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.actualizarSettings()
-            }
-          }
-        },
-        [_vm._m(0), _vm._v(" "), _vm._m(1)]
-      )
+      _c("div", { staticClass: "form-group row" }, [
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.porcentajeCrecimientoVentas,
+                  expression: "commission.porcentajeCrecimientoVentas"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridf",
+                value: "0",
+                name: "material-gridf"
+              },
+              domProps: { value: _vm.commission.porcentajeCrecimientoVentas },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "porcentajeCrecimientoVentas",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridf" } }, [
+              _vm._v("Porcentaje Meta De Crecimiento En ventas")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.porcentajeCrecimientoUtilidad,
+                  expression: "commission.porcentajeCrecimientoUtilidad"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridl",
+                value: "0",
+                name: "material-gridl"
+              },
+              domProps: { value: _vm.commission.porcentajeCrecimientoUtilidad },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "porcentajeCrecimientoUtilidad",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridl" } }, [
+              _vm._v("Porcentaje Meta De Crecimiento En Utilidad")
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group row" }, [
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.bonoObjetivoVentas,
+                  expression: "commission.bonoObjetivoVentas"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridf",
+                value: "1000",
+                name: "material-gridf"
+              },
+              domProps: { value: _vm.commission.bonoObjetivoVentas },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "bonoObjetivoVentas",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridf" } }, [
+              _vm._v("Bono monetario si se alcanza el objetivo de ventas")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.bonoObjetivoNoVentas,
+                  expression: "commission.bonoObjetivoNoVentas"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridl",
+                value: "0",
+                name: "material-gridl"
+              },
+              domProps: { value: _vm.commission.bonoObjetivoNoVentas },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "bonoObjetivoNoVentas",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridl" } }, [
+              _vm._v("Bono monetario si no se alcanza el objetivo de ventas")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.comisionContrato,
+                  expression: "commission.comisionContrato"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridl",
+                value: "5%",
+                name: "material-gridl"
+              },
+              domProps: { value: _vm.commission.comisionContrato },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "comisionContrato",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridl" } }, [
+              _vm._v("Comision general por contrato")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.bonoVendedorMes,
+                  expression: "commission.bonoVendedorMes"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridl",
+                value: "2000",
+                name: "material-gridl"
+              },
+              domProps: { value: _vm.commission.bonoVendedorMes },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "bonoVendedorMes",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridl" } }, [
+              _vm._v("Bono monetario para vendedor del mes")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "form-material" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.commission.minimoVentaComision,
+                  expression: "commission.minimoVentaComision"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "material-gridl",
+                value: "2000",
+                name: "material-gridl"
+              },
+              domProps: { value: _vm.commission.minimoVentaComision },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.commission,
+                    "minimoVentaComision",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "material-gridl" } }, [
+              _vm._v("Minimo de venta para comisión")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-10" }),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-md-2", staticStyle: { "padding-top": "20px" } },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                on: {
+                  click: function($event) {
+                    return _vm.guardarConfiguraciones()
+                  }
+                }
+              },
+              [_vm._v("Guardar")]
+            )
+          ]
+        )
+      ])
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridf",
-              value: "0",
-              name: "material-gridf"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridf" } }, [
-            _vm._v("Porcentaje Meta De Crecimiento En ventas")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridl",
-              value: "0",
-              name: "material-gridl"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridl" } }, [
-            _vm._v("Porcentaje Meta De Crecimiento En Utilidad")
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridf",
-              value: "1000",
-              name: "material-gridf"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridf" } }, [
-            _vm._v("Bono monetario si se alcanza el objetivo de ventas")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridl",
-              value: "0",
-              name: "material-gridl"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridl" } }, [
-            _vm._v("Bono monetario si no se alcanza el objetivo de ventas")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridl",
-              value: "5%",
-              name: "material-gridl"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridl" } }, [
-            _vm._v("Comision general por contrato")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridl",
-              value: "2000",
-              name: "material-gridl"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridl" } }, [
-            _vm._v("Bono monetario para vendedor del mes")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "form-material" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              id: "material-gridl",
-              value: "2000",
-              name: "material-gridl"
-            }
-          }),
-          _vm._v(" "),
-          _c("label", { attrs: { for: "material-gridl" } }, [
-            _vm._v("Minimo de venta para comisión")
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-10" }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-md-2", staticStyle: { "padding-top": "20px" } },
-        [_c("button", { staticClass: "btn btn-info" }, [_vm._v("Guardar")])]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -99905,13 +100304,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

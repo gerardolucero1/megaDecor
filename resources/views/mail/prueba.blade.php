@@ -80,13 +80,18 @@ a[x-apple-data-detectors] {
                    </table></td> 
                  </tr> 
                </table> 
+               @php
+                $id = $presupuesto['vendedor_id'];
+                $vendedor = App\User::where('id', '=', $id)->first();
+
+						  @endphp
                <!--[if mso]></td><td width="20"></td><td width="356" valign="top"><![endif]--> 
                <table cellpadding="0" cellspacing="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                  <tr style="border-collapse:collapse;"> 
                   <td width="356" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                     <td align="center" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>{{ $presupuesto->folio }}</strong></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>VENDEDOR</strong>: {{ $presupuesto->vendedor_id }}</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>FECHA PRESUPUESTO</strong>: {{ $presupuesto->fechaEvento }}</p></td> 
+                     <td align="center" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>{{ $presupuesto['folio'] }}</strong></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>VENDEDOR</strong>: {{ $vendedor->name }}</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;text-align:center;"><strong>FECHA PRESUPUESTO</strong>: {!! $presupuesto['fechaEvento'] !!}</p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -151,8 +156,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->tipoEvento }}</li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->fechaEvento }} </li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto['tipoEvento'] }}</li> 
+                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto['fechaEvento'] }} </li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -167,8 +172,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto->tipoServicio }}<br></li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">4:00PM-11:00PM</li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto['tipoServicio'] }}<br></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">{{ $presupuesto['horaEventoInicio'] }}-{{ $presupuesto['horaEventoFin'] }}</li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -182,7 +187,21 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">XV AÑOS</li> 
+                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">
+                          @switch($presupuesto['categoriaEvento'])
+                              @case(1)
+                                  XV AÑOS
+                                  @break
+                              @case(2)
+                                  BODA
+                                  @break
+                              @case(3)
+                                  ANIVERSARIO
+                                  @break
+                              @default
+                                  OTRO
+                          @endswitch
+                        </li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -190,6 +209,15 @@ a[x-apple-data-detectors] {
                </table> 
                <!--[if mso]></td></tr></table><![endif]--></td> 
              </tr> 
+             @php
+                $other = $presupuesto['client_id'];
+                $cliente = App\Client::where('id', '=', $other)->first();
+                if($cliente->tipoPersona == 'MORAL'){
+                  $persona = App\MoralPerson::where('client_id', $cliente->id)->first();
+                }else{
+                  $persona = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                }  
+						  @endphp
              <tr style="border-collapse:collapse;"> 
               <td align="left" style="padding:0;Margin:0;padding-left:20px;padding-right:20px;"> 
                <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
@@ -219,8 +247,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">NOMBRE: MARIANO R.</li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">CORREO: MARIANOR@GMAIL.COM</li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">NOMBRE: {{ $persona->nombre }} {{ $persona->apellidoPaterno }}  {{ $persona->apellidoMaterno }}</li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">CORREO: {{ $persona->email }}</li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -235,8 +263,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">DATOS: <strong>123456789 </strong></li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;"><strong></strong>DATOS: <strong>123456789</strong></li> 
+                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">DIRECCION: <strong>{{ $persona->direccionFacturacion }} </strong></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;"><strong></strong>COLONIA: <strong>{{ $persona->coloniaFacturacion }}</strong></li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -250,8 +278,8 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">DATOS: <strong>123456789</strong></li> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">DATOS: <strong>123456789</strong></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">NUMERO: <strong>{{ $persona->numeroFacturacion }}</strong></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">TIPO CREDITO: <strong>{{ $persona->tipoCredito }}</strong></li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -271,7 +299,7 @@ a[x-apple-data-detectors] {
                      <tr style="border-collapse:collapse;"> 
                       <td align="left" style="padding:0;Margin:0;"> 
                        <ul> 
-                        <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;Margin-bottom:15px;color:#333333;"><strong>LUGAR DEL EVENTO&nbsp; &nbsp; </strong><span style="font-size:10px;">MISMA DIRECCÍON</span></li> 
+                       <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;Margin-bottom:15px;color:#333333;"><strong>LUGAR DEL EVENTO&nbsp; &nbsp; </strong><span style="font-size:10px;">{{ $presupuesto['lugarEvento'] }}</span></li> 
                        </ul></td> 
                      </tr> 
                    </table></td> 
@@ -286,7 +314,7 @@ a[x-apple-data-detectors] {
                   <td width="185" class="es-m-p20b" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="right" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">NOMBRE:</p></td> 
+                     <td align="right" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;">NOMBRE:</p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -297,7 +325,7 @@ a[x-apple-data-detectors] {
                   <td width="355" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;"><strong>CARNITAS TAVO</strong></p></td> 
+                     <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;"><strong>{{ $presupuesto['nombreLugar'] }}</strong></p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -323,7 +351,7 @@ a[x-apple-data-detectors] {
                   <td width="355" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;"><strong>CALLE 45 #3456 COL.ZARCO C.P.36078</strong></p></td> 
+                     <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;"><strong>{{ $presupuesto['direccionLugar'] }}</strong></p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -349,7 +377,7 @@ a[x-apple-data-detectors] {
                   <td width="355" align="left" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:12px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;"><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.&nbsp;</strong></p></td> 
+                     <td align="left" style="padding:0;Margin:0;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:12px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;"><strong>{{ $presupuesto['observacionesLugar'] }}</strong></p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -400,55 +428,17 @@ a[x-apple-data-detectors] {
                           <th style="padding:4px;">PRECIO FINAL</th> 
                           <th style="padding:4px;">AHORRO</th> 
                           <th style="padding:4px;">NOTAS</th> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse;font-size:12px;"> 
-                          <td style="padding:0;Margin:0;">PASTEL</td> 
-                          <td style="padding:0;Margin:0;">37</td> 
-                          <td style="padding:0;Margin:0;">100</td> 
-                          <td style="padding:0;Margin:0;">3700</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                          <td style="padding:0;Margin:0;">00</td> 
-                         </tr> 
+                         </tr>
+                         @foreach ($inventario as $item)
+                            <tr style="border-collapse:collapse;font-size:12px;"> 
+                                <td style="padding:0;Margin:0;">{{ $item['servicio'] }}</td> 
+                                <td style="padding:0;Margin:0;">{{ $item['cantidad'] }}</td> 
+                                <td style="padding:0;Margin:0;">{{ $item['precioUnitario'] }}</td> 
+                                <td style="padding:0;Margin:0;">{{ $item['precioFinal'] }}</td> 
+                                <td style="padding:0;Margin:0;">{{ $item['ahorro'] }}</td> 
+                                <td style="padding:0;Margin:0;">{{ $item['notas'] }}</td> 
+                            </tr> 
+                         @endforeach 
                        </table></td> 
                      </tr> 
                    </table></td> 

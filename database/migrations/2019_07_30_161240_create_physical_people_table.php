@@ -21,6 +21,7 @@ class CreatePhysicalPeopleTable extends Migration
             $table->string('apellidoPaterno');
             $table->string('apellidoMaterno');
             $table->string('email');
+            $table->string('telefono');
 
             //Datos de Facturacion
 

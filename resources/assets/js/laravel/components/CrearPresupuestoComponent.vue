@@ -442,7 +442,13 @@ padding: 0;
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-3">
-                                
+                                <input v-if="verSettings" type="text" v-model="iva" width="20%">
+                                <select v-if="verSettings" type="text" v-model="presupuesto.tipoComision" width="20%">
+                                    <option value="100">Comision completa</option>
+                                    <option value="50">Comision a la mitad</option>
+                                    <option value="0">Introducir manualmente</option>
+                                </select>
+                                <input type="number" v-if="presupuesto.tipoComision == 0" v-model="presupuesto.comision">
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
@@ -561,6 +567,13 @@ padding: 0;
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio de venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
@@ -650,6 +663,13 @@ padding: 0;
                                         <label class="col-12" for="example-text-input">Precio unitario</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
                                 </div>
@@ -1040,6 +1060,7 @@ padding: 0;
                 usuarios: [],
 
                 presupuesto:{
+                    folio: '',
                     vendedor_id: '',
                     client_id: '',
                     tipoEvento: 'EXTERNO',
@@ -1086,6 +1107,7 @@ padding: 0;
                     //Total
                     total: '',
 
+                    tipoComision: 100,
                     comision: '',
                 },
 
@@ -1105,6 +1127,7 @@ padding: 0;
                     'imagen': '',
                     'servicio': '',
                     'precioUnitario': '',
+                    'precioVenta': '',
                 },
                 
                 inventarioLocal: [],
@@ -1139,6 +1162,7 @@ padding: 0;
                 paquete: {
                     servicio: '',
                     precioFinal: '',
+                    precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
                     inventario: [],
@@ -1172,7 +1196,8 @@ padding: 0;
                     numeroFacturacion: '',
                     coloniaFacturacion: '',
                     emailFacturacion: '',
-                }
+                },
+                configuraciones: '',
             }
         },
         created(){
@@ -1183,6 +1208,7 @@ padding: 0;
             this.obtenerInventario();
             this.obtenerUsuario();
             this.obtenerUsuarios();
+            this.obtenerConfiguraciones();
             
             this.$on('results', results => {
                 this.results = results
@@ -1243,6 +1269,7 @@ padding: 0;
                         return nuevoFolio
                     }else{
                         let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        this.presupuesto.folio = nuevoFolio;
                         return nuevoFolio
                     }
                     //return nuevoFolio;
@@ -1330,6 +1357,15 @@ padding: 0;
             },
         },
         methods:{
+            obtenerConfiguraciones: function(){
+                let URL = '/configuraciones';
+
+                axios.get(URL).then((response) => {
+                    this.configuraciones = response.data;
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
             editarPaquete(producto, index){
                 this.paqueteEdicion.externo = producto.externo;
                 this.paqueteEdicion.imagen = producto.imagen;
@@ -1422,6 +1458,7 @@ padding: 0;
                     'precioFinal': '',
                     'cantidad': '',
                     'id': producto.id,
+                    'precioVenta': producto.precioVenta,
                 });
                 console.log(this.paquete.inventario);
             },
@@ -1489,6 +1526,7 @@ padding: 0;
                         'paquete': this.paquete,
                         'tipo': 'PAQUETE',
                         'id': '',
+                        'precioVenta': this.paquete.precioVenta,
                     });
                 }
 
@@ -1566,6 +1604,7 @@ padding: 0;
                             'precioFinal': '',
                             'cantidad': '',
                             'id': '',
+                            'precioVenta': this.productoExterno.precioVenta,
                         });
                     
                     
@@ -1591,6 +1630,7 @@ padding: 0;
                             'paquete': '',
                             'tipo': 'PRODUCTO',
                             'id': '',
+                            'precioVenta': this.productoExterno.precioVenta,
                         });
                     }
                     
@@ -1758,6 +1798,16 @@ padding: 0;
                     this.presupuesto.tipoServicio = ''
                 }
 
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
                 let URL = '/presupuestos/create';
                 axios.post(URL, {
                     'presupuesto': this.presupuesto,
@@ -1822,6 +1872,17 @@ padding: 0;
                         
                     }
                 }
+
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
                 let URL = '/presupuestos/create';
                 axios.post(URL, {
                     'presupuesto': this.presupuesto,

@@ -124,6 +124,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
         Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
 
+    //Configuraciones
+    Route::get('/configuraciones', 'CMS\CommissionController@index');
+    Route::post('/configuraciones/create', 'CMS\CommissionController@store');
+    Route::put('/configuraciones/update', 'CMS\CommissionController@update');
+
+    //Ventas
+    Route::get('/ventas', 'CMS\IndexController@ventas')->name('index.ventas');
+    Route::post('/ventas', 'CMS\IndexController@ventasFiltro')->name('show.ventas');
+    Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
+
     //Emails
     Route::post('enviar-email', function(Request $request){
         

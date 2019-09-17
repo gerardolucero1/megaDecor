@@ -34,25 +34,14 @@ class ClientController extends Controller
     }
 
     // Esta funcion se encarga de buscar si hay un telefono repetido y retorna el cliente al que le pertenece
-    public function viejoTelefono(){
-        $cliente = DB::table('moral_people')
-            ->join('telephones', 'telephones.client_id', '=', 'moral_people.client_id')
-            ->select('moral_people.nombre')
-            ->get();
-
-        $tamano = count($cliente);
+    public function viejoTelefono(Request $request){
+        $cliente = Client::find($request->id);
         
-        if($tamano == 0){
-
-            $cliente = DB::table('physical_people')
-            ->join('telephones', 'telephones.client_id', '=', 'physical_people.client_id')
-            ->select('physical_people.nombre')
-            ->get();
-
+        if($cliente->tipoPersona == 'FISICA'){
+            return PhysicalPerson::where('client_id', $cliente->id)->first();
+        }else{
+            return MoralPerson::where('client_id', $cliente->id)->first();
         }
-
-        
-        return $cliente;
     }
 
     public function deleteViejoTelefono($id){
@@ -98,8 +87,6 @@ class ClientController extends Controller
     }
     public function store(Request $request)
     {
-        //dd($request->telefonos);
-
         /*
         Generar cadena aleatoria en PHP con str_shuffle
         */
@@ -123,6 +110,8 @@ class ClientController extends Controller
         // Obtengo el ultimo cliente guardado en la base de datos.
         $ultimoCliente = Client::orderBy('id', 'DESC')->pluck('id')->first();
 
+        
+
         if($request->tipoPersona == 'fisica'){
 
             // Guardo una nueva persona fisica.
@@ -140,6 +129,7 @@ class ClientController extends Controller
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
+            $cliente->telefono = $request->telefonos[0]['numero'];
             $cliente->save();
 
         }else{
@@ -161,6 +151,7 @@ class ClientController extends Controller
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
+            $cliente->telefono = $request->telefonos[0]['numero'];
             $cliente->save();
         }
 

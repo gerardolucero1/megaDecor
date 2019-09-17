@@ -23,6 +23,7 @@ class CreateMoralPeopleTable extends Migration
             $table->string('direccionEmpresa');
             $table->string('coloniaEmpresa');
             $table->string('numeroEmpresa');
+            $table->string('telefono');
             
             //Datos de Facturacion
 
