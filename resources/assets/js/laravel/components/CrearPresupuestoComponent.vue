@@ -40,19 +40,25 @@
         background-color: white;
         overflow: scroll;
         max-height: 300px;
+        -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+-moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+padding: 0;
+
     }
 
     table tr td input{
         border: none;
         background-color: transparent;
     }
-
-  .contenedor-producto{
-        background-color: white;
-        border-bottom: 1px dotted gray;
+    .contenedor-producto{
+        border-bottom:none;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        height: 100%;
+        margin-bottom: 0;
+        font-size: 14px;
     }
-    
-      
     .contenedor-producto:hover{
         border-bottom:none; 
         padding-top: 8px;
@@ -68,94 +74,93 @@
 <template>
     <section class="container">
         <div class="row">
-                <div class="col-md-12 registroPresupuesto">
-                    <div class="row">
-                        <div class="col-md-8 text-left">
-                            <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+            <div class="col-md-12 registroPresupuesto">
+                <div class="row">
+                    <div class="col-md-8 text-left">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
-                            </div>
-                            <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
-
-                            </div>
                         </div>
-                        <div class="col-md-3 text-right info">
-                            <p>{{ obtenerFolio }}</p>
-                            <div class="row">
-                                <div class="col-md-4 text-right">
-                                    <label>Vendedor: </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
-                                        <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+
                         </div>
                     </div>
-                    <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
-                        <div class="col-md-6">
-                            <h4>Informacion del evento</h4>
-                                <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
-                                <label for="salonMega">Salon Mega Mundo</label>
-                            <br>
-                            <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
-                            <label for="salonFuera">Evento Fuera</label>
-                                <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
-                                    <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
-                                    <label for="servicioFormal">Servicio Formal</label>
-                                    <br>
-                                    <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio">
-                                    <label for="servicioInfantil">Servicio Infantil</label>
-                                </div>
+                    <div class="col-md-3 text-right info">
+                        <p>{{ obtenerFolio }}</p>
+                        <div class="row">
+                            <div class="col-md-4 text-right">
+                                <label>Vendedor: </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            
-                            <div class="row" >
-                                <div class="col-md-8 offset-md-4">
-                                    <h4 class="">Categoria del evento</h4>
-                                    <select name="categoriaEvento" id="" v-model.trim="$v.presupuesto.categoriaEvento.$model">
-                                        <option value="1">Boda</option>
-                                        <option value="2">XV Años</option>
-                                        <option value="3">Aniversario</option>
-                                    </select>
-                                    <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
-                                    
-                                    <div class="row mt-4">
-                                        <div class="col-md-10">
-                                            <input type="date" v-model="presupuesto.fechaEvento">
-                                        </div>
-                                        <div class="col-md-2 text-left">
-                                            <i class="si si-calendar" style="font-size: 24px;"></i>
-                                        </div>
-                                        
+                        <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
+                    </div>
+                </div>
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
+                    <div class="col-md-6">
+                        <h4>Informacion del evento</h4>
+                            <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
+                            <label for="salonMega">Salon Mega Mundo</label>
+                        <br>
+                        <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento">
+                        <label for="salonFuera">Evento Fuera</label>
+                            <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
+                                <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio">
+                                <label for="servicioFormal">Servicio Formal</label>
+                                <br>
+                                <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio">
+                                <label for="servicioInfantil">Servicio Infantil</label>
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                        <div class="row" >
+                            <div class="col-md-8 offset-md-4">
+                                <h4 class="">Categoria del evento</h4>
+                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
+                                    <option value="1">Boda</option>
+                                    <option value="2">XV Años</option>
+                                    <option value="3">Aniversario</option>
+                                </select>
+                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-10">
+                                        <input type="date" v-model="presupuesto.fechaEvento">
                                     </div>
-                                    <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
-                                    <label for="pendienteFecha">Pendiende</label>
+                                    <div class="col-md-2 text-left">
+                                        <i class="si si-calendar" style="font-size: 24px;"></i>
+                                    </div>
+                                    
+                                </div>
+                                <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
+                                <label for="pendienteFecha">Pendiende</label>
 
-                                </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-md-8 offset-md-4 row">
-                                    <h4>Horario del evento</h4>
-                                <div class="col-md-6" style="padding-left:0">
-                                    <label>Inicio del evento</label><br>
-                                    <input type="time" v-model="presupuesto.horaEventoInicio">
-                                </div>
-                            
-                                <div class="col-md-6" style="padding-left:0">
-                                    <label>Fin del evento</label><br>
-                                    <input type="time" v-model="presupuesto.horaEventoFin">
-                                </div>
-                                <label for="pendienteHora" style="padding-top:10px">
-                                <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                                Pendiende</label>
-                                </div>
-                            
-                            </div>
-                            
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-8 offset-md-4 row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoInicio">
+                            </div>
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoFin">
+                            </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                            Pendiende</label>
+                            </div>
+                          
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
@@ -167,7 +172,7 @@
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
-                                    :keys="['nombre', 'email', 'telefono']"
+                                    :keys="['nombre', 'email']"
                                     
                                 ></buscador-component>
 
@@ -182,7 +187,7 @@
                                                 <div class="col-md-8">
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }}</span></p>
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.email }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.telefono }}</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">5554455</p>
                                                     
                                                 </div>
                                                 
@@ -190,120 +195,83 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--
-                                    <select name="" id="" v-model="presupuesto.client_id">
-                                        <option v-bind:value="cliente.id" v-for="cliente in clientes" v-bind:key="cliente.index">{{ cliente.nombre }}</option>
-                                    </select>
-                                    -->
                                 </div>
-                                <div class="col-md-5">
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
-                                </div>
+                                <!--
+                                <select name="" id="" v-model="presupuesto.client_id">
+                                    <option v-bind:value="cliente.id" v-for="cliente in clientes" v-bind:key="cliente.index">{{ cliente.nombre }}</option>
+                                </select>
+                                -->
                             </div>
-                            <div v-if="clienteSeleccionado" class="info">
-                                <p>{{ clienteSeleccionado.nombre }}</p>
-                                <p>{{ clienteSeleccionado.email }}</p>
-                                <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                    {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
-                                </p>
+                            <div class="col-md-5">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
                             </div>
                         </div>
-                        <div class="col-md-4 text-right" v-if="clienteSeleccionado">
-                            <div class="info">
-                                <p>Ultimo evento: 
-                                    <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
-                                    <span v-else>Primer Evento</span>
-                                </p>
-                                <p><span>{{ calcularContratos }}</span> eventos contratados</p>
-                                <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                    <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
-                                    <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
-                            </div>
+                        <div v-if="clienteSeleccionado" class="info">
+                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p>{{ clienteSeleccionado.email }}</p>
+                            <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
+                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                            </p>
                         </div>
                     </div>
-                    <h4>Lugar del Evento</h4>
-                    <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none">
-                        <div class="col-md-4">
-                            <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
-                            <label for="lugarMismo">Misma Direccion</label>
+                    <div class="col-md-4 text-right" v-if="clienteSeleccionado">
+                        <div class="info">
+                            <p>Ultimo evento: 
+                                <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
+                                <span v-else>Primer Evento</span>
+                            </p>
+                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
+                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
+                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
+                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
-                        <div class="col-md-4">
-                            <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
-                            <label for="lugarOtro">Otra</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
-                            <label for="pendienteLugar">Pendiente</label>
-                        </div>
+                    </div>
+                </div>
+                <h4>Lugar del Evento</h4>
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                    <div class="col-md-4">
+                        <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
+                        <label for="lugarMismo">Misma Direccion</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
+                        <label for="lugarOtro">Otra</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
+                        <label for="pendienteLugar">Pendiente</label>
+                    </div>
 
-                        <div class="col-md-10 mt-4">
-                            <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
-                        </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
-                        </div>
-                        <div class="col-md-2 mt-4">
-                            <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
-                        </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
-                        </div>
-                        <div class="col-md-2 mt-4">
-                            <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
-                        </div>
-                        <div class="col-md-12 mt-4">
-                            <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
-                        </div>
+                    <div class="col-md-10 mt-4">
+                        <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
+                    </div>
 
-                        <div class="col-md-2 mt-4">
-                            <label for=""># Invitados</label>
-                            <input type="number" name="" id="" v-model="$v.presupuesto.numeroInvitados.$model">
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <label for="">Tono del evento</label>
-                            <input type="text" name="" id="" v-model="$v.presupuesto.colorEvento.$model">
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <label for="">Tema del evento</label>
-                            <input type="text" name="" id="" v-model="$v.presupuesto.temaEvento.$model">
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <label for="">Festejado(s)</label>
-                            <input type="text" name="" id="" v-model="festejado.nombre">
-                            <input class="mt-2" type="number" name="" id="" v-model="festejado.edad">
-                        </div>
-                        <div class="col-md-1 mt-4">
-                            <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()">Mas</button>
-                        </div>
+                    <div class="col-md-2 mt-4">
+                        <label for=""># Invitados</label>
+                        <input type="number" name="" id="" v-model="presupuesto.numeroInvitados">
                     </div>
-                    <!-- Tabla de festejados -->
-                    <div class="row" v-if="festejados.length !== 0">
-                        <div class="col-md-6 offset-md-3">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">NOMBRE</th>
-                                        <th scope="col">EDAD</th>
-                                        <th scope="col" class="text-center">OPCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(festejado, index) in festejados" v-bind:key="festejado.index">
-                                        <td>{{ festejado.nombre }}</td>
-                                        <td>{{ festejado.edad }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>  
+                    <div class="col-md-3 mt-4">
+                        <label for="">Tono del evento</label>
+                        <input type="text" name="" id="" v-model="presupuesto.colorEvento">
                     </div>
-                    <h4>Archivos de Referencia</h4>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input type="file" name="" id="">
-                        </div>
+                    <div class="col-md-3 mt-4">
+                        <label for="">Tema del evento</label>
+                        <input type="text" name="" id="" v-model="presupuesto.temaEvento">
                     </div>
                     <div class="col-md-3 mt-4">
                         <label for="">Festejado(s)</label>
@@ -328,38 +296,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                    <th scope="row">
-                                        <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                    </th>
-                                    <td>
-                                        <img v-bind:src="producto.imagen" alt="" width="100%">
-                                    </td>
-                                    <td>{{ producto.servicio }}</td>
-                                    <td>
-                                        <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                        <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
-                                        
-                                    </td>
-                                    <td>{{ producto.precioUnitario }}</td>
-                                    <td>
-                                        <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                        <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
-                                    </td>
-                                    <td>
-                                        <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                        <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
-                                    </td>
-                                    <td>
-                                        <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
-                                            
-                                        </textarea>
-                                        <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
-                                            {{ producto.notas }}
-                                        </span>
-                                        
-
-                                    </td>
+                                <tr v-for="(festejado, index) in festejados" v-bind:key="festejado.index">
+                                    <td>{{ festejado.nombre }}</td>
+                                    <td>{{ festejado.edad }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)"><i class="fa fa-remove"></i></button>
                                     </td>
@@ -503,8 +442,7 @@
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-3">
-                               
-                               
+                                
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
@@ -521,10 +459,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
                 <div class="">
                         <button class="btn btn-primary" @click="imprimirPDF()"><i class="si si-printer"></i> Imprimir</button>
-                        <button class="btn btn-primary" @click="guardarPresupuesto($v.presupuesto)"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                        <button class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</button>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                         <button class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</button>
                 </div>
@@ -539,6 +478,7 @@
                     <label v-if="verSettings">IVA establecido</label>
                     <input v-if="verSettings" type="text" v-model="iva" width="20%">
                 </div>
+            </div>
         </div>
         <!--
         <div class="row">
@@ -878,7 +818,7 @@
             </div>
         </div>
 
-        <!-- Modal ver guardar contrato -->
+        <!-- Modal ver presupuestos -->
         <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
@@ -939,7 +879,7 @@
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato($v.presupuesto)">Save</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
                 </div>
                 </div>
             </div>
@@ -1082,7 +1022,6 @@
     import BuscadorComponent from './BuscadorComponent.vue';
     // Importamos el evento Bus.
     import { EventBus } from '../eventBus.js';
-    import { required, minLength, between, email } from 'vuelidate/lib/validators';
 
     export default {
         components: {
@@ -1253,22 +1192,6 @@
                     emailFacturacion: '',
                 },
                 configuraciones: '',
-            }
-        },
-        validations: {
-            presupuesto: {
-                categoriaEvento: {
-                    required,
-                },
-                numeroInvitados: {
-                    required,
-                },
-                colorEvento: {
-                    required,
-                },
-                temaEvento: {
-                    required,
-                },
             }
         },
         created(){
@@ -1851,7 +1774,7 @@
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
-                    console.log('Estos son todos los clientes: ', this.clientes);
+                    console.log(this.clientes);
                 })
             },
             agregarFestejado(){
@@ -1862,29 +1785,8 @@
                 this.festejados.splice(index, 1);
             },
 
-            checkForm(e){
-                if(e.$invalid){
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'Algo salio mal',
-                        footer: '<p>¿Completaste los campos requeridos?</p>'
-                    })
-                }else{
-                    this.guardarPresupuesto();
-                }
-            },
-
             // Guardar como presupuesto
-            guardarPresupuesto(e){
-                if(e.$invalid){
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'Algo salio mal',
-                        footer: '<p>¿Completaste los campos requeridos?</p>'
-                    })
-                }else{
+            guardarPresupuesto(){
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -1941,18 +1843,9 @@
                         'error'
                     );
                 });
-                }
             },
             // Guardar como contrato
-            guardarContrato(e){
-                if(e.$invalid){
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'Algo salio mal',
-                        footer: '<p>¿Completaste los campos requeridos?</p>'
-                    })
-                }else{
+            guardarContrato(){
                 this.presupuesto.tipo = 'CONTRATO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -2015,7 +1908,6 @@
                         'error'
                     );
                 });
-                }
             },
             imprimirPDF(){
                 if(!this.imprimir){
