@@ -190,10 +190,10 @@ a[x-apple-data-detectors] {
                         <li style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:10px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:15px;Margin-bottom:15px;color:#333333;">
                           @switch($presupuesto['categoriaEvento'])
                               @case(1)
-                                  XV AÑOS
+                                  BODA
                                   @break
                               @case(2)
-                                  BODA
+                                  XV AÑOS
                                   @break
                               @case(3)
                                   ANIVERSARIO
