@@ -16021,6 +16021,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -16169,7 +16181,8 @@ __webpack_require__.r(__webpack_exports__);
         coloniaFacturacion: '',
         emailFacturacion: ''
       },
-      demoP: ''
+      demoP: '',
+      saldoFinal: ''
     };
   },
   created: function created() {
@@ -16691,12 +16704,12 @@ __webpack_require__.r(__webpack_exports__);
     guardarPresupuesto: function guardarPresupuesto() {
       var _this9 = this;
 
+      /*
       this.presupuesto.tipo = 'PRESUPUESTO';
-
-      if (this.presupuesto.tipoEvento == 'INTERNO') {
-        this.presupuesto.tipoServicio = '';
+      if(this.presupuesto.tipoEvento == 'INTERNO'){
+          this.presupuesto.tipoServicio = ''
       }
-
+      */
       var URL = '/presupuestos/create/version';
       axios.post(URL, {
         'presupuesto': this.presupuesto,
@@ -16734,6 +16747,7 @@ __webpack_require__.r(__webpack_exports__);
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
         _this10.presupuesto = response.data;
+        _this10.saldoFinal = _this10.presupuesto.total;
 
         var cliente = _this10.clientes.find(function (element) {
           return element.id == response.data.client_id;
@@ -16889,6 +16903,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (error) {
         console.log(error.data);
+      });
+    },
+    reduccionDeContrato: function reduccionDeContrato() {
+      Swal.fire({
+        type: 'info',
+        title: 'Reduccion de contrato',
+        text: 'Se ha avisado al administrador de una reduccion de contrato',
+        footer: '<p>El administrador recibira un aviso de este contrato</p>'
       });
     }
   }
@@ -73636,7 +73658,41 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(25, true)
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "btn-group" },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-sm btn-secondary js-tooltip-enabled",
+                                                      attrs: {
+                                                        href:
+                                                          "/presupuestos/ver/" +
+                                                          presupuesto.id,
+                                                        type: "button",
+                                                        "data-toggle":
+                                                          "tooltip",
+                                                        title: "",
+                                                        "data-original-title":
+                                                          "Edit"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass: "fa fa-eye"
+                                                      })
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
                                         ]
                                       )
                                     }
@@ -73651,7 +73707,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(26)
+                _vm._m(25)
               ]
             )
           ]
@@ -73686,7 +73742,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(27),
+                _vm._m(26),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74135,7 +74191,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(28),
+                _vm._m(27),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74194,7 +74250,7 @@ var render = function() {
                                                   "block-content block-content-full clearfix"
                                               },
                                               [
-                                                _vm._m(29, true),
+                                                _vm._m(28, true),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -74509,7 +74565,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(30),
+                            _vm._m(29),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -75138,28 +75194,6 @@ var staticRenderFns = [
           "th",
           { staticClass: "text-center", staticStyle: { width: "100px" } },
           [_vm._v("ACCIONES")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("div", { staticClass: "btn-group" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-secondary js-tooltip-enabled",
-            attrs: {
-              type: "button",
-              "data-toggle": "tooltip",
-              title: "",
-              "data-original-title": "Edit"
-            }
-          },
-          [_c("i", { staticClass: "fa fa-eye" })]
         )
       ])
     ])
@@ -77104,30 +77138,55 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "row mt-4" }, [
                     _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.fechaEvento,
-                            expression: "presupuesto.fechaEvento"
-                          }
-                        ],
-                        attrs: { type: "date" },
-                        domProps: { value: _vm.presupuesto.fechaEvento },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _vm.presupuesto.tipo == "PRESUPUESTO"
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.presupuesto.fechaEvento,
+                                expression: "presupuesto.fechaEvento"
+                              }
+                            ],
+                            attrs: { type: "date" },
+                            domProps: { value: _vm.presupuesto.fechaEvento },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.presupuesto,
+                                  "fechaEvento",
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "fechaEvento",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
+                          })
+                        : _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.presupuesto.fechaEvento,
+                                expression: "presupuesto.fechaEvento"
+                              }
+                            ],
+                            attrs: { type: "date", readonly: "" },
+                            domProps: { value: _vm.presupuesto.fechaEvento },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.presupuesto,
+                                  "fechaEvento",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
                     ]),
                     _vm._v(" "),
                     _vm._m(2)
@@ -77353,14 +77412,24 @@ var render = function() {
                   "div",
                   { staticClass: "col-md-9" },
                   [
-                    _c("buscador-component", {
-                      attrs: {
-                        placeholder: "Buscar Clientes Existentes",
-                        "event-name": "clientResults",
-                        list: _vm.clientes,
-                        keys: ["nombre", "email"]
-                      }
-                    }),
+                    _vm.presupuesto.tipo == "PRESUPUESTO"
+                      ? _c("buscador-component", {
+                          attrs: {
+                            placeholder: "Buscar Clientes Existentes",
+                            "event-name": "clientResults",
+                            list: _vm.clientes,
+                            keys: ["nombre", "email"]
+                          }
+                        })
+                      : _c("buscador-component", {
+                          attrs: {
+                            placeholder: "Buscar Clientes Existentes",
+                            "event-name": "clientResults",
+                            list: _vm.clientes,
+                            keys: ["nombre", "email"],
+                            readonly: ""
+                          }
+                        }),
                     _vm._v(" "),
                     _vm.clientResults.length < _vm.clientes.length
                       ? _c("div", { staticClass: "row" }, [
@@ -78795,12 +78864,36 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4 mt-4" }, [
-                _c("h5", [
-                  _vm._v("Subtotal: $"),
-                  _c("span", [
-                    _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularSubtotal)))
-                  ])
-                ]),
+                _vm.presupuesto.tipo == "PRESUPUESTO"
+                  ? _c("h5", [
+                      _vm._v("Subtotal: $"),
+                      _c("span", [
+                        _vm._v(
+                          _vm._s(_vm._f("decimales")(_vm.calcularSubtotal))
+                        )
+                      ])
+                    ])
+                  : _c("h5", [
+                      _vm._v("Subtotal: $"),
+                      _c("span", [
+                        _vm._v(_vm._s(_vm._f("decimales")(_vm.saldoFinal)))
+                      ])
+                    ]),
+                _vm._v(" "),
+                _vm.presupuesto.tipo == "CONTRATO"
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger d-block",
+                        on: {
+                          click: function($event) {
+                            return _vm.reduccionDeContrato()
+                          }
+                        }
+                      },
+                      [_vm._v("Reduccion de contrato")]
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("input", {
                   directives: [

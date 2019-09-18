@@ -112,7 +112,8 @@
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento">
+                                        <input v-if="presupuesto.tipo == 'PRESUPUESTO'" type="date" v-model="presupuesto.fechaEvento">
+                                        <input v-else type="date" v-model="presupuesto.fechaEvento" readonly>
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -151,11 +152,19 @@
                         <h4>Cliente</h4>
                         <div class="row">
                             <div class="col-md-9">
-                                <buscador-component
+                                <buscador-component v-if="presupuesto.tipo == 'PRESUPUESTO'"
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
                                     :keys="['nombre', 'email']"
+                                    
+                                ></buscador-component>
+                                <buscador-component v-else
+                                    placeholder="Buscar Clientes Existentes"
+                                    event-name="clientResults"
+                                    :list="clientes"
+                                    :keys="['nombre', 'email']"
+                                    readonly
                                     
                                 ></buscador-component>
 
@@ -426,7 +435,10 @@
                                 <input v-if="verSettings" type="text" v-model="presupuesto.comision" width="20%">
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
+                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
+                                <h5 v-else>Subtotal: $<span>{{ saldoFinal | decimales }}</span></h5>
+
+                                <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Reduccion de contrato</button>
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
@@ -1076,6 +1088,7 @@
                 },
 
                 demoP: '',
+                saldoFinal: '',
             }
         },
         created(){
@@ -1608,10 +1621,12 @@
 
             // Guardar como presupuesto
             guardarPresupuesto(){
+                /*
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
+                */
 
                 let URL = '/presupuestos/create/version';
                 axios.post(URL, {
@@ -1663,7 +1678,7 @@
 
                 axios.get(URL).then((response) => {
                     this.presupuesto = response.data;
-
+                    this.saldoFinal = this.presupuesto.total;
                     let cliente = this.clientes.find(function(element){
                         return element.id == response.data.client_id;
                     })
@@ -1840,8 +1855,16 @@
               })
               
              
-            }
-        }
+            },
+            reduccionDeContrato(){
+                Swal.fire({
+                    type: 'info',
+                    title: 'Reduccion de contrato',
+                    text: 'Se ha avisado al administrador de una reduccion de contrato',
+                    footer: '<p>El administrador recibira un aviso de este contrato</p>'
+                })
+            },
+        },
     }
 </script>
 
