@@ -564,4 +564,10 @@ class BudgetController extends Controller
         $presupuesto = BudgetVersion::orderBy('id', 'DESC')->where('id', $id)->first();
         return BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->budget_id)->where('version', $presupuesto->version)->get();
     }
+    public function convertirContrato($id){
+        $budget=Budget::find($id);
+        $budget->tipo='CONTRATO';
+        $budget->save();
+        return back();
+    }
 }

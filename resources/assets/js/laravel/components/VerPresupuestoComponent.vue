@@ -109,6 +109,9 @@
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
+                                    <option value="4">Cumpleaños</option>
+                                    <option value="5">Gala</option>
+                                    <option value="6">Baile</option>
                                 </select>
                                  <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
@@ -342,8 +345,9 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 offset-md-2 mt-4">
+                    <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
+                        
                     </div>
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
@@ -367,9 +371,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Numero de version</th>
+                                <th scope="col">Numero de versión</th>
                                 <th scope="col">Folio</th>
-                                <th scope="col">Fecha de creacion</th>
+                                <th scope="col">Fecha de creación</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -378,7 +382,7 @@
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
                                 <td>{{ version.folio }}</td>
-                                <td>{{ version.created_at | formatearFecha }}</td>
+                                <td>{{ version.created_at}}</td>
                                 <td>
                                     <button class="btm btn-success btn-sm" @click="obtenerVersion(version.id)">Ver version</button>
                                 </td>

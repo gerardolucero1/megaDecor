@@ -13792,6 +13792,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -14252,7 +14260,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.inventarioLocal.push({
           'externo': false,
-          'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
+          'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
           'servicio': this.paquete.servicio,
           'cantidad': '',
           'precioUnitario': this.paquete.precioFinal,
@@ -18020,8 +18028,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -18255,6 +18261,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
 //
 //
 //
@@ -70636,7 +70646,21 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", { attrs: { value: "3" } }, [
                         _vm._v("Aniversario")
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [
+                        _vm._v("Cumpleaños")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [
+                        _vm._v("Graduación")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "6" } }, [
+                        _vm._v("Cena de gala")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "7" } }, [_vm._v("Otro")])
                     ]
                   ),
                   _vm._v(" "),
@@ -70898,7 +70922,7 @@ var render = function() {
                         placeholder: "Buscar Clientes Existentes",
                         "event-name": "clientResults",
                         list: _vm.clientes,
-                        keys: ["nombre", "email"]
+                        keys: ["nombre", "email", "telefono"]
                       }
                     }),
                     _vm._v(" "),
@@ -70979,7 +71003,7 @@ var render = function() {
                                                 "font-size": "11px"
                                               }
                                             },
-                                            [_vm._v("5554455")]
+                                            [_vm._v(_vm._s(cliente.telefono))]
                                           )
                                         ])
                                       ]
@@ -73005,18 +73029,32 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _c("option", { attrs: { value: "BODA" } }, [
-                                    _vm._v("Boda")
-                                  ]),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Manteleria" } },
+                                    [_vm._v("Manteleria")]
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "option",
-                                    { attrs: { value: "CUMPLEANOS" } },
-                                    [_vm._v("Cumpleaños")]
+                                    { attrs: { value: "Toboganes" } },
+                                    [_vm._v("Toboganes")]
                                   ),
                                   _vm._v(" "),
-                                  _c("option", { attrs: { value: "XV" } }, [
-                                    _vm._v("XV Años")
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Mobiliario" } },
+                                    [_vm._v("Mobiliario")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Floristeria" } },
+                                    [_vm._v("Floristeria")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "Comida" } }, [
+                                    _vm._v("Comida")
                                   ])
                                 ]
                               )
@@ -73271,7 +73309,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Precio unitario")]
+                              [_vm._v("Precio unitario publico")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -73289,7 +73327,7 @@ var render = function() {
                                   type: "text",
                                   id: "example-text-input",
                                   name: "example-text-input",
-                                  placeholder: "Precio unitario"
+                                  placeholder: "Precio unitario publico"
                                 },
                                 domProps: {
                                   value: _vm.productoExterno.precioUnitario
@@ -73317,7 +73355,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Precio venta")]
+                              [_vm._v("Costo Unitario")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -73335,7 +73373,7 @@ var render = function() {
                                   type: "text",
                                   id: "example-text-input",
                                   name: "example-text-input",
-                                  placeholder: "Precio venta"
+                                  placeholder: "Costo unitario"
                                 },
                                 domProps: {
                                   value: _vm.productoExterno.precioVenta
@@ -73692,7 +73730,7 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("label", { attrs: { for: "hora-1" } }, [
-                        _vm._v("Hora de inicio")
+                        _vm._v("Desde")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -73724,7 +73762,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("label", { attrs: { for: "hora-2" } }, [
-                        _vm._v("Hora de fin")
+                        _vm._v("Hasta")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -73756,7 +73794,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("label", { attrs: { for: "hora-2" } }, [
-                        _vm._v("Hora de entrega")
+                        _vm._v("Entrega preferente")
                       ]),
                       _vm._v(" "),
                       _c(
@@ -73794,19 +73832,19 @@ var render = function() {
                         },
                         [
                           _c("option", { attrs: { value: "MAÑANA" } }, [
-                            _vm._v("Mañana")
+                            _vm._v("Por la mañana")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "TARDE" } }, [
-                            _vm._v("Tarde")
+                            _vm._v("Por la tarde")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "MEDIO DIA" } }, [
-                            _vm._v("Medio dia")
+                            _vm._v("A medio dia")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "NOCHE" } }, [
-                            _vm._v("Noche")
+                            _vm._v("Por la noche")
                           ])
                         ]
                       )
@@ -73899,7 +73937,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
                       _c("label", { attrs: { form: "notasFactura" } }, [
-                        _vm._v("Notas facturacion")
+                        _vm._v("Notas de contrato")
                       ]),
                       _vm._v(" "),
                       _c("textarea", {
@@ -74486,19 +74524,33 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _c("option", { attrs: { value: "BODA" } }, [
-                                    _vm._v("Boda")
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Floristeria" } },
+                                    [_vm._v("Floristeria")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "Comida" } }, [
+                                    _vm._v("Comida")
                                   ]),
                                   _vm._v(" "),
                                   _c(
                                     "option",
-                                    { attrs: { value: "CUMPLEANOS" } },
-                                    [_vm._v("Cumpleaños")]
+                                    { attrs: { value: "Manteleria" } },
+                                    [_vm._v("Manteleria")]
                                   ),
                                   _vm._v(" "),
-                                  _c("option", { attrs: { value: "XV" } }, [
-                                    _vm._v("XV Años")
-                                  ])
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Animado" } },
+                                    [_vm._v("Animado")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Mobilario" } },
+                                    [_vm._v("Mobiliario")]
+                                  )
                                 ]
                               )
                             ])
@@ -83014,8 +83066,6 @@ var render = function() {
                             staticStyle: { "font-size": "11px" }
                           },
                           [
-                            _c("td", [_vm._v(_vm._s(tarea.cliente))]),
-                            _vm._v(" "),
                             tarea.vendedor_id != 2
                               ? _c("td", [_vm._v(_vm._s(tarea.vendedor))])
                               : _vm._e(),
@@ -83028,9 +83078,22 @@ var render = function() {
                               "td",
                               { staticClass: "d-none d-sm-table-cell" },
                               [
-                                _c("span", {}, [
-                                  _vm._v(_vm._s(tarea.categoria))
-                                ])
+                                _c(
+                                  "span",
+                                  {
+                                    attrs: {
+                                      "data-toggle": "tooltip",
+                                      title: "Prospecto"
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-star-half",
+                                      staticStyle: { color: "#34A1E4" }
+                                    }),
+                                    _vm._v(" " + _vm._s(tarea.categoria))
+                                  ]
+                                )
                               ]
                             ),
                             _vm._v(" "),
@@ -83121,9 +83184,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", { staticStyle: { "font-size": "11px" } }, [
-        _c("th", [_vm._v("Cliente")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Vendedor")]),
+        _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
         _c(
           "th",
@@ -83602,7 +83663,15 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", { attrs: { value: "3" } }, [
                         _vm._v("Aniversario")
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "4" } }, [
+                        _vm._v("Cumpleaños")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [_vm._v("Gala")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "6" } }, [_vm._v("Baile")])
                     ]
                   ),
                   _vm._v(" "),
@@ -85058,11 +85127,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.folio))]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            _vm._s(_vm._f("formatearFecha")(version.created_at))
-                          )
-                        ]),
+                        _c("td", [_vm._v(_vm._s(version.created_at))]),
                         _vm._v(" "),
                         _c("td", [
                           _c(
@@ -85196,7 +85261,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 offset-md-2 mt-4" }, [
+    return _c("div", { staticClass: "col-md-4" }, [
       _c(
         "button",
         {
@@ -85243,11 +85308,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Numero de version")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Numero de versión")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Folio")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha de creacion")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha de creación")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])

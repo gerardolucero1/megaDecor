@@ -26,8 +26,7 @@
                                     <table v-if="tareas != 0" id="example"  class="table table-vcenter">
                                         <thead>
                                             <tr style="font-size:11px">
-                                                <th>Cliente</th>
-                                                <th>Vendedor</th>
+                                                <th>Usuario</th>
                                                 <th class="d-none d-sm-table-cell" style="width: 15%;">Categoría</th>
                                                 <th class="text-center" style="width: 100px;">Acciones</th>
                                             </tr>
@@ -35,11 +34,10 @@
                                         <tbody>
                                                
                                                 <tr style="font-size:11px" class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
-                                                <td>{{ tarea.cliente }}</td>
                                                 <td v-if="tarea.vendedor_id!=2">{{ tarea.vendedor }}</td>
                                                 <td v-if="tarea.vendedor_id==2">Todos</td>
                                                 <td class="d-none d-sm-table-cell">
-                                                    <span class="">{{ tarea.categoria }}</span>
+                                                    <span class="" data-toggle="tooltip" title="Prospecto"><i  class="fa fa-star-half" style="color:#34A1E4" ></i> {{ tarea.categoria }}</span>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group">

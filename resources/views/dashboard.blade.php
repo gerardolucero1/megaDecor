@@ -7,10 +7,10 @@
             <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
                 <div class="col-12" style="padding-bottom:20px">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
-                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
+                                <i class="fa fa-calendar-plus-o"></i> <i>Crear presupuesto</i> 
                             </button>
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
-                                    <i class="fa fa-user-plus"></i> <i>Nuevo Cliente</i> 
+                                    <i class="fa fa-user-plus"></i> <i>Nuevo cliente</i> 
                             </button>
                             <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
                                     <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
@@ -49,7 +49,7 @@
                                         <div class="float-left mt-10 d-none d-sm-block">
                                             <i class="si si-fire fa-3x text-corporate-light"></i>
                                         </div>
-                                        <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
+                                        <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">843</div>
                                         <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos</div>
                                     </div>
                                 </a>

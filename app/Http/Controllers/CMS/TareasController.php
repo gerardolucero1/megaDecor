@@ -23,6 +23,7 @@ class TareasController extends Controller
         return PhysicalPerson::orderBy('id', 'DESC')->get();   
     }
     public function obtenerTareas(){
+        $idUsuarioLogeado = Auth::user()->id;
         $fecha_actual= date('Y-m-d',time());
        /* $clientes_morales = DB::table('clients')
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
@@ -35,7 +36,13 @@ class TareasController extends Controller
         ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos); */
-        
+        if($idUsuarioLogeado==17){
+        $tareas = DB::table('tasks')
+        ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
+        ->where('tasks.fecha', '=', $fecha_actual)
+        ->get();
+    }else{
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
         ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
@@ -46,7 +53,7 @@ class TareasController extends Controller
               ->orWhere('tasks.vendedor_id', '2');
         })
         ->get();
-
+    }
         $Tasks=[];
 
       
@@ -73,6 +80,7 @@ class TareasController extends Controller
     }
 
     public function obtenerTareasTodas(){
+        $idUsuarioLogeado = Auth::user()->id;
         $fecha_actual= date('Y-m-d',time());
        /* $clientes_morales = DB::table('clients')
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
@@ -86,16 +94,21 @@ class TareasController extends Controller
         
         $clientes = $clientes_morales->merge($clientes_fisicos); */
         
+        if($idUsuarioLogeado==17){
         $tareas = DB::table('tasks')
         ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
         ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
-        
-        
+        ->get();
+    }else{
+        $tareas = DB::table('tasks')
+        ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
+        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
         ->where(function($q) {
             $q->where('tasks.vendedor_id', '=', Auth::user()->id)
               ->orWhere('tasks.vendedor_id', '2');
         })
-        ->get();
+        ->get();  
+    }
 
         $Tasks=[];
 

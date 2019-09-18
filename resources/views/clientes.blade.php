@@ -56,12 +56,12 @@
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip"  data-original-title="View Customer">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip"  data-original-title="View Customer">
                                                 <i class="fa fa-remove"></i>
-                                            </button>
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach

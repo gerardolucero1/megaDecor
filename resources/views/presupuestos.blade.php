@@ -11,12 +11,23 @@ box-sizing: inherit;
 </style>
     <section class="container">
         <div class="row">
-               
-            
-           
-        </div>
+            <div id="divCalendario" style="display:none" class="col-md-12">
+                
+                    <div class="block">
+
+                        <div class="block-content block-content-full text-right">
+                                <button style="margin-bottom: 15px;" class="btn btn-primary" onclick="vista_lista()">
+                                        <i class="fa fa-list"></i> <i>Vista Lista</i> 
+                                    </button>
+                    <div id='calendar'></div>
+                        </div>
+                    </div>
+                </div>
+        
+       
+    </div>
         <div class="content" id="PresupuestosActivos">
-                <div class="block">
+                <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
@@ -26,7 +37,7 @@ box-sizing: inherit;
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
                                         </button>
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
+                                        <button class="btn btn-primary"  onclick="vista_calendario()">
                                                 <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
                                             </button>
                                     <button onclick="presupuestosArchivados()" class="btn btn-secondary">
@@ -72,6 +83,9 @@ box-sizing: inherit;
                                     <button style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="fa fa-remove"></i> 
                                     </button>
+                                <a href="{{route('convertir.contrato', $budget->id)}}" class="btn btn-sm btn-success">
+                                        <i class="fa fa-check"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -151,6 +165,14 @@ box-sizing: inherit;
 
 @section("scripts")
     <script>
+        function vista_calendario(){
+        document.getElementById('divCalendario').style.display="block";
+        document.getElementById('divLista').style.display="none";
+    }
+    function vista_lista(){
+        document.getElementById('divCalendario').style.display="none";
+        document.getElementById('divLista').style.display="block";
+    }
     function archivarCliente(){
         Swal.fire({
             title: '¿Estas seguro de archivar este presupuesto?',

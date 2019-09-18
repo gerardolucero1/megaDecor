@@ -124,6 +124,10 @@ padding: 0;
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
+                                    <option value="4">Cumpleaños</option>
+                                    <option value="5">Graduación</option>
+                                    <option value="6">Cena de gala</option>
+                                    <option value="7">Otro</option>
                                 </select>
                                  <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
@@ -172,7 +176,7 @@ padding: 0;
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
-                                    :keys="['nombre', 'email']"
+                                    :keys="['nombre', 'email', 'telefono']"
                                     
                                 ></buscador-component>
 
@@ -187,7 +191,7 @@ padding: 0;
                                                 <div class="col-md-8">
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }}</span></p>
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.email }}</p>
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">5554455</p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.telefono }}</p>
                                                     
                                                 </div>
                                                 
@@ -579,9 +583,11 @@ padding: 0;
                                         <label class="col-12" for="categoriaPaquete">Categoria</label>
                                         <div class="col-md-12">
                                             <select id="categoriaPaquete" name="categoriaPaquete" v-model="paquete.categoria">
-                                                <option value="BODA">Boda</option>
-                                                <option value="CUMPLEANOS">Cumpleaños</option>
-                                                <option value="XV">XV Años</option>
+                                                <option value="Manteleria">Manteleria</option>
+                                                <option value="Toboganes">Toboganes</option>
+                                                <option value="Mobiliario">Mobiliario</option>
+                                                <option value="Floristeria">Floristeria</option>
+                                                <option value="Comida">Comida</option>
                                             </select>
                                         </div>
                                     </div>
@@ -654,16 +660,16 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio unitario</label>
+                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario publico" v-model="productoExterno.precioUnitario">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio venta</label>
+                                        <label class="col-12" for="example-text-input">Costo Unitario</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo unitario" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
                                 </div>
@@ -831,20 +837,20 @@ padding: 0;
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="hora-1">Hora de inicio</label>
+                            <label for="hora-1">Desde</label>
                             <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
                         <div class="col-md-4">
-                            <label for="hora-2">Hora de fin</label>
+                            <label for="hora-2">Hasta</label>
                             <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
                         <div class="col-md-4">
-                            <label for="hora-2">Hora de entrega</label>
+                            <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
-                                <option value="MAÑANA">Mañana</option>
-                                <option value="TARDE">Tarde</option>
-                                <option value="MEDIO DIA">Medio dia</option>
-                                <option value="NOCHE">Noche</option>
+                                <option value="MAÑANA">Por la mañana</option>
+                                <option value="TARDE">Por la tarde</option>
+                                <option value="MEDIO DIA">A medio dia</option>
+                                <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -856,7 +862,7 @@ padding: 0;
                             <label form="requireFactura">Factura</label>
                         </div>
                         <div class="col-md-12">
-                            <label form="notasFactura">Notas facturacion</label>
+                            <label form="notasFactura">Notas de contrato</label>
                             <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
                         </div>
                         <div class="col-md-12 mt-4">
@@ -962,9 +968,11 @@ padding: 0;
                                         <label class="col-12" for="categoriaPaquete">Categoria</label>
                                         <div class="col-md-12">
                                             <select id="categoriaPaquete" name="categoriaPaquete" v-model="paqueteEdicion.paquete.categoria">
-                                                <option value="BODA">Boda</option>
-                                                <option value="CUMPLEANOS">Cumpleaños</option>
-                                                <option value="XV">XV Años</option>
+                                                <option value="Floristeria">Floristeria</option>
+                                                <option value="Comida">Comida</option>
+                                                <option value="Manteleria">Manteleria</option>
+                                                <option value="Animado">Animado</option>
+                                                <option value="Mobilario">Mobiliario</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1510,7 +1518,7 @@ padding: 0;
                 }else{
                     this.inventarioLocal.push({
                         'externo': false,
-                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpg',
+                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
                         'servicio': this.paquete.servicio,
                         'cantidad': '',
                         'precioUnitario': this.paquete.precioFinal,

@@ -170,14 +170,14 @@
                     <div class="content-side content-side-full content-side-user px-10 align-parent">
                         <!-- Visible only in mini mode -->
                         <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="{{ asset('images/photo_ivonne.png') }}" alt="">
+                            <img class="img-avatar img-avatar32" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                         </div>
                         <!-- END Visible only in mini mode -->
 
                         <!-- Visible only in normal mode -->
                         <div class="sidebar-mini-hidden-b text-center">
                             <a class="img-link" href="javascript:void(0)">
-                                <img class="img-avatar" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
+                                <img class="img-avatar" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                             </a>
                             <ul class="list-inline mt-10">
                                 <li class="list-inline-item">

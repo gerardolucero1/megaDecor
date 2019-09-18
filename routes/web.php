@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');
+        Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');

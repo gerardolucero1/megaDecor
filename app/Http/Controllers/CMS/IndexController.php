@@ -276,11 +276,13 @@ class IndexController extends Controller
             foreach($presupuestosAnoActual as $anoActual){
                 $ventasAnoActual=$ventasAnoActual+$anoActual->total;
             }
-
+               
             if($ventasAnoPasado !== 0){
+            
                 $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
+             
             }
-            $porcentajeActualDinero = 0;
+          
             $ventasAnoPasado=number_format($ventasAnoPasado);
             $ventasAnoActual=number_format($ventasAnoActual);
 
