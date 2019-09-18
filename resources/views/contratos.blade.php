@@ -65,9 +65,12 @@
                                     <td class="d-none d-sm-table-cell">{{$Contrato->updated_at}}</td>
                                     
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
+                                        <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $Contrato->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                            <i class="fa fa-eye"></i> 
+                                        </a> 
+                                        <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $Contrato->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
                                         <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
                                                 <i class="fa fa-remove"></i>
                                             </button>
