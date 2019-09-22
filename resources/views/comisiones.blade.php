@@ -62,12 +62,20 @@
                                 </tr>
                             </thead>
                             <tbody>                    
-                                 
+                                 @php
+                                    use Carbon\Carbon;
+                                    setlocale(LC_ALL, 'es_ES');
+                                    $date = Carbon::now();
+                                    
+                                    $fecha = Carbon::parse($date);
+                                    $fecha->format("F"); // Inglés.
+                                    $mes = $fecha->formatLocalized('%B');// mes en idioma español
+                                 @endphp    
                                 @foreach($CompleteUsers as $usuario)
                                 <tr role="row" class="odd">
                                 <td class="text-center sorting_1">{{ $usuario->name}}</td>
                                     <td class="">{{ $usuario->ventas}}</td>
-                                    <td class="d-none d-sm-table-cell">Agosto</td>
+                                    <td class="d-none d-sm-table-cell">{{ $mes }}</td>
                                     <td class="d-none d-sm-table-cell">${{ $usuario->totalventas}}</td>
                                     <td class="d-none d-sm-table-cell">$
                                         @php

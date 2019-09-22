@@ -60,7 +60,7 @@
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
                     <div class="col-md-8 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
                         <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
@@ -543,6 +543,13 @@
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio de venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
@@ -632,6 +639,20 @@
                                         <label class="col-12" for="example-text-input">Precio unitario</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio venta</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Proveedor</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
                                         </div>
                                     </div>
                                 </div>
@@ -1018,6 +1039,8 @@
                     'imagen': '',
                     'servicio': '',
                     'precioUnitario': '',
+                    'precioVenta': '',
+                    'proveedor': '',
                 },
                 
                 inventarioLocal: [],
@@ -1331,6 +1354,8 @@
                     'precioFinal': '',
                     'cantidad': '',
                     'id': producto.id,
+                    'precioVenta': '',
+                    'proveedor': '',
                 });
             },
                     actualizarPrecioSugerido(){
@@ -1384,6 +1409,7 @@
                     'paquete': this.paquete,
                     'tipo': 'PAQUETE',
                     'id': '',
+                    'precioVenta': this.paquete.precioVenta,
                 });
 
 
@@ -1461,6 +1487,8 @@
                         'precioFinal': '',
                         'cantidad': '',
                         'id': '',
+                        'precioVenta': this.productoExterno.precioUnitario,
+                        'proveedor': this.productoExterno.proveedor,
                     });
                 }else{
                     this.inventarioLocal.push({
@@ -1475,10 +1503,12 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': '',
+                        'precioVenta': this.productoExterno.precioVenta,
+                        'proveedor': this.productoExterno.proveedor,
                     });
                 }
                 
-                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': ''};
+                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
             },
             // Bus para comunicar controladores
             busEvent() {
@@ -1600,6 +1630,8 @@
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
+                    'precioVenta': '',
+                    'proveedor': '',
                 });
                 
             },
@@ -1755,6 +1787,8 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -1770,6 +1804,8 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }
@@ -1802,6 +1838,8 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -1813,6 +1851,8 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -1839,6 +1879,8 @@
                             },
                             'tipo': 'PAQUETE',
                             'id': element.id,
+                            'precioVenta': element.precioVenta,
+                            'proveedor': element.proveedor,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 

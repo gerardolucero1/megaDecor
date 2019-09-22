@@ -38,7 +38,7 @@
         position: absolute;
         z-index: 3000;
         background-color: white;
-        overflow: scroll;
+        overflow: scroll; 
         max-height: 300px;
         -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
 -moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
@@ -74,10 +74,15 @@ padding: 0;
 <template>
     <section class="container">
         <div class="row">
+            <div class="col-md-12">
+                <textarea name="" id="" cols="30" rows="10" placeholder="Notas" v-model="presupuesto.notasPresupuesto"></textarea>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
                     <div class="col-md-8 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
                         <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
@@ -85,7 +90,7 @@ padding: 0;
                         </div>
                     </div>
                     <div class="col-md-3 text-right info">
-                        <p>{{ obtenerFolio }}</p>
+                        <p style="font-size: 30px; font-weight: bold;">{{ obtenerFolio }}</p>
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
@@ -413,6 +418,7 @@ padding: 0;
                                     <!--
                                     <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
                                     -->
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</button>
                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
                                 </td>
                             </tr>
@@ -649,21 +655,28 @@ padding: 0;
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Servicio</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="productoExterno.servicio">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Servicio" v-model="productoExterno.servicio">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Precio unitario</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Precio venta</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Proveedor</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
                                         </div>
                                     </div>
                                 </div>
@@ -683,6 +696,14 @@ padding: 0;
                                         <figure>
                                             <img :src="imagen" width="100%" alt="Thumbnail">
                                         </figure>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <div class="custom-file">
+                                                <input type="checkbox" name="autorizado" id="" v-model="productoExterno.autorizado">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -818,7 +839,7 @@ padding: 0;
             </div>
         </div>
 
-        <!-- Modal ver presupuestos -->
+        <!-- Modal guardar contrato -->
         <div class="modal fade" id="guardarContrato" tabindex="-1" role="dialog" aria-labelledby="guardarContrato" aria-hidden="true">
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
@@ -1013,6 +1034,55 @@ padding: 0;
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="verPaquete" tabindex="-1" role="dialog" aria-labelledby="verPaquete" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
+                    <button type="button" class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" v-if="viendoPaquete.length != 0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Externo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Final</th>
+                                <th scope="col">Precio Venta</th>
+                                <th scope="col">Proveedor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
+                                <th scope="row">{{ index }}</th>
+                                <td v-if="item.externo">
+                                    <input type="checkbox" checked>
+                                </td>
+                                <td v-else>
+                                    <input type="checkbox">
+                                </td>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.precioUnitario }}</td>
+                                <td>{{ item.precioFinal }}</td>
+                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.proveedor }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -1031,6 +1101,7 @@ padding: 0;
         },
         data(){
             return{
+                viendoPaquete: [],
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
@@ -1103,6 +1174,9 @@ padding: 0;
 
                     tipoComision: 100,
                     comision: '',
+
+                    //Notas
+                    notasPresupuesto: '',
                 },
 
                 clientes: [],
@@ -1122,6 +1196,8 @@ padding: 0;
                     'servicio': '',
                     'precioUnitario': '',
                     'precioVenta': '',
+                    'proveedor': '',
+                    'autorizado': false,
                 },
                 
                 inventarioLocal: [],
@@ -1351,6 +1427,10 @@ padding: 0;
             },
         },
         methods:{
+            verPaquete(paquete){
+                this.viendoPaquete = paquete;
+                $('#verPaquete').modal('show');
+            },
             obtenerConfiguraciones: function(){
                 let URL = '/configuraciones';
 
@@ -1452,7 +1532,8 @@ padding: 0;
                     'precioFinal': '',
                     'cantidad': '',
                     'id': producto.id,
-                    'precioVenta': producto.precioVenta,
+                    'precioVenta': '',
+                    'proveedor': '',
                 });
                 console.log(this.paquete.inventario);
             },
@@ -1599,6 +1680,8 @@ padding: 0;
                             'cantidad': '',
                             'id': '',
                             'precioVenta': this.productoExterno.precioVenta,
+                            'proveedor': this.productoExterno.proveedor,
+                            'autorizado': this.productoExterno.autorizado,
                         });
                     
                     
@@ -1625,12 +1708,14 @@ padding: 0;
                             'tipo': 'PRODUCTO',
                             'id': '',
                             'precioVenta': this.productoExterno.precioVenta,
+                            'proveedor': this.productoExterno.proveedor,
+                            'autorizado': this.productoExterno.autorizado,
                         });
                     }
                     
                 }
                 
-                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': ''};
+                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
             },
             // Bus para comunicar controladores
             busEvent() {
@@ -1766,6 +1851,8 @@ padding: 0;
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
+                    'precioVenta': '',
+                    'proveedor': '',
                 });
                 console.log(this.inventarioLocal);
                 

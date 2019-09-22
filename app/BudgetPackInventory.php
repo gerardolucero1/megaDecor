@@ -13,6 +13,8 @@ class BudgetPackInventory extends Model
         'cantidad',
         'precioUnitario',
         'precioFinal',
+        'precioVenta',
+        'proveedor',
         'externo',
     ];
 

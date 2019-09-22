@@ -1,14 +1,15 @@
 @extends('layouts.backend')
-@section('style')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-@endsection
-@section('content')
 
-<style>
-table.dataTable td{
-box-sizing: inherit;
-}
-</style>
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <style>
+        table.dataTable td{
+        box-sizing: inherit;
+        }
+    </style>
+@endsection
+
+@section('content')
     <section class="container">
         <div class="row">
                
@@ -49,12 +50,24 @@ box-sizing: inherit;
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>                    
+                            <tbody>           
+                            @php
+                                use Carbon\Carbon;
+                            @endphp         
                             @if (!is_null($Presupuestos))
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd">
                                 <td class="text-center sorting_1">{{$budget->folio}}</td>
-                                <td class="">{{$budget->fechaEvento}}</td>
+                                
+                                @if (!is_null($budget->fechaEvento))
+                                    @php
+                                        $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
+                                    @endphp
+                                    <td class="">{{$fechaEvento->translatedFormat('g:i a l jS F Y')}}</td>
+                                    @else
+                                    <td class="">{{$budget->fechaEvento}}</td>
+                                @endif
+                                
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>

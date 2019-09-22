@@ -56,6 +56,9 @@ class Budget extends Model
         'version',
         'comision',
         'total',
+
+        //Notas
+        'notasPresupuesto',
     ];
 
     public function user()
