@@ -75,6 +75,9 @@ class CreateBudgetsTable extends Migration
             $table->double('comision')->nullable();
             $table->double('total')->nullable();
 
+            // Notas
+            $table->text('notasPresupuesto')->nullable();
+
             
 
             $table->timestamps();

@@ -16,6 +16,7 @@ class CreateCelebratedsTable extends Migration
         Schema::create('celebrateds', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('budget_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->string('nombre');
             $table->integer('edad');
             $table->string('version');
@@ -23,6 +24,10 @@ class CreateCelebratedsTable extends Migration
 
             //Relations
             $table->foreign('budget_id')->references('id')->on('budgets')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

@@ -20,6 +20,7 @@ class CreateInventoriesTable extends Migration
             $table->string('servicio');
             $table->string('imagen');
             $table->integer('precioUnitario');
+            $table->boolean('autorizado')->nullable();
             
             $table->timestamps();
         });

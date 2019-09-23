@@ -77,6 +77,12 @@ class CreateBudgetVersionsTable extends Migration
             $table->double('comision')->nullable();
             $table->double('total')->nullable();
 
+            //Quien edito
+            $table->string('quienEdito')->nullable();
+
+            // Notas
+            $table->text('notasPresupuesto')->nullable();
+
             $table->timestamps();
 
             //Relations

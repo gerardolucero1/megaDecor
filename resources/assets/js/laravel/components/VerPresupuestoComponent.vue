@@ -64,6 +64,11 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <textarea name="" id="" cols="30" rows="10" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12 verPresupuesto">
                 <div class="row">
                     <div class="col-md-8 text-left">
@@ -269,6 +274,7 @@
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -301,6 +307,9 @@
                                     <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
                                         {{ producto.notas }}
                                     </span>
+                                </td>
+                                <td>
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -358,7 +367,7 @@
        
        <!-- Modal -->
         <div class="modal fade" id="verVersiones" tabindex="-1" role="dialog" aria-labelledby="verVersiones" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Versiones</h5>
@@ -371,9 +380,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Numero de versión</th>
+                                <th scope="col">version</th>
                                 <th scope="col">Folio</th>
-                                <th scope="col">Fecha de creación</th>
+                                <th scope="col">Fecha de creacion</th>
+                                <th scope="col">Vendedor</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -382,7 +392,8 @@
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
                                 <td>{{ version.folio }}</td>
-                                <td>{{ version.created_at}}</td>
+                                <td>{{ version.created_at | formatearFecha }}</td>
+                                <td>{{ version.quienEdito }}</td>
                                 <td>
                                     <button class="btm btn-success btn-sm" @click="obtenerVersion(version.id)">Ver version</button>
                                 </td>
@@ -393,6 +404,55 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" @click="obtenerPresupuesto()">Volver a version actual</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="verPaquete" tabindex="-1" role="dialog" aria-labelledby="verPaquete" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
+                    <button type="button" class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" v-if="viendoPaquete.length != 0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Externo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Final</th>
+                                <th scope="col">Precio Venta</th>
+                                <th scope="col">Proveedor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
+                                <th scope="row">{{ index }}</th>
+                                <td v-if="item.externo">
+                                    <input type="checkbox" checked>
+                                </td>
+                                <td v-else>
+                                    <input type="checkbox">
+                                </td>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.precioUnitario }}</td>
+                                <td>{{ item.precioFinal }}</td>
+                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.proveedor }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -416,6 +476,7 @@
         },
         data(){
             return{
+                viendoPaquete: [],
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
@@ -739,6 +800,10 @@
             },
         },
         methods:{
+            verPaquete(paquete){
+                this.viendoPaquete = paquete;
+                $('#verPaquete').modal('show');
+            },
             obtenerUsuario(){
                 let URL = '/obtener-usuario';
 
@@ -920,6 +985,8 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -931,6 +998,8 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }

@@ -22,6 +22,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
@@ -147,6 +148,7 @@ class BudgetController extends Controller
         $presupuesto->version = $request->presupuesto['version'];
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
+        $presupuesto->notasPresupuesto = $request->presupuesto['notasPresupuesto'];
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
@@ -155,6 +157,7 @@ class BudgetController extends Controller
            $festejado = new Celebrated();
 
            $festejado->budget_id    = $ultimoPresupuesto->id;
+           $festejado->client_id    = $ultimoPresupuesto->client_id;
            $festejado->nombre       = $item['nombre'];
            $festejado->edad         = $item['edad'];
            $festejado->version      = $ultimoPresupuesto->version;
@@ -172,9 +175,11 @@ class BudgetController extends Controller
                 $producto->cantidad = $item['cantidad'];
                 $producto->precioUnitario = $item['precioUnitario'];
                 $producto->precioFinal = $item['precioFinal'];
+                $producto->precioVenta = $item['precioVenta'];
                 $producto->ahorro = $item['ahorro'];
                 $producto->notas = $item['notas'];
                 $producto->externo = $item['externo'];
+                $producto->proveedor = $item['proveedor'];
                 if($item['externo']){
                     //Otra Imagen
                     if($item['imagen']){
@@ -206,6 +211,7 @@ class BudgetController extends Controller
                 $paquete->cantidad = $item['cantidad'];
                 $paquete->precioUnitario = $item['precioUnitario'];
                 $paquete->precioFinal = $item['precioFinal'];
+                $paquete->precioVenta = $item['precioVenta'];
                 $paquete->ahorro = $item['ahorro'];
                 $paquete->notas = $item['notas'];
                 $paquete->categoria = $item['paquete']['categoria'];
@@ -224,7 +230,9 @@ class BudgetController extends Controller
                         $producto->cantidad = $objeto['cantidad'];
                         $producto->precioUnitario = $objeto['precioUnitario'];
                         $producto->precioFinal = $objeto['precioFinal'];
+                        $producto->precioVenta = $objeto['precioVenta'];
                         $producto->externo = $objeto['externo'];
+                        $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){
                             //Otra Imagen
                             if($objeto['imagen']){
@@ -354,6 +362,7 @@ class BudgetController extends Controller
         $oldVersion->version = $version->version;
         $oldVersion->comision = $version->comision;
         $oldVersion->total = $version->total;
+        $oldVersion->quienEdito = Auth::user()->name;
         $oldVersion->save();
 
         //Obtenemos el budget original
@@ -420,6 +429,7 @@ class BudgetController extends Controller
            $festejado = new Celebrated();
 
            $festejado->budget_id    = $ultimoPresupuesto->id;
+           $festejado->client_id    = $ultimoPresupuesto->client_id;
            $festejado->nombre       = $item['nombre'];
            $festejado->edad         = $item['edad'];
            $festejado->version      = $ultimoPresupuesto->version;
@@ -435,9 +445,13 @@ class BudgetController extends Controller
                 $producto->cantidad = $item['cantidad'];
                 $producto->precioUnitario = $item['precioUnitario'];
                 $producto->precioFinal = $item['precioFinal'];
+                $producto->precioVenta = $item['precioVenta'];
                 $producto->ahorro = $item['ahorro'];
                 $producto->notas = $item['notas'];
                 $producto->externo = $item['externo'];
+                $producto->proveedor = $item['proveedor'];
+
+                //Si el producto es externo
                 if($item['externo']){
                     //Guardamos la imagen si lleva una
                     if($item['imagen'] && (base64_encode(base64_decode($item['imagen'], true)) === $item['imagen'])){
@@ -473,6 +487,7 @@ class BudgetController extends Controller
                 $paquete->cantidad = $item['cantidad'];
                 $paquete->precioUnitario = $item['precioUnitario'];
                 $paquete->precioFinal = $item['precioFinal'];
+                $paquete->precioVenta = $item['precioVenta'];
                 $paquete->ahorro = $item['ahorro'];
                 $paquete->notas = $item['notas'];
                 $paquete->categoria = $item['paquete']['categoria'];
@@ -491,7 +506,9 @@ class BudgetController extends Controller
                         $producto->cantidad = $objeto['cantidad'];
                         $producto->precioUnitario = $objeto['precioUnitario'];
                         $producto->precioFinal = $objeto['precioFinal'];
+                        $producto->precioVenta = $objeto['precioVenta'];
                         $producto->externo = $objeto['externo'];
+                        $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){
                             //Guardamos la imagen si contiene una
                             if($objeto['imagen'] && (base64_encode(base64_decode($objeto['imagen'], true)) === $objeto['imagen'])){
