@@ -66,7 +66,7 @@
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd">
                                 <td class="text-center sorting_1">{{$budget->folio}}</td>
-                                <td class="">{{$budget->fechaEvento}}</td>
+                                <td class="">@if(!is_null($budget->fechaEvento)){{$budget->fechaEvento}}@else Pendiente @endif</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>

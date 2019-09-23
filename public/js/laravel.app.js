@@ -13813,6 +13813,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -14427,6 +14464,13 @@ __webpack_require__.r(__webpack_exports__);
       console.log(index);
       console.log(this.key);
     },
+    editarPrecioUnitario: function editarPrecioUnitario(index, key) {
+      //console.log(key);
+      this.indice = index;
+      this.key = key[4];
+      console.log(index);
+      console.log(this.key);
+    },
     updateCantidad: function updateCantidad(index) {
       var producto = this.inventarioLocal.find(function (element, indice) {
         return indice == index;
@@ -14436,6 +14480,18 @@ __webpack_require__.r(__webpack_exports__);
       this.inventarioLocal.splice(index, 1, producto);
       console.log(this.inventarioLocal);
       this.cantidadActualizada = '';
+      this.key = '';
+      this.indice = '100000000';
+    },
+    updatePrecioUnitario: function updatePrecioUnitario(index) {
+      var producto = this.inventarioLocal.find(function (element, indice) {
+        return indice == index;
+      });
+      producto.precioUnitario = this.precioUnitarioActualizada;
+      producto.precioFinal = producto.cantidad * producto.precioUnitario;
+      this.inventarioLocal.splice(index, 1, producto);
+      console.log(this.inventarioLocal);
+      this.precioUnitarioActualizada = '';
       this.key = '';
       this.indice = '100000000';
     },
@@ -17246,6 +17302,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
 //
 //
 //
@@ -71791,7 +71850,7 @@ var render = function() {
                                       {
                                         staticStyle: { "font-weight": "bolder" }
                                       },
-                                      [_vm._v(" " + _vm._s(producto.servicio))]
+                                      [_vm._v(_vm._s(producto.servicio))]
                                     )
                                   ]
                                 ),
@@ -71811,7 +71870,8 @@ var render = function() {
                                       staticStyle: { "font-weight": "bolder" }
                                     }),
                                     _vm._v(
-                                      " $" + _vm._s(producto.precioUnitario)
+                                      "Precio: $" +
+                                        _vm._s(producto.precioUnitario)
                                     )
                                   ]
                                 ),
@@ -71830,7 +71890,30 @@ var render = function() {
                                     _c("span", {
                                       staticStyle: { "font-weight": "bolder" }
                                     }),
-                                    _vm._v(" " + _vm._s(producto.familia))
+                                    _vm._v(
+                                      " Familia: " + _vm._s(producto.familia)
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
+                                  [
+                                    _c("span", {
+                                      staticStyle: { "font-weight": "bolder" }
+                                    }),
+                                    _vm._v(
+                                      " Existencia: " +
+                                        _vm._s(producto.disponible)
+                                    )
                                   ]
                                 )
                               ]),
@@ -71926,7 +72009,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "120px" } }, [
                       _c("img", {
-                        attrs: { src: producto.imagen, alt: "", width: "100%" }
+                        attrs: {
+                          src: "/images/inventario/" + producto.imagen + ".jpg",
+                          alt: "",
+                          width: "100%"
+                        }
                       })
                     ]),
                     _vm._v(" "),
@@ -71986,7 +72073,64 @@ var render = function() {
                           )
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(producto.precioUnitario))]),
+                    _c("td", [
+                      producto.precioUnitario == "" ||
+                      (_vm.indice == index && _vm.key == "precioUnitario")
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.precioUnitarioActualizada,
+                                expression: "precioUnitarioActualizada"
+                              }
+                            ],
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.precioUnitarioActualizada },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.updatePrecioUnitario(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.precioUnitarioActualizada =
+                                  $event.target.value
+                              }
+                            }
+                          })
+                        : _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.editarPrecioUnitario(
+                                    index,
+                                    Object.keys(producto)
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(producto.precioUnitario))]
+                          ),
+                      _vm._v(" "),
+                      _vm.indice == index && _vm.key == "precioUnitario"
+                        ? _c("del", [_vm._v(_vm._s(producto.precioUnitario))])
+                        : _vm._e()
+                    ]),
                     _vm._v(" "),
                     _c("td", [
                       producto.precioFinal == "" ||
@@ -72530,7 +72674,9 @@ var render = function() {
                 ])
               ])
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _vm._m(10)
         ]),
         _vm._v(" "),
         _c("div", {}, [
@@ -72563,7 +72709,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(10),
+          _vm._m(11),
           _vm._v(" "),
           _c(
             "button",
@@ -72698,7 +72844,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(11),
+                _vm._m(12),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -72867,7 +73013,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(12, true)
+                                                  _vm._m(13, true)
                                                 ]
                                               )
                                             ]
@@ -73191,7 +73337,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(13),
+                            _vm._m(14),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -73378,7 +73524,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(14),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -73563,7 +73709,9 @@ var render = function() {
                                 }
                               })
                             ])
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(16)
                         ])
                       ])
                     ])
@@ -73631,13 +73779,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(17),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(16),
+                          _vm._m(18),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73646,7 +73794,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(17),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73689,7 +73837,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(18, true)
+                                        _vm._m(20, true)
                                       ])
                                     }
                                   ),
@@ -73703,7 +73851,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(19)
+                _vm._m(21)
               ]
             )
           ]
@@ -73738,13 +73886,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(20),
+                _vm._m(22),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(21),
+                          _vm._m(23),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73753,7 +73901,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(22),
+                                _vm._m(24),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73852,7 +74000,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(23)
+                _vm._m(25)
               ]
             )
           ]
@@ -73887,7 +74035,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(24),
+                _vm._m(26),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("label", [_vm._v("Hora de entrega de mobiliario")]),
@@ -74058,6 +74206,8 @@ var render = function() {
                         })
                       ]
                     ),
+                    _vm._v(" "),
+                    _vm._m(27),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-6 mt-4" }, [
                       _c("input", {
@@ -74345,7 +74495,9 @@ var render = function() {
                           }
                         }
                       })
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(28)
                   ])
                 ]),
                 _vm._v(" "),
@@ -74411,7 +74563,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(25),
+                _vm._m(29),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74470,7 +74622,7 @@ var render = function() {
                                                   "block-content block-content-full clearfix"
                                               },
                                               [
-                                                _vm._m(26, true),
+                                                _vm._m(30, true),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -74799,7 +74951,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(27),
+                            _vm._m(31),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -75114,6 +75266,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("label", [
+        _vm._v("Comentarios de presupuesto (No visibles para cliente)")
+      ]),
+      _vm._v(" "),
+      _c("textarea", {
+        staticStyle: { width: "100%" },
+        attrs: { name: "", id: "", rows: "5" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -75215,6 +75382,21 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "col-12" }, [
+        _c("div", { staticClass: "custom-file" }, [
+          _c("label", [
+            _c("input", { attrs: { type: "checkbox" } }),
+            _vm._v(" Guardar Elemento en inventario")
+          ])
+        ])
+      ])
     ])
   },
   function() {
@@ -75442,6 +75624,52 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "col-md-4", staticStyle: { "padding-top": "20px" } },
+      [
+        _c("label", { attrs: { for: "hora-2" } }, [
+          _vm._v("Recolección preferente")
+        ]),
+        _vm._v(" "),
+        _c("select", { staticClass: "form-control", attrs: { id: "" } }, [
+          _c("option", { attrs: { value: "MAÑANA" } }, [
+            _vm._v("Por la mañana")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "TARDE" } }, [_vm._v("Por la tarde")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "MEDIO DIA" } }, [
+            _vm._v("A medio dia")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "NOCHE" } }, [_vm._v("Por la noche")])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("select", [
+        _c("option", { attrs: { value: "1" } }, [_vm._v("Efectivo")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "2" } }, [_vm._v("Cheque nominativo")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "3" } }, [
+          _vm._v("Transferencia electrónica de fondos")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "4" } }, [_vm._v("Tarjeta de crédito")])
+      ])
     ])
   },
   function() {
@@ -78494,7 +78722,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
-                        attrs: { src: producto.imagen, alt: "", width: "100%" }
+                        attrs: {
+                          src: "/images/inventario/" + producto.imagen + ".jpg",
+                          alt: "",
+                          width: "80px"
+                        }
                       })
                     ]),
                     _vm._v(" "),
@@ -81496,7 +81728,15 @@ var render = function() {
                                 key: cliente.index,
                                 domProps: { value: cliente.client_id }
                               },
-                              [_vm._v(_vm._s(cliente.nombre))]
+                              [
+                                _vm._v(
+                                  _vm._s(cliente.nombre) +
+                                    " " +
+                                    _vm._s(cliente.apellidoPaterno) +
+                                    " " +
+                                    _vm._s(cliente.apellidoMaterno)
+                                )
+                              ]
                             )
                           }),
                           0
@@ -82703,6 +82943,38 @@ var render = function() {
                               return
                             }
                             _vm.$set(_vm.telefono, "email", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.cliente.tipoPersona == "moral"
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-md-4",
+                      staticStyle: { "padding-top": "10px" }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.telefono.dpto,
+                            expression: "telefono.dpto"
+                          }
+                        ],
+                        attrs: { type: "text", placeholder: "Departamento" },
+                        domProps: { value: _vm.telefono.dpto },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.telefono, "dpto", $event.target.value)
                           }
                         }
                       })
@@ -84957,7 +85229,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
-                        attrs: { src: producto.imagen, alt: "", width: "100%" }
+                        attrs: {
+                          src: "/images/inventario/" + producto.imagen + ".jpg",
+                          alt: "",
+                          width: "80px"
+                        }
                       })
                     ]),
                     _vm._v(" "),

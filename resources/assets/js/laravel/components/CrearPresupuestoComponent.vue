@@ -354,9 +354,10 @@ padding: 0;
                                     <img class="img-fluid" style="margin-left:10px;" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
                                 </div>
                                 <div class="col-md-7">
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"> {{ producto.servicio }}</span></p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> ${{ producto.precioUnitario }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> {{ producto.familia }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Existencia: {{ producto.disponible }}</p>
                                 </div>
                                 <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
                                 
@@ -387,7 +388,7 @@ padding: 0;
                                     <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
                                 <td style="width:120px;">
-                                    <img v-bind:src="producto.imagen" alt="" width="100%">
+                                    <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="100%">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
@@ -395,7 +396,12 @@ padding: 0;
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
-                                <td>{{ producto.precioUnitario }}</td>
+                                <td>
+                                    
+                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
+                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
+                                <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioUnitario }}</del>
+                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
                                     <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
@@ -428,6 +434,7 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-12">
+                       
                         <div class="row">
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
@@ -464,6 +471,10 @@ padding: 0;
                             </div>
                         </div>
                     </div>
+                     <div class="col-md-6">
+                         <label>Comentarios de presupuesto (No visibles para cliente)</label>
+                         <textarea name="" id="" style="width:100%"  rows="5"></textarea>
+                     </div>
                 </div>
 
                 <div class="">
@@ -513,6 +524,7 @@ padding: 0;
                 </div>
                 <div class="modal-body">
                     <div class="row">
+
                         <div class="col-md-10 offset-md-1">
                             <div class="row">
                                 <div class="col-md-6">
@@ -688,11 +700,19 @@ padding: 0;
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         <figure>
                                             <img :src="imagen" width="100%" alt="Thumbnail">
                                         </figure>
+                                    </div>
+                                    <div class="form-group row">
+                                       
+                                        <div class="col-12">
+                                            <div class="custom-file">
+                                                <label >
+                                                    <input type="checkbox"> Guardar Elemento en inventario</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -862,6 +882,15 @@ padding: 0;
                             <label form="fecha-hora">Fecha y hora de recoleccion</label>
                             <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
+                        <div class="col-md-4" style="padding-top:20px">
+                            <label for="hora-2">Recolección preferente</label>
+                            <select id="" class="form-control">
+                                <option value="MAÑANA">Por la mañana</option>
+                                <option value="TARDE">Por la tarde</option>
+                                <option value="MEDIO DIA">A medio dia</option>
+                                <option value="NOCHE">Por la noche</option>
+                            </select>
+                        </div>
                         <div class="col-md-6 mt-4">
                             <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
                             <label form="requireFactura">Factura</label>
@@ -892,6 +921,14 @@ padding: 0;
                         </div>
                         <div class="col-md-2 mt-4">
                             <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
+                        </div>
+                        <div class="col-md-4">
+                            <select>
+                                <option value="1">Efectivo</option>
+                                <option value="2">Cheque nominativo</option>
+                                <option value="3">Transferencia electrónica de fondos</option>
+                                <option value="4">Tarjeta de crédito</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -1684,6 +1721,14 @@ padding: 0;
                     console.log(this.key);
                        
                 },
+                editarPrecioUnitario(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[4];
+                    console.log(index);
+                    console.log(this.key);
+                       
+                },
                 updateCantidad(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
@@ -1696,7 +1741,18 @@ padding: 0;
                     this.key = '';
                     this.indice = '100000000';
                 },
-
+                 updatePrecioUnitario(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    producto.precioUnitario = this.precioUnitarioActualizada;
+                    producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                    this.inventarioLocal.splice(index, 1, producto);
+                    console.log(this.inventarioLocal);
+                    this.precioUnitarioActualizada = '';
+                    this.key = '';
+                    this.indice = '100000000';
+                },
                 //Ahorro
                 editarAhorro(index, key){
                     this.indice = index;

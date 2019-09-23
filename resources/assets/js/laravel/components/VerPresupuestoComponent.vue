@@ -277,7 +277,7 @@
                                     <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
                                 <td>
-                                    <img v-bind:src="producto.imagen" alt="" width="100%">
+                                    <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td data-name="cantidad">

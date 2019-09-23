@@ -92,6 +92,7 @@ class IndexController extends Controller
 
          foreach($clientes as $cliente){
              if($cliente->id===$budget->client_id){
+                 
          $Presupuesto->cliente = $cliente->nombre;
                 if($budget->lugarEvento = 'MISMA'){
                     $Presupuesto->lugarEvento = $cliente->direccionFacturacion; 
@@ -328,7 +329,7 @@ class IndexController extends Controller
         //Obtenemos clientes morales y fisicos
         $clientes_morales = DB::table('clients')
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-        ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+        ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
         ->get();
 
         $clientes_fisicos = DB::table('clients')
@@ -352,8 +353,11 @@ class IndexController extends Controller
          
 
          foreach($clientes as $cliente){
-             if($cliente->id===$budget->client_id){
-         $Presupuesto->cliente = $cliente->nombre;
+       
+             if($cliente->id==$budget->client_id){
+                    if($cliente->apellidoPaterno==$cliente->nombre){$Presupuesto->cliente = $cliente->nombre;}else{
+                     $Presupuesto->cliente = $cliente->nombre.' '.$cliente->apellidoPaterno;}
+
                 if($budget->lugarEvento = 'MISMA'){
                     $Presupuesto->lugarEvento = $cliente->direccionFacturacion; 
                     
@@ -361,7 +365,7 @@ class IndexController extends Controller
                     $Presupuesto->lugarEvento = $budget->lugarEvento;
                 }
                 
-        }else{$Presupuesto->cliente = "--";}
+        }
         }
 
          array_push($Presupuestos,$Presupuesto);

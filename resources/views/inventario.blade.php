@@ -48,6 +48,8 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
+                                    <th>Existencia en bodega</th>
+                                    <th>Existencia en exhibición</th>
                                     <th>Costo</th>
                                     <th>Precio Unitario</th>
                                     <th>Familia</th>
@@ -62,6 +64,8 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="/images/inventario/{{ $inventario->imagen}}.jpg"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
+                                <td>{{ $inventario->cantidad }}</td>
+                                <td>{{ $inventario->disponible }}</td>
                                 <td class="d-none d-sm-table-cell">${{ $inventario->precioVenta }}</td>
                                 <td class="d-none d-sm-table-cell">${{ $inventario->precioUnitario }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>

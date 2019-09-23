@@ -4,7 +4,7 @@
     <!-- Page Content -->
     <div class="content">
         
-        <img src="/images/inventario/20946.jpg" alt="">
+      
         
             <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
                 <div class="col-12" style="padding-bottom:20px">

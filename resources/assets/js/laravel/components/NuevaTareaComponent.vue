@@ -49,7 +49,7 @@
                                 <label for="">Selecciona un Cliente</label>
                             <select name="categoria" id="" v-model="tarea.cliente">
                                 <optgroup label="Seleccionar un vendedor">
-                                <option v-bind:value="cliente.client_id" v-for="cliente in clientesFisicos" v-bind:key="cliente.index">{{ cliente.nombre }}</option>  
+                                <option v-bind:value="cliente.client_id" v-for="cliente in clientesFisicos" v-bind:key="cliente.index">{{ cliente.nombre }} {{ cliente.apellidoPaterno }} {{ cliente.apellidoMaterno }}</option>  
                                 </optgroup>
                             </select>
                             

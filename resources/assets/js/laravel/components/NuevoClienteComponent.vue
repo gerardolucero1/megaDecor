@@ -163,6 +163,9 @@
                         <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="email" id="email" placeholder="Email" v-model="telefono.email">
                         </div>
+                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
+                        </div>
                     </div>
 
                     <h4>Datos de facturacion</h4>
