@@ -13800,6 +13800,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -13927,6 +13940,7 @@ __webpack_require__.r(__webpack_exports__);
         inventario: []
       },
       precioSugerido: 0,
+      utilidad: 0,
       cantidadPaquete: '',
       //IVA
       iva: 16,
@@ -14097,6 +14111,8 @@ __webpack_require__.r(__webpack_exports__);
         this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
         this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
         this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+        this.facturacion.rfc = this.clienteSeleccionado.rfc;
+        this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
       } else {
         this.facturacion.nombreFacturacion = '';
         this.facturacion.direccionFacturacion = '';
@@ -14207,8 +14223,8 @@ __webpack_require__.r(__webpack_exports__);
         'nombre': producto.servicio,
         'imagen': producto.imagen,
         'precioUnitario': producto.precioUnitario,
-        'precioFinal': '',
-        'cantidad': '',
+        'precioFinal': '0',
+        'cantidad': '0',
         'id': producto.id,
         'precioVenta': producto.precioVenta
       });
@@ -14217,15 +14233,18 @@ __webpack_require__.r(__webpack_exports__);
     actualizarPrecioSugerido: function actualizarPrecioSugerido() {
       for (var i = 0; i < this.paquete.inventario.length; i++) {
         this.precioSugerido += this.paquete.inventario[i].precioFinal;
+        this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
       }
     },
     //Eliminar producto de paquete
     eliminarProductoPaquete: function eliminarProductoPaquete(index) {
       this.paquete.inventario.splice(index, 1);
       this.precioSugerido = 0;
+      this.utilidad = 0;
 
       for (var i = 0; i < this.paquete.inventario.length; i++) {
         this.precioSugerido += this.paquete.inventario[i].precioFinal;
+        this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
       }
     },
     //Actualizar la cantidad del paquete
@@ -14238,6 +14257,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateCantidadPaquete: function updateCantidadPaquete(index) {
       this.precioSugerido = 0;
+      this.utilidad = 0;
       var producto = this.paquete.inventario.find(function (element, indice) {
         return indice == index;
       });
@@ -14309,8 +14329,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.data);
       });
       this.clienteSeleccionado.id = cliente.id;
-      this.clienteSeleccionado.nombre = cliente.nombre;
+
+      if (cliente.apellidoPaterno == undefined && cliente.apellidoMaterno == undefined) {
+        this.clienteSeleccionado.nombre = cliente.nombre;
+      } else {
+        this.clienteSeleccionado.nombre = cliente.nombre + " " + cliente.apellidoPaterno + " " + cliente.apellidoMaterno;
+      }
+
       this.clienteSeleccionado.email = cliente.email;
+      this.clienteSeleccionado.rfc = cliente.rfc;
       this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
       this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -17439,6 +17466,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Import the EventBus.
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -17526,7 +17571,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     emailClick: function emailClick() {
       var emailpf = document.getElementById('emailPF').value;
+      var emailtpf = document.getElementById('emailTPF').value;
       document.getElementById('emailDF').value = emailpf;
+      document.getElementById('emailTDF').value = emailtpf;
     },
     obtenerTipoEmpresa: function obtenerTipoEmpresa() {
       var _this2 = this;
@@ -17740,14 +17787,14 @@ __webpack_require__.r(__webpack_exports__);
         // Persona Fisica
         'apellidoCliente': this.cliente.apellidoCliente,
         'apellidoCliente2': this.cliente.apellidoCliente2,
-        'emailCliente': this.cliente.emailCliente,
+        'emailCliente': this.cliente.emailCliente + '@' + this.cliente.emailClienteTerminacion,
         // Facturacion
         'nombreFacturacion': this.cliente.nombreFacturacion,
         'direccionFacturacion': this.cliente.direccionFacturacion,
         'coloniaFacturacion': this.cliente.coloniaFacturacion,
         'numeroFacturacion': this.cliente.numeroFacturacion,
         'rfcFacturacion': this.cliente.rfcFacturacion,
-        'emailFacturacion': this.cliente.emailFacturacion,
+        'emailFacturacion': this.cliente.emailFacturacion + '@' + this.cliente.emailFacturacionTerminacion,
         // Credito
         'creditoCliente': this.cliente.creditoCliente,
         // Como supo
@@ -19088,7 +19135,13 @@ __webpack_require__.r(__webpack_exports__);
           console.log(error.data);
         });
         _this7.clienteSeleccionado.id = cliente.id;
-        _this7.clienteSeleccionado.nombre = cliente.nombre;
+
+        if (cliente.apellidoPaterno == undefined && cliente.apellidoMaterno == undefined) {
+          _this7.clienteSeleccionado.nombre = cliente.nombre;
+        } else {
+          _this7.clienteSeleccionado.nombre = cliente.nombre + " " + cliente.apellidoPaterno + " " + cliente.apellidoMaterno;
+        }
+
         _this7.clienteSeleccionado.email = cliente.email;
         _this7.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
         _this7.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -70396,7 +70449,11 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-3 text-right info" }, [
-            _c("p", [_vm._v(_vm._s(_vm.obtenerFolio))]),
+            _c(
+              "p",
+              { staticStyle: { "font-size": "25px", "font-weight": "bold" } },
+              [_vm._v("Folio: " + _vm._s(_vm.obtenerFolio))]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _vm._m(0),
@@ -70453,7 +70510,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "mt-3" }, [
-              _vm._v("Fecha de presupuesto: "),
+              _vm._v("Fecha de creación: "),
               _c("span", [_vm._v(_vm._s(_vm.obtenerFecha))])
             ])
           ])
@@ -70473,7 +70530,7 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-4" }, [
               _c("h4", [_vm._v("Informacion del evento")]),
               _vm._v(" "),
               _c("input", {
@@ -70622,9 +70679,142 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-4 row" }, [
+              _c("h4", [_vm._v("Horario del evento")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-6",
+                  staticStyle: { "padding-left": "0" }
+                },
+                [
+                  _c("label", [_vm._v("Inicio del evento")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.horaEventoInicio,
+                        expression: "presupuesto.horaEventoInicio"
+                      }
+                    ],
+                    attrs: { type: "time" },
+                    domProps: { value: _vm.presupuesto.horaEventoInicio },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.presupuesto,
+                          "horaEventoInicio",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-6",
+                  staticStyle: { "padding-left": "0" }
+                },
+                [
+                  _c("label", [_vm._v("Fin del evento")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.horaEventoFin,
+                        expression: "presupuesto.horaEventoFin"
+                      }
+                    ],
+                    attrs: { type: "time" },
+                    domProps: { value: _vm.presupuesto.horaEventoFin },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.presupuesto,
+                          "horaEventoFin",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticStyle: { "padding-top": "10px" },
+                  attrs: { for: "pendienteHora" }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.pendienteHora,
+                        expression: "presupuesto.pendienteHora"
+                      }
+                    ],
+                    attrs: { type: "checkbox", name: "1", id: "pendienteHora" },
+                    domProps: {
+                      checked: Array.isArray(_vm.presupuesto.pendienteHora)
+                        ? _vm._i(_vm.presupuesto.pendienteHora, null) > -1
+                        : _vm.presupuesto.pendienteHora
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.presupuesto.pendienteHora,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "pendienteHora",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "pendienteHora",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.presupuesto, "pendienteHora", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v("\n                            Pendiende")
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8 offset-md-4" }, [
+                _c("div", { staticClass: "col-md-12" }, [
                   _c("h4", {}, [_vm._v("Categoria del evento")]),
                   _vm._v(" "),
                   _c(
@@ -70775,144 +70965,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8 offset-md-4 row" }, [
-                  _c("h4", [_vm._v("Horario del evento")]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-6",
-                      staticStyle: { "padding-left": "0" }
-                    },
-                    [
-                      _c("label", [_vm._v("Inicio del evento")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.horaEventoInicio,
-                            expression: "presupuesto.horaEventoInicio"
-                          }
-                        ],
-                        attrs: { type: "time" },
-                        domProps: { value: _vm.presupuesto.horaEventoInicio },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "horaEventoInicio",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-6",
-                      staticStyle: { "padding-left": "0" }
-                    },
-                    [
-                      _c("label", [_vm._v("Fin del evento")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.horaEventoFin,
-                            expression: "presupuesto.horaEventoFin"
-                          }
-                        ],
-                        attrs: { type: "time" },
-                        domProps: { value: _vm.presupuesto.horaEventoFin },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "horaEventoFin",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticStyle: { "padding-top": "10px" },
-                      attrs: { for: "pendienteHora" }
-                    },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.pendienteHora,
-                            expression: "presupuesto.pendienteHora"
-                          }
-                        ],
-                        attrs: {
-                          type: "checkbox",
-                          name: "1",
-                          id: "pendienteHora"
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.presupuesto.pendienteHora)
-                            ? _vm._i(_vm.presupuesto.pendienteHora, null) > -1
-                            : _vm.presupuesto.pendienteHora
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.presupuesto.pendienteHora,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "pendienteHora",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "pendienteHora",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.presupuesto, "pendienteHora", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v("\n                            Pendiende")
-                    ]
-                  )
-                ])
-              ])
+              _c("div", { staticClass: "row" })
             ])
           ]
         ),
@@ -70944,7 +70997,13 @@ var render = function() {
                         placeholder: "Buscar Clientes Existentes",
                         "event-name": "clientResults",
                         list: _vm.clientes,
-                        keys: ["nombre", "email", "telefono"]
+                        keys: [
+                          "nombre",
+                          "email",
+                          "telefono",
+                          "apellidoPaterno",
+                          "apellidoMaterno"
+                        ]
                       }
                     }),
                     _vm._v(" "),
@@ -70995,7 +71054,16 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    " " + _vm._s(cliente.nombre)
+                                                    " " +
+                                                      _vm._s(cliente.nombre) +
+                                                      " " +
+                                                      _vm._s(
+                                                        cliente.apellidoPaterno
+                                                      ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        cliente.apellidoMaterno
+                                                      )
                                                   )
                                                 ]
                                               )
@@ -71640,7 +71708,7 @@ var render = function() {
                       placeholder: "Buscar Productos",
                       "event-name": "results",
                       list: _vm.inventario,
-                      keys: ["servicio", "id"]
+                      keys: ["servicio", "id", "familia"]
                     }
                   })
                 ],
@@ -71692,7 +71760,19 @@ var render = function() {
                               staticStyle: { cursor: "auto" }
                             },
                             [
-                              _vm._m(8, true),
+                              _c("div", { staticClass: "col-md-3" }, [
+                                _c("img", {
+                                  staticClass: "img-fluid",
+                                  staticStyle: { "margin-left": "10px" },
+                                  attrs: {
+                                    src:
+                                      "/images/inventario/" +
+                                      producto.imagen +
+                                      ".jpg",
+                                    alt: ""
+                                  }
+                                })
+                              ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-7" }, [
                                 _c(
@@ -71736,7 +71816,23 @@ var render = function() {
                                   ]
                                 ),
                                 _vm._v(" "),
-                                _vm._m(9, true)
+                                _c(
+                                  "p",
+                                  {
+                                    staticStyle: {
+                                      padding: "0",
+                                      margin: "0",
+                                      "line-height": "14px",
+                                      "font-size": "12px"
+                                    }
+                                  },
+                                  [
+                                    _c("span", {
+                                      staticStyle: { "font-weight": "bolder" }
+                                    }),
+                                    _vm._v(" " + _vm._s(producto.familia))
+                                  ]
+                                )
                               ]),
                               _vm._v(" "),
                               _c(
@@ -71775,7 +71871,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(10),
+              _vm._m(8),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -72430,7 +72526,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(11)
+                  _vm._m(9)
                 ])
               ])
             ])
@@ -72467,7 +72563,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(12),
+          _vm._m(10),
           _vm._v(" "),
           _c(
             "button",
@@ -72602,7 +72698,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(13),
+                _vm._m(11),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -72771,7 +72867,7 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(14, true)
+                                                  _vm._m(12, true)
                                                 ]
                                               )
                                             ]
@@ -72858,7 +72954,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Precio final")]
+                              [_vm._v("Total")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -72947,6 +73043,13 @@ var render = function() {
                               domProps: {
                                 textContent: _vm._s(_vm.precioSugerido)
                               }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", [
+                            _vm._v("Utilidad: $"),
+                            _c("span", {
+                              domProps: { textContent: _vm._s(_vm.utilidad) }
                             })
                           ]),
                           _vm._v(" "),
@@ -73088,7 +73191,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(15),
+                            _vm._m(13),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -73181,6 +73284,10 @@ var render = function() {
                                         _vm._v(_vm._s(producto.precioUnitario))
                                       ]),
                                       _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(_vm._s(producto.precioFinal))
+                                      ]),
+                                      _vm._v(" "),
                                       _c("td", { staticClass: "text-center" }, [
                                         _c(
                                           "button",
@@ -73271,7 +73378,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(16),
+                _vm._m(14),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -73524,13 +73631,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(17),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(18),
+                          _vm._m(16),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73539,7 +73646,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(19),
+                                _vm._m(17),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73582,7 +73689,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(20, true)
+                                        _vm._m(18, true)
                                       ])
                                     }
                                   ),
@@ -73596,7 +73703,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(21)
+                _vm._m(19)
               ]
             )
           ]
@@ -73631,13 +73738,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(22),
+                _vm._m(20),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(23),
+                          _vm._m(21),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -73646,7 +73753,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(24),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -73745,7 +73852,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(25)
+                _vm._m(23)
               ]
             )
           ]
@@ -73780,9 +73887,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(26),
+                _vm._m(24),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
+                  _c("label", [_vm._v("Hora de entrega de mobiliario")]),
+                  _c("br"),
+                  _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("label", { attrs: { for: "hora-1" } }, [
@@ -73906,41 +74016,48 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c("label", { attrs: { form: "fecha-hora" } }, [
-                        _vm._v("Fecha y hora de recoleccion")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.facturacion.fechaRecoleccion,
-                            expression: "facturacion.fechaRecoleccion"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          id: "fecha-hora",
-                          type: "datetime-local",
-                          name: "fecha-hora"
-                        },
-                        domProps: { value: _vm.facturacion.fechaRecoleccion },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-md-6",
+                        staticStyle: { "padding-top": "20px" }
+                      },
+                      [
+                        _c("label", { attrs: { form: "fecha-hora" } }, [
+                          _vm._v("Fecha y hora de recoleccion")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.facturacion.fechaRecoleccion,
+                              expression: "facturacion.fechaRecoleccion"
                             }
-                            _vm.$set(
-                              _vm.facturacion,
-                              "fechaRecoleccion",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "fecha-hora",
+                            type: "datetime-local",
+                            name: "fecha-hora"
+                          },
+                          domProps: { value: _vm.facturacion.fechaRecoleccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.facturacion,
+                                "fechaRecoleccion",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        })
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-6 mt-4" }, [
                       _c("input", {
@@ -73991,39 +74108,48 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-12" }, [
-                      _c("label", { attrs: { form: "notasFactura" } }, [
-                        _vm._v("Notas de contrato")
-                      ]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.facturacion.notasFacturacion,
-                            expression: "facturacion.notasFacturacion"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: "notasFactura", width: "100%" },
-                        domProps: { value: _vm.facturacion.notasFacturacion },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-md-12",
+                        staticStyle: { "padding-top": "20px" }
+                      },
+                      [
+                        _c("label", { attrs: { form: "notasFactura" } }, [
+                          _vm._v("Notas de contrato")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.facturacion.notasFacturacion,
+                              expression: "facturacion.notasFacturacion"
                             }
-                            _vm.$set(
-                              _vm.facturacion,
-                              "notasFacturacion",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "notasFactura", width: "100%" },
+                          domProps: { value: _vm.facturacion.notasFacturacion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.facturacion,
+                                "notasFacturacion",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
+                        })
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12 mt-4" }, [
+                      _c("label", [_vm._v("Datos de facturación")]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -74163,6 +74289,62 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4 mt-4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.facturacion.rfc,
+                            expression: "facturacion.rfc"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "RFC" },
+                        domProps: { value: _vm.facturacion.rfc },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.facturacion,
+                              "rfc",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2 mt-4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.facturacion.codigoPostal,
+                            expression: "facturacion.codigoPostal"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "C.P" },
+                        domProps: { value: _vm.facturacion.codigoPostal },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.facturacion,
+                              "codigoPostal",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
                     ])
                   ])
                 ]),
@@ -74229,7 +74411,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(27),
+                _vm._m(25),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74288,7 +74470,7 @@ var render = function() {
                                                   "block-content block-content-full clearfix"
                                               },
                                               [
-                                                _vm._m(28, true),
+                                                _vm._m(26, true),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -74415,7 +74597,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Precio final")]
+                              [_vm._v("Total")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -74617,7 +74799,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(29),
+                            _vm._m(27),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -74758,7 +74940,7 @@ var render = function() {
                         onClick: "$('#editarPaquete').modal('hide')"
                       }
                     },
-                    [_vm._v("Close")]
+                    [_vm._v("Cerrar")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -74897,42 +75079,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", {
-        staticClass: "img-fluid",
-        staticStyle: { "margin-left": "10px" },
-        attrs: {
-          src:
-            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
-          alt: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "p",
-      {
-        staticStyle: {
-          padding: "0",
-          margin: "0",
-          "line-height": "14px",
-          "font-size": "12px"
-        }
-      },
-      [
-        _c("span", { staticStyle: { "font-weight": "bolder" } }),
-        _vm._v(" Familia")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Externo")]),
@@ -74945,7 +75091,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Unitario")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Final")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Ahorro")]),
         _vm._v(" "),
@@ -75036,6 +75182,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
       ])
@@ -81821,37 +81969,172 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.cliente.emailCliente,
-                          expression: "cliente.emailCliente"
+                          value: _vm.cliente.direccionPF,
+                          expression: "cliente.direccionPF"
                         }
                       ],
                       attrs: {
-                        type: "email",
-                        id: "emailPF",
-                        placeholder: "Email"
+                        type: "text",
+                        required: "required",
+                        placeholder: "Dirección"
                       },
-                      domProps: { value: _vm.cliente.emailCliente },
+                      domProps: { value: _vm.cliente.direccionPF },
                       on: {
-                        change: _vm.emailClick,
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
                           _vm.$set(
                             _vm.cliente,
-                            "emailCliente",
+                            "direccionPF",
                             $event.target.value
                           )
                         }
                       }
                     })
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.coloniaPF,
+                          expression: "cliente.coloniaPF"
+                        }
+                      ],
+                      attrs: {
+                        type: "text",
+                        required: "required",
+                        placeholder: "Colonia"
+                      },
+                      domProps: { value: _vm.cliente.coloniaPF },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.cliente,
+                            "coloniaPF",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.numeroPF,
+                          expression: "cliente.numeroPF"
+                        }
+                      ],
+                      attrs: {
+                        type: "text",
+                        required: "required",
+                        placeholder: "Numero"
+                      },
+                      domProps: { value: _vm.cliente.numeroPF },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.cliente, "numeroPF", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "col-md-12 mt-4",
+                      staticStyle: { display: "inline" }
+                    },
+                    [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente.emailCliente,
+                            expression: "cliente.emailCliente"
+                          }
+                        ],
+                        staticStyle: { width: "auto" },
+                        attrs: {
+                          type: "text",
+                          id: "emailPF",
+                          placeholder: "Ejemplo"
+                        },
+                        domProps: { value: _vm.cliente.emailCliente },
+                        on: {
+                          change: _vm.emailClick,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.cliente,
+                              "emailCliente",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" @ "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente.emailClienteTerminacion,
+                            expression: "cliente.emailClienteTerminacion"
+                          }
+                        ],
+                        staticStyle: { width: "auto" },
+                        attrs: {
+                          type: "text",
+                          id: "emailTPF",
+                          placeholder: "ejemplo.com"
+                        },
+                        domProps: {
+                          value: _vm.cliente.emailClienteTerminacion
+                        },
+                        on: {
+                          change: _vm.emailClick,
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.cliente,
+                              "emailClienteTerminacion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -81935,7 +82218,7 @@ var render = function() {
                       0
                     ),
                     _vm._v(" "),
-                    _vm._m(0)
+                    _vm._m(1)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4" }, [
@@ -82031,10 +82314,11 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("div", { staticClass: "col-md-12 mt-4" }, [
                     _c("label", { attrs: { for: "" } }, [
                       _vm._v("Email de la empresa")
                     ]),
+                    _c("br"),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -82045,10 +82329,11 @@ var render = function() {
                           expression: "cliente.emailCliente"
                         }
                       ],
+                      staticStyle: { width: "auto" },
                       attrs: {
-                        type: "email",
+                        type: "text",
                         id: "emailPF",
-                        placeholder: "Email"
+                        placeholder: "Ejemplo"
                       },
                       domProps: { value: _vm.cliente.emailCliente },
                       on: {
@@ -82060,6 +82345,37 @@ var render = function() {
                           _vm.$set(
                             _vm.cliente,
                             "emailCliente",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" @ "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.emailClienteTerminacion,
+                          expression: "cliente.emailClienteTerminacion"
+                        }
+                      ],
+                      staticStyle: { width: "auto" },
+                      attrs: {
+                        id: "emailTPF",
+                        type: "text",
+                        placeholder: "ejemplo.com"
+                      },
+                      domProps: { value: _vm.cliente.emailClienteTerminacion },
+                      on: {
+                        change: _vm.emailClick,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.cliente,
+                            "emailClienteTerminacion",
                             $event.target.value
                           )
                         }
@@ -82533,6 +82849,34 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
+              _c("div", { staticClass: "col-md-5 mt-4" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.codigoPostal,
+                      expression: "cliente.codigoPostal"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    name: "",
+                    id: "",
+                    placeholder: "Codigo Postal"
+                  },
+                  domProps: { value: _vm.cliente.codigoPostal },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.cliente, "codigoPostal", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "col-md-7 mt-4" }, [
                 _c("input", {
                   directives: [
@@ -82543,11 +82887,11 @@ var render = function() {
                       expression: "cliente.emailFacturacion"
                     }
                   ],
+                  staticStyle: { width: "auto" },
                   attrs: {
-                    type: "email",
-                    name: "",
+                    type: "text",
                     id: "emailDF",
-                    placeholder: "Email"
+                    placeholder: "Ejemplo"
                   },
                   domProps: { value: _vm.cliente.emailFacturacion },
                   on: {
@@ -82558,6 +82902,36 @@ var render = function() {
                       _vm.$set(
                         _vm.cliente,
                         "emailFacturacion",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" @ "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cliente.emailFacturacionTerminacion,
+                      expression: "cliente.emailFacturacionTerminacion"
+                    }
+                  ],
+                  staticStyle: { width: "auto" },
+                  attrs: {
+                    type: "text",
+                    id: "emailTDF",
+                    placeholder: "ejemplo.com"
+                  },
+                  domProps: { value: _vm.cliente.emailFacturacionTerminacion },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.cliente,
+                        "emailFacturacionTerminacion",
                         $event.target.value
                       )
                     }
@@ -82618,7 +82992,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(1)
+              _vm._m(2)
             ]),
             _vm._v(" "),
             _c("h4", [_vm._v("¿Como supo de nosotros?")]),
@@ -82636,11 +83010,11 @@ var render = function() {
                   0
                 ),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(3)
               ])
             ]),
             _vm._v(" "),
-            _vm._m(3)
+            _vm._m(4)
           ])
         ]
       )
@@ -82648,6 +83022,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "col-md-12", staticStyle: { "padding-top": "10px" } },
+      [_c("label", { attrs: { for: "" } }, [_vm._v("Dirección ")])]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -82706,7 +83090,7 @@ var staticRenderFns = [
           staticStyle: { "margin-right": "10px" },
           attrs: { type: "button", "data-dismiss": "modal" }
         },
-        [_vm._v("Cancelar")]
+        [_vm._v("Cerrar")]
       ),
       _vm._v(" "),
       _c(
@@ -83488,7 +83872,12 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("h2", [
-          _vm._v("Estas viendo la version: " + _vm._s(_vm.presupuesto.version))
+          _vm._v(
+            "Estas viendo la versión: " +
+              _vm._s(_vm.presupuesto.version) +
+              " de " +
+              _vm._s(_vm.presupuesto.version)
+          )
         ])
       ])
     ]),
@@ -83521,7 +83910,11 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-right info" }, [
-            _c("p", [_vm._v(_vm._s(_vm.obtenerFolio))]),
+            _c(
+              "p",
+              { staticStyle: { "font-weight": "bold", "font-size": "25px" } },
+              [_vm._v("Folio: " + _vm._s(_vm.obtenerFolio))]
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12 text-right" }, [
@@ -84045,7 +84438,11 @@ var render = function() {
                     "div",
                     { staticClass: "info" },
                     [
-                      _c("p", [_vm._v(_vm._s(_vm.clienteSeleccionado.nombre))]),
+                      _c(
+                        "p",
+                        { staticStyle: { "font-size": "25px", color: "blue" } },
+                        [_vm._v(_vm._s(_vm.clienteSeleccionado.nombre))]
+                      ),
                       _vm._v(" "),
                       _c("p", [_vm._v(_vm._s(_vm.clienteSeleccionado.email))]),
                       _vm._v(" "),
@@ -99572,8 +99969,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_7__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -99592,7 +99989,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_2___default.a);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_6___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_7___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -101438,13 +101835,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

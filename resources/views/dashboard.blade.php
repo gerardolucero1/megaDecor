@@ -4,6 +4,8 @@
     <!-- Page Content -->
     <div class="content">
         
+        <img src="/images/inventario/20946.jpg" alt="">
+        
             <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
                 <div class="col-12" style="padding-bottom:20px">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
@@ -39,7 +41,7 @@
                                         <i class="si si-trophy fa-3x text-earth-light"></i>
                                     </div>
                                     <div class="font-size-h3 font-w600 text-white"><span data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestosDiaActual) }}" class="js-count-to-enabled">{{ count($numeroPresupuestosDiaActual) }}</span></div>
-                                    <div class="font-size-sm font-w600 text-uppercase text-white-op">EVentos Hoy</div>
+                                    <div class="font-size-sm font-w600 text-uppercase text-white-op">CONTRATOS DE HOY</div>
                                 </div>
                             </a>
                         </div>
@@ -50,7 +52,7 @@
                                             <i class="si si-fire fa-3x text-corporate-light"></i>
                                         </div>
                                         <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">843</div>
-                                        <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos</div>
+                                        <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos DEL MES</div>
                                     </div>
                                 </a>
                             </div>
@@ -61,7 +63,7 @@
                                                 <i class="si si-envelope-letter fa-3x text-elegance-light"></i>
                                             </div>
                                             <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
-                                            <div class="font-size-sm font-w600 text-uppercase text-white-op">Creditos Atrasados</div>
+                                            <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                         </div>
                                     </a>
                                 </div>
@@ -100,12 +102,12 @@
                                                 </div>
                                                 <div class="row pt-10 pb-30 text-center">
                                                     <div class="col-6 border-r">
-                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} </div>
-                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><span @if( $ventasAnoActual >= $ventasAnoPasado)
+                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} <span @if( $ventasAnoActual >= $ventasAnoPasado)
                                                                 style="color:green"
                                                                 @else
                                                                 style="color:orange"
-                                                                @endif>{{ round($porcentajeActualDinero , 1) }}%</span><br>Ingresos Septiembre 2019</div>
+                                                                @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Septiembre 2019</div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="font-size-h3 font-w600">${{ $ventasAnoPasado }} </div>
@@ -155,6 +157,7 @@
                                                 <td class="text-center" style="width: 40px;">
                                                     <strong class="text-success">{{$ElementoVendedor->ventas}}</strong>
                                                 </td>
+                                                <td><strong class="text-success">${{$ElementoVendedor->cantidadVenta}}</strong></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -167,6 +170,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-6 col-lg-4  col-xl-4">
+                                <a  class="block block-link-shadow text-right" href="javascript:void(0)">
+                                    <div class="block-content block-content-full clearfix">
+                                        <div class="float-left mt-10 d-none d-sm-block">
+                                            <i class="fa fa-star fa-3x text-body-bg-dark"></i>
+                                        </div>
+                                        <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
+                                        <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                            @if(!is_null($ArrayEmpleadoDelMes))
+                                                {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
+                                                @endif</div>
+                                    </div>
+                                </a>
+                            </div>
                     
                 </div>
                 

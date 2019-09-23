@@ -47,7 +47,7 @@
                                     <th>Cliente</th>
                                     <th>Lugar</th>
                                     <th>Vendedor</th>
-                                    <th>Version</th>
+                                    <th>Versión</th>
                                      <th>Ultima Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
@@ -65,7 +65,7 @@
                                     <td class="d-none d-sm-table-cell">{{$Contrato->updated_at}}</td>
                                     
                                     <td class="text-center">
-                                        <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $Contrato->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $Contrato->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ficha Tecnica" data-original-title="View Customer">
                                             <i class="fa fa-eye"></i> 
                                         </a> 
                                         <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $Contrato->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">

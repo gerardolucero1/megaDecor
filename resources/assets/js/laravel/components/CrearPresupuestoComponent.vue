@@ -85,7 +85,7 @@ padding: 0;
                         </div>
                     </div>
                     <div class="col-md-3 text-right info">
-                        <p>{{ obtenerFolio }}</p>
+                        <p style="font-size:25px; font-weight:bold">Folio: {{ obtenerFolio }}</p>
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
@@ -96,11 +96,11 @@ padding: 0;
                                 </select>
                             </div>
                         </div>
-                        <p class="mt-3">Fecha de presupuesto: <span>{{ obtenerFecha }}</span></p>
+                        <p class="mt-3">Fecha de creación: <span>{{ obtenerFecha }}</span></p>
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
                             <label for="salonMega">Salon Mega Mundo</label>
@@ -115,10 +115,25 @@ padding: 0;
                                 <label for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4 row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoInicio">
+                            </div>
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoFin">
+                            </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                            Pendiende</label>
+                            </div>
+                    <div class="col-md-4">
                         
                         <div class="row" >
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
                                 <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
                                     <option value="1">Boda</option>
@@ -147,21 +162,7 @@ padding: 0;
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-8 offset-md-4 row">
-                                <h4>Horario del evento</h4>
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio">
-                            </div>
-                           
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin">
-                            </div>
-                             <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                            Pendiende</label>
-                            </div>
+                            
                           
                         </div>
                         
@@ -176,7 +177,7 @@ padding: 0;
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
-                                    :keys="['nombre', 'email', 'telefono']"
+                                    :keys="['nombre', 'email', 'telefono', 'apellidoPaterno' , 'apellidoMaterno']"
                                     
                                 ></buscador-component>
 
@@ -189,7 +190,7 @@ padding: 0;
                                                     <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }}</span></p>
+                                                    <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ cliente.nombre }} {{ cliente.apellidoPaterno }} {{ cliente.apellidoMaterno }}</span></p>
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.email }}</p>
                                                     <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ cliente.telefono }}</p>
                                                     
@@ -332,7 +333,7 @@ padding: 0;
                                     placeholder="Buscar Productos"
                                     event-name="results"
                                     :list="inventario"
-                                    :keys="['servicio', 'id']"
+                                    :keys="['servicio', 'id', 'familia']"
                                     
                                 ></buscador-component>
 
@@ -350,12 +351,12 @@ padding: 0;
                         <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
                                 <div class="col-md-3" >
-                                    <img class="img-fluid" style="margin-left:10px;" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                    <img class="img-fluid" style="margin-left:10px;" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
                                 </div>
                                 <div class="col-md-7">
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"> {{ producto.servicio }}</span></p>
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> ${{ producto.precioUnitario }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> {{ producto.familia }}</p>
                                 </div>
                                 <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
                                 
@@ -374,7 +375,7 @@ padding: 0;
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio Unitario</th>
-                                <th scope="col">Precio Final</th>
+                                <th scope="col">Total</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Opciones</th>
@@ -560,7 +561,7 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio final</label>
+                                        <label class="col-12" for="example-text-input">Total</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
                                         </div>
@@ -576,6 +577,7 @@ padding: 0;
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
                                     <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
+                                    <h4>Utilidad: $<span v-text="utilidad"></span></h4>
                                     <input type="checkbox" id="guardarPaquete" v-model="paquete.guardarPaquete">
                                     <label for="guardarPaquete">Guardar paquete</label>
 
@@ -602,6 +604,7 @@ padding: 0;
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio unitario</th>
+                                                <th scope="col">Total</th>
                                                 <th scope="col">Opciones</th>
                                             </tr>
                                         </thead>
@@ -616,6 +619,7 @@ padding: 0;
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
                                                 <td>{{ producto.precioUnitario }}</td>
+                                                <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
                                                 </td>
@@ -835,6 +839,7 @@ padding: 0;
                     </button>
                 </div>
                 <div class="modal-body">
+                    <label>Hora de entrega de mobiliario</label><br>
                     <div class="row">
                         <div class="col-md-4">
                             <label for="hora-1">Desde</label>
@@ -853,7 +858,7 @@ padding: 0;
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="padding-top:20px">
                             <label form="fecha-hora">Fecha y hora de recoleccion</label>
                             <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
@@ -861,11 +866,13 @@ padding: 0;
                             <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
                             <label form="requireFactura">Factura</label>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="padding-top:20px">
                             <label form="notasFactura">Notas de contrato</label>
                             <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
                         </div>
+                        
                         <div class="col-md-12 mt-4">
+                            <label>Datos de facturación</label>
                             <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
                         </div>
                         <div class="col-md-5 mt-4">
@@ -879,6 +886,12 @@ padding: 0;
                         </div>
                         <div class="col-md-6 mt-4">
                             <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfc">
+                        </div>
+                        <div class="col-md-2 mt-4">
+                            <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
                         </div>
                     </div>
                 </div>
@@ -952,7 +965,7 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio final</label>
+                                        <label class="col-12" for="example-text-input">Total</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paqueteEdicion.precioUnitario">
                                         </div>
@@ -1014,7 +1027,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Cerrar</button>
                     <button type="button" class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</button>
                 </div>
                 </div>
@@ -1170,6 +1183,7 @@ padding: 0;
                     inventario: [],
                 },
                 precioSugerido: 0,
+                utilidad: 0,
                 cantidadPaquete: '',
 
                 //IVA
@@ -1347,6 +1361,8 @@ padding: 0;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+                    this.facturacion.rfc = this.clienteSeleccionado.rfc;
+                    this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
 
                 }else{
                     this.facturacion.nombreFacturacion = '';
@@ -1457,16 +1473,18 @@ padding: 0;
                     'nombre': producto.servicio,
                     'imagen': producto.imagen,
                     'precioUnitario': producto.precioUnitario,
-                    'precioFinal': '',
-                    'cantidad': '',
+                    'precioFinal': '0',
+                    'cantidad': '0',
                     'id': producto.id,
                     'precioVenta': producto.precioVenta,
                 });
+               
                 console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
+                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
                         }
                     },
                     //Eliminar producto de paquete
@@ -1474,10 +1492,12 @@ padding: 0;
                         this.paquete.inventario.splice(index, 1);
 
                         this.precioSugerido = 0;
+                        this.utilidad = 0;
 
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
+                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
                         }
                     },
                     //Actualizar la cantidad del paquete
@@ -1491,6 +1511,7 @@ padding: 0;
                     },
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
+                        this.utilidad = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
                             return (indice == index);
                         });
@@ -1566,8 +1587,11 @@ padding: 0;
                 });
 
                 this.clienteSeleccionado.id = cliente.id;
+                if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
+              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
+                this.clienteSeleccionado.rfc = cliente.rfc;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;

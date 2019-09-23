@@ -60,7 +60,7 @@
     <section class="container block mt-3">
         <div class="row">
             <div class="col-md-12">
-                <h2>Estas viendo la version: {{ presupuesto.version }}</h2>
+                <h2>Estas viendo la versión: {{ presupuesto.version }} de {{ presupuesto.version }}</h2>
             </div>
         </div>
         <div class="row">
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p>{{ obtenerFolio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio: {{ obtenerFolio }}</p>
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -830,9 +830,11 @@
                 }).catch((error) => {
                     console.log(error.data);
                 });
-
+               
                 this.clienteSeleccionado.id = cliente.id;
+                if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
+              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;

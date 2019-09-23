@@ -44,9 +44,24 @@
                         <div class="col-md-4">
                             <input type="text" required="required" placeholder="Apellido Materno" v-model="cliente.apellidoCliente2">
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        <div class="col-md-12" style="padding-top:10px">
+                        <label for="">Dirección </label>
                         </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionPF">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaPF">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroPF">
+                        </div>
+                     
+                        <div class="col-md-12 mt-4" style="display:inline">
+                            <label for="">Email</label><br>   
+                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                        </div>
+                        
                     </div>
                     <!-- Personas Morales -->
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">
@@ -74,9 +89,9 @@
                             <label for="">Numero de la empresa</label>
                             <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <label for="">Email de la empresa</label>
-                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        <div class="col-md-12 mt-4">
+                            <label for="">Email de la empresa</label><br>
+                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                     </div>
                     
@@ -169,8 +184,11 @@
                         <div class="col-md-7 mt-4">
                             <input type="text" name="" id="" placeholder="RFC" v-model="cliente.rfcFacturacion">
                         </div>
+                        <div class="col-md-5 mt-4">
+                            <input type="text" name="" id="" placeholder="Codigo Postal" v-model="cliente.codigoPostal">
+                        </div>
                         <div class="col-md-7 mt-4">
-                            <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
+                       <input type="text" id="emailDF" placeholder="Ejemplo" v-model="cliente.emailFacturacion" style="width:auto"> @ <input type="text" style="width:auto" id="emailTDF" placeholder="ejemplo.com" v-model="cliente.emailFacturacionTerminacion"  >
                         </div>
                        
                     </div>
@@ -203,7 +221,7 @@
                        
                     </div>
                      <div class="row float-right">
-                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button class="btn btn-success" type="submit">Agregar Cliente</button>
                         </div>
                 </div>
@@ -321,7 +339,9 @@ function emailCopy(){
         methods: {
             emailClick(){
     var emailpf = document.getElementById('emailPF').value;
+    var emailtpf = document.getElementById('emailTPF').value;
     document.getElementById('emailDF').value=emailpf;
+    document.getElementById('emailTDF').value=emailtpf;
     },
     obtenerTipoEmpresa(){
                 let URL = '/clientes/tipo-empresa';
@@ -555,7 +575,7 @@ function emailCopy(){
                     // Persona Fisica
                     'apellidoCliente': this.cliente.apellidoCliente,
                     'apellidoCliente2': this.cliente.apellidoCliente2,
-                    'emailCliente': this.cliente.emailCliente,
+                    'emailCliente': this.cliente.emailCliente+'@'+this.cliente.emailClienteTerminacion,
 
                     // Facturacion
                     'nombreFacturacion': this.cliente.nombreFacturacion,
@@ -563,7 +583,7 @@ function emailCopy(){
                     'coloniaFacturacion': this.cliente.coloniaFacturacion,
                     'numeroFacturacion': this.cliente.numeroFacturacion,
                     'rfcFacturacion': this.cliente.rfcFacturacion,
-                    'emailFacturacion': this.cliente.emailFacturacion,
+                    'emailFacturacion': this.cliente.emailFacturacion+'@'+this.cliente.emailFacturacionTerminacion,
 
                     // Credito
                     'creditoCliente': this.cliente.creditoCliente,

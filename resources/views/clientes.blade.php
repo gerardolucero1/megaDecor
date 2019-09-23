@@ -36,7 +36,7 @@
                                     <th class="sorting" rowspan="1" colspan="1">Nombre</th>
                                     <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
                                     <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
-                                    <th rowspan="1" colspan="1">Correo Electronico</th>
+                                    <th rowspan="1" colspan="1">Correo Electrónico</th>
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
                                 </tr>

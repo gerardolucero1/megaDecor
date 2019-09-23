@@ -211,6 +211,7 @@
                                 <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
                                 <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
                                 <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                 <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
@@ -250,7 +251,7 @@
                         <p id="fechaActual" style="font-style: italic">Fecha Actual</p>
                         <script>
                             function fechaActual(){
-                                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                                var meses = new Array ("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
                                 var f=new Date();
                                 document.getElementById('fechaActual').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
                             }
@@ -332,18 +333,100 @@
 <script>  
 
 $(document).ready( function () {
-    $('#TablaClientes').DataTable();
+
+    $('#TablaClientes').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
     Codebase.layout('sidebar_mini_on');
-    Codebase.layout('sidebar_style_inverse_on')
+    Codebase.layout('sidebar_style_inverse_on');
+    
 } ); 
 $(document).ready( function () {
-    $('#TablaClientesArchivados').DataTable();
+    $('#TablaClientesArchivados').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestosArchivados').DataTable();
+    $('#TablaPresupuestosArchivados').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestos').DataTable();
+    $('#TablaPresupuestos').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 </script>
         <!-- Laravel Scaffolding JS -->

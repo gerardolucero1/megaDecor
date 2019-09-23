@@ -1,14 +1,15 @@
 @extends('layouts.backend')
-@section('style')
+@section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<style>
+        table.dataTable td{
+        box-sizing: inherit;
+        }
+        </style>
 @endsection
 @section('content')
 
-<style>
-table.dataTable td{
-box-sizing: inherit;
-}
-</style>
+
     <section class="container">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
@@ -69,15 +70,20 @@ box-sizing: inherit;
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->lugarEvento}}</td>
                                 <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
-                                <td class="d-none d-sm-table-cell text-center">{{$budget->version}}</td>
-                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;"><i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimio este presupuesto"  @else title="Aun no se imprime" @endif></i><i class="fa fa-send-o" style="@if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></td>
-                                <td class="d-none d-sm-table-cell">{{$budget->updated_at}}</td>
+                                <td class="d-none d-sm-table-cell text-center">
+                                        @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
+                                    {{$budget->version}}
+                                </td>
+                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;"><i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto"  @else title="Aun no se imprime" @endif></i><i class="fa fa-send-o" style="@if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></td>
+                                <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
+                                        @if($budget->version>1)por: Eduardo Ventas @endif
+                                </td>
                                 
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                    <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
                                     <button style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
@@ -120,7 +126,7 @@ box-sizing: inherit;
                                     <th>Lugar</th>
                                     <th>Vendedor</th>
                                     <th>Version</th>
-                                     <th>Ultima Modificación</th>
+                                     <th>Última Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
                                 </tr>

@@ -7,6 +7,7 @@ use stdClass;
 use Barryvdh\DomPDF\Facade as PDF;
 Use App\Budget;
 Use App\User;
+Use App\inventory;
 Use App\Telephone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -162,6 +163,12 @@ class IndexController extends Controller
     public function pantallaUsuarios(){
         return view('pantallaUsuarios');
     }
+     //Pantalla inventario
+     public function inventario(){
+        $Inventario = Inventory::orderBy('id', 'DESC')->get();
+
+        return view('inventario', compact('Inventario'));
+    }
     public function comisiones(){
         $fecha_actual= date('Y-m-d',time());
         //Empleado del mes
@@ -280,6 +287,7 @@ class IndexController extends Controller
             if($ventasAnoPasado !== 0){
             
                 $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
+                $diferenciaDinero = $ventasAnoActual-$ventasAnoPasado;
              
             }
           
@@ -295,8 +303,14 @@ class IndexController extends Controller
                 $ElementoVendedor = new stdClass();
                 $ElementoVendedor->name = $Vendedor->name;
 
-                $PresupuestosVendedor = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('vendedor_id', $idVendedor)->get();
+                $fecha_mes_actual= date('Y-m',strtotime($fecha_actual."- 0 days"));
+                $PresupuestosVendedor = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('vendedor_id', $idVendedor)->where('fechaEvento', 'like' , $fecha_mes_actual.'%')->get();
                 $ElementoVendedor->ventas = count($PresupuestosVendedor);
+                $ElementoVendedor->cantidadVenta=0;
+                foreach($PresupuestosVendedor as $PresupuestoVendedor){
+                        $ElementoVendedor->cantidadVenta = $ElementoVendedor->cantidadVenta+$PresupuestoVendedor->total;
+                    }
+
                 if($ElementoVendedor->ventas>0){
                 array_push($ElementosVendedores,$ElementoVendedor); }
             }
@@ -304,7 +318,7 @@ class IndexController extends Controller
 
 
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
     }
 
     public function presupuestos(){

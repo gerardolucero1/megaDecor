@@ -60,7 +60,7 @@ class BudgetController extends Controller
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion')
+            ->select( 'clients.id', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);

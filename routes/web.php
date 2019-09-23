@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+    Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
 
         // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');
