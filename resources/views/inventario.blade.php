@@ -75,9 +75,6 @@
                                     <button disabled style="margin-right:4px;" href="" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                    <button disabled style="margin-right:4px;" href=""  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
-                                        <i class="fa fa-eye"></i> 
-                                    </button> 
                                     <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="fa fa-remove"></i> 
                                     </button>

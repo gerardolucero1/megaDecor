@@ -13911,6 +13911,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
  // Importamos el evento Bus.
@@ -16224,6 +16226,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -16943,17 +16946,55 @@ __webpack_require__.r(__webpack_exports__);
         Swal.fire('Error!', 'Algo ha ocurrido mal', 'error');
       });
     },
-    obtenerPresupuesto: function obtenerPresupuesto() {
+    guardarPresupuestoCorreo: function guardarPresupuestoCorreo() {
       var _this10 = this;
+
+      /*
+      this.presupuesto.tipo = 'PRESUPUESTO';
+      if(this.presupuesto.tipoEvento == 'INTERNO'){
+          this.presupuesto.tipoServicio = ''
+      }
+      */
+      var URL = '/presupuestos/create/version';
+      axios.post(URL, {
+        'presupuesto': this.presupuesto,
+        'festejados': this.festejados,
+        'inventario': this.inventarioLocal,
+        'guardarVersion': this.guardarVersion
+      }).then(function (response) {
+        _this10.imprimir = true;
+        var URL = '/enviar-email';
+        axios.post(URL, {
+          'presupuesto': _this10.presupuesto,
+          'festejados': _this10.festejados,
+          'inventario': _this10.inventarioLocal
+        }).then(function (response) {
+          console.log('Email Enviado');
+        })["catch"](function (error) {
+          console.log(error.data);
+        });
+
+        if (response.data == 1) {
+          Swal.fire('Error!', 'No puede haber dos eventos en salon en la misma fecha', 'error');
+        } else {
+          Swal.fire('Enviado!', 'Coreeo Enviado', 'success');
+        }
+      })["catch"](function (error) {
+        console.log(error.data);
+        Swal.fire('Error!', 'Algo ha ocurrido mal', 'error');
+      });
+    },
+    obtenerPresupuesto: function obtenerPresupuesto() {
+      var _this11 = this;
 
       var data = window.location.pathname.split('/');
       var path = data[3];
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
-        _this10.presupuesto = response.data;
-        _this10.saldoFinal = _this10.presupuesto.total;
+        _this11.presupuesto = response.data;
+        _this11.saldoFinal = _this11.presupuesto.total;
 
-        var cliente = _this10.clientes.find(function (element) {
+        var cliente = _this11.clientes.find(function (element) {
           return element.id == response.data.client_id;
         });
 
@@ -16964,7 +17005,7 @@ __webpack_require__.r(__webpack_exports__);
           'id': cliente.id,
           'accion': 'telefonos'
         }).then(function (response) {
-          _this10.clienteSeleccionado.telefonos = response.data;
+          _this11.clienteSeleccionado.telefonos = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -16972,39 +17013,39 @@ __webpack_require__.r(__webpack_exports__);
           'id': cliente.id,
           'accion': 'presupuestos'
         }).then(function (response) {
-          _this10.clienteSeleccionado.presupuestos = [];
-          _this10.ultimoEvento = '';
+          _this11.clienteSeleccionado.presupuestos = [];
+          _this11.ultimoEvento = '';
 
           if (response.data.length !== 0) {
-            _this10.clienteSeleccionado.presupuestos = response.data;
+            _this11.clienteSeleccionado.presupuestos = response.data;
             var arreglo = response.data;
             arreglo.sort(function (a, b) {
               return new Date(b.fechaEvento) - new Date(a.fechaEvento);
             });
-            _this10.ultimoEvento = arreglo.shift();
+            _this11.ultimoEvento = arreglo.shift();
 
-            _this10.clienteSeleccionado.presupuestos.push(_this10.ultimoEvento);
+            _this11.clienteSeleccionado.presupuestos.push(_this11.ultimoEvento);
           }
         })["catch"](function (error) {
           console.log(error.data);
         });
-        _this10.clienteSeleccionado.id = cliente.id;
-        _this10.clienteSeleccionado.nombre = cliente.nombre;
-        _this10.clienteSeleccionado.email = cliente.email;
-        _this10.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-        _this10.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-        _this10.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-        _this10.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-        _this10.presupuesto.client_id = cliente.id; //Obtener los festejados
+        _this11.clienteSeleccionado.id = cliente.id;
+        _this11.clienteSeleccionado.nombre = cliente.nombre;
+        _this11.clienteSeleccionado.email = cliente.email;
+        _this11.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        _this11.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        _this11.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        _this11.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+        _this11.presupuesto.client_id = cliente.id; //Obtener los festejados
 
-        var direction = '/obtener-festejados/' + _this10.presupuesto.id;
+        var direction = '/obtener-festejados/' + _this11.presupuesto.id;
         axios.get(direction).then(function (response) {
-          _this10.festejados = response.data;
+          _this11.festejados = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         }); //Obtener el inventario
 
-        var direction2 = '/obtener-inventario-1/' + _this10.presupuesto.id;
+        var direction2 = '/obtener-inventario-1/' + _this11.presupuesto.id;
         axios.get(direction2).then(function (response) {
           var arreglo = [];
           response.data.forEach(function (element) {
@@ -17046,9 +17087,9 @@ __webpack_require__.r(__webpack_exports__);
 
             return arreglo;
           });
-          _this10.inventarioLocal = arreglo;
+          _this11.inventarioLocal = arreglo;
         });
-        var direction3 = '/obtener-paquetes/' + _this10.presupuesto.id;
+        var direction3 = '/obtener-paquetes/' + _this11.presupuesto.id;
         axios.get(direction3).then(function (response) {
           var arregloPaquetes = [];
           response.data.forEach(function (element) {
@@ -17111,7 +17152,7 @@ __webpack_require__.r(__webpack_exports__);
             };
             arregloPaquetes.push(objeto);
           });
-          _this10.inventarioLocal = _this10.inventarioLocal.concat(arregloPaquetes);
+          _this11.inventarioLocal = _this11.inventarioLocal.concat(arregloPaquetes);
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -17425,14 +17466,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -18288,6 +18321,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -18332,11 +18366,17 @@ __webpack_require__.r(__webpack_exports__);
         showConfirmButton: condicion,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Tarea Finalizada',
+        confirmButtonText: 'Agregar Comentario',
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
-          //  console.log(task);
+          var txt;
+          var person = prompt("Agregar Comentario a tarea", "");
+
+          if (person == null || person == "") {} else {
+            alert('Comentario agregado');
+          }
+
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this3.obtenerTareas();
@@ -18521,6 +18561,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
 //
 //
 //
@@ -70681,36 +70722,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.presupuesto.notasPresupuesto,
-              expression: "presupuesto.notasPresupuesto"
-            }
-          ],
-          attrs: {
-            name: "",
-            id: "",
-            cols: "30",
-            rows: "10",
-            placeholder: "Notas"
-          },
-          domProps: { value: _vm.presupuesto.notasPresupuesto },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.presupuesto, "notasPresupuesto", $event.target.value)
-            }
-          }
-        })
-      ])
-    ]),
+    _c("div", { staticClass: "row" }),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12 registroPresupuesto" }, [
@@ -71955,6 +71967,8 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(festejado.edad))]),
                             _vm._v(" "),
+                            _vm._m(6, true),
+                            _vm._v(" "),
                             _c("td", { staticClass: "text-center" }, [
                               _c(
                                 "button",
@@ -71984,7 +71998,7 @@ var render = function() {
         _vm._v(" "),
         _c("h4", [_vm._v("Archivos de Referencia")]),
         _vm._v(" "),
-        _vm._m(6),
+        _vm._m(7),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
@@ -72008,7 +72022,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4" }, [
-                _vm._m(7),
+                _vm._m(8),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -72187,7 +72201,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(8),
+              _vm._m(9),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -72918,13 +72932,43 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(9)
+                  _vm._m(10)
                 ])
               ])
             ])
           ]),
           _vm._v(" "),
-          _vm._m(10)
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("label", [
+              _vm._v("Comentarios de presupuesto (No visibles para cliente)")
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.presupuesto.notasPresupuesto,
+                  expression: "presupuesto.notasPresupuesto"
+                }
+              ],
+              staticStyle: { width: "100%" },
+              attrs: { name: "", id: "", rows: "5", placeholder: "Notas" },
+              domProps: { value: _vm.presupuesto.notasPresupuesto },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.presupuesto,
+                    "notasPresupuesto",
+                    $event.target.value
+                  )
+                }
+              }
+            })
+          ])
         ]),
         _vm._v(" "),
         _c("div", {}, [
@@ -73109,7 +73153,7 @@ var render = function() {
                                     placeholder: "Buscar Productos",
                                     "event-name": "resultsPaquetes",
                                     list: _vm.inventario,
-                                    keys: ["servicio", "id"]
+                                    keys: ["servicio", "id", "familia"]
                                   }
                                 })
                               ],
@@ -73253,7 +73297,7 @@ var render = function() {
                                                           _vm._v(
                                                             " " +
                                                               _vm._s(
-                                                                producto.precioUnitario
+                                                                producto.familia
                                                               )
                                                           )
                                                         ]
@@ -73261,7 +73305,23 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _vm._m(13, true)
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "col-md-3" },
+                                                    [
+                                                      _c("img", {
+                                                        staticClass:
+                                                          "img-fluid",
+                                                        attrs: {
+                                                          src:
+                                                            "/images/inventario/" +
+                                                            producto.imagen +
+                                                            ".jpg",
+                                                          alt: ""
+                                                        }
+                                                      })
+                                                    ]
+                                                  )
                                                 ]
                                               )
                                             ]
@@ -73585,7 +73645,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(14),
+                            _vm._m(13),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -73772,7 +73832,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(15),
+                _vm._m(14),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74133,13 +74193,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(16),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoContratos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(17),
+                          _vm._m(16),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -74148,7 +74208,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(18),
+                                _vm._m(17),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -74191,7 +74251,7 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _vm._m(19, true)
+                                        _vm._m(18, true)
                                       ])
                                     }
                                   ),
@@ -74205,7 +74265,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(20)
+                _vm._m(19)
               ]
             )
           ]
@@ -74240,13 +74300,13 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(21),
+                _vm._m(20),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm.clienteSeleccionadoPresupuestos.length !== 0
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
-                          _vm._m(22),
+                          _vm._m(21),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c(
@@ -74255,7 +74315,7 @@ var render = function() {
                                 staticClass: "table table-striped table-vcenter"
                               },
                               [
-                                _vm._m(23),
+                                _vm._m(22),
                                 _vm._v(" "),
                                 _c(
                                   "tbody",
@@ -74354,7 +74414,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(24)
+                _vm._m(23)
               ]
             )
           ]
@@ -74389,7 +74449,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(25),
+                _vm._m(24),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("label", [_vm._v("Hora de entrega de mobiliario")]),
@@ -74561,7 +74621,7 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(26),
+                    _vm._m(25),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-6 mt-4" }, [
                       _c("input", {
@@ -74851,7 +74911,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(27)
+                    _vm._m(26)
                   ])
                 ]),
                 _vm._v(" "),
@@ -74917,7 +74977,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(28),
+                _vm._m(27),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -74976,7 +75036,7 @@ var render = function() {
                                                   "block-content block-content-full clearfix"
                                               },
                                               [
-                                                _vm._m(29, true),
+                                                _vm._m(28, true),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -75305,7 +75365,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(30),
+                            _vm._m(29),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -75497,12 +75557,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(31),
+                _vm._m(30),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(32),
+                        _vm._m(31),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -75542,7 +75602,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(33)
+                _vm._m(32)
               ]
             )
           ]
@@ -75629,11 +75689,19 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Motivo")]),
         _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Guardar")]),
+        _vm._v(" "),
         _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
           _vm._v("Eliminar")
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("input", { attrs: { type: "checkbox" } })])
   },
   function() {
     var _vm = this
@@ -75700,21 +75768,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("label", [
-        _vm._v("Comentarios de presupuesto (No visibles para cliente)")
-      ]),
-      _vm._v(" "),
-      _c("textarea", {
-        staticStyle: { width: "100%" },
-        attrs: { name: "", id: "", rows: "5" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -75753,21 +75806,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("img", {
-        staticClass: "img-fluid",
-        attrs: {
-          src:
-            "https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg",
-          alt: ""
-        }
-      })
     ])
   },
   function() {
@@ -79927,6 +79965,19 @@ var render = function() {
                 }
               },
               [_vm._v("Editar Presupuesto")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-block btn-success",
+                on: {
+                  click: function($event) {
+                    return _vm.guardarPresupuestoCorreo()
+                  }
+                }
+              },
+              [_vm._v("Enviar por correo")]
             )
           ])
         ])
@@ -82999,88 +83050,7 @@ var render = function() {
                         }
                       })
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cliente.direccionEmpresa,
-                          expression: "cliente.direccionEmpresa"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Direccion" },
-                      domProps: { value: _vm.cliente.direccionEmpresa },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.cliente,
-                            "direccionEmpresa",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cliente.coloniaEmpresa,
-                          expression: "cliente.coloniaEmpresa"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Colonia" },
-                      domProps: { value: _vm.cliente.coloniaEmpresa },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.cliente,
-                            "coloniaEmpresa",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cliente.numeroEmpresa,
-                          expression: "cliente.numeroEmpresa"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Numero" },
-                      domProps: { value: _vm.cliente.numeroEmpresa },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.cliente,
-                            "numeroEmpresa",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -84582,6 +84552,17 @@ var render = function() {
                                       staticClass: "fa fa-check",
                                       staticStyle: { color: "#2A9050" }
                                     })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                tarea.completa == 1
+                                  ? _c("i", {
+                                      staticClass: "si si-info",
+                                      staticStyle: { color: "#2A9050" },
+                                      attrs: {
+                                        "data-toggle": "tooltip",
+                                        title: "Como vamos con eso?"
+                                      }
+                                    })
                                   : _vm._e()
                               ])
                             ])
@@ -84871,14 +84852,8 @@ var render = function() {
               expression: "presupuesto.notasPresupuesto"
             }
           ],
-          attrs: {
-            name: "",
-            id: "",
-            cols: "30",
-            rows: "10",
-            placeholder: "Notas",
-            readonly: ""
-          },
+          staticStyle: { width: "50%" },
+          attrs: { name: "", id: "", placeholder: "Notas", readonly: "" },
           domProps: { value: _vm.presupuesto.notasPresupuesto },
           on: {
             input: function($event) {
@@ -84960,7 +84935,7 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-4" }, [
               _c("h4", [_vm._v("Informacion del evento")]),
               _vm._v(" "),
               _c("input", {
@@ -85113,9 +85088,147 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-4  row" }, [
+              _c("h4", [_vm._v("Horario del evento")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-6",
+                  staticStyle: { "padding-left": "0" }
+                },
+                [
+                  _c("label", [_vm._v("Inicio del evento")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.horaEventoInicio,
+                        expression: "presupuesto.horaEventoInicio"
+                      }
+                    ],
+                    attrs: { type: "time", readonly: "" },
+                    domProps: { value: _vm.presupuesto.horaEventoInicio },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.presupuesto,
+                          "horaEventoInicio",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col-md-6",
+                  staticStyle: { "padding-left": "0" }
+                },
+                [
+                  _c("label", [_vm._v("Fin del evento")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.horaEventoFin,
+                        expression: "presupuesto.horaEventoFin"
+                      }
+                    ],
+                    attrs: { type: "time", readonly: "" },
+                    domProps: { value: _vm.presupuesto.horaEventoFin },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.presupuesto,
+                          "horaEventoFin",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticStyle: { "padding-top": "10px" },
+                  attrs: { for: "pendienteHora" }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.pendienteHora,
+                        expression: "presupuesto.pendienteHora"
+                      }
+                    ],
+                    attrs: {
+                      type: "checkbox",
+                      name: "1",
+                      id: "pendienteHora",
+                      disabled: ""
+                    },
+                    domProps: {
+                      checked: Array.isArray(_vm.presupuesto.pendienteHora)
+                        ? _vm._i(_vm.presupuesto.pendienteHora, null) > -1
+                        : _vm.presupuesto.pendienteHora
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.presupuesto.pendienteHora,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "pendienteHora",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "pendienteHora",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.presupuesto, "pendienteHora", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v("\n                        Pendiende")
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8 offset-md-4" }, [
+                _c("div", { staticClass: "col-md-12" }, [
                   _c("h4", {}, [_vm._v("Categoria del evento")]),
                   _vm._v(" "),
                   _c(
@@ -85258,146 +85371,6 @@ var render = function() {
                   _c("label", { attrs: { for: "pendienteFecha" } }, [
                     _vm._v("Pendiende")
                   ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8 offset-md-4 row" }, [
-                  _c("h4", [_vm._v("Horario del evento")]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-6",
-                      staticStyle: { "padding-left": "0" }
-                    },
-                    [
-                      _c("label", [_vm._v("Inicio del evento")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.horaEventoInicio,
-                            expression: "presupuesto.horaEventoInicio"
-                          }
-                        ],
-                        attrs: { type: "time", readonly: "" },
-                        domProps: { value: _vm.presupuesto.horaEventoInicio },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "horaEventoInicio",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "col-md-6",
-                      staticStyle: { "padding-left": "0" }
-                    },
-                    [
-                      _c("label", [_vm._v("Fin del evento")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.horaEventoFin,
-                            expression: "presupuesto.horaEventoFin"
-                          }
-                        ],
-                        attrs: { type: "time", readonly: "" },
-                        domProps: { value: _vm.presupuesto.horaEventoFin },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "horaEventoFin",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "label",
-                    {
-                      staticStyle: { "padding-top": "10px" },
-                      attrs: { for: "pendienteHora" }
-                    },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.pendienteHora,
-                            expression: "presupuesto.pendienteHora"
-                          }
-                        ],
-                        attrs: {
-                          type: "checkbox",
-                          name: "1",
-                          id: "pendienteHora",
-                          disabled: ""
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.presupuesto.pendienteHora)
-                            ? _vm._i(_vm.presupuesto.pendienteHora, null) > -1
-                            : _vm.presupuesto.pendienteHora
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.presupuesto.pendienteHora,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "pendienteHora",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "pendienteHora",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.presupuesto, "pendienteHora", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v("\n                        Pendiende")
-                    ]
-                  )
                 ])
               ])
             ])
@@ -86589,6 +86562,8 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _vm._m(5),
           _vm._v(" "),
+          _vm._m(6),
+          _vm._v(" "),
           !_vm.original
             ? _c("div", { staticClass: "col-md-4 mt-4" }, [
                 _c(
@@ -86630,11 +86605,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(7),
+                  _vm._m(8),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -86734,12 +86709,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(8),
+                _vm._m(9),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(9),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -86779,7 +86754,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(10)
+                _vm._m(11)
               ]
             )
           ]
@@ -86879,6 +86854,22 @@ var staticRenderFns = [
         },
         [_vm._v("Ver versiones")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _c("i", { staticClass: "si si-printer" }),
+        _vm._v("Imprimir")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-primary" }, [
+        _c("i", { staticClass: "fa fa-send-o" }),
+        _vm._v("Enviar budget por correo")
+      ])
     ])
   },
   function() {

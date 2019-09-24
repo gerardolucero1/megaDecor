@@ -62,15 +62,7 @@
                             <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                         
-                        <div class="col-md-4 mt-4">
-                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
-                        </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
-                        </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
-                        </div>
+                        
                     </div>
                     <!-- Personas Morales -->
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">

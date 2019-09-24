@@ -458,6 +458,7 @@
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Editar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuestoCorreo()">Enviar por correo</button>
                     </div>
                 </div>
             </div>
@@ -1690,6 +1691,57 @@
                         Swal.fire(
                             'Creado!',
                             'El presupuesto ha sido creado',
+                            'success'
+                        );
+                    }   
+                    
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                        'Error!',
+                        'Algo ha ocurrido mal',
+                        'error'
+                    );
+                });
+            },
+            guardarPresupuestoCorreo(){
+                /*
+                this.presupuesto.tipo = 'PRESUPUESTO';
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+                */
+
+                let URL = '/presupuestos/create/version';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                    'guardarVersion': this.guardarVersion,
+                }).then((response) => {
+                    this.imprimir = true;
+                    let URL = '/enviar-email';
+
+                    axios.post(URL, {
+                        'presupuesto': this.presupuesto,
+                        'festejados': this.festejados,
+                        'inventario': this.inventarioLocal,
+                    }).then((response) => {
+                        console.log('Email Enviado');
+                    }).catch((error) => {
+                        console.log(error.data);
+                    });
+                    
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'No puede haber dos eventos en salon en la misma fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire(
+                            'Enviado!',
+                            'Coreeo Enviado',
                             'success'
                         );
                     }   

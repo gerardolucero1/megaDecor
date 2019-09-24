@@ -65,7 +65,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <textarea name="" id="" cols="30" rows="10" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
+                <textarea name="" id="" style="width:50%" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
             </div>
         </div>
         <div class="row">
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento" disabled>
                             <label for="salonMega">Salon Mega Mundo</label>
@@ -105,10 +105,25 @@
                                 <label for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4  row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
+                            </div>
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoFin" readonly>
+                            </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
+                            Pendiende</label>
+                            </div>
+                    <div class="col-md-4">
                         
                         <div class="row" >
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
                                 <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento" disabled>
                                     <option value="1">Boda</option>
@@ -135,24 +150,7 @@
                             </div>
                         </div>
                         
-                        <div class="row">
-                            <div class="col-md-8 offset-md-4 row">
-                                <h4>Horario del evento</h4>
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
-                            </div>
-                           
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin" readonly>
-                            </div>
-                             <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
-                            Pendiende</label>
-                            </div>
-                          
-                        </div>
+                       
                         
                     </div>
                 </div>
@@ -356,8 +354,11 @@
                 <div class="row">
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
-                        
                     </div>
+                    <div class="col-md-4">
+                        <button  class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button>
+                        <button class="btn btn-primary"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
+                        </div>
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
                     </div>

@@ -44,7 +44,8 @@
                                                         <button v-if="tarea.completa==0" v-on:click.prevent="detalleTarea(tarea)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                             <i class="si si-eye"></i>
                                                         </button>
-                                                        <i v-if="tarea.completa==1" style="color:#2A9050" class="fa fa-check"></i>
+                                                        <i v-if="tarea.completa==1"  style="color:#2A9050" class="fa fa-check"></i>
+                                                        <i v-if="tarea.completa==1" data-toggle="tooltip" title="Como vamos con eso?" style="color:#2A9050" class="si si-info"></i>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -100,12 +101,18 @@ import { EventBus } from '../eventBus.js';
                                 showConfirmButton: condicion,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText: 'Tarea Finalizada',
+                                confirmButtonText: 'Agregar Comentario',
                                 cancelButtonText: 'Cerrar'
                                 
                             }).then((result) => {
                             if (result.value) {
-                              //  console.log(task);
+                               var txt;
+  var person = prompt("Agregar Comentario a tarea", "");
+  if (person == null || person == "") {
+    
+  } else {
+    alert('Comentario agregado');
+  }
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

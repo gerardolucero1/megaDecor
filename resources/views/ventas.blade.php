@@ -1,16 +1,25 @@
 @extends('layouts.backend')
+@section('styles')
+<style>
+@media print {
+.impre {display:none}
+}
+</style>
+@endsection
 
 @section('content')
     <section class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <form action="{{ route('index.ventas') }}" method="POST">
                     @csrf
                     @method('POST')
-                    <input id="fecha" name="fecha" type="month" onchange="obtenerDatos()">
-                    <button type="submit">Enviar</button>
+                    <input class="print" id="fecha" name="fecha" type="month" onchange="obtenerDatos()">
+                    <button class="btn btn-primary" type="submit">Enviar</button>
                 </form>
+                
             </div>
+            <div class="col-md-3"><button class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button></div>
         </div>
     </section>
     <section class="container">

@@ -74,9 +74,7 @@ padding: 0;
 <template>
     <section class="container">
         <div class="row">
-            <div class="col-md-12">
-                <textarea name="" id="" cols="30" rows="10" placeholder="Notas" v-model="presupuesto.notasPresupuesto"></textarea>
-            </div>
+            
         </div>
         <div class="row">
             <div class="col-md-12 registroPresupuesto">
@@ -302,6 +300,7 @@ padding: 0;
                                 <tr style="font">
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Motivo</th>
+                                    <th scope="col">Guardar</th>
                                     <th scope="col" class="text-center">Eliminar</th>
                                 </tr>
                             </thead>
@@ -309,6 +308,7 @@ padding: 0;
                                 <tr v-for="(festejado, index) in festejados" v-bind:key="festejado.index">
                                     <td>{{ festejado.nombre }}</td>
                                     <td>{{ festejado.edad }}</td>
+                                    <td><input type="checkbox"></td>
                                     <td class="text-center">
                                         <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)"><i class="fa fa-remove"></i></button>
                                     </td>
@@ -479,7 +479,9 @@ padding: 0;
                     </div>
                      <div class="col-md-6">
                          <label>Comentarios de presupuesto (No visibles para cliente)</label>
-                         <textarea name="" id="" style="width:100%"  rows="5"></textarea>
+                       
+                <textarea name="" id="" style="width:100%" rows="5" placeholder="Notas" v-model="presupuesto.notasPresupuesto"></textarea>
+
                      </div>
                 </div>
 
@@ -540,7 +542,7 @@ padding: 0;
                                     placeholder="Buscar Productos"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
-                                    :keys="['servicio', 'id']"
+                                    :keys="['servicio', 'id', 'familia']"
                                     
                                 ></buscador-component>
                                         </div>
@@ -554,10 +556,10 @@ padding: 0;
                                                         
                                                         <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Servicio:</span> {{ producto.servicio }}</p>
                                                         <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
-                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.precioUnitario }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.familia }}</p>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <img class="img-fluid" src="https://aliceasmartialarts.com/wp-content/uploads/2017/04/default-image.jpg" alt="">
+                                                        <img class="img-fluid" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
                                                     </div>
                                                 </div>
                                             </div>
