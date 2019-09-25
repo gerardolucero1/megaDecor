@@ -317,7 +317,12 @@ padding: 0;
                         </table>
                     </div>  
                 </div>
+<div class="col-md-6">
+                         <label>Comentarios de presupuesto (No visibles para cliente)</label>
+                       
+                <textarea name="" id="" style="width:100%" rows="5" placeholder="Notas" v-model="presupuesto.notasPresupuesto"></textarea>
 
+                     </div>
                 </div>
                 
                 <h4>Archivos de Referencia</h4>
@@ -356,7 +361,7 @@ padding: 0;
                         <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
                                 <div class="col-md-3" >
-                                    <img class="img-fluid" style="margin-left:10px;" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
+                                    <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
                                 </div>
                                 <div class="col-md-7">
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
@@ -393,7 +398,7 @@ padding: 0;
                                     <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
                                 <td style="width:120px;">
-                                    <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="100%">
+                                    <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
@@ -477,12 +482,7 @@ padding: 0;
                             </div>
                         </div>
                     </div>
-                     <div class="col-md-6">
-                         <label>Comentarios de presupuesto (No visibles para cliente)</label>
-                       
-                <textarea name="" id="" style="width:100%" rows="5" placeholder="Notas" v-model="presupuesto.notasPresupuesto"></textarea>
-
-                     </div>
+                     
                 </div>
 
                 <div class="">
@@ -559,7 +559,7 @@ padding: 0;
                                                         <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.familia }}</p>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <img class="img-fluid" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
+                                                        <img class="img-fluid" :src="producto.imagen" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -725,6 +725,7 @@ padding: 0;
                                         <div class="col-12">
                                             <div class="custom-file">
                                                 <input type="checkbox" name="autorizado" id="" v-model="productoExterno.autorizado">
+                                            Guardar en inventario
                                             </div>
                                         </div>
                                     </div>
@@ -735,7 +736,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Cerrar</button>
                     <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
                 </div>
                 </div>
@@ -796,7 +797,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Cerrar</button>
                 </div>
                 </div>
             </div>
@@ -856,7 +857,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Cerrar</button>
                 </div>
                 </div>
             </div>
@@ -948,7 +949,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrare</button>
                     <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
                 </div>
                 </div>

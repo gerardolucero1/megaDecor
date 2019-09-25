@@ -62,7 +62,7 @@
                                 @if (!is_null($Inventario))
                                     @foreach ($Inventario as $inventario)                      
                             <tr role="row" class="odd">
-                            <td class="text-center sorting_1"><img style="width: 80px" src="/images/inventario/{{ $inventario->imagen}}.jpg"></td>
+                            <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td>{{ $inventario->cantidad }}</td>
                                 <td>{{ $inventario->disponible }}</td>

@@ -71,8 +71,8 @@
                                         <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $Contrato->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger " data-toggle="tooltip" title="Archivar Contacto" data-original-title="View Customer">
+                                                <i class="si si-refresh"></i>
                                             </button>
                                     </td>
                                 </tr>

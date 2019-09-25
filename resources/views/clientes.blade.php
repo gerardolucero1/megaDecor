@@ -56,11 +56,11 @@
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip"  data-original-title="View Customer">
+                                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary " data-toggle="tooltip" title="Editar Cliente"  data-original-title="View Customer">
                                             <i class="fa fa-pencil"></i>
                                         </a>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip"  data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger " data-toggle="tooltip" title="Archivar Cliente">
+                                                <i class="si si-refresh"></i>
                                         </button>
                                     </td>
                                 </tr>

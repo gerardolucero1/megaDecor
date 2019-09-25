@@ -281,7 +281,7 @@
                                     <input type="checkbox" v-model="producto.externo" disabled="disabled">
                                 </th>
                                 <td>
-                                    <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="80px">
+                                    <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td data-name="cantidad">
@@ -393,7 +393,7 @@
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
                                 <td>{{ version.folio }}</td>
-                                <td>{{ version.created_at | formatearFecha }}</td>
+                                <td>{{ version.created_at }}</td>
                                 <td>{{ version.quienEdito }}</td>
                                 <td>
                                     <button class="btm btn-success btn-sm" @click="obtenerVersion(version.id)">Ver version</button>

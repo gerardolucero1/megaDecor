@@ -81,9 +81,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
 
+    //Imprimir budget
+    Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
+    Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
         // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');
         Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
+        Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');
+        Route::get('/budget-archivar/{id}', 'CMS\BudgetController@archivar')->name('presupuesto.archivar');
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
@@ -101,6 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
+    Route::get('/presupuestos2', 'CMS\IndexController@presupuestos2')->name('presupuestos2');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');

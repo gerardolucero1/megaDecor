@@ -38,14 +38,12 @@ class TareasController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos); */
         if($idUsuarioLogeado==17){
         $tareas = DB::table('tasks')
-        ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
-        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
+        ->select('tasks.id', 'tasks.cliente_id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
         ->where('tasks.fecha', '=', $fecha_actual)
         ->get();
     }else{
         $tareas = DB::table('tasks')
-        ->join('clients', 'tasks.cliente_id', '=', 'clients.id')
-        ->select('tasks.id', 'clients.id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
+        ->select('tasks.id', 'tasks.cliente_id as client_id', 'tasks.vendedor_id', 'tasks.categoria', 'tasks.notas', 'tasks.fecha', 'tasks.completa')
         ->where('tasks.fecha', '=', $fecha_actual)
         
         ->where(function($q) {

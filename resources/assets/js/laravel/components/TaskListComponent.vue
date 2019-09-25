@@ -93,8 +93,11 @@ import { EventBus } from '../eventBus.js';
                     }else{
                         var condicion = true;
                     }
+                    if(task.cliente==null){
+                        task.cliente=" ";
+                    }
     Swal.fire({
-                                title: task.categoria+" "+task.cliente,
+                                title: task.categoria+" - "+task.cliente,
                                 text: "Detalles: "+task.notas,
                                 type: 'info',
                                 showCancelButton: true,

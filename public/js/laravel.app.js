@@ -13913,6 +13913,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -17344,9 +17345,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -18358,8 +18356,12 @@ __webpack_require__.r(__webpack_exports__);
         var condicion = true;
       }
 
+      if (task.cliente == null) {
+        task.cliente = " ";
+      }
+
       Swal.fire({
-        title: task.categoria + " " + task.cliente,
+        title: task.categoria + " - " + task.cliente,
         text: "Detalles: " + task.notas,
         type: 'info',
         showCancelButton: true,
@@ -71992,7 +71994,39 @@ var render = function() {
                     ])
                   ])
                 ])
-              : _vm._e()
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("label", [
+                _vm._v("Comentarios de presupuesto (No visibles para cliente)")
+              ]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.presupuesto.notasPresupuesto,
+                    expression: "presupuesto.notasPresupuesto"
+                  }
+                ],
+                staticStyle: { width: "100%" },
+                attrs: { name: "", id: "", rows: "5", placeholder: "Notas" },
+                domProps: { value: _vm.presupuesto.notasPresupuesto },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.presupuesto,
+                      "notasPresupuesto",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
           ]
         ),
         _vm._v(" "),
@@ -72070,13 +72104,7 @@ var render = function() {
                                 _c("img", {
                                   staticClass: "img-fluid",
                                   staticStyle: { "margin-left": "10px" },
-                                  attrs: {
-                                    src:
-                                      "/images/inventario/" +
-                                      producto.imagen +
-                                      ".jpg",
-                                    alt: ""
-                                  }
+                                  attrs: { src: producto.imagen, alt: "" }
                                 })
                               ]),
                               _vm._v(" "),
@@ -72256,11 +72284,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticStyle: { width: "120px" } }, [
                       _c("img", {
-                        attrs: {
-                          src: "/images/inventario/" + producto.imagen + ".jpg",
-                          alt: "",
-                          width: "100%"
-                        }
+                        attrs: { src: producto.imagen, alt: "", width: "100%" }
                       })
                     ]),
                     _vm._v(" "),
@@ -72936,38 +72960,6 @@ var render = function() {
                 ])
               ])
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("label", [
-              _vm._v("Comentarios de presupuesto (No visibles para cliente)")
-            ]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.presupuesto.notasPresupuesto,
-                  expression: "presupuesto.notasPresupuesto"
-                }
-              ],
-              staticStyle: { width: "100%" },
-              attrs: { name: "", id: "", rows: "5", placeholder: "Notas" },
-              domProps: { value: _vm.presupuesto.notasPresupuesto },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.presupuesto,
-                    "notasPresupuesto",
-                    $event.target.value
-                  )
-                }
-              }
-            })
           ])
         ]),
         _vm._v(" "),
@@ -73313,10 +73305,7 @@ var render = function() {
                                                         staticClass:
                                                           "img-fluid",
                                                         attrs: {
-                                                          src:
-                                                            "/images/inventario/" +
-                                                            producto.imagen +
-                                                            ".jpg",
+                                                          src: producto.imagen,
                                                           alt: ""
                                                         }
                                                       })
@@ -74122,7 +74111,10 @@ var render = function() {
                                       }
                                     }
                                   }
-                                })
+                                }),
+                                _vm._v(
+                                  "\n                                            Guardar en inventario\n                                            "
+                                )
                               ])
                             ])
                           ])
@@ -74142,7 +74134,7 @@ var render = function() {
                         onClick: "$('#agregarElemento').modal('hide')"
                       }
                     },
-                    [_vm._v("Close")]
+                    [_vm._v("Cerrar")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -74925,7 +74917,7 @@ var render = function() {
                         onClick: "$('#guardarContrato').modal('hide')"
                       }
                     },
-                    [_vm._v("Close")]
+                    [_vm._v("Cerrare")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -75960,7 +75952,7 @@ var staticRenderFns = [
           staticClass: "btn btn-secondary",
           attrs: { type: "button", onClick: "$('#verContratos').modal('hide')" }
         },
-        [_vm._v("Close")]
+        [_vm._v("Cerrar")]
       )
     ])
   },
@@ -76051,7 +76043,7 @@ var staticRenderFns = [
             onClick: "$('#verPresupuestos').modal('hide')"
           }
         },
-        [_vm._v("Close")]
+        [_vm._v("Cerrar")]
       )
     ])
   },
@@ -79251,11 +79243,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
-                        attrs: {
-                          src: "/images/inventario/" + producto.imagen + ".jpg",
-                          alt: "",
-                          width: "80px"
-                        }
+                        attrs: { src: producto.imagen, alt: "", width: "80px" }
                       })
                     ]),
                     _vm._v(" "),
@@ -82357,68 +82345,28 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
-                    _c("label", { attrs: { for: "" } }, [
-                      _vm._v("Selecciona un Cliente")
-                    ]),
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Cliente")]),
                     _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.tarea.cliente,
-                            expression: "tarea.cliente"
-                          }
-                        ],
-                        attrs: { name: "categoria", id: "" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.tarea,
-                              "cliente",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.tarea.cliente,
+                          expression: "tarea.cliente"
                         }
-                      },
-                      [
-                        _c(
-                          "optgroup",
-                          { attrs: { label: "Seleccionar un vendedor" } },
-                          _vm._l(_vm.clientesFisicos, function(cliente) {
-                            return _c(
-                              "option",
-                              {
-                                key: cliente.index,
-                                domProps: { value: cliente.client_id }
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(cliente.nombre) +
-                                    " " +
-                                    _vm._s(cliente.apellidoPaterno) +
-                                    " " +
-                                    _vm._s(cliente.apellidoMaterno)
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ]
-                    )
+                      ],
+                      attrs: { name: "categoria", type: "text" },
+                      domProps: { value: _vm.tarea.cliente },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.tarea, "cliente", $event.target.value)
+                        }
+                      }
+                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -85940,11 +85888,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
-                        attrs: {
-                          src: "/images/inventario/" + producto.imagen + ".jpg",
-                          alt: "",
-                          width: "80px"
-                        }
+                        attrs: { src: producto.imagen, alt: "", width: "80px" }
                       })
                     ]),
                     _vm._v(" "),
@@ -86623,11 +86567,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.folio))]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            _vm._s(_vm._f("formatearFecha")(version.created_at))
-                          )
-                        ]),
+                        _c("td", [_vm._v(_vm._s(version.created_at))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.quienEdito))]),
                         _vm._v(" "),
