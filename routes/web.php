@@ -79,7 +79,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
+
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
+    Route::post('/inventario', 'CMS\IndexController@inventarioFiltro')->name('inventario.filtro');
 
     //Imprimir budget
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
@@ -143,8 +145,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
 
     //Emails
-    Route::post('enviar-email', function(Request $request){
+    Route::get('enviar-email/{id}', function($id){
         
+        /*
         $presupuesto    = $request->presupuesto;
         $inventario     = $request->inventario;
         $festejados     = $request->festejados;
@@ -157,9 +160,15 @@ Route::group(['middleware' => ['auth']], function () {
         }else{
             $persona = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
         }
+        */
     
         Mail::to('gera_conecta@hotmail.com', 'Administrador')
-            ->cc($persona->email)
+            ->send(new NuevoPresupuesto($presupuesto, $inventario, $festejados));
+    });
+
+    Route::get('enviar-email-cliente/{id}', function($id){
+
+        Mail::to($persona->email, 'Administrador')
             ->send(new NuevoPresupuesto($presupuesto, $inventario, $festejados));
     });
 

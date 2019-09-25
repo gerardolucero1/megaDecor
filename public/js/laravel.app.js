@@ -12222,7 +12222,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     keys: {
       type: Array
-    }
+    },
+    limpiar: false
   },
   computed: {
     options: function options() {
@@ -12265,6 +12266,11 @@ __webpack_require__.r(__webpack_exports__);
     result: function result() {
       this.$emit(this.eventName, this.result);
       this.$parent.$emit(this.eventName, this.result);
+    },
+    limpiar: function limpiar() {
+      if (this.limpiar) {
+        this.value = '';
+      }
     }
   },
   methods: {
@@ -12774,6 +12780,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13926,7 +13946,8 @@ __webpack_require__.r(__webpack_exports__);
     BuscadorComponent: _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {
+    return _defineProperty({
+      limpiar: false,
       viendoPaquete: [],
       results: [],
       resultsPaquetes: [],
@@ -14010,7 +14031,8 @@ __webpack_require__.r(__webpack_exports__);
         'precioUnitario': '',
         'precioVenta': '',
         'proveedor': '',
-        'autorizado': false
+        'autorizado': false,
+        'precioEspecial': ''
       },
       inventarioLocal: [],
       festejados: [],
@@ -14032,6 +14054,7 @@ __webpack_require__.r(__webpack_exports__);
       //Control sobre las ediciones en la tabla de productos
       indice: '',
       key: '',
+      precioEspecialActualizado: '',
       cantidadActualizada: '',
       ahorroActualizado: '',
       precioFinalActualizado: '',
@@ -14048,6 +14071,7 @@ __webpack_require__.r(__webpack_exports__);
       precioSugerido: 0,
       utilidad: 0,
       cantidadPaquete: '',
+      precioEspecialPaquete: '',
       //IVA
       iva: 16,
       verSettings: false,
@@ -14072,7 +14096,7 @@ __webpack_require__.r(__webpack_exports__);
         emailFacturacion: ''
       },
       configuraciones: ''
-    };
+    }, "ultimoPresupuesto", '');
   },
   created: function created() {
     var _this = this;
@@ -14228,7 +14252,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  methods: {
+  methods: (_methods = {
     verPaquete: function verPaquete(paquete) {
       this.viendoPaquete = paquete;
       $('#verPaquete').modal('show');
@@ -14337,7 +14361,8 @@ __webpack_require__.r(__webpack_exports__);
         'cantidad': '0',
         'id': producto.id,
         'precioVenta': '',
-        'proveedor': ''
+        'proveedor': '',
+        'precioEspecial': producto.precioUnitario
       });
       console.log(this.paquete.inventario);
     },
@@ -14358,13 +14383,19 @@ __webpack_require__.r(__webpack_exports__);
         this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
       }
     },
-    //Actualizar la cantidad del paquete
+    //Actualizar los datos del paquete
     editarCantidadPaquete: function editarCantidadPaquete(index, key) {
-      console.log(key);
       this.indice = index;
       this.key = key[5];
-      console.log(index);
-      console.log(this.key);
+    },
+    editarPrecioEspecialPaquete: function editarPrecioEspecialPaquete(index, key, producto) {
+      if (producto.externo) {
+        this.key = key[10];
+      } else {
+        this.key = key[9];
+      }
+
+      this.indice = index;
     },
     updateCantidadPaquete: function updateCantidadPaquete(index) {
       this.precioSugerido = 0;
@@ -14373,10 +14404,23 @@ __webpack_require__.r(__webpack_exports__);
         return indice == index;
       });
       producto.cantidad = this.cantidadPaquete;
-      producto.precioFinal = producto.cantidad * producto.precioUnitario;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
       this.paquete.inventario.splice(index, 1, producto);
-      console.log(this.inventarioLocal);
       this.cantidadPaquete = '';
+      this.key = '';
+      this.indice = '100000000';
+      this.actualizarPrecioSugerido();
+    },
+    updatePrecioEspecialPaquete: function updatePrecioEspecialPaquete(index) {
+      this.precioSugerido = 0;
+      this.utilidad = 0;
+      var producto = this.paquete.inventario.find(function (element, indice) {
+        return indice == index;
+      });
+      producto.precioEspecial = this.precioEspecialPaquete;
+      producto.precioFinal = producto.cantidad * this.precioEspecialPaquete;
+      this.paquete.inventario.splice(index, 1, producto);
+      this.precioEspecialPaquete = '';
       this.key = '';
       this.indice = '100000000';
       this.actualizarPrecioSugerido();
@@ -14393,15 +14437,16 @@ __webpack_require__.r(__webpack_exports__);
           'externo': false,
           'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
           'servicio': this.paquete.servicio,
-          'cantidad': '',
+          'cantidad': 1,
           'precioUnitario': this.paquete.precioFinal,
-          'precioFinal': '',
-          'ahorro': '',
+          'precioFinal': this.paquete.precioFinal,
+          'ahorro': 0,
           'notas': '',
           'paquete': this.paquete,
           'tipo': 'PAQUETE',
           'id': '',
-          'precioVenta': this.paquete.precioVenta
+          'precioVenta': this.paquete.precioVenta,
+          'precioEspecial': this.paquete.precioFinal
         });
       }
     },
@@ -14409,7 +14454,8 @@ __webpack_require__.r(__webpack_exports__);
     obtenerCliente: function obtenerCliente(cliente) {
       var _this7 = this;
 
-      //let URL = '/obtener-cliente/' + cliente.id;
+      this.limpiar = true; //let URL = '/obtener-cliente/' + cliente.id;
+
       var URL = '/obtener-cliente';
       axios.post(URL, {
         'id': cliente.id,
@@ -14454,6 +14500,9 @@ __webpack_require__.r(__webpack_exports__);
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
       this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
       this.presupuesto.client_id = cliente.id;
+      setTimeout(function () {
+        _this7.limpiar = false;
+      }, 1000);
     },
     //Metodos para procesar la imagen de prodcuto extero
     obtenerImagen: function obtenerImagen(e) {
@@ -14489,7 +14538,8 @@ __webpack_require__.r(__webpack_exports__);
           'id': '',
           'precioVenta': this.productoExterno.precioVenta,
           'proveedor': this.productoExterno.proveedor,
-          'autorizado': this.productoExterno.autorizado
+          'autorizado': this.productoExterno.autorizado,
+          'precioEspecial': this.productoExterno.precioUnitario
         });
       } else {
         if (this.inventarioLocal.some(function (element) {
@@ -14501,17 +14551,18 @@ __webpack_require__.r(__webpack_exports__);
             'externo': true,
             'imagen': this.productoExterno.imagen,
             'servicio': this.productoExterno.servicio,
-            'cantidad': '',
+            'cantidad': 1,
             'precioUnitario': this.productoExterno.precioUnitario,
-            'precioFinal': '',
-            'ahorro': '',
+            'precioFinal': this.productoExterno.precioUnitario,
+            'ahorro': 0,
             'notas': '',
             'paquete': '',
             'tipo': 'PRODUCTO',
             'id': '',
             'precioVenta': this.productoExterno.precioVenta,
             'proveedor': this.productoExterno.proveedor,
-            'autorizado': this.productoExterno.autorizado
+            'autorizado': this.productoExterno.autorizado,
+            'precioEspecial': this.productoExterno.precioUnitario
           });
         }
       }
@@ -14536,6 +14587,20 @@ __webpack_require__.r(__webpack_exports__);
     eliminarProductoLocal: function eliminarProductoLocal(index) {
       this.inventarioLocal.splice(index, 1);
     },
+    //precioEspecial
+    editarPrecioEspecial: function editarPrecioEspecial(index, key, producto) {
+      console.log(key.length);
+
+      if (key.length == 14) {
+        this.key = key[13];
+      } else if (key.length == 15) {
+        this.key = key[14];
+      } else {
+        this.key = key[12];
+      }
+
+      this.indice = index;
+    },
     // Cantidad
     editarCantidad: function editarCantidad(index, key) {
       //console.log(key);
@@ -14551,12 +14616,24 @@ __webpack_require__.r(__webpack_exports__);
       console.log(index);
       console.log(this.key);
     },
+    updatePrecioEspecial: function updatePrecioEspecial(index) {
+      var producto = this.inventarioLocal.find(function (element, indice) {
+        return indice == index;
+      });
+      producto.precioEspecial = this.precioEspecialActualizado;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
+      producto.ahorro = producto.precioUnitario - producto.precioEspecial;
+      this.inventarioLocal.splice(index, 1, producto);
+      this.precioEspecialActualizado = '';
+      this.key = '';
+      this.indice = '1000000000';
+    },
     updateCantidad: function updateCantidad(index) {
       var producto = this.inventarioLocal.find(function (element, indice) {
         return indice == index;
       });
       producto.cantidad = this.cantidadActualizada;
-      producto.precioFinal = producto.cantidad * producto.precioUnitario;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
       this.inventarioLocal.splice(index, 1, producto);
       console.log(this.inventarioLocal);
       this.cantidadActualizada = '';
@@ -14568,7 +14645,8 @@ __webpack_require__.r(__webpack_exports__);
         return indice == index;
       });
       producto.precioUnitario = this.precioUnitarioActualizada;
-      producto.precioFinal = producto.cantidad * producto.precioUnitario;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
+      producto.ahorro = producto.precioUnitario - producto.precioEspecial;
       this.inventarioLocal.splice(index, 1, producto);
       console.log(this.inventarioLocal);
       this.precioUnitarioActualizada = '';
@@ -14591,8 +14669,8 @@ __webpack_require__.r(__webpack_exports__);
         alert('Primero define una cantidad');
         return;
       } else {
-        producto.precioFinal = producto.cantidad * producto.precioUnitario;
-        producto.precioFinal = producto.precioFinal - producto.precioFinal * (this.ahorroActualizado / 100);
+        producto.precioEspecial = producto.precioUnitario - this.ahorroActualizado;
+        producto.precioFinal = producto.cantidad * producto.precioEspecial;
         producto.ahorro = this.ahorroActualizado;
         this.inventarioLocal.splice(index, 1, producto);
         console.log(this.inventarioLocal);
@@ -14659,6 +14737,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     agregarProducto: function agregarProducto(producto) {
+      var _this11 = this;
+
+      this.limpiar = true;
       this.inventarioLocal.push({
         'externo': false,
         'imagen': producto.imagen,
@@ -14672,17 +14753,21 @@ __webpack_require__.r(__webpack_exports__);
         'tipo': 'PRODUCTO',
         'id': producto.id,
         'precioVenta': '',
-        'proveedor': ''
+        'proveedor': '',
+        'precioEspecial': producto.precioUnitario
       });
+      setTimeout(function () {
+        _this11.limpiar = false;
+      }, 1000);
       console.log(this.inventarioLocal);
     },
     obtenerClientes: function obtenerClientes() {
-      var _this11 = this;
+      var _this12 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this11.clientes = response.data;
-        console.log(_this11.clientes);
+        _this12.clientes = response.data;
+        console.log(_this12.clientes);
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -14693,121 +14778,131 @@ __webpack_require__.r(__webpack_exports__);
     },
     eliminarFestejado: function eliminarFestejado(index) {
       this.festejados.splice(index, 1);
-    },
-    // Guardar como presupuesto
-    guardarPresupuesto: function guardarPresupuesto() {
-      var _this12 = this;
+    }
+  }, _defineProperty(_methods, "obtenerUltimoPresupuesto", function obtenerUltimoPresupuesto() {
+    var _this13 = this;
 
-      this.presupuesto.tipo = 'PRESUPUESTO';
+    var URL = 'obtener-ultimo-presupuesto';
+    axios.get(URL).then(function (response) {
+      _this13.ultimoPresupuesto = response.data;
+      var URL = 'enviar-email/' + _this13.ultimoPresupuesto.id;
+      axios.get(URL).then(function (response) {
+        console.log('email enviado');
+      });
+    });
+  }), _defineProperty(_methods, "guardarPresupuesto", function guardarPresupuesto() {
+    var _this14 = this;
 
-      if (this.presupuesto.tipoEvento == 'INTERNO') {
-        this.presupuesto.tipoServicio = '';
-      }
+    this.presupuesto.tipo = 'PRESUPUESTO';
 
-      if (this.presupuesto.tipoComision == 0) {
-        this.presupuesto.comision = this.presupuesto.comision;
-      } else {
-        this.presupuesto.comision = this.presupuesto.tipoComision;
-      }
+    if (this.presupuesto.tipoEvento == 'INTERNO') {
+      this.presupuesto.tipoServicio = '';
+    }
 
-      if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
-        this.presupuesto.comision = 0;
-      }
+    if (this.presupuesto.tipoComision == 0) {
+      this.presupuesto.comision = this.presupuesto.comision;
+    } else {
+      this.presupuesto.comision = this.presupuesto.tipoComision;
+    }
 
-      var URL = '/presupuestos/create';
+    if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
+      this.presupuesto.comision = 0;
+    }
+
+    var URL = '/presupuestos/create';
+    axios.post(URL, {
+      'presupuesto': this.presupuesto,
+      'festejados': this.festejados,
+      'inventario': this.inventarioLocal
+    }).then(function (response) {
+      _this14.imprimir = true;
+
+      _this14.obtenerUltimoPresupuesto();
+      /*
       axios.post(URL, {
-        'presupuesto': this.presupuesto,
-        'festejados': this.festejados,
-        'inventario': this.inventarioLocal
-      }).then(function (response) {
-        _this12.imprimir = true;
-        var URL = '/enviar-email';
-        axios.post(URL, {
-          'presupuesto': _this12.presupuesto,
-          'festejados': _this12.festejados,
-          'inventario': _this12.inventarioLocal
-        }).then(function (response) {
+          'presupuesto': this.presupuesto,
+          'festejados': this.festejados,
+          'inventario': this.inventarioLocal,
+      }).then((response) => {
           console.log('Email Enviado');
-        })["catch"](function (error) {
+      }).catch((error) => {
           console.log(error.data);
-        });
-
-        if (response.data == 1) {
-          Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
-        } else {
-          Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
-        }
-      })["catch"](function (error) {
-        console.log(error.data);
-        Swal.fire('Algo salio mal!', 'Verifica que completaste todos los campos correctamente antes de continuar', 'error');
       });
-    },
-    // Guardar como contrato
-    guardarContrato: function guardarContrato() {
-      var _this13 = this;
+      */
 
-      this.presupuesto.tipo = 'CONTRATO';
 
-      if (this.presupuesto.tipoEvento == 'INTERNO') {
-        this.presupuesto.tipoServicio = '';
-      }
-
-      if (this.requiereFactura) {
-        for (var prop in this.facturacion) {
-          if (this.facturacion[prop] == '') {
-            Swal.fire('Error', 'Verifica que completaste todos los campos correctamente antes de continuar', 'error');
-            return;
-          }
-        }
-      }
-
-      if (this.presupuesto.tipoComision == 0) {
-        this.presupuesto.comision = this.presupuesto.comision;
+      if (response.data == 1) {
+        Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
       } else {
-        this.presupuesto.comision = this.presupuesto.tipoComision;
+        Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
       }
+    })["catch"](function (error) {
+      console.log(error.data);
+      Swal.fire('Algo salio mal!', 'Verifica que completaste todos los campos correctamente antes de continuar', 'error');
+    });
+  }), _defineProperty(_methods, "guardarContrato", function guardarContrato() {
+    var _this15 = this;
 
-      if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
-        this.presupuesto.comision = 0;
-      }
+    this.presupuesto.tipo = 'CONTRATO';
 
-      var URL = '/presupuestos/create';
-      axios.post(URL, {
-        'presupuesto': this.presupuesto,
-        'festejados': this.festejados,
-        'inventario': this.inventarioLocal,
-        'facturacion': this.facturacion
-      }).then(function (response) {
-        _this13.imprimir = true;
+    if (this.presupuesto.tipoEvento == 'INTERNO') {
+      this.presupuesto.tipoServicio = '';
+    }
 
-        if (response.data == 1) {
-          Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
-        } else {
-          Swal.fire('Creado!', 'El presupuesto se creo con exito', 'success');
+    if (this.requiereFactura) {
+      for (var prop in this.facturacion) {
+        if (this.facturacion[prop] == '') {
+          Swal.fire('Error', 'Verifica que completaste todos los campos correctamente antes de continuar', 'error');
+          return;
         }
-      })["catch"](function (error) {
-        console.log(error.data);
-        Swal.fire('Algo anda mal!', 'Verifica que completaste todos los campos correctamente', 'error');
-      });
-    },
-    imprimirPDF: function imprimirPDF() {
-      var _this14 = this;
-
-      if (!this.imprimir) {
-        Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
-      } else {
-        var URL = '/obtener-ultimo-presupuesto';
-        axios.get(URL).then(function (response) {
-          _this14.imprimir = false;
-          var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
-
-          window.open('/presupuestos/generar-pdf/' + data.id);
-        })["catch"](function (error) {
-          console.log(error.data);
-        });
       }
     }
-  }
+
+    if (this.presupuesto.tipoComision == 0) {
+      this.presupuesto.comision = this.presupuesto.comision;
+    } else {
+      this.presupuesto.comision = this.presupuesto.tipoComision;
+    }
+
+    if (this.presupuesto.total <= this.configuraciones.minimoVentaComision) {
+      this.presupuesto.comision = 0;
+    }
+
+    var URL = '/presupuestos/create';
+    axios.post(URL, {
+      'presupuesto': this.presupuesto,
+      'festejados': this.festejados,
+      'inventario': this.inventarioLocal,
+      'facturacion': this.facturacion
+    }).then(function (response) {
+      _this15.imprimir = true;
+
+      if (response.data == 1) {
+        Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
+      } else {
+        Swal.fire('Creado!', 'El presupuesto se creo con exito', 'success');
+      }
+    })["catch"](function (error) {
+      console.log(error.data);
+      Swal.fire('Algo anda mal!', 'Verifica que completaste todos los campos correctamente', 'error');
+    });
+  }), _defineProperty(_methods, "imprimirPDF", function imprimirPDF() {
+    var _this16 = this;
+
+    if (!this.imprimir) {
+      Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
+    } else {
+      var URL = '/obtener-ultimo-presupuesto';
+      axios.get(URL).then(function (response) {
+        _this16.imprimir = false;
+        var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
+
+        window.open('/presupuestos/generar-pdf/' + data.id);
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
+    }
+  }), _methods)
 });
 
 /***/ }),
@@ -17064,7 +17159,8 @@ __webpack_require__.r(__webpack_exports__);
                 'tipo': 'PRODUCTO',
                 'id': element.id,
                 'precioVenta': element.precioVenta,
-                'proveedor': element.proveedor
+                'proveedor': element.proveedor,
+                'precioEspecial': element.precioEspecial
               };
               arreglo.push(objeto);
             } else {
@@ -17081,7 +17177,8 @@ __webpack_require__.r(__webpack_exports__);
                 'tipo': 'PRODUCTO',
                 'id': element.id,
                 'precioVenta': element.precioVenta,
-                'proveedor': element.proveedor
+                'proveedor': element.proveedor,
+                'precioEspecial': element.precioEspecial
               };
               arreglo.push(_objeto);
             }
@@ -17108,7 +17205,8 @@ __webpack_require__.r(__webpack_exports__);
                     'cantidad': element.cantidad,
                     'id': '',
                     'precioVenta': element.precioVenta,
-                    'proveedor': element.proveedor
+                    'proveedor': element.proveedor,
+                    'precioEspecial': element.precioEspecial
                   };
                   arregloElementos.push(demo);
                 } else {
@@ -17121,7 +17219,8 @@ __webpack_require__.r(__webpack_exports__);
                     'cantidad': element.cantidad,
                     'id': '',
                     'precioVenta': element.precioVenta,
-                    'proveedor': element.proveedor
+                    'proveedor': element.proveedor,
+                    'precioEspecial': element.precioEspecial
                   };
                   arregloElementos.push(_demo);
                 }
@@ -17149,7 +17248,8 @@ __webpack_require__.r(__webpack_exports__);
               'tipo': 'PAQUETE',
               'id': element.id,
               'precioVenta': element.precioVenta,
-              'proveedor': element.proveedor
+              'proveedor': element.proveedor,
+              'precioEspecial': element.precioEspecial
             };
             arregloPaquetes.push(objeto);
           });
@@ -19770,6 +19870,14 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error.data);
         Swal.fire('Error!', 'Algo ha ocurrido mal', 'error');
+      });
+    },
+    enviarCorreoCliente: function enviarCorreoCliente() {
+      var URL = '/enviar-email-cliente/' + this.presupuesto.id;
+      axios.get(URL).then(function (response) {
+        console.log('Email al cliente enviado');
+      })["catch"](function (error) {
+        console.log(error.data);
       });
     }
   }
@@ -71300,6 +71408,7 @@ var render = function() {
                   [
                     _c("buscador-component", {
                       attrs: {
+                        limpiar: _vm.limpiar,
                         placeholder: "Buscar Clientes Existentes",
                         "event-name": "clientResults",
                         list: _vm.clientes,
@@ -72045,6 +72154,7 @@ var render = function() {
                 [
                   _c("buscador-component", {
                     attrs: {
+                      limpiar: _vm.limpiar,
                       placeholder: "Buscar Productos",
                       "event-name": "results",
                       list: _vm.inventario,
@@ -72235,53 +72345,6 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.inventarioLocal, function(producto, index) {
                   return _c("tr", { key: producto.index }, [
-                    _c("th", { attrs: { scope: "row" } }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: producto.externo,
-                            expression: "producto.externo"
-                          }
-                        ],
-                        attrs: { type: "checkbox", disabled: "disabled" },
-                        domProps: {
-                          checked: Array.isArray(producto.externo)
-                            ? _vm._i(producto.externo, null) > -1
-                            : producto.externo
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = producto.externo,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    producto,
-                                    "externo",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    producto,
-                                    "externo",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(producto, "externo", $$c)
-                            }
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
                     _c("td", { staticStyle: { width: "120px" } }, [
                       _c("img", {
                         attrs: { src: producto.imagen, alt: "", width: "100%" }
@@ -72401,6 +72464,62 @@ var render = function() {
                       _vm.indice == index && _vm.key == "precioUnitario"
                         ? _c("del", [_vm._v(_vm._s(producto.precioUnitario))])
                         : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { attrs: { scope: "row" } }, [
+                      producto.precioEspecial == "" ||
+                      (_vm.indice == index && _vm.key == "precioEspecial")
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.precioEspecialActualizado,
+                                expression: "precioEspecialActualizado"
+                              }
+                            ],
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.precioEspecialActualizado },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.updatePrecioEspecial(index)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.precioEspecialActualizado =
+                                  $event.target.value
+                              }
+                            }
+                          })
+                        : _c(
+                            "span",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.editarPrecioEspecial(
+                                    index,
+                                    Object.keys(producto),
+                                    producto
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(producto.precioEspecial))]
+                          )
                     ]),
                     _vm._v(" "),
                     _c("td", [
@@ -72818,7 +72937,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("label", { attrs: { for: "descuento" } }, [
-                  _vm._v("Descuentos")
+                  _vm._v("Descuento General")
                 ]),
                 _vm._v(" "),
                 _c("br"),
@@ -73725,6 +73844,77 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(_vm._s(producto.precioUnitario))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        producto.precioEspecial == "" ||
+                                        (_vm.indice == index &&
+                                          _vm.key == "precioEspecial")
+                                          ? _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value:
+                                                    _vm.precioEspecialPaquete,
+                                                  expression:
+                                                    "precioEspecialPaquete"
+                                                }
+                                              ],
+                                              attrs: { type: "number" },
+                                              domProps: {
+                                                value: _vm.precioEspecialPaquete
+                                              },
+                                              on: {
+                                                keyup: function($event) {
+                                                  if (
+                                                    !$event.type.indexOf(
+                                                      "key"
+                                                    ) &&
+                                                    _vm._k(
+                                                      $event.keyCode,
+                                                      "enter",
+                                                      13,
+                                                      $event.key,
+                                                      "Enter"
+                                                    )
+                                                  ) {
+                                                    return null
+                                                  }
+                                                  return _vm.updatePrecioEspecialPaquete(
+                                                    index
+                                                  )
+                                                },
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.precioEspecialPaquete =
+                                                    $event.target.value
+                                                }
+                                              }
+                                            })
+                                          : _c(
+                                              "span",
+                                              {
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.editarPrecioEspecialPaquete(
+                                                      index,
+                                                      Object.keys(producto),
+                                                      producto
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    producto.precioEspecial
+                                                  )
+                                                )
+                                              ]
+                                            )
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
@@ -75727,8 +75917,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Externo")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Servicio")]),
@@ -75736,6 +75924,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Especial")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
         _vm._v(" "),
@@ -75813,6 +76003,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio especial")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
         _vm._v(" "),
@@ -82841,8 +83033,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.cliente.direccionPF,
-                          expression: "cliente.direccionPF"
+                          value: _vm.cliente.direccionEmpresa,
+                          expression: "cliente.direccionEmpresa"
                         }
                       ],
                       attrs: {
@@ -82850,7 +83042,7 @@ var render = function() {
                         required: "required",
                         placeholder: "Dirección"
                       },
-                      domProps: { value: _vm.cliente.direccionPF },
+                      domProps: { value: _vm.cliente.direccionEmpresa },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
@@ -82858,7 +83050,7 @@ var render = function() {
                           }
                           _vm.$set(
                             _vm.cliente,
-                            "direccionPF",
+                            "direccionEmpresa",
                             $event.target.value
                           )
                         }
@@ -82872,8 +83064,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.cliente.coloniaPF,
-                          expression: "cliente.coloniaPF"
+                          value: _vm.cliente.coloniaEmpresa,
+                          expression: "cliente.coloniaEmpresa"
                         }
                       ],
                       attrs: {
@@ -82881,7 +83073,7 @@ var render = function() {
                         required: "required",
                         placeholder: "Colonia"
                       },
-                      domProps: { value: _vm.cliente.coloniaPF },
+                      domProps: { value: _vm.cliente.coloniaEmpresa },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
@@ -82889,7 +83081,7 @@ var render = function() {
                           }
                           _vm.$set(
                             _vm.cliente,
-                            "coloniaPF",
+                            "coloniaEmpresa",
                             $event.target.value
                           )
                         }
@@ -82903,8 +83095,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.cliente.numeroPF,
-                          expression: "cliente.numeroPF"
+                          value: _vm.cliente.numeroEmpresa,
+                          expression: "cliente.numeroEmpresa"
                         }
                       ],
                       attrs: {
@@ -82912,13 +83104,17 @@ var render = function() {
                         required: "required",
                         placeholder: "Numero"
                       },
-                      domProps: { value: _vm.cliente.numeroPF },
+                      domProps: { value: _vm.cliente.numeroEmpresa },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(_vm.cliente, "numeroPF", $event.target.value)
+                          _vm.$set(
+                            _vm.cliente,
+                            "numeroEmpresa",
+                            $event.target.value
+                          )
                         }
                       }
                     })
@@ -86506,7 +86702,25 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _vm._m(5),
           _vm._v(" "),
-          _vm._m(6),
+          _c("div", { staticClass: "col-md-4" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.enviarCorreoCliente()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-send-o" }),
+                _vm._v("Enviar budget por correo")
+              ]
+            )
+          ]),
           _vm._v(" "),
           !_vm.original
             ? _c("div", { staticClass: "col-md-4 mt-4" }, [
@@ -86800,16 +87014,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _c("i", { staticClass: "si si-printer" }),
-        _vm._v("Imprimir")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-primary" }, [
-        _c("i", { staticClass: "fa fa-send-o" }),
-        _vm._v("Enviar budget por correo")
-      ])
+    return _c("button", { staticClass: "btn btn-primary" }, [
+      _c("i", { staticClass: "si si-printer" }),
+      _vm._v("Imprimir")
     ])
   },
   function() {
@@ -101092,8 +101299,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_6__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -101112,7 +101319,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_2___default.a);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_7___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_6___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -102958,13 +103165,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

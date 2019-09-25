@@ -357,7 +357,7 @@
                     </div>
                     <div class="col-md-4">
                         <button  class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button>
-                        <button class="btn btn-primary"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
+                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
                         </div>
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
@@ -1284,6 +1284,16 @@
                         'error'
                     );
                 });
+            },
+
+            enviarCorreoCliente(){
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+
+                axios.get(URL).then((response) => {
+                    console.log('Email al cliente enviado');
+                }).catch((error) => {
+                    console.log(error.data);
+                })
             },
         },
     }

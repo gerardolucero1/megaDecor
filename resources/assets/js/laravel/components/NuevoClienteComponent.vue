@@ -48,13 +48,13 @@
                         <label for="">Dirección </label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionPF">
+                            <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionEmpresa">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaPF">
+                            <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroPF">
+                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroEmpresa">
                         </div>
                      
                         <div class="col-md-12 mt-4" style="display:inline">
