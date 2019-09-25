@@ -22,6 +22,7 @@ class CreateBudgetInventoriesTable extends Migration
             $table->integer('precioUnitario');
             $table->integer('precioFinal');
             $table->integer('precioVenta')->nullable();
+            $table->integer('precioEspecial')->nullable();
             $table->integer('ahorro');
             $table->string('notas');
             $table->boolean('externo');

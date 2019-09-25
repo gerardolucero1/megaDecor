@@ -15,6 +15,7 @@ class BudgetInventory extends Model
         'precioUnitario',
         'precioFinal',
         'precioVenta',
+        'precioEspecial',
         'ahorro',
         'notas',
         'proveedor',

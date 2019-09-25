@@ -91,7 +91,8 @@ export default {
     },
     keys: {
       type: Array
-    }
+    },
+    limpiar: false,
   },
   computed: {
     options () {
@@ -132,7 +133,12 @@ export default {
     result () {
       this.$emit(this.eventName, this.result)
       this.$parent.$emit(this.eventName, this.result)
-    }
+    },
+    limpiar () {
+      if(this.limpiar){
+        this.value = '';
+      }
+    },
   },
   methods: {
     initFuse () {

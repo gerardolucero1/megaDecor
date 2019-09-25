@@ -1841,6 +1841,7 @@
                         'id': element.id,
                         'precioVenta': element.precioVenta,
                         'proveedor': element.proveedor,
+                        'precioEspecial': element.precioEspecial,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -1858,6 +1859,7 @@
                         'id': element.id,
                         'precioVenta': element.precioVenta,
                         'proveedor': element.proveedor,
+                        'precioEspecial': element.precioEspecial,
                       }
                       arreglo.push(objeto);
                     }
@@ -1892,6 +1894,7 @@
                                         'id': '',
                                         'precioVenta': element.precioVenta,
                                         'proveedor': element.proveedor,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -1905,6 +1908,7 @@
                                         'id': '',
                                         'precioVenta': element.precioVenta,
                                         'proveedor': element.proveedor,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -1933,6 +1937,7 @@
                             'id': element.id,
                             'precioVenta': element.precioVenta,
                             'proveedor': element.proveedor,
+                            'precioEspecial': element.precioEspecial,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 

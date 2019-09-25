@@ -166,10 +166,18 @@ class IndexController extends Controller
     }
      //Pantalla inventario
      public function inventario(){
+
         $Inventario = Inventory::orderBy('id', 'DESC')->get();
 
         return view('inventario', compact('Inventario'));
     }
+
+    public function inventarioFiltro(Request $request){
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+
+        return view('inventario', compact('Inventario'));
+    }
+
     public function comisiones(){
         $fecha_actual= date('Y-m-d',time());
         //Empleado del mes
@@ -290,6 +298,9 @@ class IndexController extends Controller
                 $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
                 $diferenciaDinero = $ventasAnoActual-$ventasAnoPasado;
              
+            }else{
+                $porcentajeActualDinero = 0;
+                $diferenciaDinero = 0;
             }
           
             $ventasAnoPasado=number_format($ventasAnoPasado);

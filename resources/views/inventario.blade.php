@@ -32,6 +32,18 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
+
+                        <form action="{{ route('inventario.filtro') }}" method="POST">
+                            @method('POST')
+                            @csrf
+                            <select name="familia" id="">
+                                <option value="Manteles">Manteles</option>
+                                <option value="Comida">Comida</option>
+                                <option value="Musica">Musica</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-sm btn-info">Buscar</button>
+                        </form>
                     </div>
                     <div class="col-md-9 text-right">
                            
@@ -100,10 +112,6 @@
     </section>
    
     
-    @include('../modals/nuevoPresupuestoModal')
-    @include('../modals/categoriaEventoModal')
-    @include('../modals/nuevoProductoModal')
-    @include('../modals/nuevoClienteModal')
 @endsection
 
 @section("scripts")

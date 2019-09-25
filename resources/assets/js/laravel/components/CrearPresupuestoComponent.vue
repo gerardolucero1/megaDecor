@@ -177,6 +177,7 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-7" style="">
                                 <buscador-component
+                                    :limpiar="limpiar"
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
@@ -335,6 +336,7 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-4">
                                 <buscador-component
+                                    :limpiar="limpiar"
                                     placeholder="Buscar Productos"
                                     event-name="results"
                                     :list="inventario"
@@ -376,11 +378,12 @@ padding: 0;
                         <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Externo</th>
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
+                                
                                 <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
@@ -389,9 +392,6 @@ padding: 0;
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                </th>
                                 <td style="width:120px;">
                                     <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="100%">
                                 </td>
@@ -401,12 +401,17 @@ padding: 0;
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
+                                
                                 <td>
                                     
                                     <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
                                     <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
                                 <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioUnitario }}</del>
                                  </td>
+                                 <th scope="row">
+                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
+                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                </th>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
                                     <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
@@ -454,7 +459,7 @@ padding: 0;
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
                                 <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
-                                <label for="descuento">Descuentos</label>
+                                <label for="descuento">Descuento General</label>
                                 <br>
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
@@ -624,6 +629,7 @@ padding: 0;
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio unitario</th>
+                                                <th scope="col">Precio especial</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Opciones</th>
                                             </tr>
@@ -639,6 +645,10 @@ padding: 0;
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
                                                 <td>{{ producto.precioUnitario }}</td>
+                                                <td>
+                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:keyup.enter="updatePrecioEspecialPaquete(index)">
+                                                    <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                                </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
@@ -1152,6 +1162,7 @@ padding: 0;
         },
         data(){
             return{
+                limpiar: false,
                 viendoPaquete: [],
                 results: [],
                 resultsPaquetes: [],
@@ -1249,6 +1260,7 @@ padding: 0;
                     'precioVenta': '',
                     'proveedor': '',
                     'autorizado': false,
+                    'precioEspecial': '',
                 },
                 
                 inventarioLocal: [],
@@ -1274,6 +1286,7 @@ padding: 0;
                 indice: '',
                 key: '',
 
+                precioEspecialActualizado: '',
                 cantidadActualizada: '',
                 ahorroActualizado: '',
                 precioFinalActualizado: '',
@@ -1290,7 +1303,9 @@ padding: 0;
                 },
                 precioSugerido: 0,
                 utilidad: 0,
+
                 cantidadPaquete: '',
+                precioEspecialPaquete: '',
 
                 //IVA
                 iva: 16,
@@ -1320,6 +1335,7 @@ padding: 0;
                     emailFacturacion: '',
                 },
                 configuraciones: '',
+                ultimoPresupuesto: '',
             }
         },
         created(){
@@ -1588,6 +1604,7 @@ padding: 0;
                     'id': producto.id,
                     'precioVenta': '',
                     'proveedor': '',
+                    'precioEspecial': producto.precioUnitario,
                 });
                
                 console.log(this.paquete.inventario);
@@ -1611,15 +1628,22 @@ padding: 0;
                             this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
                         }
                     },
-                    //Actualizar la cantidad del paquete
+
+                    //Actualizar los datos del paquete
                     editarCantidadPaquete(index, key){
-                        console.log(key);
                         this.indice = index;
-                        this.key = key[5];
-                        console.log(index);
-                        console.log(this.key);
-                       
+                        this.key = key[5];                       
                     },
+
+                    editarPrecioEspecialPaquete(index, key, producto){
+                        if(producto.externo){
+                            this.key = key[10]; 
+                        }else{
+                            this.key = key[9]; 
+                        }
+                        this.indice = index;
+                    },
+
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
@@ -1628,9 +1652,8 @@ padding: 0;
                         });
 
                         producto.cantidad = this.cantidadPaquete;
-                        producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                        producto.precioFinal = producto.cantidad * producto.precioEspecial;
                         this.paquete.inventario.splice(index, 1, producto);
-                        console.log(this.inventarioLocal);
                         this.cantidadPaquete = '';
                         this.key = '';
                         this.indice = '100000000';
@@ -1638,6 +1661,24 @@ padding: 0;
                         this.actualizarPrecioSugerido();
                         
                     },
+
+                    updatePrecioEspecialPaquete(index){
+                        this.precioSugerido = 0;
+                        this.utilidad = 0;
+                        let producto = this.paquete.inventario.find(function(element, indice){
+                            return (indice == index);
+                        });
+
+                        producto.precioEspecial = this.precioEspecialPaquete;
+                        producto.precioFinal = producto.cantidad * this.precioEspecialPaquete;
+                        this.paquete.inventario.splice(index, 1, producto);
+
+                        this.precioEspecialPaquete = '';
+                        this.key = '';
+                        this.indice = '100000000';
+                        this.actualizarPrecioSugerido();
+                    },
+
             guardarPaquete(){
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -1652,21 +1693,23 @@ padding: 0;
                         'externo': false,
                         'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
                         'servicio': this.paquete.servicio,
-                        'cantidad': '',
+                        'cantidad': 1,
                         'precioUnitario': this.paquete.precioFinal,
-                        'precioFinal': '',
-                        'ahorro': '',
+                        'precioFinal': this.paquete.precioFinal,
+                        'ahorro': 0,
                         'notas': '',
                         'paquete': this.paquete,
                         'tipo': 'PAQUETE',
                         'id': '',
                         'precioVenta': this.paquete.precioVenta,
+                        'precioEspecial': this.paquete.precioFinal,
                     });
                 }
 
             },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
+                this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';
                 axios.post(URL, {
@@ -1710,6 +1753,10 @@ padding: 0;
                 this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
 
                 this.presupuesto.client_id = cliente.id;
+
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
             },
             //Metodos para procesar la imagen de prodcuto extero
             obtenerImagen(e){
@@ -1744,6 +1791,7 @@ padding: 0;
                             'precioVenta': this.productoExterno.precioVenta,
                             'proveedor': this.productoExterno.proveedor,
                             'autorizado': this.productoExterno.autorizado,
+                            'precioEspecial': this.productoExterno.precioUnitario,
                         });
                     
                     
@@ -1761,10 +1809,10 @@ padding: 0;
                             'externo': true,
                             'imagen': this.productoExterno.imagen,
                             'servicio': this.productoExterno.servicio,
-                            'cantidad': '',
+                            'cantidad': 1,
                             'precioUnitario': this.productoExterno.precioUnitario,
-                            'precioFinal': '',
-                            'ahorro': '',
+                            'precioFinal': this.productoExterno.precioUnitario,
+                            'ahorro': 0,
                             'notas': '',
                             'paquete': '',
                             'tipo': 'PRODUCTO',
@@ -1772,6 +1820,7 @@ padding: 0;
                             'precioVenta': this.productoExterno.precioVenta,
                             'proveedor': this.productoExterno.proveedor,
                             'autorizado': this.productoExterno.autorizado,
+                            'precioEspecial': this.productoExterno.precioUnitario,
                         });
                     }
                     
@@ -1788,6 +1837,20 @@ padding: 0;
                 // Eliminar
                 eliminarProductoLocal(index){
                     this.inventarioLocal.splice(index, 1);
+                },
+
+                //precioEspecial
+                editarPrecioEspecial(index, key, producto){
+                    console.log(key.length);
+                    if(key.length == 14){
+                        this.key = key[13];
+                    }else if(key.length == 15){
+                        this.key = key[14];
+                    }else{
+                        this.key = key[12];
+                    }
+                    this.indice = index;
+                    
                 },
 
                 // Cantidad
@@ -1807,12 +1870,26 @@ padding: 0;
                     console.log(this.key);
                        
                 },
+
+                updatePrecioEspecial(index){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                    producto.precioEspecial = this.precioEspecialActualizado;
+                    producto.precioFinal = producto.cantidad * producto.precioEspecial;
+                    producto.ahorro = producto.precioUnitario - producto.precioEspecial;
+                    this.inventarioLocal.splice(index, 1, producto);
+                    this.precioEspecialActualizado = '';
+                    this.key = '';
+                    this.indice = '1000000000';
+                },
+
                 updateCantidad(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
                     producto.cantidad = this.cantidadActualizada;
-                    producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                    producto.precioFinal = producto.cantidad * producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);
                     console.log(this.inventarioLocal);
                     this.cantidadActualizada = '';
@@ -1824,7 +1901,8 @@ padding: 0;
                         return (indice == index);
                     });
                     producto.precioUnitario = this.precioUnitarioActualizada;
-                    producto.precioFinal = producto.cantidad * producto.precioUnitario;
+                    producto.precioFinal = producto.cantidad * producto.precioEspecial;
+                    producto.ahorro = producto.precioUnitario - producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);
                     console.log(this.inventarioLocal);
                     this.precioUnitarioActualizada = '';
@@ -1846,8 +1924,8 @@ padding: 0;
                         alert('Primero define una cantidad');
                         return;
                     }else{
-                        producto.precioFinal = producto.cantidad * producto.precioUnitario;
-                        producto.precioFinal = producto.precioFinal - (producto.precioFinal * (this.ahorroActualizado / 100));
+                        producto.precioEspecial = producto.precioUnitario - this.ahorroActualizado;
+                        producto.precioFinal = producto.cantidad * producto.precioEspecial;
                         producto.ahorro = this.ahorroActualizado;
                         this.inventarioLocal.splice(index, 1, producto);
                         console.log(this.inventarioLocal);
@@ -1920,6 +1998,7 @@ padding: 0;
             
             },
             agregarProducto(producto){
+                this.limpiar = true;
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,
@@ -1934,7 +2013,12 @@ padding: 0;
                     'id': producto.id,
                     'precioVenta': '',
                     'proveedor': '',
+                    'precioEspecial': producto.precioUnitario,
                 });
+                
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
                 console.log(this.inventarioLocal);
                 
             },
@@ -1951,6 +2035,21 @@ padding: 0;
             },
             eliminarFestejado(index){
                 this.festejados.splice(index, 1);
+            },
+
+            obtenerUltimoPresupuesto(){
+                let URL = 'obtener-ultimo-presupuesto';
+
+                axios.get(URL).then((response) => {
+                    this.ultimoPresupuesto = response.data;
+
+                    let URL = 'enviar-email/' + this.ultimoPresupuesto.id;
+
+                    axios.get(URL).then((response) => {
+                        console.log('email enviado');
+                    })
+
+                });
             },
 
             // Guardar como presupuesto
@@ -1977,8 +2076,9 @@ padding: 0;
                     'inventario': this.inventarioLocal,
                 }).then((response) => {
                     this.imprimir = true;
-                    let URL = '/enviar-email';
+                    this.obtenerUltimoPresupuesto()
 
+                    /*
                     axios.post(URL, {
                         'presupuesto': this.presupuesto,
                         'festejados': this.festejados,
@@ -1988,6 +2088,7 @@ padding: 0;
                     }).catch((error) => {
                         console.log(error.data);
                     });
+                    */
                     
                     if(response.data == 1){
                         Swal.fire(
