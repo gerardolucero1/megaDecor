@@ -316,7 +316,7 @@
                         Desarrollado por <a class="font-w600" href="https:partnergrammer.com" target="_blank"><span><img src="media/photos/icon_parnergrammer.png" style="width: 17px; margin-top: -5px;" alt=""></span> Partnergrammer</a>
                     </div>
                     <div class="float-left">
-                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank">Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
+                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank"><span style="color:black">Todos los derechos reservados</span> Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
                     </div>
                 </div>
             </footer>

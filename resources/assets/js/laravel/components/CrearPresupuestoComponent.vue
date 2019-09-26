@@ -454,20 +454,19 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
-                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
-                                <label for="precio">Precios</label>
+                                <input  type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                <label for="precio">Precios Totales</label>
                                 <br>
-                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
+                                <input  type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
                                 <label for="precioUnitario">Precios Unitarios</label>
                                 <br>
                                 <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
-                                <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
-                                <label for="descuento">Descuento General</label>
-                                <br>
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
+                                <input style="display:none"  checked type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
+                                <label style="display:none" for="descuento">Descuento General</label>
                             </div>
                             <div class="col-md-3">
                                 
@@ -694,25 +693,25 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
+                                        <label class="col-12" for="example-text-input">Proveedor</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Costo Unitario</label>
+                                        <label class="col-12" for="example-text-input">Costo Unitario Proveedor</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Proveedor</label>
+                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
@@ -953,6 +952,23 @@ padding: 0;
                                 <option value="2">Cheque nominativo</option>
                                 <option value="3">Transferencia electrónica de fondos</option>
                                 <option value="4">Tarjeta de crédito</option>
+                                <option value="5">Monedero Electronico</option>
+                                <option value="6">Dinero Electronico</option>
+                                <option value="7">Vales de despensa</option>
+                                <option value="8">Dación en pago</option>
+                                <option value="9">Pago por subrogación</option>
+                                <option value="10">Pago por consignación</option>
+                                <option value="11">Condonación</option>
+                                <option value="12">Compensación</option>
+                                <option value="13">Novación</option>
+                                <option value="14">Confusión</option>
+                                <option value="15">Remisión de deuda</option>
+                                <option value="16">Prescripción o caducidad</option>
+                                <option value="17">Tarjeta de debito</option>
+                                <option value="18">Tarjeta de de servicios</option>
+                                <option value="19">Aplicación de anticipos</option>
+                                <option value="20">Intermediario pagos</option>
+                                <option value="21">Por definir</option>
                             </select>
                         </div>
                     </div>

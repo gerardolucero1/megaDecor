@@ -37,9 +37,75 @@
                             @method('POST')
                             @csrf
                             <select name="familia" id="">
-                                <option value="Manteles">Manteles</option>
-                                <option value="Comida">Comida</option>
-                                <option value="Musica">Musica</option>
+                                <option value="">Todos los elementos</option>
+                                <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
+                                <option value="BEBIDAS">BEBIDAS</option>
+                                <option value="BODEGA MATERIAL DE TRABAJO">BODEGA MATERIAL DE TRABAJO</option>
+                                <option value="BOLOS">BOLOS</option>
+                                <option value="Bolsitas Celofan">Bolsitas Celofan</option>
+                                <option value="BOLSITAS PARA DULCES">BOLSITAS PARA DULCES</option>
+                                <option value="Botanas">Botanas</option>
+                                <option value="BOTARGA">BOTARGA</option>
+                                <option value="BRINCA BRINCA">BRINCA BRINCA</option>
+                                <option value="CAJAS">CAJAS</option>
+                                <option value="CAMINOS">CAMINOS</option>
+                                <option value="CARPAS">CARPAS</option>
+                                <option value="CASETAS / PEAJE">CASETAS / PEAJE</option>
+                                <option value="CATERING">CATERING</option>
+                                <option value="Centros de Mesa">Centros de Mesa</option>
+                                <option value="COJIN">COJIN</option>
+                                <option value="COROPLAS">COROPLAS</option>
+                                <option value="CORTINAS">CORTINAS</option>
+                                <option value="CUBRE MANTEL">CUBRE MANTEL</option>
+                                <option value="CUBRE MANTEL GRANDE PARA MESAS DE DULCES">CUBRE MANTEL GRANDE PARA MESAS DE DULCES</option>
+                                <option value="CUBRE SILLA">CUBRE SILLA</option>
+                                <option value="DECORACION AMBIENTAL">DECORACION AMBIENTAL</option>
+                                <option value="DESECHABLES">DESECHABLES</option>
+                                <option value="DETALLES PARA NIÑOS">DETALLES PARA NIÑOS</option>
+                                <option value="DISFRACES">DISFRACES</option>
+                                <option value="DULCES">DULCES</option>
+                                <option value="FALDONES">FALDONES</option>
+                                <option value="FERIAS">FERIAS</option>
+                                <option value="FLETE DE MOVILIARIO">FLETE DE MOVILIARIO</option>
+                                <option value="FLORES">FLORES</option>
+                                <option value="Globos">Globos</option>
+                                <option value="HALLOWEEN">HALLOWEEN</option>
+                                <option value="Helio">Helio</option>
+                                <option value="HIELERAS">HIELERAS</option>
+                                <option value="INVITACIONES /PAPELERIA/ TARJETERIA /PIN">INVITACIONES /PAPELERIA/ TARJETERIA /PIN</option>
+                                <option value="LUZ , ILUMINACION">LUZ , ILUMINACION</option>
+                                <option value="MANTELERIA RECTANGULAR ADULTO">MANTELERIA RECTANGULAR ADULTO</option>
+                                <option value="MANTELERIA NAVIDEÑA">MANTELERIA NAVIDEÑA</option>
+                                <option value="MANTELERIA NIÑO">MANTELERIA NIÑO</option>
+                                <option value="MANTELERIA PARA MESAS DE DULCES">MANTELERIA PARA MESAS DE DULCES</option>
+                                <option value="MANTELERIA REDONDO ADULTO">MANTELERIA REDONDO ADULTO</option>
+                                <option value="MAQUILLAJES">MAQUILLAJES</option>
+                                <option value="MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES">MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES</option>
+                                <option value="Menu Adultos">Menu Adultos</option>
+                                <option value="Menu Niños">Menu Niños</option>
+                                <option value="MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY">MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY</option>
+                                <option value="MESERO / ANFITRIONAS	">MESERO / ANFITRIONAS	</option>
+                                <option value="MOÑOS">MOÑOS</option>
+                                <option value="MOBILIARIO Y EQUIPO">MOBILIARIO Y EQUIPO</option>
+                                <option value="MOTORES">MOTORES</option>
+                                <option value="NAVIDAD">NAVIDAD</option>
+                                <option value="PAGOS">PAGOS</option>
+                                <option value="Pastel">Pastel</option>
+                                <option value="Piñata">Piñata</option>
+                                <option value="POSTRE">POSTRE</option>
+                                <option value="REFRACTARIOSE PAR MESAS DE DUCLES">REFRACTARIOSE PAR MESAS DE DUCLES</option>
+                                <option value="Renta">Renta</option>
+                                <option value="ROCKOLA - KARAOKE">ROCKOLA - KARAOKE</option>
+                                <option value="SERVILLETAS">SERVILLETAS</option>
+                                <option value="Show">Show</option>
+                                <option value="TALLERES">TALLERES</option>
+                                <option value="TELAS DECORATIVAS">TELAS DECORATIVAS</option>
+                                <option value="TOBOGANES DE AGUA">TOBOGANES DE AGUA</option>
+                                <option value="TRAJE PERSONAJES">TRAJE PERSONAJES</option>
+                                <option value="VELA">VELA</option>
+                                <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
+
+
                             </select>
 
                             <button type="submit" class="btn btn-sm btn-info">Buscar</button>
@@ -60,12 +126,12 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Existencia en bodega</th>
-                                    <th>Existencia en exhibición</th>
-                                    <th>Costo</th>
+                                    <th>Total bodega</th>
+                                    <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
+                                    <th>Costo</th>
+                                    <th>Proveedor</th>
                                     <th>Familia</th>
-                                    <th>Fecha de creación</th>
                                     <th>Ultima Edición</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -78,10 +144,13 @@
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td>{{ $inventario->cantidad }}</td>
                                 <td>{{ $inventario->disponible }}</td>
-                                <td class="d-none d-sm-table-cell">${{ $inventario->precioVenta }}</td>
-                                <td class="d-none d-sm-table-cell">${{ $inventario->precioUnitario }}</td>
+                                @php
+                                    $precioUnitario=number_format($inventario->precioUnitario,2);
+                                @endphp
+                                <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
+                                <td class="d-none d-sm-table-cell">{{ $inventario->precioVenta }}</td>
+                                <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->created_at }}</td>
                                 <td class="d-none d-sm-table-cell text-center">{{ $inventario->updated_at }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     <button disabled style="margin-right:4px;" href="" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">

@@ -13,8 +13,8 @@ class NuevoPresupuesto extends Mailable
     use Queueable, SerializesModels;
 
     public $presupuesto;
-    public $inventario;
-    public $festejados;
+    public $Telefonos;
+    public $Elementos;
 
     /**
      * Create a new message instance.
@@ -23,11 +23,11 @@ class NuevoPresupuesto extends Mailable
      */
 
     
-    public function __construct($presupuesto, $inventario, $festejados)
+    public function __construct($presupuesto, $Telefonos, $Elementos)
     {
         $this->presupuesto  = $presupuesto;
-        $this->inventario   = $inventario;
-        $this->festejados   = $festejados;
+        $this->Telefonos   = $Telefonos;
+        $this->Elementos   = $Elementos;
     }
     
     /*
@@ -48,7 +48,7 @@ class NuevoPresupuesto extends Mailable
     public function build()
     {
         return $this->view('mail.prueba')
-            ->from('gerardo.lucero.glez@hotmail.com', 'Administrador')
-            ->subject('Nuevo presupuesto creado');
+            ->from('gerardo.lucero.glez@hotmail.com', 'Mega Mundo Decor')
+            ->subject('Información evento');
     }
 }

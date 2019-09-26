@@ -13934,6 +13934,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -72778,7 +72794,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "precio" } }, [_vm._v("Precios")]),
+                _c("label", { attrs: { for: "precio" } }, [
+                  _vm._v("Precios Totales")
+                ]),
                 _vm._v(" "),
                 _c("br"),
                 _vm._v(" "),
@@ -72896,57 +72914,6 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.presupuesto.opcionDescuento,
-                      expression: "presupuesto.opcionDescuento"
-                    }
-                  ],
-                  attrs: { type: "checkbox", id: "descuento" },
-                  domProps: {
-                    checked: Array.isArray(_vm.presupuesto.opcionDescuento)
-                      ? _vm._i(_vm.presupuesto.opcionDescuento, null) > -1
-                      : _vm.presupuesto.opcionDescuento
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$a = _vm.presupuesto.opcionDescuento,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "opcionDescuento",
-                              $$a.concat([$$v])
-                            )
-                        } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "opcionDescuento",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
-                        }
-                      } else {
-                        _vm.$set(_vm.presupuesto, "opcionDescuento", $$c)
-                      }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "descuento" } }, [
-                  _vm._v("Descuento General")
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
                       value: _vm.presupuesto.opcionImagen,
                       expression: "presupuesto.opcionImagen"
                     }
@@ -72989,7 +72956,62 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "imagenes" } }, [
                   _vm._v("Imagenes")
-                ])
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.presupuesto.opcionDescuento,
+                      expression: "presupuesto.opcionDescuento"
+                    }
+                  ],
+                  staticStyle: { display: "none" },
+                  attrs: { checked: "", type: "checkbox", id: "descuento" },
+                  domProps: {
+                    checked: Array.isArray(_vm.presupuesto.opcionDescuento)
+                      ? _vm._i(_vm.presupuesto.opcionDescuento, null) > -1
+                      : _vm.presupuesto.opcionDescuento
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.presupuesto.opcionDescuento,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "opcionDescuento",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "opcionDescuento",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.presupuesto, "opcionDescuento", $$c)
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticStyle: { display: "none" },
+                    attrs: { for: "descuento" }
+                  },
+                  [_vm._v("Descuento General")]
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-3" }),
@@ -74070,7 +74092,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Precio unitario publico")]
+                              [_vm._v("Proveedor")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -74079,18 +74101,18 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.productoExterno.precioUnitario,
-                                    expression: "productoExterno.precioUnitario"
+                                    value: _vm.productoExterno.proveedor,
+                                    expression: "productoExterno.proveedor"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 attrs: {
                                   type: "text",
-                                  name: "example-text-input",
-                                  placeholder: "Precio unitario"
+                                  name: "proveedor",
+                                  placeholder: "Proveedor"
                                 },
                                 domProps: {
-                                  value: _vm.productoExterno.precioUnitario
+                                  value: _vm.productoExterno.proveedor
                                 },
                                 on: {
                                   input: function($event) {
@@ -74099,7 +74121,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.productoExterno,
-                                      "precioUnitario",
+                                      "proveedor",
                                       $event.target.value
                                     )
                                   }
@@ -74115,7 +74137,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Costo Unitario")]
+                              [_vm._v("Costo Unitario Proveedor")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -74160,7 +74182,7 @@ var render = function() {
                                 staticClass: "col-12",
                                 attrs: { for: "example-text-input" }
                               },
-                              [_vm._v("Proveedor")]
+                              [_vm._v("Precio unitario publico")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-12" }, [
@@ -74169,18 +74191,18 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.productoExterno.proveedor,
-                                    expression: "productoExterno.proveedor"
+                                    value: _vm.productoExterno.precioUnitario,
+                                    expression: "productoExterno.precioUnitario"
                                   }
                                 ],
                                 staticClass: "form-control",
                                 attrs: {
                                   type: "text",
-                                  name: "proveedor",
-                                  placeholder: "Proveedor"
+                                  name: "example-text-input",
+                                  placeholder: "Precio unitario"
                                 },
                                 domProps: {
-                                  value: _vm.productoExterno.proveedor
+                                  value: _vm.productoExterno.precioUnitario
                                 },
                                 on: {
                                   input: function($event) {
@@ -74189,7 +74211,7 @@ var render = function() {
                                     }
                                     _vm.$set(
                                       _vm.productoExterno,
-                                      "proveedor",
+                                      "precioUnitario",
                                       $event.target.value
                                     )
                                   }
@@ -76309,7 +76331,55 @@ var staticRenderFns = [
           _vm._v("Transferencia electrónica de fondos")
         ]),
         _vm._v(" "),
-        _c("option", { attrs: { value: "4" } }, [_vm._v("Tarjeta de crédito")])
+        _c("option", { attrs: { value: "4" } }, [_vm._v("Tarjeta de crédito")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "5" } }, [
+          _vm._v("Monedero Electronico")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "6" } }, [_vm._v("Dinero Electronico")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "7" } }, [_vm._v("Vales de despensa")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "8" } }, [_vm._v("Dación en pago")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "9" } }, [
+          _vm._v("Pago por subrogación")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "10" } }, [
+          _vm._v("Pago por consignación")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "11" } }, [_vm._v("Condonación")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "12" } }, [_vm._v("Compensación")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "13" } }, [_vm._v("Novación")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "14" } }, [_vm._v("Confusión")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "15" } }, [_vm._v("Remisión de deuda")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "16" } }, [
+          _vm._v("Prescripción o caducidad")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "17" } }, [_vm._v("Tarjeta de debito")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "18" } }, [
+          _vm._v("Tarjeta de de servicios")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "19" } }, [
+          _vm._v("Aplicación de anticipos")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "20" } }, [
+          _vm._v("Intermediario pagos")
+        ]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "21" } }, [_vm._v("Por definir")])
       ])
     ])
   },
@@ -101299,8 +101369,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_6__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -101319,7 +101389,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_2___default.a);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_7___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_6___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
