@@ -60,6 +60,7 @@ return [
         'name' => 'Ventas mega mundo',
     ],
 
+
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol

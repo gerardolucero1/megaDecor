@@ -411,7 +411,7 @@ padding: 0;
                                     
                                     <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
                                     <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
-                                <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioUnitario }}</del>
+                                    <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior }}</del>
                                  </td>
                                  <th scope="row">
                                     <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
@@ -643,7 +643,10 @@ padding: 0;
                                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
-                                                <td>{{ producto.precioUnitario }}</td>
+                                                <td>
+                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:keyup.enter="updatePrecioUnitarioPaquete(index)">
+                                                    <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario }}</span>
+                                                </td>
                                                 <td>
                                                     <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:keyup.enter="updatePrecioEspecialPaquete(index)">
                                                     <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
@@ -778,8 +781,10 @@ padding: 0;
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="width: 50px;">#</th>
-                                            <th>FECHA</th>
+                                            <th>FECHA EVENTO</th>
+                                            <th>VENDEDOR</th>
                                             <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <th>TOTAL</th>
                                             <th class="text-center" style="width: 100px;">ACCIONES</th>
                                         </tr>
                                     </thead>
@@ -787,14 +792,16 @@ padding: 0;
                                         <tr v-for="contrato in clienteSeleccionadoContratos" :key="contrato.index">
                                             <th class="text-center" scope="row">1</th>
                                             <td>{{ contrato.fechaEvento }}</td>
+                                            <td>{{ contrato.vendedor_id }}</td>
                                             <td class="d-none d-sm-table-cell">
                                                 <span class="badge badge-primary">{{ contrato.tipoEvento }}</span>
                                             </td>
+                                            <td>{{ contrato.total }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                    <a :href="'/presupuestos/ver/' + contrato.id" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-eye"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -838,8 +845,10 @@ padding: 0;
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="width: 50px;">#</th>
-                                            <th>FECHA</th>
+                                            <th>FECHA EVENTO</th>
+                                            <th>VENDEDOR</th>
                                             <th class="d-none d-sm-table-cell" style="width: 15%;">EVENTO</th>
+                                            <td>TOTAL</td>
                                             <th class="text-center" style="width: 100px;">ACCIONES</th>
                                         </tr>
                                     </thead>
@@ -847,9 +856,11 @@ padding: 0;
                                         <tr v-for="presupuesto in clienteSeleccionadoPresupuestos" :key="presupuesto.index">
                                             <th class="text-center" scope="row">1</th>
                                             <td>{{ presupuesto.fechaEvento }}</td>
+                                            <td>{{ presupuesto.nombreVendedor }}</td>
                                             <td class="d-none d-sm-table-cell">
                                                 <span class="badge badge-primary">{{ presupuesto.tipoEvento }}</span>
                                             </td>
+                                            <td>{{ presupuesto.total }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a :href="'/presupuestos/ver/' + presupuesto.id" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
@@ -1127,8 +1138,8 @@ padding: 0;
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Externo</th>
                                 <th scope="col">Nombre</th>
+                                <th scope="col">Cantidad</th>
                                 <th scope="col">Precio Unitario</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Precio Venta</th>
@@ -1138,13 +1149,8 @@ padding: 0;
                         <tbody>
                             <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
                                 <th scope="row">{{ index }}</th>
-                                <td v-if="item.externo">
-                                    <input type="checkbox" checked>
-                                </td>
-                                <td v-else>
-                                    <input type="checkbox">
-                                </td>
                                 <td>{{ item.nombre }}</td>
+                                <td>{{ item.cantidad }}</td>
                                 <td>{{ item.precioUnitario }}</td>
                                 <td>{{ item.precioFinal }}</td>
                                 <td>{{ item.precioVenta }}</td>
@@ -1154,8 +1160,7 @@ padding: 0;
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Cerrar</button>
                 </div>
                 </div>
             </div>
@@ -1322,6 +1327,7 @@ padding: 0;
                 utilidad: 0,
 
                 cantidadPaquete: '',
+                precioUnitarioPaquete: '',
                 precioEspecialPaquete: '',
 
                 //IVA
@@ -1435,11 +1441,35 @@ padding: 0;
             calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
+
+                this.clienteSeleccionadoContratos.forEach((element) => {
+                    let vendedor = this.usuarios.find((item) => {
+                        return item.id == element.vendedor_id;
+                    })
+                    Object.defineProperty(element, 'nombreVendedor', {
+                        value: vendedor.name,
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    })
+                });
                 return this.clienteSeleccionadoContratos.length;
             },
             calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
+
+                this.clienteSeleccionadoPresupuestos.forEach((element) => {
+                    let vendedor = this.usuarios.find((item) => {
+                        return item.id == element.vendedor_id;
+                    })
+                    Object.defineProperty(element, 'nombreVendedor', {
+                        value: vendedor.name,
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                    })
+                });
                 return this.clienteSeleccionadoPresupuestos.length;
             }
         },
@@ -1622,6 +1652,7 @@ padding: 0;
                     'precioVenta': '',
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
+                    'precioAnterior': producto.precioUnitario,
                 });
                
                 console.log(this.paquete.inventario);
@@ -1661,6 +1692,16 @@ padding: 0;
                         this.indice = index;
                     },
 
+                    editarPrecioUnitarioPaquete(index, key, producto){
+                        console.log(key);
+                        if(producto.externo){
+                            this.key = key[3]; 
+                        }else{
+                            this.key = key[3]; 
+                        }
+                        this.indice = index;
+                    },
+
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
@@ -1677,6 +1718,20 @@ padding: 0;
 
                         this.actualizarPrecioSugerido();
                         
+                    },
+
+                    updatePrecioUnitarioPaquete(index){
+                        let producto = this.paquete.inventario.find(function(element, indice){
+                            return (indice == index);
+                        });
+
+                        producto.precioUnitario = this.precioUnitarioPaquete;
+                        this.paquete.inventario.splice(index, 1, producto);
+                        this.precioUnitarioPaquete = '',
+                        this.key = '',
+                        this.indice = '100000000';
+
+                        this.actualizarPrecioSugerido();
                     },
 
                     updatePrecioEspecialPaquete(index){
@@ -1720,6 +1775,7 @@ padding: 0;
                         'id': '',
                         'precioVenta': this.paquete.precioVenta,
                         'precioEspecial': this.paquete.precioFinal,
+                        'precioAnterior': this.paquete.precioFinal,
                     });
                 }
 
@@ -1809,6 +1865,7 @@ padding: 0;
                             'proveedor': this.productoExterno.proveedor,
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
+                            'precioAnterior' : this.productoExterno.precioUnitario,
                         });
                     
                     
@@ -1838,6 +1895,7 @@ padding: 0;
                             'proveedor': this.productoExterno.proveedor,
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
+                            'precioAnterior' : this.productoExterno.precioUnitario,
                         });
                     }
                     
@@ -1859,9 +1917,9 @@ padding: 0;
                 //precioEspecial
                 editarPrecioEspecial(index, key, producto){
                     console.log(key.length);
-                    if(key.length == 14){
+                    if(key.length == 15){
                         this.key = key[13];
-                    }else if(key.length == 15){
+                    }else if(key.length == 16){
                         this.key = key[14];
                     }else{
                         this.key = key[12];
@@ -2031,6 +2089,7 @@ padding: 0;
                     'precioVenta': '',
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
+                    'precioAnterior': producto.precioUnitario,
                 });
                 
                 setTimeout(() => {
@@ -2093,9 +2152,12 @@ padding: 0;
                     'inventario': this.inventarioLocal,
                 }).then((response) => {
                     this.imprimir = true;
-                    this.obtenerUltimoPresupuesto()
-
                     /*
+                    this.obtenerUltimoPresupuesto()
+                    */
+                   let URL = 'enviar-email';
+
+                    
                     axios.post(URL, {
                         'presupuesto': this.presupuesto,
                         'festejados': this.festejados,
@@ -2105,7 +2167,7 @@ padding: 0;
                     }).catch((error) => {
                         console.log(error.data);
                     });
-                    */
+                    
                     
                     if(response.data == 1){
                         Swal.fire(

@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
 
     //Emails
-    Route::get('enviar-email/{id}', function($id){
+    Route::post('enviar-email', function(Request $request){
         
         
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();

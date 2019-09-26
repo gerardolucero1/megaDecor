@@ -132,6 +132,7 @@ class ClientController extends Controller
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
+            $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
             $cliente->save();
 
@@ -154,6 +155,7 @@ class ClientController extends Controller
             $cliente->rfcFacturacion = $request->rfcFacturacion;
             $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
+            $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
             $cliente->save();
         }
