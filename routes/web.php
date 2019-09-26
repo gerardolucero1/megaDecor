@@ -139,9 +139,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
 
     //Emails
-    Route::get('enviar-email/{id}', function($id){
+    Route::post('enviar-email', function(Request $request){
         
-        /*
         $presupuesto    = $request->presupuesto;
         $inventario     = $request->inventario;
         $festejados     = $request->festejados;
@@ -154,7 +153,7 @@ Route::group(['middleware' => ['auth']], function () {
         }else{
             $persona = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
         }
-        */
+        
     
         Mail::to('gera_conecta@hotmail.com', 'Administrador')
             ->send(new NuevoPresupuesto($presupuesto, $inventario, $festejados));

@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.gdom.net'),
+    'host' => env('MAIL_HOST', 'a2plcpnl0877.prod.iad2.secureserver.net'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,9 +56,10 @@ return [
     */
 
     'from' => [
-        'address' => 'ventas@megamundo.com.mx',
-        'name' => 'Ventas2019',
+        'address' => env('MAIL_FROM_ADDRESS', 'pruebas@3dlog.mx'),
+        'name' => env('MAIL_FROM_NAME', 'Nuevo Presupuesto'),
     ],
+
 
     /*
     |--------------------------------------------------------------------------

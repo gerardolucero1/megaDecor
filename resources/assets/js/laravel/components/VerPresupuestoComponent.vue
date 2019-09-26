@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p style="font-weight:bold; font-size:25px">Folio: {{ obtenerFolio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
@@ -264,10 +264,10 @@
                         <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Externo</th>
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Unitario</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
@@ -277,9 +277,6 @@
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                </th>
                                 <td>
                                     <img v-bind:src="'/images/inventario/'+producto.imagen+'.jpg'" alt="" width="80px">
                                 </td>
@@ -289,7 +286,14 @@
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
-                                <td>{{ producto.precioUnitario }}</td>
+                                <td>
+                                    {{ producto.precioEspecial }}
+                                    
+                                </td>
+                                <td>
+                                    {{ producto.precioUnitario }} <br>
+                                    <del v-if="producto.precioUnitario < producto.precioAnterior">{{ producto.precioAnterior }}</del>
+                                </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
                                     <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
@@ -939,6 +943,8 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -954,6 +960,8 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
                       }
                       arreglo.push(objeto);
                     }
@@ -988,6 +996,8 @@
                                         'id': '',
                                         'precioVenta': element.precioVenta,
                                         'proveedor': element.proveedor,
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -1001,6 +1011,8 @@
                                         'id': '',
                                         'precioVenta': element.precioVenta,
                                         'proveedor': element.proveedor,
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -1027,6 +1039,8 @@
                             },
                             'tipo': 'PAQUETE',
                             'id': element.id,
+                            'precioAnterior': element.precioAnterior,
+                            'precioEspecial': element.precioEspecial,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 

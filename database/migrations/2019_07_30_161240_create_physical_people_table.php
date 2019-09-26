@@ -37,6 +37,7 @@ class CreatePhysicalPeopleTable extends Migration
 
             //Credito
             $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);
+            $table->integer('diasCredito')->nullable();
             
             $table->timestamps();
 

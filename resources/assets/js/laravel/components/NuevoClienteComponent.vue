@@ -208,7 +208,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="Dias de credito">
+                            <input type="text" v-model="cliente.diasCredito" placeholder="Dias de credito">
                         </div>
                     </div>
 
@@ -286,6 +286,7 @@ function emailCopy(){
 
                     // Credito
                     creditoCliente: 'SIN CREDITO',
+                    diasCredito: '',
 
                     // Como supo
                     categoriaAbout: '1',
@@ -591,6 +592,7 @@ function emailCopy(){
 
                     // Credito
                     'creditoCliente': this.cliente.creditoCliente,
+                    'diasCredito': this.cliente.diasCredito,
 
                     // Como supo
                     'categoriaAbout': this.cliente.categoriaAbout,

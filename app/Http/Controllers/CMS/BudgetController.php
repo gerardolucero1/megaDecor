@@ -177,6 +177,7 @@ class BudgetController extends Controller
                 $producto->precioFinal = $item['precioFinal'];
                 $producto->precioVenta = $item['precioVenta'];
                 $producto->precioEspecial = $item['precioEspecial'];
+                $producto->precioAnterior = $item['precioAnterior'];
                 $producto->ahorro = $item['ahorro'];
                 $producto->notas = $item['notas'];
                 $producto->externo = $item['externo'];
@@ -214,6 +215,7 @@ class BudgetController extends Controller
                 $paquete->precioFinal = $item['precioFinal'];
                 $paquete->precioVenta = $item['precioVenta'];
                 $paquete->precioEspecial = $item['precioEspecial'];
+                $paquete->precioAnterior = $item['precioAnterior'];
                 $paquete->ahorro = $item['ahorro'];
                 $paquete->notas = $item['notas'];
                 $paquete->categoria = $item['paquete']['categoria'];
@@ -234,6 +236,7 @@ class BudgetController extends Controller
                         $producto->precioFinal = $objeto['precioFinal'];
                         $producto->precioVenta = $objeto['precioVenta'];
                         $producto->precioEspecial = $objeto['precioEspecial'];
+                        $producto->precioAnterior = $objeto['precioAnterior'];
                         $producto->externo = $objeto['externo'];
                         $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){

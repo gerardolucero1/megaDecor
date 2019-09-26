@@ -48,7 +48,7 @@ class NuevoPresupuesto extends Mailable
     public function build()
     {
         return $this->view('mail.prueba')
-            ->from('gerardo.lucero.glez@hotmail.com', 'Administrador')
+            ->from('ventasmegamundodecor@gmail.com', 'Administrador')
             ->subject('Nuevo presupuesto creado');
     }
 }
