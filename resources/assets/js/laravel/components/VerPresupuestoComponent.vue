@@ -504,7 +504,8 @@
                 usuarioActual: '',
                 usuarios: [],
 
-                presupuesto:{
+                presupuesto: ''
+                    /*
                     id: '',
                     folio: '',
                     vendedor_id: '',
@@ -552,7 +553,8 @@
 
                     comision: '',
                     budget_id: '',
-                },
+                    */
+                ,
                 guardarVersion: true,
                 clientes: [],
                 festejado: {
@@ -570,6 +572,10 @@
                     'imagen': '',
                     'servicio': '',
                     'precioUnitario': '',
+                    'precioVenta': '',
+                    'proveedor': '',
+                    'autorizado': false,
+                    'precioEspecial': '',
                 },
                 
                 inventarioLocal: [],
@@ -604,6 +610,7 @@
                 paquete: {
                     servicio: '',
                     precioFinal: '',
+                    precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
                     inventario: [],
@@ -860,9 +867,9 @@
 
             obtenerPresupuesto(){
                 this.original = true;
-              let data = window.location.pathname.split('/');
-              let path = data[3];
-              let URL = '/obtener-presupuesto/' + path;
+                let data = window.location.pathname.split('/');
+                let path = data[3];
+                let URL = '/obtener-presupuesto/' + path;
 
               axios.get(URL).then((response) => {
                 this.presupuesto = response.data;
@@ -945,6 +952,8 @@
                         'id': element.id,
                         'precioAnterior': element.precioAnterior,
                         'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -962,6 +971,8 @@
                         'id': element.id,
                         'precioAnterior': element.precioAnterior,
                         'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }
@@ -1041,6 +1052,8 @@
                             'id': element.id,
                             'precioAnterior': element.precioAnterior,
                             'precioEspecial': element.precioEspecial,
+                            'precioVenta': element.precioVenta,
+                            'proveedor': element.proveedor,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 
@@ -1154,6 +1167,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -1169,6 +1186,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }
@@ -1201,6 +1222,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -1212,6 +1237,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -1238,6 +1267,10 @@
                             },
                             'tipo': 'PAQUETE',
                             'id': element.id,
+                            'precioAnterior': element.precioAnterior,
+                            'precioEspecial': element.precioEspecial,
+                            'precioVenta': element.precioVenta,
+                            'proveedor': element.proveedor,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 
@@ -1251,7 +1284,6 @@
             },
 
             usarVersion(){
-                this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1287,8 +1319,7 @@
                             'Creado!',
                             'El presupuesto ha sido creado',
                             'success'
-                        );
-                    }   
+                        );                    }   
                     
                 }).catch((error) => {
                     console.log(error.data);
