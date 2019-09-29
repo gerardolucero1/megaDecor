@@ -9,19 +9,28 @@
 <body style="font-family: Helvetica; ">
 <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
   <tr>
+    @if($presupuesto->tipoEvento == 'Externo' && $presupuesto->tipoServicio == 'Formal')
     <td style="padding-right:100px;">
         <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
     </td>
-    <td colspan="2" style="text-align: right">
+    @else
+    <td style="padding-right:100px;">
+        <img src="http://megamundodecor.com/images/mega-mundo.png" style="width:180px">
+    </td>
+    @endif
+   
+    <td colspan="3" style="text-align: right">
       <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span></p>
       <p><span style="font-weight: bolder">Vendedor:</span> <span style="font-weight:normal">{{$presupuesto->vendedor}}</span></p>
       </td>
   </tr>
   <tr>
-      <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }} </td>
+      <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}} </td>
   </tr>
   <tr style="text-align: right; font-size:13px">
-    <td></td>
+    <td colspan="2" style="text-align: right">
+      
+    </td>
     <td colspan="2"><p style="margin-top:-20px">Email: Ventas@megamundo.com.mx<br>Teléfono: (614) 423-41-34<p></td>
   </tr>
 </table>
@@ -31,7 +40,8 @@
 <td colspan="3"><p style="line-height: 14px;"><span style="font-style: italic">Presupuesto generado para:</span> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
   <br><br><span>{{$presupuesto->emailCliente}}</span>
   
-<br><br><span>Teléfonos: @foreach($Telefonos as $telefono)
+<br><br><span>Teléfonos: 
+  @foreach($Telefonos as $telefono)
     @php
       $lada=substr($telefono->numero, 0,3);
       $primerosnumero=substr($telefono->numero, 3,3);
@@ -41,12 +51,18 @@
   {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span></p>
 </td>
 <td>
-<p style="border:solid; border-color:red; border-width: 1px; text-align: center; padding: 10px; font-size: 15px;">{{$presupuesto->creditoCliente}}</p>
+  @php
+  
+      $fechadepago = date('Y-m-d',strtotime($presupuesto->fechaEvento."+ ".$presupuesto->diasCredito." days"));
+  @endphp
+<p style="border:solid; border-color:red; border-width: 1px; text-align: center; padding: 10px; font-size: 13px;">@if($presupuesto->creditoCliente!='SIN CREDITO')CREDITO @endif{{$presupuesto->creditoCliente}}<br>
+@if($presupuesto->creditoCliente!='SIN CREDITO')
+  Fecha limite de pago:<br>
+{{$fechadepago }}
+@endif
+</p>
 
 </td>
-</tr>
-<tr>
-    <td colspan="4"><p style="line-height: 12px;"><span style="font-style: italic">Fecha de creación:</span> <span style="font-weight:bold">{{$presupuesto->created_at}}</span></p></td>
 </tr>
 </table>
 <!--INFORMACION DEL EVENTO-->
@@ -63,8 +79,16 @@
     @php                        
     use Carbon\Carbon;    
     $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
+    $horaI = strtotime($presupuesto->horaEventoInicio);
+    $horaI = date("g:i a", $horaI);
+
+    $horaF = strtotime($presupuesto->horaEventoFin);
+    $horaF = date("g:i a", $horaF);
+    
+   
 @endphp
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Pendiente @endif</td>
+
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}} - {{$horaF}}@else Pendiente @endif</td>
   <td><span> {{$presupuesto->categoria}}, {{$presupuesto->tipoEvento}} {{$presupuesto->tipoServicio}}</span></td>
   <td><span style="font-weight: bold">Tono:</span> {{$presupuesto->colorEvento}}</td>
 </tr>
@@ -80,11 +104,18 @@
 </table>
 <table style="width: 100%; margin-top: 10px">
   <tr style="padding: 4px; color:white; background:#9E9E9E; text-align: center;">
+    @if($presupuesto->opcionImagen==1)  
+    <td style="font-size: 13px; padding: 4px;">Imagen</td>
+    @endif
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
+    @if($presupuesto->opcionPrecioUnitario==1) 
     <td style="font-size: 13px; padding: 4px;">Precio Unitario</td>
+    @endif
     <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
-    <td style="font-size: 13px; padding: 4px;">Total</td>
+    @if($presupuesto->opcionPrecio==1) 
+    <td style="font-size: 13px; padding: 4px;">Total Con Descuento</td>
+    @endif
     <td style="font-size: 13px; padding: 4px;">Notas</td>
   </tr>
   @php
@@ -95,34 +126,83 @@
       $descuento=$descuento+($elemento->precioUnitario-$elemento->precioEspecial);
   @endphp
     <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
+        @if($presupuesto->opcionImagen==1)  
+    <td><img src="{{$elemento->imagen}}" width="60px" alt=""></td>
+        @endif
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
+      @if($presupuesto->opcionPrecioUnitario==1)  
       <td style="text-align: center">${{ (strtolower($elemento->precioUnitario)) }}</td>
+      @endif
       <td style="text-align: center">@if($elemento->precioUnitario!=$elemento->precioEspecial)${{ (strtolower($elemento->precioEspecial)) }}@else -- @endif</td>
+      @if($presupuesto->opcionPrecioUnitario==1) 
       <td style="text-align: center">${{ (strtolower($elemento->precioFinal)) }}</td>
+      @endif
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
 @endforeach
+
+@if(!is_null($Paquetes))
+@foreach ($Paquetes as $paquete)
+    <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
+    <td style="padding: 5px; text-align:center; font-weight: bold">Paquete:</td>
+    <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
+      <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
+      <td style="text-align: center">${{ (strtolower($paquete->precioUnitario)) }}</td>
+      <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
+      <td style="text-align: center">${{ (strtolower($paquete->precioFinal)) }}</td>
+    <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
+    </tr>
+    @if($presupuesto->opcionDescripcionPaquete==1)
+    <tr style="text-align: center; font-size: 12px;">
+        <td style="border-left:solid; border-left-width: 1px;">Imagen</td>
+        <td colspan="3" style="border-left:solid; border-left-width: 1px;">Servicio</td>
+        <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
+        <td style="border-left:solid; border-left-width: 1px;" colspan="2">Notas</td>
+      </tr>
+    @foreach ($Elementos_paquete as $ElementoPaquete)
+    @if($ElementoPaquete->budget_pack_id==$paquete->id)
+    <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
+        <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
+        <td colspan="3" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
+          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+          
+          
+        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+        </tr> 
+        @endif
+        
+    @endforeach
+    @endif
+@endforeach
+
+    @endif
 </table>
 @php
   if($presupuesto->opcionIVA==1){
-    $iva=(($presupuesto->total/116) * 16);
+     $iva=(($presupuesto->total/116) * 16);
      $iva=number_format($iva,2);
   }else {$iva=0; $iva=number_format($iva,2);}
   @endphp
 <table style="width: 100%; text-align: right">
 <tr>
-  <td><p>Subtotal: ${{$presupuesto->total}}<br>
+  <td><p>
+      @if($presupuesto->opcionDescuento==1)
+      Ahorro total: ${{$descuento}} @endif<br>
+    Subtotal: ${{$presupuesto->total}}<br>
   
     IVA: ${{$iva}}<br>
-    @if($presupuesto->opcionDescuento==1)
-  Ahorro total: ${{$descuento}} @endif<br><br>
-     <span style="font-weight: bold">TOTAL:$ {{$presupuesto->total}}<span></p></td>
+    @php
+        $total=$presupuesto->total;
+        $total=$total+$iva;
+    @endphp
+   
+     <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
       </tr>
       <tr style="font-style: italic; text-align: left; font-size: 12px;">
         <td>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-        </td>
+            *PRECIOS MAS IVA *Sujetos a disponibilidad hasta el dia de la contratación. ***DESCUENTOS COMPRANDO TODO EL PAQUETE*** EL DESCUENTO FINAL SE VERA REFLEJADO HASTA CONCRETAR LO SOLICITADO POR EL CLIENTE. *** PARA APROBACION SE REQUIERE FIRMA DEL CLIENTE. EN CASO DE EMPRESAS ES REQUISITO FIRMA Y SELLO ; UNA VEZ AUTORIZADA NO HAY CANCELACIONES NI DEVOLUCION DE DINERO ******** ***50% DE ANTICIPO. TODO SERVICIO TIENE QUE SER LIQUIDADO AL 100% 1 DIA HABIL ANTES DEL EVENTO EN CASO DE NO TENER CREDITO*** 2.5 % INTERES MENSUAL X ATRASO DE CREDITO. ***Sillas, mesa, manteleria no incluye instalación,favor de solicitarla. Loza sin lavar tiene costo $.50 c/u extra. **PRESUPUESTO VALIDO 7 DIAS Hábiles A partir de la fecha de envio. Precios cambio sin previo aviso. **APLICAN RESTRICCIONES EVENTO EXTERNOS SE SOLICITA UN DEPOSITO EN GARANTIA DEPENDIENDO DE LOS SERCICIOS SOLICITADOS ***SUBIR O BAJAR ESCALERAS O AREAS LEJANAS, LLEVA COSTO ADICIONAL. LOS SERVICIOS SALIENDO DE BODEGA NO HAY CANCELACIÓN*** LA ENTREGA O RECOLECCIÓN (SERAEN DIAS HABILES) Y DENTRO DEL HORARIO DE 9:00 AM-5PM, FUERA DE ESTOS HORARIOS Y DIAS LLEVARA CARGO EXTRA***EN AL RECIBIR EL EQUIPO SE DA POR ENTENDIDO QUE TODO SE ENCUENTRA BIEN AL MOMENTO DE FIRMAR DE RECIBIDO*** NO INCLUYE INSTALACIÓN SILLAS Y MESAS. *** EL CLIENTE QUE PASE A RECOGER EN BODEGA DEBERA DEJAR UNA IDENTIFICACION OFICIAL VIGENTE Y LA ENTREGA ES AL SIGUIENTE DIA HABIL ANTES DE LAS 12:00 PM PAGOS CON TARJETA O TRASFERENCIA SON MAS IVA.
+          </td>
       </tr>
       @if($presupuesto->tipo=='CONTRATO')
      <table style="width: 100%;">
@@ -177,7 +257,12 @@ EJEMPLO MANTELERIA, CUBRE SILLAS, CUBRE MANTELES. MOÑOS. ETC "LA RENTA DE MANTE
       
 
    
-  
+<script type="text/php">
+  if ( isset($pdf) ) {
+      $font = "helvetica";
+      $pdf->page_text(72, 18, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+  }
+</script> 
    
 </body>
 </html>

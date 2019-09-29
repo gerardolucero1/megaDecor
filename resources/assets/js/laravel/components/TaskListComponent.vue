@@ -16,9 +16,24 @@
                                         <div class="block-options-item js-appear-enabled">
                                             <button class="btn btn-success" data-toggle="modal" data-target="#nuevaTareaModal">Nueva Tarea</button>
                                             <button class="btn btn-info" data-toggle="modal" data-target="#filtroTareas"><i class="fa fa-search"></i></button>
+                                            
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row" style="background:#FBFBFB; padding-top:10px; padding-bottom:10px">
+                                    <label for="Filtrar"></label>
+                                                <div class="col-md-4"><select name="" id="">
+                                                    <Option>Categoria</Option>
+                                                    </select></div>
+                                           
+                                                <div class="col-md-4"><select name="" id="">
+                                                    <Option>Vendedor</Option>
+                                                    </select></div>
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-sm btn-primary">Filtrar</button>
+                                                </div>
+                                            </div>
+                                
                                 <div class="block-content" style="height:513px; overflow:scroll;">
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>

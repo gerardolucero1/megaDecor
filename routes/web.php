@@ -9,6 +9,8 @@ use App\AboutCategory;
 use App\MoralCategory;
 use App\PhysicalPerson;
 use App\BudgetInventory;
+use App\BudgetPack;
+use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use App\Mail\NuevoPresupuesto;
 use Illuminate\Support\Facades\DB;
@@ -221,7 +223,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('enviar-email-cliente/{id}', function($id){
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
-        $presupuesto->impresion = 1;
+        $presupuesto->enviado = 1;
         $presupuesto->save();
 
         $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
@@ -229,17 +231,28 @@ Route::group(['middleware' => ['auth']], function () {
         $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
        
         //Obtenemos los elementos que pertenecen al inventario
-        $Elementos= BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->get();
+        $Elementos= BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
+        //Obtenemos los paquetes
+        $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
         
+
+        foreach($Paquetes as $paquete){
+        
+            $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
+        
+        }
+
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
          ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
          ->get();
  
          $clientes_fisicos = DB::table('clients')
          ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito')
+         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito', 'physical_people.diasCredito')
          ->get();
          
          $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -276,17 +289,19 @@ Route::group(['middleware' => ['auth']], function () {
              if($presupuesto->client_id == $cliente->id){
                  if($cliente->apellidoPaterno==$cliente->nombre){
                 $presupuesto->cliente=$cliente->nombre;
+                $presupuesto->diasCredito=$cliente->diasCredito;
                 $presupuesto->emailCliente=$cliente->email;
                 $presupuesto->creditoCliente=$cliente->tipoCredito;
                  }else{
                 $presupuesto->cliente=$cliente->nombre." ".$cliente->apellidoPaterno." ".$cliente->apellidoMaterno;}
                 $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->diasCredito=$cliente->diasCredito;
                 $presupuesto->creditoCliente=$cliente->tipoCredito;
             }
          }
     
         Mail::to($presupuesto->emailCliente, 'Presupuesto MegaMundo')
-            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos));
+            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $Elementos_paquete));
     });
 
     //Generar PDF's

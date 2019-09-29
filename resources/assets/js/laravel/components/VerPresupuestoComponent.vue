@@ -292,7 +292,7 @@
                                 </td>
                                 <td>
                                     {{ producto.precioUnitario }} <br>
-                                    <del v-if="producto.precioUnitario < producto.precioAnterior">{{ producto.precioAnterior }}</del>
+                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior }}</del>
                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">

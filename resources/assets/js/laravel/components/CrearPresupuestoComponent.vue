@@ -388,9 +388,9 @@ padding: 0;
                                 <th scope="col">Cantidad</th>
                                 
                                 <th scope="col">Precio Unitario</th>
-                                <th scope="col">Precio Especial</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Ahorro</th>
+                                <th scope="col">Precio Especial Unitario</th>
+                                <th scope="col">Total con descuento</th>
+                                <th scope="col">Ahorro Unitario</th>
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Opciones</th>
                             </tr>
@@ -480,7 +480,7 @@ padding: 0;
                                 <div class="info mt-3">
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                    <p style="display:none">Comision pagada en base a $ <span>150</span></p>
 
                                 </div>
                             </div>
@@ -592,7 +592,7 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio de venta</label>
+                                        <label class="col-12" for="example-text-input">Costo de proveedores</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
                                         </div>
@@ -628,8 +628,8 @@ padding: 0;
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio unitario</th>
-                                                <th scope="col">Precio especial</th>
-                                                <th scope="col">Total</th>
+                                                <th scope="col">Precio especial unitario</th>
+                                                <th scope="col">Total con descuento</th>
                                                 <th scope="col">Opciones</th>
                                             </tr>
                                         </thead>

@@ -15,6 +15,8 @@ class NuevoPresupuesto extends Mailable
     public $presupuesto;
     public $Telefonos;
     public $Elementos;
+    public $Paquetes;
+    public $Elementos_paquete;
 
     /**
      * Create a new message instance.
@@ -23,11 +25,13 @@ class NuevoPresupuesto extends Mailable
      */
 
     
-    public function __construct($presupuesto, $Telefonos, $Elementos)
+    public function __construct($presupuesto, $Telefonos, $Elementos, $Paquetes, $Elementos_paquete)
     {
         $this->presupuesto  = $presupuesto;
         $this->Telefonos   = $Telefonos;
         $this->Elementos   = $Elementos;
+        $this->Paquetes = $Paquetes;
+        $this->Elementos_paquete = $Elementos_paquete;
     }
     
     /*

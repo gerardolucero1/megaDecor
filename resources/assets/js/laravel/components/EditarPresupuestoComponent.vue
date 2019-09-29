@@ -354,10 +354,10 @@
                         <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Externo</th>
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Unitario</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
@@ -367,9 +367,6 @@
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                </th>
                                 <td>
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
@@ -378,6 +375,9 @@
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
+                                </td>
+                                <td>
+                                    {{ producto.precioEspecial }}
                                 </td>
                                 <td>{{ producto.precioUnitario }}</td>
                                 <td>
@@ -416,7 +416,7 @@
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
                                 <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
-                                <label for="precio">Precios</label>
+                                <label for="precio">Precios Finales</label>
                                 <br>
                                 <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
                                 <label for="precioUnitario">Precios Unitarios</label>
@@ -425,7 +425,7 @@
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
                                 <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
-                                <label for="descuento">Descuentos</label>
+                                <label for="descuento">Descuento General</label>
                                 <br>
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
@@ -436,9 +436,9 @@
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <h5 v-else>Subtotal: $<span>{{ saldoFinal | decimales }}</span></h5>
+                                <h3 v-else>Subtotal: $<span>{{ saldoFinal | decimales }}</span><br>
+                                <span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
-                                <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Reduccion de contrato</button>
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
@@ -446,9 +446,13 @@
                                 <div class="info mt-3">
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                    <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
+                                    <p >Comision pagada en base a $ <span>150</span></p>
+                                    <p style="font-size:16px; font-weight:bold;">Total: ${{ saldoFinal | decimales }} <i class="fa fa-edit"></i></p>
 
-                                    <button class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
+                                    <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
+                                    <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
+                                
                                 </div>
                             </div>
                         </div>
@@ -457,7 +461,8 @@
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Editar Presupuesto</button>
+                        <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Editar Presupuesto</button>
+                        <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()">Editar contrato</button>
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuestoCorreo()">Enviar por correo</button>
                     </div>
                 </div>

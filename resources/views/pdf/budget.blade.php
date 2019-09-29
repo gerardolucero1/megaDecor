@@ -57,6 +57,7 @@
   @endphp
 <p style="border:solid; border-color:red; border-width: 1px; text-align: center; padding: 10px; font-size: 13px;">@if($presupuesto->creditoCliente!='SIN CREDITO')CREDITO @endif{{$presupuesto->creditoCliente}}<br>
 @if($presupuesto->creditoCliente!='SIN CREDITO')
+Dias de credito: {{$presupuesto->diasCredito}}  <br>
   Fecha limite de pago:<br>
 {{$fechadepago }}
 @endif
@@ -187,14 +188,19 @@
 <table style="width: 100%; text-align: right">
 <tr>
   <td><p>
+    @php
+        $descuentoGeneral = number_format($descuento,00);
+        $subtotal=$presupuesto->total;
+        $total=$subtotal+$iva;
+        $total=number_format($total,2);
+    @endphp
       @if($presupuesto->opcionDescuento==1)
-      Ahorro total: ${{$descuento}} @endif<br>
-    Subtotal: ${{$presupuesto->total}}<br>
+      Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
+    Subtotal: ${{$subtotal}}.00<br>
   
     IVA: ${{$iva}}<br>
     @php
-        $total=$presupuesto->total;
-        $total=$total+$iva;
+        
     @endphp
    
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>

@@ -105,7 +105,7 @@
                                                         <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} <span @if( $ventasAnoActual >= $ventasAnoPasado)
                                                                 style="color:green"
                                                                 @else
-                                                                style="color:orange"
+                                                                style="color:green"
                                                                 @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
                                                         <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Septiembre 2019</div>
                                                     </div>
