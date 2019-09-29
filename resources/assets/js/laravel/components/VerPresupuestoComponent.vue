@@ -1284,7 +1284,6 @@
             },
 
             usarVersion(){
-                this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1320,8 +1319,7 @@
                             'Creado!',
                             'El presupuesto ha sido creado',
                             'success'
-                        );
-                    }   
+                        );                    }   
                     
                 }).catch((error) => {
                     console.log(error.data);

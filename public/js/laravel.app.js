@@ -14894,7 +14894,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
       } else {
         Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
-        window.history.back();
       }
     })["catch"](function (error) {
       console.log(error.data);
@@ -14941,7 +14940,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
       } else {
         Swal.fire('Creado!', 'El presupuesto se creo con exito', 'success');
-        window.history.back();
       }
     })["catch"](function (error) {
       console.log(error.data);
@@ -17396,7 +17394,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
           Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
-          window.history.back();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -17423,7 +17420,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
           Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
-          window.history.back();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -20249,8 +20245,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     usarVersion: function usarVersion() {
       var _this9 = this;
-
-      this.presupuesto.tipo = 'PRESUPUESTO';
 
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';

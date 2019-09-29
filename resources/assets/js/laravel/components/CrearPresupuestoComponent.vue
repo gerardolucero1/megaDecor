@@ -2166,7 +2166,6 @@ padding: 0;
                             'El presupuesto se creo correctamente',
                             'success'
                         );
-                        window.history.back();
                     }   
                     
                 }).catch((error) => {
@@ -2232,7 +2231,6 @@ padding: 0;
                             'El presupuesto se creo con exito',
                             'success'
                         );
-                        window.history.back();
                     }   
                     
                 }).catch((error) => {
