@@ -723,7 +723,7 @@ padding: 0;
                                         <label class="col-12">Imagen</label>
                                         <div class="col-12">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input js-custom-file-input-enabled" id="example-file-input-custom" name="example-file-input-custom" data-toggle="custom-file-input" @change="obtenerImagen">
+                                                <input type="file" class="custom-file-input js-custom-file-input-enabled" id="file-image-externo" name="example-file-input-custom" data-toggle="custom-file-input" @change="obtenerImagen">
                                                 <label class="custom-file-label" for="example-file-input-custom" style="overflow-x: hidden;"></label>
                                             </div>
                                         </div>
@@ -1883,6 +1883,8 @@ padding: 0;
                     }
                     
                 }
+
+                document.getElementById('file-image-externo').value = '';
                 
                 this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
             },

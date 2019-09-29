@@ -252,16 +252,6 @@ class BudgetController extends Controller
                             $producto->imagen = $objeto['imagen'];
                             $producto->save();
                         }
-
-                        
-                        if(!$objeto['externo']){
-                            //$paquete->inventories()->attach($objeto['id']);                                                       
-                            $producto = Inventory::find($objeto['id']);
-
-                            $producto->disponible = ($producto->disponible) - ($objeto['cantidad']);
-                            $producto->save();
-                            
-                        }
                     }
             }
         }
@@ -353,6 +343,7 @@ class BudgetController extends Controller
         $oldVersion->opcionImagen = $version->opcionImagen;
         $oldVersion->opcionDescuento = $version->opcionDescuento;
         $oldVersion->opcionIva = $version->opcionIva;
+        
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
         $oldVersion->horaEntrega = $version->horaEntrega;
@@ -363,6 +354,7 @@ class BudgetController extends Controller
         $oldVersion->numeroFacturacion = $version->numeroFacturacion;
         $oldVersion->coloniaFacturacion = $version->coloniaFacturacion;
         $oldVersion->emailFacturacion = $version->emailFacturacion;
+        
         $oldVersion->impresion = $version->impresion;
         $oldVersion->budget_id = $version->id;
         $oldVersion->version = $version->version;
@@ -450,6 +442,8 @@ class BudgetController extends Controller
                 $producto->servicio = $item['servicio'];
                 $producto->cantidad = $item['cantidad'];
                 $producto->precioUnitario = $item['precioUnitario'];
+                $producto->precioEspecial = $item['precioEspecial'];
+                $producto->precioAnterior = $item['precioAnterior'];
                 $producto->precioFinal = $item['precioFinal'];
                 $producto->precioVenta = $item['precioVenta'];
                 $producto->ahorro = $item['ahorro'];
@@ -460,16 +454,24 @@ class BudgetController extends Controller
                 //Si el producto es externo
                 if($item['externo']){
                     //Guardamos la imagen si lleva una
-                    if($item['imagen'] && (base64_encode(base64_decode($item['imagen'], true)) === $item['imagen'])){
-
-                        $image = $item['imagen'];
-                        $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                        \Image::make($item['imagen'])->save(public_path('presupuesto/').$name);
-                        $producto->fill(['imagen' => asset('presupuesto/'.$name)]);
-                        $producto->version = $ultimoPresupuesto->version;
-                        $producto->save();
+                    if($item['imagen']){
+                        //Hacemos un explode de imagen para saber si es base64 o no
+                        $miArray = explode('/', $item['imagen']);
+                        if($miArray[0] == 'data:image'){
+                            $image = $item['imagen'];
+                            $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                            \Image::make($item['imagen'])->save(public_path('presupuesto/').$name);
+                            $producto->fill(['imagen' => asset('presupuesto/'.$name)]);
+                            $producto->version = $ultimoPresupuesto->version;
+                            $producto->save();
+                        }else{
+                            $producto->imagen = $item['imagen'];
+                            $producto->version = $ultimoPresupuesto->version;
+                            $producto->save();
+                        }
+                        
                     }else{
-                        $producto->imagen = $item['imagen'];
+                        $producto->imagen = 'imagen de prueba';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save(); 
                     }
@@ -478,12 +480,7 @@ class BudgetController extends Controller
                     $producto->version = $ultimoPresupuesto->version;
                     $producto->save();
                 }
-                
-                if(!$item['externo']){
-                    $producto = Inventory::find($item['id']);
-                    $producto->disponible = ($producto->disponible) - ($item['cantidad']);
-                    $producto->save();
-                }
+
             }else{
 
                 //Si el inventario es paquete hacemos el mismo recorrido
@@ -492,6 +489,8 @@ class BudgetController extends Controller
                 $paquete->servicio = $item['servicio'];
                 $paquete->cantidad = $item['cantidad'];
                 $paquete->precioUnitario = $item['precioUnitario'];
+                $paquete->precioEspecial = $item['precioEspecial'];
+                $paquete->precioAnterior = $item['precioAnterior'];
                 $paquete->precioFinal = $item['precioFinal'];
                 $paquete->precioVenta = $item['precioVenta'];
                 $paquete->ahorro = $item['ahorro'];
@@ -511,19 +510,29 @@ class BudgetController extends Controller
                         $producto->servicio = $objeto['nombre'];
                         $producto->cantidad = $objeto['cantidad'];
                         $producto->precioUnitario = $objeto['precioUnitario'];
+                        $producto->precioEspecial = $objeto['precioEspecial'];
+                        $producto->precioAnterior = $objeto['precioAnterior'];
                         $producto->precioFinal = $objeto['precioFinal'];
                         $producto->precioVenta = $objeto['precioVenta'];
                         $producto->externo = $objeto['externo'];
                         $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){
                             //Guardamos la imagen si contiene una
-                            if($objeto['imagen'] && (base64_encode(base64_decode($objeto['imagen'], true)) === $objeto['imagen'])){
-                                $image = $objeto['imagen'];
-                                $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-                                \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
-                                $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
+                            if($objeto['imagen']){
+                                //Verificamos si la imagen es base64
+                                $miArray = explode('/', $objeto['imagen']);
+                                if($miArray[0] == 'data:image'){
+                                    $image = $objeto['imagen'];
+                                    $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+                                    \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
+                                    $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
+                                }else{
+                                    $producto->imagen = $objeto['imagen'];
+                                    $producto->save(); 
+                                }
+                                
                             }else{
-                                $producto->imagen = $objeto['imagen'];
+                                $producto->imagen = 'Imagen de prueba';
                                 $producto->save();
                             }
                         }else{
