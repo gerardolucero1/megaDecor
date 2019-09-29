@@ -1986,6 +1986,7 @@ padding: 0;
                             'El presupuesto se creo correctamente',
                             'success'
                         );
+                        window.history.back();
                     }       
                 }).catch((error) => {
                     console.log(error.data);
@@ -2024,6 +2025,7 @@ padding: 0;
                             'El presupuesto se creo correctamente',
                             'success'
                         );
+                        window.history.back();
                     }       
                 }).catch((error) => {
                     console.log(error.data);

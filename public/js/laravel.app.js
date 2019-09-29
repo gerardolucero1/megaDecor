@@ -14894,6 +14894,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
       } else {
         Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+        window.history.back();
       }
     })["catch"](function (error) {
       console.log(error.data);
@@ -14940,6 +14941,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
       } else {
         Swal.fire('Creado!', 'El presupuesto se creo con exito', 'success');
+        window.history.back();
       }
     })["catch"](function (error) {
       console.log(error.data);
@@ -14975,6 +14977,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15421,7 +15439,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this7.obtenerCliente();
       })["catch"](function (error) {
-        console.log('Error al actualizar cliente: ', error.data);
+        Swal.fire('Error', 'Hubo un error al actualizar el cliente ¿Completaste todos los campos?', 'error');
       });
     }
   }
@@ -17378,6 +17396,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
           Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+          window.history.back();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -17404,6 +17423,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
           Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+          window.history.back();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -77117,6 +77137,118 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.cliente, "email", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("label", [_vm._v("Telefono")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cliente.telefono,
+                        expression: "cliente.telefono"
+                      }
+                    ],
+                    attrs: { type: "email", placeholder: "number" },
+                    domProps: { value: _vm.cliente.telefono },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.cliente, "telefono", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("label", [_vm._v("Direccion")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cliente.direccionEmpresa,
+                        expression: "cliente.direccionEmpresa"
+                      }
+                    ],
+                    attrs: { type: "email", placeholder: "text" },
+                    domProps: { value: _vm.cliente.direccionEmpresa },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.cliente,
+                          "direccionEmpresa",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("label", [_vm._v("Colonia")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cliente.coloniaEmpresa,
+                        expression: "cliente.coloniaEmpresa"
+                      }
+                    ],
+                    attrs: { type: "email", placeholder: "text" },
+                    domProps: { value: _vm.cliente.coloniaEmpresa },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.cliente,
+                          "coloniaEmpresa",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("label", [_vm._v("Numero")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cliente.numeroEmpresa,
+                        expression: "cliente.numeroEmpresa"
+                      }
+                    ],
+                    attrs: { type: "email", placeholder: "text" },
+                    domProps: { value: _vm.cliente.numeroEmpresa },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.cliente,
+                          "numeroEmpresa",
+                          $event.target.value
+                        )
                       }
                     }
                   })
