@@ -32,7 +32,7 @@
                 <div class="block-content">
                     {!! Form::model($inventory, ['route' => ['inventory.update', $inventory->id], 'method' => 'PUT', 'files' => 'true']) !!}
             
-                        @include('inventories.partial.form')
+                        @include('Inventories.partial.form')
                     {!! Form::close() !!}
                 </div>
             </div>
