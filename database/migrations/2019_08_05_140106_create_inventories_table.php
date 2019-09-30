@@ -26,6 +26,7 @@ class CreateInventoriesTable extends Migration
             $table->string('proveedor1')->nullable();
             $table->string('proveedor2')->nullable();
             $table->integer('exhibicion')->nullable();
+            $table->string('familia')->nullable();
             
             $table->timestamps();
         });
