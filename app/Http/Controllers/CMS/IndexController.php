@@ -4,12 +4,12 @@ namespace App\Http\Controllers\CMS;
 
 use App\Task;
 use stdClass;
-use Barryvdh\DomPDF\Facade as PDF;
+use App\Inventory;
 Use App\Budget;
 Use App\User;
-Use App\inventory;
 Use App\Telephone;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
