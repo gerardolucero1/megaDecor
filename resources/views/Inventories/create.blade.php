@@ -26,6 +26,9 @@
     <section class="container">
         <div class="col-md-12">
             <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Crear nuevo producto</h3>
+                </div>
                 <div class="block-content">
                     {!! Form::open(['route' => 'inventory.store', 'files' => 'true']) !!}
             
