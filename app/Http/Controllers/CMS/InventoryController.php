@@ -28,7 +28,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('inventories.create');
+        return view('Inventories.create');
     }
 
     /**
@@ -80,7 +80,7 @@ class InventoryController extends Controller
     public function edit($id)
     {
         $inventory = Inventory::find($id);
-        return view('inventories.edit', compact('inventory'));
+        return view('Inventories.edit', compact('inventory'));
     }
 
     /**
