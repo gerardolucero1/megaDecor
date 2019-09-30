@@ -70,6 +70,19 @@ class CreateBudgetsTable extends Migration
             //Impresion
             $table->boolean('impresion')->nullable();
 
+            //Version
+            $table->integer('version')->nullable();
+            $table->double('comision')->nullable();
+            $table->double('total')->nullable();
+
+            //archivar
+            $table->boolean('archivado')->default(0)->nullable();
+
+            // Notas
+            $table->text('notasPresupuesto')->nullable();
+
+            
+
             $table->timestamps();
 
             //Relations

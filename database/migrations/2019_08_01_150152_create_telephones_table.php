@@ -17,6 +17,8 @@ class CreateTelephonesTable extends Migration
             $table->increments('id');
             $table->integer('client_id')->unsigned();
             $table->string('nombre')->nullable();
+            $table->string('apellidoPaterno')->nullable();
+            $table->string('apellidoMaterno')->nullable();
             $table->string('email')->nullable();
             $table->enum('tipo', ['CASA', 'CELULAR', 'OFICINA']);
             $table->string('numero');

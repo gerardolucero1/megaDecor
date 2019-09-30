@@ -9,6 +9,10 @@ class Telephone extends Model
 {
     protected $fillable = [
         'client_id',
+        'nombre',
+        'email',
+        'apellidoPaterno',
+        'apellidoMaterno',
         'tipo',
         'numero',
         'ext',

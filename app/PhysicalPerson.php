@@ -14,6 +14,10 @@ class PhysicalPerson extends Model
         'apellidoPaterno',
         'apellidoMaterno',
         'email',
+        'telefono',
+        'direccionEmpresa',
+        'coloniaEmpresa',
+        'numeroEmpresa',
 
         //Facturacion
 
@@ -23,6 +27,7 @@ class PhysicalPerson extends Model
         'numeroFacturacion',
         'rfcFacturacion',
         'emailFacturacion',
+        'tipoCredito',
     ];
 
     public function client()

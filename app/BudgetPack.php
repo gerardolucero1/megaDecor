@@ -10,7 +10,11 @@ class BudgetPack extends Model
     protected $fillable = [
         'budget_id',
         'servicio',
+        'cantidad',
+        'precioUnitario',
         'precioFinal',
+        'ahorro',
+        'notas',
         'categoria',
         'guardarPaquete',
     ];

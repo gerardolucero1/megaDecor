@@ -13,6 +13,10 @@ class MoralPerson extends Model
         'about_id',
         'nombre',
         'email',
+        'direccionEmpresa',
+        'coloniaEmpresa',
+        'numeroEmpresa',
+        'telefono',
 
         //Facturacion
 
@@ -22,6 +26,7 @@ class MoralPerson extends Model
         'numeroFacturacion',
         'rfcFacturacion',
         'emailFacturacion',
+        'tipoCredito',
     ];
 
     public function client()

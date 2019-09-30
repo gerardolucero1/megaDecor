@@ -92,7 +92,7 @@
                 }else{
                     this.mostrar = 1
                 }
-               console.log(this.mostrar); 
+              // console.log(this.mostrar); 
             },
     emitGlobalClickEvent() {
       EventBus.$emit('clic');
@@ -101,7 +101,7 @@
                 let URL = '/tareas/categorias-tareas';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
+                   // console.log(this.categorias);
                 });
                 },
             eliminarCategorias(categoria){

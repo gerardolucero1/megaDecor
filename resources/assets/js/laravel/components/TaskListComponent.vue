@@ -16,18 +16,32 @@
                                         <div class="block-options-item js-appear-enabled">
                                             <button class="btn btn-success" data-toggle="modal" data-target="#nuevaTareaModal">Nueva Tarea</button>
                                             <button class="btn btn-info" data-toggle="modal" data-target="#filtroTareas"><i class="fa fa-search"></i></button>
+                                            
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content" style="height:350px; overflow:scroll;">
+                                <div class="row" style="background:#FBFBFB; padding-top:10px; padding-bottom:10px; display:none">
+                                    <label for="Filtrar"></label>
+                                                <div class="col-md-4"><select name="" id="">
+                                                    <Option>Categoria</Option>
+                                                    </select></div>
+                                           
+                                                <div class="col-md-4"><select name="" id="">
+                                                    <Option>Vendedor</Option>
+                                                    </select></div>
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-sm btn-primary">Filtrar</button>
+                                                </div>
+                                            </div>
+                                
+                                <div class="block-content" style="height:513px; overflow:scroll;">
                                        
                                         <div v-if="tareas == 0">No hay Tareas para hoy</div>
                                        
-                                    <table id="example"  class="table table-vcenter">
+                                    <table v-if="tareas != 0" id="example"  class="table table-vcenter">
                                         <thead>
                                             <tr style="font-size:11px">
-                                                <th>Cliente</th>
-                                                <th>Vendedor</th>
+                                                <th>Usuario</th>
                                                 <th class="d-none d-sm-table-cell" style="width: 15%;">Categoría</th>
                                                 <th class="text-center" style="width: 100px;">Acciones</th>
                                             </tr>
@@ -35,17 +49,18 @@
                                         <tbody>
                                                
                                                 <tr style="font-size:11px" class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
-                                                <td>{{ tarea.cliente }}</td>
-                                                <td>{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id!=2">{{ tarea.vendedor }}</td>
+                                                <td v-if="tarea.vendedor_id==2">Todos</td>
                                                 <td class="d-none d-sm-table-cell">
-                                                    <span class="">{{ tarea.categoria }}</span>
+                                                    <span class="" data-toggle="tooltip" title="Prospecto"><i  class="fa fa-star-half" style="color:#34A1E4" ></i> {{ tarea.categoria }}</span>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group">
                                                         <button v-if="tarea.completa==0" v-on:click.prevent="detalleTarea(tarea)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                             <i class="si si-eye"></i>
                                                         </button>
-                                                        <i v-if="tarea.completa==1" style="color:#2A9050" class="fa fa-check"></i>
+                                                        <i v-if="tarea.completa==1"  style="color:#2A9050" class="fa fa-check"></i>
+                                                        <i v-if="tarea.completa==1" data-toggle="tooltip" title="Como vamos con eso?" style="color:#2A9050" class="si si-info"></i>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -83,24 +98,39 @@ import { EventBus } from '../eventBus.js';
                 let URL = '/tareas/obtener-tareas';
                 axios.get(URL).then((response) => {
                     this.tareas = response.data;
-                    console.log(this.tareas);
+                  //  console.log(this.tareas);
                     
                 });
                 },
                 detalleTarea(task){
+                    if(task.vendedor_id==2){
+                        var condicion = false;
+                    }else{
+                        var condicion = true;
+                    }
+                    if(task.cliente==null){
+                        task.cliente=" ";
+                    }
     Swal.fire({
-                                title: task.categoria+" "+task.cliente,
+                                title: task.categoria+" - "+task.cliente,
                                 text: "Detalles: "+task.notas,
                                 type: 'info',
                                 showCancelButton: true,
+                                showConfirmButton: condicion,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText: 'Tarea Finalizada',
+                                confirmButtonText: 'Agregar Comentario',
                                 cancelButtonText: 'Cerrar'
                                 
                             }).then((result) => {
                             if (result.value) {
-                                console.log(task);
+                               var txt;
+  var person = prompt("Agregar Comentario a tarea", "");
+  if (person == null || person == "") {
+    
+  } else {
+    alert('Comentario agregado');
+  }
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

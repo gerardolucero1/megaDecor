@@ -27,11 +27,12 @@
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 
-
+        <!--
         <link rel="stylesheet" href="https://demo.pixelcave.com/codebase/assets/js/plugins/datatables/dataTables.bootstrap4.css">
+        -->
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
-        @yield('css_after')
+        @yield('styles')
 
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
@@ -134,10 +135,10 @@
                     <!-- Side Header -->
                     <div class="content-header content-header-fullrow px-15">
                         <!-- Mini Mode -->
-                        <div class="content-header-section sidebar-mini-visible-b">
+                        <div class="content-header-section  sidebar-mini-visible-b">
                             <!-- Logo -->
                             <span class="content-header-item font-w700 font-size-xl float-left animated fadeIn">
-                                <span class="text-dual-primary-dark">c</span><span class="text-primary">b</span>
+                                <span class="text-dual-primary-dark">m</span><span class="text-primary">m</span>
                             </span>
                             <!-- END Logo -->
                         </div>
@@ -156,7 +157,7 @@
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
                                     <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 100%">
-                                    <span class="font-size-xl text-dual-primary-dark">code</span><span class="font-size-xl text-primary">base</span>
+                                    <span class="font-size-xl text-dual-primary-dark">Mega</span><span class="font-size-xl text-primary">Mundo</span>
                                 </a>
                             </div>
                             <!-- END Logo -->
@@ -169,14 +170,14 @@
                     <div class="content-side content-side-full content-side-user px-10 align-parent">
                         <!-- Visible only in mini mode -->
                         <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="{{ asset('media/avatars/avatar15.jpg') }}" alt="">
+                            <img class="img-avatar img-avatar32" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                         </div>
                         <!-- END Visible only in mini mode -->
 
                         <!-- Visible only in normal mode -->
                         <div class="sidebar-mini-hidden-b text-center">
                             <a class="img-link" href="javascript:void(0)">
-                                <img class="img-avatar" src="{{ asset('media/avatars/avatar15.jpg') }}" alt="">
+                                <img class="img-avatar" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                             </a>
                             <ul class="list-inline mt-10">
                                 <li class="list-inline-item">
@@ -206,13 +207,15 @@
                                     <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
                                 </a>
                                 <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
-                                <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                 <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
                                 <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                 <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                             </li>
                             <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">MR</span><span class="sidebar-mini-hidden">Ayuda</span>
+                                <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
                             </li>
                             <li>
                                 <a href="/">
@@ -248,7 +251,7 @@
                         <p id="fechaActual" style="font-style: italic">Fecha Actual</p>
                         <script>
                             function fechaActual(){
-                                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                                var meses = new Array ("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
                                 var f=new Date();
                                 document.getElementById('fechaActual').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
                             }
@@ -313,7 +316,7 @@
                         Desarrollado por <a class="font-w600" href="https:partnergrammer.com" target="_blank"><span><img src="media/photos/icon_parnergrammer.png" style="width: 17px; margin-top: -5px;" alt=""></span> Partnergrammer</a>
                     </div>
                     <div class="float-left">
-                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank">Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
+                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank"><span style="color:black">Todos los derechos reservados</span> Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
                     </div>
                 </div>
             </footer>
@@ -328,25 +331,112 @@
         <script src="{{ mix('js/codebase.app.js') }}"></script>
         
 <script>  
+
 $(document).ready( function () {
-    $('#TablaClientes').DataTable();
+
+    $('#TablaClientes').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
+    Codebase.layout('sidebar_mini_on');
+    Codebase.layout('sidebar_style_inverse_on');
+    
 } ); 
 $(document).ready( function () {
-    $('#TablaClientesArchivados').DataTable();
+    $('#TablaClientesArchivados').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestosArchivados').DataTable();
+    $('#TablaPresupuestosArchivados').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestos').DataTable();
+    $('#TablaPresupuestos').DataTable({
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 </script>
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
+       
         <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
          <!--librerias tempobootstrap -->
          
 
         @yield('scripts')
+        
     </body>
 </html>

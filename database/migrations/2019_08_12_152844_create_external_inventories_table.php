@@ -18,7 +18,9 @@ class CreateExternalInventoriesTable extends Migration
             $table->integer('budget_id')->unsigned();
             $table->string('servicio');
             $table->string('imagen');
-            $table->integer('precioUnitario');
+            $table->float('precioUnitario');
+            $table->float('precioVenta')->nullable();
+            $table->string('proveedor')->nullable();
             $table->timestamps();
 
             //Relations

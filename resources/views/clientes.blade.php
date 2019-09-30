@@ -36,7 +36,7 @@
                                     <th class="sorting" rowspan="1" colspan="1">Nombre</th>
                                     <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
                                     <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
-                                    <th rowspan="1" colspan="1">Correo Electronico</th>
+                                    <th rowspan="1" colspan="1">Correo Electrónico</th>
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
                                 </tr>
@@ -56,12 +56,12 @@
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                            <i class="fa fa-user"></i>
+                                        <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary " data-toggle="tooltip" title="Editar Cliente"  data-original-title="View Customer">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger " data-toggle="tooltip" title="Archivar Cliente">
+                                                <i class="si si-refresh"></i>
                                         </button>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
                                     </td>
                                 </tr>
                                 @endforeach

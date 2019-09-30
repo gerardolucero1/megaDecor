@@ -51,11 +51,19 @@ class Budget extends Model
         'numeroFacturacion',
         'coloniaFacturacion',
         'emailFacturacion',
+
+        //version
+        'version',
+        'comision',
+        'total',
+
+        //Notas
+        'notasPresupuesto',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'vendedor_id');
     }
 
     public function client()

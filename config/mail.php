@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,9 +56,10 @@ return [
     */
 
     'from' => [
-        'address' => 'gerardo.lucero.glez@hotmail.com',
-        'name' => 'Gerardo Lucero Glez',
+        'address' => 'ventasmegamundodecor@gmail.com',
+        'name' => 'Ventas mega mundo',
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +85,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => 'ventasmegamundodecor@gmail.com',
 
     'password' => env('MAIL_PASSWORD'),
 

@@ -100,7 +100,7 @@
                 }else{
                     this.mostrar = 1
                 }
-               console.log(this.mostrar); 
+              // console.log(this.mostrar); 
             },
    emitGlobalClickEvent() {
       EventBus.$emit('nuevoTipoEmpresa');
@@ -109,7 +109,7 @@
                 let URL = '/clientes/tipo-empresa';
                 axios.get(URL).then((response) => {
                     this.tipos = response.data;
-                    console.log(this.tipos);
+                   // console.log(this.tipos);
                 });
                 },
             eliminarTipoEmpresa(tipo){

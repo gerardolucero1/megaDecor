@@ -44,9 +44,25 @@
                         <div class="col-md-4">
                             <input type="text" required="required" placeholder="Apellido Materno" v-model="cliente.apellidoCliente2">
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        <div class="col-md-12" style="padding-top:10px">
+                        <label for="">Dirección </label>
                         </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                        </div>
+                     
+                        <div class="col-md-12 mt-4" style="display:inline">
+                            <label for="">Email</label><br>   
+                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                        </div>
+                        
+                        
                     </div>
                     <!-- Personas Morales -->
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">
@@ -57,14 +73,34 @@
                         <div class="col-md-6">
                             <label for="">Tipo de Empresa</label>
                             <select name="categoria"  v-model="cliente.categoriaCliente">
-                                <option v-for="tipoE in tiposE" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
+                                <option v-for="tipoE in tiposE" :value="tipoE.id" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
+                        <div class="col-md-4">
+                            <label for="">Direccion de la empresa</label>
+                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Colonia de la empresa</label>
+                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Numero de la empresa</label>
+                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <label for="">Email de la empresa</label><br>
+                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                        </div>
                     </div>
                     
                     <!-- Tabla de telefonos -->
+                    
+                    
+
+                    <h4>Telefonos de contacto</h4>
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
@@ -91,8 +127,9 @@
                             </tbody>
                         </table>  
                     </div> 
-
-                    <h4>Telefonos de contacto</h4>
+                    <div class="row" v-if="telefonos.length == 0">
+                        <p style="text-align:center">"Sin contactos registrados"</p>
+                        </div>
 
                     <div class="row">
                         <div class="col-md-4">
@@ -119,7 +156,16 @@
                             <input type="text" placeholder="Nombre" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Paterno" v-model="telefono.apellidoPaterno">
+                        </div>
+                        <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
+                        </div>
+                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="email" id="email" placeholder="Email" v-model="telefono.email">
+                        </div>
+                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
                         </div>
                     </div>
 
@@ -142,8 +188,11 @@
                         <div class="col-md-7 mt-4">
                             <input type="text" name="" id="" placeholder="RFC" v-model="cliente.rfcFacturacion">
                         </div>
+                        <div class="col-md-5 mt-4">
+                            <input type="text" name="" id="" placeholder="Codigo Postal" v-model="cliente.codigoPostal">
+                        </div>
                         <div class="col-md-7 mt-4">
-                            <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
+                       <input type="text" id="emailDF" placeholder="Ejemplo" v-model="cliente.emailFacturacion" style="width:auto"> @ <input type="text" style="width:auto" id="emailTDF" placeholder="ejemplo.com" v-model="cliente.emailFacturacionTerminacion"  >
                         </div>
                        
                     </div>
@@ -159,7 +208,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="Dias de credito">
+                            <input type="text" v-model="cliente.diasCredito" placeholder="Dias de credito">
                         </div>
                     </div>
 
@@ -176,7 +225,7 @@
                        
                     </div>
                      <div class="row float-right">
-                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button class="btn btn-success" type="submit">Agregar Cliente</button>
                         </div>
                 </div>
@@ -218,10 +267,13 @@ function emailCopy(){
                     // Persona Moral
                     categoriaCliente: '',
 
-                    // Persona Fisica
+                    // Persona Fisica y Moral
                     apellidoCliente: '',
                     apellidoCliente2: '',
                     emailCliente: '',
+                    direccionEmpresa: '',
+                    coloniaEmpresa: '',
+                    numeroEmpresa: '',
 
 
                     //Facturacion
@@ -234,6 +286,7 @@ function emailCopy(){
 
                     // Credito
                     creditoCliente: 'SIN CREDITO',
+                    diasCredito: '',
 
                     // Como supo
                     categoriaAbout: '1',
@@ -244,6 +297,8 @@ function emailCopy(){
                     numero: '',
                     ext: '',
                     nombre: '',
+                    apellidoPaterno: '',
+                    apellidoMaterno: '',
                     email: '',
                 },
                 telefonos: [],
@@ -254,20 +309,32 @@ function emailCopy(){
             } 
         },
         created: function(){
-       this.obtenerComoSupo();
-       this.obtenerTipoEmpresa();
+            this.obtenerComoSupo();
+            this.obtenerTipoEmpresa();
 
-EventBus.$on('nuevaComoSupo', funcion => {
-  this.obtenerComoSupo();
-});
+            EventBus.$on('nuevaComoSupo', funcion => {
+            this.obtenerComoSupo();
+            });
 
 
-EventBus.$on('nuevoTipoEmpresa', funcion => {
-  this.obtenerTipoEmpresa();
-});
+            EventBus.$on('nuevoTipoEmpresa', funcion => {
+            this.obtenerTipoEmpresa();
+            });
            
         },
-        
+        watch:{
+            'cliente.direccionEmpresa': function(val){
+                this.cliente.direccionFacturacion = this.cliente.direccionEmpresa;
+            },
+
+            'cliente.coloniaEmpresa': function(val){
+                this.cliente.coloniaFacturacion = this.cliente.coloniaEmpresa;
+            },
+
+            'cliente.numeroEmpresa': function(val){
+                this.cliente.numeroFacturacion = this.cliente.numeroEmpresa;
+            }
+        },
         mounted(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
@@ -277,49 +344,51 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
         methods: {
             emailClick(){
     var emailpf = document.getElementById('emailPF').value;
+    var emailtpf = document.getElementById('emailTPF').value;
     document.getElementById('emailDF').value=emailpf;
+    document.getElementById('emailTDF').value=emailtpf;
     },
     obtenerTipoEmpresa(){
                 let URL = '/clientes/tipo-empresa';
                 axios.get(URL).then((response) => {
                     this.tiposE = response.data;
-                    console.log(this.tiposE);
+                   // console.log(this.tiposE);
                 });
                 },
             obtenerCategoriasNosotros(){
                 let URL = '/about-categorias';
                 axios.get(URL).then((response) => {
                     this.aboutCategorias = response.data;
-                    console.log(this.aboutCategorias);
+                 //   console.log(this.aboutCategorias);
                 });
             },
             obtenerComoSupo(){
                 let URL = '/clientes/comoSupo';
                 axios.get(URL).then((response) => {
                     this.tipos = response.data;
-                    console.log(this.tipos);
+                  //  console.log(this.tipos);
                 });
                 },
             obtenerCategorias(){
                 let URL = '/categorias';
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
-                    console.log(this.categorias);
+                  //  console.log(this.categorias);
                 });
             },
             obtenerTelefonos(){
                 let URL = '/telefonos';
                 axios.get(URL).then((response) => {
                     this.physicalTelephones = response.data;
-                    console.log(this.physicalTelephones);
+                  //  console.log(this.physicalTelephones);
                 });
             },
             agregarTelefono(){
                 let existe = false;
                 if(this.telefono.tipo == 'CELULAR' || this.telefono.tipo == 'CASA'){
-                    console.log('celular o casa');
+                 //   console.log('celular o casa');
                     let numero = this.telefono.numero;
-                    console.log(numero);
+                  //  console.log(numero);
 
                     //Verificamos primero en el array de la BDD
                     if(this.physicalTelephones.some(function(element){
@@ -328,25 +397,26 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (numero == element.numero && (element.tipo == 'CELULAR' || element.tipo == 'CASA'));
                         });
+                        console.log('Se encontro el numero: ', encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                      //  console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                            console.log(response.data);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -392,7 +462,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                       // console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con este numero.',
@@ -402,7 +472,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     
                 
                 }else if(this.telefono.tipo == 'OFICINA'){
-                    console.log('oficina');
+                   // console.log('oficina');
                     let ext = this.telefono.ext;
 
                     //Verificamos primero en el array de la BDD
@@ -412,26 +482,26 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                     //   console.log('existe');
 
                         // Buscamos el elemento con el cual coincidio
                         let encontrado = this.physicalTelephones.find(function(element) {
                             return (ext == element.ext && (element.tipo == 'OFICINA'));
                         });
-                        console.log(encontrado);
+                       // console.log(encontrado);
 
                         moment.locale('es');
                         let tiempo = moment(encontrado.created_at).fromNow();
-                        console.log(tiempo);
+                     //   console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
-                            console.log(response.data[0].nombre);
+                        //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -476,7 +546,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
             
                     })){
                         existe = true;
-                        console.log('existe');
+                      //  console.log('existe');
                         Swal.fire(
                         'Numero duplicado!',
                         'Ya ingresaste un telefono con esta extencion.',
@@ -487,7 +557,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 }
 
                 if(!existe){
-                    this.telefonos.push({'nombre': this.telefono.nombre, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
                 }
 
 
@@ -500,6 +570,9 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
+                    'direccionEmpresa': this.cliente.direccionEmpresa,
+                    'coloniaEmpresa': this.cliente.coloniaEmpresa,
+                    'numeroEmpresa': this.cliente.numeroEmpresa,
                     
                     // Persona Moral
                     'categoriaCliente': this.cliente.categoriaCliente,
@@ -507,7 +580,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     // Persona Fisica
                     'apellidoCliente': this.cliente.apellidoCliente,
                     'apellidoCliente2': this.cliente.apellidoCliente2,
-                    'emailCliente': this.cliente.emailCliente,
+                    'emailCliente': this.cliente.emailCliente+'@'+this.cliente.emailClienteTerminacion,
 
                     // Facturacion
                     'nombreFacturacion': this.cliente.nombreFacturacion,
@@ -515,10 +588,11 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     'coloniaFacturacion': this.cliente.coloniaFacturacion,
                     'numeroFacturacion': this.cliente.numeroFacturacion,
                     'rfcFacturacion': this.cliente.rfcFacturacion,
-                    'emailFacturacion': this.cliente.emailFacturacion,
+                    'emailFacturacion': this.cliente.emailFacturacion+'@'+this.cliente.emailFacturacionTerminacion,
 
                     // Credito
                     'creditoCliente': this.cliente.creditoCliente,
+                    'diasCredito': this.cliente.diasCredito,
 
                     // Como supo
                     'categoriaAbout': this.cliente.categoriaAbout,
@@ -527,7 +601,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                     'telefonos': this.telefonos,
                 }).then((response) => {
                     this.cliente = {};
-                    console.log(this.cliente);
+                   // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Cliente Registrado con exito',
                                 text: "",
@@ -542,7 +616,7 @@ EventBus.$on('nuevoTipoEmpresa', funcion => {
                 
             },
             eliminarTelefono(index){
-                console.log(index);
+              //  console.log(index);
                 this.telefonos.splice(index, 1);
             }
         }
