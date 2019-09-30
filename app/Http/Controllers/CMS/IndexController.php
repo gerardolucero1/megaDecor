@@ -39,7 +39,12 @@ class IndexController extends Controller
 
             //Obtenemos numero de presupuestos del cliente
             $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
-            $tamanoPresupuestos=count($Presupuestos);
+            if(!is_null($Presupuestos)){
+                $tamanoPresupuestos=count($Presupuestos);
+            }else{
+                $tamanoPresupuestos=0;
+            }
+            
             $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
 
                         $CompleteClient = new stdClass();
