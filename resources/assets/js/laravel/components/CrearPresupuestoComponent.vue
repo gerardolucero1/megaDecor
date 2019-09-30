@@ -1397,7 +1397,7 @@ padding: 0;
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+                    suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
                 }
 
                 this.presupuesto.total = suma;
@@ -1409,8 +1409,8 @@ padding: 0;
             calcularAhorro: function(){
                 let ahorro = 0;
                 this.inventarioLocal.forEach(function(element){
-                    let precioNormal = element.cantidad * element.precioUnitario;
-                    ahorro = ahorro + (precioNormal - element.precioFinal);
+                    let precioNormal = parseInt(element.cantidad * element.precioUnitario);
+                    ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
                 })
 
                 return ahorro;

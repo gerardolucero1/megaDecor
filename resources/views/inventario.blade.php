@@ -113,9 +113,9 @@
                     </div>
                     <div class="col-md-9 text-right">
                            
-                                    <button class="btn btn-primary" disabled data-toggle="modal" data-target="#nuevoPresupuestoModal">
+                                    <a class="btn btn-primary" href="{{ route('inventory.create') }}">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
-                                        </button>
+                                    </a>
                                         
                                    
                     </div>
@@ -153,9 +153,9 @@
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-none d-sm-table-cell text-center">{{ $inventario->updated_at }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                    <button disabled style="margin-right:4px;" href="" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                    <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
-                                    </button>
+                                    </a>
                                     <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="fa fa-remove"></i> 
                                     </button>

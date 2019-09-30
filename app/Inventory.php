@@ -12,5 +12,12 @@ class Inventory extends Model
         'cantidad',
         'imagen',
         'precioUnitario',
+        'precioVenta',
+        'disponible',
+        'proveedor1',
+        'proveedor2',
+        'tipoCambio',
+        'exhibicion',
+        'autorizado',
     ];
 }

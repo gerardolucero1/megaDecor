@@ -14155,7 +14155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var suma = 0; //Recorriendo el objeto
 
       for (var x in data) {
-        suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+        suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
       }
 
       this.presupuesto.total = suma;
@@ -14167,8 +14167,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     calcularAhorro: function calcularAhorro() {
       var ahorro = 0;
       this.inventarioLocal.forEach(function (element) {
-        var precioNormal = element.cantidad * element.precioUnitario;
-        ahorro = ahorro + (precioNormal - element.precioFinal);
+        var precioNormal = parseInt(element.cantidad * element.precioUnitario);
+        ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
       });
       return ahorro;
     },
@@ -16707,7 +16707,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var suma = 0; //Recorriendo el objeto
 
       for (var x in data) {
-        suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+        suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
       }
 
       this.presupuesto.total = suma;
@@ -16719,8 +16719,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     calcularAhorro: function calcularAhorro() {
       var ahorro = 0;
       this.inventarioLocal.forEach(function (element) {
-        var precioNormal = element.cantidad * element.precioUnitario;
-        ahorro = ahorro + (precioNormal - element.precioFinal);
+        var precioNormal = parseInt(element.cantidad * element.precioUnitario);
+        ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
       });
       return ahorro;
     },
@@ -19732,7 +19732,7 @@ __webpack_require__.r(__webpack_exports__);
       var suma = 0; //Recorriendo el objeto
 
       for (var x in data) {
-        suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+        suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
       }
 
       this.presupuesto.total = suma;
@@ -19744,8 +19744,8 @@ __webpack_require__.r(__webpack_exports__);
     calcularAhorro: function calcularAhorro() {
       var ahorro = 0;
       this.inventarioLocal.forEach(function (element) {
-        var precioNormal = element.cantidad * element.precioUnitario;
-        ahorro = ahorro + (precioNormal - element.precioFinal);
+        var precioNormal = parseInt(element.cantidad * element.precioUnitario);
+        ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
       });
       return ahorro;
     },
@@ -104888,13 +104888,13 @@ var productos = function productos() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
