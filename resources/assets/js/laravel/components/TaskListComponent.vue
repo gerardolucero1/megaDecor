@@ -20,7 +20,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="background:#FBFBFB; padding-top:10px; padding-bottom:10px">
+                                <div class="row" style="background:#FBFBFB; padding-top:10px; padding-bottom:10px; display:none">
                                     <label for="Filtrar"></label>
                                                 <div class="col-md-4"><select name="" id="">
                                                     <Option>Categoria</Option>

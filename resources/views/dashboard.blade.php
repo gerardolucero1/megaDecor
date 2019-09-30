@@ -51,7 +51,7 @@
                                         <div class="float-left mt-10 d-none d-sm-block">
                                             <i class="si si-fire fa-3x text-corporate-light"></i>
                                         </div>
-                                        <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">843</div>
+                                        <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
                                         <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos DEL MES</div>
                                     </div>
                                 </a>
@@ -102,10 +102,10 @@
                                                 </div>
                                                 <div class="row pt-10 pb-30 text-center">
                                                     <div class="col-6 border-r">
-                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} <span @if( $ventasAnoActual >= $ventasAnoPasado)
+                                                        <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} <span @if( $ventasAnoActual > $ventasAnoPasado)
                                                                 style="color:green"
                                                                 @else
-                                                                style="color:green"
+                                                                style="color:orange"
                                                                 @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
                                                         <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Septiembre 2019</div>
                                                     </div>

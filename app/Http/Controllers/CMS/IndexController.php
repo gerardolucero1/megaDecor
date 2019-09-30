@@ -361,7 +361,11 @@ class IndexController extends Controller
          $Presupuesto->version = $budget->version;
          $Presupuesto->impresion = $budget->impresion;
          $Presupuesto->enviado = $budget->enviado;
-         $Presupuesto->total = $budget->total;
+         if($budget->opcionIVA==1){
+            $Presupuesto->total = ($budget->total)+($budget->total*.16);
+         }else{
+            $Presupuesto->total = $budget->total;
+         }
          $Presupuesto->impresionBodega = $budget->impresionBodega;
          $Presupuesto->updated_at = $budget->updated_at;
 
@@ -462,7 +466,10 @@ class IndexController extends Controller
          $Presupuesto->version = $budget->version;
          $Presupuesto->impresion = $budget->impresion;
          $Presupuesto->enviado = $budget->enviado;
-         $Presupuesto->total = $budget->total;
+         if($budget->opcionIVA==1){
+         $Presupuesto->total = $budget->total+($budget->total*.16);}else{
+            $budget->total;
+         }
          $Presupuesto->impresionBodega = $budget->impresionBodega;
          $Presupuesto->updated_at = $budget->updated_at;
 

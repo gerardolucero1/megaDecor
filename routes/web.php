@@ -223,7 +223,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('enviar-email-cliente/{id}', function($id){
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
-        $presupuesto->enviado = 1;
+        $presupuesto->impresion = 1;
         $presupuesto->save();
 
         $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
@@ -237,12 +237,21 @@ Route::group(['middleware' => ['auth']], function () {
         $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
 
         
-
+        $arregloEmentos=[];
         foreach($Paquetes as $paquete){
-        
             $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
-        
+            foreach($Elementos_paquete as $Elemento_paquete){
+                $arregloElemento   = new stdClass();
+                $arregloElemento->imagen = $Elemento_paquete->imagen;
+                $arregloElemento->servicio = $Elemento_paquete->servicio;
+                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
+                $arregloElemento->notas = $Elemento_paquete->notas;
+                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
+                array_push($arregloEmentos,$arregloElemento);
+            }
+           
         }
+       // dd($Elemento_paquete);
 
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
@@ -301,7 +310,7 @@ Route::group(['middleware' => ['auth']], function () {
          }
     
         Mail::to($presupuesto->emailCliente, 'Presupuesto MegaMundo')
-            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $Elementos_paquete));
+            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
     });
 
     //Generar PDF's

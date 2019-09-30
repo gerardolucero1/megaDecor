@@ -279,12 +279,21 @@ class BudgetController extends Controller
         $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
 
         
-
+        $arregloEmentos=[];
         foreach($Paquetes as $paquete){
-        
             $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
-        
+            foreach($Elementos_paquete as $Elemento_paquete){
+                $arregloElemento   = new stdClass();
+                $arregloElemento->imagen = $Elemento_paquete->imagen;
+                $arregloElemento->servicio = $Elemento_paquete->servicio;
+                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
+                $arregloElemento->notas = $Elemento_paquete->notas;
+                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
+                array_push($arregloEmentos,$arregloElemento);
+            }
+           
         }
+       // dd($Elemento_paquete);
 
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
@@ -346,7 +355,7 @@ class BudgetController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'Elementos_paquete'));
+        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
 
         return $pdf->stream();
 
@@ -363,8 +372,28 @@ class BudgetController extends Controller
         $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
        
         //Obtenemos los elementos que pertenecen al inventario
-        $Elementos= BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->get();
+        $Elementos= BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
         
+        //Obtenemos los paquetes
+        $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
+        
+        $arregloEmentos=[];
+        foreach($Paquetes as $paquete){
+            $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
+            foreach($Elementos_paquete as $Elemento_paquete){
+                $arregloElemento   = new stdClass();
+                $arregloElemento->imagen = $Elemento_paquete->imagen;
+                $arregloElemento->servicio = $Elemento_paquete->servicio;
+                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
+                $arregloElemento->notas = $Elemento_paquete->notas;
+                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
+                array_push($arregloEmentos,$arregloElemento);
+            }
+           
+        }
+       // dd($Elemento_paquete);
+
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
          ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
@@ -423,7 +452,7 @@ class BudgetController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budgetBodega', compact('presupuesto', 'DatosPresupuesto', 'Telefonos', 'Elementos'));
+        $pdf = PDF::loadView('pdf.budgetBodega', compact('presupuesto', 'DatosPresupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
 
         return $pdf->stream();
 

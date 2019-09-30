@@ -149,9 +149,13 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <td style="padding: 5px; text-align:center; font-weight: bold">Paquete:</td>
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
+      @if($presupuesto->opcionPrecio==1) 
       <td style="text-align: center">${{ (strtolower($paquete->precioUnitario)) }}</td>
+      @endif
       <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
+      @if($presupuesto->opcionPrecio==1) 
       <td style="text-align: center">${{ (strtolower($paquete->precioFinal)) }}</td>
+      @endif
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
     </tr>
     @if($presupuesto->opcionDescripcionPaquete==1)
@@ -161,7 +165,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="2">Notas</td>
       </tr>
-    @foreach ($Elementos_paquete as $ElementoPaquete)
+    @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
         <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
@@ -181,7 +185,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 </table>
 @php
   if($presupuesto->opcionIVA==1){
-     $iva=(($presupuesto->total/116) * 16);
+     $iva=($presupuesto->total*.16);
      $iva=number_format($iva,2);
   }else {$iva=0; $iva=number_format($iva,2);}
   @endphp

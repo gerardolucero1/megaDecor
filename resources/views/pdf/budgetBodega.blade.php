@@ -70,6 +70,7 @@
 </table>
 <table style="width: 100%; margin-top: 10px">
   <tr style="padding: 4px; color:white; background:#9E9E9E; text-align: center;">
+    
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
     <td style="font-size: 13px; padding: 4px;">Notas</td>
@@ -81,12 +82,42 @@
   @php
       $descuento=$descuento+($elemento->precioUnitario-$elemento->precioEspecial);
   @endphp
+  
     <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
 @endforeach
+@if(!is_null($Paquetes))
+@foreach ($Paquetes as $paquete)
+    <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
+    <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
+      <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
+    <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
+    </tr>
+    @if($presupuesto->opcionDescripcionPaquete==1)
+    <tr style="text-align: center; font-size: 12px;">
+        <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
+        <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
+        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
+      </tr>
+    @foreach ($arregloEmentos as $ElementoPaquete)
+    @if($ElementoPaquete->budget_pack_id==$paquete->id)
+    <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
+        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
+          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+          
+          
+        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+        </tr> 
+        @endif
+        
+    @endforeach
+    @endif
+@endforeach
+
+    @endif
 <tr>
   <td colspan="3"><br>
     <span style="font-weight: bold">Notas de presupuesto:</span><br>

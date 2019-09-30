@@ -133,7 +133,7 @@
                                     <option value="5">Gala</option>
                                     <option value="6">Baile</option>
                                 </select>
-                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -1034,7 +1034,7 @@
 
                         let objeto = {
                             'externo': false,
-                            'imagen': 'https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg',
+                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
                             'servicio': element.servicio,
                             'cantidad': element.cantidad,
                             'precioUnitario': element.precioUnitario,
@@ -1335,7 +1335,11 @@
                 let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
 
                 axios.get(URL).then((response) => {
-                    console.log('Email al cliente enviado');
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
                 }).catch((error) => {
                     console.log(error.data);
                 })

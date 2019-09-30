@@ -147,7 +147,7 @@ padding: 0;
                                     <option value="6">Cena de gala</option>
                                     <option value="7">Otro</option>
                                 </select>
-                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -358,7 +358,7 @@ padding: 0;
                         <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
                                 <div class="col-md-3" >
-                                    <img class="img-fluid" style="margin-left:10px;" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
+                                    <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
                                 </div>
                                 <div class="col-md-7">
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
@@ -480,8 +480,7 @@ padding: 0;
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
-                                    <p >Comision pagada en base a $ <span>150</span></p>
-                                    <p style="font-size:16px; font-weight:bold;">Total: ${{ saldoFinal | decimales }} <i class="fa fa-edit"></i></p>
+                                   <p style="font-size:16px; font-weight:bold;">Total: ${{ calcularSubtotal + calcularIva | decimales }} <i class="fa fa-edit"></i></p>
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                     <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
@@ -596,7 +595,7 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio de venta</label>
+                                        <label class="col-12" for="example-text-input">Precio de proveedor</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
                                         </div>
@@ -1169,9 +1168,9 @@ padding: 0;
 
                 precioEspecialActualizado: '',
                 cantidadActualizada: '',
-                ahorroActualizado: '',
+                ahorroActualizado: '0',
                 precioFinalActualizado: '',
-                notasActualizadas: '',
+                notasActualizadas: 'N/A',
 
                 //Paquetes
                 paquete: {
@@ -2211,7 +2210,7 @@ padding: 0;
 
                         let objeto = {
                             'externo': false,
-                            'imagen': 'https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg',
+                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
                             'servicio': element.servicio,
                             'cantidad': element.cantidad,
                             'precioUnitario': element.precioUnitario,

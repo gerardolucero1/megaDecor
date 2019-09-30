@@ -57,6 +57,7 @@
   @endphp
 <p style="border:solid; border-color:red; border-width: 1px; text-align: center; padding: 10px; font-size: 13px;">@if($presupuesto->creditoCliente!='SIN CREDITO')CREDITO @endif{{$presupuesto->creditoCliente}}<br>
 @if($presupuesto->creditoCliente!='SIN CREDITO')
+Dias de credito: {{$presupuesto->diasCredito}}  <br>
   Fecha limite de pago:<br>
 {{$fechadepago }}
 @endif
@@ -148,9 +149,13 @@
     <td style="padding: 5px; text-align:center; font-weight: bold">Paquete:</td>
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
+      @if($presupuesto->opcionPrecio==1) 
       <td style="text-align: center">${{ (strtolower($paquete->precioUnitario)) }}</td>
+      @endif
       <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
+      @if($presupuesto->opcionPrecio==1) 
       <td style="text-align: center">${{ (strtolower($paquete->precioFinal)) }}</td>
+      @endif
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
     </tr>
     @if($presupuesto->opcionDescripcionPaquete==1)
@@ -160,7 +165,8 @@
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="2">Notas</td>
       </tr>
-    @foreach ($Elementos_paquete as $ElementoPaquete)
+      @if (is_array($arregloEmentos) || is_object($arregloEmentos))
+    @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
         <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
@@ -174,27 +180,33 @@
         
     @endforeach
     @endif
+    @endif
 @endforeach
 
     @endif
 </table>
 @php
   if($presupuesto->opcionIVA==1){
-     $iva=(($presupuesto->total/116) * 16);
+     $iva=($presupuesto->total*.16);
      $iva=number_format($iva,2);
   }else {$iva=0; $iva=number_format($iva,2);}
   @endphp
 <table style="width: 100%; text-align: right">
 <tr>
   <td><p>
+    @php
+        $descuentoGeneral = number_format($descuento,00);
+        $subtotal=$presupuesto->total;
+        $total=$subtotal+$iva;
+        $total=number_format($total,2);
+    @endphp
       @if($presupuesto->opcionDescuento==1)
-      Ahorro total: ${{$descuento}} @endif<br>
-    Subtotal: ${{$presupuesto->total}}<br>
+      Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
+    Subtotal: ${{$subtotal}}.00<br>
   
     IVA: ${{$iva}}<br>
     @php
-        $total=$presupuesto->total;
-        $total=$total+$iva;
+        
     @endphp
    
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>

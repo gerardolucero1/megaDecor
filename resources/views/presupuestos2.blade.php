@@ -105,9 +105,7 @@
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-refresh"></i> 
                                     </a>
-                                <a href="{{route('convertir.contrato', $budget->id)}}" class="btn btn-sm btn-success">
-                                        <i class="fa fa-check"></i>
-                                    </a>
+                                
                                 </td>
                             </tr>
                         @endforeach
@@ -191,9 +189,7 @@
                                         <a href="{{route('presupuesto.desarchivar', $budgetArchivados->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-success" data-toggle="tooltip" title="Re-activar Presupuesto" data-original-title="View Customer">
                                             <i class="si si-refresh"></i> 
                                         </a>
-                                    <button disabled class="btn btn-sm btn-success" title="Este presupuesto esta archivado">
-                                            <i class="fa fa-check"></i>
-                                        </button>
+                                    
                                     </td>
                                 </tr>
                             @endforeach
