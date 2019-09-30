@@ -9,11 +9,7 @@
 @endsection
 
 @section('content')
-        @php
-            foreach($Presupuestos as $presupuesto){
-                echo $presupuesto->total;
-            }
-        @endphp
+
     <section class="container">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
@@ -69,8 +65,8 @@
                             @php
                                 use Carbon\Carbon;
                             @endphp         
-                            @if (!is_null($Presupuestos))
-                            @foreach ($Presupuestos as $budget)                          
+                            @if (!is_null($budgetsNoArchivados))
+                            @foreach ($budgetsNoArchivados as $budget)                          
                             <tr role="row" class="odd">
                                 <td class="text-center sorting_1">{{$budget->folio}}</td>
                                 
@@ -82,9 +78,15 @@
                                     @else
                                     <td class="">{{$budget->fechaEvento}}</td>
                                 @endif
-                                
-                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
-                                <td class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
+                                @php
+                                    foreach($clientes as $cliente){
+                                        if($cliente->id == $budget->client_id){
+                                            $budget->client_id = $cliente->nombre;
+                                        }
+                                    }
+                                @endphp
+                                <td class="d-none d-sm-table-cell">{{$budget->client_id}}</td>
+                                <td class="d-none d-sm-table-cell">{{$budget->user->name}}</td>
                                 <td class="d-none d-sm-table-cell text-center">
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
@@ -96,8 +98,12 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
                                 </td>
-                                
-                            <td>$33</td>
+                            @php
+                                if($budget->opcionIVA){
+                                    $budget->total = $budget->total + ($budget->total * (0.16));
+                                }
+                            @endphp
+                            <td>${{ number_format($budget->total,2) }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
@@ -151,8 +157,8 @@
                             <tbody>                    
                                         
                                           
-                                @if (!is_null($PresupuestosArchivados))
-                                @foreach ($PresupuestosArchivados as $budgetArchivados)                          
+                                @if (!is_null($budgetsArchivados))
+                                @foreach ($budgetsArchivados as $budgetArchivados)                          
                                 <tr role="row" class="odd">
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
@@ -164,9 +170,15 @@
                                         @else
                                         <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                     @endif
-                                    
-                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->cliente}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->vendedor}}</td>
+                                        @php
+                                        foreach($clientes as $cliente){
+                                            if($cliente->id == $budgetArchivados->client_id){
+                                                $budgetArchivados->client_id = $cliente->nombre;
+                                            }
+                                        }
+                                    @endphp
+                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->client_id}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                     <td class="d-none d-sm-table-cell text-center">
                                             @if($budgetArchivados->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                         {{$budgetArchivados->version}}
@@ -178,8 +190,12 @@
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                             @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                     </td>
-
-                                <td>$33</td>
+                                    @php
+                                        if($budgetArchivados->opcionIVA){
+                                            $budgetArchivados->total = $budgetArchivados->total + ($budgetArchivados->total * (0.16));
+                                        }
+                                    @endphp
+                                    <td>${{ number_format($budgetArchivados->total,2) }}</td>
                                     <td class="d-flex" style="box-sizing: content-box;">
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
                                             <i class="fa fa-pencil"></i>

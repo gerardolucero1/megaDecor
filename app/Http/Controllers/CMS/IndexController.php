@@ -456,8 +456,8 @@ class IndexController extends Controller
         ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
-
-        return view('presupuestos2',compact('budgetsNoArchivados', 'budgetsArchivados'));   
+        //dd($clientes);
+        return view('presupuestos2',compact('budgetsNoArchivados', 'budgetsArchivados', 'clientes'));   
     }
     
 
