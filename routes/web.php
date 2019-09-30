@@ -313,6 +313,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
     });
 
+    Route::get('inventario/create', 'CMS\InventoryController@create')->name('inventory.create');
+    Route::get('inventario/edit/{id}', 'CMS\InventoryController@edit')->name('inventory.edit');
+    Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
+    Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
+
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
 

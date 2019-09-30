@@ -9,6 +9,11 @@
 @endsection
 
 @section('content')
+        @php
+            foreach($Presupuestos as $presupuesto){
+                echo $presupuesto->total;
+            }
+        @endphp
     <section class="container">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
@@ -91,10 +96,8 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
                                 </td>
-                                @php
-                                    $total=number_format($budget->total,2);
-                                @endphp
-                            <td>${{$total}}</td>
+                                
+                            <td>$33</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
@@ -175,10 +178,8 @@
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                             @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                     </td>
-                                    @php
-                                        $total=number_format($budgetArchivados->total,2);
-                                    @endphp
-                                <td>${{$total}}</td>
+
+                                <td>$33</td>
                                     <td class="d-flex" style="box-sizing: content-box;">
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
                                             <i class="fa fa-pencil"></i>
