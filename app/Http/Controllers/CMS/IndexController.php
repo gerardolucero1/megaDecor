@@ -38,7 +38,8 @@ class IndexController extends Controller
             $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
 
             //Obtenemos numero de presupuestos del cliente
-            $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+            $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get();
+            dd($Presupuestos);
             if(!is_null($Presupuestos)){
                 $tamanoPresupuestos=count($Presupuestos);
             }else{
