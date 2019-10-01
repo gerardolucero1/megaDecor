@@ -7,7 +7,7 @@ use stdClass;
 use Barryvdh\DomPDF\Facade as PDF;
 Use App\Budget;
 Use App\User;
-Use App\inventory;
+Use App\Inventory;
 Use App\Telephone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
