@@ -39,7 +39,6 @@ class IndexController extends Controller
 
             //Obtenemos numero de presupuestos del cliente
             $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get();
-            dd($Presupuestos);
             if(!is_null($Presupuestos)){
                 $tamanoPresupuestos=count($Presupuestos);
             }else{
