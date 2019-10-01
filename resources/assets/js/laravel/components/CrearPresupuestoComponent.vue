@@ -329,7 +329,7 @@ padding: 0;
                 <h4>Archivos de Referencia</h4>
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="file" name="" id="">
+                        <input type="file" accept=".pdf" name="referencias" id="">
                     </div>
                 </div>
 
@@ -1544,6 +1544,11 @@ padding: 0;
             },
         },
         methods:{
+            
+            onFileSelected (event) {
+                return;
+            },
+
             verPaquete(paquete){
                 this.viendoPaquete = paquete;
                 $('#verPaquete').modal('show');

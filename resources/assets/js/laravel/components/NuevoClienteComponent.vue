@@ -219,7 +219,7 @@
                             <select name="comoSupo" id="" >
                                 <option v-for="tipo in tipos" v-bind:key="tipo.index">{{ tipo.nombre }}</option>
                             </select>
-                            <p data-toggle="modal" data-target="#comoSupoModal" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
+                            <p data-toggle="modal" data-target="#agregarComoSupo" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
 
                         </div>
                        
@@ -230,6 +230,57 @@
                         </div>
                 </div>
             </form>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="agregarComoSupo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border: solid; border-color: grey">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" onClick="$('#agregarComoSupo').modal('hide')" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <input type="text" name="comoSupo" id="" class="form-control" placeholder="Agregar categoria" aria-describedby="helpId" v-model="comoSupo">
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-sm btn-info" @click="agregarComoSupo()">Agregar</button>
+                    </div>
+                </div>
+                
+                <div class="row mt-4" v-if="tipos.length != 0">
+                    <div class="col-md-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in tipos" :key="index">
+                                    <th scope="row">{{ item.id }}</th>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" @click="eliminarComoSupo(item)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onClick="$('#agregarComoSupo').modal('hide')">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
         </div>
     </div>
 </template>
@@ -247,6 +298,8 @@ function emailCopy(){
     export default {
         data(){
             return {
+                comoSupo: '',
+                comoSupoArray: [],
                 //Como lo supo
                 tipo: {
                     nombre: '',
@@ -339,9 +392,42 @@ function emailCopy(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
             this.obtenerCategoriasNosotros();
-            
+            this.obtenerComoSupo(); 
         },
         methods: {
+            obtenerComoSupo(){
+                let URL = '/clientes/comoSupo';
+                axios.get(URL).then((response) => {
+                    this.tipos = response.data;
+                  //  console.log(this.tipos);
+                });
+            },
+
+            eliminarComoSupo(item){
+                var url= '/clientes/eliminar-comoSupo/'+item.id;
+                axios.delete(url).then(response =>{
+                    this.obtenerComoSupo();    
+                })
+            },
+
+            agregarComoSupo(){
+                let URL = '/clientes/crearComoSupo';
+
+                axios.post(URL, {
+                    'nombre': this.comoSupo,
+                }).then((response) => { 
+                    Swal.fire({
+                        title: 'Elemento registrado con exito',
+                        text: "Se registro tu nueva opción",
+                        type: 'success',
+                        showCancelButton: false,
+                        cancelButtonColor: '#d33',  
+                    });
+                    this.obtenerComoSupo();
+                }).catch((error) => {
+                   // console.log(error.data);
+                });
+            },
             emailClick(){
     var emailpf = document.getElementById('emailPF').value;
     var emailtpf = document.getElementById('emailTPF').value;
@@ -362,13 +448,7 @@ function emailCopy(){
                  //   console.log(this.aboutCategorias);
                 });
             },
-            obtenerComoSupo(){
-                let URL = '/clientes/comoSupo';
-                axios.get(URL).then((response) => {
-                    this.tipos = response.data;
-                  //  console.log(this.tipos);
-                });
-                },
+           
             obtenerCategorias(){
                 let URL = '/categorias';
                 axios.get(URL).then((response) => {

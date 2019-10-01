@@ -9,8 +9,6 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Vuex from 'vuex';
-import StoreData from './store';
 import VueFuse from 'vue-fuse';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -19,11 +17,7 @@ import Vuelidate from 'vuelidate';
 
 Vue.use(VueFuse);
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store(StoreData);
-
-
+import store from './store'
 Vue.use(Vuelidate);
 
 /**

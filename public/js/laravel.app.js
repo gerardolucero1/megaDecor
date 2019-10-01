@@ -14303,6 +14303,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: (_methods = {
+    onFileSelected: function onFileSelected(event) {
+      return;
+    },
     verPaquete: function verPaquete(paquete) {
       this.viendoPaquete = paquete;
       $('#verPaquete').modal('show');
@@ -18191,11 +18194,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Import the EventBus.
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      comoSupo: '',
+      comoSupoArray: [],
       //Como lo supo
       tipo: {
         nombre: ''
@@ -18275,8 +18331,44 @@ __webpack_require__.r(__webpack_exports__);
     this.obtenerTelefonos();
     this.obtenerCategorias();
     this.obtenerCategoriasNosotros();
+    this.obtenerComoSupo();
   },
   methods: {
+    obtenerComoSupo: function obtenerComoSupo() {
+      var _this2 = this;
+
+      var URL = '/clientes/comoSupo';
+      axios.get(URL).then(function (response) {
+        _this2.tipos = response.data; //  console.log(this.tipos);
+      });
+    },
+    eliminarComoSupo: function eliminarComoSupo(item) {
+      var _this3 = this;
+
+      var url = '/clientes/eliminar-comoSupo/' + item.id;
+      axios["delete"](url).then(function (response) {
+        _this3.obtenerComoSupo();
+      });
+    },
+    agregarComoSupo: function agregarComoSupo() {
+      var _this4 = this;
+
+      var URL = '/clientes/crearComoSupo';
+      axios.post(URL, {
+        'nombre': this.comoSupo
+      }).then(function (response) {
+        Swal.fire({
+          title: 'Elemento registrado con exito',
+          text: "Se registro tu nueva opción",
+          type: 'success',
+          showCancelButton: false,
+          cancelButtonColor: '#d33'
+        });
+
+        _this4.obtenerComoSupo();
+      })["catch"](function (error) {// console.log(error.data);
+      });
+    },
     emailClick: function emailClick() {
       var emailpf = document.getElementById('emailPF').value;
       var emailtpf = document.getElementById('emailTPF').value;
@@ -18284,47 +18376,39 @@ __webpack_require__.r(__webpack_exports__);
       document.getElementById('emailTDF').value = emailtpf;
     },
     obtenerTipoEmpresa: function obtenerTipoEmpresa() {
-      var _this2 = this;
+      var _this5 = this;
 
       var URL = '/clientes/tipo-empresa';
       axios.get(URL).then(function (response) {
-        _this2.tiposE = response.data; // console.log(this.tiposE);
+        _this5.tiposE = response.data; // console.log(this.tiposE);
       });
     },
     obtenerCategoriasNosotros: function obtenerCategoriasNosotros() {
-      var _this3 = this;
+      var _this6 = this;
 
       var URL = '/about-categorias';
       axios.get(URL).then(function (response) {
-        _this3.aboutCategorias = response.data; //   console.log(this.aboutCategorias);
-      });
-    },
-    obtenerComoSupo: function obtenerComoSupo() {
-      var _this4 = this;
-
-      var URL = '/clientes/comoSupo';
-      axios.get(URL).then(function (response) {
-        _this4.tipos = response.data; //  console.log(this.tipos);
+        _this6.aboutCategorias = response.data; //   console.log(this.aboutCategorias);
       });
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this5 = this;
+      var _this7 = this;
 
       var URL = '/categorias';
       axios.get(URL).then(function (response) {
-        _this5.categorias = response.data; //  console.log(this.categorias);
+        _this7.categorias = response.data; //  console.log(this.categorias);
       });
     },
     obtenerTelefonos: function obtenerTelefonos() {
-      var _this6 = this;
+      var _this8 = this;
 
       var URL = '/telefonos';
       axios.get(URL).then(function (response) {
-        _this6.physicalTelephones = response.data; //  console.log(this.physicalTelephones);
+        _this8.physicalTelephones = response.data; //  console.log(this.physicalTelephones);
       });
     },
     agregarTelefono: function agregarTelefono() {
-      var _this7 = this;
+      var _this9 = this;
 
       var existe = false;
 
@@ -18377,7 +18461,7 @@ __webpack_require__.r(__webpack_exports__);
                     axios["delete"](_URL).then(function (response) {
                       Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
 
-                      _this7.obtenerTelefonos();
+                      _this9.obtenerTelefonos();
                     })["catch"](function (error) {
                       console.log(error.data);
                     });
@@ -18447,7 +18531,7 @@ __webpack_require__.r(__webpack_exports__);
                     axios["delete"](_URL3).then(function (response) {
                       Swal.fire('Eliminado!', 'El telefono ha sido eliminado', 'success');
 
-                      _this7.obtenerTelefonos();
+                      _this9.obtenerTelefonos();
                     })["catch"](function (error) {
                       console.log(error.data);
                     });
@@ -18481,7 +18565,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     crearCliente: function crearCliente() {
-      var _this8 = this;
+      var _this10 = this;
 
       var URL = '/clientes/create';
       axios.post(URL, {
@@ -18511,7 +18595,7 @@ __webpack_require__.r(__webpack_exports__);
         // Telefonos
         'telefonos': this.telefonos
       }).then(function (response) {
-        _this8.cliente = {}; // console.log(this.cliente);
+        _this10.cliente = {}; // console.log(this.cliente);
 
         Swal.fire({
           title: 'Cliente Registrado con exito',
@@ -76455,7 +76539,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-4" }, [
-        _c("input", { attrs: { type: "file", name: "", id: "" } })
+        _c("input", {
+          attrs: { type: "file", accept: ".pdf", name: "referencias", id: "" }
+        })
       ])
     ])
   },
@@ -85822,7 +85908,132 @@ var render = function() {
           ])
         ]
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "agregarComoSupo",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "modal-content",
+                staticStyle: { border: "solid", "border-color": "grey" }
+              },
+              [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-9" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.comoSupo,
+                            expression: "comoSupo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "comoSupo",
+                          id: "",
+                          placeholder: "Agregar categoria",
+                          "aria-describedby": "helpId"
+                        },
+                        domProps: { value: _vm.comoSupo },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.comoSupo = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-3 text-center" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-info",
+                          on: {
+                            click: function($event) {
+                              return _vm.agregarComoSupo()
+                            }
+                          }
+                        },
+                        [_vm._v("Agregar")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.tipos.length != 0
+                    ? _c("div", { staticClass: "row mt-4" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("table", { staticClass: "table table-hover" }, [
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.tipos, function(item, index) {
+                                return _c("tr", { key: index }, [
+                                  _c("th", { attrs: { scope: "row" } }, [
+                                    _vm._v(_vm._s(item.id))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.nombre))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.eliminarComoSupo(item)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Eliminar")]
+                                    )
+                                  ])
+                                ])
+                              }),
+                              0
+                            )
+                          ])
+                        ])
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _vm._m(6)
+              ]
+            )
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -85863,7 +86074,7 @@ var staticRenderFns = [
       "p",
       {
         staticStyle: { cursor: "pointer", "padding-top": "5px" },
-        attrs: { "data-toggle": "modal", "data-target": "#comoSupoModal" }
+        attrs: { "data-toggle": "modal", "data-target": "#agregarComoSupo" }
       },
       [
         _c("i", {
@@ -85893,6 +86104,72 @@ var staticRenderFns = [
         "button",
         { staticClass: "btn btn-success", attrs: { type: "submit" } },
         [_vm._v("Agregar Cliente")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "exampleModalCenterTitle" }
+        },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            onClick: "$('#agregarComoSupo').modal('hide')",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: {
+            type: "button",
+            onClick: "$('#agregarComoSupo').modal('hide')"
+          }
+        },
+        [_vm._v("Close")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "button" } },
+        [_vm._v("Save changes")]
       )
     ])
   }
@@ -103014,16 +103291,15 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/assets/js/laravel/store.js");
-/* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-fuse */ "./node_modules/vue-fuse/dist/vue-fuse.umd.min.js");
-/* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_fuse__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/main.esm.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
-/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
-/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-fuse */ "./node_modules/vue-fuse/dist/vue-fuse.umd.min.js");
+/* harmony import */ var vue_fuse__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_fuse__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/main.esm.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.esm.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/core/locales/es */ "./node_modules/@fullcalendar/core/locales/es.js");
+/* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
+/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/assets/js/laravel/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -103037,12 +103313,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
+Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_0___default.a);
 
-
-Vue.use(vue_fuse__WEBPACK_IMPORTED_MODULE_2___default.a);
-Vue.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_1__["default"]);
-Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_6___default.a);
+Vue.use(vuelidate__WEBPACK_IMPORTED_MODULE_4___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -103075,13 +103348,13 @@ Vue.component('ver-presupuesto-component', __webpack_require__(/*! ./components/
 var EventBus = new Vue();
 var app = new Vue({
   el: '#app',
-  store: store
+  store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
-  var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_3__["Calendar"](calendarEl, {
-    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__["default"]],
-    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_5___default.a],
+  var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__["Calendar"](calendarEl, {
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
     locale: 'es',
     // the initial locale. of not specified, uses the first one
     eventClick: function eventClick(info) {
@@ -104581,237 +104854,22 @@ var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var productos = function productos() {
-  return [{
-    "id": 1,
-    "nombre": "Soup - Campbells - Chicken Noodle",
-    "imagen": "http://dummyimage.com/250x242.jpg/dddddd/000000",
-    "color": "Pink"
-  }, {
-    "id": 2,
-    "nombre": "Cake Circle, Foil, Scallop",
-    "imagen": "http://dummyimage.com/154x248.jpg/dddddd/000000",
-    "color": "Maroon"
-  }, {
-    "id": 3,
-    "nombre": "Sauce - Balsamic Viniagrette",
-    "imagen": "http://dummyimage.com/213x219.jpg/ff4444/ffffff",
-    "color": "Mauv"
-  }, {
-    "id": 4,
-    "nombre": "Flavouring - Raspberry",
-    "imagen": "http://dummyimage.com/230x193.jpg/dddddd/000000",
-    "color": "Red"
-  }, {
-    "id": 5,
-    "nombre": "Creme De Cacao Mcguines",
-    "imagen": "http://dummyimage.com/225x128.jpg/dddddd/000000",
-    "color": "Fuscia"
-  }, {
-    "id": 6,
-    "nombre": "Bread Roll Foccacia",
-    "imagen": "http://dummyimage.com/199x126.jpg/cc0000/ffffff",
-    "color": "Blue"
-  }, {
-    "id": 7,
-    "nombre": "Rabbit - Frozen",
-    "imagen": "http://dummyimage.com/122x207.jpg/ff4444/ffffff",
-    "color": "Blue"
-  }, {
-    "id": 8,
-    "nombre": "Pear - Packum",
-    "imagen": "http://dummyimage.com/230x244.jpg/5fa2dd/ffffff",
-    "color": "Goldenrod"
-  }, {
-    "id": 9,
-    "nombre": "Paper Towel Touchless",
-    "imagen": "http://dummyimage.com/125x182.jpg/cc0000/ffffff",
-    "color": "Maroon"
-  }, {
-    "id": 10,
-    "nombre": "Lemons",
-    "imagen": "http://dummyimage.com/198x128.jpg/cc0000/ffffff",
-    "color": "Indigo"
-  }, {
-    "id": 11,
-    "nombre": "Coffee - 10oz Cup 92961",
-    "imagen": "http://dummyimage.com/213x245.jpg/dddddd/000000",
-    "color": "Indigo"
-  }, {
-    "id": 12,
-    "nombre": "Wine - Fontanafredda Barolo",
-    "imagen": "http://dummyimage.com/231x249.jpg/ff4444/ffffff",
-    "color": "Indigo"
-  }, {
-    "id": 13,
-    "nombre": "Kellogs Special K Cereal",
-    "imagen": "http://dummyimage.com/169x160.jpg/5fa2dd/ffffff",
-    "color": "Yellow"
-  }, {
-    "id": 14,
-    "nombre": "Mcgillicuddy Vanilla Schnap",
-    "imagen": "http://dummyimage.com/139x214.jpg/cc0000/ffffff",
-    "color": "Indigo"
-  }, {
-    "id": 15,
-    "nombre": "Wine - Casillero Deldiablo",
-    "imagen": "http://dummyimage.com/199x112.jpg/cc0000/ffffff",
-    "color": "Khaki"
-  }, {
-    "id": 16,
-    "nombre": "Pasta - Orecchiette",
-    "imagen": "http://dummyimage.com/180x128.jpg/5fa2dd/ffffff",
-    "color": "Aquamarine"
-  }, {
-    "id": 17,
-    "nombre": "Capicola - Hot",
-    "imagen": "http://dummyimage.com/104x187.jpg/cc0000/ffffff",
-    "color": "Aquamarine"
-  }, {
-    "id": 18,
-    "nombre": "Wine - Magnotta - Pinot Gris Sr",
-    "imagen": "http://dummyimage.com/235x238.jpg/cc0000/ffffff",
-    "color": "Violet"
-  }, {
-    "id": 19,
-    "nombre": "Bread - Dark Rye, Loaf",
-    "imagen": "http://dummyimage.com/250x190.jpg/5fa2dd/ffffff",
-    "color": "Orange"
-  }, {
-    "id": 20,
-    "nombre": "Milkettes - 2%",
-    "imagen": "http://dummyimage.com/152x232.jpg/5fa2dd/ffffff",
-    "color": "Khaki"
-  }, {
-    "id": 21,
-    "nombre": "Graham Cracker Mix",
-    "imagen": "http://dummyimage.com/206x243.jpg/cc0000/ffffff",
-    "color": "Yellow"
-  }, {
-    "id": 22,
-    "nombre": "Wine - Chateauneuf Du Pape",
-    "imagen": "http://dummyimage.com/164x138.jpg/dddddd/000000",
-    "color": "Pink"
-  }, {
-    "id": 23,
-    "nombre": "Juice - V8 Splash",
-    "imagen": "http://dummyimage.com/218x149.jpg/cc0000/ffffff",
-    "color": "Red"
-  }, {
-    "id": 24,
-    "nombre": "Food Colouring - Red",
-    "imagen": "http://dummyimage.com/194x210.jpg/ff4444/ffffff",
-    "color": "Crimson"
-  }, {
-    "id": 25,
-    "nombre": "Apricots Fresh",
-    "imagen": "http://dummyimage.com/130x228.jpg/5fa2dd/ffffff",
-    "color": "Crimson"
-  }, {
-    "id": 26,
-    "nombre": "Shrimp - 21/25, Peel And Deviened",
-    "imagen": "http://dummyimage.com/169x159.jpg/dddddd/000000",
-    "color": "Goldenrod"
-  }, {
-    "id": 27,
-    "nombre": "Icecream - Dibs",
-    "imagen": "http://dummyimage.com/168x235.jpg/dddddd/000000",
-    "color": "Pink"
-  }, {
-    "id": 28,
-    "nombre": "Passion Fruit",
-    "imagen": "http://dummyimage.com/236x129.jpg/cc0000/ffffff",
-    "color": "Red"
-  }, {
-    "id": 29,
-    "nombre": "Extract - Raspberry",
-    "imagen": "http://dummyimage.com/134x181.jpg/5fa2dd/ffffff",
-    "color": "Turquoise"
-  }, {
-    "id": 30,
-    "nombre": "Basil - Dry, Rubbed",
-    "imagen": "http://dummyimage.com/112x207.jpg/ff4444/ffffff",
-    "color": "Yellow"
-  }, {
-    "id": 31,
-    "nombre": "Wine - Bourgogne 2002, La",
-    "imagen": "http://dummyimage.com/110x173.jpg/dddddd/000000",
-    "color": "Indigo"
-  }, {
-    "id": 32,
-    "nombre": "Mousse - Mango",
-    "imagen": "http://dummyimage.com/232x226.jpg/cc0000/ffffff",
-    "color": "Fuscia"
-  }, {
-    "id": 33,
-    "nombre": "Fish - Bones",
-    "imagen": "http://dummyimage.com/237x111.jpg/cc0000/ffffff",
-    "color": "Aquamarine"
-  }, {
-    "id": 34,
-    "nombre": "Tart Shells - Sweet, 3",
-    "imagen": "http://dummyimage.com/234x157.jpg/cc0000/ffffff",
-    "color": "Violet"
-  }, {
-    "id": 35,
-    "nombre": "Cheese - Ricotta",
-    "imagen": "http://dummyimage.com/207x148.jpg/5fa2dd/ffffff",
-    "color": "Fuscia"
-  }, {
-    "id": 36,
-    "nombre": "Wine - White Cab Sauv.on",
-    "imagen": "http://dummyimage.com/169x230.jpg/ff4444/ffffff",
-    "color": "Yellow"
-  }, {
-    "id": 37,
-    "nombre": "Relish",
-    "imagen": "http://dummyimage.com/210x244.jpg/5fa2dd/ffffff",
-    "color": "Khaki"
-  }, {
-    "id": 38,
-    "nombre": "Salmon Steak - Cohoe 6 Oz",
-    "imagen": "http://dummyimage.com/136x194.jpg/cc0000/ffffff",
-    "color": "Fuscia"
-  }, {
-    "id": 39,
-    "nombre": "Nori Sea Weed - Gold Label",
-    "imagen": "http://dummyimage.com/208x154.jpg/5fa2dd/ffffff",
-    "color": "Blue"
-  }, {
-    "id": 40,
-    "nombre": "Cake - Dulce De Leche",
-    "imagen": "http://dummyimage.com/157x146.jpg/5fa2dd/ffffff",
-    "color": "Yellow"
-  }];
-};
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    productos: new productos(),
-    filter: {
-      query: ''
-    }
-  },
-  getters: {
-    filteredProductos: function filteredProductos(state) {
-      var productos = state.productos;
-
-      if (state.filter.query.length >= 2) {
-        return productos.filter(function (producto) {
-          return producto.nombre.toLowerCase().includes(state.filter.query);
-        });
-      }
-
-      return productos;
-    }
+    comoSupo: ''
   },
   mutations: {
-    SET_QUERY: function SET_QUERY(state, query) {
-      state.filter.query = query;
-    }
+    aumentar: function aumentar(state) {},
+    reiniciar: function reiniciar(state) {}
   },
   actions: {}
-});
+}));
 
 /***/ }),
 
