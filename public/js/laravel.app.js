@@ -76373,7 +76373,6 @@ var staticRenderFns = [
       "p",
       {
         staticClass: "btn-text",
-        staticStyle: { display: "none" },
         attrs: {
           "data-toggle": "modal",
           "data-target": "#categoriaEventoModal"

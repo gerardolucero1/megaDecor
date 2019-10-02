@@ -147,7 +147,7 @@ padding: 0;
                                     <option value="6">Cena de gala</option>
                                     <option value="7">Otro</option>
                                 </select>
-                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p style="" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
