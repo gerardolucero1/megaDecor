@@ -83,11 +83,11 @@
                                                                     @else
                                                                     style="color:orange"
                                                                     @endif>{{ round($porcentajeActual , 1) }}%</span><br>
-                                                        Ventas Septiembre 2019</div>
+                                                        Ventas Octubre 2019</div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="font-size-h3 font-w600">{{ count($presupuestosAnoPasado) }}</div>
-                                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas Septiembre 2018</div>
+                                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas Octubre 2018</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,11 +107,11 @@
                                                                 @else
                                                                 style="color:orange"
                                                                 @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
-                                                        <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Septiembre 2019</div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Octubre 2019</div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="font-size-h3 font-w600">${{ $ventasAnoPasado }} </div>
-                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos Septiembre 2018</div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos Octubre 2018</div>
                                                     </div>
                                                 </div>
                                             </div>
