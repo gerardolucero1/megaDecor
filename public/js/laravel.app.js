@@ -14087,7 +14087,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       cantidadActualizada: '',
       ahorroActualizado: '',
       precioFinalActualizado: '',
-      notasActualizadas: '',
+      notasActualizadas: '--',
       //Paquetes
       paquete: {
         servicio: '',
@@ -14816,7 +14816,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       producto.notas = this.notasActualizadas;
       this.inventarioLocal.splice(index, 1, producto);
       console.log(this.inventarioLocal);
-      this.notasActualizadas = '';
+      this.notasActualizadas = '--';
       this.key = '';
       this.indice = '100000000';
     },
@@ -73089,19 +73089,7 @@ var render = function() {
                                 attrs: { type: "text" },
                                 domProps: { value: _vm.cantidadActualizada },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updateCantidad(index)
                                   },
                                   input: function($event) {
@@ -73146,19 +73134,7 @@ var render = function() {
                                   value: _vm.precioUnitarioActualizada
                                 },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updatePrecioUnitario(index)
                                   },
                                   input: function($event) {
@@ -73209,19 +73185,7 @@ var render = function() {
                                   value: _vm.precioEspecialActualizado
                                 },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updatePrecioEspecial(index)
                                   },
                                   input: function($event) {
@@ -73265,19 +73229,7 @@ var render = function() {
                                 attrs: { type: "text" },
                                 domProps: { value: _vm.precioFinalActualizado },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updatePrecioFinal(index)
                                   },
                                   input: function($event) {
@@ -73289,26 +73241,14 @@ var render = function() {
                                   }
                                 }
                               })
-                            : _c(
-                                "span",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.editarPrecioFinal(
-                                        index,
-                                        Object.keys(producto)
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
+                            : _c("span", [
+                                _vm._v(
+                                  "$" +
                                     _vm._s(
                                       _vm._f("decimales")(producto.precioFinal)
                                     )
-                                  )
-                                ]
-                              )
+                                )
+                              ])
                         ]),
                         _vm._v(" "),
                         _c("td", [
@@ -73326,19 +73266,7 @@ var render = function() {
                                 attrs: { type: "text" },
                                 domProps: { value: _vm.ahorroActualizado },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updateAhorro(index)
                                   },
                                   input: function($event) {
@@ -73385,19 +73313,7 @@ var render = function() {
                                 },
                                 domProps: { value: _vm.notasActualizadas },
                                 on: {
-                                  keyup: function($event) {
-                                    if (
-                                      !$event.type.indexOf("key") &&
-                                      _vm._k(
-                                        $event.keyCode,
-                                        "enter",
-                                        13,
-                                        $event.key,
-                                        "Enter"
-                                      )
-                                    ) {
-                                      return null
-                                    }
+                                  change: function($event) {
                                     return _vm.updateNotas(index)
                                   },
                                   input: function($event) {
@@ -74600,21 +74516,7 @@ var render = function() {
                                                 value: _vm.cantidadPaquete
                                               },
                                               on: {
-                                                keyup: function($event) {
-                                                  if (
-                                                    !$event.type.indexOf(
-                                                      "key"
-                                                    ) &&
-                                                    _vm._k(
-                                                      $event.keyCode,
-                                                      "enter",
-                                                      13,
-                                                      $event.key,
-                                                      "Enter"
-                                                    )
-                                                  ) {
-                                                    return null
-                                                  }
+                                                change: function($event) {
                                                   return _vm.updateCantidadPaquete(
                                                     index
                                                   )
@@ -74668,21 +74570,7 @@ var render = function() {
                                                 value: _vm.precioUnitarioPaquete
                                               },
                                               on: {
-                                                keyup: function($event) {
-                                                  if (
-                                                    !$event.type.indexOf(
-                                                      "key"
-                                                    ) &&
-                                                    _vm._k(
-                                                      $event.keyCode,
-                                                      "enter",
-                                                      13,
-                                                      $event.key,
-                                                      "Enter"
-                                                    )
-                                                  ) {
-                                                    return null
-                                                  }
+                                                change: function($event) {
                                                   return _vm.updatePrecioUnitarioPaquete(
                                                     index
                                                   )
@@ -74739,21 +74627,7 @@ var render = function() {
                                                 value: _vm.precioEspecialPaquete
                                               },
                                               on: {
-                                                keyup: function($event) {
-                                                  if (
-                                                    !$event.type.indexOf(
-                                                      "key"
-                                                    ) &&
-                                                    _vm._k(
-                                                      $event.keyCode,
-                                                      "enter",
-                                                      13,
-                                                      $event.key,
-                                                      "Enter"
-                                                    )
-                                                  ) {
-                                                    return null
-                                                  }
+                                                change: function($event) {
                                                   return _vm.updatePrecioEspecialPaquete(
                                                     index
                                                   )
@@ -76500,21 +76374,7 @@ var render = function() {
                                                   value: _vm.cantidadPaquete
                                                 },
                                                 on: {
-                                                  keyup: function($event) {
-                                                    if (
-                                                      !$event.type.indexOf(
-                                                        "key"
-                                                      ) &&
-                                                      _vm._k(
-                                                        $event.keyCode,
-                                                        "enter",
-                                                        13,
-                                                        $event.key,
-                                                        "Enter"
-                                                      )
-                                                    ) {
-                                                      return null
-                                                    }
+                                                  change: function($event) {
                                                     return _vm.updateCantidadPaquete(
                                                       index
                                                     )
