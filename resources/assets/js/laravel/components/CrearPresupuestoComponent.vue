@@ -492,8 +492,10 @@ padding: 0;
 
                 <div class="">
                         <div style="display:none" class="btn btn-primary" @click="imprimirPDF()"><i class="si si-printer"></i> Imprimir</div>
+                        <!--
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto form</button>
+                        -->
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
                         <div class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
