@@ -174,7 +174,7 @@
                                 <a  class="block block-link-shadow text-right" href="javascript:void(0)">
                                     <div class="block-content block-content-full clearfix">
                                         <div class="float-left mt-10 d-none d-sm-block">
-                                            <i class="fa fa-star fa-3x text-body-bg-dark"></i>
+                                            <i style="color:#ECE025" class="fa fa-star fa-3x "></i>
                                         </div>
                                         <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
                                         <div class="font-size-sm font-w600 text-uppercase text-muted">

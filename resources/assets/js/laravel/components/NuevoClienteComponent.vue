@@ -47,19 +47,21 @@
                         <div class="col-md-12" style="padding-top:10px">
                         <label for="">Dirección </label>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-12" style="height:10px"></div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroEmpresa">
                         </div>
                         <div class="col-md-4">
                             <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
                         </div>
-                        <div class="col-md-4">
-                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroEmpresa">
-                        </div>
+                        
                      
                         <div class="col-md-12 mt-4" style="display:inline">
                             <label for="">Email</label><br>   
-                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                            <input type="text" required="required" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required="required" type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                         
                         
@@ -68,31 +70,32 @@
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">
                         <div class="col-md-6">
                             <label for="">Nombre de la empresa</label>
-                            <input type="text" placeholder="Nombre" v-model="cliente.nombreCliente">
+                            <input required type="text" placeholder="Nombre" v-model="cliente.nombreCliente">
                         </div>
                         <div class="col-md-6">
                             <label for="">Tipo de Empresa</label>
-                            <select name="categoria"  v-model="cliente.categoriaCliente">
+                            <select required name="categoria"  v-model="cliente.categoriaCliente">
                                 <option v-for="tipoE in tiposE" :value="tipoE.id" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label for="">Direccion de la empresa</label>
-                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Colonia de la empresa</label>
-                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                            <input required type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
                         </div>
                         <div class="col-md-4">
                             <label for="">Numero de la empresa</label>
-                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                            <input required type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
                         </div>
+                        <div class="col-md-4">
+                            <label for="">Colonia de la empresa</label>
+                            <input required type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        
                         <div class="col-md-12 mt-4">
                             <label for="">Email de la empresa</label><br>
-                            <input type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                     </div>
                     
@@ -162,7 +165,7 @@
                             <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="email" id="email" placeholder="Email" v-model="telefono.email">
+                             <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                         <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
                             <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
@@ -208,7 +211,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" v-model="cliente.diasCredito" placeholder="Dias de credito">
+                            <input type="text" v-model="cliente.diasCredito"  placeholder="Dias de credito">
                         </div>
                     </div>
 
@@ -216,7 +219,8 @@
                     
                     <div class="row">
                         <div class="col-md-6">
-                            <select name="comoSupo" id="" >
+                            <select required="required" name="comoSupo" id="" >
+                                <option value=""></option>
                                 <option v-for="tipo in tipos" v-bind:key="tipo.index">{{ tipo.nombre }}</option>
                             </select>
                             <p data-toggle="modal" data-target="#agregarComoSupo" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
@@ -647,6 +651,15 @@ function emailCopy(){
             },
             crearCliente(){
                 let URL = '/clientes/create';
+
+                   
+                if(this.telefonos.length>0){
+                    
+                let diascredito=parseInt(this.cliente.diasCredito);  
+                if(isNaN(diascredito)){
+                    this.cliente.diasCredito=0;
+                } 
+                
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
@@ -679,6 +692,7 @@ function emailCopy(){
 
                     // Telefonos
                     'telefonos': this.telefonos,
+
                 }).then((response) => {
                     this.cliente = {};
                    // console.log(this.cliente);
@@ -690,10 +704,11 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
+                            location.reload();
                 }).catch((error) => {
                     console.log(error);
                 });
-                
+                }else{alert('No hay telefonos registrados, recuerda presionar "Agregar" para insertar un numero');}
             },
             eliminarTelefono(index){
               //  console.log(index);
