@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import VueFuse from 'vue-fuse';
-import { Calendar } from '@fullcalendar/core';
+import { Calendar, WindowScrollController } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import Vuelidate from 'vuelidate';
@@ -105,7 +105,8 @@ Swal.fire({
                     location.reload();
                     }) 
                 }else{
-                    alert('detalles de evento');
+                    let URL = 'presupuestos/ver/' + task.event.id;
+                    window.location.href = URL;
                 }
               //  console.log(task);
                 

@@ -103569,7 +103569,8 @@ document.addEventListener('DOMContentLoaded', function () {
             location.reload();
           });
         } else {
-          alert('detalles de evento');
+          var URL = 'presupuestos/ver/' + task.event.id;
+          window.location.href = URL;
         } //  console.log(task);
 
       }

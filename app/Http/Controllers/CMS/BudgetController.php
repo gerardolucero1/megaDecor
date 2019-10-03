@@ -469,6 +469,8 @@ class BudgetController extends Controller
             }
          }
 
+        $DatosPresupuesto = 0;
+
 
 
         $pdf = App::make('dompdf');

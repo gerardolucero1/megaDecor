@@ -142,8 +142,8 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td>{{ $inventario->cantidad }}</td>
-                                <td>{{ $inventario->exhibicion }}</td>
+                                <td id="cantidad-{{ $inventario->id }}" onclick="editarCantidad({{ $inventario->id }})">{{ $inventario->cantidad }}</td>
+                                <td id="exhibicion-{{ $inventario->id }}" onclick="editarExhibicion({{ $inventario->id }})">{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
@@ -190,10 +190,48 @@
 
 @section("scripts")
     <script>
+        function editarCantidad(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-cantidad-inventario/' + id;
+
+            let data = 'cantidad-' + id;
+            let td = document.getElementById(data);
+
+            console.log(td);
+
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+                 console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+        }
+
+        function editarExhibicion(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-exhibicion-inventario/' + id;
+
+            let data = 'exhibicion-' + id;
+            let td = document.getElementById(data);
+
+            console.log(td);
+
+             axios.put(URL, {
+                 'exhibicion':  nuevaCantidad,
+             }).then((response) => {
+                console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+        }
+
         function vista_calendario(){
-        document.getElementById('divCalendario').style.display="block";
-        document.getElementById('divLista').style.display="none";
-    }
+            document.getElementById('divCalendario').style.display="block";
+            document.getElementById('divLista').style.display="none";
+        }
     function vista_lista(){
         document.getElementById('divCalendario').style.display="none";
         document.getElementById('divLista').style.display="block";

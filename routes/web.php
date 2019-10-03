@@ -3,13 +3,14 @@
 use App\User;
 use App\Budget;
 use App\Client;
+use App\Inventory;
 use App\Telephone;
+use App\BudgetPack;
 use App\MoralPerson;
 use App\AboutCategory;
 use App\MoralCategory;
 use App\PhysicalPerson;
 use App\BudgetInventory;
-use App\BudgetPack;
 use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use App\Mail\NuevoPresupuesto;
@@ -317,6 +318,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('inventario/edit/{id}', 'CMS\InventoryController@edit')->name('inventory.edit');
     Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
+
+    Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){
+        $inventario = Inventory::find($id);
+
+        $inventario->cantidad = $request->cantidad;
+        $inventario->save();
+        return;
+    });
+
+    Route::put('editar-exhibicion-inventario/{id}', function(Request $request, $id){
+        $inventario = Inventory::find($id);
+
+        $inventario->exhibicion = $request->exhibicion;
+        $inventario->save();
+        return;
+    });
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
