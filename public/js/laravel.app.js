@@ -14951,7 +14951,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (response.data == 1) {
             Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
           } else {
-            Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+            Swal.fire({
+              title: 'Exito',
+              text: "Presupuesto creado",
+              type: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then(function (result) {
+              if (result.value) {
+                location.reload();
+              } else {
+                location.reload();
+              }
+            });
             guardarPresupuesto();
           }
         })["catch"](function (error) {});
@@ -15009,7 +15022,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               if (response.data == 1) {
                 Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
               } else {
-                Swal.fire('Creado!', 'El contrato se creo con exito', 'success');
+                Swal.fire({
+                  title: 'Exito',
+                  text: "Contrato creado",
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'OK'
+                }).then(function (result) {
+                  if (result.value) {
+                    location.reload();
+                  } else {
+                    location.reload();
+                  }
+                });
                 guardarPresupuesto();
               }
             })["catch"](function (error) {

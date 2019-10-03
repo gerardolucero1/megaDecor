@@ -2222,6 +2222,7 @@ padding: 0;
                         'inventario': this.inventarioLocal,
                     }).then((response) => {
                         console.log('Email Enviado');
+                        
                     }).catch((error) => {
                         console.log(error.data);
                     });
@@ -2234,11 +2235,20 @@ padding: 0;
                             'error'
                         );
                     }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El presupuesto se creo correctamente',
-                            'success'
-                        );
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Presupuesto creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
                         guardarPresupuesto();
                     }   
                     
@@ -2329,11 +2339,20 @@ padding: 0;
                             'error'
                         );
                     }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El contrato se creo con exito',
-                            'success'
-                        );
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Contrato creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
                          guardarPresupuesto();
                     }   
                     
