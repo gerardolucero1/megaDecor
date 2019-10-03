@@ -16573,6 +16573,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return _defineProperty({
+      unlock: false,
       limpiar: false,
       viendoPaquete: [],
       results: [],
@@ -17663,7 +17664,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
             var objeto = {
               'externo': false,
-              'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
+              'imagen': 'https://www.grupomilan.com/files/imgs/blog/vendemos-cajas-carton.jpg',
               'servicio': element.servicio,
               'cantidad': element.cantidad,
               'precioUnitario': element.precioUnitario,
@@ -17687,6 +17688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             arregloPaquetes.push(objeto);
           });
           _this15.inventarioLocal = _this15.inventarioLocal.concat(arregloPaquetes);
+          _this15.unlock = true;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -78867,7 +78869,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.presupuesto.length != 0
+  return _vm.unlock
     ? _c("section", { staticClass: "container" }, [
         _c("div", { staticClass: "row" }),
         _vm._v(" "),
