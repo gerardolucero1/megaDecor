@@ -33,16 +33,21 @@
                         <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
                     </div>
                     <div class="col-md-9 text-right">
-                           
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
-                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
-                                        </button>
-                                        <button class="btn btn-primary"  onclick="vista_calendario()">
-                                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
-                                            </button>
-                                    <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                                                <i class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
-                                            </button>
+                        @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
+                        
+                        @if($usuario != 2)
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
+                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
+                            </button>
+                            <button class="btn btn-primary"  onclick="vista_calendario()">
+                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
+                            </button>
+                            <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                                <i class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                            </button>
+                        @endif
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -85,17 +90,31 @@
                                     {{$budget->version}}
                                 </td>
                             <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
-                            <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                <a href=""><i class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
-                                <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i></a></td>
+                                @if($usuario != 2)
+                                    <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                    </a>
+                                    <a href="">
+                                        <i class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
+                                    </a>
+                                @endif
+                                <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
+                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                </a>
+                            </td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
                                 </td>
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
-                            <td>${{$total}}</td>
+                                <td>
+                                    @if($usuario != 2)
+                                        ${{$total}}
+                                    @endif
+                                </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
+                                    @if($usuario != 2)
                                     <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
@@ -105,7 +124,7 @@
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-refresh"></i> 
                                     </a>
-                                
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

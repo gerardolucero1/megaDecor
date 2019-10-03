@@ -197,7 +197,12 @@
             let data = 'cantidad-' + id;
             let td = document.getElementById(data);
 
-            console.log(td);
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+                console.log(td);
 
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
@@ -207,6 +212,9 @@
              }).catch((error) => {
                  console.log(error.data);
              })
+            }
+
+            
         }
 
         function editarExhibicion(id){

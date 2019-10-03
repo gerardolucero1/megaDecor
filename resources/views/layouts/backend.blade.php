@@ -202,26 +202,38 @@
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
-                            <li>
-                                <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
-                                </a>
-                                <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
-                                <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
-                                <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
-                                <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
-                                <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
-                                <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
-                                <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
-                            </li>
-                            <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
-                            </li>
-                            <li>
-                                <a href="/">
-                                    <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
-                                </a>
-                            </li>
+                            @php
+                                $usuario = Auth::user()->id;    
+                            @endphp
+
+                            @if ($usuario != 2)
+                                <li>
+                                    <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
+                                        <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
+                                    </a>
+                                    <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                    <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
+                                    <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
+                                </li>
+                                <li class="nav-main-heading">
+                                    <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
+                                </li>
+                                <li>
+                                    <a href="/">
+                                        <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
+                                    </a>
+                                </li>  
+                            @else
+                                <li>
+                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                </li>                              
+                            @endif
+                            
                         </ul>
                     </div>
                     <!-- END Side Navigation -->
