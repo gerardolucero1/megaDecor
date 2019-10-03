@@ -781,10 +781,12 @@
         watch: {
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    */
 
                 }else{
                      this.presupuesto.nombreLugar = '';
@@ -796,11 +798,14 @@
             },
             'requiereFactura': function(val){
                 if(val){
+
+                    /*
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+                    */
 
                 }else{
                     this.facturacion.nombreFacturacion = '';
