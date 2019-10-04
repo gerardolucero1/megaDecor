@@ -192,19 +192,31 @@ class BudgetController extends Controller
                         $producto->fill(['imagen' => asset('presupuesto/'.$name)]);
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
                     }
                 }else{
-                    $producto->imagen = $item['imagen'];
-                    $producto->version = $ultimoPresupuesto->version;
-                    $producto->save();
+                    if($item['imagen']){
+                        $producto->imagen = $item['imagen'];
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }
+                    
                 }
                 
+                //Este metodo es para reducir de nuestra tabla inventarios la cantidad disponible del producto
                 if(!$item['externo']){
                     $producto = Inventory::find($item['id']);
-
                     $producto->disponible = ($producto->disponible) - ($item['cantidad']);
                     $producto->save();
                 }
+
             }else{
                 $paquete = new BudgetPack();
 
@@ -247,10 +259,19 @@ class BudgetController extends Controller
                                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                                 \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
                                 $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
                             }
                         }else{
-                            $producto->imagen = $objeto['imagen'];
-                            $producto->save();
+                            if($objeto['imagen']){
+                                $producto->imagen = $objeto['imagen'];
+                                $producto->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
+                            }
+                            
                         }
                     }
             }
@@ -448,6 +469,8 @@ class BudgetController extends Controller
             }
          }
 
+        $DatosPresupuesto = 0;
+
 
 
         $pdf = App::make('dompdf');
@@ -524,7 +547,7 @@ class BudgetController extends Controller
         $oldVersion->opcionDescripcionPaquete = $version->opcionDescripcionPaquete;
         $oldVersion->opcionImagen = $version->opcionImagen;
         $oldVersion->opcionDescuento = $version->opcionDescuento;
-        $oldVersion->opcionIva = $version->opcionIva;
+        $oldVersion->opcionIVA = $version->opcionIVA;
         
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
@@ -654,14 +677,21 @@ class BudgetController extends Controller
                         }
                         
                     }else{
-                        $producto->imagen = 'imagen de prueba';
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save(); 
                     }
                 }else{
-                    $producto->imagen = $item['imagen'];
-                    $producto->version = $ultimoPresupuesto->version;
-                    $producto->save();
+                    if($item['imagen']){
+                        $producto->imagen = $item['imagen'];
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }
+                    
                 }
 
             }else{
@@ -717,12 +747,18 @@ class BudgetController extends Controller
                                 }
                                 
                             }else{
-                                $producto->imagen = 'Imagen de prueba';
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                         }else{
-                            $producto->imagen = $objeto['imagen'];
-                            $producto->save();
+                            if($objeto['imagen']){
+                                $producto->imagen = $objeto['imagen'];
+                                $producto->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
+                            }
+                            
                         }
 
                         //Al momento de recuperar los productos de los paquetes y almacenarlos en el array de productos

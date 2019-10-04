@@ -9,21 +9,15 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Vuex from 'vuex';
-import StoreData from './store';
 import VueFuse from 'vue-fuse';
-import { Calendar } from '@fullcalendar/core';
+import { Calendar, WindowScrollController } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import Vuelidate from 'vuelidate';
 
 Vue.use(VueFuse);
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store(StoreData);
-
-
+import store from './store'
 Vue.use(Vuelidate);
 
 /**
@@ -111,7 +105,8 @@ Swal.fire({
                     location.reload();
                     }) 
                 }else{
-                    alert('detalles de evento');
+                    let URL = 'presupuestos/ver/' + task.event.id;
+                    window.location.href = URL;
                 }
               //  console.log(task);
                 

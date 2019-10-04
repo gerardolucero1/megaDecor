@@ -36,7 +36,7 @@
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')
                             @csrf
-                            <select name="familia" id="">
+                            <select name="familia" id="familia" style="width: 100px">
                                 <option value="">Todos los elementos</option>
                                 <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
                                 <option value="BEBIDAS">BEBIDAS</option>
@@ -104,12 +104,15 @@
                                 <option value="TRAJE PERSONAJES">TRAJE PERSONAJES</option>
                                 <option value="VELA">VELA</option>
                                 <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
-
-
                             </select>
 
                             <button type="submit" class="btn btn-sm btn-info">Buscar</button>
                         </form>
+                            <form action="">
+                                <input type="hidden" name="familia" value="">
+                            <button type="submit">Imprimir familia</button>    
+                            </form>    
+
                     </div>
                     <div class="col-md-9 text-right">
                            
@@ -142,8 +145,8 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td>{{ $inventario->cantidad }}</td>
-                                <td>{{ $inventario->exhibicion }}</td>
+                                <td id="cantidad-{{ $inventario->id }}" onclick="editarCantidad({{ $inventario->id }})">{{ $inventario->cantidad }}</td>
+                                <td id="exhibicion-{{ $inventario->id }}" onclick="editarExhibicion({{ $inventario->id }})">{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
@@ -153,6 +156,7 @@
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-none d-sm-table-cell text-center">{{ $inventario->updated_at }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
+                                    @if (Auth::user()->id == 17 )
                                     <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
@@ -162,6 +166,10 @@
                                 <button disabled class="btn btn-sm btn-success">
                                         <i class="fa fa-check"></i>
                                     </button>
+                                    @else
+                                        SIN PERMISOS
+                                    @endif
+                                    
                                 </td>
                             </tr>
                             @endforeach
@@ -185,10 +193,56 @@
 
 @section("scripts")
     <script>
+        function editarCantidad(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-cantidad-inventario/' + id;
+
+            let data = 'cantidad-' + id;
+            let td = document.getElementById(data);
+
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+                console.log(td);
+
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+                 console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+            }
+
+            
+        }
+
+        function editarExhibicion(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-exhibicion-inventario/' + id;
+
+            let data = 'exhibicion-' + id;
+            let td = document.getElementById(data);
+
+            console.log(td);
+
+             axios.put(URL, {
+                 'exhibicion':  nuevaCantidad,
+             }).then((response) => {
+                console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+        }
+
         function vista_calendario(){
-        document.getElementById('divCalendario').style.display="block";
-        document.getElementById('divLista').style.display="none";
-    }
+            document.getElementById('divCalendario').style.display="block";
+            document.getElementById('divLista').style.display="none";
+        }
     function vista_lista(){
         document.getElementById('divCalendario').style.display="none";
         document.getElementById('divLista').style.display="block";

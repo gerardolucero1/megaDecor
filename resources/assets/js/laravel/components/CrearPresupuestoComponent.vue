@@ -77,13 +77,14 @@ padding: 0;
             
         </div>
         <div class="row">
+            <form action="POST" v-on:submit.prevent="guardarPresupuesto()">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
                     <div class="col-md-8 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat; margin-top:-40px">
 
                         </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat; margin-top:-40px">
 
                         </div>
                     </div>
@@ -122,12 +123,12 @@ padding: 0;
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio">
+                                <input required type="time" v-model="presupuesto.horaEventoInicio">
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin">
+                                <input required type="time" v-model="presupuesto.horaEventoFin">
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -138,7 +139,7 @@ padding: 0;
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
+                                <select required name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
@@ -212,10 +213,10 @@ padding: 0;
                                 -->
                             </div>
                             <div class="col-md-5">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
                             </div>
                         </div>
-                        <div v-if="clienteSeleccionado" class="info">
+                        <div v-if="clienteSeleccionado" class="info" style="padding-top:15px;">
                             <p>{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
@@ -231,8 +232,8 @@ padding: 0;
                             </p>
                             <p><span>{{ calcularContratos }}</span> eventos contratados</p>
                             <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
-                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
+                                <div v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
+                                <div v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
                         </div>
                     </div>
                 </div>
@@ -252,16 +253,16 @@ padding: 0;
                     </div>
 
                     <div class="col-md-10 mt-4">
-                        <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
+                        <input required type="text" placeholder="Nombre del lugar" v-model="presupuesto.nombreLugar">
                     </div>
-                    <div class="col-md-4 mt-4">
-                        <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
+                    <div class="col-md-10 mt-4">
+                        <input required type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
                     <div class="col-md-2 mt-4">
-                        <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
+                        <input required type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
                     <div class="col-md-4 mt-4">
-                        <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
+                        <input required type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
                     <div class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
@@ -288,8 +289,8 @@ padding: 0;
                         <input class="mt-2" type="text" placeholder="Edad o motivo de festejo" v-model="festejado.edad">
                     </div>
                     <div class="col-md-1 mt-4" style="padding-top:15px;">
-                        <button class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()"><i class="fa fa-plus-circle
-"></i>Agregar</button>
+                        <div class="btn btn-sm btn-primary mt-4" v-on:click.prevent="agregarFestejado()"><i class="fa fa-plus-circle
+"></i>Agregar</div>
                     </div>
 
                 <!-- Tabla de festejados -->
@@ -311,7 +312,7 @@ padding: 0;
                                     <td>{{ festejado.edad }}</td>
                                     <td><input type="checkbox"></td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)"><i class="fa fa-remove"></i></button>
+                                        <div class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarFestejado(index)"><i class="fa fa-remove"></i></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -329,7 +330,7 @@ padding: 0;
                 <h4>Archivos de Referencia</h4>
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="file" name="" id="">
+                        <input type="file" accept=".pdf" name="referencias" id="">
                     </div>
                 </div>
 
@@ -351,8 +352,8 @@ padding: 0;
 
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</button>
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</button>
+                                <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
                                 </div>
                         </div>
                     </div>
@@ -402,31 +403,31 @@ padding: 0;
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
-                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
+                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
                                 
                                 <td>
                                     
-                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
-                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
+                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada"  v-on:change="updatePrecioUnitario(index)">
+                                    <span v-else  v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
                                     <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior }}</del>
                                  </td>
                                  <th scope="row">
-                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
+                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:change="updatePrecioEspecial(index)">
                                     <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
                                 </th>
                                 <td>
-                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:change="updatePrecioFinal(index)">
+                                    <span v-else >${{ producto.precioFinal | decimales }}</span>
                                 </td>
                                 <td>
-                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
+                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:change="updateAhorro(index)">
                                     <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
                                 </td>
                                 <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
+                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
                                         
                                     </textarea>
                                     <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
@@ -437,10 +438,10 @@ padding: 0;
                                 </td>
                                 <td class="text-center">
                                     <!--
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</button>
+                                    <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</div>
                                     -->
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</button>
-                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</button>
+                                    <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
+                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -454,11 +455,11 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
-                                <input  type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
-                                <label for="precio">Precios Totales</label>
+                                <input hidden  type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                <label hidden for="precio">Precios Totales</label>
                                 <br>
-                                <input  type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
-                                <label for="precioUnitario">Precios Unitarios</label>
+                                <input hidden   type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
+                                <label hidden for="precioUnitario">Precios Unitarios</label>
                                 <br>
                                 <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
@@ -490,10 +491,13 @@ padding: 0;
                 </div>
 
                 <div class="">
-                        <button class="btn btn-primary" @click="imprimirPDF()"><i class="si si-printer"></i> Imprimir</button>
-                        <button class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</button>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
-                        <button class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</button>
+                        <div style="display:none" class="btn btn-primary" @click="imprimirPDF()"><i class="si si-printer"></i> Imprimir</div>
+                        <!--
+                        <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
+                        -->
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                        <div class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
+                        <div class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
@@ -507,6 +511,7 @@ padding: 0;
                     <input v-if="verSettings" type="text" v-model="iva" width="20%">
                 </div>
             </div>
+            </form>
         </div>
         <!--
         <div class="row">
@@ -526,13 +531,13 @@ padding: 0;
 
         <!-- Modal agregar paquete -->
         <div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
-            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
-                    <button type="button" class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -541,9 +546,9 @@ padding: 0;
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style="border:solid; border-width:1px; border-radius:3px; background:#D0FAF2">
                                             <buscador-component
-                                    placeholder="Buscar Productos"
+                                    placeholder="Buscar Productos Existentes"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
@@ -571,7 +576,7 @@ padding: 0;
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                    <div class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar nuevo producto</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -580,21 +585,21 @@ padding: 0;
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Servicio</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paquete.servicio">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paquete.servicio" style="background:#FFECA7">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Total</label>
+                                        <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Costo de proveedores</label>
+                                        <label class="col-12" for="example-text-input">Costo total de proveedores</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo de proveedores" v-model="paquete.precioVenta" style="background:#FFECA7">
                                         </div>
                                     </div>
                                 </div>
@@ -638,22 +643,25 @@ padding: 0;
                                                 <th scope="row">
                                                     <img :src="producto.imagen" width="100%">
                                                 </th>
-                                                <td>{{ producto.nombre }}</td>
+                                                <td>{{ producto.nombre }}
+                                                     <br><span style="font-size:10px; line-height:8px;">Costo Proveedor: ${{producto.precioVenta}}</span>
+                                                </td>
+                                                
                                                 <td>
-                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:change="updateCantidadPaquete(index)">
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
                                                 <td>
-                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:keyup.enter="updatePrecioUnitarioPaquete(index)">
+                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:change="updatePrecioUnitarioPaquete(index)">
                                                     <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario }}</span>
                                                 </td>
                                                 <td>
-                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:keyup.enter="updatePrecioEspecialPaquete(index)">
+                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:change="updatePrecioEspecialPaquete(index)">
                                                     <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
                                                 </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -665,8 +673,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarPaquete()">Guardar paquete</button>
+                    <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
+                    <div  class="btn btn-primary" @click="guardarPaquete()">Guardar paquete</div>
                 </div>
                 </div>
             </div>
@@ -678,9 +686,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Agregar elementos</h5>
-                    <button type="button" class="close" onClick="$('#agregarElemento').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#agregarElemento').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -748,8 +756,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Cerrar</button>
-                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
+                    <div  class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Cerrar</div>
+                    <div  class="btn btn-primary" @click="agregarProductoExterno()">Save changes</div>
                 </div>
                 </div>
             </div>
@@ -761,9 +769,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Contratos</h5>
-                    <button type="button" class="close" onClick="$('#verContratos').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#verContratos').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row" v-if="clienteSeleccionadoContratos.length !== 0">
@@ -813,7 +821,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Cerrar</button>
+                    <div  class="btn btn-secondary" onClick="$('#verContratos').modal('hide')">Cerrar</div>
                 </div>
                 </div>
             </div>
@@ -825,9 +833,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Presupuestos</h5>
-                    <button type="button" class="close" onClick="$('#verPresupuestos').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#verPresupuestos').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row" v-if="clienteSeleccionadoPresupuestos.length !== 0">
@@ -863,7 +871,7 @@ padding: 0;
                                             <td>{{ presupuesto.total }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <a :href="'/presupuestos/ver/' + presupuesto.id" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                    <a :href="'/presupuestos/ver/' + presupuesto.id"  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                 </div>
@@ -877,7 +885,7 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Cerrar</button>
+                    <div  class="btn btn-secondary" onClick="$('#verPresupuestos').modal('hide')">Cerrar</div>
                 </div>
                 </div>
             </div>
@@ -889,9 +897,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Guardar Contrato</h5>
-                    <button type="button" class="close" onClick="$('#guardarContrato').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#guardarContrato').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <label>Hora de entrega de mobiliario</label><br>
@@ -907,6 +915,7 @@ padding: 0;
                         <div class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
+                                <option value=""></option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -920,6 +929,7 @@ padding: 0;
                         <div class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control">
+                                <option value=""></option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -939,7 +949,7 @@ padding: 0;
                             <label>Datos de facturación</label>
                             <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
                         </div>
-                        <div class="col-md-5 mt-4">
+                        <div class="col-md-12 mt-4">
                             <input class="form-control" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
@@ -986,8 +996,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrare</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                    <div  class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrar</div>
+                    <div  class="btn btn-primary" @click="guardarContrato()">Save</div>
                 </div>
                 </div>
             </div>
@@ -999,9 +1009,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Editar paquete</h5>
-                    <button type="button" class="close" onClick="$('#editarPaquete').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#editarPaquete').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -1040,7 +1050,7 @@ padding: 0;
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                    <div class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar nuevo producto</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -1099,12 +1109,12 @@ padding: 0;
                                                 </th>
                                                 <td>{{ producto.nombre }}</td>
                                                 <td>
-                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:change="updateCantidadPaquete(index)">
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
                                                 <td>{{ producto.precioUnitario }}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1116,8 +1126,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Cerrar</button>
-                    <button type="button" class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</button>
+                    <div  class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Cerrar</div>
+                    <div  class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</div>
                 </div>
                 </div>
             </div>
@@ -1129,9 +1139,9 @@ padding: 0;
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
-                    <button type="button" class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body" v-if="viendoPaquete.length != 0">
                     <table class="table table-hover">
@@ -1160,7 +1170,7 @@ padding: 0;
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Cerrar</button>
+                    <div  class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Cerrar</div>
                 </div>
                 </div>
             </div>
@@ -1237,11 +1247,11 @@ padding: 0;
                     temaEvento: '',
 
                     //Opciones presupuesto
-                    opcionPrecio: '',
-                    opcionPrecioUnitario: '',
+                    opcionPrecio: '1',
+                    opcionPrecioUnitario: '1',
                     opcionDescripcionPaquete: '',
                     opcionImagen: '',
-                    opcionDescuento: '',
+                    opcionDescuento: '1',
                     opcionIVA: '',
 
                     //Presupuesto o contrato
@@ -1312,7 +1322,7 @@ padding: 0;
                 cantidadActualizada: '',
                 ahorroActualizado: '',
                 precioFinalActualizado: '',
-                notasActualizadas: '',
+                notasActualizadas: '--',
 
                 //Paquetes
                 paquete: {
@@ -1544,6 +1554,11 @@ padding: 0;
             },
         },
         methods:{
+            
+            onFileSelected (event) {
+                return;
+            },
+
             verPaquete(paquete){
                 this.viendoPaquete = paquete;
                 $('#verPaquete').modal('show');
@@ -1581,9 +1596,10 @@ padding: 0;
                     'imagen': producto.imagen,
                     'precioUnitario': producto.precioUnitario,
                     'precioFinal': '',
-                    'cantidad': '',
+                    'cantidad': '0',
                     'id': producto.id,
                 });
+                //this.actualizarPrecioSugerido();
             },
             guardarPaqueteEdicion(){
                 this.inventarioLocal.splice(this.indicePaqueteEdicion, 1, this.paqueteEdicion);
@@ -1654,7 +1670,7 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
-               
+              //this.actualizarPrecioSugerido();
                 console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
@@ -1752,6 +1768,22 @@ padding: 0;
                     },
 
             guardarPaquete(){
+                
+                if(isNaN(parseInt(this.paquete.precioFinal))){
+                   Swal.fire(
+                        'Paquete sin precio',
+                        'Agrega un precio a tu paquete antes de crearlo',
+                        'warning'
+                        ) 
+                }else{
+                if(isNaN(parseInt(this.paquete.precioVenta))){
+                   Swal.fire(
+                        'Paquete sin costo',
+                        'Agrega costo de proveedor',
+                        'warning'
+                        ) 
+                }else{
+                
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
@@ -1768,7 +1800,7 @@ padding: 0;
                         'cantidad': 1,
                         'precioUnitario': this.paquete.precioFinal,
                         'precioFinal': this.paquete.precioFinal,
-                        'ahorro': 0,
+                        'ahorro': '0',
                         'notas': '',
                         'paquete': this.paquete,
                         'tipo': 'PAQUETE',
@@ -1777,9 +1809,14 @@ padding: 0;
                         'precioEspecial': this.paquete.precioFinal,
                         'precioAnterior': this.paquete.precioFinal,
                     });
+                    Swal.fire(
+                        'Listo!',
+                        'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) 
                 }
 
-            },
+            }}},
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.limpiar = true;
@@ -1858,8 +1895,8 @@ padding: 0;
                             'nombre': this.productoExterno.servicio,
                             'imagen': this.productoExterno.imagen,
                             'precioUnitario': this.productoExterno.precioUnitario,
-                            'precioFinal': '',
-                            'cantidad': '',
+                            'precioFinal': '0',
+                            'cantidad': '0',
                             'id': '',
                             'precioVenta': this.productoExterno.precioVenta,
                             'proveedor': this.productoExterno.proveedor,
@@ -1867,6 +1904,7 @@ padding: 0;
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
+                        //this.actualizarPrecioSugerido();
                     
                     
                 }else{
@@ -2057,7 +2095,7 @@ padding: 0;
                         producto.notas = this.notasActualizadas;
                         this.inventarioLocal.splice(index, 1, producto);
                         console.log(this.inventarioLocal);
-                        this.notasActualizadas = '';
+                        this.notasActualizadas = '--';
                         this.key = '';
                         this.indice = '100000000';
                     
@@ -2109,6 +2147,8 @@ padding: 0;
             },
             agregarFestejado(){
                 this.festejados.push({'nombre': this.festejado.nombre, 'edad': this.festejado.edad});
+                this.festejado.nombre='';
+                this.festejado.edad='';
                 //this.festejados.push({'nombre': this.festejado.nombre, 'edad': this.festejado.edad});
             },
             eliminarFestejado(index){
@@ -2132,6 +2172,22 @@ padding: 0;
 
             // Guardar como presupuesto
             guardarPresupuesto(){
+                if(this.inventarioLocal.length == 0){
+                    Swal.fire(
+                            'Elementos',
+                            'Agrega Elementos a tu presupuesto para continuar',
+                            'error'
+                        );
+                         
+                    }else{
+                if(this.festejados.length == 0){
+                    Swal.fire(
+                            'Festejados',
+                            'Agrega almenos un festejado para continuar',
+                            'error'
+                        );
+                         
+                    }else{
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -2166,6 +2222,7 @@ padding: 0;
                         'inventario': this.inventarioLocal,
                     }).then((response) => {
                         console.log('Email Enviado');
+                        
                     }).catch((error) => {
                         console.log(error.data);
                     });
@@ -2178,24 +2235,63 @@ padding: 0;
                             'error'
                         );
                     }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El presupuesto se creo correctamente',
-                            'success'
-                        );
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Presupuesto creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
+                        guardarPresupuesto();
                     }   
                     
                 }).catch((error) => {
-                    console.log(error.data);
-                    Swal.fire(
-                        'Algo salio mal!',
-                        'Verifica que completaste todos los campos correctamente antes de continuar',
-                        'error'
-                    );
+                    
+                    
                 });
+            } } 
+            
             },
             // Guardar como contrato
             guardarContrato(){
+                
+                if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
+                    Swal.fire(
+                            'Hora de recolección',
+                            'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente',
+                            'error'
+                        );
+                }else{
+                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega))){
+                    Swal.fire(
+                            'Hora de entrega',
+                            'Especifica un rango de hora de entrega de mobiliario y selecciona una opcion de entrega preferente',
+                            'error'
+                        );
+                }else{
+                if(this.inventarioLocal.length == 0){
+                    Swal.fire(
+                            'Elementos',
+                            'Agrega Elementos a tu contrato para continuar',
+                            'error'
+                        );
+                         
+                    }else{
+                if(this.festejados.length == 0){
+                    Swal.fire(
+                            'Festejados',
+                            'Agrega almenos un festejado para continuar',
+                            'error'
+                        );
+                         
+                    }else{
                 this.presupuesto.tipo = 'CONTRATO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
@@ -2243,22 +2339,35 @@ padding: 0;
                             'error'
                         );
                     }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El presupuesto se creo con exito',
-                            'success'
-                        );
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Contrato creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
+                         guardarPresupuesto();
                     }   
                     
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Algo anda mal!',
-                        'Verifica que completaste todos los campos correctamente',
-                        'error'
-                    );
+                   
                 });
+            }
+        }
+    }
+            }
+           
             },
+
+
             imprimirPDF(){
                 if(!this.imprimir){
                     Swal.fire(

@@ -26,10 +26,13 @@
     <section class="container">
         <div class="col-md-12">
             <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Crear nuevos producto</h3>
+                </div>
                 <div class="block-content">
                     {!! Form::open(['route' => 'inventory.store', 'files' => 'true']) !!}
             
-                        @include('inventories.partial.form')
+                        @include('Inventories.partial.form')
                     {!! Form::close() !!}
                 </div>
             </div>

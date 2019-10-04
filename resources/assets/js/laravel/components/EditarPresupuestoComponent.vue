@@ -72,7 +72,7 @@ padding: 0;
 </style>
 
 <template>
-    <section class="container" v-if="presupuesto.length != 0">
+    <section class="container" v-if="unlock">
         <div class="row">
             
         </div>
@@ -1039,6 +1039,7 @@ padding: 0;
         },
         data(){
             return{
+                unlock: false,
                 limpiar: false,
                 viendoPaquete: [],
                 results: [],
@@ -2205,12 +2206,13 @@ padding: 0;
                                 }
                                 return arregloElementos;
                             });
-                           return arregloElementos; 
+                           return arregloElementos;
+                           
                         })
 
                         let objeto = {
                             'externo': false,
-                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
+                            'imagen': 'https://www.grupomilan.com/files/imgs/blog/vendemos-cajas-carton.jpg',
                             'servicio': element.servicio,
                             'cantidad': element.cantidad,
                             'precioUnitario': element.precioUnitario,
@@ -2234,13 +2236,13 @@ padding: 0;
                         arregloPaquetes.push(objeto);   
                     }); 
                 this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
-
+                
+                this.unlock = true;
                 }).catch((error) => {
                     console.log(error.data);
                 })
                 
-
-
+                
               }).catch((error) => {
                 console.log(error.data);
               })
