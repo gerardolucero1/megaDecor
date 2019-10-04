@@ -36,7 +36,7 @@
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')
                             @csrf
-                            <select name="familia" id="familia" style="width: 100px">
+                            <select name="familia" id="familia" style="width: 100px" onchange="seleccionarFamilia()">
                                 <option value="">Todos los elementos</option>
                                 <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
                                 <option value="BEBIDAS">BEBIDAS</option>
@@ -106,10 +106,12 @@
                                 <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
                             </select>
 
-                            <button type="submit" class="btn btn-sm btn-info">Buscar</button>
+                            <button type="hidden" class="btn btn-sm btn-info">Buscar</button>
                         </form>
-                            <form action="">
-                                <input type="hidden" name="familia" value="">
+                            <form method="POST" action="{{route('imprimir.familia')}}" >
+                                @method('POST')
+                                @csrf   
+                                <input type="text" name="familia" id="inputfamilia" value="">
                             <button type="submit">Imprimir familia</button>    
                             </form>    
 
@@ -193,6 +195,10 @@
 
 @section("scripts")
     <script>
+        function seleccionarFamilia(){
+           NombreFamilia = document.getElementById('familia').value;
+        document.getElementById('inputfamilia').value=NombreFamilia;
+        }
         function editarCantidad(id){
             let nuevaCantidad = prompt('Ingresa la cantidad: ');
             let URL = 'editar-cantidad-inventario/' + id;

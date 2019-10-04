@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 
 class InventoryController extends Controller
 {
@@ -134,100 +136,15 @@ class InventoryController extends Controller
         //
     }
 
-    public function pdf($id){        
+    public function pdf(Request $request){        
 
-        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
-        $presupuesto->impresion = 1;
-        $presupuesto->save();
-
-        $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
-        $presupuesto->vendedor = $Vendedor->name;
-        $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
-       
-        //Obtenemos los elementos que pertenecen al inventario
-        $Elementos= BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
-
-        //Obtenemos los paquetes
-        $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
-
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
         
-        $arregloEmentos=[];
-        foreach($Paquetes as $paquete){
-            $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
-            foreach($Elementos_paquete as $Elemento_paquete){
-                $arregloElemento   = new stdClass();
-                $arregloElemento->imagen = $Elemento_paquete->imagen;
-                $arregloElemento->servicio = $Elemento_paquete->servicio;
-                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
-                $arregloElemento->notas = $Elemento_paquete->notas;
-                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
-                array_push($arregloEmentos,$arregloElemento);
-            }
-           
-        }
-       // dd($Elemento_paquete);
-
-         //Obtenemos clientes morales y fisicos
-         $clientes_morales = DB::table('clients')
-         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
-         ->get();
- 
-         $clientes_fisicos = DB::table('clients')
-         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito', 'physical_people.diasCredito')
-         ->get();
-         
-         $clientes = $clientes_morales->merge($clientes_fisicos);
-
-         //formato de minusculas
-         $presupuesto->tipoEvento=ucfirst(strtolower($presupuesto->tipoEvento));
-         $presupuesto->tipoServicio=ucfirst(strtolower($presupuesto->tipoServicio));
-
-         //Definimos la categoria del evento
-         switch($presupuesto->categoriaEvento){
-            case 1:
-            $presupuesto->categoria="XV años";
-            break;
-            case 2:
-            $presupuesto->categoria="Aniversario";
-            break;
-            case 3:
-            $presupuesto->categoria="Cumpleaños";
-            break;
-            case 4:
-            $presupuesto->categoria="Graduación";
-            break;
-            case 5:
-            $presupuesto->categoria="Cena de Gala";
-            break;
-            case 6:
-            $presupuesto->categoria="Otro";
-            break;
-
-        }
-        
-        //Obtener datos generales del cliente
-         foreach($clientes as $cliente){
-             if($presupuesto->client_id == $cliente->id){
-                 if($cliente->apellidoPaterno==$cliente->nombre){
-                $presupuesto->cliente=$cliente->nombre;
-                $presupuesto->diasCredito=$cliente->diasCredito;
-                $presupuesto->emailCliente=$cliente->email;
-                $presupuesto->creditoCliente=$cliente->tipoCredito;
-                 }else{
-                $presupuesto->cliente=$cliente->nombre." ".$cliente->apellidoPaterno." ".$cliente->apellidoMaterno;}
-                $presupuesto->emailCliente=$cliente->email;
-                $presupuesto->diasCredito=$cliente->diasCredito;
-                $presupuesto->creditoCliente=$cliente->tipoCredito;
-            }
-         }
-
 
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
+        $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario'));
 
         return $pdf->stream();
 

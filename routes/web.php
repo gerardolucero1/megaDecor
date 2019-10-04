@@ -138,6 +138,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
         Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
 
+//Imprimir familia
+    Route::post('/imprimir-familia', 'CMS\InventoryController@pdf')->name('imprimir.familia');
+
     //Configuraciones
     Route::get('/configuraciones', 'CMS\CommissionController@index');
     Route::post('/configuraciones/create', 'CMS\CommissionController@store');
