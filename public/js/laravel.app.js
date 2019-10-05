@@ -19716,6 +19716,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -87597,7 +87612,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _vm._v("\n                        Pendiende")
+                  _vm._v("\n                            Pendiende")
                 ]
               )
             ]),
@@ -87810,13 +87825,13 @@ var render = function() {
                       ) {
                         return _c("p", { key: telefono.index }, [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(telefono.numero) +
                               " - " +
                               _vm._s(telefono.nombre) +
                               " - " +
                               _vm._s(telefono.tipo) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       })
@@ -87830,7 +87845,9 @@ var render = function() {
               ? _c("div", { staticClass: "col-md-6 text-right mt-4" }, [
                   _c("div", { staticClass: "info" }, [
                     _c("p", [
-                      _vm._v("Ultimo evento: \n                            "),
+                      _vm._v(
+                        "Ultimo evento: \n                                "
+                      ),
                       _vm.clienteSeleccionado && _vm.ultimoEvento
                         ? _c("span", [
                             _vm._v(_vm._s(_vm.ultimoEvento.fechaEvento))
@@ -88331,15 +88348,15 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
+                        "\n                                    " +
                           _vm._s(producto.precioEspecial) +
-                          "\n                                \n                            "
+                          "\n                                    \n                                "
                       )
                     ]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
+                        "\n                                    " +
                           _vm._s(producto.precioUnitario) +
                           " "
                       ),
@@ -88510,9 +88527,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                                        " +
                                   _vm._s(producto.notas) +
-                                  "\n                                "
+                                  "\n                                    "
                               )
                             ]
                           )
@@ -88903,12 +88920,12 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
+        _vm._m(5),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(5),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
-            _vm._m(6),
-            _vm._v(" "),
             _c(
               "button",
               {
@@ -88921,9 +88938,11 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fa fa-send-o" }),
-                _vm._v("Enviar budget por correo")
+                _vm._v(" Enviar budget por correo")
               ]
-            )
+            ),
+            _vm._v(" "),
+            _vm._m(7)
           ]),
           _vm._v(" "),
           !_vm.original
@@ -88967,11 +88986,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(7),
+              _vm._m(8),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(8),
+                  _vm._m(9),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -89067,12 +89086,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(9),
+                _vm._m(10),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(10),
+                        _vm._m(11),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -89112,7 +89131,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(11)
+                _vm._m(12)
               ]
             )
           ]
@@ -89204,6 +89223,85 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "row",
+        staticStyle: { "padding-top": "15px", "padding-bottom": "15px" }
+      },
+      [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c(
+            "div",
+            {
+              staticClass: "col-md-6",
+              staticStyle: {
+                background: "#F8C6B8",
+                "border-radius": "10px",
+                padding: "25px"
+              }
+            },
+            [
+              _c(
+                "p",
+                { staticStyle: { "font-size": "20px", "font-weight": "bold" } },
+                [_vm._v("Registro de pagos")]
+              ),
+              _vm._v(" "),
+              _c("ul", [
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Sabado 5 Octubre 2019")
+                  ]),
+                  _vm._v(" $1,000.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Domingo 6 Octubre 2019")
+                  ]),
+                  _vm._v(" $800.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Sabado 5 Octubre 2019")
+                  ]),
+                  _vm._v(" $500.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("label", [_vm._v("Saldo pendiente: $1,750.00")]),
+              _c("br"),
+              _vm._v(" "),
+              _c("label", { staticStyle: { "font-style": "italic" } }, [
+                _vm._v("Pagar antes del 15 de octubre de 2019")
+              ])
+            ]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
       _c(
         "button",
@@ -89220,8 +89318,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("button", { staticClass: "btn btn-primary" }, [
-      _c("i", { staticClass: "si si-printer" }),
-      _vm._v("Imprimir")
+      _c("i", { staticClass: "fa fa-dollar" }),
+      _vm._v(" Registrar Pago")
     ])
   },
   function() {
@@ -105152,13 +105250,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

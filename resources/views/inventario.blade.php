@@ -105,8 +105,7 @@
                                 <option value="VELA">VELA</option>
                                 <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
                             </select>
-
-                            <button type="submit" class="btn btn-sm btn-info">Buscar</button><br>
+                            <button style="margin-left: 20px" type="submit" class="btn btn-sm btn-info">Buscar</button><br>
                         </form>
                             <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
@@ -120,6 +119,9 @@
                            
                                     <a class="btn btn-primary" href="{{ route('inventory.create') }}">
                                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
+                                    </a>
+                                    <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
+                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
                                     </a>
                                         
                                    
@@ -185,7 +187,28 @@
                 </div>
                 <!-- Vista presupuestos archivados -->
                 
-
+<!-- modal paquete -->
+<div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
+                    <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
+                    <div  class="btn btn-primary" >Guardar paquete</div>
+                </div>
+                </div>
+            </div>
+        </div>
                 
                
     </section>

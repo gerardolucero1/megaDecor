@@ -218,6 +218,7 @@
                                     <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
                                     <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
+                                    <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
                                 </li>
                                 <li class="nav-main-heading">
                                     <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
