@@ -112,7 +112,7 @@
                                 @method('POST')
                                 @csrf   
                                 <input type="hidden" name="familia" id="inputfamilia" value="">
-                            <button type="submit">Imprimir familia</button>    
+                            <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
                             </form>    
 
                     </div>
