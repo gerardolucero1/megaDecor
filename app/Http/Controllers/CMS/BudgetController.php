@@ -625,7 +625,9 @@ class BudgetController extends Controller
         $presupuesto->save();
 
         //Buscamos el ultimo presupuesto actualizado guardado
-        $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
+
+
+        $ultimoPresupuesto = $presupuesto;
 
         //Por cada festejado en el arreglo que mandamos le agregamos el id del budget y lo guardamos.
         foreach ($request->festejados as $item) {
