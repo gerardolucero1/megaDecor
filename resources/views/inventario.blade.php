@@ -106,12 +106,12 @@
                                 <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
                             </select>
 
-                            <button type="hidden" class="btn btn-sm btn-info">Buscar</button>
+                            <button type="submit" class="btn btn-sm btn-info">Buscar</button>
                         </form>
                             <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf   
-                                <input type="text" name="familia" id="inputfamilia" value="">
+                                <input type="hidden" name="familia" id="inputfamilia" value="">
                             <button type="submit">Imprimir familia</button>    
                             </form>    
 
