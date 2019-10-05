@@ -48,6 +48,7 @@ class InventoryController extends Controller
             'precioUnitario' => 'required',
             'precioVenta' => 'required',
             'precioVenta' => 'required',
+            'familia' => 'required',
         ]);
  
         if ($v->fails())
@@ -101,6 +102,7 @@ class InventoryController extends Controller
             'precioUnitario' => 'required',
             'precioVenta' => 'required',
             'precioVenta' => 'required',
+            'familia' => 'required',
         ]);
  
         if ($v->fails())

@@ -361,7 +361,7 @@
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
                     <div class="col-md-4">
-                        <button  class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button>
+                       
                         <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
                         </div>
                     <div v-if="!original" class="col-md-4 mt-4">

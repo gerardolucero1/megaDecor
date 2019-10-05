@@ -88907,8 +88907,6 @@ var render = function() {
           _vm._m(5),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
-            _vm._m(6),
-            _vm._v(" "),
             _c(
               "button",
               {
@@ -88967,11 +88965,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(7),
+              _vm._m(6),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(8),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -89067,12 +89065,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(9),
+                _vm._m(8),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(10),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -89112,7 +89110,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(11)
+                _vm._m(10)
               ]
             )
           ]
@@ -89213,15 +89211,6 @@ var staticRenderFns = [
         },
         [_vm._v("Ver versiones")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-primary" }, [
-      _c("i", { staticClass: "si si-printer" }),
-      _vm._v("Imprimir")
     ])
   },
   function() {
@@ -105152,13 +105141,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
