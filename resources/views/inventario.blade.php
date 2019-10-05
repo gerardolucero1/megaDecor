@@ -106,7 +106,7 @@
                                 <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
                             </select>
 
-                            <button type="submit" class="btn btn-sm btn-info">Buscar</button>
+                            <button type="submit" class="btn btn-sm btn-info">Buscar</button><br>
                         </form>
                             <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
