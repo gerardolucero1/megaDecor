@@ -4,6 +4,7 @@ namespace App;
 
 use App\User;
 use App\Client;
+use App\Payment;
 use App\Celebrated;
 use Illuminate\Database\Eloquent\Model;
 
@@ -79,5 +80,10 @@ class Budget extends Model
     public function budgetPacks()
     {
         return $this->hasMany(BudgetPack::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

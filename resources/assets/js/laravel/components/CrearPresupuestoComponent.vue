@@ -1521,10 +1521,12 @@ padding: 0;
             },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    
 
                 }else{
                      this.presupuesto.nombreLugar = '';
@@ -2016,6 +2018,7 @@ padding: 0;
                         return (indice == index);
                     });
                     producto.precioUnitario = this.precioUnitarioActualizada;
+                    producto.precioEspecial = this.precioUnitarioActualizada;
                     producto.precioFinal = producto.cantidad * producto.precioEspecial;
                     producto.ahorro = producto.precioUnitario - producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);

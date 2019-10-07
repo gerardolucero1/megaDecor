@@ -56,12 +56,12 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+            ->select('clients.id','moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
+            ->select( 'clients.id', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);

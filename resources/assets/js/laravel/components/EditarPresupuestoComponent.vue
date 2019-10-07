@@ -238,6 +238,7 @@ padding: 0;
                 </div>
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                    <!--
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -250,7 +251,7 @@ padding: 0;
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
-
+                    -->
                     <div class="col-md-10 mt-4">
                         <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
                     </div>
@@ -1350,10 +1351,12 @@ padding: 0;
             },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    */
 
                 }else{
                      this.presupuesto.nombreLugar = '';
