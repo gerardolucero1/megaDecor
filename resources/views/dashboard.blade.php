@@ -125,14 +125,21 @@
                                                 </div>
                                             </a>
                                         </div>
+                                        @php
+                                $usuario = Auth::user()->id;    
+                            @endphp
+                            @if ($usuario == 17)
+                                            
                                         <div class="col-md-6">
                                                 <a class="block" href="javascript:void(0)">
                                                     <div class="block-content block-content-full">
                                                         <div class="text-right">
                                                             <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                         </div>
+                                                        <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
                                                         <div class="row pt-10 pb-30 text-center">
                                                             <div class="col-6 border-r">
+                                                                
                                                                 <div class="font-size-h3 font-w600">$1,550.00<span><br><span style="font-size:14px; line-height: 10px;">Egresos: $238.00<span></div>
                                                                 <div class="font-size-sm font-w600 text-uppercase text-muted"></span><br>Ingresos del dia</div><br>
                                                                 <button class="btn btn-sm btn-success" style="">Nuevo Ingreso</button> <button class="btn btn-sm btn-danger" style="">Nuevo Egreso</button>
@@ -147,12 +154,15 @@
                                                     </div>
                                                 </a>
                                             </div>
+                                           
+                            
                                             <div class="col-md-6">
                                                     <a class="block" href="javascript:void(0)">
                                                         <div class="block-content block-content-full">
                                                             <div class="text-right">
                                                                 <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                             </div>
+                                                            <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
                                                             <div class="row pt-10 pb-30 text-left">
                                                                 <div class="col-6  border-r">
                                                                     <p style="font-weight: bold;">Ingresos: </p>
@@ -178,6 +188,7 @@
                                                         </div>
                                                     </a>
                                                 </div>
+                                                @endif
                     </div>
                     <div class="row">
                         <div class="col-md-4">
