@@ -720,7 +720,7 @@
         },
         computed:{
             pagarAntesDe: function(){
-                let fechaLimite = moment(this.presupuesto.fechaEvento).add('days', this.clienteSeleccionado.diasCredito).format('MMMM Do, YYYY');
+                let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
                 return fechaLimite;
             },
 

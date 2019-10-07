@@ -19945,7 +19945,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     pagarAntesDe: function pagarAntesDe() {
-      var fechaLimite = moment(this.presupuesto.fechaEvento).add('days', this.clienteSeleccionado.diasCredito).format('MMMM Do, YYYY');
+      var fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
       return fechaLimite;
     },
     saldoPendiente: function saldoPendiente() {
