@@ -109,6 +109,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];
@@ -526,6 +528,8 @@ class BudgetController extends Controller
         $oldVersion->tipoEvento = $version->tipoEvento;
         $oldVersion->tipoServicio = $version->tipoServicio;
         $oldVersion->categoriaEvento = $version->categoriaEvento;
+        $oldVersion->requiereFactura = $version->requiereFactura;
+        $oldVersion->requiereMontaje = $version->requiereMontaje;
         $oldVersion->fechaEvento = $version->fechaEvento;
         $oldVersion->pendienteFecha = $version->pendienteFecha;
         $oldVersion->horaEventoInicio = $version->horaEventoInicio;
@@ -583,6 +587,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];

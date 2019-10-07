@@ -154,6 +154,12 @@
                         
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Requiere factura: {{ presupuesto.requiereFactura }}</p> <br>
+                        <p>Requiere montaje: {{ presupuesto.requiereMontaje }}</p>
+                    </div>
+                </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Cliente</h4>

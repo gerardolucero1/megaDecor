@@ -13965,6 +13965,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -14043,7 +14056,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         tipoComision: 100,
         comision: '',
         //Notas
-        notasPresupuesto: ''
+        notasPresupuesto: '',
+        requiereFactura: '',
+        requiereMontaje: ''
       },
       clientes: [],
       festejado: {
@@ -19252,6 +19267,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72162,6 +72183,122 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("label", [_vm._v("Requiere factura:")]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.presupuesto.requiereFactura,
+                      expression: "presupuesto.requiereFactura"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    value: "SI",
+                    name: "requiereFactura"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.presupuesto.requiereFactura, "SI")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.presupuesto, "requiereFactura", "SI")
+                    }
+                  }
+                }),
+                _vm._v(" SI "),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.presupuesto.requiereFactura,
+                      expression: "presupuesto.requiereFactura"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    value: "NO",
+                    name: "requiereFactura"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.presupuesto.requiereFactura, "NO")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.presupuesto, "requiereFactura", "NO")
+                    }
+                  }
+                }),
+                _vm._v(" NO\n                    ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("label", [_vm._v("Requiere montaje:")]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.presupuesto.requiereMontaje,
+                      expression: "presupuesto.requiereMontaje"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    value: "SI",
+                    name: "requiereMontaje"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.presupuesto.requiereMontaje, "SI")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.presupuesto, "requiereMontaje", "SI")
+                    }
+                  }
+                }),
+                _vm._v(" SI "),
+                _c("br"),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.presupuesto.requiereMontaje,
+                      expression: "presupuesto.requiereMontaje"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    value: "NO",
+                    name: "requiereMontaje"
+                  },
+                  domProps: {
+                    checked: _vm._q(_vm.presupuesto.requiereMontaje, "NO")
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(_vm.presupuesto, "requiereMontaje", "NO")
+                    }
+                  }
+                }),
+                _vm._v(" NO\n                    ")
+              ])
+            ]),
+            _vm._v(" "),
             _c(
               "div",
               {
@@ -87802,6 +87939,24 @@ var render = function() {
             ])
           ]
         ),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("p", [
+              _vm._v(
+                "Requiere factura: " + _vm._s(_vm.presupuesto.requiereFactura)
+              )
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Requiere montaje: " + _vm._s(_vm.presupuesto.requiereMontaje)
+              )
+            ])
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "div",

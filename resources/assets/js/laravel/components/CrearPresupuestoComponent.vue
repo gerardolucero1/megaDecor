@@ -172,6 +172,19 @@ padding: 0;
                         
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Requiere factura:</label> <br>
+                        <input type="radio" value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> SI <br>
+                        <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> NO
+                    </div>
+                    <div class="col-md-4">
+                        <label>Requiere montaje:</label> <br>
+                        <input type="radio" value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> SI <br>
+                        <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> NO
+                    </div>
+                </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
@@ -1272,6 +1285,9 @@ padding: 0;
 
                     //Notas
                     notasPresupuesto: '',
+
+                    requiereFactura: '',
+                    requiereMontaje: '',
                 },
 
                 clientes: [],
