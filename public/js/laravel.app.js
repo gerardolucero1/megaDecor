@@ -13965,6 +13965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -73783,18 +73784,29 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "info mt-3" }, [
-                      _c("p", [
-                        _vm._v("TOTAL con IVA: $"),
-                        _c("span", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("decimales")(
-                                _vm.calcularSubtotal + _vm.calcularIva
+                      _vm.presupuesto.opcionIVA == true
+                        ? _c("p", [
+                            _vm._v("TOTAL + IVA: $"),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("decimales")(
+                                    _vm.calcularSubtotal + _vm.calcularIva
+                                  )
+                                )
                               )
-                            )
-                          )
-                        ])
-                      ]),
+                            ])
+                          ])
+                        : _c("p", [
+                            _vm._v("TOTAL: $"),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("decimales")(_vm.calcularSubtotal)
+                                )
+                              )
+                            ])
+                          ]),
                       _vm._v(" "),
                       _c("p", [
                         _vm._v("Ahorro General: $"),

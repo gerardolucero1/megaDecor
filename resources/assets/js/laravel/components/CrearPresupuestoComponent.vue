@@ -479,7 +479,8 @@ padding: 0;
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p v-if="presupuesto.opcionIVA==true">TOTAL + IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p v-else>TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p style="display:none">Comision pagada en base a $ <span>150</span></p>
 
