@@ -136,10 +136,8 @@
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
-                                    <th>Costo</th>
                                     <th>Proveedor</th>
                                     <th>Familia</th>
-                                    <th>Ultima Edición</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -155,10 +153,8 @@
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->precioVenta }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td class="d-none d-sm-table-cell text-center">{{ $inventario->updated_at }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
                                     <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">

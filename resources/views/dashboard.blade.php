@@ -200,7 +200,7 @@
                                     <div class="block-content block-content-full">
                                         <button class="btn btn-info">Ver todo</button>
                                         <button onclick="SoloTareas()" class="btn btn-success">Tareas</button>
-                                        <button class="btn btn-info">Eventos</button>
+                                        <button class="btn btn-info" style="background:#91DFEB">Eventos</button>
                                 <div id='calendar'></div>
                                     </div>
                                 </div>

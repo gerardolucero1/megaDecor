@@ -287,20 +287,20 @@
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioEspecial }}
+                                    {{ producto.precioEspecial | currency}}
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioUnitario }} <br>
-                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior }}</del>
+                                    {{ producto.precioUnitario | currency}} <br>
+                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency }}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
@@ -463,9 +463,9 @@
                                     <input type="checkbox">
                                 </td>
                                 <td>{{ item.nombre }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.precioUnitario | currency}}</td>
+                                <td>{{ item.precioFinal | currency}}</td>
+                                <td>{{ item.precioVenta | currency}}</td>
                                 <td>{{ item.proveedor }}</td>
                             </tr>
                         </tbody>
