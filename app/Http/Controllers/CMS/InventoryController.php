@@ -58,7 +58,7 @@ class InventoryController extends Controller
 
         $inventory = Inventory::create($request->all());
 
-        return redirect()->route('inventory.edit', $inventory->id)
+        return redirect()->route('inventory.create')
             ->with('info', 'Producto creado con exito');
 
     }

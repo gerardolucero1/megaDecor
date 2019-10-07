@@ -80,6 +80,11 @@
         <div class="form-group row">
             <div class="col-md-12">
                 <div class="form-material">
+                    <select name="selectmoneda" id="selectmoneda" onchange="seleccionarMoneda()">
+                        <option value="">Selecciona tipo de cambio</option>
+                        <option value="MXN">MXN</option>
+                        <option value="DLLS">DLLS</option>
+                    </select>
                     {{ Form::label('tipoCambio', 'Tipo de cambio') }}
                     {{ Form::text('tipoCambio', null, ['class' => 'form-control', 'id' => 'tipoCambio']) }}  
                 </div>
@@ -94,9 +99,11 @@
                 </div>
             </div>
         </div>
-        <div class="form-group row" onclick="holamundo()">
+        <div class="form-group row">
                 <div class="col-md-12">
+                    <label for="">Selecciona una familia</label>
                         <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
+                                <option value="">Selecciona una familia</option>
                                 <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
                                 <option value="BEBIDAS">BEBIDAS</option>
                                 <option value="BODEGA MATERIAL DE TRABAJO">BODEGA MATERIAL DE TRABAJO</option>
@@ -166,8 +173,8 @@
                             </select>
                     <div class="form-material">
                         {{ Form::label('familia', 'Familia') }}
-                        <label for="">Familia actual:</label>
-                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia']) }}  
+                        <label for="">Familia seleccionada:</label>
+                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
                     </div>
                 </div>
             </div>
@@ -175,7 +182,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <button type="submit" class="btn btn-sm btn-info">Actualizar producto</button>
+            <button type="submit" class="btn btn-sm btn-info">Guardar</button>
         </div>
     </div>
 </section>
@@ -183,5 +190,9 @@
 function seleccionarFamilia(){
            NombreFamilia = document.getElementById('selectfamilia').value;
         document.getElementById('familia').value=NombreFamilia;
+        }
+function seleccionarMoneda(){
+           TipoCambio = document.getElementById('selectmoneda').value;
+        document.getElementById('tipoCambio').value=TipoCambio;
         }
 </script>

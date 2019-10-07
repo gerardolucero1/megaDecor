@@ -13965,6 +13965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -19248,6 +19249,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -73769,18 +73785,29 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "info mt-3" }, [
-                      _c("p", [
-                        _vm._v("TOTAL con IVA: $"),
-                        _c("span", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("decimales")(
-                                _vm.calcularSubtotal + _vm.calcularIva
+                      _vm.presupuesto.opcionIVA == true
+                        ? _c("p", [
+                            _vm._v("TOTAL + IVA: $"),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("decimales")(
+                                    _vm.calcularSubtotal + _vm.calcularIva
+                                  )
+                                )
                               )
-                            )
-                          )
-                        ])
-                      ]),
+                            ])
+                          ])
+                        : _c("p", [
+                            _vm._v("TOTAL: $"),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("decimales")(_vm.calcularSubtotal)
+                                )
+                              )
+                            ])
+                          ]),
                       _vm._v(" "),
                       _c("p", [
                         _vm._v("Ahorro General: $"),
@@ -87598,7 +87625,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _vm._v("\n                        Pendiende")
+                  _vm._v("\n                            Pendiende")
                 ]
               )
             ]),
@@ -87811,13 +87838,13 @@ var render = function() {
                       ) {
                         return _c("p", { key: telefono.index }, [
                           _vm._v(
-                            "\n                            " +
+                            "\n                                " +
                               _vm._s(telefono.numero) +
                               " - " +
                               _vm._s(telefono.nombre) +
                               " - " +
                               _vm._s(telefono.tipo) +
-                              "\n                        "
+                              "\n                            "
                           )
                         ])
                       })
@@ -87831,7 +87858,9 @@ var render = function() {
               ? _c("div", { staticClass: "col-md-6 text-right mt-4" }, [
                   _c("div", { staticClass: "info" }, [
                     _c("p", [
-                      _vm._v("Ultimo evento: \n                            "),
+                      _vm._v(
+                        "Ultimo evento: \n                                "
+                      ),
                       _vm.clienteSeleccionado && _vm.ultimoEvento
                         ? _c("span", [
                             _vm._v(_vm._s(_vm.ultimoEvento.fechaEvento))
@@ -88332,15 +88361,15 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
+                        "\n                                    " +
                           _vm._s(producto.precioEspecial) +
-                          "\n                                \n                            "
+                          "\n                                    \n                                "
                       )
                     ]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
+                        "\n                                    " +
                           _vm._s(producto.precioUnitario) +
                           " "
                       ),
@@ -88511,9 +88540,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                                        " +
                                   _vm._s(producto.notas) +
-                                  "\n                                "
+                                  "\n                                    "
                               )
                             ]
                           )
@@ -88904,8 +88933,10 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
+        _vm._m(5),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(5),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c(
@@ -88920,9 +88951,11 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fa fa-send-o" }),
-                _vm._v("Enviar budget por correo")
+                _vm._v(" Enviar budget por correo")
               ]
-            )
+            ),
+            _vm._v(" "),
+            _vm._m(7)
           ]),
           _vm._v(" "),
           !_vm.original
@@ -88966,11 +88999,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(8),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(7),
+                  _vm._m(9),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -89066,12 +89099,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(8),
+                _vm._m(10),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(9),
+                        _vm._m(11),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -89111,7 +89144,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(10)
+                _vm._m(12)
               ]
             )
           ]
@@ -89203,6 +89236,85 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "row",
+        staticStyle: { "padding-top": "15px", "padding-bottom": "15px" }
+      },
+      [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c(
+            "div",
+            {
+              staticClass: "col-md-6",
+              staticStyle: {
+                background: "#F8C6B8",
+                "border-radius": "10px",
+                padding: "25px"
+              }
+            },
+            [
+              _c(
+                "p",
+                { staticStyle: { "font-size": "20px", "font-weight": "bold" } },
+                [_vm._v("Registro de pagos")]
+              ),
+              _vm._v(" "),
+              _c("ul", [
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Sabado 5 Octubre 2019")
+                  ]),
+                  _vm._v(" $1,000.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Domingo 6 Octubre 2019")
+                  ]),
+                  _vm._v(" $800.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("span", { staticStyle: { "font-style": "italic" } }, [
+                    _vm._v("Sabado 5 Octubre 2019")
+                  ]),
+                  _vm._v(" $500.00"),
+                  _c(
+                    "span",
+                    { staticStyle: { "font-size": "10px", color: "green" } },
+                    [_vm._v(" -Efectivo")]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("label", [_vm._v("Saldo pendiente: $1,750.00")]),
+              _c("br"),
+              _vm._v(" "),
+              _c("label", { staticStyle: { "font-style": "italic" } }, [
+                _vm._v("Pagar antes del 15 de octubre de 2019")
+              ])
+            ]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
       _c(
         "button",
@@ -89212,6 +89324,15 @@ var staticRenderFns = [
         },
         [_vm._v("Ver versiones")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-primary" }, [
+      _c("i", { staticClass: "fa fa-dollar" }),
+      _vm._v(" Registrar Pago")
     ])
   },
   function() {

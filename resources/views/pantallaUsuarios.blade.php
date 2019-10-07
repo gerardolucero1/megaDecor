@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-5 text-right">
                            
-                    <button  class="btn btn-primary">
+                    <button  class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
                                             <i class="fa fa-user-plus"></i> <i>Nuevo Usario</i> 
                                     </button>
                                     <button onclick="VerArchivados()" class="btn btn-secondary">
@@ -121,6 +121,104 @@
                                     </div>
                                 </div>
                         </div>
+                        <!-- modal paquete -->
+<div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+        <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content" style="border: solid gray">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Nuevo Usuario</h5>
+                <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4"> 
+                        <label for="">Nombre</label><br>
+                        <input type="text" placeholder="Nombre" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                    </div>
+                    <div class="col-md-4">
+                         <label for="">Apellido Paterno</label><br>
+                        <input type="text" placeholder="Apellido Paterno" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Apellido Materno</label><br>
+                        <input type="text" placeholder="Apellido Materno" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Teléfono</label><br>
+                        <input type="text" placeholder="Numero Telefonico" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                        </div>
+                    <div class="col-md-4">
+                        <label for="">Rol de usuario</label><br>
+                        <select name="" id="">
+                            <option value="">Administrador</option>
+                            <option value="">Vendedor</option>
+                            <option value="">Caja</option>
+                            <option value="">Contabilidad</option>
+                            <option value="">Operador</option>
+                        </select>           
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 25px">
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Correo Electronico" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Contraseña" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Confirmar contraseña" style="border:solid; border-width:1px; border-radius:5px; padding:5px;">
+                        </div>
+                </div>
+                <div class="row" style="padding:30px; padding-top: 25px; padding-bottom: 0px;">
+                    <label style="font-weight: bold" for="">Permisos de usuario</label>
+                </div>
+                <div class="row" style="padding: 50px; padding-top: 10px;">
+                    <div class="col-md-4">
+                                <label for=""><input type="checkbox"> Dashboard</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Crear Presupuesto</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Comparador de ventas</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Comparador de ingresos</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Calendario eventos</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Creacion de tareas</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Tabla de tareas</label>
+                                <label for="" style="padding-left: 30px"><input type="checkbox"> Empleado del mes</label>
+                            </div>
+                            <div class="col-md-4">
+                                    <label for=""><input type="checkbox"> Formulario Presupuesto</label>
+                                    <label for="" style="padding-left: 30px"><input type="checkbox"> Administrar categorias</label>
+                                    <label for="" style="padding-left: 30px"><input type="checkbox"> Guardar elementos externos</label>
+                                    <label for="" style="padding-left: 30px"><input type="checkbox"> Guardar paquetes</label>
+                                    <label for="" style="padding-left: 30px"><input type="checkbox"> Guardar como contrato</label>
+                                    <label for="" style="padding-left: 30px"><input type="checkbox"> Editar precios unitarios</label>
+                                </div>
+                                <div class="col-md-4">
+                                        <label for=""><input type="checkbox"> Pantalla Presupuestos</label>
+                                        <label for="" style="padding-left: 30px"><input type="checkbox"> Imprimir</label>
+                                        <label for="" style="padding-left: 30px"><input type="checkbox"> Editar</label>
+                                        <label for="" style="padding-left: 30px"><input type="checkbox"> Ver ficha tecnica</label>
+                                        <label for="" style="padding-left: 30px"><input type="checkbox"> Imprimir</label>
+                                        <label for="" style="padding-left: 30px"><input type="checkbox"> Enviar por correo</label>
+                                    </div>
+                                    <div class="col-md-4" style="padding-top: 20px">
+                                            <label for=""><input type="checkbox"> Pantalla Contratos</label>
+                                            <label for="" style="padding-left: 30px"><input type="checkbox"> Imprimir</label>
+                                            <label for="" style="padding-left: 30px"><input type="checkbox"> Editar</label>
+                                            <label for="" style="padding-left: 30px"><input type="checkbox"> Ver ficha tecnica</label>
+                                            <label for="" style="padding-left: 30px"><input type="checkbox"> Imprimir</label>
+                                            <label for="" style="padding-left: 30px"><input type="checkbox"> Enviar por correo</label>
+                                        </div>
+                
+            </div>
+            
+            <div class="modal-footer">
+                <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
+                <div  class="btn btn-primary" >Agregar Usuario</div>
+            </div>
+            </div>
+        </div>
+    </div>
                
     </section>
    

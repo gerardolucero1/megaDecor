@@ -355,15 +355,30 @@
                         </div>
                     </div>
                 </div>
-
+<div class="row" style="padding-top:15px; padding-bottom:15px;">
+ <div class="col-md-12">
+                        <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
+                            <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
+                        <ul>
+                            <li><span style="font-style:italic">Sabado 5 Octubre 2019</span> $1,000.00<span style="font-size:10px; color:green"> -Efectivo</span></li>
+                            <li><span style="font-style:italic">Domingo 6 Octubre 2019</span> $800.00<span style="font-size:10px; color:green"> -Efectivo</span></li>
+                            <li><span style="font-style:italic">Sabado 5 Octubre 2019</span> $500.00<span style="font-size:10px; color:green"> -Efectivo</span></li>
+                        </ul>
+                        <label>Saldo pendiente: $1,750.00</label><br>
+                        <label style="font-style:italic">Pagar antes del 15 de octubre de 2019</label>
+                    </div>
+                    </div>
+</div>
                 <div class="row">
+                   
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
                     <div class="col-md-4">
-                       
-                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
+                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                       <button class="btn btn-primary"><i class="fa fa-dollar"></i> Registrar Pago</button>
                         </div>
+                    
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
                     </div>
