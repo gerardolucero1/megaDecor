@@ -7,6 +7,7 @@ use stdClass;
 use Barryvdh\DomPDF\Facade as PDF;
 Use App\Budget;
 Use App\User;
+Use App\Client;
 Use App\Inventory;
 Use App\Telephone;
 use Illuminate\Http\Request;
@@ -145,10 +146,15 @@ class IndexController extends Controller
          $Presupuesto->vendedor = $DatosVendedor->name;
          $Presupuesto->version = $budget->version;
          $Presupuesto->updated_at = $budget->updated_at;
+         $Presupuesto->servicio = $budget->tipoEvento." ".$budget->tipoServicio;
+         $Presupuesto->notasPresupuesto = $budget->notasPresupuesto;
+         $Presupuesto->horaEventoInicio = $budget->horaEventoInicio;
+         $Presupuesto->horaEventoFin = $budget->horaEventoFin;
          
-
+            
+            
          foreach($clientes as $cliente){
-             if($cliente->id===$budget->client_id){
+             if($cliente->id==$budget->client_id){
          $Presupuesto->cliente = $cliente->nombre;
                 if($budget->lugarEvento = 'MISMA'){
                     $Presupuesto->lugarEvento = $cliente->direccionFacturacion; 
@@ -159,6 +165,8 @@ class IndexController extends Controller
                 
         }else{$Presupuesto->cliente = "--";}
         }
+        $arregloCliente = Client::orderBy('id', 'DESC')->where('id', $budget->client_id)->first();
+        $Presupuesto->cliente = $arregloCliente->nombreCliente;
 
          array_push($Presupuestos,$Presupuesto);
         }

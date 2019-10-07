@@ -411,20 +411,20 @@ padding: 0;
                                 <td>
                                     
                                     <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada"  v-on:change="updatePrecioUnitario(index)">
-                                    <span v-else  v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
+                                    <span v-else  v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario | currency}}</span>
                                     <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior }}</del>
                                  </td>
                                  <th scope="row">
                                     <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:change="updatePrecioEspecial(index)">
-                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial | currency}}</span>
                                 </th>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:change="updatePrecioFinal(index)">
-                                    <span v-else >${{ producto.precioFinal | decimales }}</span>
+                                    <span v-else >{{ producto.precioFinal | currency }}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:change="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
@@ -473,16 +473,15 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
+                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p v-if="presupuesto.opcionIVA==true">TOTAL + IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
-                                    <p v-else>TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
-                                    <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p style="display:none">Comision pagada en base a $ <span>150</span></p>
+                                    <p v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <p v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></p>
+                                    <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
 
                                 </div>
                             </div>
@@ -1186,7 +1185,8 @@ padding: 0;
     import BuscadorComponent from './BuscadorComponent.vue';
     // Importamos el evento Bus.
     import { EventBus } from '../eventBus.js';
-
+    
+   
     export default {
         components: {
             SearchComponent,
@@ -1485,6 +1485,7 @@ padding: 0;
             }
         },
         filters: {
+            
             decimales: function (x, posiciones = 2) {
                 var s = x.toString()
                 var l = s.length

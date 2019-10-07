@@ -348,6 +348,7 @@
 $(document).ready( function () {
 
     $('#TablaClientes').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 100,
         "language": {
         "decimal": "",
@@ -375,6 +376,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaClientesArchivados').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 100,
         "language": {
         "decimal": "",
@@ -399,6 +401,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestosArchivados').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
         "pageLength": 100,
         "language": {
         "decimal": "",
@@ -423,6 +426,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestos').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 100,
         "language": {
         "decimal": "",

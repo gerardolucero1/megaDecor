@@ -406,20 +406,20 @@ padding: 0;
                                 <td>
                                     
                                     <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
-                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
-                                    <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior }}</del>
+                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario | currency}}</span>
+                                    <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior | currency}}</del>
                                  </td>
                                  <th scope="row">
                                     <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
-                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial | currency}}</span>
                                 </th>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency}}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
@@ -469,19 +469,19 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <h3 v-else>Subtotal: $<span>{{ saldoFinal | decimales }}</span><br>
+                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
+                                <h3 v-else>Subtotal: <span>{{ saldoFinal | currency }}</span><br>
                                 <span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
-                                    <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                    <p>TOTAL con IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
-                                   <p style="font-size:16px; font-weight:bold;">Total: ${{ calcularSubtotal + calcularIva | decimales }} <i class="fa fa-edit"></i></p>
+                                   <p style="font-size:16px; font-weight:bold;">Total: {{ calcularSubtotal + calcularIva | currency }} <i class="fa fa-edit"></i></p>
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                     <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
@@ -649,13 +649,13 @@ padding: 0;
                                                 </td>
                                                 <td>
                                                     <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:keyup.enter="updatePrecioUnitarioPaquete(index)">
-                                                    <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario }}</span>
+                                                    <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario | currency}}</span>
                                                 </td>
                                                 <td>
                                                     <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:keyup.enter="updatePrecioEspecialPaquete(index)">
-                                                    <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                                    <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial | currency}}</span>
                                                 </td>
-                                                <td>{{ producto.precioFinal }}</td>
+                                                <td>{{ producto.precioFinal | currency}}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
                                                 </td>
@@ -1007,9 +1007,9 @@ padding: 0;
                                 <th scope="row">{{ index }}</th>
                                 <td>{{ item.nombre }}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.precioUnitario | currency}}</td>
+                                <td>{{ item.precioFinal | currency}}</td>
+                                <td>{{ item.precioVenta | currency}}</td>
                                 <td>{{ item.proveedor }}</td>
                             </tr>
                         </tbody>

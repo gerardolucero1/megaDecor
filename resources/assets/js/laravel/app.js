@@ -14,6 +14,15 @@ import { Calendar, WindowScrollController } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import Vuelidate from 'vuelidate';
+import VueCurrencyFilter from 'vue-currency-filter'
+Vue.use(VueCurrencyFilter, {
+    symbol: '$', // El símbolo, por ejemplo €
+    thousandsSeparator: ',', // Separador de miles
+    fractionCount: 2, // ¿Cuántos decimales mostrar?
+    fractionSeparator: '.', // Separador de decimales
+    symbolPosition: 'front', // Posición del símbolo. Puede ser al inicio ('front') o al final ('') es decir, si queremos que sea al final, en lugar de front ponemos una cadena vacía ''
+    symbolSpacing: true // Indica si debe poner un espacio entre el símbolo y la cantidad
+  })
 
 Vue.use(VueFuse);
 
@@ -87,7 +96,8 @@ function detalleTarea(task){
     }
 Swal.fire({
                 title: task.event.title,
-                text: "Detalles: "+task.event.extendedProps.notas,
+
+                html: "<b>"+task.event.extendedProps.servicio+"</b> <br> Notas: "+task.event.extendedProps.notasPresupuesto+"<br> Horario: "+task.event.extendedProps.horario,
                 type: 'info',
                 showCancelButton: true,
                 showConfirmButton: true,
@@ -139,8 +149,11 @@ calendar.batchRendering(function() {
     //Imprimimos los contratos recuperadas en el calendario
         contratos.forEach((element) => {
             calendar.changeView('dayGridMonth');
-            calendar.addEvent({id: element.id, groupId: 2, title: element.folio, start: element.fechaEvento, color: '#F0833C', extendedProps: {
-                notas: element.cliente
+            calendar.addEvent({id: element.id, groupId: 2, title: element.folio+" - "+element.cliente, start: element.fechaEvento, color: '#91DFEB', extendedProps: {
+                notas: element.cliente,
+                servicio: element.servicio,
+                notasPresupuesto: element.notasPresupuesto,
+                horario: element.horaEventoInicio+"-"+element.horaEventoFin,
               }, });  
           }); 
     });
