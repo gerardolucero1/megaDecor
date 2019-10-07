@@ -1670,8 +1670,6 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
-              //this.actualizarPrecioSugerido();
-                console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
@@ -1768,7 +1766,7 @@ padding: 0;
                     },
 
             guardarPaquete(){
-                
+                let count;
                 if(isNaN(parseInt(this.paquete.precioFinal))){
                    Swal.fire(
                         'Paquete sin precio',
@@ -1793,21 +1791,22 @@ padding: 0;
                         'warning'
                         )
                 }else{
+                    let inventario = this.paquete.inventario;
                     this.inventarioLocal.push({
-                        'externo': false,
-                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-                        'servicio': this.paquete.servicio,
-                        'cantidad': 1,
-                        'precioUnitario': this.paquete.precioFinal,
-                        'precioFinal': this.paquete.precioFinal,
-                        'ahorro': '0',
-                        'notas': '',
-                        'paquete': this.paquete,
-                        'tipo': 'PAQUETE',
-                        'id': '',
-                        'precioVenta': this.paquete.precioVenta,
-                        'precioEspecial': this.paquete.precioFinal,
-                        'precioAnterior': this.paquete.precioFinal,
+                        externo: false,
+                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        servicio: this.paquete.servicio,
+                        cantidad: 1,
+                        precioUnitario: this.paquete.precioFinal,
+                        precioFinal: this.paquete.precioFinal,
+                        ahorro: '0',
+                        notas: '',
+                        paquete: this.paquete,
+                        tipo: 'PAQUETE',
+                        id: '',
+                        precioVenta: this.paquete.precioVenta,
+                        precioEspecial: this.paquete.precioFinal,
+                        precioAnterior: this.paquete.precioFinal,
                     });
                     Swal.fire(
                         'Listo!',
