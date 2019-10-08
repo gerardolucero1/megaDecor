@@ -19078,6 +19078,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -19101,6 +19102,13 @@ __webpack_require__.r(__webpack_exports__);
       _this.obtenerTareas();
     });
   },
+  filters: {
+    formatearFecha2: function formatearFecha2(data) {
+      moment.locale('es');
+      var fecha = moment(data).format('MMMM Do YYYY');
+      return fecha;
+    }
+  },
   methods: {
     comentarTarea: function comentarTarea(task) {
       var _this2 = this;
@@ -19111,6 +19119,8 @@ __webpack_require__.r(__webpack_exports__);
         console.log('Comentario agregado');
 
         _this2.obtenerTareas();
+
+        _this2.comentario.comment = '';
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -87349,7 +87359,7 @@ var render = function() {
                                 _c(
                                   "div",
                                   {
-                                    staticClass: "collapse",
+                                    staticClass: "collapse col-md-12",
                                     attrs: {
                                       id: "box" + tarea.id,
                                       "aria-labelledby": "headingOne",
@@ -87408,7 +87418,58 @@ var render = function() {
                                         })
                                       ]),
                                       _vm._v(" "),
-                                      _vm._m(3, true)
+                                      _c(
+                                        "div",
+                                        { staticClass: "row" },
+                                        _vm._l(tarea.comments, function(
+                                          comment,
+                                          index
+                                        ) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              key: index,
+                                              staticClass: "col-md-12",
+                                              staticStyle: {
+                                                "background-color":
+                                                  "rgba(252, 248, 227, 1)",
+                                                padding: "10px",
+                                                "text-align": "justify",
+                                                "margin-top": "5px",
+                                                position: "relative"
+                                              }
+                                            },
+                                            [
+                                              _c("p", [
+                                                _vm._v(_vm._s(comment.comment))
+                                              ]),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "badge badge-pill badge-info",
+                                                  staticStyle: {
+                                                    position: "absolute",
+                                                    bottom: "0",
+                                                    right: "0"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm._f("formatearFecha2")(
+                                                        comment.created_at
+                                                      )
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        0
+                                      )
                                     ])
                                   ]
                                 )
@@ -87488,30 +87549,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-md-3" }, [
         _c("p", [_c("strong", [_vm._v("Acciones")])])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        {
-          staticClass: "col-md-12",
-          staticStyle: {
-            "background-color": "rgba(252, 248, 227, 1)",
-            padding: "10px",
-            "text-align": "justify",
-            "margin-top": "5px"
-          }
-        },
-        [
-          _vm._v(
-            "\n                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, consectetur officiis iusto adipisci officia hic veritatis nam sunt quis facilis assumenda numquam dolorum eos maiores veniam, nisi eius ipsum magnam.\n                                            "
-          )
-        ]
-      )
     ])
   }
 ]
@@ -105986,13 +106023,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

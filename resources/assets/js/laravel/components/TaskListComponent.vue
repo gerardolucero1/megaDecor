@@ -73,14 +73,15 @@
                                         </div>
                                     </div>
 
-                                    <div :id="'box' + tarea.id" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div :id="'box' + tarea.id" class="collapse col-md-12" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="row">
                                                 <textarea class="form-control mt-1" name="" id="" rows="3" width="100%" v-model="comentario.comment" @keypress.enter="comentarTarea(tarea)"></textarea>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12" style="background-color: rgba(252, 248, 227, 1); padding: 10px; text-align: justify; margin-top: 5px;">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, consectetur officiis iusto adipisci officia hic veritatis nam sunt quis facilis assumenda numquam dolorum eos maiores veniam, nisi eius ipsum magnam.
+                                                <div v-for="(comment, index) in tarea.comments" :key="index" class="col-md-12" style="background-color: rgba(252, 248, 227, 1); padding: 10px; text-align: justify; margin-top: 5px; position: relative;">
+                                                    <p>{{ comment.comment }}</p>
+                                                    <span class="badge badge-pill badge-info" style="position: absolute; bottom: 0; right: 0;">{{ comment.created_at | formatearFecha2 }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,6 +152,13 @@ import { EventBus } from '../eventBus.js';
             this.obtenerTareas();
             });
         },
+        filters: {
+            formatearFecha2: function(data){
+                moment.locale('es'); 
+                let fecha = moment(data).format('MMMM Do YYYY');
+                return fecha;
+            },
+        },
         methods: {
             comentarTarea(task){
                 let URL = '/comentar-tarea/' + task.id;
@@ -159,6 +167,8 @@ import { EventBus } from '../eventBus.js';
                 axios.post(URL, this.comentario).then((response) => {
                     console.log('Comentario agregado');
                     this.obtenerTareas();
+
+                    this.comentario.comment = '';
                 }).catch((error) => {
                     console.log(error.data);
                 })
