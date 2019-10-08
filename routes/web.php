@@ -125,6 +125,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-version/{id}', 'CMS\BudgetController@obtenerVersion');
         //Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
 
+    //Registrar pago
+    Route::get('/obtener-pagos/{id}', 'CMS\PaymentController@index')->name('payment.index');
+    Route::post('/registrar-pago', 'CMS\PaymentController@store')->name('payment.store');
+
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');

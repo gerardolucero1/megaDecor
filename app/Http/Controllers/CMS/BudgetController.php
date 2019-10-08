@@ -56,12 +56,12 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+            ->select('clients.id','moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
+            ->select( 'clients.id', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -109,6 +109,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];
@@ -526,6 +528,8 @@ class BudgetController extends Controller
         $oldVersion->tipoEvento = $version->tipoEvento;
         $oldVersion->tipoServicio = $version->tipoServicio;
         $oldVersion->categoriaEvento = $version->categoriaEvento;
+        $oldVersion->requiereFactura = $version->requiereFactura;
+        $oldVersion->requiereMontaje = $version->requiereMontaje;
         $oldVersion->fechaEvento = $version->fechaEvento;
         $oldVersion->pendienteFecha = $version->pendienteFecha;
         $oldVersion->horaEventoInicio = $version->horaEventoInicio;
@@ -583,6 +587,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];

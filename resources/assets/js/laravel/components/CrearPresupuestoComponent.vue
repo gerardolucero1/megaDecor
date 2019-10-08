@@ -172,6 +172,19 @@ padding: 0;
                         
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Requiere factura:</label> <br>
+                        <input type="radio" value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> SI <br>
+                        <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> NO
+                    </div>
+                    <div class="col-md-4">
+                        <label>Requiere montaje:</label> <br>
+                        <input type="radio" value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> SI <br>
+                        <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> NO
+                    </div>
+                </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
@@ -1272,6 +1285,9 @@ padding: 0;
 
                     //Notas
                     notasPresupuesto: '',
+
+                    requiereFactura: '',
+                    requiereMontaje: '',
                 },
 
                 clientes: [],
@@ -1522,10 +1538,12 @@ padding: 0;
             },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    
 
                 }else{
                      this.presupuesto.nombreLugar = '';
@@ -1672,8 +1690,6 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
-              //this.actualizarPrecioSugerido();
-                console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
@@ -1770,7 +1786,7 @@ padding: 0;
                     },
 
             guardarPaquete(){
-                
+                let count;
                 if(isNaN(parseInt(this.paquete.precioFinal))){
                    Swal.fire(
                         'Paquete sin precio',
@@ -1795,21 +1811,23 @@ padding: 0;
                         'warning'
                         )
                 }else{
+                    let paquete = JSON.parse( JSON.stringify(this.paquete) );
+
                     this.inventarioLocal.push({
-                        'externo': false,
-                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-                        'servicio': this.paquete.servicio,
-                        'cantidad': 1,
-                        'precioUnitario': this.paquete.precioFinal,
-                        'precioFinal': this.paquete.precioFinal,
-                        'ahorro': '0',
-                        'notas': '',
-                        'paquete': this.paquete,
-                        'tipo': 'PAQUETE',
-                        'id': '',
-                        'precioVenta': this.paquete.precioVenta,
-                        'precioEspecial': this.paquete.precioFinal,
-                        'precioAnterior': this.paquete.precioFinal,
+                        externo: false,
+                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        servicio: this.paquete.servicio,
+                        cantidad: 1,
+                        precioUnitario: this.paquete.precioFinal,
+                        precioFinal: this.paquete.precioFinal,
+                        ahorro: '0',
+                        notas: '',
+                        paquete: paquete,
+                        tipo: 'PAQUETE',
+                        id: '',
+                        precioVenta: this.paquete.precioVenta,
+                        precioEspecial: this.paquete.precioFinal,
+                        precioAnterior: this.paquete.precioFinal,
                     });
                     Swal.fire(
                         'Listo!',
@@ -2018,6 +2036,7 @@ padding: 0;
                         return (indice == index);
                     });
                     producto.precioUnitario = this.precioUnitarioActualizada;
+                    producto.precioEspecial = this.precioUnitarioActualizada;
                     producto.precioFinal = producto.cantidad * producto.precioEspecial;
                     producto.ahorro = producto.precioUnitario - producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);
