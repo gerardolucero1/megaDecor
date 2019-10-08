@@ -19774,6 +19774,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -89117,91 +89120,119 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("label", { attrs: { for: "" } }, [_vm._v("Metodo de pago: ")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
+          _c(
+            "div",
+            {
+              staticClass: "col-md-4",
+              staticStyle: {
+                "border-radius": "5px",
+                background: "#FCF8D7",
+                padding: "20px"
+              }
+            },
+            [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Metodo de pago: ")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.pago.method,
+                      expression: "pago.method"
+                    }
+                  ],
+                  staticStyle: {
+                    border: "1px solid gray",
+                    background: "white"
+                  },
+                  attrs: { name: "method", id: "" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.pago,
+                        "method",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "EFECTIVO" } }, [
+                    _vm._v("Efectivo")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "TARJETA DE CREDITO" } }, [
+                    _vm._v("Tarjeta de Credito")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "TARJETA DE DEBITO" } }, [
+                    _vm._v("Tarjeta de Debito")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "CHEQUE" } }, [
+                    _vm._v("Cheque")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "TRANSFERENCIA" } }, [
+                    _vm._v("Transferencia")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("label", { staticClass: "mt-3", attrs: { for: "" } }, [
+                _vm._v("Cantidad: ")
+              ]),
+              _vm._v(" "),
+              _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.pago.method,
-                    expression: "pago.method"
+                    value: _vm.pago.amount,
+                    expression: "pago.amount"
                   }
                 ],
-                staticStyle: { border: "1px solid gray" },
-                attrs: { name: "method", id: "" },
+                staticClass: "form-control",
+                staticStyle: { border: "1px solid gray", background: "white" },
+                attrs: { type: "number" },
+                domProps: { value: _vm.pago.amount },
                 on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.pago,
-                      "method",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.pago, "amount", $event.target.value)
                   }
                 }
-              },
-              [
-                _c("option", { attrs: { value: "EFECTIVO" } }, [
-                  _vm._v("Efectivo")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "CREDITO" } }, [
-                  _vm._v("Credito")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c("label", { staticClass: "mt-3", attrs: { for: "" } }, [
-              _vm._v("Cantidad: ")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pago.amount,
-                  expression: "pago.amount"
-                }
-              ],
-              staticClass: "form-control",
-              staticStyle: { border: "1px solid gray" },
-              attrs: { type: "number" },
-              domProps: { value: _vm.pago.amount },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                  staticClass: "mt-3 btn btn-sm btn-block btn-info",
+                  on: {
+                    click: function($event) {
+                      return _vm.registrarPago()
+                    }
                   }
-                  _vm.$set(_vm.pago, "amount", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "mt-3 btn btn-sm btn-block btn-info",
-                on: {
-                  click: function($event) {
-                    return _vm.registrarPago()
-                  }
-                }
-              },
-              [_vm._v("Registrar Pago")]
-            )
-          ])
+                },
+                [_vm._v("Registrar Pago")]
+              )
+            ]
+          )
         ]),
         _vm._v(" "),
         _vm.pagos.length != 0
@@ -105551,13 +105582,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

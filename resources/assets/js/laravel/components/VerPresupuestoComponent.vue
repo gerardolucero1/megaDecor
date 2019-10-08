@@ -364,15 +364,18 @@
 
                 <!-- Registro de pagos -->
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
                         <label for="">Metodo de pago: </label>
-                        <select name="method" id="" style="border: 1px solid gray;" v-model="pago.method">
+                        <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
                             <option value="EFECTIVO">Efectivo</option>
-                            <option value="CREDITO">Credito</option>
+                            <option value="TARJETA DE CREDITO">Tarjeta de Credito</option>
+                            <option value="TARJETA DE DEBITO">Tarjeta de Debito</option>
+                            <option value="CHEQUE">Cheque</option>
+                            <option value="TRANSFERENCIA">Transferencia</option>
                         </select>
                         
                         <label class="mt-3" for="">Cantidad: </label>
-                        <input type="number" class="form-control" style="border: 1px solid gray;" v-model="pago.amount">
+                        <input type="number" class="form-control" style="border: 1px solid gray; background:white" v-model="pago.amount">
 
                         <button class="mt-3 btn btn-sm btn-block btn-info" @click="registrarPago()">Registrar Pago</button>
                     </div>
