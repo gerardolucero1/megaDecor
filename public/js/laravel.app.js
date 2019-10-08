@@ -14539,7 +14539,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           })) {
             Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
           } else {
-            var inventario = this.paquete.inventario;
+            var paquete = JSON.parse(JSON.stringify(this.paquete));
             this.inventarioLocal.push({
               externo: false,
               imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
@@ -14549,7 +14549,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               precioFinal: this.paquete.precioFinal,
               ahorro: '0',
               notas: '',
-              paquete: this.paquete,
+              paquete: paquete,
               tipo: 'PAQUETE',
               id: '',
               precioVenta: this.paquete.precioVenta,
@@ -103887,8 +103887,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store */ "./resources/assets/js/laravel/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -103904,7 +103904,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
-Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default.a, {
+Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default.a, {
   symbol: '$',
   // El símbolo, por ejemplo €
   thousandsSeparator: ',',
