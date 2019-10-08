@@ -4,13 +4,14 @@ namespace App\Http\Controllers\CMS;
 
 use App\Task;
 use stdClass;
-use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 Use App\Budget;
 Use App\User;
 Use App\Client;
 Use App\Inventory;
 Use App\Telephone;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
@@ -349,6 +350,9 @@ class IndexController extends Controller
 
     public function presupuestos(){
         $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->get();
+
+        $fechaHoy = Carbon::now();
+        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', 0)->whereDate('fechaEvento', '<', $fechaHoy)->get();
         $Presupuestos=[];
       
         //Obtenemos clientes morales y fisicos
@@ -365,24 +369,25 @@ class IndexController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-         $Presupuesto   = new stdClass();
-         $Presupuesto->id = $budget->id;
-         $Presupuesto->folio = $budget->folio;
-         $Presupuesto->fechaEvento = $budget->fechaEvento;
-         //$Presupuesto->vendedor = $budget->vendedor_id;
-         $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
-         $Presupuesto->vendedor = $DatosVendedor->name;
-         $Presupuesto->version = $budget->version;
-         $Presupuesto->impresion = $budget->impresion;
-         $Presupuesto->enviado = $budget->enviado;
-         if($budget->opcionIVA==1){
-            $Presupuesto->total = ($budget->total)+($budget->total*.16);
-         }else{
-            $Presupuesto->total = $budget->total;
-         }
-         $Presupuesto->impresionBodega = $budget->impresionBodega;
-         $Presupuesto->updated_at = $budget->updated_at;
-
+            if($budget->fechaEvento > $fechaHoy){
+                $Presupuesto   = new stdClass();
+                $Presupuesto->id = $budget->id;
+                $Presupuesto->folio = $budget->folio;
+                $Presupuesto->fechaEvento = $budget->fechaEvento;
+                //$Presupuesto->vendedor = $budget->vendedor_id;
+                $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
+                $Presupuesto->vendedor = $DatosVendedor->name;
+                $Presupuesto->version = $budget->version;
+                $Presupuesto->impresion = $budget->impresion;
+                $Presupuesto->enviado = $budget->enviado;
+                if($budget->opcionIVA==1){
+                    $Presupuesto->total = ($budget->total)+($budget->total*.16);
+                }else{
+                    $Presupuesto->total = $budget->total;
+                }
+                $Presupuesto->impresionBodega = $budget->impresionBodega;
+                $Presupuesto->updated_at = $budget->updated_at;
+            
          
          
 
@@ -403,6 +408,7 @@ class IndexController extends Controller
         }
 
          array_push($Presupuestos,$Presupuesto);
+        }
         }
 
 
@@ -449,7 +455,7 @@ class IndexController extends Controller
         }
 
         //dd($clientes);
-        return view('presupuestos',compact('Presupuestos', 'PresupuestosArchivados'));   
+        return view('presupuestos',compact('Presupuestos', 'PresupuestosArchivados', 'presupuestosHistorial'));   
     }
 
     public function presupuestos2(){
