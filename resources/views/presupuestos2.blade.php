@@ -274,7 +274,7 @@
 
                                                 if($cliente->tipo = "FISICO"){
                                                     $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre. ' '.$clienteCompleto->apellidoPaterno;
+                                                    $nombre = $clienteCompleto->nombre;
                                                 }else{
                                                     $clienteCompleto = App\MoralPerson::where('client_id', $cliente->id)->first();
                                                     $nombre = $clienteCompleto->nombre;
