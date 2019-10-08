@@ -53,20 +53,39 @@
         background-color: white;
         border-bottom: 1px dotted gray;
     }
-
+    .container-version{
+        -webkit-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        -moz-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        position:fixed; 
+        background:white; 
+        margin-top:-70px; 
+        margin-left:-15px; 
+        padding:10px; 
+        border:solid; 
+        border-color:orange; 
+        border-width:1px; 
+        z-index:30
+    }
 </style>
 
 <template>
     <section class="container block mt-3">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Estas viendo la versión: {{ presupuesto.version }} de {{ presupuesto.version }}</h2>
-            </div>
+        <div class="container-version">
+    Estas viendo la versión de <span v-if="presupuesto.tipoEvento == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
         <div class="row">
             <div class="col-md-12">
-                <textarea name="" id="" style="width:50%" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="float: left">
+                <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
+            <p style="padding:20px; background: #FFEFEB; width:50%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p>
+            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:15px; width:20%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p>
+            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:0px; width:20%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p>
+            </div>
+
         </div>
         <div class="row">
             <div class="col-md-12 verPresupuesto">
@@ -363,6 +382,8 @@
                 </div>
 
                 <!-- Registro de pagos -->
+
+            
                 <div class="row">
                     <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
                         <label for="">Metodo de pago: </label>
@@ -380,6 +401,7 @@
                         <button class="mt-3 btn btn-sm btn-block btn-info" @click="registrarPago()">Registrar Pago</button>
                     </div>
                 </div>
+               
 
                 <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
                     <div class="col-md-12">

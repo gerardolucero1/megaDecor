@@ -19,7 +19,7 @@
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                         <i class="fa fa-user-plus"></i> <i>Nuevo cliente</i> 
                                 </button>
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="">
                                         <i class="fa fa-dollar"></i> <i>Nuevo Ingreso</i> 
                                 </button>
                                 <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
@@ -198,8 +198,7 @@
                         <div class="col-md-8">
                                 <div class="block">
                                     <div class="block-content block-content-full">
-                                        <button class="btn btn-info">Ver todo</button>
-                                        <button onclick="SoloTareas()" class="btn btn-success">Tareas</button>
+                                        <button onclick="SoloTareas()" class="btn btn-success" style="background:#F2E06E">Tareas</button>
                                         <button class="btn btn-info" style="background:#91DFEB">Eventos</button>
                                 <div id='calendar'></div>
                                     </div>

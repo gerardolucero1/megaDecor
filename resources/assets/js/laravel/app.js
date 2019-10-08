@@ -88,38 +88,68 @@ var calendar = new Calendar(calendarEl, {
 function detalleTarea(task){
     if(task.event.groupId==2){
         var TextButton='Ver ficha de evento';
+        Swal.fire({
+            title: task.event.title,
+
+            html: "<b>"+task.event.extendedProps.servicio+"</b> <br> Notas: "+task.event.extendedProps.notasPresupuesto+"<br> Horario: "+task.event.extendedProps.horario,
+            type: 'info',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: TextButton,
+            cancelButtonText: 'Cerrar'
+            
+        }).then((result) => {
+        if (result.value) {
+            if(task.event.groupId==1){
+                var url= '/tareas/eliminar-tarea/'+task.event.id;
+            axios.delete(url).then(response =>{
+                //this.obtenerTareas();
+                location.reload();
+                }) 
+            }else{
+                let URL = 'presupuestos/ver/' + task.event.id;
+                window.location.href = URL;
+            }
+          //  console.log(task);
+            
+            }
+      
+})
     }else{
         var TextButton='Tarea completa';
-    }
-Swal.fire({
-                title: task.event.title,
+        Swal.fire({
+            title: task.event.title,
 
-                html: "<b>"+task.event.extendedProps.servicio+"</b> <br> Notas: "+task.event.extendedProps.notasPresupuesto+"<br> Horario: "+task.event.extendedProps.horario,
-                type: 'info',
-                showCancelButton: true,
-                showConfirmButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: TextButton,
-                cancelButtonText: 'Cerrar'
-                
-            }).then((result) => {
-            if (result.value) {
-                if(task.event.groupId==1){
-                    var url= '/tareas/eliminar-tarea/'+task.event.id;
-                axios.delete(url).then(response =>{
-                    //this.obtenerTareas();
-                    location.reload();
-                    }) 
-                }else{
-                    let URL = 'presupuestos/ver/' + task.event.id;
-                    window.location.href = URL;
-                }
-              //  console.log(task);
-                
-                }
-          
+            html: 'Cliente: '+task.event.extendedProps.cliente+'<br>Detalles: '+task.event.extendedProps.notas,
+            type: 'info',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: TextButton,
+            cancelButtonText: 'Cerrar'
+            
+        }).then((result) => {
+        if (result.value) {
+            if(task.event.groupId==1){
+                var url= '/tareas/eliminar-tarea/'+task.event.id;
+            axios.delete(url).then(response =>{
+                //this.obtenerTareas();
+                location.reload();
+                }) 
+            }else{
+                let URL = 'presupuestos/ver/' + task.event.id;
+                window.location.href = URL;
+            }
+          //  console.log(task);
+            
+            }
+      
 })
+    }
+
 }
 
 
@@ -133,8 +163,10 @@ calendar.batchRendering(function() {
     //Imprimimos las tareas recuperadas en el calendario
             tareas.forEach((element) => {
             calendar.changeView('dayGridMonth');
-            calendar.addEvent({id: element.id, groupId: 1, title: element.categoria, start: element.fecha, color: '#65BAF1', extendedProps: {
-                notas: element.notas
+            calendar.addEvent({id: element.id, groupId: 1, title: element.categoria, start: element.fecha, color: '#F2E06E', extendedProps: {
+                tipo: 'tarea',
+                notas: element.notas,
+                cliente: element.cliente
               }, });  
           });  
     });
@@ -147,6 +179,7 @@ calendar.batchRendering(function() {
         contratos.forEach((element) => {
             calendar.changeView('dayGridMonth');
             calendar.addEvent({id: element.id, groupId: 2, title: element.folio+" - "+element.cliente, start: element.fechaEvento, color: '#91DFEB', extendedProps: {
+                tipo: 'evento',
                 notas: element.cliente,
                 servicio: element.servicio,
                 notasPresupuesto: element.notasPresupuesto,

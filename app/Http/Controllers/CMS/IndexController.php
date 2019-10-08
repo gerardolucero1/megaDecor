@@ -351,8 +351,8 @@ class IndexController extends Controller
     public function presupuestos(){
         $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->get();
 
-        $fechaHoy = Carbon::now();
-        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', 0)->whereDate('fechaEvento', '<', $fechaHoy)->get();
+        $fechaHoy = Carbon::yesterday();
+        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
         $Presupuestos=[];
       
         //Obtenemos clientes morales y fisicos
@@ -369,7 +369,7 @@ class IndexController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-            if($budget->fechaEvento > $fechaHoy){
+            if($budget->fechaEvento >= $fechaHoy){
                 $Presupuesto   = new stdClass();
                 $Presupuesto->id = $budget->id;
                 $Presupuesto->folio = $budget->folio;
