@@ -17141,6 +17141,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })) {
         Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
       } else {
+        var paquete = JSON.parse(JSON.stringify(this.paquete));
         this.inventarioLocal.push({
           'externo': false,
           'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
@@ -17150,7 +17151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'precioFinal': this.paquete.precioFinal,
           'ahorro': 0,
           'notas': '',
-          'paquete': this.paquete,
+          'paquete': paquete,
           'tipo': 'PAQUETE',
           'id': '',
           'precioVenta': this.paquete.precioVenta,

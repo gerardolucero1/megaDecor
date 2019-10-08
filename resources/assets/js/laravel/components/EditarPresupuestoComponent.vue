@@ -1604,6 +1604,7 @@ padding: 0;
                         'warning'
                         )
                 }else{
+                    let paquete = JSON.parse( JSON.stringify(this.paquete) );
                     this.inventarioLocal.push({
                         'externo': false,
                         'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
@@ -1613,7 +1614,7 @@ padding: 0;
                         'precioFinal': this.paquete.precioFinal,
                         'ahorro': 0,
                         'notas': '',
-                        'paquete': this.paquete,
+                        'paquete': paquete,
                         'tipo': 'PAQUETE',
                         'id': '',
                         'precioVenta': this.paquete.precioVenta,
