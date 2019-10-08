@@ -26,7 +26,7 @@
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
+                        <h3 class="block-title" style="color:green">Contratos Activos</h3>
                     </div>
                     <div class="col-md-9 text-right">
                         @php
@@ -41,7 +41,7 @@
                                 <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
                             </button>
                             <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                                <i class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                                <i class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
                             </button>
                             <button onclick="PresupuestosHistorial()" class="btn btn-info">
                                 <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
@@ -142,12 +142,12 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:indianred">Presupuestos Archivados</h3>
+                        <h3 class="block-title" style="color:indianred">Contratos Archivados</h3>
                     </div>
                     <div class="col-md-9 text-right">
                            
                                     <button onclick="PresupuestosActivos()" class="btn btn-success">
-                                                <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
+                                                <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
                                             </button>
                                     <button onclick="PresupuestosHistorial()" class="btn btn-info">
                                                 <i  class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
@@ -234,10 +234,10 @@
                     </div>
                     <div class="col-md-9 text-right">
                         <button onclick="PresupuestosActivos()" class="btn btn-success">
-                            <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
+                            <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
                         </button>
                         <button onclick="presupuestosArchivados()" class="btn btn-success">
-                            <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                            <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
                         </button>
                     </div>
                 </div>
