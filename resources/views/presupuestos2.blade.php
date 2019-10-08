@@ -49,6 +49,9 @@
                             <button onclick="presupuestosArchivados()" class="btn btn-secondary">
                                 <i class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
                             </button>
+                            <button onclick="PresupuestosHistorial()" class="btn btn-info">
+                                    <i  class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
+                                </button>
                         @endif
                     </div>
                     </div>
@@ -157,6 +160,9 @@
                                     <button onclick="PresupuestosActivos()" class="btn btn-success">
                                                 <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
                                             </button>
+                                            <button onclick="PresupuestosHistorial()" class="btn btn-info">
+                                                    <i  class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
+                                                </button>
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -238,6 +244,98 @@
                         </div>
                 </div>
 
+        <!--Vista historial -->
+        <div class="content" id="PresupuestosHistorial" style="display: none">
+                <div class="block">
+                    <div class="block-header block-header-default">
+                        <div class="col-md-3">
+                            <h3 class="block-title" style="color:indianred">Historial</h3>
+                        </div>
+                        <div class="col-md-9 text-right">
+                            <button onclick="PresupuestosActivos()" class="btn btn-success">
+                                <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
+                            </button>
+                            <button onclick="presupuestosArchivados()" class="btn btn-success">
+                                <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                            </button>
+                        </div>
+                    </div>
+                    <div style="padding:15px; padding-top:30px;">
+                        <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
+                            <thead>
+                                <tr role="row">
+                                    <th>#Presupuesto</th>
+                                    <th>Fecha Evento</th>
+                                    <th>Cliente</th>
+                                    <th>Vendedor</th>
+                                    <th>Version</th>
+                                    <th>Etiquetas</th>
+                                    <th>Última Modificación</th>
+                                    <th>Total</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>                               
+                                @if (!is_null($presupuestosHistorial))
+                                    @foreach ($presupuestosHistorial as $budgetArchivados)                          
+                                        <tr role="row" class="odd">
+                                            <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
+                                            @if (!is_null($budgetArchivados->fechaEvento))
+                                                @php
+                                                    $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
+                                                @endphp
+                                                <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                            @else
+                                                <td class="">{{$budgetArchivados->fechaEvento}}</td>
+                                            @endif
+                                                @php
+                                                    $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
+    
+                                                    if($cliente->tipo = "FISICO"){
+                                                        $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                        $nombre = $clienteCompleto->nombre. ' '.$clienteCompleto->apellidoPaterno;
+                                                    }else{
+                                                        $clienteCompleto = App\MoralPerson::where('client_id', $cliente->id)->first();
+                                                        $nombre = $clienteCompleto->nombre;
+                                                    }
+                                                @endphp
+                                                <td class="d-none d-sm-table-cell">{{$nombre}}</td>
+                                                <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
+                                                <td class="d-none d-sm-table-cell text-center">
+                                                    @if($budgetArchivados->version>1)
+                                                        <i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>
+                                                    @endif
+                                                    {{$budgetArchivados->version}}
+                                                </td>
+                                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                                                    <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
+                                                    <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
+                                                    <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
+                                                </td>
+                                                <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
+                                                    @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
+                                                </td>
+                                                    @php
+                                                        $total=number_format($budgetArchivados->total,2);
+                                                    @endphp
+                                                <td>${{$total}}</td>
+                                                <td class="d-flex" style="box-sizing: content-box;">
+                                                    <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                    <button style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
+                                                        <i class="fa fa-eye"></i> 
+                                                    </button> 
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
                 
                
     </section>
@@ -282,10 +380,17 @@
     function presupuestosArchivados(){
         document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";
+        document.getElementById('PresupuestosHistorial').style.display="none";
     }
     function PresupuestosActivos(){
         document.getElementById('presupuestosArchivados').style.display="none";
         document.getElementById('PresupuestosActivos').style.display="block";
+        document.getElementById('PresupuestosHistorial').style.display="none";
+    }
+    function PresupuestosHistorial(){
+        document.getElementById('presupuestosArchivados').style.display="none";
+        document.getElementById('PresupuestosActivos').style.display="none";
+        document.getElementById('PresupuestosHistorial').style.display="block";
     }
     </script>
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
+class CreateTaskCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('task_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('vendedor_id');
-            $table->string('categoria');
-            $table->string('cliente_id');
-            $table->string('fecha');
-            $table->text('notas');
-            $table->integer('completa')->default(0);
+            $table->integer('task_id')->unsigned();
+            $table->text('comment')->nullable();
             $table->timestamps();
+
+            //Relations
+            $table->foreign('task_id')->references('id')->on('tasks')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -32,6 +33,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('task_comments');
     }
 }

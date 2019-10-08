@@ -352,8 +352,8 @@ class IndexController extends Controller
     public function presupuestos(){
         $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->get();
 
-        $fechaHoy = Carbon::now();
-        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', 0)->whereDate('fechaEvento', '<', $fechaHoy)->get();
+        $fechaHoy = Carbon::yesterday();
+        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
         $Presupuestos=[];
       
         //Obtenemos clientes morales y fisicos
@@ -460,7 +460,9 @@ class IndexController extends Controller
     }
 
     public function presupuestos2(){
-        $budgetsNoArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '0')->get();
+        $fechaHoy = Carbon::now();
+        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<', $fechaHoy)->get();
+        $budgetsNoArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '0')->whereDate('fechaEvento', '>=', $fechaHoy)->get();
         $budgetsArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '1')->get();
         
         //Obtenemos clientes morales y fisicos
@@ -476,7 +478,7 @@ class IndexController extends Controller
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
         //dd($clientes);
-        return view('presupuestos2',compact('budgetsNoArchivados', 'budgetsArchivados', 'clientes'));   
+        return view('presupuestos2',compact('budgetsNoArchivados', 'budgetsArchivados', 'clientes', 'presupuestosHistorial'));   
     }
     
 

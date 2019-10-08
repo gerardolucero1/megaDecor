@@ -152,7 +152,7 @@
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados" role="grid" >
+                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>#Presupuesto</th>

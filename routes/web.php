@@ -7,6 +7,7 @@ use App\Inventory;
 use App\Telephone;
 use App\BudgetPack;
 use App\MoralPerson;
+use App\TaskComment;
 use App\AboutCategory;
 use App\MoralCategory;
 use App\PhysicalPerson;
@@ -75,6 +76,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/tareas/clientes-fisicos', 'CMS\TareasController@ClientesF');
         Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
         Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
+
+            //Comentar tareas
+            Route::post('/comentar-tarea/{id}', function(Request $request, $id){
+                $taskComment = TaskComment::create($request->all());
+                return;
+            });
 
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');

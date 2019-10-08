@@ -19025,6 +19025,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -19032,7 +19085,12 @@ __webpack_require__.r(__webpack_exports__);
       tarea: {
         vendedor_id: ''
       },
-      tareas: []
+      tareas: [],
+      comentario: {
+        task_id: null,
+        comment: ''
+      },
+      comentarios: []
     };
   },
   created: function created() {
@@ -19044,16 +19102,29 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    obtenerTareas: function obtenerTareas() {
+    comentarTarea: function comentarTarea(task) {
       var _this2 = this;
+
+      var URL = '/comentar-tarea/' + task.id;
+      this.comentario.task_id = task.id;
+      axios.post(URL, this.comentario).then(function (response) {
+        console.log('Comentario agregado');
+
+        _this2.obtenerTareas();
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
+    },
+    obtenerTareas: function obtenerTareas() {
+      var _this3 = this;
 
       var URL = '/tareas/obtener-tareas';
       axios.get(URL).then(function (response) {
-        _this2.tareas = response.data; //  console.log(this.tareas);
+        _this3.tareas = response.data; //  console.log(this.tareas);
       });
     },
     detalleTarea: function detalleTarea(task) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (task.vendedor_id == 2) {
         var condicion = false;
@@ -19086,7 +19157,7 @@ __webpack_require__.r(__webpack_exports__);
 
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
-            _this3.obtenerTareas();
+            _this4.obtenerTareas();
           });
         }
       });
@@ -86971,6 +87042,7 @@ var render = function() {
     "div",
     {
       staticClass: "js-appear-enabled animated fadeIn",
+      staticStyle: { "z-index": "50000" },
       attrs: { "data-toggle": "appear" }
     },
     [
@@ -87026,105 +87098,202 @@ var render = function() {
             _vm._v(" "),
             _vm.tareas != 0
               ? _c(
-                  "table",
+                  "div",
                   {
-                    staticClass: "table table-vcenter",
-                    attrs: { id: "example" }
+                    staticClass: "accordion",
+                    attrs: { id: "accordionExample" }
                   },
                   [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.tareas, function(tarea) {
-                        return _c(
-                          "tr",
-                          {
-                            key: tarea.index,
-                            staticClass: "row-tasks",
-                            staticStyle: { "font-size": "11px" }
-                          },
-                          [
-                            tarea.vendedor_id != 2
-                              ? _c("td", [_vm._v(_vm._s(tarea.vendedor))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            tarea.vendedor_id == 2
-                              ? _c("td", [_vm._v("Todos")])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "d-none d-sm-table-cell" },
+                    _c("div", { staticClass: "card container" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "card-header",
+                          attrs: { id: "headingOne" }
+                        },
+                        [
+                          _vm._m(2),
+                          _vm._v(" "),
+                          _vm._l(_vm.tareas, function(tarea) {
+                            return _c(
+                              "div",
+                              {
+                                key: tarea.index,
+                                staticClass: "row",
+                                staticStyle: {
+                                  "border-bottom": "1px solid black",
+                                  "margin-top": "5px"
+                                }
+                              },
                               [
+                                tarea.vendedor_id != 2
+                                  ? _c("div", { staticClass: "col-md-5" }, [
+                                      _c("p", [_vm._v(_vm._s(tarea.vendedor))])
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                tarea.vendedor_id == 2
+                                  ? _c("div", { staticClass: "col-md-4" }, [
+                                      _c("p", [_vm._v("Todos")])
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-4" }, [
+                                  _c(
+                                    "span",
+                                    {
+                                      attrs: {
+                                        "data-toggle": "tooltip",
+                                        title: "Prospecto"
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-star-half",
+                                        staticStyle: { color: "#34A1E4" }
+                                      }),
+                                      _vm._v(" " + _vm._s(tarea.categoria))
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-3" }, [
+                                  _c("div", { staticClass: "btn-group" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-sm btn-primary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-toggle": "collapse",
+                                          "data-target": "#box" + tarea.id,
+                                          "aria-expanded": "true",
+                                          "aria-controls": "collapseOne"
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "si si-note" })]
+                                    ),
+                                    _vm._v(" "),
+                                    tarea.completa == 0
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-sm btn-secondary js-tooltip-enabled",
+                                            attrs: {
+                                              type: "button",
+                                              "data-toggle": "tooltip",
+                                              title: "",
+                                              "data-original-title": "Edit"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.detalleTarea(tarea)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "si si-eye"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    tarea.completa == 1
+                                      ? _c("i", {
+                                          staticClass: "fa fa-check",
+                                          staticStyle: { color: "#2A9050" }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    tarea.completa == 1
+                                      ? _c("i", {
+                                          staticClass: "si si-info",
+                                          staticStyle: { color: "#2A9050" },
+                                          attrs: {
+                                            "data-toggle": "tooltip",
+                                            title: "Como vamos con eso?"
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ])
+                                ]),
+                                _vm._v(" "),
                                 _c(
-                                  "span",
+                                  "div",
                                   {
+                                    staticClass: "collapse",
                                     attrs: {
-                                      "data-toggle": "tooltip",
-                                      title: "Prospecto"
+                                      id: "box" + tarea.id,
+                                      "aria-labelledby": "headingOne",
+                                      "data-parent": "#accordionExample"
                                     }
                                   },
                                   [
-                                    _c("i", {
-                                      staticClass: "fa fa-star-half",
-                                      staticStyle: { color: "#34A1E4" }
-                                    }),
-                                    _vm._v(" " + _vm._s(tarea.categoria))
+                                    _c("div", { staticClass: "card-body" }, [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c("textarea", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.comentario.comment,
+                                              expression: "comentario.comment"
+                                            }
+                                          ],
+                                          staticClass: "form-control mt-1",
+                                          attrs: {
+                                            name: "",
+                                            id: "",
+                                            rows: "3",
+                                            width: "100%"
+                                          },
+                                          domProps: {
+                                            value: _vm.comentario.comment
+                                          },
+                                          on: {
+                                            keypress: function($event) {
+                                              if (
+                                                !$event.type.indexOf("key") &&
+                                                _vm._k(
+                                                  $event.keyCode,
+                                                  "enter",
+                                                  13,
+                                                  $event.key,
+                                                  "Enter"
+                                                )
+                                              ) {
+                                                return null
+                                              }
+                                              return _vm.comentarTarea(tarea)
+                                            },
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.comentario,
+                                                "comment",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._m(3, true)
+                                    ])
                                   ]
                                 )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _c("td", { staticClass: "text-center" }, [
-                              _c("div", { staticClass: "btn-group" }, [
-                                tarea.completa == 0
-                                  ? _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-sm btn-secondary js-tooltip-enabled",
-                                        attrs: {
-                                          type: "button",
-                                          "data-toggle": "tooltip",
-                                          title: "",
-                                          "data-original-title": "Edit"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            $event.preventDefault()
-                                            return _vm.detalleTarea(tarea)
-                                          }
-                                        }
-                                      },
-                                      [_c("i", { staticClass: "si si-eye" })]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                tarea.completa == 1
-                                  ? _c("i", {
-                                      staticClass: "fa fa-check",
-                                      staticStyle: { color: "#2A9050" }
-                                    })
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                tarea.completa == 1
-                                  ? _c("i", {
-                                      staticClass: "si si-info",
-                                      staticStyle: { color: "#2A9050" },
-                                      attrs: {
-                                        "data-toggle": "tooltip",
-                                        title: "Como vamos con eso?"
-                                      }
-                                    })
-                                  : _vm._e()
-                              ])
-                            ])
-                          ]
-                        )
-                      }),
-                      0
-                    )
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
                   ]
                 )
               : _vm._e()
@@ -87182,25 +87351,42 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticStyle: { "font-size": "11px" } }, [
-        _c("th", [_vm._v("Usuario")]),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-sm-table-cell",
-            staticStyle: { width: "15%" }
-          },
-          [_vm._v("Categoría")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "text-center", staticStyle: { width: "100px" } },
-          [_vm._v("Acciones")]
-        )
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-5" }, [
+        _c("p", [_c("strong", [_vm._v("Usuario")])])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("p", [_c("strong", [_vm._v("Categoria")])])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-3" }, [
+        _c("p", [_c("strong", [_vm._v("Acciones")])])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        {
+          staticClass: "col-md-12",
+          staticStyle: {
+            "background-color": "rgba(252, 248, 227, 1)",
+            padding: "10px",
+            "text-align": "justify",
+            "margin-top": "5px"
+          }
+        },
+        [
+          _vm._v(
+            "\n                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, consectetur officiis iusto adipisci officia hic veritatis nam sunt quis facilis assumenda numquam dolorum eos maiores veniam, nisi eius ipsum magnam.\n                                            "
+          )
+        ]
+      )
     ])
   }
 ]
