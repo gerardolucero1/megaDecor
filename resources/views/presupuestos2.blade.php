@@ -269,18 +269,8 @@
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif
-                                            @php
-                                                $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
-
-                                                if($cliente->tipo = "FISICO"){
-                                                    $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre;
-                                                }else{
-                                                    $clienteCompleto = App\MoralPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre;
-                                                }
-                                            @endphp
-                                            <td class="d-none d-sm-table-cell">{{$nombre}}</td>
+                                            
+                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->client_id}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->version>1)
