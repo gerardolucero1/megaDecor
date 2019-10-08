@@ -82,10 +82,9 @@ class TareasController extends Controller
         $fecha_actual= date('Y-m-d',time());
         
         if($idUsuarioLogeado==17){
-        $tareas = DB::table('tasks')->get();
+        $tareas = Task::all();
     }else{
-        $tareas = DB::table('tasks')
-        ->where(function($q) {
+        $tareas = Task::where(function($q) {
             $q->where('tasks.vendedor_id', '=', Auth::user()->id)
               ->orWhere('tasks.vendedor_id', '2');
         })
