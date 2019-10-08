@@ -68,7 +68,7 @@ class TareasController extends Controller
         $fecha_actual= date('Y-m-d',time());
         
         if($idUsuarioLogeado==17){
-        $tareas = Task::with('comments')->all();
+        $tareas = Task::with('comments')->get();
     }else{
         $tareas = Task::with('comments')->where(function($q) {
             $q->where('tasks.vendedor_id', '=', Auth::user()->id)
