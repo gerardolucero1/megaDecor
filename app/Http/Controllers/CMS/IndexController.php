@@ -48,7 +48,6 @@ class IndexController extends Controller
             }
             
             $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
-
                         $CompleteClient = new stdClass();
                         $CompleteClient->id = $cliente->id;
                         $CompleteClient->nombre = $cliente->nombre;
@@ -370,7 +369,7 @@ class IndexController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-            if($budget->fechaEvento > $fechaHoy){
+            if($budget->fechaEvento >= $fechaHoy){
                 $Presupuesto   = new stdClass();
                 $Presupuesto->id = $budget->id;
                 $Presupuesto->folio = $budget->folio;

@@ -72,7 +72,7 @@ padding: 0;
 </style>
 
 <template>
-    <section class="container" v-if="unlock">
+    <section class="container" v-if="unlock" style="background:white;">
         <div class="row">
             
         </div>
@@ -215,7 +215,7 @@ padding: 0;
                                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
                             </div>
                         </div>
-                        <div v-if="clienteSeleccionado" class="info">
+                        <div style="padding-top:20px" v-if="clienteSeleccionado" class="info">
                             <p>{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
