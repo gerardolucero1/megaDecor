@@ -47,7 +47,6 @@ class IndexController extends Controller
             }
             
             $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
-
                         $CompleteClient = new stdClass();
                         $CompleteClient->id = $cliente->id;
                         $CompleteClient->nombre = $cliente->nombre;

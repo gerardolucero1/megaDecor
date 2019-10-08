@@ -74,13 +74,13 @@
                             @if (!is_null($budgetsNoArchivados))
                             @foreach ($budgetsNoArchivados as $budget)                          
                             <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{$budget->folio}}</td>
+                                <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
                                 
                                 @if (!is_null($budget->fechaEvento))
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
                                     @endphp
-                                    <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                    <td class=""><span style="display:none; font-size:2px;">{{$fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                     @else
                                     <td class="">{{$budget->fechaEvento}}</td>
                                 @endif

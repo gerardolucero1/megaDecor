@@ -74,16 +74,13 @@ var calendarEl = document.getElementById('calendar');
 var calendar = new Calendar(calendarEl, {
     plugins: [ dayGridPlugin ],
     locales: [ esLocale],
-  locale: 'es', // the initial locale. of not specified, uses the first one
+    locale: 'es', // the initial locale. of not specified, uses the first one
+    
+    eventMouseEnter: function(info){ 
+       
+    },
 
   eventClick: function(info) {
-    //alert('Event: ' + info.event.title);
-    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-    //alert('View: ' + info.view.type);
-
-    // change the border color just for fun
-    //info.el.style.borderColor = 'orange';
-
     detalleTarea(info);
   } 
 });

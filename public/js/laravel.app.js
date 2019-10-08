@@ -103770,12 +103770,8 @@ document.addEventListener('DOMContentLoaded', function () {
     locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
     locale: 'es',
     // the initial locale. of not specified, uses the first one
+    eventMouseEnter: function eventMouseEnter(info) {},
     eventClick: function eventClick(info) {
-      //alert('Event: ' + info.event.title);
-      //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-      //alert('View: ' + info.view.type);
-      // change the border color just for fun
-      //info.el.style.borderColor = 'orange';
       detalleTarea(info);
     }
   });
