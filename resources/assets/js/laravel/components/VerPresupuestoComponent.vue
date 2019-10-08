@@ -72,7 +72,7 @@
 <template>
     <section class="container block mt-3">
         <div class="container-version">
-    Estas viendo la versión de <span v-if="presupuesto.tipoEvento == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
         <div class="row">
             <div class="col-md-12">
