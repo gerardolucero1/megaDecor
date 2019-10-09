@@ -395,6 +395,7 @@ padding: 0;
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <td>
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
+                                    
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
