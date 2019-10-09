@@ -18352,6 +18352,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // Import the EventBus.
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -86066,112 +86067,96 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _vm.cliente.tipoPersona == "moral"
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "col-md-4",
-                      staticStyle: { "padding-top": "10px" }
-                    },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.cliente.emailCliente,
-                            expression: "cliente.emailCliente"
-                          }
-                        ],
-                        staticStyle: { width: "auto" },
-                        attrs: {
-                          required: "",
-                          type: "text",
-                          id: "emailPF",
-                          placeholder: "Ejemplo"
-                        },
-                        domProps: { value: _vm.cliente.emailCliente },
-                        on: {
-                          change: _vm.emailClick,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.cliente,
-                              "emailCliente",
-                              $event.target.value
-                            )
-                          }
+                ? _c("div", { staticClass: "col-md-8 mt-4" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.emailCliente,
+                          expression: "cliente.emailCliente"
                         }
-                      }),
-                      _vm._v(" @ "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.cliente.emailClienteTerminacion,
-                            expression: "cliente.emailClienteTerminacion"
+                      ],
+                      staticStyle: { width: "auto" },
+                      attrs: {
+                        required: "",
+                        type: "text",
+                        id: "emailPF",
+                        placeholder: "Ejemplo"
+                      },
+                      domProps: { value: _vm.cliente.emailCliente },
+                      on: {
+                        change: _vm.emailClick,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
                           }
-                        ],
-                        staticStyle: { width: "auto" },
-                        attrs: {
-                          required: "",
-                          id: "emailTPF",
-                          type: "text",
-                          placeholder: "ejemplo.com"
-                        },
-                        domProps: {
-                          value: _vm.cliente.emailClienteTerminacion
-                        },
-                        on: {
-                          change: _vm.emailClick,
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.cliente,
-                              "emailClienteTerminacion",
-                              $event.target.value
-                            )
-                          }
+                          _vm.$set(
+                            _vm.cliente,
+                            "emailCliente",
+                            $event.target.value
+                          )
                         }
-                      })
-                    ]
-                  )
+                      }
+                    }),
+                    _vm._v(" @ \n                        "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.cliente.emailClienteTerminacion,
+                          expression: "cliente.emailClienteTerminacion"
+                        }
+                      ],
+                      staticStyle: { width: "auto" },
+                      attrs: {
+                        required: "",
+                        id: "emailTPF",
+                        type: "text",
+                        placeholder: "ejemplo.com"
+                      },
+                      domProps: { value: _vm.cliente.emailClienteTerminacion },
+                      on: {
+                        change: _vm.emailClick,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.cliente,
+                            "emailClienteTerminacion",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.cliente.tipoPersona == "moral"
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "col-md-4",
-                      staticStyle: { "padding-top": "10px" }
-                    },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.telefono.dpto,
-                            expression: "telefono.dpto"
-                          }
-                        ],
-                        attrs: { type: "text", placeholder: "Departamento" },
-                        domProps: { value: _vm.telefono.dpto },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.telefono, "dpto", $event.target.value)
-                          }
+                ? _c("div", { staticClass: "col-md-4 mt-4" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.telefono.dpto,
+                          expression: "telefono.dpto"
                         }
-                      })
-                    ]
-                  )
+                      ],
+                      attrs: { type: "text", placeholder: "Departamento" },
+                      domProps: { value: _vm.telefono.dpto },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.telefono, "dpto", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
                 : _vm._e()
             ]),
             _vm._v(" "),

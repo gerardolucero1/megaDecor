@@ -164,10 +164,11 @@
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
                             <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
-                             <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                        <div class="col-md-8 mt-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width: auto;"> @ 
+                            <input required @change="emailClick" id="emailTPF" type="text" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" style="width: auto;">
                         </div>
-                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
+                        <div class="col-md-4 mt-4" v-if="cliente.tipoPersona == 'moral'">
                             <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
                         </div>
                     </div>
