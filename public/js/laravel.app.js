@@ -87519,7 +87519,7 @@ var render = function() {
   return _c("section", { staticClass: "container block mt-3" }, [
     _c("div", { staticClass: "container-version" }, [
       _vm._v("\nEstas viendo la versión de "),
-      _vm.presupuesto.tipoEvento == "PRESUPUESTO"
+      _vm.presupuesto.tipo == "PRESUPUESTO"
         ? _c("span", { staticStyle: { color: "green" } }, [
             _vm._v("presupuesto")
           ])
