@@ -28,11 +28,11 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" style="display:none">
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('disponible', 'Disponibles') }}
-                    {{ Form::text('disponible', null, ['class' => 'form-control', 'id' => 'disponible']) }}  
+                    {{ Form::hidden('disponible', null, ['class' => 'form-control', 'id' => 'disponible']) }}  
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 use App\Http\Controllers\Controller;
 use App\TaskCategory;
 use App\Task;
+use Carbon\Carbon;
 use App\User;
 use Auth;
 use App\PhysicalPerson;
@@ -23,6 +24,7 @@ class TareasController extends Controller
         return PhysicalPerson::orderBy('id', 'DESC')->get();   
     }
     public function obtenerTareas(){
+        $fechaHoy = Carbon::yesterday();
         $idUsuarioLogeado = Auth::user()->id;
         $fecha_actual= date('Y-m-d',time());
         
@@ -32,7 +34,7 @@ class TareasController extends Controller
         $tareas = Task::with('comments')->where(function($q) {
             $q->where('tasks.vendedor_id', '=', Auth::user()->id)
               ->orWhere('tasks.vendedor_id', '2');
-        })
+        })-where('tasks.fecha' > $fechaHoy)
         ->get();  
     }
 

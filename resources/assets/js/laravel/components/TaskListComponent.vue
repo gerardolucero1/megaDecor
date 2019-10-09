@@ -69,7 +69,6 @@
                                                 <i class="si si-eye"></i>
                                             </button>
                                             <i v-if="tarea.completa==1"  style="color:#2A9050" class="fa fa-check"></i>
-                                            <i v-if="tarea.completa==1" data-toggle="tooltip" title="Como vamos con eso?" style="color:#2A9050" class="si si-info"></i>
                                         </div>
                                     </div>
 
@@ -91,38 +90,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--
-                    <table v-if="tareas != 0" id="example"  class="table table-vcenter">
-                        <thead>
-                            <tr style="font-size:11px">
-                                <th>Usuario</th>
-                                <th class="d-none d-sm-table-cell" style="width: 15%;">Categoría</th>
-                                <th class="text-center" style="width: 100px;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="accordion">
-                            <tr style="font-size:11px" class="row-tasks" v-for="tarea in tareas" v-bind:key="tarea.index">
-                                <td v-if="tarea.vendedor_id!=2">{{ tarea.vendedor }}</td>
-                                <td v-if="tarea.vendedor_id==2">Todos</td>
-                                <td class="d-none d-sm-table-cell">
-                                    <span class="" data-toggle="tooltip" title="Prospecto"><i  class="fa fa-star-half" style="color:#34A1E4" ></i> {{ tarea.categoria }}</span>
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="si si-note"></i>
-                                        </button>
-                                        <button v-if="tarea.completa==0" v-on:click.prevent="detalleTarea(tarea)" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
-                                            <i class="si si-eye"></i>
-                                        </button>
-                                        <i v-if="tarea.completa==1"  style="color:#2A9050" class="fa fa-check"></i>
-                                        <i v-if="tarea.completa==1" data-toggle="tooltip" title="Como vamos con eso?" style="color:#2A9050" class="si si-info"></i>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    -->
                 </div>
             </div>
         </div>
@@ -165,7 +132,7 @@ import { EventBus } from '../eventBus.js';
                 this.comentario.task_id = task.id;
 
                 axios.post(URL, this.comentario).then((response) => {
-                    console.log('Comentario agregado');
+                    
                     this.obtenerTareas();
 
                     this.comentario.comment = '';
@@ -199,18 +166,14 @@ import { EventBus } from '../eventBus.js';
                                 showConfirmButton: condicion,
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText: 'Agregar Comentario',
+                                confirmButtonText: 'Marcar como Vista',
                                 cancelButtonText: 'Cerrar'
                                 
                             }).then((result) => {
                             if (result.value) {
                                var txt;
-  var person = prompt("Agregar Comentario a tarea", "");
-  if (person == null || person == "") {
-    
-  } else {
-    alert('Comentario agregado');
-  }
+  
+  
                                 var url= '/tareas/eliminar-tarea/'+task.id;
                                 axios.delete(url).then(response =>{
                                     this.obtenerTareas();

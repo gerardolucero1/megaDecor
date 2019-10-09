@@ -450,9 +450,8 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">version</th>
-                                <th scope="col">Folio</th>
                                 <th scope="col">Fecha de creacion</th>
-                                <th scope="col">Vendedor</th>
+                                <th scope="col">Quien Edito</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -460,7 +459,6 @@
                             <tr v-for="version in versiones" :key="version.index">
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
-                                <td>{{ version.folio }}</td>
                                 <td>{{ version.created_at }}</td>
                                 <td>{{ version.quienEdito }}</td>
                                 <td>

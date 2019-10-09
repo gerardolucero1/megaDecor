@@ -175,14 +175,14 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label>Requiere factura:</label> <br>
-                        <input type="radio" value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> SI <br>
-                        <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> NO
+                        <label>Requiere factura:</label> 
+                        -SI <input type="radio" value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                        -NO <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
                     </div>
                     <div class="col-md-4">
-                        <label>Requiere montaje:</label> <br>
-                        <input type="radio" value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> SI <br>
-                        <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> NO
+                        <label>Requiere montaje:</label>
+                        -SI <input type="radio" value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
+                        -NO <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> 
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
@@ -486,14 +486,14 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
+                                <h5 style="color:grey">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
-                                    <p v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></p>
+                                    <H5 v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></H5>
+                                    <H5 v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></H5>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
 
                                 </div>
@@ -654,7 +654,7 @@ padding: 0;
                                         <tbody v-if="paquete.inventario">
                                             <tr v-for="(producto, index) in paquete.inventario" v-bind:key="producto.index">
                                                 <th scope="row">
-                                                    <img :src="producto.imagen" width="100%">
+                                                    <img :src="producto.imagen" width="100px">
                                                 </th>
                                                 <td>{{ producto.nombre }}
                                                      <br><span style="font-size:10px; line-height:8px;">Costo Proveedor: ${{producto.precioVenta}}</span>
