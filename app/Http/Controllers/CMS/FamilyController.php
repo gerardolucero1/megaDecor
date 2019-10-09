@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Family;
+use App\FamilyGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,8 +16,8 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        $families = Family::orderBy('id', 'DESC')->get();
-        return view('families.index', compact('families'));
+        $familias = Family::orderBy('id', 'DESC')->get();
+        return view('families.index', compact('familias'));
     }
 
     /**
@@ -26,7 +27,8 @@ class FamilyController extends Controller
      */
     public function create()
     {
-        return view('families.create');
+        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        return view('families.create', compact('grupos'));
     }
 
     /**
@@ -73,7 +75,9 @@ class FamilyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $familia = Family::findOrFail($id);
+        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        return view('families.edit', compact('familia', 'grupos'));
     }
 
     /**
@@ -85,7 +89,23 @@ class FamilyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        $v = \Validator::make($request->all(), [
+            'nombre' => 'required',
+            'grupo' => 'required',
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        $familia = Family::findOrFail($id);
+
+        $familia->fill($request->all())->save();
+
+        return redirect()->route('familia.edit', $familia)
+            ->with('info', 'Familia editada con exito');
     }
 
     /**
@@ -96,6 +116,10 @@ class FamilyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $familia = Family::find($id);
+        $familia->delete();
+
+        return back()
+            ->with('info', 'Familia eliminada con exito');
     }
 }

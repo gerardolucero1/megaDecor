@@ -6,6 +6,7 @@ use App\User;
 use stdClass;
 use App\Budget;
 use App\Client;
+use App\Family;
 use App\Inventory;
 use App\Telephone;
 use App\BudgetPack;
@@ -301,7 +302,23 @@ class BudgetController extends Controller
         //Obtenemos los paquetes
         $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
 
-        
+        $arregloFamilias = [];
+
+        foreach($Elementos as $item){
+            $element = Inventory::where('servicio', $item->servicio)->first();
+            array_push($arregloFamilias, $element->familia);
+        }
+
+        foreach($Paquetes as $paquete){
+            $elements = BudgetPackInventory::where('budget_pack_id', $paquete->id)->get();
+            foreach($elements as $element){
+                $producto = Inventory::where('servicio', $element->servicio)->first();
+                array_push($arregloFamilias, $producto->familia);
+            }
+        }
+
+        $familias = array_unique($arregloFamilias);
+
         $arregloEmentos=[];
         foreach($Paquetes as $paquete){
             $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
@@ -374,11 +391,19 @@ class BudgetController extends Controller
             }
          }
 
+        $otroArray = [];
+        foreach($familias as $familia){
+            $item = Family::where('nombre', $familia)->first();
+            array_push($otroArray, $item);
+        }
 
+        $demo = collect($otroArray);
+
+        //dd($demo);
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
+        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos', 'demo'));
 
         return $pdf->stream();
 

@@ -14,20 +14,35 @@
                             <tr role="row">
                                 <th>#</th>
                                 <th>Nombre</th>
+                                <th>Grupo</th>
                                 <th>Cantidad</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
-                        <tbody>                                        
-                            <tr role="row" class="odd">
-                                <td>1</td>
-                                <td>Cojines</td>
-                                <td>50</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-danger">Eliminar</button>
-                                    <button class="btn btn-sm btn-info">Editar</button>
-                                </td>
-                            </tr>
+                        <tbody>
+                            @foreach ($familias as $familia)
+                                <tr role="row" class="odd">
+                                    <td>{{ $familia->id }}</td>
+                                    <td>{{ $familia->nombre }}</td>
+                                    <td>{{ $familia->grupo }}</td>
+                                    <td>
+                                        @php
+                                            $inventario = App\Inventory::where('familia', $familia->nombre)->get();
+                                        @endphp
+                                        <span>
+                                            <strong>{{ count($inventario) }}</strong>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <form action="{{ route('familia.destroy', $familia->id) }}" method="POST" style="display: inline-block;">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" onclick="return confirm('Seguro quieres eliminar esta familia')" class="btn btn-sm btn-danger">Eliminar</button>
+                                        </form>
+                                        <a href="{{ route('familia.edit', $familia->id) }}" class="btn btn-sm btn-info">Editar</a>
+                                    </td>
+                                </tr>
+                            @endforeach                                     
                         </tbody>
                     </table>
                 </div>

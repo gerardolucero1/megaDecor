@@ -27,15 +27,15 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Estas editando el producto: {{ $familia->nombre }}</h3>
+                    <h3 class="block-title">Crear nuevo grupo</h3>
                 </div>
                 <div class="block-content">
-                    {!! Form::model($familia, ['route' => ['familia.update', $familia->id], 'method' => 'PUT', 'files' => 'true']) !!}
+                    {!! Form::open(['route' => 'grupo.store', 'files' => 'true']) !!}
             
-                        @include('families.partial.form')
+                        @include('groups.partial.form')
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
     </section>
-@endsection 
+@endsection

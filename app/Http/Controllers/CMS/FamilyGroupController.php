@@ -15,8 +15,8 @@ class FamilyGroupController extends Controller
      */
     public function index()
     {
-        $groups = FamilyGroup::orderBy('id', 'DESC')->get();
-        return view('group.index', compact('groups'));
+        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        return view('groups.index', compact('grupos'));
     }
 
     /**
@@ -26,7 +26,7 @@ class FamilyGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('groups.create');
     }
 
     /**
@@ -37,7 +37,21 @@ class FamilyGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        $v = \Validator::make($request->all(), [
+            'nombre' => 'required',
+            'informacion' => 'required',
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        $grupo = FamilyGroup::create($request->all());
+
+        return redirect()->route('grupo.create')
+            ->with('info', 'Grupo creado con exito');
     }
 
     /**
@@ -59,7 +73,9 @@ class FamilyGroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $grupo = FamilyGroup::findOrFail($id);
+
+        return view('groups.edit', compact('grupo'));
     }
 
     /**
@@ -71,7 +87,24 @@ class FamilyGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        $v = \Validator::make($request->all(), [
+            'nombre' => 'required',
+            'informacion' => 'required',
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        $grupo = FamilyGroup::findOrFail($id);
+        $grupo->fill($request->all())->save();
+
+        return redirect()->route('grupo.edit', $grupo)
+            ->with('info', 'Grupo editado con exito');
+
+
     }
 
     /**

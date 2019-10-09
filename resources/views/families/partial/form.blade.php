@@ -13,8 +13,11 @@
         <div class="form-group row">
             <div class="col-md-12">
                 <div class="form-material">
-                    {{ Form::label('grupo', 'Grupo al que pertenece') }}
-                    {{ Form::text('grupo', null, ['class' => 'form-control', 'id' => 'grupo']) }}  
+                    <select name="grupo" id="" style="width: 100%;">
+                        @foreach ($grupos as $grupo)
+                            <option value="{{ $grupo->nombre }}">{{ $grupo->nombre }}</option>
+                        @endforeach
+                    </select> 
                 </div>
             </div>
         </div>

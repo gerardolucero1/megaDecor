@@ -8,5 +8,6 @@ class FamilyGroup extends Model
 {
     protected $fillable = [
         'nombre',
+        'informacion',
     ];
 }
