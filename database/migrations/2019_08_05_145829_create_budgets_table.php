@@ -81,7 +81,8 @@ class CreateBudgetsTable extends Migration
             // Notas
             $table->text('notasPresupuesto')->nullable();
 
-            
+            $table->string('requiereFactura')->nullable();
+            $table->string('requiereMontaje')->nullable();
 
             $table->timestamps();
 

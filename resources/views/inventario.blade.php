@@ -116,17 +116,17 @@
 
                     </div>
                     <div class="col-md-9 text-right">
-                           
-                                    <a class="btn btn-primary" href="{{ route('inventory.create') }}">
-                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
-                                    </a>
-                                    <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
-                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
-                                    </a>
-                                        
-                                   
+                        <a href="{{ route('familia.index') }}" class="btn btn-primary">
+                            Agregar Familia
+                        </a>
+                        <a class="btn btn-primary" href="{{ route('inventory.create') }}">
+                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
+                        </a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
+                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
+                        </a>          
                     </div>
-                    </div>
+                </div>
                     <div style="padding:15px; padding-top:30px;">
                      <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
@@ -209,7 +209,7 @@
                
     </section>
    
-    
+    @include('modals.agregarFamilia')
 @endsection
 
 @section("scripts")
