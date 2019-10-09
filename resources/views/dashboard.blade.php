@@ -197,10 +197,15 @@
 
                         <div class="col-md-8">
                                 <div class="block">
-                                    <div class="block-content block-content-full">
-                                        <button onclick="SoloTareas()" class="btn btn-success" style="background:#F2E06E">Tareas</button>
-                                        <button class="btn btn-info" style="background:#91DFEB">Eventos</button>
-                                <div id='calendar'></div>
+                                    <div class="block-content block-content-full" style="position: relative">
+                                        <button onclick="calendarTodos()" class="btn btn-success">Todos</button>
+                                        <button onclick="soloTareas()" class="btn btn-success" style="background:#F2E06E">Tareas</button>
+                                        <button onclick="soloContratos()" class="btn btn-info" style="background:#91DFEB">Eventos</button>
+                                        <button onclick="soloPresupuestos()" class="btn btn-info" style="background:#ECABF9">Presupuestos</button>
+                                <div id='calendar' style="position:absolute; z-index:4; background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar2' style="position:absolute; z-index:3; background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar3' style="position:absolute; z-index:2; background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar4' style="position:absolute; z-index:1; background:white; padding:15px; margin-left:-20px; width:100%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +284,30 @@
 
    <script>
       
-   
+   function soloTareas(){
+       document.getElementById('calendar').style.zIndex="1";
+       document.getElementById('calendar2').style.zIndex="2";
+       document.getElementById('calendar3').style.zIndex="1";
+       document.getElementById('calendar4').style.zIndex="1";
+   }
+   function calendarTodos(){
+    document.getElementById('calendar').style.zIndex="2";
+       document.getElementById('calendar2').style.zIndex="1";
+       document.getElementById('calendar3').style.zIndex="1";
+       document.getElementById('calendar4').style.zIndex="1";
+   }
+   function soloPresupuestos(){
+    document.getElementById('calendar').style.zIndex="1";
+       document.getElementById('calendar2').style.zIndex="1";
+       document.getElementById('calendar3').style.zIndex="2";
+       document.getElementById('calendar4').style.zIndex="1";
+   }
+   function soloContratos(){
+    document.getElementById('calendar').style.zIndex="1";
+       document.getElementById('calendar2').style.zIndex="1";
+       document.getElementById('calendar3').style.zIndex="1";
+       document.getElementById('calendar4').style.zIndex="2";
+   }
 
    </script>
 @endsection

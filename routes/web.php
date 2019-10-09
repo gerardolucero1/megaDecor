@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
+    Route::get('/contratos/obtener-presupuestos-todos', 'CMS\IndexController@presupuestosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');

@@ -52,6 +52,7 @@ Vue.component('crear-presupuesto-component', require('./components/CrearPresupue
 Vue.component('settings-master-component', require('./components/SettingsMasterComponent.vue').default);
 Vue.component('editar-presupuesto-component', require('./components/EditarPresupuestoComponent.vue').default);
 Vue.component('ver-presupuesto-component', require('./components/VerPresupuestoComponent.vue').default);
+Vue.component('calendario-component', require('./components/CalendarioComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -69,6 +70,9 @@ const app = new Vue({
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    var calendarAl = document.getElementById('calendar2');
+    var calendarBl = document.getElementById('calendar3');
+    var calendarCl = document.getElementById('calendar4');
 
     var calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin],
@@ -78,6 +82,36 @@ document.addEventListener('DOMContentLoaded', function() {
         eventMouseEnter: function(info) {
 
         },
+
+        eventClick: function(info) {
+            detalleTarea(info);
+        }
+    });
+
+    var calendar2 = new Calendar(calendarAl, {
+        plugins: [dayGridPlugin],
+        locales: [esLocale],
+        locale: 'es', // the initial locale. of not specified, uses the first one
+
+        eventClick: function(info) {
+            detalleTarea(info);
+        }
+    });
+
+    var calendar3 = new Calendar(calendarBl, {
+        plugins: [dayGridPlugin],
+        locales: [esLocale],
+        locale: 'es', // the initial locale. of not specified, uses the first one
+
+        eventClick: function(info) {
+            detalleTarea(info);
+        }
+    });
+
+    var calendar4 = new Calendar(calendarCl, {
+        plugins: [dayGridPlugin],
+        locales: [esLocale],
+        locale: 'es', // the initial locale. of not specified, uses the first one
 
         eventClick: function(info) {
             detalleTarea(info);
@@ -117,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             })
         } else {
-            var TextButton = 'Tarea completa';
+            var TextButton = 'Marcar como vista';
             Swal.fire({
                 title: task.event.title,
 
@@ -201,9 +235,121 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        let URL3 = '/contratos/obtener-presupuestos-todos';
+        axios.get(URL3).then((response) => {
+            var presupuestos = response.data;
+
+            //Imprimimos los contratos recuperadas en el calendario
+            presupuestos.forEach((element) => {
+                calendar.changeView('dayGridMonth');
+                calendar.addEvent({
+                    id: element.id,
+                    groupId: 2,
+                    title: element.folio + " - " + element.cliente,
+                    start: element.fechaEvento,
+                    color: '#ECABF9',
+                    extendedProps: {
+                        tipo: 'evento',
+                        notas: element.cliente,
+                        servicio: element.servicio,
+                        notasPresupuesto: element.notasPresupuesto,
+                        horario: element.horaEventoInicio + "-" + element.horaEventoFin,
+                    },
+                });
+            });
+        });
+
+    });
+
+    calendar2.batchRendering(function() {
+
+        //Obtenemos todas las tareas
+        let URL = '/tareas/obtener-tareas-todas';
+        axios.get(URL).then((response) => {
+            var tareas = response.data;
+
+            //Imprimimos las tareas recuperadas en el calendario
+            tareas.forEach((element) => {
+                calendar2.changeView('dayGridMonth');
+                calendar2.addEvent({
+                    id: element.id,
+                    groupId: 1,
+                    title: element.categoria,
+                    start: element.fecha,
+                    color: '#F2E06E',
+                    extendedProps: {
+                        tipo: 'tarea',
+                        notas: element.notas,
+                        cliente: element.cliente
+                    },
+                });
+            });
+        });
+
+    });
+    calendar3.batchRendering(function() {
+
+        //Obtenemos todos los presupuestos
+        let URL3 = '/contratos/obtener-presupuestos-todos';
+        axios.get(URL3).then((response) => {
+            var presupuestos = response.data;
+
+            //Imprimimos los contratos recuperadas en el calendario
+            presupuestos.forEach((element) => {
+                calendar3.changeView('dayGridMonth');
+                calendar3.addEvent({
+                    id: element.id,
+                    groupId: 2,
+                    title: element.folio + " - " + element.cliente,
+                    start: element.fechaEvento,
+                    color: '#ECABF9',
+                    extendedProps: {
+                        tipo: 'evento',
+                        notas: element.cliente,
+                        servicio: element.servicio,
+                        notasPresupuesto: element.notasPresupuesto,
+                        horario: element.horaEventoInicio + "-" + element.horaEventoFin,
+                    },
+                });
+            });
+        });
+
+    });
+
+    calendar4.batchRendering(function() {
+
+        //Obtenemos todos los contratos
+        let URL2 = '/contratos/obtener-contratos-todos';
+        axios.get(URL2).then((response) => {
+            var contratos = response.data;
+
+            //Imprimimos los contratos recuperadas en el calendario
+            contratos.forEach((element) => {
+                calendar4.changeView('dayGridMonth');
+                calendar4.addEvent({
+                    id: element.id,
+                    groupId: 2,
+                    title: element.folio + " - " + element.cliente,
+                    start: element.fechaEvento,
+                    color: '#91DFEB',
+                    extendedProps: {
+                        tipo: 'evento',
+                        notas: element.cliente,
+                        servicio: element.servicio,
+                        notasPresupuesto: element.notasPresupuesto,
+                        horario: element.horaEventoInicio + "-" + element.horaEventoFin,
+                    },
+                });
+            });
+        });
+
     });
 
 
     calendar.render();
+    calendar2.render();
+    calendar3.render();
+    calendar4.render();
+    
 
 });

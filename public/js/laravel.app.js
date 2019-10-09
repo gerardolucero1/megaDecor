@@ -12315,6 +12315,233 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      tarea: {
+        vendedor_id: ''
+      },
+      tareas: [],
+      comentario: {
+        task_id: null,
+        comment: ''
+      },
+      comentarios: []
+    };
+  },
+  created: function created() {
+    this.calendarioFunciones();
+  },
+  filters: {
+    formatearFecha2: function formatearFecha2(data) {
+      moment.locale('es');
+      var fecha = moment(data).format('MMMM Do YYYY');
+      return fecha;
+    }
+  },
+  methods: {
+    calendarioFunciones: function calendarioFunciones() {
+      document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new Calendar(calendarEl, {
+          plugins: [dayGridPlugin],
+          locales: [esLocale],
+          locale: 'es',
+          // the initial locale. of not specified, uses the first one
+          eventMouseEnter: function eventMouseEnter(info) {},
+          eventClick: function eventClick(info) {
+            detalleTarea(info);
+          }
+        });
+
+        function detalleTarea(task) {
+          if (task.event.groupId == 2) {
+            var TextButton = 'Ver ficha de evento';
+            Swal.fire({
+              title: task.event.title,
+              html: "<b>" + task.event.extendedProps.servicio + "</b> <br> Notas: " + task.event.extendedProps.notasPresupuesto + "<br> Horario: " + task.event.extendedProps.horario,
+              type: 'info',
+              showCancelButton: true,
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: TextButton,
+              cancelButtonText: 'Cerrar'
+            }).then(function (result) {
+              if (result.value) {
+                if (task.event.groupId == 1) {
+                  var url = '/tareas/eliminar-tarea/' + task.event.id;
+                  axios["delete"](url).then(function (response) {
+                    //this.obtenerTareas();
+                    location.reload();
+                  });
+                } else {
+                  var URL = 'presupuestos/ver/' + task.event.id;
+                  window.location.href = URL;
+                } //  console.log(task);
+
+              }
+            });
+          } else {
+            var TextButton = 'Tarea completa';
+            Swal.fire({
+              title: task.event.title,
+              html: 'Cliente: ' + task.event.extendedProps.cliente + '<br>Detalles: ' + task.event.extendedProps.notas,
+              type: 'info',
+              showCancelButton: true,
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: TextButton,
+              cancelButtonText: 'Cerrar'
+            }).then(function (result) {
+              if (result.value) {
+                if (task.event.groupId == 1) {
+                  var url = '/tareas/eliminar-tarea/' + task.event.id;
+                  axios["delete"](url).then(function (response) {
+                    //this.obtenerTareas();
+                    location.reload();
+                  });
+                } else {
+                  var URL = 'presupuestos/ver/' + task.event.id;
+                  window.location.href = URL;
+                } //  console.log(task);
+
+              }
+            });
+          }
+        }
+
+        calendar.batchRendering(function () {
+          //Obtenemos todas las tareas
+          var URL = '/tareas/obtener-tareas-todas';
+          axios.get(URL).then(function (response) {
+            var tareas = response.data; //Imprimimos las tareas recuperadas en el calendario
+
+            tareas.forEach(function (element) {
+              calendar.changeView('dayGridMonth');
+              calendar.addEvent({
+                id: element.id,
+                groupId: 1,
+                title: element.categoria,
+                start: element.fecha,
+                color: '#F2E06E',
+                extendedProps: {
+                  tipo: 'tarea',
+                  notas: element.notas,
+                  cliente: element.cliente
+                }
+              });
+            });
+          });
+          var URL2 = '/contratos/obtener-contratos-todos';
+          axios.get(URL2).then(function (response) {
+            var contratos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+            contratos.forEach(function (element) {
+              calendar.changeView('dayGridMonth');
+              calendar.addEvent({
+                id: element.id,
+                groupId: 2,
+                title: element.folio + " - " + element.cliente,
+                start: element.fechaEvento,
+                color: '#91DFEB',
+                extendedProps: {
+                  tipo: 'evento',
+                  notas: element.cliente,
+                  servicio: element.servicio,
+                  notasPresupuesto: element.notasPresupuesto,
+                  horario: element.horaEventoInicio + "-" + element.horaEventoFin
+                }
+              });
+            });
+          });
+          var URL3 = '/contratos/obtener-presupuestos-todos';
+          axios.get(URL3).then(function (response) {
+            var presupuestos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+            presupuestos.forEach(function (element) {
+              calendar.changeView('dayGridMonth');
+              calendar.addEvent({
+                id: element.id,
+                groupId: 2,
+                title: element.folio + " - " + element.cliente,
+                start: element.fechaEvento,
+                color: '#ECABF9',
+                extendedProps: {
+                  tipo: 'evento',
+                  notas: element.cliente,
+                  servicio: element.servicio,
+                  notasPresupuesto: element.notasPresupuesto,
+                  horario: element.horaEventoInicio + "-" + element.horaEventoFin
+                }
+              });
+            });
+          });
+        });
+        calendar.render();
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=script&lang=js& ***!
@@ -17461,7 +17688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioUnitario': producto.precioUnitario,
         'precioFinal': producto.precioUnitario,
         'ahorro': '0',
-        'notas': '',
+        'notas': '--',
         'paquete': '',
         'tipo': 'PRODUCTO',
         'id': producto.id,
@@ -19047,39 +19274,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -19117,8 +19311,6 @@ __webpack_require__.r(__webpack_exports__);
       var URL = '/comentar-tarea/' + task.id;
       this.comentario.task_id = task.id;
       axios.post(URL, this.comentario).then(function (response) {
-        console.log('Comentario agregado');
-
         _this2.obtenerTareas();
 
         _this2.comentario.comment = '';
@@ -19155,17 +19347,11 @@ __webpack_require__.r(__webpack_exports__);
         showConfirmButton: condicion,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Agregar Comentario',
+        confirmButtonText: 'Marcar como Vista',
         cancelButtonText: 'Cerrar'
       }).then(function (result) {
         if (result.value) {
           var txt;
-          var person = prompt("Agregar Comentario a tarea", "");
-
-          if (person == null || person == "") {} else {
-            alert('Comentario agregado');
-          }
-
           var url = '/tareas/eliminar-tarea/' + task.id;
           axios["delete"](url).then(function (response) {
             _this4.obtenerTareas();
@@ -19350,8 +19536,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
-//
-//
 //
 //
 //
@@ -20739,6 +20923,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.row-tasks{\n   color:black;\n}\n.row-tasks:hover{\n    background:#F5F5F5;\n}\n", ""]);
+
+// exports
+
 
 /***/ }),
 
@@ -66800,6 +67003,36 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarioComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=style&index=0&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--11-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--11-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=style&index=0&lang=css& ***!
@@ -71189,6 +71422,137 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "js-appear-enabled animated fadeIn",
+      staticStyle: { "z-index": "50000" },
+      attrs: { "data-toggle": "appear" }
+    },
+    [
+      _c("div", { staticClass: "block" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "row",
+            staticStyle: {
+              background: "#FBFBFB",
+              "padding-top": "10px",
+              "padding-bottom": "10px",
+              display: "none"
+            }
+          },
+          [
+            _c("label", { attrs: { for: "Filtrar" } }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c(
+                "select",
+                { attrs: { name: "", id: "" } },
+                [_c("Option", [_vm._v("Categoria")])],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c(
+                "select",
+                { attrs: { name: "", id: "" } },
+                [_c("Option", [_vm._v("Vendedor")])],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(2)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "block-header block-header-default" }, [
+      _c("h3", { staticClass: "block-title" }, [_vm._v("Tareas")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "block-options" }, [
+        _c("div", { staticClass: "block-options-item js-appear-enabled" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: {
+                "data-toggle": "modal",
+                "data-target": "#nuevaTareaModal"
+              }
+            },
+            [_vm._v("Nueva Tarea")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info",
+              attrs: { "data-toggle": "modal", "data-target": "#filtroTareas" }
+            },
+            [_c("i", { staticClass: "fa fa-search" })]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
+        _vm._v("Filtrar")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "block-content",
+        staticStyle: { height: "513px", overflow: "scroll" }
+      },
+      [_c("div", { attrs: { id: "calendar" } })]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=template&id=1709cd36&":
 /*!**********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CategoriasEvento.vue?vue&type=template&id=1709cd36& ***!
@@ -72294,9 +72658,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-4" }, [
                 _c("label", [_vm._v("Requiere factura:")]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
+                _vm._v(" \n                        -SI "),
                 _c("input", {
                   directives: [
                     {
@@ -72320,9 +72682,7 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" SI "),
-                _c("br"),
-                _vm._v(" "),
+                _vm._v(" \n                        -NO "),
                 _c("input", {
                   directives: [
                     {
@@ -72345,15 +72705,12 @@ var render = function() {
                       return _vm.$set(_vm.presupuesto, "requiereFactura", "NO")
                     }
                   }
-                }),
-                _vm._v(" NO\n                    ")
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4" }, [
                 _c("label", [_vm._v("Requiere montaje:")]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
+                _vm._v("\n                        -SI "),
                 _c("input", {
                   directives: [
                     {
@@ -72377,9 +72734,7 @@ var render = function() {
                     }
                   }
                 }),
-                _vm._v(" SI "),
-                _c("br"),
-                _vm._v(" "),
+                _vm._v("\n                        -NO "),
                 _c("input", {
                   directives: [
                     {
@@ -72402,8 +72757,7 @@ var render = function() {
                       return _vm.$set(_vm.presupuesto, "requiereMontaje", "NO")
                     }
                   }
-                }),
-                _vm._v(" NO\n                    ")
+                })
               ])
             ]),
             _vm._v(" "),
@@ -74078,7 +74432,7 @@ var render = function() {
                   _c("div", { staticClass: "col-md-3" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("h5", [
+                    _c("h5", { staticStyle: { color: "grey" } }, [
                       _vm._v("Subtotal: "),
                       _c("span", [
                         _vm._v(_vm._s(_vm._f("currency")(_vm.calcularSubtotal)))
@@ -74137,36 +74491,45 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "info mt-3" }, [
-                      _vm.presupuesto.opcionIVA == true
-                        ? _c("p", [
-                            _vm._v("TOTAL + IVA: "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm._f("currency")(
-                                    _vm.calcularSubtotal + _vm.calcularIva
+                    _c(
+                      "div",
+                      { staticClass: "info mt-3" },
+                      [
+                        _vm.presupuesto.opcionIVA == true
+                          ? _c("H5", [
+                              _vm._v("TOTAL + IVA: "),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("currency")(
+                                      _vm.calcularSubtotal + _vm.calcularIva
+                                    )
                                   )
                                 )
-                              )
+                              ])
                             ])
+                          : _c("H5", [
+                              _vm._v("TOTAL: "),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.calcularSubtotal)
+                                  )
+                                )
+                              ])
+                            ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _vm._v("Ahorro General: "),
+                          _c("span", [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.calcularAhorro))
+                            )
                           ])
-                        : _c("p", [
-                            _vm._v("TOTAL: "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm._f("currency")(_vm.calcularSubtotal))
-                              )
-                            ])
-                          ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v("Ahorro General: "),
-                        _c("span", [
-                          _vm._v(_vm._s(_vm._f("currency")(_vm.calcularAhorro)))
                         ])
-                      ])
-                    ])
+                      ],
+                      1
+                    )
                   ])
                 ])
               ])
@@ -74863,7 +75226,7 @@ var render = function() {
                                         _c("img", {
                                           attrs: {
                                             src: producto.imagen,
-                                            width: "100%"
+                                            width: "100px"
                                           }
                                         })
                                       ]),
@@ -80768,22 +81131,16 @@ var render = function() {
                                       expression: "cantidadActualizada"
                                     }
                                   ],
-                                  attrs: { type: "text" },
+                                  staticStyle: {
+                                    background: "#F5F6E6",
+                                    widht: "100%",
+                                    "min-height": "10px",
+                                    "border-radius": "5px"
+                                  },
+                                  attrs: { type: "number" },
                                   domProps: { value: _vm.cantidadActualizada },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updateCantidad(index)
                                     },
                                     input: function($event) {
@@ -80796,7 +81153,7 @@ var render = function() {
                                   }
                                 })
                               : _c(
-                                  "span",
+                                  "p",
                                   {
                                     on: {
                                       click: function($event) {
@@ -80828,19 +81185,7 @@ var render = function() {
                                     value: _vm.precioUnitarioActualizada
                                   },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updatePrecioUnitario(index)
                                     },
                                     input: function($event) {
@@ -80905,19 +81250,7 @@ var render = function() {
                                     value: _vm.precioEspecialActualizado
                                   },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updatePrecioEspecial(index)
                                     },
                                     input: function($event) {
@@ -80971,19 +81304,7 @@ var render = function() {
                                     value: _vm.precioFinalActualizado
                                   },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updatePrecioFinal(index)
                                     },
                                     input: function($event) {
@@ -81032,19 +81353,7 @@ var render = function() {
                                   attrs: { type: "text" },
                                   domProps: { value: _vm.ahorroActualizado },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updateAhorro(index)
                                     },
                                     input: function($event) {
@@ -81098,19 +81407,7 @@ var render = function() {
                                   },
                                   domProps: { value: _vm.notasActualizadas },
                                   on: {
-                                    keyup: function($event) {
-                                      if (
-                                        !$event.type.indexOf("key") &&
-                                        _vm._k(
-                                          $event.keyCode,
-                                          "enter",
-                                          13,
-                                          $event.key,
-                                          "Enter"
-                                        )
-                                      ) {
-                                        return null
-                                      }
+                                    change: function($event) {
                                       return _vm.updateNotas(index)
                                     },
                                     input: function($event) {
@@ -81123,8 +81420,14 @@ var render = function() {
                                   }
                                 })
                               : _c(
-                                  "span",
+                                  "p",
                                   {
+                                    staticStyle: {
+                                      background: "#E4F9DB",
+                                      widht: "100%",
+                                      "min-height": "10px",
+                                      "border-radius": "5px"
+                                    },
                                     on: {
                                       click: function($event) {
                                         _vm.editarNotas(
@@ -87326,17 +87629,6 @@ var render = function() {
                                           staticClass: "fa fa-check",
                                           staticStyle: { color: "#2A9050" }
                                         })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    tarea.completa == 1
-                                      ? _c("i", {
-                                          staticClass: "si si-info",
-                                          staticStyle: { color: "#2A9050" },
-                                          attrs: {
-                                            "data-toggle": "tooltip",
-                                            title: "Como vamos con eso?"
-                                          }
-                                        })
                                       : _vm._e()
                                   ])
                                 ]),
@@ -89783,8 +90075,6 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.version))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(version.folio))]),
-                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.created_at))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(version.quienEdito))]),
@@ -90075,11 +90365,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("version")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Folio")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha de creacion")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Vendedor")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Quien Edito")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])
@@ -104374,6 +104662,7 @@ Vue.component('crear-presupuesto-component', __webpack_require__(/*! ./component
 Vue.component('settings-master-component', __webpack_require__(/*! ./components/SettingsMasterComponent.vue */ "./resources/assets/js/laravel/components/SettingsMasterComponent.vue")["default"]);
 Vue.component('editar-presupuesto-component', __webpack_require__(/*! ./components/EditarPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/EditarPresupuestoComponent.vue")["default"]);
 Vue.component('ver-presupuesto-component', __webpack_require__(/*! ./components/VerPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/VerPresupuestoComponent.vue")["default"]);
+Vue.component('calendario-component', __webpack_require__(/*! ./components/CalendarioComponent.vue */ "./resources/assets/js/laravel/components/CalendarioComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -104387,12 +104676,42 @@ var app = new Vue({
 });
 document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
+  var calendarAl = document.getElementById('calendar2');
+  var calendarBl = document.getElementById('calendar3');
+  var calendarCl = document.getElementById('calendar4');
   var calendar = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__["Calendar"](calendarEl, {
     plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
     locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
     locale: 'es',
     // the initial locale. of not specified, uses the first one
     eventMouseEnter: function eventMouseEnter(info) {},
+    eventClick: function eventClick(info) {
+      detalleTarea(info);
+    }
+  });
+  var calendar2 = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__["Calendar"](calendarAl, {
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
+    locale: 'es',
+    // the initial locale. of not specified, uses the first one
+    eventClick: function eventClick(info) {
+      detalleTarea(info);
+    }
+  });
+  var calendar3 = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__["Calendar"](calendarBl, {
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
+    locale: 'es',
+    // the initial locale. of not specified, uses the first one
+    eventClick: function eventClick(info) {
+      detalleTarea(info);
+    }
+  });
+  var calendar4 = new _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__["Calendar"](calendarCl, {
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"]],
+    locales: [_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default.a],
+    locale: 'es',
+    // the initial locale. of not specified, uses the first one
     eventClick: function eventClick(info) {
       detalleTarea(info);
     }
@@ -104427,7 +104746,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } else {
-      var TextButton = 'Tarea completa';
+      var TextButton = 'Marcar como vista';
       Swal.fire({
         title: task.event.title,
         html: 'Cliente: ' + task.event.extendedProps.cliente + '<br>Detalles: ' + task.event.extendedProps.notas,
@@ -104500,8 +104819,106 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
     });
+    var URL3 = '/contratos/obtener-presupuestos-todos';
+    axios.get(URL3).then(function (response) {
+      var presupuestos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+      presupuestos.forEach(function (element) {
+        calendar.changeView('dayGridMonth');
+        calendar.addEvent({
+          id: element.id,
+          groupId: 2,
+          title: element.folio + " - " + element.cliente,
+          start: element.fechaEvento,
+          color: '#ECABF9',
+          extendedProps: {
+            tipo: 'evento',
+            notas: element.cliente,
+            servicio: element.servicio,
+            notasPresupuesto: element.notasPresupuesto,
+            horario: element.horaEventoInicio + "-" + element.horaEventoFin
+          }
+        });
+      });
+    });
+  });
+  calendar2.batchRendering(function () {
+    //Obtenemos todas las tareas
+    var URL = '/tareas/obtener-tareas-todas';
+    axios.get(URL).then(function (response) {
+      var tareas = response.data; //Imprimimos las tareas recuperadas en el calendario
+
+      tareas.forEach(function (element) {
+        calendar2.changeView('dayGridMonth');
+        calendar2.addEvent({
+          id: element.id,
+          groupId: 1,
+          title: element.categoria,
+          start: element.fecha,
+          color: '#F2E06E',
+          extendedProps: {
+            tipo: 'tarea',
+            notas: element.notas,
+            cliente: element.cliente
+          }
+        });
+      });
+    });
+  });
+  calendar3.batchRendering(function () {
+    //Obtenemos todos los presupuestos
+    var URL3 = '/contratos/obtener-presupuestos-todos';
+    axios.get(URL3).then(function (response) {
+      var presupuestos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+      presupuestos.forEach(function (element) {
+        calendar3.changeView('dayGridMonth');
+        calendar3.addEvent({
+          id: element.id,
+          groupId: 2,
+          title: element.folio + " - " + element.cliente,
+          start: element.fechaEvento,
+          color: '#ECABF9',
+          extendedProps: {
+            tipo: 'evento',
+            notas: element.cliente,
+            servicio: element.servicio,
+            notasPresupuesto: element.notasPresupuesto,
+            horario: element.horaEventoInicio + "-" + element.horaEventoFin
+          }
+        });
+      });
+    });
+  });
+  calendar4.batchRendering(function () {
+    //Obtenemos todos los contratos
+    var URL2 = '/contratos/obtener-contratos-todos';
+    axios.get(URL2).then(function (response) {
+      var contratos = response.data; //Imprimimos los contratos recuperadas en el calendario
+
+      contratos.forEach(function (element) {
+        calendar4.changeView('dayGridMonth');
+        calendar4.addEvent({
+          id: element.id,
+          groupId: 2,
+          title: element.folio + " - " + element.cliente,
+          start: element.fechaEvento,
+          color: '#91DFEB',
+          extendedProps: {
+            tipo: 'evento',
+            notas: element.cliente,
+            servicio: element.servicio,
+            notasPresupuesto: element.notasPresupuesto,
+            horario: element.horaEventoInicio + "-" + element.horaEventoFin
+          }
+        });
+      });
+    });
   });
   calendar.render();
+  calendar2.render();
+  calendar3.render();
+  calendar4.render();
 });
 
 /***/ }),
@@ -104634,6 +105051,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuscadorComponent_vue_vue_type_template_id_0f05767a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuscadorComponent_vue_vue_type_template_id_0f05767a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CalendarioComponent.vue":
+/*!************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CalendarioComponent.vue ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CalendarioComponent.vue?vue&type=template&id=1fc357a8& */ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8&");
+/* harmony import */ var _CalendarioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CalendarioComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CalendarioComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CalendarioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/laravel/components/CalendarioComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarioComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--11-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--11-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarioComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_11_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./CalendarioComponent.vue?vue&type=template&id=1fc357a8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CalendarioComponent.vue?vue&type=template&id=1fc357a8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CalendarioComponent_vue_vue_type_template_id_1fc357a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -398,36 +398,36 @@ padding: 0;
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
-                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                    <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                    <input style="background:#F5F6E6; widht:100%; min-height:10px; border-radius:5px" v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
+                                    <p v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</p>
                                     
                                 </td>
                                 
                                 <td>
                                     
-                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
+                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:change="updatePrecioUnitario(index)">
                                     <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario | currency}}</span>
                                     <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior | currency}}</del>
                                  </td>
                                  <th scope="row">
-                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
+                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:change="updatePrecioEspecial(index)">
                                     <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial | currency}}</span>
                                 </th>
                                 <td>
-                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
+                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:change="updatePrecioFinal(index)">
                                     <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency}}</span>
                                 </td>
                                 <td>
-                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
+                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:change="updateAhorro(index)">
                                     <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
+                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
                                         
                                     </textarea>
-                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                    <p style="background:#E4F9DB; widht:100%; min-height:10px; border-radius:5px" v-else v-on:click="editarNotas(index, Object.keys(producto))">
                                         {{ producto.notas }}
-                                    </span>
+                                    </p>
                                     
 
                                 </td>
@@ -1928,7 +1928,7 @@ padding: 0;
                     'precioUnitario': producto.precioUnitario,
                     'precioFinal': producto.precioUnitario,
                     'ahorro': '0',
-                    'notas': '',
+                    'notas': '--',
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
