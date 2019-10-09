@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -22,7 +21,7 @@ Vue.use(VueCurrencyFilter, {
     fractionSeparator: '.', // Separador de decimales
     symbolPosition: 'front', // Posición del símbolo. Puede ser al inicio ('front') o al final ('') es decir, si queremos que sea al final, en lugar de front ponemos una cadena vacía ''
     symbolSpacing: true // Indica si debe poner un espacio entre el símbolo y la cantidad
-  })
+})
 
 Vue.use(VueFuse);
 
@@ -64,139 +63,147 @@ var EventBus = new Vue;
 const app = new Vue({
     el: '#app',
     store,
-    
+
 });
 
 
 document.addEventListener('DOMContentLoaded', function() {
-var calendarEl = document.getElementById('calendar');
+    var calendarEl = document.getElementById('calendar');
 
-var calendar = new Calendar(calendarEl, {
-    plugins: [ dayGridPlugin ],
-    locales: [ esLocale],
-    locale: 'es', // the initial locale. of not specified, uses the first one
-    
-    eventMouseEnter: function(info){ 
-       
-    },
+    var calendar = new Calendar(calendarEl, {
+        plugins: [dayGridPlugin],
+        locales: [esLocale],
+        locale: 'es', // the initial locale. of not specified, uses the first one
 
-  eventClick: function(info) {
-    detalleTarea(info);
-  } 
-});
+        eventMouseEnter: function(info) {
 
-function detalleTarea(task){
-    if(task.event.groupId==2){
-        var TextButton='Ver ficha de evento';
-        Swal.fire({
-            title: task.event.title,
+        },
 
-            html: "<b>"+task.event.extendedProps.servicio+"</b> <br> Notas: "+task.event.extendedProps.notasPresupuesto+"<br> Horario: "+task.event.extendedProps.horario,
-            type: 'info',
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: TextButton,
-            cancelButtonText: 'Cerrar'
-            
-        }).then((result) => {
-        if (result.value) {
-            if(task.event.groupId==1){
-                var url= '/tareas/eliminar-tarea/'+task.event.id;
-            axios.delete(url).then(response =>{
-                //this.obtenerTareas();
-                location.reload();
-                }) 
-            }else{
-                let URL = 'presupuestos/ver/' + task.event.id;
-                window.location.href = URL;
-            }
-          //  console.log(task);
-            
-            }
-      
-})
-    }else{
-        var TextButton='Tarea completa';
-        Swal.fire({
-            title: task.event.title,
+        eventClick: function(info) {
+            detalleTarea(info);
+        }
+    });
 
-            html: 'Cliente: '+task.event.extendedProps.cliente+'<br>Detalles: '+task.event.extendedProps.notas,
-            type: 'info',
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: TextButton,
-            cancelButtonText: 'Cerrar'
-            
-        }).then((result) => {
-        if (result.value) {
-            if(task.event.groupId==1){
-                var url= '/tareas/eliminar-tarea/'+task.event.id;
-            axios.delete(url).then(response =>{
-                //this.obtenerTareas();
-                location.reload();
-                }) 
-            }else{
-                let URL = 'presupuestos/ver/' + task.event.id;
-                window.location.href = URL;
-            }
-          //  console.log(task);
-            
-            }
-      
-})
+    function detalleTarea(task) {
+        if (task.event.groupId == 2) {
+            var TextButton = 'Ver ficha de evento';
+            Swal.fire({
+                title: task.event.title,
+
+                html: "<b>" + task.event.extendedProps.servicio + "</b> <br> Notas: " + task.event.extendedProps.notasPresupuesto + "<br> Horario: " + task.event.extendedProps.horario,
+                type: 'info',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: TextButton,
+                cancelButtonText: 'Cerrar'
+
+            }).then((result) => {
+                if (result.value) {
+                    if (task.event.groupId == 1) {
+                        var url = '/tareas/eliminar-tarea/' + task.event.id;
+                        axios.delete(url).then(response => {
+                            //this.obtenerTareas();
+                            location.reload();
+                        })
+                    } else {
+                        let URL = 'presupuestos/ver/' + task.event.id;
+                        window.location.href = URL;
+                    }
+                    //  console.log(task);
+
+                }
+
+            })
+        } else {
+            var TextButton = 'Tarea completa';
+            Swal.fire({
+                title: task.event.title,
+
+                html: 'Cliente: ' + task.event.extendedProps.cliente + '<br>Detalles: ' + task.event.extendedProps.notas,
+                type: 'info',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: TextButton,
+                cancelButtonText: 'Cerrar'
+
+            }).then((result) => {
+                if (result.value) {
+                    if (task.event.groupId == 1) {
+                        var url = '/tareas/eliminar-tarea/' + task.event.id;
+                        axios.delete(url).then(response => {
+                            //this.obtenerTareas();
+                            location.reload();
+                        })
+                    } else {
+                        let URL = 'presupuestos/ver/' + task.event.id;
+                        window.location.href = URL;
+                    }
+                    //  console.log(task);
+
+                }
+
+            })
+        }
+
     }
 
-}
 
+    calendar.batchRendering(function() {
 
-calendar.batchRendering(function() {
-    
-    //Obtenemos todas las tareas
+        //Obtenemos todas las tareas
         let URL = '/tareas/obtener-tareas-todas';
         axios.get(URL).then((response) => {
-        var tareas = response.data;
+            var tareas = response.data;
 
-    //Imprimimos las tareas recuperadas en el calendario
+            //Imprimimos las tareas recuperadas en el calendario
             tareas.forEach((element) => {
-            calendar.changeView('dayGridMonth');
-            calendar.addEvent({id: element.id, groupId: 1, title: element.categoria, start: element.fecha, color: '#F2E06E', extendedProps: {
-                tipo: 'tarea',
-                notas: element.notas,
-                cliente: element.cliente
-              }, });  
-          });  
+                calendar.changeView('dayGridMonth');
+                calendar.addEvent({
+                    id: element.id,
+                    groupId: 1,
+                    title: element.categoria,
+                    start: element.fecha,
+                    color: '#F2E06E',
+                    extendedProps: {
+                        tipo: 'tarea',
+                        notas: element.notas,
+                        cliente: element.cliente
+                    },
+                });
+            });
+        });
+
+        let URL2 = '/contratos/obtener-contratos-todos';
+        axios.get(URL2).then((response) => {
+            var contratos = response.data;
+
+            //Imprimimos los contratos recuperadas en el calendario
+            contratos.forEach((element) => {
+                calendar.changeView('dayGridMonth');
+                calendar.addEvent({
+                    id: element.id,
+                    groupId: 2,
+                    title: element.folio + " - " + element.cliente,
+                    start: element.fechaEvento,
+                    color: '#91DFEB',
+                    extendedProps: {
+                        tipo: 'evento',
+                        notas: element.cliente,
+                        servicio: element.servicio,
+                        notasPresupuesto: element.notasPresupuesto,
+                        horario: element.horaEventoInicio + "-" + element.horaEventoFin,
+                    },
+                });
+            });
+        });
+
     });
 
-    let URL2 = '/contratos/obtener-contratos-todos';
-    axios.get(URL2).then((response) => {
-        var contratos = response.data;
-        
-    //Imprimimos los contratos recuperadas en el calendario
-        contratos.forEach((element) => {
-            calendar.changeView('dayGridMonth');
-            calendar.addEvent({id: element.id, groupId: 2, title: element.folio+" - "+element.cliente, start: element.fechaEvento, color: '#91DFEB', extendedProps: {
-                tipo: 'evento',
-                notas: element.cliente,
-                servicio: element.servicio,
-                notasPresupuesto: element.notasPresupuesto,
-                horario: element.horaEventoInicio+"-"+element.horaEventoFin,
-              }, });  
-          }); 
-    });
-    
-  });
 
-
-calendar.render();
+    calendar.render();
 
 });
-
-
-
-
- 
-
