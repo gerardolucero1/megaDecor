@@ -83,6 +83,9 @@ class CreateBudgetVersionsTable extends Migration
             // Notas
             $table->text('notasPresupuesto')->nullable();
 
+            $table->string('requiereFacura')->nullable();
+            $table->string('requiereMontaje')->nullable();
+
             $table->timestamps();
 
             //Relations

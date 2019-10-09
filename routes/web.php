@@ -333,6 +333,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
 
+
     Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){
         $inventario = Inventory::find($id);
 
@@ -348,6 +349,9 @@ Route::group(['middleware' => ['auth']], function () {
         $inventario->save();
         return;
     });
+
+    Route::resource('familia', 'CMS\FamilyController');
+    Route::resource('grupo', 'CMS\FamilyGroupController');
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
