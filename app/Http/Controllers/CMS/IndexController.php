@@ -369,7 +369,7 @@ class IndexController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-            if($budget->fechaEvento >= $fechaHoy){
+            if($budget->fechaEvento >= $fechaHoy || $budget->fechaEvento == null){
                 $Presupuesto   = new stdClass();
                 $Presupuesto->id = $budget->id;
                 $Presupuesto->folio = $budget->folio;
@@ -479,7 +479,7 @@ class IndexController extends Controller
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-            if($budget->fechaEvento >= $fechaHoy){
+            if($budget->fechaEvento >= $fechaHoy || $budget->fechaEvento == null){
                 $Presupuesto   = new stdClass();
                 $Presupuesto->id = $budget->id;
                 $Presupuesto->folio = $budget->folio;
