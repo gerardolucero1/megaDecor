@@ -602,14 +602,14 @@ padding: 0;
                                         </div>
                                     </div>
 
-                                    <div class="form-group row" style="display:none">
+                                    <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
                                             <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="display:none">
                                         <label class="col-12" for="example-text-input">Costo total de proveedores</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo de proveedores" v-model="paquete.precioVenta" style="background:#FFECA7">
@@ -620,6 +620,7 @@ padding: 0;
                                 <div class="col-md-6">
                                     <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
                                     <h4>Utilidad: $<span v-text="utilidad"></span></h4>
+                                    <h4>Costo total proveedor: $<span v-text="costoProveedor"></span></h4>
                                     <input type="checkbox" id="guardarPaquete" v-model="paquete.guardarPaquete">
                                     <label for="guardarPaquete">Guardar paquete</label>
 
@@ -1352,6 +1353,7 @@ padding: 0;
                 },
                 precioSugerido: 0,
                 utilidad: 0,
+                costoProveedor: 0,
 
                 cantidadPaquete: '',
                 precioUnitarioPaquete: '',
@@ -1553,6 +1555,11 @@ padding: 0;
                 }
                 
             },
+            'paquete.precioFinal': function(val){
+                if(val){
+                   this.paquete.precioFinal =this.precioSugerido;
+                }
+            },
             'requiereFactura': function(val){
                 if(val){
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
@@ -1694,7 +1701,8 @@ padding: 0;
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
                     },
                     //Eliminar producto de paquete
@@ -1703,11 +1711,13 @@ padding: 0;
 
                         this.precioSugerido = 0;
                         this.utilidad = 0;
+                        this.costoProveedor = 0;
 
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
                     },
 
@@ -1787,13 +1797,6 @@ padding: 0;
 
             guardarPaquete(){
                 let count;
-                if(isNaN(parseInt(this.paquete.precioVenta))){
-                   Swal.fire(
-                        'Paquete sin costo',
-                        'Agrega costo de proveedor',
-                        'warning'
-                        ) 
-                }else{
                 
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -1818,7 +1821,7 @@ padding: 0;
                         paquete: paquete,
                         tipo: 'PAQUETE',
                         id: '',
-                        precioVenta: this.paquete.precioVenta,
+                        precioVenta: this.costoProveedor,
                         precioEspecial: this.precioSugerido,
                         precioAnterior: this.precioSugerido,
                     });
@@ -1829,7 +1832,7 @@ padding: 0;
                         ) 
                 }
 
-            }},
+            },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.limpiar = true;

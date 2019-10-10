@@ -14205,6 +14205,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -14343,6 +14344,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       precioSugerido: 0,
       utilidad: 0,
+      costoProveedor: 0,
       cantidadPaquete: '',
       precioUnitarioPaquete: '',
       precioEspecialPaquete: '',
@@ -14536,6 +14538,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.presupuesto.coloniaLugar = '';
       }
     },
+    'paquete.precioFinal': function paquetePrecioFinal(val) {
+      if (val) {
+        this.paquete.precioFinal = this.precioSugerido;
+      }
+    },
     'requiereFactura': function requiereFactura(val) {
       if (val) {
         this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
@@ -14674,7 +14681,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     actualizarPrecioSugerido: function actualizarPrecioSugerido() {
       for (var i = 0; i < this.paquete.inventario.length; i++) {
         this.precioSugerido += this.paquete.inventario[i].precioFinal;
-        this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
+        this.utilidad += parseInt(this.paquete.inventario[i].precioFinal) - parseInt(this.paquete.inventario[i].precioVenta) * parseInt(this.paquete.inventario[i].cantidad);
+        this.costoProveedor += parseInt(this.paquete.inventario[i].precioVenta);
       }
     },
     //Eliminar producto de paquete
@@ -14682,10 +14690,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.paquete.inventario.splice(index, 1);
       this.precioSugerido = 0;
       this.utilidad = 0;
+      this.costoProveedor = 0;
 
       for (var i = 0; i < this.paquete.inventario.length; i++) {
         this.precioSugerido += this.paquete.inventario[i].precioFinal;
-        this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
+        this.utilidad += parseInt(this.paquete.inventario[i].precioFinal) - parseInt(this.paquete.inventario[i].precioVenta) * parseInt(this.paquete.inventario[i].cantidad);
+        this.costoProveedor += parseInt(this.paquete.inventario[i].precioVenta);
       }
     },
     //Actualizar los datos del paquete
@@ -14755,33 +14765,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var count;
 
-      if (isNaN(parseInt(this.paquete.precioVenta))) {
-        Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
+      if (this.inventarioLocal.some(function (element) {
+        return element.servicio == _this8.paquete.servicio;
+      })) {
+        Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
       } else {
-        if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this8.paquete.servicio;
-        })) {
-          Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
-        } else {
-          var paquete = JSON.parse(JSON.stringify(this.paquete));
-          this.inventarioLocal.push({
-            externo: false,
-            imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-            servicio: this.paquete.servicio,
-            cantidad: 1,
-            precioUnitario: this.precioSugerido,
-            precioFinal: this.precioSugerido,
-            ahorro: '0',
-            notas: '',
-            paquete: paquete,
-            tipo: 'PAQUETE',
-            id: '',
-            precioVenta: this.paquete.precioVenta,
-            precioEspecial: this.precioSugerido,
-            precioAnterior: this.precioSugerido
-          });
-          Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
-        }
+        var paquete = JSON.parse(JSON.stringify(this.paquete));
+        this.inventarioLocal.push({
+          externo: false,
+          imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+          servicio: this.paquete.servicio,
+          cantidad: 1,
+          precioUnitario: this.precioSugerido,
+          precioFinal: this.precioSugerido,
+          ahorro: '0',
+          notas: '',
+          paquete: paquete,
+          tipo: 'PAQUETE',
+          id: '',
+          precioVenta: this.costoProveedor,
+          precioEspecial: this.precioSugerido,
+          precioAnterior: this.precioSugerido
+        });
+        Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
       }
     },
     // Metodo para obtener el cliente seleccionado
@@ -74973,6 +74979,51 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
+                          _c("div", { staticClass: "form-group row" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "col-12",
+                                attrs: { for: "example-text-input" }
+                              },
+                              [_vm._v("Precio del paquete")]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-12" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.paquete.precioFinal,
+                                    expression: "paquete.precioFinal"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { background: "#FFECA7" },
+                                attrs: {
+                                  type: "text",
+                                  id: "example-text-input",
+                                  name: "example-text-input",
+                                  placeholder: "Precio de paquete"
+                                },
+                                domProps: { value: _vm.paquete.precioFinal },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.paquete,
+                                      "precioFinal",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "div",
                             {
@@ -74986,7 +75037,7 @@ var render = function() {
                                   staticClass: "col-12",
                                   attrs: { for: "example-text-input" }
                                 },
-                                [_vm._v("Precio del paquete")]
+                                [_vm._v("Costo total de proveedores")]
                               ),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-12" }, [
@@ -74995,8 +75046,8 @@ var render = function() {
                                     {
                                       name: "model",
                                       rawName: "v-model",
-                                      value: _vm.paquete.precioFinal,
-                                      expression: "paquete.precioFinal"
+                                      value: _vm.paquete.precioVenta,
+                                      expression: "paquete.precioVenta"
                                     }
                                   ],
                                   staticClass: "form-control",
@@ -75005,9 +75056,9 @@ var render = function() {
                                     type: "text",
                                     id: "example-text-input",
                                     name: "example-text-input",
-                                    placeholder: "Precio de paquete"
+                                    placeholder: "Costo de proveedores"
                                   },
-                                  domProps: { value: _vm.paquete.precioFinal },
+                                  domProps: { value: _vm.paquete.precioVenta },
                                   on: {
                                     input: function($event) {
                                       if ($event.target.composing) {
@@ -75015,7 +75066,7 @@ var render = function() {
                                       }
                                       _vm.$set(
                                         _vm.paquete,
-                                        "precioFinal",
+                                        "precioVenta",
                                         $event.target.value
                                       )
                                     }
@@ -75023,52 +75074,7 @@ var render = function() {
                                 })
                               ])
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "col-12",
-                                attrs: { for: "example-text-input" }
-                              },
-                              [_vm._v("Costo total de proveedores")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.paquete.precioVenta,
-                                    expression: "paquete.precioVenta"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                staticStyle: { background: "#FFECA7" },
-                                attrs: {
-                                  type: "text",
-                                  id: "example-text-input",
-                                  name: "example-text-input",
-                                  placeholder: "Costo de proveedores"
-                                },
-                                domProps: { value: _vm.paquete.precioVenta },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.paquete,
-                                      "precioVenta",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
@@ -75085,6 +75091,15 @@ var render = function() {
                             _vm._v("Utilidad: $"),
                             _c("span", {
                               domProps: { textContent: _vm._s(_vm.utilidad) }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", [
+                            _vm._v("Costo total proveedor: $"),
+                            _c("span", {
+                              domProps: {
+                                textContent: _vm._s(_vm.costoProveedor)
+                              }
                             })
                           ]),
                           _vm._v(" "),
