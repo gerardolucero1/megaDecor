@@ -470,19 +470,20 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
-                                <h3 v-else>Subtotal: <span>{{ saldoFinal | currency }}</span><br>
-                                <span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
+                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
+                                
+                               <h3><span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <H5 v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></H5>
+                                    <H5 v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></H5>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
-                                   <p style="font-size:16px; font-weight:bold;">Total: {{ calcularSubtotal + calcularIva | currency }} <i class="fa fa-edit"></i></p>
+                                   
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                     <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
@@ -1847,6 +1848,7 @@ padding: 0;
                     this.cantidadActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                  updatePrecioUnitario(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -1860,6 +1862,7 @@ padding: 0;
                     this.precioUnitarioActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                 //Ahorro
                 editarAhorro(index, key){

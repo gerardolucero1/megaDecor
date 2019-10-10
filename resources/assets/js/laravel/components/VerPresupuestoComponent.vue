@@ -199,7 +199,7 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}

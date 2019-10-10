@@ -16856,6 +16856,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -17626,6 +17627,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.cantidadActualizada = '';
       this.key = '';
       this.indice = '100000000';
+      this.calcularSubtotal();
     },
     updatePrecioUnitario: function updatePrecioUnitario(index) {
       var producto = this.inventarioLocal.find(function (element, indice) {
@@ -17639,6 +17641,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.precioUnitarioActualizada = '';
       this.key = '';
       this.indice = '100000000';
+      this.calcularSubtotal();
     },
     //Ahorro
     editarAhorro: function editarAhorro(index, key) {
@@ -81860,34 +81863,16 @@ var render = function() {
                     _c("div", { staticClass: "col-md-3" }),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4 mt-4" }, [
-                      _vm.presupuesto.tipo == "PRESUPUESTO"
-                        ? _c("h5", [
-                            _vm._v("Subtotal: "),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(_vm._f("currency")(_vm.calcularSubtotal))
-                              )
-                            ])
-                          ])
-                        : _c("h3", [
-                            _vm._v("Subtotal: "),
-                            _c("span", [
-                              _vm._v(_vm._s(_vm._f("currency")(_vm.saldoFinal)))
-                            ]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                staticStyle: {
-                                  "font-style": "italic",
-                                  "font-size": "13px",
-                                  "font-weight": "normal"
-                                }
-                              },
-                              [_vm._v("Notas de contrato: $0.00")]
-                            )
-                          ]),
+                      _c("h5", [
+                        _vm._v("Subtotal: "),
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(_vm._f("currency")(_vm.calcularSubtotal))
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -81941,89 +81926,83 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "info mt-3" }, [
-                        _c("p", [
-                          _vm._v("TOTAL con IVA: "),
-                          _c("span", [
-                            _vm._v(
-                              _vm._s(
-                                _vm._f("currency")(
-                                  _vm.calcularSubtotal + _vm.calcularIva
-                                )
-                              )
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _vm._v("Ahorro General: "),
-                          _c("span", [
-                            _vm._v(
-                              _vm._s(_vm._f("currency")(_vm.calcularAhorro))
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _vm.presupuesto.tipo == "CONTRATO"
-                          ? _c("p", { staticStyle: { color: "green" } }, [
-                              _vm._v("Saldo a favor: $"),
-                              _c("span", [_vm._v("0.00")])
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticStyle: {
-                              "font-size": "16px",
-                              "font-weight": "bold"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "Total: " +
-                                _vm._s(
-                                  _vm._f("currency")(
-                                    _vm.calcularSubtotal + _vm.calcularIva
+                      _c(
+                        "div",
+                        { staticClass: "info mt-3" },
+                        [
+                          _vm.presupuesto.opcionIVA == true
+                            ? _c("H5", [
+                                _vm._v("TOTAL + IVA: "),
+                                _c("span", [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("currency")(
+                                        _vm.calcularSubtotal + _vm.calcularIva
+                                      )
+                                    )
                                   )
-                                ) +
-                                " "
-                            ),
-                            _c("i", { staticClass: "fa fa-edit" })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _vm.presupuesto.tipo == "NONE"
-                          ? _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-sm btn-primary",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.mostrarIVA()
+                                ])
+                              ])
+                            : _c("H5", [
+                                _vm._v("TOTAL: "),
+                                _c("span", [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("currency")(_vm.calcularSubtotal)
+                                    )
+                                  )
+                                ])
+                              ]),
+                          _vm._v(" "),
+                          _c("p", [
+                            _vm._v("Ahorro General: "),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(_vm._f("currency")(_vm.calcularAhorro))
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.presupuesto.tipo == "CONTRATO"
+                            ? _c("p", { staticStyle: { color: "green" } }, [
+                                _vm._v("Saldo a favor: $"),
+                                _c("span", [_vm._v("0.00")])
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.presupuesto.tipo == "NONE"
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-primary",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.mostrarIVA()
+                                    }
                                   }
+                                },
+                                [
+                                  _c("i", { staticClass: "si si-pencil" }),
+                                  _vm._v(" Editar iva")
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-danger d-block",
+                              on: {
+                                click: function($event) {
+                                  return _vm.reduccionDeContrato()
                                 }
-                              },
-                              [
-                                _c("i", { staticClass: "si si-pencil" }),
-                                _vm._v(" Editar iva")
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm btn-danger d-block",
-                            on: {
-                              click: function($event) {
-                                return _vm.reduccionDeContrato()
                               }
-                            }
-                          },
-                          [_vm._v("Notas de contrato")]
-                        )
-                      ])
+                            },
+                            [_vm._v("Notas de contrato")]
+                          )
+                        ],
+                        1
+                      )
                     ])
                   ])
                 ]),
@@ -82229,7 +82208,7 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(10),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c("div", { staticClass: "row" }, [
@@ -82806,7 +82785,7 @@ var render = function() {
                                   "table",
                                   { staticClass: "table table-hover" },
                                   [
-                                    _vm._m(11),
+                                    _vm._m(12),
                                     _vm._v(" "),
                                     _vm.paquete.inventario
                                       ? _c(
@@ -83182,7 +83161,7 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(12),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c("div", { staticClass: "row" }, [
@@ -83556,13 +83535,13 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(13),
+                      _vm._m(14),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _vm.clienteSeleccionadoContratos.length !== 0
                           ? _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-12" }, [
-                                _vm._m(14),
+                                _vm._m(15),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "block-content" }, [
                                   _c(
@@ -83572,7 +83551,7 @@ var render = function() {
                                         "table table-striped table-vcenter"
                                     },
                                     [
-                                      _vm._m(15),
+                                      _vm._m(16),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -83685,7 +83664,7 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _vm._m(16)
+                      _vm._m(17)
                     ]
                   )
                 ]
@@ -83720,13 +83699,13 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(17),
+                      _vm._m(18),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _vm.clienteSeleccionadoPresupuestos.length !== 0
                           ? _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-12" }, [
-                                _vm._m(18),
+                                _vm._m(19),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "block-content" }, [
                                   _c(
@@ -83736,7 +83715,7 @@ var render = function() {
                                         "table table-striped table-vcenter"
                                     },
                                     [
-                                      _vm._m(19),
+                                      _vm._m(20),
                                       _vm._v(" "),
                                       _c(
                                         "tbody",
@@ -83856,7 +83835,7 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _vm._m(20)
+                      _vm._m(21)
                     ]
                   )
                 ]
@@ -83891,7 +83870,7 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(21),
+                      _vm._m(22),
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-body" }, [
                         _c("label", [_vm._v("Hora de entrega de mobiliario")]),
@@ -84068,7 +84047,7 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm._m(22),
+                          _vm._m(23),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-6 mt-4" }, [
                             _c("input", {
@@ -84370,7 +84349,7 @@ var render = function() {
                             })
                           ]),
                           _vm._v(" "),
-                          _vm._m(23)
+                          _vm._m(24)
                         ])
                       ]),
                       _vm._v(" "),
@@ -84435,12 +84414,12 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(24),
+                      _vm._m(25),
                       _vm._v(" "),
                       _vm.viendoPaquete.length != 0
                         ? _c("div", { staticClass: "modal-body" }, [
                             _c("table", { staticClass: "table table-hover" }, [
-                              _vm._m(25),
+                              _vm._m(26),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -84492,7 +84471,7 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm._m(26)
+                      _vm._m(27)
                     ]
                   )
                 ]
@@ -84646,6 +84625,24 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [
+      _c(
+        "span",
+        {
+          staticStyle: {
+            "font-style": "italic",
+            "font-size": "13px",
+            "font-weight": "normal"
+          }
+        },
+        [_vm._v("Notas de contrato: $0.00")]
+      )
     ])
   },
   function() {
@@ -88786,7 +88783,13 @@ var render = function() {
                     [
                       _c(
                         "p",
-                        { staticStyle: { "font-size": "25px", color: "blue" } },
+                        {
+                          staticStyle: {
+                            "font-size": "25px",
+                            color: "blue",
+                            "line-height": "27px"
+                          }
+                        },
                         [_vm._v(_vm._s(_vm.clienteSeleccionado.nombre))]
                       ),
                       _vm._v(" "),
