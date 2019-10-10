@@ -14755,36 +14755,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var count;
 
-      if (isNaN(parseInt(this.paquete.precioFinal))) {
-        Swal.fire('Paquete sin precio', 'Agrega un precio a tu paquete antes de crearlo', 'warning');
+      if (isNaN(parseInt(this.paquete.precioVenta))) {
+        Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
       } else {
-        if (isNaN(parseInt(this.paquete.precioVenta))) {
-          Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
+        if (this.inventarioLocal.some(function (element) {
+          return element.servicio == _this8.paquete.servicio;
+        })) {
+          Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
         } else {
-          if (this.inventarioLocal.some(function (element) {
-            return element.servicio == _this8.paquete.servicio;
-          })) {
-            Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
-          } else {
-            var paquete = JSON.parse(JSON.stringify(this.paquete));
-            this.inventarioLocal.push({
-              externo: false,
-              imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-              servicio: this.paquete.servicio,
-              cantidad: 1,
-              precioUnitario: this.paquete.precioFinal,
-              precioFinal: this.paquete.precioFinal,
-              ahorro: '0',
-              notas: '',
-              paquete: paquete,
-              tipo: 'PAQUETE',
-              id: '',
-              precioVenta: this.paquete.precioVenta,
-              precioEspecial: this.paquete.precioFinal,
-              precioAnterior: this.paquete.precioFinal
-            });
-            Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
-          }
+          var paquete = JSON.parse(JSON.stringify(this.paquete));
+          this.inventarioLocal.push({
+            externo: false,
+            imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+            servicio: this.paquete.servicio,
+            cantidad: 1,
+            precioUnitario: this.precioSugerido,
+            precioFinal: this.precioSugerido,
+            ahorro: '0',
+            notas: '',
+            paquete: paquete,
+            tipo: 'PAQUETE',
+            id: '',
+            precioVenta: this.paquete.precioVenta,
+            precioEspecial: this.precioSugerido,
+            precioAnterior: this.precioSugerido
+          });
+          Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
         }
       }
     },
@@ -16832,6 +16828,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -17364,28 +17363,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     guardarPaquete: function guardarPaquete() {
       var _this8 = this;
 
-      if (this.inventarioLocal.some(function (element) {
-        return element.servicio == _this8.paquete.servicio;
-      })) {
-        Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
+      var count;
+
+      if (isNaN(parseInt(this.paquete.precioVenta))) {
+        Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
       } else {
-        var paquete = JSON.parse(JSON.stringify(this.paquete));
-        this.inventarioLocal.push({
-          'externo': false,
-          'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-          'servicio': this.paquete.servicio,
-          'cantidad': 1,
-          'precioUnitario': this.paquete.precioFinal,
-          'precioFinal': this.paquete.precioFinal,
-          'ahorro': 0,
-          'notas': '',
-          'paquete': paquete,
-          'tipo': 'PAQUETE',
-          'id': '',
-          'precioVenta': this.paquete.precioVenta,
-          'precioEspecial': this.paquete.precioFinal,
-          'precioAnterior': this.paquete.precioFinal
-        });
+        if (this.inventarioLocal.some(function (element) {
+          return element.servicio == _this8.paquete.servicio;
+        })) {
+          Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
+        } else {
+          var paquete = JSON.parse(JSON.stringify(this.paquete));
+          this.inventarioLocal.push({
+            externo: false,
+            imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+            servicio: this.paquete.servicio,
+            cantidad: 1,
+            precioUnitario: this.precioSugerido,
+            precioFinal: this.precioSugerido,
+            ahorro: '0',
+            notas: '',
+            paquete: paquete,
+            tipo: 'PAQUETE',
+            id: '',
+            precioVenta: this.paquete.precioVenta,
+            precioEspecial: this.precioSugerido,
+            precioAnterior: this.precioSugerido
+          });
+          Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
+        }
       }
     },
     // Metodo para obtener el cliente seleccionado
@@ -74967,50 +74973,57 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "col-12",
-                                attrs: { for: "example-text-input" }
-                              },
-                              [_vm._v("Precio del paquete")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-12" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.paquete.precioFinal,
-                                    expression: "paquete.precioFinal"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                staticStyle: { background: "#FFECA7" },
-                                attrs: {
-                                  type: "text",
-                                  id: "example-text-input",
-                                  name: "example-text-input",
-                                  placeholder: "Precio de paquete"
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-group row",
+                              staticStyle: { display: "none" }
+                            },
+                            [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "col-12",
+                                  attrs: { for: "example-text-input" }
                                 },
-                                domProps: { value: _vm.paquete.precioFinal },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
+                                [_vm._v("Precio del paquete")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-12" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.paquete.precioFinal,
+                                      expression: "paquete.precioFinal"
                                     }
-                                    _vm.$set(
-                                      _vm.paquete,
-                                      "precioFinal",
-                                      $event.target.value
-                                    )
+                                  ],
+                                  staticClass: "form-control",
+                                  staticStyle: { background: "#FFECA7" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "example-text-input",
+                                    name: "example-text-input",
+                                    placeholder: "Precio de paquete"
+                                  },
+                                  domProps: { value: _vm.paquete.precioFinal },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.paquete,
+                                        "precioFinal",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                }
-                              })
-                            ])
-                          ]),
+                                })
+                              ])
+                            ]
+                          ),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group row" }, [
                             _c(
@@ -82126,7 +82139,7 @@ var render = function() {
               _c(
                 "div",
                 {
-                  staticClass: "modal-dialog modal-lg modal-dialog-centered",
+                  staticClass: "modal-dialog modal-xl modal-dialog-centered",
                   attrs: { id: "app", role: "document" }
                 },
                 [
@@ -82147,11 +82160,20 @@ var render = function() {
                                 _c("div", { staticClass: "form-group row" }, [
                                   _c(
                                     "div",
-                                    { staticClass: "col-md-12" },
+                                    {
+                                      staticClass: "col-md-12",
+                                      staticStyle: {
+                                        border: "solid",
+                                        "border-width": "1px",
+                                        "border-radius": "3px",
+                                        background: "#D0FAF2"
+                                      }
+                                    },
                                     [
                                       _c("buscador-component", {
                                         attrs: {
-                                          placeholder: "Buscar Productos",
+                                          placeholder:
+                                            "Buscar Productos Existentes",
                                           "event-name": "resultsPaquetes",
                                           list: _vm.inventario,
                                           keys: ["servicio", "id", "familia"]
@@ -82327,9 +82349,7 @@ var render = function() {
                                                                 "img-fluid",
                                                               attrs: {
                                                                 src:
-                                                                  "/images/inventario/" +
-                                                                  producto.imagen +
-                                                                  ".jpg",
+                                                                  producto.imagen,
                                                                 alt: ""
                                                               }
                                                             })
@@ -82350,7 +82370,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c(
-                                  "button",
+                                  "div",
                                   {
                                     staticClass:
                                       "btn btn-sm btn-block btn-info",
@@ -82364,7 +82384,7 @@ var render = function() {
                                       }
                                     }
                                   },
-                                  [_vm._v("Agregar producto")]
+                                  [_vm._v("Agregar nuevo producto")]
                                 )
                               ])
                             ]),
@@ -82392,6 +82412,7 @@ var render = function() {
                                         }
                                       ],
                                       staticClass: "form-control",
+                                      staticStyle: { background: "#FFECA7" },
                                       attrs: {
                                         type: "text",
                                         id: "example-text-input",
@@ -82415,51 +82436,59 @@ var render = function() {
                                   ])
                                 ]),
                                 _vm._v(" "),
-                                _c("div", { staticClass: "form-group row" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass: "col-12",
-                                      attrs: { for: "example-text-input" }
-                                    },
-                                    [_vm._v("Total")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "col-md-12" }, [
-                                    _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.paquete.precioFinal,
-                                          expression: "paquete.precioFinal"
-                                        }
-                                      ],
-                                      staticClass: "form-control",
-                                      attrs: {
-                                        type: "text",
-                                        id: "example-text-input",
-                                        name: "example-text-input",
-                                        placeholder: "Precio unitario"
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "form-group row",
+                                    staticStyle: { display: "none" }
+                                  },
+                                  [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass: "col-12",
+                                        attrs: { for: "example-text-input" }
                                       },
-                                      domProps: {
-                                        value: _vm.paquete.precioFinal
-                                      },
-                                      on: {
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                                      [_vm._v("Precio del paquete")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.paquete.precioFinal,
+                                            expression: "paquete.precioFinal"
                                           }
-                                          _vm.$set(
-                                            _vm.paquete,
-                                            "precioFinal",
-                                            $event.target.value
-                                          )
+                                        ],
+                                        staticClass: "form-control",
+                                        staticStyle: { background: "#FFECA7" },
+                                        attrs: {
+                                          type: "text",
+                                          id: "example-text-input",
+                                          name: "example-text-input",
+                                          placeholder: "Precio de paquete"
+                                        },
+                                        domProps: {
+                                          value: _vm.paquete.precioFinal
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.paquete,
+                                              "precioFinal",
+                                              $event.target.value
+                                            )
+                                          }
                                         }
-                                      }
-                                    })
-                                  ])
-                                ]),
+                                      })
+                                    ])
+                                  ]
+                                ),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "form-group row" }, [
                                   _c(
@@ -82468,7 +82497,7 @@ var render = function() {
                                       staticClass: "col-12",
                                       attrs: { for: "example-text-input" }
                                     },
-                                    [_vm._v("Precio de proveedor")]
+                                    [_vm._v("Costo total de proveedores")]
                                   ),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-md-12" }, [
@@ -82482,11 +82511,12 @@ var render = function() {
                                         }
                                       ],
                                       staticClass: "form-control",
+                                      staticStyle: { background: "#FFECA7" },
                                       attrs: {
                                         type: "text",
                                         id: "example-text-input",
                                         name: "example-text-input",
-                                        placeholder: "Precio unitario"
+                                        placeholder: "Costo de proveedores"
                                       },
                                       domProps: {
                                         value: _vm.paquete.precioVenta
@@ -82706,7 +82736,7 @@ var render = function() {
                                                       _c("img", {
                                                         attrs: {
                                                           src: producto.imagen,
-                                                          width: "100%"
+                                                          width: "100px"
                                                         }
                                                       })
                                                     ]
@@ -82714,7 +82744,26 @@ var render = function() {
                                                   _vm._v(" "),
                                                   _c("td", [
                                                     _vm._v(
-                                                      _vm._s(producto.nombre)
+                                                      _vm._s(producto.nombre) +
+                                                        "\n                                                     "
+                                                    ),
+                                                    _c("br"),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10px",
+                                                          "line-height": "8px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Costo Proveedor: $" +
+                                                            _vm._s(
+                                                              producto.precioVenta
+                                                            )
+                                                        )
+                                                      ]
                                                     )
                                                   ]),
                                                   _vm._v(" "),
@@ -82742,23 +82791,9 @@ var render = function() {
                                                               _vm.cantidadPaquete
                                                           },
                                                           on: {
-                                                            keyup: function(
+                                                            change: function(
                                                               $event
                                                             ) {
-                                                              if (
-                                                                !$event.type.indexOf(
-                                                                  "key"
-                                                                ) &&
-                                                                _vm._k(
-                                                                  $event.keyCode,
-                                                                  "enter",
-                                                                  13,
-                                                                  $event.key,
-                                                                  "Enter"
-                                                                )
-                                                              ) {
-                                                                return null
-                                                              }
                                                               return _vm.updateCantidadPaquete(
                                                                 index
                                                               )
@@ -82829,23 +82864,9 @@ var render = function() {
                                                               _vm.precioUnitarioPaquete
                                                           },
                                                           on: {
-                                                            keyup: function(
+                                                            change: function(
                                                               $event
                                                             ) {
-                                                              if (
-                                                                !$event.type.indexOf(
-                                                                  "key"
-                                                                ) &&
-                                                                _vm._k(
-                                                                  $event.keyCode,
-                                                                  "enter",
-                                                                  13,
-                                                                  $event.key,
-                                                                  "Enter"
-                                                                )
-                                                              ) {
-                                                                return null
-                                                              }
                                                               return _vm.updatePrecioUnitarioPaquete(
                                                                 index
                                                               )
@@ -82884,11 +82905,7 @@ var render = function() {
                                                           [
                                                             _vm._v(
                                                               _vm._s(
-                                                                _vm._f(
-                                                                  "currency"
-                                                                )(
-                                                                  producto.precioUnitario
-                                                                )
+                                                                producto.precioUnitario
                                                               )
                                                             )
                                                           ]
@@ -82921,23 +82938,9 @@ var render = function() {
                                                               _vm.precioEspecialPaquete
                                                           },
                                                           on: {
-                                                            keyup: function(
+                                                            change: function(
                                                               $event
                                                             ) {
-                                                              if (
-                                                                !$event.type.indexOf(
-                                                                  "key"
-                                                                ) &&
-                                                                _vm._k(
-                                                                  $event.keyCode,
-                                                                  "enter",
-                                                                  13,
-                                                                  $event.key,
-                                                                  "Enter"
-                                                                )
-                                                              ) {
-                                                                return null
-                                                              }
                                                               return _vm.updatePrecioEspecialPaquete(
                                                                 index
                                                               )
@@ -82976,11 +82979,7 @@ var render = function() {
                                                           [
                                                             _vm._v(
                                                               _vm._s(
-                                                                _vm._f(
-                                                                  "currency"
-                                                                )(
-                                                                  producto.precioEspecial
-                                                                )
+                                                                producto.precioEspecial
                                                               )
                                                             )
                                                           ]
@@ -82990,9 +82989,7 @@ var render = function() {
                                                   _c("td", [
                                                     _vm._v(
                                                       _vm._s(
-                                                        _vm._f("currency")(
-                                                          producto.precioFinal
-                                                        )
+                                                        producto.precioFinal
                                                       )
                                                     )
                                                   ]),
@@ -83004,7 +83001,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _c(
-                                                        "button",
+                                                        "div",
                                                         {
                                                           staticClass:
                                                             "btn btn-sm btn-danger",
@@ -83039,11 +83036,10 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "modal-footer" }, [
                         _c(
-                          "button",
+                          "div",
                           {
                             staticClass: "btn btn-secondary",
                             attrs: {
-                              type: "button",
                               onClick: "$('#agregarPaquete').modal('hide')"
                             }
                           },
@@ -83051,10 +83047,9 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c(
-                          "button",
+                          "div",
                           {
                             staticClass: "btn btn-primary",
-                            attrs: { type: "button" },
                             on: {
                               click: function($event) {
                                 return _vm.guardarPaquete()
@@ -84579,11 +84574,10 @@ var staticRenderFns = [
       ),
       _vm._v(" "),
       _c(
-        "button",
+        "div",
         {
           staticClass: "close",
           attrs: {
-            type: "button",
             onClick: "$('#agregarPaquete').modal('hide')",
             "aria-label": "Close"
           }
@@ -84606,9 +84600,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio unitario")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio especial")]),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Precio especial unitario")
+        ]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total con descuento")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
       ])
@@ -106513,13 +106509,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

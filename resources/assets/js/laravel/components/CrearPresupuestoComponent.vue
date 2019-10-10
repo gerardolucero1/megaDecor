@@ -602,10 +602,10 @@ padding: 0;
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="display:none">
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
+                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
                                         </div>
                                     </div>
 
@@ -1787,13 +1787,6 @@ padding: 0;
 
             guardarPaquete(){
                 let count;
-                if(isNaN(parseInt(this.paquete.precioFinal))){
-                   Swal.fire(
-                        'Paquete sin precio',
-                        'Agrega un precio a tu paquete antes de crearlo',
-                        'warning'
-                        ) 
-                }else{
                 if(isNaN(parseInt(this.paquete.precioVenta))){
                    Swal.fire(
                         'Paquete sin costo',
@@ -1818,16 +1811,16 @@ padding: 0;
                         imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
                         servicio: this.paquete.servicio,
                         cantidad: 1,
-                        precioUnitario: this.paquete.precioFinal,
-                        precioFinal: this.paquete.precioFinal,
+                        precioUnitario: this.precioSugerido,
+                        precioFinal: this.precioSugerido,
                         ahorro: '0',
                         notas: '',
                         paquete: paquete,
                         tipo: 'PAQUETE',
                         id: '',
                         precioVenta: this.paquete.precioVenta,
-                        precioEspecial: this.paquete.precioFinal,
-                        precioAnterior: this.paquete.precioFinal,
+                        precioEspecial: this.precioSugerido,
+                        precioAnterior: this.precioSugerido,
                     });
                     Swal.fire(
                         'Listo!',
@@ -1836,7 +1829,7 @@ padding: 0;
                         ) 
                 }
 
-            }}},
+            }},
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.limpiar = true;
