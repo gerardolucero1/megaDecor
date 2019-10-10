@@ -14207,6 +14207,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -73067,7 +73071,7 @@ var render = function() {
                 }
               },
               [
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("input", {
                     directives: [
                       {
@@ -73098,7 +73102,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("input", {
                     directives: [
                       {
@@ -73127,7 +73131,42 @@ var render = function() {
                   _c("label", { attrs: { for: "lugarOtro" } }, [_vm._v("Otra")])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.presupuesto.lugarEvento,
+                        expression: "presupuesto.lugarEvento"
+                      }
+                    ],
+                    attrs: {
+                      type: "radio",
+                      id: "lugarBodega",
+                      name: "lugarEvento",
+                      value: "BODEGA"
+                    },
+                    domProps: {
+                      checked: _vm._q(_vm.presupuesto.lugarEvento, "BODEGA")
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.$set(
+                          _vm.presupuesto,
+                          "lugarEvento",
+                          "BODEGA"
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "lugarBodega" } }, [
+                    _vm._v("Recoleccion en bodega")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
                   _c("input", {
                     directives: [
                       {
