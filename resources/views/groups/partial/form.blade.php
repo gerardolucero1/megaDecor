@@ -13,8 +13,18 @@
             <div class="form-group row">
                 <div class="col-md-12">
                     <div class="form-material">
-                        {{ Form::label('informacion', 'Descripcion') }}
+                        {{ Form::label('informacion', 'Requisitos') }}
                         {{ Form::textarea('informacion', null, ['class' => 'form-control', 'id' => 'informacion']) }}  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="form-material">
+                        {{ Form::label('observaciones', 'Observaciones') }}
+                        {{ Form::textarea('observaciones', null, ['class' => 'form-control', 'id' => 'observaciones']) }}  
                     </div>
                 </div>
             </div>

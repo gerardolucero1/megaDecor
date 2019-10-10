@@ -41,6 +41,7 @@ class FamilyGroupController extends Controller
         $v = \Validator::make($request->all(), [
             'nombre' => 'required',
             'informacion' => 'required',
+            'observaciones' => 'required',
         ]);
  
         if ($v->fails())
@@ -91,6 +92,7 @@ class FamilyGroupController extends Controller
         $v = \Validator::make($request->all(), [
             'nombre' => 'required',
             'informacion' => 'required',
+            'observaciones' => 'required',
         ]);
  
         if ($v->fails())

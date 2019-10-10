@@ -235,18 +235,31 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
           <p style="font-size: 16px; font-weight: bold; text-align: left">
               Servicios
           </p>
+          @php
+              $testigo='nada';
+          @endphp
         @foreach ($demo as $item)
-          <p style="font-size: 16px; font-weight: bold; text-align: left">
-             
-            {{ $item->nombre }}
-           
-          </p>
           @php
               $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
+              
           @endphp
-          <p style="font-size: 12px; font-weight: normal; text-align: justify">
-            {{ $grupo['informacion'] }}
+          @if($testigo==$grupo['informacion'])
+          @else
+          <p style="font-size: 16px; font-weight: bold; text-align: left">
+             
+            {{ $item->grupo }}
+           
           </p>
+          <p style="font-size: 12px; font-weight: normal; text-align: justify">
+            <b>Requisitos:</b><br>
+            {{ $grupo['informacion'] }}<br><br>
+           <b> Observaciones:</b><br>
+            {{ $grupo['observaciones'] }}<br>
+          </p>
+          @endif
+          @php
+              $testigo=$grupo['informacion'];
+          @endphp
         @endforeach
       </td>
     </tr>
