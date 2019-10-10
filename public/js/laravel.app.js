@@ -14743,6 +14743,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return indice == index;
       });
       producto.precioUnitario = this.precioUnitarioPaquete;
+      producto.precioEspecial = this.precioUnitarioPaquete;
       this.paquete.inventario.splice(index, 1, producto);
       this.precioUnitarioPaquete = '', this.key = '', this.indice = '100000000';
       this.actualizarPrecioSugerido();
@@ -16842,6 +16843,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -17277,6 +17279,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //Metodos para los paquetes
     agregarProductoPaquete: function agregarProductoPaquete(producto) {
+      var _this8 = this;
+
+      this.limpiar = true;
       this.paquete.inventario.push({
         'externo': false,
         'nombre': producto.servicio,
@@ -17285,11 +17290,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioFinal': '0',
         'cantidad': '0',
         'id': producto.id,
-        'precioVenta': '',
+        'precioVenta': producto.precioVenta,
         'proveedor': '',
         'precioEspecial': producto.precioUnitario,
         'precioAnterior': producto.precioUnitario
       });
+      setTimeout(function () {
+        _this8.limpiar = false;
+      }, 1000);
       console.log(this.paquete.inventario);
     },
     actualizarPrecioSugerido: function actualizarPrecioSugerido() {
@@ -17297,6 +17305,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.precioSugerido += this.paquete.inventario[i].precioFinal;
         this.utilidad += this.paquete.inventario[i].precioFinal - this.paquete.inventario[i].precioVenta;
       }
+
+      this.paquete.precioFinal = this.precioSugerido;
     },
     //Eliminar producto de paquete
     eliminarProductoPaquete: function eliminarProductoPaquete(index) {
@@ -17353,6 +17363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return indice == index;
       });
       producto.precioUnitario = this.precioUnitarioPaquete;
+      producto.precioEspecial = this.precioUnitarioPaquete;
       this.paquete.inventario.splice(index, 1, producto);
       this.precioUnitarioPaquete = '', this.key = '', this.indice = '100000000';
       this.actualizarPrecioSugerido();
@@ -17372,7 +17383,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.actualizarPrecioSugerido();
     },
     guardarPaquete: function guardarPaquete() {
-      var _this8 = this;
+      var _this9 = this;
 
       var count;
 
@@ -17380,7 +17391,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
       } else {
         if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this8.paquete.servicio;
+          return element.servicio == _this9.paquete.servicio;
         })) {
           Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
         } else {
@@ -17407,7 +17418,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // Metodo para obtener el cliente seleccionado
     obtenerCliente: function obtenerCliente(cliente) {
-      var _this9 = this;
+      var _this10 = this;
 
       this.limpiar = true; //let URL = '/obtener-cliente/' + cliente.id;
 
@@ -17416,7 +17427,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'id': cliente.id,
         'accion': 'telefonos'
       }).then(function (response) {
-        _this9.clienteSeleccionado.telefonos = response.data;
+        _this10.clienteSeleccionado.telefonos = response.data;
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -17424,18 +17435,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'id': cliente.id,
         'accion': 'presupuestos'
       }).then(function (response) {
-        _this9.clienteSeleccionado.presupuestos = [];
-        _this9.ultimoEvento = '';
+        _this10.clienteSeleccionado.presupuestos = [];
+        _this10.ultimoEvento = '';
 
         if (response.data.length !== 0) {
-          _this9.clienteSeleccionado.presupuestos = response.data;
+          _this10.clienteSeleccionado.presupuestos = response.data;
           var arreglo = response.data;
           arreglo.sort(function (a, b) {
             return new Date(b.fechaEvento) - new Date(a.fechaEvento);
           });
-          _this9.ultimoEvento = arreglo.shift();
+          _this10.ultimoEvento = arreglo.shift();
 
-          _this9.clienteSeleccionado.presupuestos.push(_this9.ultimoEvento);
+          _this10.clienteSeleccionado.presupuestos.push(_this10.ultimoEvento);
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -17456,7 +17467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
       this.presupuesto.client_id = cliente.id;
       setTimeout(function () {
-        _this9.limpiar = false;
+        _this10.limpiar = false;
       }, 1000);
     },
     //Metodos para procesar la imagen de prodcuto extero
@@ -17466,21 +17477,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.cargarImagen(files[0]);
     },
     cargarImagen: function cargarImagen(file) {
-      var _this10 = this;
+      var _this11 = this;
 
       var reader = new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
         //this.thumbnail = e.target.result;
-        _this10.productoExterno.imagen = e.target.result;
+        _this11.productoExterno.imagen = e.target.result;
       };
 
       reader.readAsDataURL(file);
     },
     //Agregar producto externo a la tabla de productos
     agregarProductoExterno: function agregarProductoExterno() {
-      var _this11 = this;
+      var _this12 = this;
 
       if (this.controlElementoExterno) {
         this.paquete.inventario.push({
@@ -17499,7 +17510,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       } else {
         if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this11.productoExterno.servicio;
+          return element.servicio == _this12.productoExterno.servicio;
         })) {
           Swal.fire('Registro duplicado', 'Ya existe un producto con el nombre ' + this.productoExterno.servicio, 'warning');
         } else {
@@ -17684,18 +17695,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this12 = this;
+      var _this13 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this12.inventario = response.data;
-        console.log(_this12.inventario);
+        _this13.inventario = response.data;
+        console.log(_this13.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
     },
     agregarProducto: function agregarProducto(producto) {
-      var _this13 = this;
+      var _this14 = this;
 
       this.limpiar = true;
       this.inventarioLocal.push({
@@ -17716,19 +17727,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioAnterior': producto.precioUnitario
       });
       setTimeout(function () {
-        _this13.limpiar = false;
+        _this14.limpiar = false;
       }, 1000);
       console.log(this.inventarioLocal);
     },
     obtenerClientes: function obtenerClientes() {
-      var _this14 = this;
+      var _this15 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this14.clientes = response.data;
-        console.log('Estos son los clientes: ', _this14.clientes);
+        _this15.clientes = response.data;
+        console.log('Estos son los clientes: ', _this15.clientes);
 
-        _this14.obtenerPresupuesto();
+        _this15.obtenerPresupuesto();
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -17801,17 +17812,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     obtenerPresupuesto: function obtenerPresupuesto() {
-      var _this15 = this;
+      var _this16 = this;
 
       var data = window.location.pathname.split('/');
       var path = data[3];
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
-        _this15.presupuesto = response.data;
+        _this16.presupuesto = response.data;
         console.log('Este es el presupuesto: ', response.data);
-        _this15.saldoFinal = _this15.presupuesto.total;
+        _this16.saldoFinal = _this16.presupuesto.total;
 
-        var cliente = _this15.clientes.find(function (element) {
+        var cliente = _this16.clientes.find(function (element) {
           return element.id == response.data.client_id;
         });
 
@@ -17822,7 +17833,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'telefonos'
         }).then(function (response) {
-          _this15.clienteSeleccionado.telefonos = response.data;
+          _this16.clienteSeleccionado.telefonos = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -17830,39 +17841,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'presupuestos'
         }).then(function (response) {
-          _this15.clienteSeleccionado.presupuestos = [];
-          _this15.ultimoEvento = '';
+          _this16.clienteSeleccionado.presupuestos = [];
+          _this16.ultimoEvento = '';
 
           if (response.data.length !== 0) {
-            _this15.clienteSeleccionado.presupuestos = response.data;
+            _this16.clienteSeleccionado.presupuestos = response.data;
             var arreglo = response.data;
             arreglo.sort(function (a, b) {
               return new Date(b.fechaEvento) - new Date(a.fechaEvento);
             });
-            _this15.ultimoEvento = arreglo.shift();
+            _this16.ultimoEvento = arreglo.shift();
 
-            _this15.clienteSeleccionado.presupuestos.push(_this15.ultimoEvento);
+            _this16.clienteSeleccionado.presupuestos.push(_this16.ultimoEvento);
           }
         })["catch"](function (error) {
           console.log(error.data);
         });
-        _this15.clienteSeleccionado.id = cliente.id;
-        _this15.clienteSeleccionado.nombre = cliente.nombre;
-        _this15.clienteSeleccionado.email = cliente.email;
-        _this15.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-        _this15.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-        _this15.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-        _this15.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-        _this15.presupuesto.client_id = cliente.id; //Obtener los festejados
+        _this16.clienteSeleccionado.id = cliente.id;
+        _this16.clienteSeleccionado.nombre = cliente.nombre;
+        _this16.clienteSeleccionado.email = cliente.email;
+        _this16.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        _this16.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        _this16.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        _this16.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+        _this16.presupuesto.client_id = cliente.id; //Obtener los festejados
 
-        var direction = '/obtener-festejados/' + _this15.presupuesto.id;
+        var direction = '/obtener-festejados/' + _this16.presupuesto.id;
         axios.get(direction).then(function (response) {
-          _this15.festejados = response.data;
+          _this16.festejados = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         }); //Obtener el inventario
 
-        var direction2 = '/obtener-inventario-1/' + _this15.presupuesto.id;
+        var direction2 = '/obtener-inventario-1/' + _this16.presupuesto.id;
         axios.get(direction2).then(function (response) {
           var arreglo = [];
           response.data.forEach(function (element) {
@@ -17908,9 +17919,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             return arreglo;
           });
-          _this15.inventarioLocal = arreglo;
+          _this16.inventarioLocal = arreglo;
         });
-        var direction3 = '/obtener-paquetes/' + _this15.presupuesto.id;
+        var direction3 = '/obtener-paquetes/' + _this16.presupuesto.id;
         axios.get(direction3).then(function (response) {
           var arregloPaquetes = [];
           response.data.forEach(function (element) {
@@ -17979,8 +17990,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             };
             arregloPaquetes.push(objeto);
           });
-          _this15.inventarioLocal = _this15.inventarioLocal.concat(arregloPaquetes);
-          _this15.unlock = true;
+          _this16.inventarioLocal = _this16.inventarioLocal.concat(arregloPaquetes);
+          _this16.unlock = true;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -17989,14 +18000,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     imprimirPDF: function imprimirPDF() {
-      var _this16 = this;
+      var _this17 = this;
 
       if (!this.imprimir) {
         Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
       } else {
         var URL = '/obtener-ultimo-presupuesto';
         axios.get(URL).then(function (response) {
-          _this16.imprimir = false;
+          _this17.imprimir = false;
           var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
           window.open('/presupuestos/generar-pdf/' + data.id);
@@ -78179,18 +78190,22 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.cliente.email,
-                        expression: "cliente.email"
+                        value: _vm.cliente.emailFacturacion,
+                        expression: "cliente.emailFacturacion"
                       }
                     ],
                     attrs: { type: "email", placeholder: "Email" },
-                    domProps: { value: _vm.cliente.email },
+                    domProps: { value: _vm.cliente.emailFacturacion },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.cliente, "email", $event.target.value)
+                        _vm.$set(
+                          _vm.cliente,
+                          "emailFacturacion",
+                          $event.target.value
+                        )
                       }
                     }
                   })
@@ -78651,8 +78666,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.cliente.emailFacturacion,
-                  expression: "cliente.emailFacturacion"
+                  value: _vm.cliente.email,
+                  expression: "cliente.email"
                 }
               ],
               attrs: {
@@ -78661,13 +78676,13 @@ var render = function() {
                 id: "emailDF",
                 placeholder: "Email"
               },
-              domProps: { value: _vm.cliente.emailFacturacion },
+              domProps: { value: _vm.cliente.email },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.cliente, "emailFacturacion", $event.target.value)
+                  _vm.$set(_vm.cliente, "email", $event.target.value)
                 }
               }
             })
@@ -82178,6 +82193,7 @@ var render = function() {
                                     [
                                       _c("buscador-component", {
                                         attrs: {
+                                          limpiar: _vm.limpiar,
                                           placeholder:
                                             "Buscar Productos Existentes",
                                           "event-name": "resultsPaquetes",
@@ -82442,59 +82458,52 @@ var render = function() {
                                   ])
                                 ]),
                                 _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "form-group row",
-                                    staticStyle: { display: "none" }
-                                  },
-                                  [
-                                    _c(
-                                      "label",
-                                      {
-                                        staticClass: "col-12",
-                                        attrs: { for: "example-text-input" }
-                                      },
-                                      [_vm._v("Precio del paquete")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "col-md-12" }, [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.paquete.precioFinal,
-                                            expression: "paquete.precioFinal"
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        staticStyle: { background: "#FFECA7" },
-                                        attrs: {
-                                          type: "text",
-                                          id: "example-text-input",
-                                          name: "example-text-input",
-                                          placeholder: "Precio de paquete"
-                                        },
-                                        domProps: {
-                                          value: _vm.paquete.precioFinal
-                                        },
-                                        on: {
-                                          input: function($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.$set(
-                                              _vm.paquete,
-                                              "precioFinal",
-                                              $event.target.value
-                                            )
-                                          }
+                                _c("div", { staticClass: "form-group row" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "col-12",
+                                      attrs: { for: "example-text-input" }
+                                    },
+                                    [_vm._v("Precio del paquete")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-md-12" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.paquete.precioFinal,
+                                          expression: "paquete.precioFinal"
                                         }
-                                      })
-                                    ])
-                                  ]
-                                ),
+                                      ],
+                                      staticClass: "form-control",
+                                      staticStyle: { background: "#FFECA7" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "example-text-input",
+                                        name: "example-text-input",
+                                        placeholder: "Precio de paquete"
+                                      },
+                                      domProps: {
+                                        value: _vm.paquete.precioFinal
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.paquete,
+                                            "precioFinal",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "form-group row" }, [
                                   _c(

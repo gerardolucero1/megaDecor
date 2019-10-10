@@ -121,7 +121,7 @@ class ClientController extends Controller
             $cliente->nombre = $request->nombreCliente;
             $cliente->apellidoPaterno = $request->apellidoCliente;
             $cliente->apellidoMaterno = $request->apellidoCliente2;
-            $cliente->email = $request->emailCliente;
+            $cliente->email = $request->emailFacturacion;
             $cliente->direccionEmpresa = $request->direccionEmpresa;
             $cliente->coloniaEmpresa = $request->coloniaEmpresa;
             $cliente->numeroEmpresa = $request->numeroEmpresa;
@@ -130,7 +130,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailFacturacion;
+            $cliente->emailFacturacion = $request->emailCliente;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
@@ -144,7 +144,7 @@ class ClientController extends Controller
             $cliente->categoria_id = $request->categoriaCliente;
             $cliente->about_id = $request->categoriaAbout;
             $cliente->nombre = $request->nombreCliente;
-            $cliente->email = $request->emailCliente;
+            $cliente->email = $request->emailFacturacion;
             $cliente->direccionEmpresa = $request->direccionEmpresa;
             $cliente->coloniaEmpresa = $request->coloniaEmpresa;
             $cliente->numeroEmpresa = $request->numeroEmpresa;
@@ -153,7 +153,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailFacturacion;
+            $cliente->emailFacturacion = $request->emailCliente;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
