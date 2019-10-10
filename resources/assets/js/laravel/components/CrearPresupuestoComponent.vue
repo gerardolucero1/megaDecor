@@ -561,6 +561,7 @@ padding: 0;
                                     <div class="form-group row">
                                         <div class="col-md-12" style="border:solid; border-width:1px; border-radius:3px; background:#D0FAF2">
                                             <buscador-component
+                                            :limpiar="limpiar"
                                     placeholder="Buscar Productos Existentes"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
@@ -602,7 +603,7 @@ padding: 0;
                                         </div>
                                     </div>
 
-                                    <div class="form-group row" style="display:none">
+                                    <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
                                             <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
@@ -1034,6 +1035,7 @@ padding: 0;
                                     <div class="form-group row">
                                         <div class="col-md-12">
                                             <buscador-component
+                                            :limpiar="limpiar"
                                     placeholder="Buscar Productos"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
@@ -1677,6 +1679,8 @@ padding: 0;
             },
             //Metodos para los paquetes
             agregarProductoPaquete(producto){
+                console.log(producto);
+                this.limpiar = true;
                 this.paquete.inventario.push({
                     'externo': false,
                     'nombre': producto.servicio,
@@ -1685,17 +1689,23 @@ padding: 0;
                     'precioFinal': '0',
                     'cantidad': '0',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
             },
                     actualizarPrecioSugerido(){
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
                             this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
                         }
+
+                        this.paquete.precioFinal = this.precioSugerido;
                     },
                     //Eliminar producto de paquete
                     eliminarProductoPaquete(index){
