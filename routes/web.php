@@ -232,7 +232,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
     
-        Mail::to('gera_conecta@hotmail.com', 'Administrador')
+        Mail::to('asamii149@gmail.com', 'Administrador')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos));
     });
 
