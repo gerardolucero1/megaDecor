@@ -237,7 +237,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
           </p>
         @foreach ($demo as $item)
           <p style="font-size: 16px; font-weight: bold; text-align: left">
-              {{ $item->nombre }}
+             
+            {{ $item->nombre }}
+           
           </p>
           @php
               $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();

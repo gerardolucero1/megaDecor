@@ -53,7 +53,7 @@
                                 <option value="CASETAS / PEAJE">CASETAS / PEAJE</option>
                                 <option value="CATERING">CATERING</option>
                                 <option value="Centros de Mesa">Centros de Mesa</option>
-                                <option value="COJIN">COJIN</option>
+                                <option value="COJÍN">COJIN</option>
                                 <option value="COROPLAS">COROPLAS</option>
                                 <option value="CORTINAS">CORTINAS</option>
                                 <option value="CUBRE MANTEL">CUBRE MANTEL</option>
@@ -84,7 +84,7 @@
                                 <option value="Menu Adultos">Menu Adultos</option>
                                 <option value="Menu Niños">Menu Niños</option>
                                 <option value="MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY">MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY</option>
-                                <option value="MESERO / ANFITRIONAS	">MESERO / ANFITRIONAS	</option>
+                                <option value="MESERO / ANFITRIONAS">MESERO / ANFITRIONAS	</option>
                                 <option value="MOÑOS">MOÑOS</option>
                                 <option value="MOBILIARIO Y EQUIPO">MOBILIARIO Y EQUIPO</option>
                                 <option value="MOTORES">MOTORES</option>

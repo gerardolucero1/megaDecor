@@ -394,10 +394,17 @@ class BudgetController extends Controller
         $otroArray = [];
         foreach($familias as $familia){
             $item = Family::where('nombre', $familia)->first();
-            array_push($otroArray, $item);
+            if(is_null($item)){}else{
+            array_push($otroArray, $item);}
         }
 
         $demo = collect($otroArray);
+
+        //dd($demo);
+
+        
+
+
 
         //dd($demo);
 
