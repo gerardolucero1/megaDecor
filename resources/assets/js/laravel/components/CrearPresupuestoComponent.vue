@@ -1699,6 +1699,9 @@ padding: 0;
                 });
             },
                     actualizarPrecioSugerido(){
+                         this.precioSugerido=0;
+                        this.utilidad=0;
+                        this.costoProveedor=0;
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
                             this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));

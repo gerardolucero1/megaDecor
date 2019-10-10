@@ -82,7 +82,7 @@
                                         <br>
                                         {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                     @else
-                                    <td class="">{{$budget->fechaEvento}}</td>
+                                    <td class="">Pendiente</td>
                                 @endif
                                 
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
@@ -183,7 +183,7 @@
                                         @endphp
                                         <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
-                                        <td class="">{{$budgetArchivados->fechaEvento}}</td>
+                                        <td class="">Pendiente</td>
                                     @endif
                                     
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->cliente}}</td>

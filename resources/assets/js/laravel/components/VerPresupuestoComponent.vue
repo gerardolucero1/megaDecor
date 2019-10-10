@@ -78,12 +78,17 @@
             <div class="col-md-12">
             </div>
         </div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
         <div class="row">
             <div class="col-md-12" style="float: left">
                 <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
-            <p style="padding:20px; background: #FFEFEB; width:50%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p>
-            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:15px; width:20%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p>
-            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:0px; width:20%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p>
+                
+                
+            
+            
+            
             </div>
 
         </div>
