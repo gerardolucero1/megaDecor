@@ -211,7 +211,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         
     @endphp
    
-     <span style="font-weight: bold">TOTAL:$ {{$total+$iva}}<span></p></td>
+     <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
       </tr>
       <tr style="font-style: italic; text-align: left; font-size: 12px;">
         <td>
