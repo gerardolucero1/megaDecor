@@ -327,6 +327,8 @@ Route::group(['middleware' => ['auth']], function () {
     
         Mail::to($presupuesto->emailCliente, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
+        Mail::to('ivonnearroyosg@msn.com', 'Presupuesto MegaMundo')
+            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
     });
 
     Route::get('inventario/create', 'CMS\InventoryController@create')->name('inventory.create');
