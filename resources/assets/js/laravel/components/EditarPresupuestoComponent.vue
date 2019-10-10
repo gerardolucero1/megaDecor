@@ -470,7 +470,7 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
+                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5> 
                                 
                                <h3><span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
