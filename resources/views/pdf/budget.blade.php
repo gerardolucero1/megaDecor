@@ -199,7 +199,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @php
         $descuentoGeneral = number_format($descuento,00);
         $subtotal=$presupuesto->total;
-        $total=$subtotal + ((int) $iva);
+        $total=intval($subtotal) + intval($iva);
         $total=number_format($total,2);
     @endphp
       @if($presupuesto->opcionDescuento==1)
