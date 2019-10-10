@@ -17318,7 +17318,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.costoProveedor = 0;
 
       for (var i = 0; i < this.paquete.inventario.length; i++) {
-        this.precioSugerido += this.paquete.inventario[i].precioFinal;
+        this.precioSugerido += parseInt(this.paquete.inventario[i].precioFinal);
         this.utilidad += parseInt(this.paquete.inventario[i].precioFinal) - parseInt(this.paquete.inventario[i].precioVenta) * parseInt(this.paquete.inventario[i].cantidad);
         this.costoProveedor += parseInt(this.paquete.inventario[i].precioVenta);
       }
@@ -17407,33 +17407,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var count;
 
-      if (isNaN(parseInt(this.paquete.precioVenta))) {
-        Swal.fire('Paquete sin costo', 'Agrega costo de proveedor', 'warning');
+      if (this.inventarioLocal.some(function (element) {
+        return element.servicio == _this9.paquete.servicio;
+      })) {
+        Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
       } else {
-        if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this9.paquete.servicio;
-        })) {
-          Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
-        } else {
-          var paquete = JSON.parse(JSON.stringify(this.paquete));
-          this.inventarioLocal.push({
-            externo: false,
-            imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-            servicio: this.paquete.servicio,
-            cantidad: 1,
-            precioUnitario: this.precioSugerido,
-            precioFinal: this.precioSugerido,
-            ahorro: '0',
-            notas: '',
-            paquete: paquete,
-            tipo: 'PAQUETE',
-            id: '',
-            precioVenta: this.paquete.precioVenta,
-            precioEspecial: this.precioSugerido,
-            precioAnterior: this.precioSugerido
-          });
-          Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
-        }
+        var paquete = JSON.parse(JSON.stringify(this.paquete));
+        this.inventarioLocal.push({
+          externo: false,
+          imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+          servicio: this.paquete.servicio,
+          cantidad: 1,
+          precioUnitario: this.precioSugerido,
+          precioFinal: this.precioSugerido,
+          ahorro: '0',
+          notas: '',
+          paquete: paquete,
+          tipo: 'PAQUETE',
+          id: '',
+          precioVenta: this.paquete.precioVenta,
+          precioEspecial: this.precioSugerido,
+          precioAnterior: this.precioSugerido
+        });
+        Swal.fire('Listo!', 'Paquete agregado con exito a presupuesto', 'success');
       }
     },
     // Metodo para obtener el cliente seleccionado

@@ -1517,7 +1517,7 @@ padding: 0;
                         this.utilidad=0;
                         this.costoProveedor=0;
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
-                            this.precioSugerido+= this.paquete.inventario[i].precioFinal;
+                            this.precioSugerido+= parseInt(this.paquete.inventario[i].precioFinal);
                             this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
                             this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
@@ -1617,13 +1617,7 @@ padding: 0;
 
             guardarPaquete(){
                 let count;
-                if(isNaN(parseInt(this.paquete.precioVenta))){
-                   Swal.fire(
-                        'Paquete sin costo',
-                        'Agrega costo de proveedor',
-                        'warning'
-                        ) 
-                }else{
+                
                 
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -1659,7 +1653,7 @@ padding: 0;
                         ) 
                 }
 
-            }},
+            },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.limpiar = true;
