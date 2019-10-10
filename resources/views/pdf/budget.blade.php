@@ -190,8 +190,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 @php
   if($presupuesto->opcionIVA==1){
      $iva=($presupuesto->total*.16);
-     $iva=number_format($iva,2);
-  }else {$iva=0; $iva=number_format($iva,2);}
+     
+  }else {$iva=0;}
   @endphp
 <table style="width: 100%; text-align: right">
 <tr>
