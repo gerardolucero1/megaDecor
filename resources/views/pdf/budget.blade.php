@@ -265,7 +265,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     </tr>
     <tr style="text-align: center">
         <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
-        <td >____________________________________<br><br>Mega Mundo Decor</td>
+        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
       </tr>
   </table>
           @endif
