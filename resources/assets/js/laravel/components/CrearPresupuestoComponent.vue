@@ -1784,6 +1784,7 @@ padding: 0;
 
                         producto.precioUnitario = this.precioUnitarioPaquete;
                         producto.precioEspecial = this.precioUnitarioPaquete;
+                        producto.precioFinal = producto.cantidad * producto.precioEspecial;
                         this.paquete.inventario.splice(index, 1, producto);
                         this.precioUnitarioPaquete = '',
                         this.key = '',

@@ -14758,6 +14758,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       producto.precioUnitario = this.precioUnitarioPaquete;
       producto.precioEspecial = this.precioUnitarioPaquete;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
       this.paquete.inventario.splice(index, 1, producto);
       this.precioUnitarioPaquete = '', this.key = '', this.indice = '100000000';
       this.actualizarPrecioSugerido();
@@ -17384,6 +17385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       producto.precioUnitario = this.precioUnitarioPaquete;
       producto.precioEspecial = this.precioUnitarioPaquete;
+      producto.precioFinal = producto.cantidad * producto.precioEspecial;
       this.paquete.inventario.splice(index, 1, producto);
       this.precioUnitarioPaquete = '', this.key = '', this.indice = '100000000';
       this.actualizarPrecioSugerido();
