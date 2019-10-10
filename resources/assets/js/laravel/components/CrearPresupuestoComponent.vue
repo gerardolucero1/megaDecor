@@ -561,6 +561,7 @@ padding: 0;
                                     <div class="form-group row">
                                         <div class="col-md-12" style="border:solid; border-width:1px; border-radius:3px; background:#D0FAF2">
                                             <buscador-component
+                                            :limpiar="limpiar"
                                     placeholder="Buscar Productos Existentes"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
@@ -1035,6 +1036,7 @@ padding: 0;
                                     <div class="form-group row">
                                         <div class="col-md-12">
                                             <buscador-component
+                                            :limpiar="limpiar"
                                     placeholder="Buscar Productos"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
@@ -1684,6 +1686,8 @@ padding: 0;
             },
             //Metodos para los paquetes
             agregarProductoPaquete(producto){
+                console.log(producto);
+                this.limpiar = true;
                 this.paquete.inventario.push({
                     'externo': false,
                     'nombre': producto.servicio,
@@ -1692,11 +1696,15 @@ padding: 0;
                     'precioFinal': '0',
                     'cantidad': '0',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
             },
                     actualizarPrecioSugerido(){
                          this.precioSugerido=0;
@@ -1707,6 +1715,8 @@ padding: 0;
                             this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
                             this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
+
+                        this.paquete.precioFinal = this.precioSugerido;
                     },
                     //Eliminar producto de paquete
                     eliminarProductoPaquete(index){
@@ -1773,6 +1783,7 @@ padding: 0;
                         });
 
                         producto.precioUnitario = this.precioUnitarioPaquete;
+                        producto.precioEspecial = this.precioUnitarioPaquete;
                         this.paquete.inventario.splice(index, 1, producto);
                         this.precioUnitarioPaquete = '',
                         this.key = '',
