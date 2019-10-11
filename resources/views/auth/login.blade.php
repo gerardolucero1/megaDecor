@@ -47,8 +47,8 @@
                                 <i class="si si-login mr-10"></i> Entrar
                             </button>
                         </div>
-                        <div class="col-sm-6 mb-5">
-                            <a class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="{{ route('register') }}">
+                        <div style="display:none" class="col-sm-6 mb-5">
+                            <a style="display:none" class="btn btn-block btn-noborder btn-rounded btn-alt-secondary" href="{{ route('register') }}">
                                 <i class="fa fa-plus text-muted mr-5"></i> Nueva cuenta
                             </a>
                         </div>

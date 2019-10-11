@@ -32,7 +32,7 @@
         -->
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('/css/themes/corporate.css') }}"> -->
-        @yield('css_after')
+        @yield('styles')
 
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
@@ -170,14 +170,14 @@
                     <div class="content-side content-side-full content-side-user px-10 align-parent">
                         <!-- Visible only in mini mode -->
                         <div class="sidebar-mini-visible-b align-v animated fadeIn">
-                            <img class="img-avatar img-avatar32" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
+                            <img class="img-avatar img-avatar32" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                         </div>
                         <!-- END Visible only in mini mode -->
 
                         <!-- Visible only in normal mode -->
                         <div class="sidebar-mini-hidden-b text-center">
                             <a class="img-link" href="javascript:void(0)">
-                                <img class="img-avatar" src="{{ asset('http://www.mujeresalpha.mx/wp-content/uploads/2018/10/C0A0770-Editar-1.jpg') }}" alt="">
+                                <img class="img-avatar" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt="">
                             </a>
                            
                             <ul class="list-inline">
@@ -203,54 +203,53 @@
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
-                            <li>
-                                <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Inicio</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('presupuestos') ? ' active' : '' }}" href="/presupuestos">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Presupuestos</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('contratos') ? ' active' : '' }}" href="/contratos">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Contratos</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('clientes') ? ' active' : '' }}" href="/clientes">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Clientes</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('lugares') ? ' active' : '' }}" href="/lugares">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Lugares</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('events') ? ' active' : '' }}" href="/events">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Calendario</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="{{ request()->is('events2') ? ' active' : '' }}" href="/events2">
-                                    <i class="si si-cup"></i><span class="sidebar-mini-hide">Calendario(Funcional)</span>
-                                </a>
-                                <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
-                                <a class="nav-menu" href="{{ route('contratos') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
-                                <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
-                                <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
-                                <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
-                            </li>
-                            <li class="nav-main-heading">
-                                <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
-                            </li>
-                            <li>
-                                <a href="/">
-                                    <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
-                                </a>
-                            </li>
+                            @php
+                                $usuario = Auth::user()->id;    
+                            @endphp
+
+                            @if ($usuario != 2)
+                                <li>
+                                    <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
+                                        <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
+                                    </a>
+                                    <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                    <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
+                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                    <!--
+                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
+                                    -->
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="{{ route('inventario') }}">Inventario</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('familia.index') }}">Familias</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('grupo.index') }}">Grupos</a>
+                                        </li>
+                                    </ul>
+                                    <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
+                                    <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
+                                </li>
+                                <li class="nav-main-heading">
+                                    <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
+                                </li>
+                                <li>
+                                    <a href="/">
+                                        <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
+                                    </a>
+                                </li>  
+                            @else
+                                <li>
+                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                </li>                              
+                            @endif
+                            
                         </ul>
                     </div>
                     <!-- END Side Navigation -->
@@ -280,7 +279,7 @@
                         <p id="fechaActual" style="font-style: italic">Fecha Actual</p>
                         <script>
                             function fechaActual(){
-                                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                                var meses = new Array ("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
                                 var f=new Date();
                                 document.getElementById('fechaActual').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
                             }
@@ -345,7 +344,7 @@
                         Desarrollado por <a class="font-w600" href="https:partnergrammer.com" target="_blank"><span><img src="media/photos/icon_parnergrammer.png" style="width: 17px; margin-top: -5px;" alt=""></span> Partnergrammer</a>
                     </div>
                     <div class="float-left">
-                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank">Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
+                        <a class="font-w600" href="http://megamundodecor.com/servicios.aspx" target="_blank"><span style="color:black">Todos los derechos reservados</span> Mega Mundo Decor</a> &copy; <span class="js-year-copy"></span>
                     </div>
                  
                 </div>
@@ -363,18 +362,135 @@
 <script>  
 
 $(document).ready( function () {
-    $('#TablaClientes').DataTable();
+
+    $('#TablaClientes').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 100,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
     Codebase.layout('sidebar_mini_on');
-    Codebase.layout('sidebar_style_inverse_on')
+    Codebase.layout('sidebar_style_inverse_on');
+    
 } ); 
 $(document).ready( function () {
-    $('#TablaClientesArchivados').DataTable();
+    $('#TablaClientesArchivados').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 100,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestosArchivados').DataTable();
+    $('#TablaPresupuestosArchivados').DataTable({
+        "order": [[ 1, "asc" ]],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+        "pageLength": 100,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 $(document).ready( function () {
-    $('#TablaPresupuestos').DataTable();
+    $('#TablaPresupuestos').DataTable({
+        "order": [[ 1, "asc" ]],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 100,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
+} ); 
+$(document).ready( function () {
+    $('#TablaPresupuestosHistorial').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 100,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
 } ); 
 </script>
         <!-- Laravel Scaffolding JS -->

@@ -53,15 +53,44 @@
         background-color: white;
         border-bottom: 1px dotted gray;
     }
-
+    .container-version{
+        -webkit-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        -moz-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        position:fixed; 
+        background:white; 
+        margin-top:-70px; 
+        margin-left:-15px; 
+        padding:10px; 
+        border:solid; 
+        border-color:orange; 
+        border-width:1px; 
+        z-index:30
+    }
 </style>
 
 <template>
     <section class="container block mt-3">
+        <div class="container-version">
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+        </div>
         <div class="row">
             <div class="col-md-12">
-                <h2>Estas viendo la version: {{ presupuesto.version }}</h2>
             </div>
+        </div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
+        <div class="row">
+            <div class="col-md-12" style="float: left">
+                <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
+                
+                
+            
+            
+            
+            </div>
+
         </div>
         <div class="row">
             <div class="col-md-12 verPresupuesto">
@@ -75,7 +104,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p>{{ obtenerFolio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
@@ -85,7 +114,7 @@
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento" disabled>
                             <label for="salonMega">Salon Mega Mundo</label>
@@ -100,17 +129,35 @@
                                 <label for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4  row">
+                                <h4>Horario del evento</h4>
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Inicio del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
+                            </div>
+                           
+                            <div class="col-md-6" style="padding-left:0">
+                                <label>Fin del evento</label><br>
+                                <input type="time" v-model="presupuesto.horaEventoFin" readonly>
+                            </div>
+                             <label for="pendienteHora" style="padding-top:10px">
+                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
+                            Pendiende</label>
+                            </div>
+                    <div class="col-md-4">
                         
                         <div class="row" >
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
                                 <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento" disabled>
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
+                                    <option value="4">Cumpleaños</option>
+                                    <option value="5">Gala</option>
+                                    <option value="6">Baile</option>
                                 </select>
-                                 <p class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -127,25 +174,14 @@
                             </div>
                         </div>
                         
-                        <div class="row">
-                            <div class="col-md-8 offset-md-4 row">
-                                <h4>Horario del evento</h4>
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
-                            </div>
-                           
-                            <div class="col-md-6" style="padding-left:0">
-                                <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin" readonly>
-                            </div>
-                             <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
-                            Pendiende</label>
-                            </div>
-                          
-                        </div>
+                       
                         
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Requiere factura: {{ presupuesto.requiereFactura }}</p> <br>
+                        <p>Requiere montaje: {{ presupuesto.requiereMontaje }}</p>
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
@@ -163,7 +199,7 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -258,23 +294,21 @@
                         <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Externo</th>
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Unitario</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <th scope="row">
-                                    <input type="checkbox" v-model="producto.externo" disabled="disabled">
-                                </th>
                                 <td>
-                                    <img v-bind:src="producto.imagen" alt="" width="100%">
+                                    <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td data-name="cantidad">
@@ -282,14 +316,21 @@
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
-                                <td>{{ producto.precioUnitario }}</td>
+                                <td>
+                                    {{ producto.precioEspecial | currency}}
+                                    
+                                </td>
+                                <td>
+                                    {{ producto.precioUnitario | currency}} <br>
+                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
+                                </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency }}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
@@ -298,6 +339,9 @@
                                     <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
                                         {{ producto.notas }}
                                     </span>
+                                </td>
+                                <td>
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -332,6 +376,7 @@
                                 </label>
 
                                 <div class="info mt-3">
+                                   
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     <p>Comision pagada en base a $ <span>150</span></p>
@@ -341,10 +386,52 @@
                     </div>
                 </div>
 
+                <!-- Registro de pagos -->
+
+            
                 <div class="row">
-                    <div class="col-md-4 offset-md-2 mt-4">
+                    <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
+                        <label for="">Metodo de pago: </label>
+                        <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
+                            <option value="EFECTIVO">Efectivo</option>
+                            <option value="TARJETA DE CREDITO">Tarjeta de Credito</option>
+                            <option value="TARJETA DE DEBITO">Tarjeta de Debito</option>
+                            <option value="CHEQUE">Cheque</option>
+                            <option value="TRANSFERENCIA">Transferencia</option>
+                        </select>
+                        
+                        <label class="mt-3" for="">Cantidad: </label>
+                        <input type="number" class="form-control" style="border: 1px solid gray; background:white" v-model="pago.amount">
+
+                        <button class="mt-3 btn btn-sm btn-block btn-info" @click="registrarPago()">Registrar Pago</button>
+                    </div>
+                </div>
+               
+
+                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                    <div class="col-md-12">
+                        <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
+                                <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
+                            <ul>
+                                <li v-for="(pago, index) in pagos" :key="index">
+                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> ${{ pago.amount }}<span style="font-size:10px; color:green"> -{{ pago.method }}</span>
+                                </li>
+                            </ul>
+                            <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
+                            <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                   
+                    <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                    </div>
+                    
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
                     </div>
@@ -354,7 +441,7 @@
        
        <!-- Modal -->
         <div class="modal fade" id="verVersiones" tabindex="-1" role="dialog" aria-labelledby="verVersiones" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Versiones</h5>
@@ -367,9 +454,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Numero de version</th>
-                                <th scope="col">Folio</th>
+                                <th scope="col">version</th>
                                 <th scope="col">Fecha de creacion</th>
+                                <th scope="col">Quien Edito</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -377,8 +464,8 @@
                             <tr v-for="version in versiones" :key="version.index">
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
-                                <td>{{ version.folio }}</td>
-                                <td>{{ version.created_at | formatearFecha }}</td>
+                                <td>{{ version.created_at }}</td>
+                                <td>{{ version.quienEdito }}</td>
                                 <td>
                                     <button class="btm btn-success btn-sm" @click="obtenerVersion(version.id)">Ver version</button>
                                 </td>
@@ -389,6 +476,55 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" @click="obtenerPresupuesto()">Volver a version actual</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="verPaquete" tabindex="-1" role="dialog" aria-labelledby="verPaquete" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
+                    <button type="button" class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" v-if="viendoPaquete.length != 0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Externo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Final</th>
+                                <th scope="col">Precio Venta</th>
+                                <th scope="col">Proveedor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
+                                <th scope="row">{{ index }}</th>
+                                <td v-if="item.externo">
+                                    <input type="checkbox" checked>
+                                </td>
+                                <td v-else>
+                                    <input type="checkbox">
+                                </td>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.precioUnitario | currency}}</td>
+                                <td>{{ item.precioFinal | currency}}</td>
+                                <td>{{ item.precioVenta | currency}}</td>
+                                <td>{{ item.proveedor }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -412,6 +548,7 @@
         },
         data(){
             return{
+                viendoPaquete: [],
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
@@ -434,7 +571,8 @@
                 usuarioActual: '',
                 usuarios: [],
 
-                presupuesto:{
+                presupuesto: ''
+                    /*
                     id: '',
                     folio: '',
                     vendedor_id: '',
@@ -482,7 +620,8 @@
 
                     comision: '',
                     budget_id: '',
-                },
+                    */
+                ,
                 guardarVersion: true,
                 clientes: [],
                 festejado: {
@@ -500,7 +639,18 @@
                     'imagen': '',
                     'servicio': '',
                     'precioUnitario': '',
+                    'precioVenta': '',
+                    'proveedor': '',
+                    'autorizado': false,
+                    'precioEspecial': '',
                 },
+
+                pago: {
+                    budget_id: '',
+                    method: '',
+                    amount: '',
+                },
+                pagos: [],
                 
                 inventarioLocal: [],
                 festejados: [],
@@ -534,6 +684,7 @@
                 paquete: {
                     servicio: '',
                     precioFinal: '',
+                    precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
                     inventario: [],
@@ -587,6 +738,7 @@
             this.obtenerClientes();
             this.obtenerInventario();
             this.obtenerUsuario();
+            this.obtenerPagos();
             
             this.$on('results', results => {
                 this.results = results
@@ -601,6 +753,27 @@
             
         },
         computed:{
+            pagarAntesDe: function(){
+                let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
+                return fechaLimite;
+            },
+
+            saldoPendiente: function(){
+                //Arreglo javascript de objetos json
+                let json = this.pagos;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                }
+                
+                let saldo = this.presupuesto.total - suma;
+                return saldo;
+            },
             obtenerVendedor: function(){
 
             },
@@ -617,7 +790,7 @@
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += data[x].precioFinal; // Ahora que es un objeto javascript, tiene propiedades
+                    suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
                 }
 
                 this.presupuesto.total = suma;
@@ -629,8 +802,8 @@
             calcularAhorro: function(){
                 let ahorro = 0;
                 this.inventarioLocal.forEach(function(element){
-                    let precioNormal = element.cantidad * element.precioUnitario;
-                    ahorro = ahorro + (precioNormal - element.precioFinal);
+                    let precioNormal = parseInt(element.cantidad * element.precioUnitario);
+                    ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
                 })
 
                 return ahorro;
@@ -672,6 +845,12 @@
                 let fecha = moment(data).format("DD/MM/YYYY");
                 return fecha;
             },
+
+            formatearFecha2: function(data){
+                moment.locale('es'); 
+                let fecha = moment(data).format('MMMM Do YYYY');
+                return fecha;
+            },
             decimales: function (x, posiciones = 2) {
                 var s = x.toString()
                 var l = s.length
@@ -703,10 +882,12 @@
         watch: {
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    */
 
                 }else{
                      this.presupuesto.nombreLugar = '';
@@ -718,11 +899,14 @@
             },
             'requiereFactura': function(val){
                 if(val){
+
+                    
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+                    
 
                 }else{
                     this.facturacion.nombreFacturacion = '';
@@ -735,6 +919,36 @@
             },
         },
         methods:{
+            registrarPago(){
+                let URL = '/registrar-pago';
+                
+                this.pago.budget_id = this.presupuesto.id;
+                axios.post(URL, this.pago).then((response) => {
+                    alert('Pago registrado');
+
+                    this.obtenerPagos();
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
+
+            obtenerPagos(){
+                this.original = true;
+                let data = window.location.pathname.split('/');
+                let path = data[3];
+                let URL = '/obtener-pagos/' + path;
+
+                axios.get(URL).then((response) => {
+                    this.pagos = response.data;
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
+
+            verPaquete(paquete){
+                this.viendoPaquete = paquete;
+                $('#verPaquete').modal('show');
+            },
             obtenerUsuario(){
                 let URL = '/obtener-usuario';
 
@@ -786,9 +1000,9 @@
 
             obtenerPresupuesto(){
                 this.original = true;
-              let data = window.location.pathname.split('/');
-              let path = data[3];
-              let URL = '/obtener-presupuesto/' + path;
+                let data = window.location.pathname.split('/');
+                let path = data[3];
+                let URL = '/obtener-presupuesto/' + path;
 
               axios.get(URL).then((response) => {
                 this.presupuesto = response.data;
@@ -826,15 +1040,18 @@
                 }).catch((error) => {
                     console.log(error.data);
                 });
-
+               
                 this.clienteSeleccionado.id = cliente.id;
+                if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
+              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
                 this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
                 this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+                this.clienteSeleccionado.diasCredito = cliente.diasCredito;
 
                 this.presupuesto.client_id = cliente.id;
 
@@ -867,6 +1084,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -882,6 +1103,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }
@@ -914,6 +1139,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -925,6 +1154,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -935,7 +1168,7 @@
 
                         let objeto = {
                             'externo': false,
-                            'imagen': 'https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg',
+                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
                             'servicio': element.servicio,
                             'cantidad': element.cantidad,
                             'precioUnitario': element.precioUnitario,
@@ -951,6 +1184,10 @@
                             },
                             'tipo': 'PAQUETE',
                             'id': element.id,
+                            'precioAnterior': element.precioAnterior,
+                            'precioEspecial': element.precioEspecial,
+                            'precioVenta': element.precioVenta,
+                            'proveedor': element.proveedor,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 
@@ -1064,6 +1301,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }else{
@@ -1079,6 +1320,10 @@
                         'paquete': '',
                         'tipo': 'PRODUCTO',
                         'id': element.id,
+                        'precioAnterior': element.precioAnterior,
+                        'precioEspecial': element.precioEspecial,
+                        'precioVenta': element.precioVenta,
+                        'proveedor': element.proveedor,
                       }
                       arreglo.push(objeto);
                     }
@@ -1111,6 +1356,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }else{
@@ -1122,6 +1371,10 @@
                                         'precioFinal': element.precioFinal,
                                         'cantidad': element.cantidad,
                                         'id': '',
+                                        'precioAnterior': element.precioAnterior,
+                                        'precioEspecial': element.precioEspecial,
+                                        'precioVenta': element.precioVenta,
+                                        'proveedor': element.proveedor,
                                     }
                                 arregloElementos.push(demo);
                                 }
@@ -1148,6 +1401,10 @@
                             },
                             'tipo': 'PAQUETE',
                             'id': element.id,
+                            'precioAnterior': element.precioAnterior,
+                            'precioEspecial': element.precioEspecial,
+                            'precioVenta': element.precioVenta,
+                            'proveedor': element.proveedor,
                         }
                         arregloPaquetes.push(objeto);   
                     }); 
@@ -1161,7 +1418,6 @@
             },
 
             usarVersion(){
-                this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
                     this.presupuesto.tipoServicio = ''
                 }
@@ -1197,8 +1453,7 @@
                             'Creado!',
                             'El presupuesto ha sido creado',
                             'success'
-                        );
-                    }   
+                        );                    }   
                     
                 }).catch((error) => {
                     console.log(error.data);
@@ -1208,6 +1463,20 @@
                         'error'
                     );
                 });
+            },
+
+            enviarCorreoCliente(){
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                })
             },
         },
     }

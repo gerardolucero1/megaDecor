@@ -186,8 +186,6 @@ return [
         
         //Collective
         Collective\Html\HtmlServiceProvider::class,
-        //Shinobi
-        Caffeinated\Shinobi\ShinobiServiceProvider::class,
     ],
 
     /*

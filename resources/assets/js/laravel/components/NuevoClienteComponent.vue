@@ -44,39 +44,58 @@
                         <div class="col-md-4">
                             <input type="text" required="required" placeholder="Apellido Materno" v-model="cliente.apellidoCliente2">
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        <div class="col-md-12" style="padding-top:10px">
+                        <label for="">Dirección </label>
                         </div>
+                        <div class="col-md-12">
+                            <input type="text" required="required" placeholder="Dirección" v-model="cliente.direccionEmpresa">
+                        </div>
+                        <div class="col-md-12" style="height:10px"></div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" required="required" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        
+                     
+                        <div class="col-md-12 mt-4" style="display:inline">
+                            <label for="">Email</label><br>   
+                            <input type="text" required="required" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required="required" type="text" style="width:auto" @change="emailClick" id="emailTPF" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
+                        </div>
+                        
+                        
                     </div>
                     <!-- Personas Morales -->
                     <div class="row" v-if="cliente.tipoPersona == 'moral'">
                         <div class="col-md-6">
                             <label for="">Nombre de la empresa</label>
-                            <input type="text" placeholder="Nombre" v-model="cliente.nombreCliente">
+                            <input required type="text" placeholder="Nombre" v-model="cliente.nombreCliente">
                         </div>
                         <div class="col-md-6">
                             <label for="">Tipo de Empresa</label>
-                            <select name="categoria"  v-model="cliente.categoriaCliente">
+                            <select required name="categoria"  v-model="cliente.categoriaCliente">
                                 <option v-for="tipoE in tiposE" :value="tipoE.id" v-bind:key="tipoE.index">{{ tipoE.nombre }}</option>  
                             </select>
                             <p style="cursor:pointer; padding-top:5px" data-toggle="modal" data-target="#tipoEmpresaModal"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar Tipos de empresa</p>
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label for="">Direccion de la empresa</label>
-                            <input type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="">Colonia de la empresa</label>
-                            <input type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                            <input required type="text" placeholder="Direccion" v-model="cliente.direccionEmpresa">
                         </div>
                         <div class="col-md-4">
                             <label for="">Numero de la empresa</label>
-                            <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
+                            <input required type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <label for="">Email de la empresa</label>
-                            <input type="email" @change="emailClick" id="emailPF" placeholder="Email" v-model="cliente.emailCliente">
+                        <div class="col-md-4">
+                            <label for="">Colonia de la empresa</label>
+                            <input required type="text" placeholder="Colonia" v-model="cliente.coloniaEmpresa">
+                        </div>
+                        
+                        <div class="col-md-12 mt-4">
+                            <label for="">Email de la empresa</label><br>
+                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width:auto"> @ <input required @change="emailClick" id="emailTPF" type="text"  style="width:auto"  placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" >
                         </div>
                     </div>
                     
@@ -145,8 +164,12 @@
                         <div class="col-md-4" v-if="cliente.tipoPersona == 'moral'">
                             <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4" style="padding-top:10px" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="email" id="email" placeholder="Email" v-model="telefono.email">
+                        <div class="col-md-8 mt-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width: auto;"> @ 
+                            <input required @change="emailClick" id="emailTPF" type="text" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" style="width: auto;">
+                        </div>
+                        <div class="col-md-4 mt-4" v-if="cliente.tipoPersona == 'moral'">
+                            <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
                         </div>
                     </div>
 
@@ -169,8 +192,11 @@
                         <div class="col-md-7 mt-4">
                             <input type="text" name="" id="" placeholder="RFC" v-model="cliente.rfcFacturacion">
                         </div>
+                        <div class="col-md-5 mt-4">
+                            <input type="text" name="" id="" placeholder="Codigo Postal" v-model="cliente.codigoPostal">
+                        </div>
                         <div class="col-md-7 mt-4">
-                            <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
+                       <input type="text" id="emailDF" placeholder="Ejemplo" v-model="cliente.emailFacturacion" style="width:auto"> @ <input type="text" style="width:auto" id="emailTDF" placeholder="ejemplo.com" v-model="cliente.emailFacturacionTerminacion"  >
                         </div>
                        
                     </div>
@@ -186,7 +212,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" placeholder="Dias de credito">
+                            <input type="text" v-model="cliente.diasCredito"  placeholder="Dias de credito">
                         </div>
                     </div>
 
@@ -194,20 +220,72 @@
                     
                     <div class="row">
                         <div class="col-md-6">
-                            <select name="comoSupo" id="" >
+                            <select required="required" name="comoSupo" id="" >
+                                <option value=""></option>
                                 <option v-for="tipo in tipos" v-bind:key="tipo.index">{{ tipo.nombre }}</option>
                             </select>
-                            <p data-toggle="modal" data-target="#comoSupoModal" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
+                            <p data-toggle="modal" data-target="#agregarComoSupo" style="cursor:pointer; padding-top:5px"><i class="fa fa-edit" style="color:#2F7AD4; padding-right:5px;"></i>Administrar "¿Como Supo de nosotros?"</p>
 
                         </div>
                        
                     </div>
                      <div class="row float-right">
-                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button class="btn btn-success" type="submit">Agregar Cliente</button>
                         </div>
                 </div>
             </form>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="agregarComoSupo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border: solid; border-color: grey">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" onClick="$('#agregarComoSupo').modal('hide')" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <input type="text" name="comoSupo" id="" class="form-control" placeholder="Agregar categoria" aria-describedby="helpId" v-model="comoSupo">
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-sm btn-info" @click="agregarComoSupo()">Agregar</button>
+                    </div>
+                </div>
+                
+                <div class="row mt-4" v-if="tipos.length != 0">
+                    <div class="col-md-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in tipos" :key="index">
+                                    <th scope="row">{{ item.id }}</th>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" @click="eliminarComoSupo(item)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onClick="$('#agregarComoSupo').modal('hide')">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
         </div>
     </div>
 </template>
@@ -225,6 +303,8 @@ function emailCopy(){
     export default {
         data(){
             return {
+                comoSupo: '',
+                comoSupoArray: [],
                 //Como lo supo
                 tipo: {
                     nombre: '',
@@ -245,7 +325,7 @@ function emailCopy(){
                     // Persona Moral
                     categoriaCliente: '',
 
-                    // Persona Fisica
+                    // Persona Fisica y Moral
                     apellidoCliente: '',
                     apellidoCliente2: '',
                     emailCliente: '',
@@ -264,6 +344,7 @@ function emailCopy(){
 
                     // Credito
                     creditoCliente: 'SIN CREDITO',
+                    diasCredito: '',
 
                     // Como supo
                     categoriaAbout: '1',
@@ -316,12 +397,47 @@ function emailCopy(){
             this.obtenerTelefonos();
             this.obtenerCategorias();
             this.obtenerCategoriasNosotros();
-            
+            this.obtenerComoSupo(); 
         },
         methods: {
+            obtenerComoSupo(){
+                let URL = '/clientes/comoSupo';
+                axios.get(URL).then((response) => {
+                    this.tipos = response.data;
+                  //  console.log(this.tipos);
+                });
+            },
+
+            eliminarComoSupo(item){
+                var url= '/clientes/eliminar-comoSupo/'+item.id;
+                axios.delete(url).then(response =>{
+                    this.obtenerComoSupo();    
+                })
+            },
+
+            agregarComoSupo(){
+                let URL = '/clientes/crearComoSupo';
+
+                axios.post(URL, {
+                    'nombre': this.comoSupo,
+                }).then((response) => { 
+                    Swal.fire({
+                        title: 'Elemento registrado con exito',
+                        text: "Se registro tu nueva opción",
+                        type: 'success',
+                        showCancelButton: false,
+                        cancelButtonColor: '#d33',  
+                    });
+                    this.obtenerComoSupo();
+                }).catch((error) => {
+                   // console.log(error.data);
+                });
+            },
             emailClick(){
     var emailpf = document.getElementById('emailPF').value;
+    var emailtpf = document.getElementById('emailTPF').value;
     document.getElementById('emailDF').value=emailpf;
+    document.getElementById('emailTDF').value=emailtpf;
     },
     obtenerTipoEmpresa(){
                 let URL = '/clientes/tipo-empresa';
@@ -337,13 +453,7 @@ function emailCopy(){
                  //   console.log(this.aboutCategorias);
                 });
             },
-            obtenerComoSupo(){
-                let URL = '/clientes/comoSupo';
-                axios.get(URL).then((response) => {
-                    this.tipos = response.data;
-                  //  console.log(this.tipos);
-                });
-                },
+           
             obtenerCategorias(){
                 let URL = '/categorias';
                 axios.get(URL).then((response) => {
@@ -385,13 +495,13 @@ function emailCopy(){
                       //  console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
-                        //    console.log(response.data[0].nombre);
+                            console.log(response.data);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -470,13 +580,13 @@ function emailCopy(){
                      //   console.log(tiempo);
                         let URL = '/viejo-telefono';
                         axios.post(URL, {
-                            'id': encontrado.id,
+                            'id': encontrado.client_id,
                         }).then((response) => {
                         //    console.log(response.data[0].nombre);
 
                             Swal.fire({
                                 title: 'El telefono ya existe!',
-                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data[0].nombre,
+                                text: "Este telefono esta registrado desde " + tiempo + ' a nombre de ' + response.data.nombre,
                                 type: 'info',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',
@@ -542,6 +652,15 @@ function emailCopy(){
             },
             crearCliente(){
                 let URL = '/clientes/create';
+
+                   
+                if(this.telefonos.length>0){
+                    
+                let diascredito=parseInt(this.cliente.diasCredito);  
+                if(isNaN(diascredito)){
+                    this.cliente.diasCredito=0;
+                } 
+                
                 axios.post(URL, {
                     'tipoPersona': this.cliente.tipoPersona,
                     'nombreCliente': this.cliente.nombreCliente,
@@ -555,7 +674,7 @@ function emailCopy(){
                     // Persona Fisica
                     'apellidoCliente': this.cliente.apellidoCliente,
                     'apellidoCliente2': this.cliente.apellidoCliente2,
-                    'emailCliente': this.cliente.emailCliente,
+                    'emailCliente': this.cliente.emailCliente+'@'+this.cliente.emailClienteTerminacion,
 
                     // Facturacion
                     'nombreFacturacion': this.cliente.nombreFacturacion,
@@ -563,16 +682,18 @@ function emailCopy(){
                     'coloniaFacturacion': this.cliente.coloniaFacturacion,
                     'numeroFacturacion': this.cliente.numeroFacturacion,
                     'rfcFacturacion': this.cliente.rfcFacturacion,
-                    'emailFacturacion': this.cliente.emailFacturacion,
+                    'emailFacturacion': this.cliente.emailFacturacion+'@'+this.cliente.emailFacturacionTerminacion,
 
                     // Credito
                     'creditoCliente': this.cliente.creditoCliente,
+                    'diasCredito': this.cliente.diasCredito,
 
                     // Como supo
                     'categoriaAbout': this.cliente.categoriaAbout,
 
                     // Telefonos
                     'telefonos': this.telefonos,
+
                 }).then((response) => {
                     this.cliente = {};
                    // console.log(this.cliente);
@@ -584,10 +705,11 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
+                            location.reload();
                 }).catch((error) => {
                     console.log(error);
                 });
-                
+                }else{alert('No hay telefonos registrados, recuerda presionar "Agregar" para insertar un numero');}
             },
             eliminarTelefono(index){
               //  console.log(index);

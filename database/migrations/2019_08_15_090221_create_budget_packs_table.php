@@ -20,6 +20,9 @@ class CreateBudgetPacksTable extends Migration
             $table->integer('cantidad');
             $table->integer('precioUnitario');
             $table->integer('precioFinal');
+            $table->integer('precioVenta');
+            $table->integer('precioEspecial');
+            $table->integer('precioAnterior');
             $table->integer('ahorro');
             $table->string('notas');
             $table->string('categoria');

@@ -25,7 +25,23 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" v-model="cliente.email">
+                    <input type="email" placeholder="Email" v-model="cliente.emailFacturacion">
+                </div>
+                <div class="col-md-4 mt-4">
+                    <label>Telefono</label>
+                    <input type="email" placeholder="number" v-model="cliente.telefono">
+                </div>
+                <div class="col-md-4 mt-4">
+                    <label>Direccion</label>
+                    <input type="email" placeholder="text" v-model="cliente.direccionEmpresa">
+                </div>
+                <div class="col-md-4 mt-4">
+                    <label>Colonia</label>
+                    <input type="email" placeholder="text" v-model="cliente.coloniaEmpresa">
+                </div>
+                <div class="col-md-4 mt-4">
+                    <label>Numero</label>
+                    <input type="email" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
             </div>
         </div>
@@ -80,7 +96,7 @@
                 </select>
             </div>
             <div class="col-md-7 mt-4">
-                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
+                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.email">
             </div>
             <div class="col-md-5">
                 <div class="row">
@@ -445,7 +461,11 @@
                     )
                     this.obtenerCliente();
                 }).catch((error) => {
-                    console.log('Error al actualizar cliente: ', error.data);
+                    Swal.fire(
+                        'Error',
+                        'Hubo un error al actualizar el cliente ¿Completaste todos los campos?',
+                        'error'
+                    )
                 })
             },
         }

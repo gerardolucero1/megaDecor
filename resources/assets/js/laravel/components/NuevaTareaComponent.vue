@@ -35,19 +35,20 @@
                         <form action="POST" v-on:submit.prevent="crearTarea()">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="">Selecciona un Vendedor</label>
-                                <select name="vendedor" id="" v-model="tarea.vendedor">
+                                <label v-if="usuarioActivo.id==17" for="">Selecciona un Vendedor</label>
+                                <select id="select-vendedor" v-if="usuarioActivo.id==17" v-model="tarea.vendedor">
                                     <option value="2">Todos los vendedores</option>
-                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                    <option  v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" >{{ usuario.name }}</option>
+                                    
                                 </select>
+                                <label v-if="usuarioActivo.id!=17" for="">Vendedor Activo</label>
+                                <label v-if="usuarioActivo.id!=17" for="">{{usuarioActual.name}}</label>
+                                
                                 </div>
                                  <div class="col-md-6">
-                                <label for="">Selecciona un Cliente</label>
-                            <select name="categoria" id="" v-model="tarea.cliente">
-                                <optgroup label="Seleccionar un vendedor">
-                                <option v-bind:value="cliente.id" v-for="cliente in clientesFisicos" v-bind:key="cliente.index">{{ cliente.nombre }}</option>  
-                                </optgroup>
-                            </select>
+                                <label for="">Cliente</label>
+                            <input name="categoria" type="text" v-model="tarea.cliente">
+                            
                             
                                 </div>
                         </div>
@@ -110,6 +111,7 @@ import { EventBus } from '../eventBus.js';
                 //Usuario y usuarios
                 usuarioActual: '',
                 usuarios: [],
+                usuarioActivo: [],
             }
              
         },
@@ -143,12 +145,12 @@ EventBus.$on('clic', funcion => {
                 });
                 },
                 
+                
                  obtenerUsuario(){
                 let URL = '/obtener-usuario';
-
                 axios.get(URL).then((response) => {
                     this.usuarioActual = response.data;
-                    this.presupuesto.vendedor_id = this.usuarioActual.id;
+                    this.usuarioActivo.id = this.usuarioActual.id;
                     
                 }).catch((error) => {
                     
@@ -166,6 +168,9 @@ EventBus.$on('clic', funcion => {
             },
                 
                 crearTarea(){
+                    if(this.tarea.vendedor!=17){
+                      this.tarea.vendedor=  this.usuarioActivo.id;
+                    }
                 let URL = '/tareas/create';
                 axios.post(URL, {
                     'idVendedor': this.tarea.vendedor,

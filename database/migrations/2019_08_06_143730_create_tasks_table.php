@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->integer('vendedor_id');
             $table->string('categoria');
-            $table->integer('cliente_id');
+            $table->string('cliente_id');
             $table->string('fecha');
             $table->text('notas');
             $table->integer('completa')->default(0);

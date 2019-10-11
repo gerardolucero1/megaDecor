@@ -9,10 +9,10 @@
             </button>
         </div>
         <div class="modal-body">
-            Que onda prro
+            test
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary">Save changes</button>
         </div>
         </div>

@@ -75,7 +75,14 @@ class CreateBudgetsTable extends Migration
             $table->double('comision')->nullable();
             $table->double('total')->nullable();
 
-            
+            //archivar
+            $table->boolean('archivado')->default(0)->nullable();
+
+            // Notas
+            $table->text('notasPresupuesto')->nullable();
+
+            $table->string('requiereFactura')->nullable();
+            $table->string('requiereMontaje')->nullable();
 
             $table->timestamps();
 

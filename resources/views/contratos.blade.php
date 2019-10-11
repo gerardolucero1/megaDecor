@@ -47,7 +47,7 @@
                                     <th>Cliente</th>
                                     <th>Lugar</th>
                                     <th>Vendedor</th>
-                                    <th>Version</th>
+                                    <th>Versión</th>
                                      <th>Ultima Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
@@ -65,11 +65,14 @@
                                     <td class="d-none d-sm-table-cell">{{$Contrato->updated_at}}</td>
                                     
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
+                                        <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $Contrato->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ficha Tecnica" data-original-title="View Customer">
+                                            <i class="fa fa-eye"></i> 
+                                        </a> 
+                                        <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $Contrato->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger " data-toggle="tooltip" title="Archivar Contacto" data-original-title="View Customer">
+                                                <i class="si si-refresh"></i>
                                             </button>
                                     </td>
                                 </tr>
@@ -100,8 +103,8 @@
     }
 function archivarCliente(){
     Swal.fire({
-                                title: '¿Estas seguro de archivar este presupuesto?',
-                                text: "Al archivar un presupuesto dejara de estar disponible en la tabla de presupuestos",
+                                title: '¿Estas seguro de archivar este contrato?',
+                                text: "Al archivar un presupuesto dejara de estar disponible en la tabla de contratos",
                                 type: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',

@@ -23,6 +23,7 @@ class CreateMoralPeopleTable extends Migration
             $table->string('direccionEmpresa');
             $table->string('coloniaEmpresa');
             $table->string('numeroEmpresa');
+            $table->string('telefono');
             
             //Datos de Facturacion
 
@@ -35,6 +36,7 @@ class CreateMoralPeopleTable extends Migration
 
             //Credito
             $table->enum('tipoCredito', ['SIN CREDITO', 'ORDINARIO', 'LABORAL']);
+            $table->integer('diasCredito')->nullable();
 
             $table->timestamps();
 

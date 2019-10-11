@@ -14,6 +14,10 @@ class PhysicalPerson extends Model
         'apellidoPaterno',
         'apellidoMaterno',
         'email',
+        'telefono',
+        'direccionEmpresa',
+        'coloniaEmpresa',
+        'numeroEmpresa',
 
         //Facturacion
 
