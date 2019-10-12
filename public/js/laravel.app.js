@@ -16857,6 +16857,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -18037,6 +18038,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           console.log(error.data);
         });
       }
+    },
+    enviarCorreoCliente: function enviarCorreoCliente() {
+      var URL = '/enviar-email-cliente/' + this.presupuesto.id;
+      axios.get(URL).then(function (response) {
+        Swal.fire('Enviado!', 'El presupuesto ha sido enviado por correo', 'success');
+      })["catch"](function (error) {
+        console.log(error.data);
+      });
     }
   }
 });
@@ -82061,6 +82070,24 @@ var render = function() {
                       }
                     },
                     [_c("i", { staticClass: "fa fa-save" }), _vm._v(" Guardar")]
+                  ),
+                  _c("br"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-block btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.enviarCorreoCliente()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-send-o" }),
+                      _vm._v(" Enviar budget por correo")
+                    ]
                   ),
                   _vm._v(" "),
                   _vm.presupuesto.tipo == "PRESUPUESTO"

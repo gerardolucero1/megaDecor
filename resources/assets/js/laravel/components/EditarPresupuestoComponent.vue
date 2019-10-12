@@ -502,7 +502,8 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
+                         <button class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                     </div>
                 </div>
@@ -2308,6 +2309,19 @@ padding: 0;
                         console.log(error.data);
                     })
                 }
+            },
+            enviarCorreoCliente(){
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                })
             },
         }
     }
