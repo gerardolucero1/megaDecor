@@ -1367,10 +1367,10 @@ padding: 0;
                     */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;;
                 }
                 
             },
@@ -1855,6 +1855,7 @@ padding: 0;
                         return (indice == index);
                     });
                     producto.precioUnitario = this.precioUnitarioActualizada;
+                    producto.precioEspecial = this.precioUnitarioActualizada;
                     producto.precioFinal = producto.cantidad * producto.precioEspecial;
                     producto.ahorro = producto.precioUnitario - producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);
