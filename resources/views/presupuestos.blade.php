@@ -276,8 +276,8 @@
                                                     $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
                                                     $nombre = $clienteCompleto->nombre;
                                                 }else{
-                                                    $clienteCompleto = App\Client::where('id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombreCliente;
+                                                    //$clienteCompleto = App\Client::where('id', $cliente->id)->first();
+                                                    $nombre = $cliente->id;
                                                 }
                                             @endphp
                                             <td class="d-none d-sm-table-cell">{{$nombre}}</td>
