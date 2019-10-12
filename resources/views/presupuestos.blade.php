@@ -273,14 +273,14 @@
                                                 $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
                                                 if($cliente->tipo = "FISICO"){
-                                                    $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre;
+                                                   // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                   
                                                 }else{
                                                     //$clienteCompleto = App\Client::where('id', $cliente->id)->first();
-                                                    $nombre = '--';
+                                                
                                                 }
                                             @endphp
-                                            <td class="d-none d-sm-table-cell">{{$nombre}}</td>
+                                            <td class="d-none d-sm-table-cell"></td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->version>1)
