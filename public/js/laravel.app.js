@@ -17173,7 +17173,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
         this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
         this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
-        ;
       }
     },
     'requiereFactura': function requiereFactura(val) {
@@ -20447,10 +20446,10 @@ __webpack_require__.r(__webpack_exports__);
         this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
         */
       } else {
-        this.presupuesto.nombreLugar = '';
-        this.presupuesto.direccionLugar = '';
-        this.presupuesto.numeroLugar = '';
-        this.presupuesto.coloniaLugar = '';
+        this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+        this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+        this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+        this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
       }
     },
     'requiereFactura': function requiereFactura(val) {
@@ -82061,10 +82060,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _c("i", { staticClass: "fa fa-save" }),
-                      _vm._v(" Editar Presupuesto")
-                    ]
+                    [_c("i", { staticClass: "fa fa-save" }), _vm._v(" Guardar")]
                   ),
                   _vm._v(" "),
                   _vm.presupuesto.tipo == "PRESUPUESTO"
@@ -89111,36 +89107,22 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-12 mt-4" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.presupuesto.observacionesLugar,
-                    expression: "presupuesto.observacionesLugar"
+              _c(
+                "p",
+                {
+                  staticStyle: {
+                    width: "100%",
+                    background: "#FFE3D5",
+                    padding: "10px"
                   }
-                ],
-                attrs: {
-                  type: "text",
-                  name: "",
-                  id: "",
-                  placeholder: "Observaciones",
-                  readonly: ""
                 },
-                domProps: { value: _vm.presupuesto.observacionesLugar },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.presupuesto,
-                      "observacionesLugar",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
+                [
+                  _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                    _vm._v("Notas: ")
+                  ]),
+                  _vm._v(_vm._s(_vm.presupuesto.observacionesLugar))
+                ]
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-2 mt-4" }, [
@@ -89894,9 +89876,7 @@ var render = function() {
                     _c("span", [
                       _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularAhorro)))
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(5)
+                  ])
                 ])
               ])
             ])
@@ -90099,7 +90079,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(6),
+          _vm._m(5),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c(
@@ -90160,11 +90140,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(7),
+              _vm._m(6),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(8),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -90258,12 +90238,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(9),
+                _vm._m(8),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(10),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -90317,7 +90297,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(11)
+                _vm._m(10)
               ]
             )
           ]
@@ -90402,15 +90382,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _vm._v("Comision pagada en base a $ "),
-      _c("span", [_vm._v("150")])
     ])
   },
   function() {

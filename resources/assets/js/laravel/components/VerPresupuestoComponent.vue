@@ -248,7 +248,7 @@
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar" readonly>
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -379,7 +379,7 @@
                                    
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -890,10 +890,10 @@
                     */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },

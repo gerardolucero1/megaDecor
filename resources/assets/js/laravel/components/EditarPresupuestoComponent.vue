@@ -502,7 +502,7 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Editar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                     </div>
                 </div>
@@ -1370,7 +1370,7 @@ padding: 0;
                      this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
                     this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
                     this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
-                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },
