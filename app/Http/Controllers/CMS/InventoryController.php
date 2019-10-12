@@ -86,7 +86,8 @@ class InventoryController extends Controller
     public function edit($id)
     {
         $inventory = Inventory::find($id);
-        return view('Inventories.edit', compact('inventory'));
+        $familias=Family::all();
+        return view('Inventories.edit', compact('inventory', 'familias'));
     }
 
     /**
