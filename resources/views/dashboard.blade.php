@@ -30,7 +30,7 @@
                                 </button>
                     </div>
                     <div class="col-2">
-                        <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
+                        <a style="display:none" href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
                     </div>
                     
 
