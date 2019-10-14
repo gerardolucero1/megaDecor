@@ -53,20 +53,44 @@
         background-color: white;
         border-bottom: 1px dotted gray;
     }
-
+    .container-version{
+        -webkit-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        -moz-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
+        position:fixed; 
+        background:white; 
+        margin-top:-70px; 
+        margin-left:-15px; 
+        padding:10px; 
+        border:solid; 
+        border-color:orange; 
+        border-width:1px; 
+        z-index:30
+    }
 </style>
 
 <template>
     <section class="container block mt-3">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Estas viendo la versión: {{ presupuesto.version }} de {{ presupuesto.version }}</h2>
-            </div>
+        <div class="container-version">
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
         <div class="row">
             <div class="col-md-12">
-                <textarea name="" id="" style="width:50%" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
             </div>
+        </div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
+        <div class="row">
+            <div class="col-md-12" style="float: left">
+                <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
+                
+                
+            
+            
+            
+            </div>
+
         </div>
         <div class="row">
             <div class="col-md-12 verPresupuesto">
@@ -154,6 +178,12 @@
                         
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Requiere factura: {{ presupuesto.requiereFactura }}</p> <br>
+                        <p>Requiere montaje: {{ presupuesto.requiereMontaje }}</p>
+                    </div>
+                </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-6">
                         <h4>Cliente</h4>
@@ -169,7 +199,7 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -218,7 +248,7 @@
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar" readonly>
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -287,20 +317,20 @@
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioEspecial }}
+                                    {{ producto.precioEspecial | currency}}
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioUnitario }} <br>
-                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior }}</del>
+                                    {{ producto.precioUnitario | currency}} <br>
+                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency }}</span>
                                 </td>
                                 <td>
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
@@ -349,21 +379,59 @@
                                    
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                   
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Registro de pagos -->
+
+            
                 <div class="row">
+                    <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
+                        <label for="">Metodo de pago: </label>
+                        <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
+                            <option value="EFECTIVO">Efectivo</option>
+                            <option value="TARJETA DE CREDITO">Tarjeta de Credito</option>
+                            <option value="TARJETA DE DEBITO">Tarjeta de Debito</option>
+                            <option value="CHEQUE">Cheque</option>
+                            <option value="TRANSFERENCIA">Transferencia</option>
+                        </select>
+                        
+                        <label class="mt-3" for="">Cantidad: </label>
+                        <input type="number" class="form-control" style="border: 1px solid gray; background:white" v-model="pago.amount">
+
+                        <button class="mt-3 btn btn-sm btn-block btn-info" @click="registrarPago()">Registrar Pago</button>
+                    </div>
+                </div>
+               
+
+                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                    <div class="col-md-12">
+                        <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
+                                <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
+                            <ul>
+                                <li v-for="(pago, index) in pagos" :key="index">
+                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> ${{ pago.amount }}<span style="font-size:10px; color:green"> -{{ pago.method }}</span>
+                                </li>
+                            </ul>
+                            <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
+                            <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                   
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
                     <div class="col-md-4">
-                        <button  class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button>
-                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i>Enviar budget por correo</button>
-                        </div>
+                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                    </div>
+                    
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
                     </div>
@@ -387,9 +455,8 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">version</th>
-                                <th scope="col">Folio</th>
                                 <th scope="col">Fecha de creacion</th>
-                                <th scope="col">Vendedor</th>
+                                <th scope="col">Quien Edito</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -397,7 +464,6 @@
                             <tr v-for="version in versiones" :key="version.index">
                                 <th scope="row">{{ version.id }}</th>
                                 <td>{{ version.version }}</td>
-                                <td>{{ version.folio }}</td>
                                 <td>{{ version.created_at }}</td>
                                 <td>{{ version.quienEdito }}</td>
                                 <td>
@@ -448,9 +514,9 @@
                                     <input type="checkbox">
                                 </td>
                                 <td>{{ item.nombre }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.precioUnitario | currency}}</td>
+                                <td>{{ item.precioFinal | currency}}</td>
+                                <td>{{ item.precioVenta | currency}}</td>
                                 <td>{{ item.proveedor }}</td>
                             </tr>
                         </tbody>
@@ -578,6 +644,13 @@
                     'autorizado': false,
                     'precioEspecial': '',
                 },
+
+                pago: {
+                    budget_id: '',
+                    method: '',
+                    amount: '',
+                },
+                pagos: [],
                 
                 inventarioLocal: [],
                 festejados: [],
@@ -665,6 +738,7 @@
             this.obtenerClientes();
             this.obtenerInventario();
             this.obtenerUsuario();
+            this.obtenerPagos();
             
             this.$on('results', results => {
                 this.results = results
@@ -679,6 +753,27 @@
             
         },
         computed:{
+            pagarAntesDe: function(){
+                let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
+                return fechaLimite;
+            },
+
+            saldoPendiente: function(){
+                //Arreglo javascript de objetos json
+                let json = this.pagos;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                }
+                
+                let saldo = this.presupuesto.total - suma;
+                return saldo;
+            },
             obtenerVendedor: function(){
 
             },
@@ -750,6 +845,12 @@
                 let fecha = moment(data).format("DD/MM/YYYY");
                 return fecha;
             },
+
+            formatearFecha2: function(data){
+                moment.locale('es'); 
+                let fecha = moment(data).format('MMMM Do YYYY');
+                return fecha;
+            },
             decimales: function (x, posiciones = 2) {
                 var s = x.toString()
                 var l = s.length
@@ -781,26 +882,31 @@
         watch: {
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },
             'requiereFactura': function(val){
                 if(val){
+
+                    
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+                    
 
                 }else{
                     this.facturacion.nombreFacturacion = '';
@@ -813,6 +919,32 @@
             },
         },
         methods:{
+            registrarPago(){
+                let URL = '/registrar-pago';
+                
+                this.pago.budget_id = this.presupuesto.id;
+                axios.post(URL, this.pago).then((response) => {
+                    alert('Pago registrado');
+
+                    this.obtenerPagos();
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
+
+            obtenerPagos(){
+                this.original = true;
+                let data = window.location.pathname.split('/');
+                let path = data[3];
+                let URL = '/obtener-pagos/' + path;
+
+                axios.get(URL).then((response) => {
+                    this.pagos = response.data;
+                }).catch((error) => {
+                    console.log(error.data);
+                })
+            },
+
             verPaquete(paquete){
                 this.viendoPaquete = paquete;
                 $('#verPaquete').modal('show');
@@ -919,6 +1051,7 @@
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
                 this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
                 this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+                this.clienteSeleccionado.diasCredito = cliente.diasCredito;
 
                 this.presupuesto.client_id = cliente.id;
 

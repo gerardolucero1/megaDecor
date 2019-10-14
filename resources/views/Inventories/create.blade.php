@@ -32,7 +32,7 @@
                 <div class="block-content">
                     {!! Form::open(['route' => 'inventory.store', 'files' => 'true']) !!}
             
-                        @include('inventories.partial.form')
+                        @include('Inventories.partial.form')
                     {!! Form::close() !!}
                 </div>
             </div>

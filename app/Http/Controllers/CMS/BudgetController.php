@@ -6,6 +6,7 @@ use App\User;
 use stdClass;
 use App\Budget;
 use App\Client;
+use App\Family;
 use App\Inventory;
 use App\Telephone;
 use App\BudgetPack;
@@ -56,12 +57,12 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
+            ->select('clients.id','moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
+            ->select( 'clients.id', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno' )
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -109,6 +110,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];
@@ -192,19 +195,31 @@ class BudgetController extends Controller
                         $producto->fill(['imagen' => asset('presupuesto/'.$name)]);
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
                     }
                 }else{
-                    $producto->imagen = $item['imagen'];
-                    $producto->version = $ultimoPresupuesto->version;
-                    $producto->save();
+                    if($item['imagen']){
+                        $producto->imagen = $item['imagen'];
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }
+                    
                 }
                 
+                //Este metodo es para reducir de nuestra tabla inventarios la cantidad disponible del producto
                 if(!$item['externo']){
                     $producto = Inventory::find($item['id']);
-
                     $producto->disponible = ($producto->disponible) - ($item['cantidad']);
                     $producto->save();
                 }
+
             }else{
                 $paquete = new BudgetPack();
 
@@ -247,10 +262,19 @@ class BudgetController extends Controller
                                 $name = time().'.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
                                 \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
                                 $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
                             }
                         }else{
-                            $producto->imagen = $objeto['imagen'];
-                            $producto->save();
+                            if($objeto['imagen']){
+                                $producto->imagen = $objeto['imagen'];
+                                $producto->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
+                            }
+                            
                         }
                     }
             }
@@ -278,7 +302,23 @@ class BudgetController extends Controller
         //Obtenemos los paquetes
         $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
 
-        
+        $arregloFamilias = [];
+
+        foreach($Elementos as $item){
+            $element = Inventory::where('servicio', $item->servicio)->first();
+            array_push($arregloFamilias, $element->familia);
+        }
+
+        foreach($Paquetes as $paquete){
+            $elements = BudgetPackInventory::where('budget_pack_id', $paquete->id)->get();
+            foreach($elements as $element){
+                $producto = Inventory::where('servicio', $element->servicio)->first();
+                array_push($arregloFamilias, $producto->familia);
+            }
+        }
+
+        $familias = array_unique($arregloFamilias);
+
         $arregloEmentos=[];
         foreach($Paquetes as $paquete){
             $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
@@ -351,11 +391,26 @@ class BudgetController extends Controller
             }
          }
 
+        $otroArray = [];
+        foreach($familias as $familia){
+            $item = Family::where('nombre', $familia)->first();
+            if(is_null($item)){}else{
+            array_push($otroArray, $item);}
+        }
 
+        $demo = collect($otroArray);
+
+        //dd($demo);
+
+        
+
+
+
+        //dd($demo);
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
+        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos', 'demo'));
 
         return $pdf->stream();
 
@@ -448,6 +503,8 @@ class BudgetController extends Controller
             }
          }
 
+        $DatosPresupuesto = 0;
+
 
 
         $pdf = App::make('dompdf');
@@ -503,6 +560,8 @@ class BudgetController extends Controller
         $oldVersion->tipoEvento = $version->tipoEvento;
         $oldVersion->tipoServicio = $version->tipoServicio;
         $oldVersion->categoriaEvento = $version->categoriaEvento;
+        $oldVersion->requiereFactura = $version->requiereFactura;
+        $oldVersion->requiereMontaje = $version->requiereMontaje;
         $oldVersion->fechaEvento = $version->fechaEvento;
         $oldVersion->pendienteFecha = $version->pendienteFecha;
         $oldVersion->horaEventoInicio = $version->horaEventoInicio;
@@ -524,7 +583,7 @@ class BudgetController extends Controller
         $oldVersion->opcionDescripcionPaquete = $version->opcionDescripcionPaquete;
         $oldVersion->opcionImagen = $version->opcionImagen;
         $oldVersion->opcionDescuento = $version->opcionDescuento;
-        $oldVersion->opcionIva = $version->opcionIva;
+        $oldVersion->opcionIVA = $version->opcionIVA;
         
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
@@ -560,6 +619,8 @@ class BudgetController extends Controller
         $presupuesto->tipoEvento        = $request->presupuesto['tipoEvento'];
         $presupuesto->tipoServicio      = $request->presupuesto['tipoServicio'];
         $presupuesto->categoriaEvento   = $request->presupuesto['categoriaEvento'];
+        $presupuesto->requiereFactura   = $request->presupuesto['requiereFactura'];
+        $presupuesto->requiereMontaje   = $request->presupuesto['requiereMontaje'];
         $presupuesto->fechaEvento       = $request->presupuesto['fechaEvento'];
         $presupuesto->pendienteFecha    = $request->presupuesto['pendienteFecha'];
         $presupuesto->horaEventoInicio  = $request->presupuesto['horaEventoInicio'];
@@ -602,7 +663,9 @@ class BudgetController extends Controller
         $presupuesto->save();
 
         //Buscamos el ultimo presupuesto actualizado guardado
-        $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
+
+
+        $ultimoPresupuesto = $presupuesto;
 
         //Por cada festejado en el arreglo que mandamos le agregamos el id del budget y lo guardamos.
         foreach ($request->festejados as $item) {
@@ -654,14 +717,21 @@ class BudgetController extends Controller
                         }
                         
                     }else{
-                        $producto->imagen = 'imagen de prueba';
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save(); 
                     }
                 }else{
-                    $producto->imagen = $item['imagen'];
-                    $producto->version = $ultimoPresupuesto->version;
-                    $producto->save();
+                    if($item['imagen']){
+                        $producto->imagen = $item['imagen'];
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }else{
+                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->version = $ultimoPresupuesto->version;
+                        $producto->save();
+                    }
+                    
                 }
 
             }else{
@@ -717,12 +787,18 @@ class BudgetController extends Controller
                                 }
                                 
                             }else{
-                                $producto->imagen = 'Imagen de prueba';
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                         }else{
-                            $producto->imagen = $objeto['imagen'];
-                            $producto->save();
+                            if($objeto['imagen']){
+                                $producto->imagen = $objeto['imagen'];
+                                $producto->save();
+                            }else{
+                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->save();
+                            }
+                            
                         }
 
                         //Al momento de recuperar los productos de los paquetes y almacenarlos en el array de productos

@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" v-model="cliente.email">
+                    <input type="email" placeholder="Email" v-model="cliente.emailFacturacion">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Telefono</label>
@@ -96,7 +96,7 @@
                 </select>
             </div>
             <div class="col-md-7 mt-4">
-                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
+                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.email">
             </div>
             <div class="col-md-5">
                 <div class="row">

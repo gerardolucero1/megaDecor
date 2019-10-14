@@ -37,7 +37,7 @@
 <!--INFORMACION DE CLIENTE-->
 <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px" >
 <tr>
-<td colspan="3"><p style="line-height: 14px;"><span style="font-style: italic">Presupuesto generado para:</span> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
+<td colspan="3"><p style="line-height: 14px;"><span style="font-style: italic">@if($presupuesto->tipo=='CONTRATO')Contrato @else Presupuesto @endif generado para:</span> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
   <br><br><span>{{$presupuesto->emailCliente}}</span>
   
 <br><br><span>Teléfonos: 
@@ -121,16 +121,20 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   </tr>
   @php
       $descuento=0;
+      $familias=[];
+      $c=0;
   @endphp
   @foreach ($Elementos as $elemento)
   @php
       $descuento=$descuento+($elemento->precioUnitario-$elemento->precioEspecial);
+      $c++;
+      $familias[$c]=$elemento->familia;
   @endphp
     <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
         @if($presupuesto->opcionImagen==1)  
     <td><img src="{{$elemento->imagen}}" width="60px" alt=""></td>
         @endif
-    <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
+    <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}<br>{{$elemento->familia}}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
       @if($presupuesto->opcionPrecioUnitario==1)  
       <td style="text-align: center">${{ (strtolower($elemento->precioUnitario)) }}</td>
@@ -186,8 +190,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 @php
   if($presupuesto->opcionIVA==1){
      $iva=($presupuesto->total*.16);
-     $iva=number_format($iva,2);
-  }else {$iva=0; $iva=number_format($iva,2);}
+     
+  }else {$iva=0;}
   @endphp
 <table style="width: 100%; text-align: right">
 <tr>
@@ -195,7 +199,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @php
         $descuentoGeneral = number_format($descuento,00);
         $subtotal=$presupuesto->total;
-        $total=$subtotal+$iva;
+        $total=intval($subtotal) + intval($iva);
         $total=number_format($total,2);
     @endphp
       @if($presupuesto->opcionDescuento==1)
@@ -210,9 +214,11 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
       </tr>
       <tr style="font-style: italic; text-align: left; font-size: 12px;">
+          @if($presupuesto->tipo=='PRESUPUESTO')
         <td>
             *PRECIOS MAS IVA *Sujetos a disponibilidad hasta el dia de la contratación. ***DESCUENTOS COMPRANDO TODO EL PAQUETE*** EL DESCUENTO FINAL SE VERA REFLEJADO HASTA CONCRETAR LO SOLICITADO POR EL CLIENTE. *** PARA APROBACION SE REQUIERE FIRMA DEL CLIENTE. EN CASO DE EMPRESAS ES REQUISITO FIRMA Y SELLO ; UNA VEZ AUTORIZADA NO HAY CANCELACIONES NI DEVOLUCION DE DINERO ******** ***50% DE ANTICIPO. TODO SERVICIO TIENE QUE SER LIQUIDADO AL 100% 1 DIA HABIL ANTES DEL EVENTO EN CASO DE NO TENER CREDITO*** 2.5 % INTERES MENSUAL X ATRASO DE CREDITO. ***Sillas, mesa, manteleria no incluye instalación,favor de solicitarla. Loza sin lavar tiene costo $.50 c/u extra. **PRESUPUESTO VALIDO 7 DIAS Hábiles A partir de la fecha de envio. Precios cambio sin previo aviso. **APLICAN RESTRICCIONES EVENTO EXTERNOS SE SOLICITA UN DEPOSITO EN GARANTIA DEPENDIENDO DE LOS SERCICIOS SOLICITADOS ***SUBIR O BAJAR ESCALERAS O AREAS LEJANAS, LLEVA COSTO ADICIONAL. LOS SERVICIOS SALIENDO DE BODEGA NO HAY CANCELACIÓN*** LA ENTREGA O RECOLECCIÓN (SERAEN DIAS HABILES) Y DENTRO DEL HORARIO DE 9:00 AM-5PM, FUERA DE ESTOS HORARIOS Y DIAS LLEVARA CARGO EXTRA***EN AL RECIBIR EL EQUIPO SE DA POR ENTENDIDO QUE TODO SE ENCUENTRA BIEN AL MOMENTO DE FIRMAR DE RECIBIDO*** NO INCLUYE INSTALACIÓN SILLAS Y MESAS. *** EL CLIENTE QUE PASE A RECOGER EN BODEGA DEBERA DEJAR UNA IDENTIFICACION OFICIAL VIGENTE Y LA ENTREGA ES AL SIGUIENTE DIA HABIL ANTES DE LAS 12:00 PM PAGOS CON TARJETA O TRASFERENCIA SON MAS IVA.
           </td>
+          @endif
       </tr>
       @if($presupuesto->tipo=='CONTRATO')
      <table style="width: 100%;">
@@ -229,35 +235,39 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <tr>
       <td colspan="2">
           <p style="font-size: 16px; font-weight: bold; text-align: left">
-              Servicios<br>
-              <span style="font-size: 12px; font-weight: normal; text-align: justify">
-                  <span style="font-weight: bold">MESERO</span><br> INDICARLE AL MESERO A SU LLEGADA CUALES SON LAS ESPECIFICACIONES DEL EVENTO O LO QUE LE GUSTAR. A USTED OUE SE REALIZA. LOS MESEROS NO SE HACEN RESPOSABLES DE VASOS PLATOS ETC QUEBRADOS DURANTE EL EVENTO LOS MESEROS DEBERÁN REPONER EL TIEMPO PERDIDO EN CASO DE OUE LLEGUEN TARDE LOS MESEROS VAN UNIFORMADOS ES IMPORTANTE ENTREGAR CROOUIS EN HUERTAS O RANCHOS aERRCERIAS, BIEN ESPECIFICADOS P. QUE NO LLEGUEN TARDE Al EVENTO BARMAN TENER Tupo LO NECESARIO PARA EL BUEN DESEMPEÑO DEL BARMAN y POR CONSIGUIENTE EL EXITO DE SU EVENTO HIELO VASOS PINZAS BEBIDAS LICOR ETC 
-<br><br><span style="font-weight: bold">PAYASITAS Y PERSONAJES</span><br> —PREMIOS SE SUGIERE AL CLIENTE QUE CONTEMPLE PREMIOS PARA LAS ACTIVIDADES DE LOS SHOWS ME. MUNDO NO LOS LLEVA FAVOR DE ENTREGARSELOS AL LLEGAR LAS PAYASITAS O EL SHOW CORRESPONDIENTE CONTRATADO ...EN CASO DE CONTRATACION DE PAYASITAS HARÁN GLOBOFLEX.. PINTAR GARRAS. AYUDAN ALA PIÑATA Y PONEN JUEGOS ESTAS ACTIVIDADES DEPENDEN DEL DESENVOLVIMIENTO DE LA PIÑATA DEBIDO AL NUMERO DE NIÑOS QUE ASISTIERON O CAMBIO EN EL HORARIO DEL PASTEL Y LA PIÑATA DEBIDO A ESTO ES IMPOSIBLE PODER. DAR UN TIEMPO EXACTO A CADA ACTIVIDAD QUE REALIZARÁN O QUE SE REALIZEN TODAS PERSONAJES O BOTARGAS –NO PINTARAN– SOLO ESTABAN COMO PRESENCIA DURANTE EL EVENTO SI EL PERSONAJE TRAE MASCARA O ES BOTARGA. SE DA. ALGUN TIEMPO DURANTE EL EVENTO PA. PODER TOMAR AIRE O AGUA YA QUE LOS TRAJES SON MUY CALUROSOS Y PODR.N DESHIDRATARSE LOS CHICOS QUE TRAEN EL TRAJE AGRADECEMOS MUCHO SU COMPRENSION POR ESTE MOTIVO —TOMA ELECTRICA PARA SONIDO SE REQUIERE I TOMA CERCA. A LA INSTALACION --SONIDO - NO SE LLEVARA SONIDO AL CONTRATAR SOLO UN PERSONAJE O U. SO, PAYASITA —PAGO DEL SERVICIO ESTE TENDRA QUE SER LIQUIDADO ANTES DE INICIAR CUALQUIER SHOW CONTRATADO PARA PODER INICIAR –.ENCUESTA AL FINAL DE SU EVENTO SE LE ENTREGARA U. ENCUESTA DONDE NOS EVALUARA NUESTRO SERVICIO Y EL PERSONAL OUE ASISTIO A SU EVENTO AGRADECEMOS MUCHO EL LLENARLA Y FIRMAR, PA. SU VALIDACION 
-</span><br></p>
+              Servicios
+          </p>
+          @php
+              $testigo='nada';
+          @endphp
+        @foreach ($demo as $item)
+          @php
+              $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
+              
+          @endphp
+          @if($testigo==$grupo['informacion'])
+          @else
+          <p style="font-size: 16px; font-weight: bold; text-align: left">
+             
+            {{ $item->grupo }}
+           
+          </p>
+          <p style="font-size: 12px; font-weight: normal; text-align: justify">
+            <b>Requisitos:</b><br>
+            {{ $grupo['informacion'] }}<br><br>
+           <b> Observaciones:</b><br>
+            {{ $grupo['observaciones'] }}<br>
+          </p>
+          @endif
+          @php
+              $testigo=$grupo['informacion'];
+          @endphp
+        @endforeach
       </td>
     </tr>
-    <tr>
-      <td colspan="2"> <p>
-          <span style="font-size: 12px; font-weight: normal; text-align: justify">
-             
-        <span style="font-weight: bold">MANTELERIA</span> COPIA DE ELECTOR VIGENTE POR LOS 2 LADOS. <BR>
-Observaciones <br>
-EJEMPLO MANTELERIA, CUBRE SILLAS, CUBRE MANTELES. MOÑOS. ETC "LA RENTA DE MANTELERIA ES POR 1 DIA Y SE ENTREGARA A LAS 12:00 PM DEL SIGUIENTE DIA —MANTELERIA DAÑADA TENDRA UN COSTO DE REPOSICION —MANTELERIA CON MANCHAS QUE NO SE PUEDAN QUITAR CORRERA CON COSTO DE REPOSICION A CARGO DEL CLIENTE MEGA MUNDO NOTIFICARA X TELEFONO EN UN LAPSO DE 48 HORAS mAximo SI EXISTE DESPERFECTO AL LAVARLOS —SE PEDIRA A LA PERSONA DEL LUGAR QUE FIRME LA HOJA CORRESPONDIENTE EN CASO DE ALGUN FALTANTE O DAÑO . EL CUAL EL CLIENTE DE ESTE CONTRATO SERA RESPONSABLE DEL PAGO DE REPOSICION. EL CUAL DEBERA SER PAGADO A NO MAS DE 48 HORAS DESPUES DE LA FIRMA DEL CONTRATO DEL EVENTO. "'LA MANTELERIA SI SE DEJA EN EL DOMICILIO NO INCLUYE INSTALACIÓN. EN CASO DE REQUERIR ESTE SERVICIO TIENE UN COSTO ADICIONAL EL CUAL DEPENDE DE LA CANTIDAD A INSTALAR. ESTE PRECIO CON GUSTO SE LE PUEDE PROPORCIONAR EN LAS OFICINAS DE MEGA MUNDO " NO INCLUYE ENVIO SENCILLO NI DOBLE (LLEVADA Y RECOGIDA) TIENE COSTO ADICIONAL. será responsable de los daÑos y perjuicios ocasionados por cualquier motivo de fenomenos meteorologicos. desastres naturales o perturbación de la paz civil que impidan la ejecución parcial o total del evento. 'El cliente reconoce. acepta y se compromete que a partir de la entrega de los mismos, a cubrir los daÑos que se ocasionen a la mantelena (quemaduras, manchas, descocidas, etc). Al momento de la entrega en nuestras oficinas, el cliente debera revisar que fue entregada en buenas condiciones. de no ser asi ahi mismo pedira la sustitución de los mismos. De no ser ase se da por entendido que la entrega esta correcta en cantidad y no daÑada. Al momento de la entrega en el lugar indicado por el cliente, debera revisar que fue entregada en buenas condiciones y la cantidad correcta. De no ser asi ah' mismo pedira la sustitución de los mismo Si no se notifica en el momento. se da por aceptada la firma de que entrega esta correcta en cantidad y no daNada. —Deposito de 500 pesos por evento es requerido en efectivo 
-</span><br><br>
-         
-        </p></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <p style="font-size: 16px; font-weight: bold; text-align: left">
-                <br>
-                <span style="font-size: 12px; font-weight: normal; text-align: justify">
-                    <span style="font-weight: bold">BRINCA BRINCA</span><br>  1) NO SE INSTALARAN BRINCA BRINCAS EN TIERRA 0 PISOS FILOSOS.ETC EN CASO E NO AVISAR ANTES DE LA FIRMA DE ESTE CONTRATO MEGA MUNDO CANCELA. EL SERVICIO SIN NINGUNA RESPONSABILIDAD PARA MEGA MUNDO Y NO SE DEVOLVERA EL TOTAL DEL IMPORTE DE IA RENTA DEL BRINCA BRINCA CLIENTS SE OBLIGA A PAGAR EL 100% DE LA RENT, ASI COMO EL IMPORTS TOTAL DEL FLETE <br>2) NO SE PUEDEN PONE R OBJETOS DE NINGU. ESPECIE DEBAJO DE LOS BRINCA BRINCAS <br>3) NO SE INSTALARA LA UNIDAD EN LUGARES DONDE TOPE CON ARBOLES 0 PAREDES YA QUE PUEDEN DANAR LA UNIDAD SE REQUIERE QUE EL CLIENTS DEJE UNA IDENTIFICACION OFICIAL NO VENCIDA EN OFICINAS DE MEGA MUNDO QUE COINCIDA CON LA DIRECCION ACTUAL EN DONDE SE INSTAL. SI NO ASISTE PERNSONAL DE MEGA MUNDO -MEDIDAS MEGA MUNDO NO SE HALE RESPONSABLE EN IR A TOMAR MEDIDAS A LOS LUGARES DE INSTALCION LAS MEDIDAS DE LO CONTRATADO YA FUERON ACEPTADAS POR EL CONTRATANTE Y ACEPTA QUE LAS MEDIDAS SE LE FUERON MOST.DAS Y/0 EXPLICADAS ANTES DE LA FIRMA DE ESTE CONTRATO Y OUEDO TOTALMENTE DE ACUERDO -MARGEN DE MEDIDAS DE ACUERDO A LAS MEDIDAS DEL BRINCA BRINCA CONT.TADO SE DEBE DE DEJAR UN MARGEN A LA REDONDA DE UN METRO MINIMO •• DEJAR ASIGNADO A ALGUNA PERSONA EN SU REPRESENTACION EN CASO DE NO ESTAR EN EL DOMICIL. A INSTALRSE LA UNIDAD YA QUE MEGA MUNDO DA UN LAPSO DE 10 MINUTOS DE ESPEFtA DEBIDO A SU LOGISTICA EN CASO DE NO HABER NADIE. MEGA MUNDO LO INSTALARA EN DONDE CONSIDERS LA MEJOR OPCION. EN CASO DE DUE EL CIIENTE DESPUES OUIERA CAMBIARLO DE LUGAR ESTE TEND. UN COSTO EXTRA Y DEPENDERA DE LA LOGISTICA DE MEGA MUNDO SI PODRIA 0 NO ASISTIR NUEVAMENTE PA. PODER MOVER LA UNIDAD AL LUGAR NUEVO ASIGNADO -- EN CASO DE QUE LA EMPRESA 0 CASA NO CUENMTE CON LA CAPACIDAD NECESARIA PA. LA ELECTRICIDAD Y EL CLIENTS CONT.TE U. PLANTA DE LUZ ESTA DEBE DE ESTAR ANTES DE LA INSTALACION DE LOS BRINCA BRINCAS 0 TOBOGANES PA..CER LAS PRUEBAS NECESARIAS DEL BUEN FUNCIONAMIENTO DE LOS MISMOS MANTAS DE LUZ EXTER.S QUE NO DEN ABASTO PARR EL SERVICIO DE MEGA MUNDO MEGA DECOR NO ES RE SPON.BILIDAD DE MEGA MUNDO EL OTORGAR TIEMPO EXT. 0 EN SU DEFECT° PENALZACION POR MAL SERVICIO DE MAG MUNDO MEGA DECOR </span><br></p>
-        </td>
-      </tr>
     <tr style="text-align: center">
         <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
-        <td >____________________________________<br><br>Mega Mundo Decor</td>
+        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
       </tr>
   </table>
           @endif

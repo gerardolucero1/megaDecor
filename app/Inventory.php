@@ -19,5 +19,6 @@ class Inventory extends Model
         'tipoCambio',
         'exhibicion',
         'autorizado',
+        'familia',
     ];
 }

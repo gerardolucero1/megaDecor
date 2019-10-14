@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\TaskComment;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
@@ -15,4 +16,9 @@ class Task extends Model
         'completa'
 
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(TaskComment::class);
+    }
 }

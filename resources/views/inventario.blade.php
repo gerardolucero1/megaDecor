@@ -32,94 +32,41 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-
+                            @php
+                            use App\Family;
+                                $familias=Family::all();
+                            @endphp
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')
                             @csrf
-                            <select name="familia" id="">
+                            <select name="familia" id="familia" style="width: 100px" onchange="seleccionarFamilia()">
                                 <option value="">Todos los elementos</option>
-                                <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
-                                <option value="BEBIDAS">BEBIDAS</option>
-                                <option value="BODEGA MATERIAL DE TRABAJO">BODEGA MATERIAL DE TRABAJO</option>
-                                <option value="BOLOS">BOLOS</option>
-                                <option value="Bolsitas Celofan">Bolsitas Celofan</option>
-                                <option value="BOLSITAS PARA DULCES">BOLSITAS PARA DULCES</option>
-                                <option value="Botanas">Botanas</option>
-                                <option value="BOTARGA">BOTARGA</option>
-                                <option value="BRINCA BRINCA">BRINCA BRINCA</option>
-                                <option value="CAJAS">CAJAS</option>
-                                <option value="CAMINOS">CAMINOS</option>
-                                <option value="CARPAS">CARPAS</option>
-                                <option value="CASETAS / PEAJE">CASETAS / PEAJE</option>
-                                <option value="CATERING">CATERING</option>
-                                <option value="Centros de Mesa">Centros de Mesa</option>
-                                <option value="COJIN">COJIN</option>
-                                <option value="COROPLAS">COROPLAS</option>
-                                <option value="CORTINAS">CORTINAS</option>
-                                <option value="CUBRE MANTEL">CUBRE MANTEL</option>
-                                <option value="CUBRE MANTEL GRANDE PARA MESAS DE DULCES">CUBRE MANTEL GRANDE PARA MESAS DE DULCES</option>
-                                <option value="CUBRE SILLA">CUBRE SILLA</option>
-                                <option value="DECORACION AMBIENTAL">DECORACION AMBIENTAL</option>
-                                <option value="DESECHABLES">DESECHABLES</option>
-                                <option value="DETALLES PARA NIÑOS">DETALLES PARA NIÑOS</option>
-                                <option value="DISFRACES">DISFRACES</option>
-                                <option value="DULCES">DULCES</option>
-                                <option value="FALDONES">FALDONES</option>
-                                <option value="FERIAS">FERIAS</option>
-                                <option value="FLETE DE MOVILIARIO">FLETE DE MOVILIARIO</option>
-                                <option value="FLORES">FLORES</option>
-                                <option value="Globos">Globos</option>
-                                <option value="HALLOWEEN">HALLOWEEN</option>
-                                <option value="Helio">Helio</option>
-                                <option value="HIELERAS">HIELERAS</option>
-                                <option value="INVITACIONES /PAPELERIA/ TARJETERIA /PIN">INVITACIONES /PAPELERIA/ TARJETERIA /PIN</option>
-                                <option value="LUZ , ILUMINACION">LUZ , ILUMINACION</option>
-                                <option value="MANTELERIA RECTANGULAR ADULTO">MANTELERIA RECTANGULAR ADULTO</option>
-                                <option value="MANTELERIA NAVIDEÑA">MANTELERIA NAVIDEÑA</option>
-                                <option value="MANTELERIA NIÑO">MANTELERIA NIÑO</option>
-                                <option value="MANTELERIA PARA MESAS DE DULCES">MANTELERIA PARA MESAS DE DULCES</option>
-                                <option value="MANTELERIA REDONDO ADULTO">MANTELERIA REDONDO ADULTO</option>
-                                <option value="MAQUILLAJES">MAQUILLAJES</option>
-                                <option value="MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES">MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES</option>
-                                <option value="Menu Adultos">Menu Adultos</option>
-                                <option value="Menu Niños">Menu Niños</option>
-                                <option value="MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY">MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY</option>
-                                <option value="MESERO / ANFITRIONAS	">MESERO / ANFITRIONAS	</option>
-                                <option value="MOÑOS">MOÑOS</option>
-                                <option value="MOBILIARIO Y EQUIPO">MOBILIARIO Y EQUIPO</option>
-                                <option value="MOTORES">MOTORES</option>
-                                <option value="NAVIDAD">NAVIDAD</option>
-                                <option value="PAGOS">PAGOS</option>
-                                <option value="Pastel">Pastel</option>
-                                <option value="Piñata">Piñata</option>
-                                <option value="POSTRE">POSTRE</option>
-                                <option value="REFRACTARIOSE PAR MESAS DE DUCLES">REFRACTARIOSE PAR MESAS DE DUCLES</option>
-                                <option value="Renta">Renta</option>
-                                <option value="ROCKOLA - KARAOKE">ROCKOLA - KARAOKE</option>
-                                <option value="SERVILLETAS">SERVILLETAS</option>
-                                <option value="Show">Show</option>
-                                <option value="TALLERES">TALLERES</option>
-                                <option value="TELAS DECORATIVAS">TELAS DECORATIVAS</option>
-                                <option value="TOBOGANES DE AGUA">TOBOGANES DE AGUA</option>
-                                <option value="TRAJE PERSONAJES">TRAJE PERSONAJES</option>
-                                <option value="VELA">VELA</option>
-                                <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
-
-
+                                @foreach($familias as $familia)    
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                            @endforeach
                             </select>
-
-                            <button type="submit" class="btn btn-sm btn-info">Buscar</button>
+                            <button style="margin-left: 20px" type="submit" class="btn btn-sm btn-info">Buscar</button><br>
                         </form>
+                            <form method="POST" action="{{route('imprimir.familia')}}" >
+                                @method('POST')
+                                @csrf   
+                                <input type="hidden" name="familia" id="inputfamilia" value="">
+                            <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
+                            </form>    
+
                     </div>
                     <div class="col-md-9 text-right">
-                           
-                                    <a class="btn btn-primary" href="{{ route('inventory.create') }}">
-                                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
-                                    </a>
-                                        
-                                   
+                        <a href="{{ route('familia.index') }}" class="btn btn-primary">
+                            Agregar Familia
+                        </a>
+                        <a class="btn btn-primary" href="{{ route('inventory.create') }}">
+                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
+                        </a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
+                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
+                        </a>          
                     </div>
-                    </div>
+                </div>
                     <div style="padding:15px; padding-top:30px;">
                      <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
@@ -129,10 +76,8 @@
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
-                                    <th>Costo</th>
                                     <th>Proveedor</th>
                                     <th>Familia</th>
-                                    <th>Ultima Edición</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -142,17 +87,16 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td>{{ $inventario->cantidad }}</td>
-                                <td>{{ $inventario->disponible }}</td>
+                                <td id="cantidad-{{ $inventario->id }}" onclick="editarCantidad({{ $inventario->id }})">{{ $inventario->cantidad }}</td>
+                                <td id="exhibicion-{{ $inventario->id }}" onclick="editarExhibicion({{ $inventario->id }})">{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->precioVenta }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td class="d-none d-sm-table-cell text-center">{{ $inventario->updated_at }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
+                                    @if (Auth::user()->id == 17 )
                                     <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
@@ -162,6 +106,10 @@
                                 <button disabled class="btn btn-sm btn-success">
                                         <i class="fa fa-check"></i>
                                     </button>
+                                    @else
+                                        SIN PERMISOS
+                                    @endif
+                                    
                                 </td>
                             </tr>
                             @endforeach
@@ -175,20 +123,91 @@
                 </div>
                 <!-- Vista presupuestos archivados -->
                 
-
+<!-- modal paquete -->
+<div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
+                    <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
+                    <div  class="btn btn-primary" >Guardar paquete</div>
+                </div>
+                </div>
+            </div>
+        </div>
                 
                
     </section>
    
-    
+    @include('modals.agregarFamilia')
 @endsection
 
 @section("scripts")
     <script>
+        function seleccionarFamilia(){
+           NombreFamilia = document.getElementById('familia').value;
+        document.getElementById('inputfamilia').value=NombreFamilia;
+        }
+        function editarCantidad(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-cantidad-inventario/' + id;
+
+            let data = 'cantidad-' + id;
+            let td = document.getElementById(data);
+
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+                console.log(td);
+
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+                 console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+            }
+
+            
+        }
+
+        function editarExhibicion(id){
+            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let URL = 'editar-exhibicion-inventario/' + id;
+
+            let data = 'exhibicion-' + id;
+            let td = document.getElementById(data);
+
+            console.log(td);
+
+             axios.put(URL, {
+                 'exhibicion':  nuevaCantidad,
+             }).then((response) => {
+                console.log('Cantidad actualizada');
+                td.innerHTML = nuevaCantidad;
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+        }
+
         function vista_calendario(){
-        document.getElementById('divCalendario').style.display="block";
-        document.getElementById('divLista').style.display="none";
-    }
+            document.getElementById('divCalendario').style.display="block";
+            document.getElementById('divLista').style.display="none";
+        }
     function vista_lista(){
         document.getElementById('divCalendario').style.display="none";
         document.getElementById('divLista').style.display="block";

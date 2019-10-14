@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Inventory;
+use App\Family;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 
 class InventoryController extends Controller
 {
@@ -28,7 +31,9 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('inventories.create');
+
+    $familias=Family::all();
+        return view('Inventories.create', compact('familias'));
     }
 
     /**
@@ -46,6 +51,7 @@ class InventoryController extends Controller
             'precioUnitario' => 'required',
             'precioVenta' => 'required',
             'precioVenta' => 'required',
+            'familia' => 'required',
         ]);
  
         if ($v->fails())
@@ -55,7 +61,7 @@ class InventoryController extends Controller
 
         $inventory = Inventory::create($request->all());
 
-        return redirect()->route('inventory.edit', $inventory->id)
+        return redirect()->route('inventory.create')
             ->with('info', 'Producto creado con exito');
 
     }
@@ -80,7 +86,8 @@ class InventoryController extends Controller
     public function edit($id)
     {
         $inventory = Inventory::find($id);
-        return view('inventories.edit', compact('inventory'));
+        $familias=Family::all();
+        return view('Inventories.edit', compact('inventory', 'familias'));
     }
 
     /**
@@ -99,6 +106,7 @@ class InventoryController extends Controller
             'precioUnitario' => 'required',
             'precioVenta' => 'required',
             'precioVenta' => 'required',
+            'familia' => 'required',
         ]);
  
         if ($v->fails())
@@ -132,5 +140,19 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pdf(Request $request){        
+
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        
+
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario'));
+
+        return $pdf->stream();
+
     }
 }

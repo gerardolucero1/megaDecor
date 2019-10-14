@@ -3,13 +3,15 @@
 use App\User;
 use App\Budget;
 use App\Client;
+use App\Inventory;
 use App\Telephone;
+use App\BudgetPack;
 use App\MoralPerson;
+use App\TaskComment;
 use App\AboutCategory;
 use App\MoralCategory;
 use App\PhysicalPerson;
 use App\BudgetInventory;
-use App\BudgetPack;
 use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use App\Mail\NuevoPresupuesto;
@@ -77,12 +79,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/tareas/create', 'CMS\TareasController@store')->name('NuevaTarea.store');
         Route::post('/tareas/createcategory', 'CMS\TareasController@createC')->name('NuevaCategory.createC');
 
+            //Comentar tareas
+            Route::post('/comentar-tarea/{id}', function(Request $request, $id){
+                $taskComment = TaskComment::create($request->all());
+                return;
+            });
+
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
     Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
+    Route::get('/contratos/obtener-presupuestos-todos', 'CMS\IndexController@presupuestosTodos');
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
@@ -126,6 +135,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-version/{id}', 'CMS\BudgetController@obtenerVersion');
         //Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
 
+    //Registrar pago
+    Route::get('/obtener-pagos/{id}', 'CMS\PaymentController@index')->name('payment.index');
+    Route::post('/registrar-pago', 'CMS\PaymentController@store')->name('payment.store');
+
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
@@ -138,6 +151,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
         Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
         Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
+
+//Imprimir familia
+    Route::post('/imprimir-familia', 'CMS\InventoryController@pdf')->name('imprimir.familia');
 
     //Configuraciones
     Route::get('/configuraciones', 'CMS\CommissionController@index');
@@ -218,7 +234,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
     
-        Mail::to('gera_conecta@hotmail.com', 'Administrador')
+        Mail::to('asamii149@gmail.com', 'Administrador')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos));
     });
 
@@ -313,12 +329,34 @@ Route::group(['middleware' => ['auth']], function () {
     
         Mail::to($presupuesto->emailCliente, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
+        Mail::to('ivonnearroyosg@msn.com', 'Presupuesto MegaMundo')
+            ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
     });
 
     Route::get('inventario/create', 'CMS\InventoryController@create')->name('inventory.create');
     Route::get('inventario/edit/{id}', 'CMS\InventoryController@edit')->name('inventory.edit');
     Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
+
+
+    Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){
+        $inventario = Inventory::find($id);
+
+        $inventario->cantidad = $request->cantidad;
+        $inventario->save();
+        return;
+    });
+
+    Route::put('editar-exhibicion-inventario/{id}', function(Request $request, $id){
+        $inventario = Inventory::find($id);
+
+        $inventario->exhibicion = $request->exhibicion;
+        $inventario->save();
+        return;
+    });
+
+    Route::resource('familia', 'CMS\FamilyController');
+    Route::resource('grupo', 'CMS\FamilyGroupController');
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');

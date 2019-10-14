@@ -1,4 +1,5 @@
 <!-- Modal -->
+<!--
 <div class="modal fade" id="comoSupoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div  class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div style="border: solid; border-color: grey" class="modal-content">
@@ -15,3 +16,4 @@
             </div>
         </div>
     </div>
+-->

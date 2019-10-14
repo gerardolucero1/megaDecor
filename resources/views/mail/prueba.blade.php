@@ -188,8 +188,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 @php
   if($presupuesto->opcionIVA==1){
      $iva=($presupuesto->total*.16);
-     $iva=number_format($iva,2);
-  }else {$iva=0; $iva=number_format($iva,2);}
+     
+  }else {$iva=0;}
   @endphp
 <table style="width: 100%; text-align: right">
 <tr>
@@ -197,7 +197,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @php
         $descuentoGeneral = number_format($descuento,00);
         $subtotal=$presupuesto->total;
-        $total=$subtotal+$iva;
+        $total=intval($subtotal) + intval($iva);
         $total=number_format($total,2);
     @endphp
       @if($presupuesto->opcionDescuento==1)

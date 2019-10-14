@@ -72,7 +72,7 @@ padding: 0;
 </style>
 
 <template>
-    <section class="container" v-if="presupuesto.length != 0">
+    <section class="container" v-if="unlock" style="background:white;">
         <div class="row">
             
         </div>
@@ -215,8 +215,8 @@ padding: 0;
                                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
                             </div>
                         </div>
-                        <div v-if="clienteSeleccionado" class="info">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
+                        <div style="padding-top:20px" v-if="clienteSeleccionado" class="info">
+                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{ clienteSeleccionado.apellidoPaterno }} {{ clienteSeleccionado.apellidoMaterno }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -238,6 +238,7 @@ padding: 0;
                 </div>
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                    <!--
                     <div class="col-md-4">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
@@ -250,7 +251,7 @@ padding: 0;
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
-
+                    -->
                     <div class="col-md-10 mt-4">
                         <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
                     </div>
@@ -394,39 +395,40 @@ padding: 0;
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <td>
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
+                                    
                                 </td>
                                 <td>{{ producto.servicio }}</td>
                                 <td>
-                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                    <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
+                                    <input style="background:#F5F6E6; widht:100%; min-height:10px; border-radius:5px" v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
+                                    <p v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</p>
                                     
                                 </td>
                                 
                                 <td>
                                     
-                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:keyup.enter="updatePrecioUnitario(index)">
-                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario }}</span>
-                                    <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior }}</del>
+                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="text" v-model="precioUnitarioActualizada" v-on:change="updatePrecioUnitario(index)">
+                                    <span v-else v-on:click="editarPrecioUnitario(index, Object.keys(producto))">{{ producto.precioUnitario | currency}}</span>
+                                    <del v-if="(indice == index && key == 'precioUnitario')">{{ producto.precioAnterior | currency}}</del>
                                  </td>
                                  <th scope="row">
-                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:keyup.enter="updatePrecioEspecial(index)">
-                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="text" v-model="precioEspecialActualizado" v-on:change="updatePrecioEspecial(index)">
+                                    <span v-else v-on:click="editarPrecioEspecial(index, Object.keys(producto), producto)">{{ producto.precioEspecial | currency}}</span>
                                 </th>
                                 <td>
-                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | decimales }}</span>
+                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:change="updatePrecioFinal(index)">
+                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency}}</span>
                                 </td>
                                 <td>
-                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro }}</span>
+                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:change="updateAhorro(index)">
+                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
+                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
                                         
                                     </textarea>
-                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                    <p style="background:#E4F9DB; widht:100%; min-height:10px; border-radius:5px" v-else v-on:click="editarNotas(index, Object.keys(producto))">
                                         {{ producto.notas }}
-                                    </span>
+                                    </p>
                                     
 
                                 </td>
@@ -468,19 +470,20 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <h3 v-else>Subtotal: $<span>{{ saldoFinal | decimales }}</span><br>
-                                <span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
+                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5> 
+                                
+                               <h3><span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
-                                    <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                    <H5 v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></H5>
+                                    <H5 v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></H5>
+                                    <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
-                                   <p style="font-size:16px; font-weight:bold;">Total: ${{ calcularSubtotal + calcularIva | decimales }} <i class="fa fa-edit"></i></p>
+                                   
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                     <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
@@ -499,7 +502,8 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Editar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
+                         <button class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                     </div>
                 </div>
@@ -529,13 +533,13 @@ padding: 0;
 
         <!-- Modal agregar paquete -->
         <div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
-            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
-                    <button type="button" class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
+                    <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -544,9 +548,10 @@ padding: 0;
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style="border:solid; border-width:1px; border-radius:3px; background:#D0FAF2">
                                             <buscador-component
-                                    placeholder="Buscar Productos"
+                                            :limpiar="limpiar"
+                                    placeholder="Buscar Productos Existentes"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
@@ -566,7 +571,7 @@ padding: 0;
                                                         <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.familia }}</p>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <img class="img-fluid" :src="'/images/inventario/'+producto.imagen+'.jpg'" alt="">
+                                                        <img class="img-fluid" :src="producto.imagen" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -574,7 +579,7 @@ padding: 0;
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar producto</button>
+                                    <div class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar nuevo producto</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -583,21 +588,21 @@ padding: 0;
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Servicio</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paquete.servicio">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paquete.servicio" style="background:#FFECA7">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Total</label>
+                                    <div class="form-group row" >
+                                        <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioFinal">
+                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio de proveedor</label>
+                                    <div class="form-group row" style="display:none">
+                                        <label class="col-12" for="example-text-input">Costo total de proveedores</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paquete.precioVenta">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo de proveedores" v-model="paquete.precioVenta" style="background:#FFECA7">
                                         </div>
                                     </div>
                                 </div>
@@ -605,6 +610,7 @@ padding: 0;
                                 <div class="col-md-6">
                                     <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
                                     <h4>Utilidad: $<span v-text="utilidad"></span></h4>
+                                    <h4>Costo total proveedor: $<span v-text="costoProveedor"></span></h4>
                                     <input type="checkbox" id="guardarPaquete" v-model="paquete.guardarPaquete">
                                     <label for="guardarPaquete">Guardar paquete</label>
 
@@ -631,32 +637,35 @@ padding: 0;
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio unitario</th>
-                                                <th scope="col">Precio especial</th>
-                                                <th scope="col">Total</th>
+                                                <th scope="col">Precio especial unitario</th>
+                                                <th scope="col">Total con descuento</th>
                                                 <th scope="col">Opciones</th>
                                             </tr>
                                         </thead>
                                         <tbody v-if="paquete.inventario">
                                             <tr v-for="(producto, index) in paquete.inventario" v-bind:key="producto.index">
                                                 <th scope="row">
-                                                    <img :src="producto.imagen" width="100%">
+                                                    <img :src="producto.imagen" width="100px">
                                                 </th>
-                                                <td>{{ producto.nombre }}</td>
+                                                <td>{{ producto.nombre }}
+                                                     <br><span style="font-size:10px; line-height:8px;">Costo Proveedor: ${{producto.precioVenta}}</span>
+                                                </td>
+                                                
                                                 <td>
-                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:keyup.enter="updateCantidadPaquete(index)">
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:change="updateCantidadPaquete(index)">
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
                                                 <td>
-                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:keyup.enter="updatePrecioUnitarioPaquete(index)">
+                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:change="updatePrecioUnitarioPaquete(index)">
                                                     <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario }}</span>
                                                 </td>
                                                 <td>
-                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:keyup.enter="updatePrecioEspecialPaquete(index)">
+                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:change="updatePrecioEspecialPaquete(index)">
                                                     <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
                                                 </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</button>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -668,8 +677,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarPaquete()">Guardar paquete</button>
+                    <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
+                    <div  class="btn btn-primary" @click="guardarPaquete()">Guardar paquete</div>
                 </div>
                 </div>
             </div>
@@ -1006,9 +1015,9 @@ padding: 0;
                                 <th scope="row">{{ index }}</th>
                                 <td>{{ item.nombre }}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
+                                <td>{{ item.precioUnitario | currency}}</td>
+                                <td>{{ item.precioFinal | currency}}</td>
+                                <td>{{ item.precioVenta | currency}}</td>
                                 <td>{{ item.proveedor }}</td>
                             </tr>
                         </tbody>
@@ -1039,6 +1048,7 @@ padding: 0;
         },
         data(){
             return{
+                unlock: false,
                 limpiar: false,
                 viendoPaquete: [],
                 results: [],
@@ -1183,6 +1193,7 @@ padding: 0;
                 },
                 precioSugerido: 0,
                 utilidad: 0,
+                costoProveedor:0,
 
                 cantidadPaquete: '',
                 precioUnitarioPaquete: '',
@@ -1349,16 +1360,18 @@ padding: 0;
             },
             'presupuesto.lugarEvento': function(val){
                 if(val == 'MISMA'){
+                    /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
+                    */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },
@@ -1480,6 +1493,7 @@ padding: 0;
             },
             //Metodos para los paquetes
             agregarProductoPaquete(producto){
+                this.limpiar = true;
                 this.paquete.inventario.push({
                     'externo': false,
                     'nombre': producto.servicio,
@@ -1488,19 +1502,28 @@ padding: 0;
                     'precioFinal': '0',
                     'cantidad': '0',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
                
                 console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
+                        this.precioSugerido=0;
+                        this.utilidad=0;
+                        this.costoProveedor=0;
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
-                            this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.precioSugerido+= parseInt(this.paquete.inventario[i].precioFinal);
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
+                        this.paquete.precioFinal = this.precioSugerido;
                     },
                     //Eliminar producto de paquete
                     eliminarProductoPaquete(index){
@@ -1508,11 +1531,13 @@ padding: 0;
 
                         this.precioSugerido = 0;
                         this.utilidad = 0;
+                        this.costoProveedor = 0;
 
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
                     },
 
@@ -1544,6 +1569,7 @@ padding: 0;
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
+                        this.costoProveedor = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
                             return (indice == index);
                         });
@@ -1565,6 +1591,8 @@ padding: 0;
                         });
 
                         producto.precioUnitario = this.precioUnitarioPaquete;
+                        producto.precioEspecial = this.precioUnitarioPaquete;
+                        producto.precioFinal = producto.cantidad * producto.precioEspecial;
                         this.paquete.inventario.splice(index, 1, producto);
                         this.precioUnitarioPaquete = '',
                         this.key = '',
@@ -1591,6 +1619,9 @@ padding: 0;
                     },
 
             guardarPaquete(){
+                let count;
+                
+                
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
@@ -1600,22 +1631,29 @@ padding: 0;
                         'warning'
                         )
                 }else{
+                    let paquete = JSON.parse( JSON.stringify(this.paquete) );
+
                     this.inventarioLocal.push({
-                        'externo': false,
-                        'imagen': 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
-                        'servicio': this.paquete.servicio,
-                        'cantidad': 1,
-                        'precioUnitario': this.paquete.precioFinal,
-                        'precioFinal': this.paquete.precioFinal,
-                        'ahorro': 0,
-                        'notas': '',
-                        'paquete': this.paquete,
-                        'tipo': 'PAQUETE',
-                        'id': '',
-                        'precioVenta': this.paquete.precioVenta,
-                        'precioEspecial': this.paquete.precioFinal,
-                        'precioAnterior': this.paquete.precioFinal,
+                        externo: false,
+                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        servicio: this.paquete.servicio,
+                        cantidad: 1,
+                        precioUnitario: this.precioSugerido,
+                        precioFinal: this.precioSugerido,
+                        ahorro: '0',
+                        notas: '',
+                        paquete: paquete,
+                        tipo: 'PAQUETE',
+                        id: '',
+                        precioVenta: this.paquete.precioVenta,
+                        precioEspecial: this.precioSugerido,
+                        precioAnterior: this.precioSugerido,
                     });
+                    Swal.fire(
+                        'Listo!',
+                        'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) 
                 }
 
             },
@@ -1811,12 +1849,14 @@ padding: 0;
                     this.cantidadActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                  updatePrecioUnitario(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
                     producto.precioUnitario = this.precioUnitarioActualizada;
+                    producto.precioEspecial = this.precioUnitarioActualizada;
                     producto.precioFinal = producto.cantidad * producto.precioEspecial;
                     producto.ahorro = producto.precioUnitario - producto.precioEspecial;
                     this.inventarioLocal.splice(index, 1, producto);
@@ -1824,6 +1864,7 @@ padding: 0;
                     this.precioUnitarioActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                 //Ahorro
                 editarAhorro(index, key){
@@ -1923,7 +1964,7 @@ padding: 0;
                     'precioUnitario': producto.precioUnitario,
                     'precioFinal': producto.precioUnitario,
                     'ahorro': '0',
-                    'notas': '',
+                    'notas': '--',
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
@@ -2205,12 +2246,13 @@ padding: 0;
                                 }
                                 return arregloElementos;
                             });
-                           return arregloElementos; 
+                           return arregloElementos;
+                           
                         })
 
                         let objeto = {
                             'externo': false,
-                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
+                            'imagen': 'https://www.grupomilan.com/files/imgs/blog/vendemos-cajas-carton.jpg',
                             'servicio': element.servicio,
                             'cantidad': element.cantidad,
                             'precioUnitario': element.precioUnitario,
@@ -2234,13 +2276,13 @@ padding: 0;
                         arregloPaquetes.push(objeto);   
                     }); 
                 this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
-
+                
+                this.unlock = true;
                 }).catch((error) => {
                     console.log(error.data);
                 })
                 
-
-
+                
               }).catch((error) => {
                 console.log(error.data);
               })
@@ -2267,6 +2309,19 @@ padding: 0;
                         console.log(error.data);
                     })
                 }
+            },
+            enviarCorreoCliente(){
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                })
             },
         }
     }
