@@ -358,6 +358,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('familia', 'CMS\FamilyController');
     Route::resource('grupo', 'CMS\FamilyGroupController');
 
+    Route::resource('provedores', 'CMS\ProvidersController');
+
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
 
