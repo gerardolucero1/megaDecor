@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p style="font-weight:bold; font-size:25px">Folio: {{ presupuesto.folio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
@@ -142,26 +142,29 @@
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
-                            Pendiende</label>
+                            Pendiente</label>
                             </div>
                     <div class="col-md-4">
                         
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento" disabled>
+                                <select name="categoriaEvento" style="color:black" id="" v-model="presupuesto.categoriaEvento" disabled>
                                     <option value="1">Boda</option>
                                     <option value="2">XV Años</option>
                                     <option value="3">Aniversario</option>
                                     <option value="4">Cumpleaños</option>
                                     <option value="5">Gala</option>
                                     <option value="6">Baile</option>
+                                    <option value="7">Otro</option>
                                 </select>
                                  <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
-                                <div class="row mt-4">
+                                <div class="row mt-4" style="background:#D0EFCF; border-radius:5px; padding:10px">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento" readonly>
+                                        <input style="display:none" type="date" v-model="presupuesto.fechaEvento" readonly>
+                                        <h5>Fecha del evento</h5>
+                                        <p style=""> {{presupuesto.fechaEvento}} </p>
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -169,7 +172,7 @@
                                     
                                 </div>
                                 <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha" disabled="disabled">
-                                <label for="pendienteFecha">Pendiende</label>
+                                <label for="pendienteFecha">Pendiente</label>
 
                             </div>
                         </div>

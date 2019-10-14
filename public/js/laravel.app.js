@@ -20131,6 +20131,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -79724,7 +79727,7 @@ var render = function() {
           _c("div", { staticClass: "row mt-4" }, [
             _c("div", { staticClass: "col-md-12 registroPresupuesto" }, [
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-8 text-left" }, [
+                _c("div", { staticClass: "col-md-7 text-left" }, [
                   _vm.presupuesto.tipoEvento == "INTERNO" ||
                   _vm.presupuesto.tipoServicio == "INFANTIL"
                     ? _c("div", {
@@ -79749,7 +79752,7 @@ var render = function() {
                       })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-3 text-right info" }, [
+                _c("div", { staticClass: "col-md-5 text-right info" }, [
                   _c(
                     "p",
                     {
@@ -79758,7 +79761,17 @@ var render = function() {
                         "font-weight": "bold"
                       }
                     },
-                    [_vm._v("Folio: " + _vm._s(_vm.presupuesto.folio))]
+                    [
+                      _vm._v("Folio de "),
+                      _vm.presupuesto.tipo == "PRESUPUESTO"
+                        ? _c("span", { staticStyle: { color: "green" } }, [
+                            _vm._v("presupuesto")
+                          ])
+                        : _c("span", { staticStyle: { color: "green" } }, [
+                            _vm._v("contrato")
+                          ]),
+                      _vm._v(": " + _vm._s(_vm.presupuesto.folio))
+                    ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
@@ -88265,7 +88278,17 @@ var render = function() {
             _c(
               "p",
               { staticStyle: { "font-weight": "bold", "font-size": "25px" } },
-              [_vm._v("Folio: " + _vm._s(_vm.presupuesto.folio))]
+              [
+                _vm._v("Folio de "),
+                _vm.presupuesto.tipo == "PRESUPUESTO"
+                  ? _c("span", { staticStyle: { color: "green" } }, [
+                      _vm._v("presupuesto")
+                    ])
+                  : _c("span", { staticStyle: { color: "green" } }, [
+                      _vm._v("contrato")
+                    ]),
+                _vm._v(": " + _vm._s(_vm.presupuesto.folio))
+              ]
             ),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
@@ -88588,7 +88611,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _vm._v("\n                        Pendiende")
+                  _vm._v("\n                        Pendiente")
                 ]
               )
             ]),
@@ -88609,6 +88632,7 @@ var render = function() {
                           expression: "presupuesto.categoriaEvento"
                         }
                       ],
+                      staticStyle: { color: "black" },
                       attrs: { name: "categoriaEvento", id: "", disabled: "" },
                       on: {
                         change: function($event) {
@@ -88647,42 +88671,66 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", { attrs: { value: "5" } }, [_vm._v("Gala")]),
                       _vm._v(" "),
-                      _c("option", { attrs: { value: "6" } }, [_vm._v("Baile")])
+                      _c("option", { attrs: { value: "6" } }, [
+                        _vm._v("Baile")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "7" } }, [_vm._v("Otro")])
                     ]
                   ),
                   _vm._v(" "),
                   _vm._m(1),
                   _vm._v(" "),
-                  _c("div", { staticClass: "row mt-4" }, [
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.presupuesto.fechaEvento,
-                            expression: "presupuesto.fechaEvento"
-                          }
-                        ],
-                        attrs: { type: "date", readonly: "" },
-                        domProps: { value: _vm.presupuesto.fechaEvento },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                  _c(
+                    "div",
+                    {
+                      staticClass: "row mt-4",
+                      staticStyle: {
+                        background: "#D0EFCF",
+                        "border-radius": "5px",
+                        padding: "10px"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "col-md-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.fechaEvento,
+                              expression: "presupuesto.fechaEvento"
                             }
-                            _vm.$set(
-                              _vm.presupuesto,
-                              "fechaEvento",
-                              $event.target.value
-                            )
+                          ],
+                          staticStyle: { display: "none" },
+                          attrs: { type: "date", readonly: "" },
+                          domProps: { value: _vm.presupuesto.fechaEvento },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "fechaEvento",
+                                $event.target.value
+                              )
+                            }
                           }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(2)
-                  ]),
+                        }),
+                        _vm._v(" "),
+                        _c("h5", [_vm._v("Fecha del evento")]),
+                        _vm._v(" "),
+                        _c("p", {}, [
+                          _vm._v(
+                            " " + _vm._s(_vm.presupuesto.fechaEvento) + " "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(2)
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -88736,7 +88784,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("label", { attrs: { for: "pendienteFecha" } }, [
-                    _vm._v("Pendiende")
+                    _vm._v("Pendiente")
                   ])
                 ])
               ])

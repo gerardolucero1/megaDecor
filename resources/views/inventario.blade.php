@@ -34,7 +34,7 @@
                         <h3 class="block-title" style="color:green">Inventario</h3>
                             @php
                             use App\Family;
-                                $familias=Family::all();
+                            $familias=Family::all();
                             @endphp
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')
@@ -56,6 +56,10 @@
 
                     </div>
                     <div class="col-md-9 text-right">
+                            @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
+                         @if($usuario != 2)
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
@@ -64,7 +68,8 @@
                         </a>
                         <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
-                        </a>          
+                        </a> 
+                        @endif         
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -75,8 +80,10 @@
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
+                                    @if($usuario != 2)
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
+                                    @endif
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -87,13 +94,15 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td id="cantidad-{{ $inventario->id }}" onclick="editarCantidad({{ $inventario->id }})">{{ $inventario->cantidad }}</td>
-                                <td id="exhibicion-{{ $inventario->id }}" onclick="editarExhibicion({{ $inventario->id }})">{{ $inventario->exhibicion }}</td>
+                                <td id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
+                                <td id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarExhibicion({{ $inventario->id }})" @endif>{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
+                                 @if($usuario != 2)
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
+                                @endif
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )

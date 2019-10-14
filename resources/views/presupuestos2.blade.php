@@ -269,8 +269,20 @@
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif
-                                            
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->client_id}}</td>
+                                        @php
+                                        $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
+
+                                        if($cliente->tipoPersona == "FISICA"){
+                                            $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                            $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                           // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                           
+                                        }else{
+                                            $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                            $clienteNombre = $clienteMoral->nombre;
+                                        }
+                                    @endphp
+                                            <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->version>1)
@@ -291,12 +303,12 @@
                                                 @endphp
                                             <td>${{$total}}</td>
                                             <td class="d-flex" style="box-sizing: content-box;">
-                                                <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
+                                                <a href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
-                                                </button>
-                                                <button style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
+                                                </a>
+                                                <a href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
-                                                </button> 
+                                                </a> 
                                             </td>
                                         </tr>
                                     @endforeach

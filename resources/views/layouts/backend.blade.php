@@ -244,8 +244,9 @@
                                 </li>  
                             @else
                                 <li>
+                                        <a class="nav-menu" href="/dashboard"><i class="si si-doc"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
-                                    <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                 </li>                              
                             @endif
                             

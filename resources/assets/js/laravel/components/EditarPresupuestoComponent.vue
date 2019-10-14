@@ -79,7 +79,7 @@ padding: 0;
         <div class="row mt-4">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-7 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -87,8 +87,8 @@ padding: 0;
 
                         </div>
                     </div>
-                    <div class="col-md-3 text-right info">
-                        <p style="font-size:25px; font-weight:bold">Folio: {{ presupuesto.folio }}</p>
+                    <div class="col-md-5 text-right info">
+                        <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
