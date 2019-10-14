@@ -10,10 +10,12 @@
                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                         <thead>
                             <tr role="row">
+                                <!-- (Nombre, Telefono, Correo, Dirección) -->
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>Cantidad</th>
-                                <th>Opciones</th>
+                                <th>Telefono</th>
+                                <th>Correo</th>
+                                <th>Dirección</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -21,8 +23,9 @@
                                 <tr role="row" class="odd">
                                     <td>{{ $provedor->id }}</td>
                                     <td>{{ $provedor->nombre }}</td>
-                                    <td>
-                                    </td>
+                                    <td>{{ $provedor->telefono }}</td>
+                                    <td>{{ $provedor->correo }}</td>
+                                    <td>{{ $provedor->direccion }}</td>
 
                                     <td class="text-center">
                                         <a href="{{ route('provedores.edit', $provedor->id) }}" class="btn btn-sm btn-info">Editar</a>

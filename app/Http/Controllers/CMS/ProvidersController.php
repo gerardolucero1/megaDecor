@@ -37,8 +37,11 @@ class ProvidersController extends Controller
     public function store(Request $request)
     {
         //Comprobamos que el slug no se repita pero ignoramos el slug propio
-        $v = \Validator::make($request->all(), [
-            'nombre' => 'required',
+        $v = \Validator::make($request->all(), [            
+            'nombre'    => 'required',
+            'telefono'  => 'required',
+            'correo'    => 'required',
+            'direccion' => 'required',
         ]);
  
         if ($v->fails())
@@ -86,8 +89,21 @@ class ProvidersController extends Controller
     {
         //Comprobamos que el slug no se repita pero ignoramos el slug propio
         $v = \Validator::make($request->all(), [
-            'nombre' => 'required',
+            'nombre'    => 'required',
+            'telefono'  => 'required',
+            'correo'    => 'required',
+            'direccion' => 'required',
+            
         ]);
+
+        /*
+                <td>{{ $provedor->id }}</td>
+                <td>{{ $provedor->nombre }}</td>
+                <td>{{ $provedor->telefono }}</td>
+                <td>{{ $provedor->correo }}</td>
+                <td>{{ $provedor->direccion }}</td>
+
+*/
  
         if ($v->fails())
         {
