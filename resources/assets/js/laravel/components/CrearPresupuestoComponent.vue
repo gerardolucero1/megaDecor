@@ -1638,14 +1638,14 @@ padding: 0;
         },
         methods:{
             obtenerCategorias(){
-                let URL = 'categorias';
+                let URL = 'budget-categorias';
 
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
                 })
             },
             agregarCategoria(){
-                let URL = 'categorias';
+                let URL = 'budget-categorias';
 
                 axios.post(URL, {
                     nombre: this.nombreCategoria,
@@ -1654,7 +1654,7 @@ padding: 0;
                 })
             },
             eliminarCategoria(item){
-                let URL = 'categorias/' + item.id;
+                let URL = 'budget-categorias/' + item.id;
 
                 axios.delete(URL).then((response) => {
                     this.obtenerCategorias();

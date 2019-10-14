@@ -14949,7 +14949,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     obtenerCategorias: function obtenerCategorias() {
       var _this4 = this;
 
-      var URL = 'categorias';
+      var URL = 'budget-categorias';
       axios.get(URL).then(function (response) {
         _this4.categorias = response.data;
       });
@@ -14957,7 +14957,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     agregarCategoria: function agregarCategoria() {
       var _this5 = this;
 
-      var URL = 'categorias';
+      var URL = 'budget-categorias';
       axios.post(URL, {
         nombre: this.nombreCategoria
       }).then(function (response) {
@@ -14967,7 +14967,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     eliminarCategoria: function eliminarCategoria(item) {
       var _this6 = this;
 
-      var URL = 'categorias/' + item.id;
+      var URL = 'budget-categorias/' + item.id;
       axios["delete"](URL).then(function (response) {
         _this6.obtenerCategorias();
       });
