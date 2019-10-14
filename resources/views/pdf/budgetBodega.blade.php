@@ -74,6 +74,8 @@
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
     <td style="font-size: 13px; padding: 4px;">Notas</td>
+    <td style="font-size: 13px; padding: 4px;">Entrega</td>
+    <td style="font-size: 13px; padding: 4px;">Recoleccion</td>
   </tr>
   @php
       $descuento=0;
@@ -87,6 +89,8 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
@@ -95,6 +99,7 @@
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
+    
     </tr>
     @if($presupuesto->opcionDescripcionPaquete==1)
     <tr style="text-align: center; font-size: 12px;">
@@ -123,6 +128,31 @@
     <span style="font-weight: bold">Notas de presupuesto:</span><br>
     <span style="font-weight: normal; font-style: italic">{{$presupuesto->notasPresupuesto}}</span>
   </td>
+</tr>
+
+</table>
+<table  style="width: 100%; margin-top: 10px">
+<tr>
+
+  <td>_________________________________<br>      
+    <span style="font-weight: bold">Firma de Entrega</span><br>
+    <span style="font-style: italic; font-weight: normal;  font-size: 13px;">{{$presupuesto->cliente}}</span>
+  </td>
+
+
+  <td style="margin-left: 55px; padding-left: 100px;">_________________________________<br>      
+    <span style="font-weight: bold">Firma Operador</span><br><br>
+  </td>
+
+</tr>
+<br>
+<tr >
+    
+    <td style="padding-top: 30px;">_________________________________<br>      
+      <span style="font-weight: bold">Firma Recoleccion</span><br>
+      <span style="font-style: italic; font-weight: normal;  font-size: 13px;">{{$presupuesto->cliente}}</span>
+    </td>
+
 </tr>
 </table>
 @php
