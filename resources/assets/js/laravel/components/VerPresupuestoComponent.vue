@@ -149,22 +149,12 @@
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" style="color:black" id="" v-model="presupuesto.categoriaEvento" disabled>
-                                    <option value="1">Boda</option>
-                                    <option value="2">XV Años</option>
-                                    <option value="3">Aniversario</option>
-                                    <option value="4">Cumpleaños</option>
-                                    <option value="5">Gala</option>
-                                    <option value="6">Baile</option>
-                                    <option value="7">Otro</option>
-                                </select>
+                                <p>{{ presupuesto.categoriaEvento }}</p>
                                  <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4" style="background:#D0EFCF; border-radius:5px; padding:10px">
                                     <div class="col-md-10">
-                                        <input style="display:none" type="date" v-model="presupuesto.fechaEvento" readonly>
-                                        <h5>Fecha del evento</h5>
-                                        <p style=""> {{presupuesto.fechaEvento}} </p>
+                                        <p>{{ mostrarFechaEvento }}</p>
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -756,6 +746,13 @@
             
         },
         computed:{
+            mostrarFechaEvento: function(){
+                let fecha = this.presupuesto.fechaEvento;
+                moment.locale('es'); 
+                let date = moment(fecha).format('LLLL');
+
+                return date;
+            },
             pagarAntesDe: function(){
                 let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
                 return fechaLimite;

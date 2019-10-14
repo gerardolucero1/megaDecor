@@ -12,7 +12,7 @@
         
             
                 <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
-                    <div class="col-12" style="padding-bottom:20px">
+                    <div class="col-10" style="padding-bottom:20px">
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                     <i class="fa fa-calendar-plus-o"></i> <i>Crear presupuesto</i> 
                                 </button>
@@ -28,6 +28,9 @@
                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                                         <i class="si si-settings"></i> <i>Configuraciones</i> 
                                 </button>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
                     </div>
                     
 

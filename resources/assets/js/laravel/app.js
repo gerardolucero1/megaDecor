@@ -53,6 +53,7 @@ Vue.component('settings-master-component', require('./components/SettingsMasterC
 Vue.component('editar-presupuesto-component', require('./components/EditarPresupuestoComponent.vue').default);
 Vue.component('ver-presupuesto-component', require('./components/VerPresupuestoComponent.vue').default);
 Vue.component('calendario-component', require('./components/CalendarioComponent.vue').default);
+Vue.component('caja-component', require('./components/CajaComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -350,6 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar2.render();
     calendar3.render();
     calendar4.render();
-    
+
 
 });

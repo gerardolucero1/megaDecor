@@ -12,6 +12,7 @@
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="user" content="{{ Auth::user() }}">
 
         <!-- Icons -->
         <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
