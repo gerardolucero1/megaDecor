@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CMS;
 use App\Budget;
 use Carbon\Carbon;
 use App\CashRegister;
+use App\OtherPayments;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -117,7 +118,8 @@ class CashRegisterController extends Controller
     }
 
     public function obtenerPresupuestos(){
-        $presupuestos = Budget::with('payments')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
+        $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
         return $presupuestos;
     }
+
 }
