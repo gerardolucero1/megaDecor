@@ -81281,7 +81281,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("div", [
+                  _c("div", { staticClass: "row" }, [
                     _c("p", { staticStyle: { float: "right" } }, [
                       _c("span", { staticStyle: { "font-weight": "bold" } }, [
                         _vm._v("Fecha del evento: ")

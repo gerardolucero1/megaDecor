@@ -89,7 +89,7 @@ padding: 0;
                     </div>
                     <div class="col-md-5 text-right info">
                         <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
-                        <div> <p style="float:right"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p></div>
+                        <div class="row"> <p style="float:right"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p></div>
                         <div class="row">
 
                             <div class="col-md-4 text-right">
