@@ -16,10 +16,13 @@ class CreateProvidersTable extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('grupo');
+            $table->string('telefono');
+            $table->string('correo');
+            $table->string('direccion');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

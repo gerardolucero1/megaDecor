@@ -16,7 +16,8 @@ class CreateFamilyGroupsTable extends Migration
         Schema::create('family_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->text('informacion');
+            $table->text('informacion');            
+            $table->text('observaciones');
             $table->timestamps();
         });
     }

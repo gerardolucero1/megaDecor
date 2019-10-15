@@ -26,6 +26,7 @@ class ProvidersController extends Controller
      */
     public function create()
     {
+        return view('provedores.create');
     }
 
     /**
@@ -51,7 +52,7 @@ class ProvidersController extends Controller
 
         $provedores = Providers::create($request->all());
 
-        return redirect()->route('Providers.create')
+        return redirect()->route('provedores.index')
             ->with('info', 'Provedor creado con exito');
     }
 

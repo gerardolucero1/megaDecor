@@ -4,6 +4,7 @@
     <section class="container">
         <div class="block">
             <div class="block-header block-header-default">
+                    <a href="{{ route('provedores.create')}}" class="btn btn-sm btn-primary">Agregar provedor</a>
             </div>
             <div class="row">
                 <div class="col-md-12 p-4">
@@ -30,7 +31,13 @@
                                     <td class="text-center">
                                         <a href="{{ route('provedores.edit', $provedor->id) }}" class="btn btn-sm btn-info">Editar</a>
                                     </td>
-
+                                    <td class="text-center">
+                                            <form action="{{route('provedores.destroy', $provedor->id)}}" method="POST">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button onclick="return confirm('Esta seguro?')" class="btn btn-danger btn-sm">Borrar</button>
+                                            </form>
+                                    </td>
                                 </tr>
                             @endforeach                                     
                         </tbody>
