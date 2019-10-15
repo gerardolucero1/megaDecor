@@ -14588,6 +14588,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -15569,17 +15570,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log('email enviado');
       });
     });
-  }), _defineProperty(_methods, "guardarPresupuesto", function (_guardarPresupuesto) {
-    function guardarPresupuesto() {
-      return _guardarPresupuesto.apply(this, arguments);
-    }
-
-    guardarPresupuesto.toString = function () {
-      return _guardarPresupuesto.toString();
-    };
-
-    return guardarPresupuesto;
-  }(function () {
+  }), _defineProperty(_methods, "guardarPresupuesto", function guardarPresupuesto() {
     var _this20 = this;
 
     if (this.inventarioLocal.length == 0) {
@@ -15615,17 +15606,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.obtenerUltimoPresupuesto()
           */
 
-          var URL = 'enviar-email';
-          axios.post(URL, {
-            'presupuesto': _this20.presupuesto,
-            'festejados': _this20.festejados,
-            'inventario': _this20.inventarioLocal
-          }).then(function (response) {
-            console.log('Email Enviado');
-          })["catch"](function (error) {
-            console.log(error.data);
-          });
-
           if (response.data == 1) {
             Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
           } else {
@@ -15643,12 +15623,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 location.reload();
               }
             });
-            guardarPresupuesto();
           }
-        })["catch"](function (error) {});
+        })["catch"](function (error) {
+          alert(error.message);
+
+          if (error.message == 'Request failed with status code 419') {
+            error.message = '';
+            window.open('http://localhost:8000/login', "ventana1", "width=350,height=350,scrollbars=NO");
+          } else {
+            Swal.fire('Error!', 'Verifica que agregaste un cliente o categoria a tu presupuesto', 'error');
+          }
+        });
       }
     }
-  })), _defineProperty(_methods, "guardarContrato", function guardarContrato() {
+  }), _defineProperty(_methods, "guardarContrato", function guardarContrato() {
     var _this21 = this;
 
     if (isNaN(parseInt(this.facturacion.fechaRecoleccion))) {
@@ -17977,6 +17965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.clienteSeleccionado.email = cliente.email;
       this.clienteSeleccionado.rfc = cliente.rfc;
+      this.clienteSeleccionado.apellido = cliente.apellidoPaterno;
       this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
       this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -20092,6 +20081,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -75943,6 +75941,15 @@ var render = function() {
                 [_c("i", { staticClass: "si si-printer" }), _vm._v(" Imprimir")]
               ),
               _vm._v(" "),
+              _c("img", {
+                staticStyle: { width: "100px", display: "none" },
+                attrs: {
+                  src:
+                    "https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif",
+                  id: "LoadingImage"
+                }
+              }),
+              _vm._v(" "),
               _vm._m(10),
               _vm._v(" "),
               _vm._m(11),
@@ -81969,13 +81976,7 @@ var render = function() {
                                 _vm._v(
                                   _vm._s(_vm.clienteSeleccionado.nombre) +
                                     " " +
-                                    _vm._s(
-                                      _vm.clienteSeleccionado.apellidoPaterno
-                                    ) +
-                                    " " +
-                                    _vm._s(
-                                      _vm.clienteSeleccionado.apellidoMaterno
-                                    )
+                                    _vm._s(_vm.clienteSeleccionado.apellido)
                                 )
                               ]
                             ),
@@ -89612,31 +89613,73 @@ var render = function() {
     ]),
     _vm._v(" "),
     _vm.presupuesto.tipo == "CONTRATO"
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("p", [
-              _c("span", { staticStyle: { "font-weight": "bold" } }, [
-                _vm._v("Entrega de mobiliario: ")
+      ? _c(
+          "div",
+          {
+            staticClass: "row",
+            staticStyle: {
+              background: "rgb(254, 249, 216)",
+              padding: "10px",
+              "border-radius": "10px"
+            }
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Entrega de mobiliario: ")
+                ]),
+                _vm._v(
+                  _vm._s(_vm.presupuesto.horaEntrega) +
+                    " " +
+                    _vm._s(_vm.presupuesto.horaInicio) +
+                    "-" +
+                    _vm._s(_vm.presupuesto.horaFin)
+                )
               ]),
-              _vm._v(
-                _vm._s(_vm.presupuesto.horaEntrega) +
-                  " " +
-                  _vm._s(_vm.presupuesto.horaInicio) +
-                  "-" +
-                  _vm._s(_vm.presupuesto.horaFin)
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("p", [
-              _c("span", { staticStyle: { "font-weight": "bold" } }, [
-                _vm._v("Recolección: ")
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Recolección: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.fechaRecoleccion))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Nombre Facturación: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.nombreFacturacion))
               ]),
-              _vm._v(_vm._s(_vm.presupuesto.fechaRecoleccion))
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Dirección Facturación: ")
+                ]),
+                _vm._v(
+                  _vm._s(_vm.presupuesto.direccionFacturacion) +
+                    " " +
+                    _vm._s(_vm.presupuesto.numeroFacturacion) +
+                    " " +
+                    _vm._s(_vm.presupuesto.coloniaFacturacion)
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Email Facturación: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.nombreFacturacion))
+              ])
             ])
-          ])
-        ])
+          ]
+        )
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -90068,7 +90111,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(_vm.presupuesto.categoriaEvento))]),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -90091,7 +90134,7 @@ var render = function() {
                           : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _vm._m(1)
+                      _vm._m(2)
                     ]
                   )
                 ])
@@ -90100,7 +90143,7 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(3),
         _vm._v(" "),
         _c(
           "div",
@@ -90581,7 +90624,7 @@ var render = function() {
           ? _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-6 offset-md-3" }, [
                 _c("table", { staticClass: "table table-striped" }, [
-                  _vm._m(3),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -90602,7 +90645,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(4),
+              _vm._m(5),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -91446,7 +91489,7 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(5),
+          _vm._m(6),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c(
@@ -91507,11 +91550,11 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(6),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(7),
+                  _vm._m(8),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -91605,12 +91648,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(8),
+                _vm._m(9),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(9),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -91664,7 +91707,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(10)
+                _vm._m(11)
               ]
             )
           ]
@@ -91674,6 +91717,24 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c(
+        "p",
+        {
+          staticStyle: {
+            "font-weight": "bold",
+            "margin-bottom": "0",
+            "font-size": "18px"
+          }
+        },
+        [_vm._v("Datos generales de contrato")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

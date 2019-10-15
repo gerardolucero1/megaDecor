@@ -210,7 +210,7 @@ padding: 0;
                             </div>
                         </div>
                         <div style="padding-top:20px" v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{ clienteSeleccionado.apellidoPaterno }} {{ clienteSeleccionado.apellidoMaterno }}</p>
+                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellido}}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -1787,6 +1787,7 @@ padding: 0;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfc;
+                this.clienteSeleccionado.apellido = cliente.apellidoPaterno;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;

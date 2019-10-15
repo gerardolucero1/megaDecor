@@ -74,13 +74,22 @@
         <div class="container-version">
     Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
-        <div v-if="presupuesto.tipo == 'CONTRATO'" class="row">
+        
+        <div v-if="presupuesto.tipo == 'CONTRATO'" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
+            <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Entrega de mobiliario: </span>{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
-            </div>
-            <div class="col-md-4">
                 <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
             </div>
+            <div class="col-md-4">
+                <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+                <p><span style="font-weight:bold">Dirección Facturación: </span>{{presupuesto.direccionFacturacion}} {{presupuesto.numeroFacturacion}} {{presupuesto.coloniaFacturacion}}</p>
+            </div>
+            <div class="col-md-4">
+                <p><span style="font-weight:bold">Email Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+            </div>
+            
+            
         </div>
         <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>

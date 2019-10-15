@@ -508,6 +508,7 @@ padding: 0;
                         <!--
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
+                        <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
                         <div class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
@@ -2328,19 +2329,7 @@ padding: 0;
                     /*
                     this.obtenerUltimoPresupuesto()
                     */
-                   let URL = 'enviar-email';
-
-                    
-                    axios.post(URL, {
-                        'presupuesto': this.presupuesto,
-                        'festejados': this.festejados,
-                        'inventario': this.inventarioLocal,
-                    }).then((response) => {
-                        console.log('Email Enviado');
-                        
-                    }).catch((error) => {
-                        console.log(error.data);
-                    });
+                   
                     
                     
                     if(response.data == 1){
@@ -2364,12 +2353,21 @@ padding: 0;
                                 location.reload();
                             }
                         })
-                        guardarPresupuesto();
+                      
                     }   
                     
                 }).catch((error) => {
-                    
-                    
+                    alert(error.message);
+                    if(error.message=='Request failed with status code 419'){
+                        error.message='';
+                        window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             } } 
             
