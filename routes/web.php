@@ -367,7 +367,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Route::resource('caja', 'CMS\CashRegisterController');
     Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
-    Route::get('caja/otener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
+    Route::get('caja/obtener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
     Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
 
         //Obtener la sesion de caja
@@ -376,6 +376,8 @@ Route::group(['middleware' => ['auth']], function () {
 
             return $sesion;
         });
+
+    Route::resource('pagos', 'CMS\OtherPaymentsController');
 
 });
 
