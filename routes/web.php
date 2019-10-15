@@ -8,6 +8,7 @@ use App\Telephone;
 use App\BudgetPack;
 use App\MoralPerson;
 use App\TaskComment;
+use App\CashRegister;
 use App\AboutCategory;
 use App\MoralCategory;
 use App\PhysicalPerson;
@@ -128,6 +129,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
     Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
     Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
+
+    //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
+    Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
+    Route::post('budget-categorias', 'CMS\BudgetCategoryController@store')->name('budgetCategoria.store');
+    Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@delete')->name('budgetCategoria.delete');
 
         //Versiones
         Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
@@ -362,6 +368,18 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
+
+    //Route::resource('caja', 'CMS\CashRegisterController');
+    Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
+    Route::get('caja/otener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
+    Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
+
+        //Obtener la sesion de caja
+        Route::get('obtener-sesion-caja', function () {
+            $sesion = CashRegister::orderBy('id', 'DESC')->first();
+
+            return $sesion;
+        });
 
 });
 

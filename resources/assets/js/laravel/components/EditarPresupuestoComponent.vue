@@ -79,7 +79,7 @@ padding: 0;
         <div class="row mt-4">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-7 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -87,9 +87,11 @@ padding: 0;
 
                         </div>
                     </div>
-                    <div class="col-md-3 text-right info">
-                        <p style="font-size:25px; font-weight:bold">Folio: {{ presupuesto.folio }}</p>
+                    <div class="col-md-5 text-right info">
+                        <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
+                        <div class="row"> <p style="float:right"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p></div>
                         <div class="row">
+
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
                             </div>
@@ -138,16 +140,8 @@ padding: 0;
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
-                                    <option value="1">Boda</option>
-                                    <option value="2">XV Años</option>
-                                    <option value="3">Aniversario</option>
-                                    <option value="4">Cumpleaños</option>
-                                    <option value="5">Graduación</option>
-                                    <option value="6">Cena de gala</option>
-                                    <option value="7">Otro</option>
-                                </select>
-                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                <p v-text="presupuesto.categoriaEvento"></p>
+                                 <p style="display: none;" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -171,7 +165,7 @@ padding: 0;
                         
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
+                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
@@ -1030,6 +1024,58 @@ padding: 0;
             </div>
         </div>
 
+        <!-- Modal 
+        <div class="modal fade" id="agregarCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar nueva categoria</h5>
+                    <button type="button" class="close" onClick="$('#agregarCategoria').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" v-model="nombreCategoria" width="100%">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-sm btn-info btn-block" @click="agregarCategoria()">Agregar</button>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="categorias.length != 0">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in categorias" :key="index">
+                                        <th scope="row">{{ item.id }}</th>
+                                        <td>{{ item.nombre }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger btn-block" @click="eliminarCategoria(item)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#agregarCategoria').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        -->
+
     </section>
 </template>
 
@@ -1228,6 +1274,11 @@ padding: 0;
                 },
                 configuraciones: '',
                 ultimoPresupuesto: '',
+
+                /*
+                nombreCategoria: '',
+                categorias: [],
+                */
             }
         },
         created(){
@@ -1239,6 +1290,8 @@ padding: 0;
             this.obtenerUsuario();
             this.obtenerUsuarios();
             this.obtenerConfiguraciones();
+            
+            //this.obtenerCategorias();
             
             this.$on('results', results => {
                 this.results = results
@@ -1255,6 +1308,13 @@ padding: 0;
         computed:{
             imagen: function(){
                 return this.productoExterno.imagen;
+            },
+             mostrarFechaEvento: function(){
+                let fecha = this.presupuesto.fechaEvento;
+                moment.locale('es'); 
+                let date = moment(fecha).format('LLLL');
+
+                return date;
             },
             calcularSubtotal: function(){
                 //Arreglo javascript de objetos json
@@ -1353,6 +1413,12 @@ padding: 0;
             }
         },
         watch: {
+            'presupuesto.pendienteHora': function(val){
+                if(val){
+                    this.presupuesto.horaEventoInicio = '00:00';
+                    this.presupuesto.horaEventoFin = '00:00';
+                }
+            },
             'presupuesto.iva': function(val){
                 if(val){
                     this.presupuesto.total = (this.presupuesto.total * (this.iva / 100));
@@ -1396,6 +1462,31 @@ padding: 0;
             },
         },
         methods:{
+            /*
+            obtenerCategorias(){
+                let URL = 'budget-categorias';
+
+                axios.get(URL).then((response) => {
+                    this.categorias = response.data;
+                })
+            },
+            agregarCategoria(){
+                let URL = 'budget-categorias';
+
+                axios.post(URL, {
+                    nombre: this.nombreCategoria,
+                }).then((response) => {
+                    this.obtenerCategorias();
+                })
+            },
+            eliminarCategoria(item){
+                let URL = 'budget-categorias/' + item.id;
+
+                axios.delete(URL).then((response) => {
+                    this.obtenerCategorias();
+                })
+            },
+            */
             verPaquete(paquete){
                 this.viendoPaquete = paquete;
                 $('#verPaquete').modal('show');

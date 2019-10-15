@@ -123,12 +123,12 @@ padding: 0;
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
-                                <input required type="time" v-model="presupuesto.horaEventoInicio">
+                                <input required type="time" v-model="presupuesto.horaEventoInicio" id="inicioEvento">
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
-                                <input required type="time" v-model="presupuesto.horaEventoFin">
+                                <input required type="time" v-model="presupuesto.horaEventoFin" id="finEvento">
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -139,16 +139,12 @@ padding: 0;
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select required name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
-                                    <option value="1">Boda</option>
-                                    <option value="2">XV Años</option>
-                                    <option value="3">Aniversario</option>
-                                    <option value="4">Cumpleaños</option>
-                                    <option value="5">Graduación</option>
-                                    <option value="6">Cena de gala</option>
-                                    <option value="7">Otro</option>
+                                <select v-if="categorias.length != 0" required name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento">
+                                    <option v-for="(item, index) in categorias" :key="index" :value="item.nombre">
+                                        {{ item.nombre }}
+                                    </option>
                                 </select>
-                                 <p style="" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p style="" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -252,15 +248,19 @@ padding: 0;
                 </div>
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
+                        <label for="lugarBodega">Recoleccion en bodega</label>
+                    </div>
+                    <div class="col-md-3">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
@@ -1192,6 +1192,57 @@ padding: 0;
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="agregarCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar nueva categoria</h5>
+                    <button type="button" class="close" onClick="$('#agregarCategoria').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" v-model="nombreCategoria" width="100%">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-sm btn-info btn-block" @click="agregarCategoria()">Agregar</button>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="categorias.length != 0">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in categorias" :key="index">
+                                        <th scope="row">{{ item.id }}</th>
+                                        <td>{{ item.nombre }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger btn-block" @click="eliminarCategoria(item)">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#agregarCategoria').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -1390,6 +1441,9 @@ padding: 0;
                 },
                 configuraciones: '',
                 ultimoPresupuesto: '',
+
+                nombreCategoria: '',
+                categorias: [],
             }
         },
         created(){
@@ -1401,6 +1455,7 @@ padding: 0;
             this.obtenerUsuario();
             this.obtenerUsuarios();
             this.obtenerConfiguraciones();
+            this.obtenerCategorias();
             
             this.$on('results', results => {
                 this.results = results
@@ -1535,6 +1590,12 @@ padding: 0;
             }
         },
         watch: {
+            'presupuesto.pendienteHora': function(val){
+                if(val){
+                    this.presupuesto.horaEventoInicio = '00:00';
+                    this.presupuesto.horaEventoFin = '00:00';
+                }
+            },
             'presupuesto.iva': function(val){
                 if(val){
                     this.presupuesto.total = (this.presupuesto.total * (this.iva / 100));
@@ -1583,7 +1644,29 @@ padding: 0;
             },
         },
         methods:{
-            
+            obtenerCategorias(){
+                let URL = 'budget-categorias';
+
+                axios.get(URL).then((response) => {
+                    this.categorias = response.data;
+                })
+            },
+            agregarCategoria(){
+                let URL = 'budget-categorias';
+
+                axios.post(URL, {
+                    nombre: this.nombreCategoria,
+                }).then((response) => {
+                    this.obtenerCategorias();
+                })
+            },
+            eliminarCategoria(item){
+                let URL = 'budget-categorias/' + item.id;
+
+                axios.delete(URL).then((response) => {
+                    this.obtenerCategorias();
+                })
+            },
             onFileSelected (event) {
                 return;
             },

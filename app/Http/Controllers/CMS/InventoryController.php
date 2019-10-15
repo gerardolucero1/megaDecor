@@ -32,7 +32,7 @@ class InventoryController extends Controller
     public function create()
     {
 
-    $familias=Family::all();
+        $familias=Family::orderBy('nombre', 'ASC')->get();
         return view('Inventories.create', compact('familias'));
     }
 
@@ -86,7 +86,7 @@ class InventoryController extends Controller
     public function edit($id)
     {
         $inventory = Inventory::find($id);
-        $familias=Family::all();
+        $familias=Family::orderBy('nombre', 'ASC')->get();
         return view('Inventories.edit', compact('inventory', 'familias'));
     }
 
