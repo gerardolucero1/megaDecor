@@ -89,7 +89,9 @@ padding: 0;
                     </div>
                     <div class="col-md-5 text-right info">
                         <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
+                        <div> <p style="float:right"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p></div>
                         <div class="row">
+
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
                             </div>
@@ -163,7 +165,7 @@ padding: 0;
                         
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
+                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
@@ -1306,6 +1308,13 @@ padding: 0;
         computed:{
             imagen: function(){
                 return this.productoExterno.imagen;
+            },
+             mostrarFechaEvento: function(){
+                let fecha = this.presupuesto.fechaEvento;
+                moment.locale('es'); 
+                let date = moment(fecha).format('LLLL');
+
+                return date;
             },
             calcularSubtotal: function(){
                 //Arreglo javascript de objetos json

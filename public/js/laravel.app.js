@@ -17317,6 +17317,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
  // Importamos el evento Bus.
@@ -17513,6 +17515,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: {
     imagen: function imagen() {
       return this.productoExterno.imagen;
+    },
+    mostrarFechaEvento: function mostrarFechaEvento() {
+      var fecha = this.presupuesto.fechaEvento;
+      moment.locale('es');
+      var date = moment(fecha).format('LLLL');
+      return date;
     },
     calcularSubtotal: function calcularSubtotal() {
       //Arreglo javascript de objetos json
@@ -20084,6 +20092,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
+//
+//
 //
 //
 //
@@ -81269,6 +81281,15 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
+                  _c("div", [
+                    _c("p", { staticStyle: { float: "right" } }, [
+                      _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                        _vm._v("Fecha del evento: ")
+                      ]),
+                      _vm._v(" " + _vm._s(_vm.mostrarFechaEvento))
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _vm._m(0),
                     _vm._v(" "),
@@ -81763,7 +81784,8 @@ var render = function() {
                     padding: "5px",
                     "border-top": "none",
                     "border-right": "none",
-                    "border-left": "none"
+                    "border-left": "none",
+                    "padding-top": "25px"
                   }
                 },
                 [
@@ -89589,7 +89611,33 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _vm.presupuesto.tipo == "CONTRATO"
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("p", [
+              _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                _vm._v("Entrega de mobiliario: ")
+              ]),
+              _vm._v(
+                _vm._s(_vm.presupuesto.horaEntrega) +
+                  " " +
+                  _vm._s(_vm.presupuesto.horaInicio) +
+                  "-" +
+                  _vm._s(_vm.presupuesto.horaFin)
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("p", [
+              _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                _vm._v("Recolección: ")
+              ]),
+              _vm._v(_vm._s(_vm.presupuesto.fechaRecoleccion))
+            ])
+          ])
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
@@ -89727,6 +89775,18 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
+              _c("div", [
+                _c("p", { staticStyle: { "text-align": "right" } }, [
+                  _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                    _vm._v("Fecha del evento: ")
+                  ]),
+                  _vm._v(" "),
+                  _vm.mostrarFechaEvento != "Invalid date"
+                    ? _c("span", [_vm._v(_vm._s(_vm.mostrarFechaEvento))])
+                    : _c("span", [_vm._v("Pendiente")])
+                ])
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "col-md-12 text-right" }, [
                 _c("p", [
                   _vm._v("Vendedor: "),
@@ -89916,139 +89976,89 @@ var render = function() {
             _c("div", { staticClass: "col-md-4  row" }, [
               _c("h4", [_vm._v("Horario del evento")]),
               _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "col-md-6",
-                  staticStyle: { "padding-left": "0" }
-                },
-                [
-                  _c("label", [_vm._v("Inicio del evento")]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.presupuesto.horaEventoInicio,
-                        expression: "presupuesto.horaEventoInicio"
-                      }
-                    ],
-                    attrs: { type: "time", readonly: "" },
-                    domProps: { value: _vm.presupuesto.horaEventoInicio },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.presupuesto,
-                          "horaEventoInicio",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]
-              ),
+              _vm.presupuesto.pendienteHora
+                ? _c("p", { staticStyle: { width: "100%" } }, [
+                    _vm._v("Horario Pendiente")
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "col-md-6",
-                  staticStyle: { "padding-left": "0" }
-                },
-                [
-                  _c("label", [_vm._v("Fin del evento")]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.presupuesto.horaEventoFin,
-                        expression: "presupuesto.horaEventoFin"
-                      }
-                    ],
-                    attrs: { type: "time", readonly: "" },
-                    domProps: { value: _vm.presupuesto.horaEventoFin },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.presupuesto,
-                          "horaEventoFin",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticStyle: { "padding-top": "10px" },
-                  attrs: { for: "pendienteHora" }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.presupuesto.pendienteHora,
-                        expression: "presupuesto.pendienteHora"
-                      }
-                    ],
-                    attrs: {
-                      type: "checkbox",
-                      name: "1",
-                      id: "pendienteHora",
-                      disabled: ""
+              _vm.presupuesto.pendienteHora == null
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-md-6",
+                      staticStyle: { "padding-left": "0" }
                     },
-                    domProps: {
-                      checked: Array.isArray(_vm.presupuesto.pendienteHora)
-                        ? _vm._i(_vm.presupuesto.pendienteHora, null) > -1
-                        : _vm.presupuesto.pendienteHora
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.presupuesto.pendienteHora,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(
-                                _vm.presupuesto,
-                                "pendienteHora",
-                                $$a.concat([$$v])
-                              )
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                _vm.presupuesto,
-                                "pendienteHora",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
+                    [
+                      _c("label", [_vm._v("Inicio del evento")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.horaEventoInicio,
+                            expression: "presupuesto.horaEventoInicio"
                           }
-                        } else {
-                          _vm.$set(_vm.presupuesto, "pendienteHora", $$c)
+                        ],
+                        attrs: { type: "time", readonly: "" },
+                        domProps: { value: _vm.presupuesto.horaEventoInicio },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "horaEventoInicio",
+                              $event.target.value
+                            )
+                          }
                         }
-                      }
-                    }
-                  }),
-                  _vm._v("\n                        Pendiente")
-                ]
-              )
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.presupuesto.pendienteHora == null
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "col-md-6",
+                      staticStyle: { "padding-left": "0" }
+                    },
+                    [
+                      _c("label", [_vm._v("Fin del evento")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.horaEventoFin,
+                            expression: "presupuesto.horaEventoFin"
+                          }
+                        ],
+                        attrs: { type: "time", readonly: "" },
+                        domProps: { value: _vm.presupuesto.horaEventoFin },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.presupuesto,
+                              "horaEventoFin",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-4" }, [
@@ -90058,7 +90068,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(_vm.presupuesto.categoriaEvento))]),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -90072,90 +90082,25 @@ var render = function() {
                     },
                     [
                       _c("div", { staticClass: "col-md-10" }, [
-                        _c("p", [_vm._v(_vm._s(_vm.mostrarFechaEvento))])
+                        _vm.presupuesto.pendienteFecha == null
+                          ? _c("p", [_vm._v(_vm._s(_vm.mostrarFechaEvento))])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.presupuesto.pendienteFecha
+                          ? _c("label", [_vm._v("Fecha Pendiente")])
+                          : _vm._e()
                       ]),
                       _vm._v(" "),
-                      _vm._m(2)
+                      _vm._m(1)
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.presupuesto.pendienteFecha,
-                        expression: "presupuesto.pendienteFecha"
-                      }
-                    ],
-                    attrs: {
-                      type: "checkbox",
-                      name: "",
-                      value: "1",
-                      id: "pendienteFecha",
-                      disabled: "disabled"
-                    },
-                    domProps: {
-                      checked: Array.isArray(_vm.presupuesto.pendienteFecha)
-                        ? _vm._i(_vm.presupuesto.pendienteFecha, "1") > -1
-                        : _vm.presupuesto.pendienteFecha
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.presupuesto.pendienteFecha,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = "1",
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(
-                                _vm.presupuesto,
-                                "pendienteFecha",
-                                $$a.concat([$$v])
-                              )
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                _vm.presupuesto,
-                                "pendienteFecha",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(_vm.presupuesto, "pendienteFecha", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "pendienteFecha" } }, [
-                    _vm._v("Pendiente")
-                  ])
+                  )
                 ])
               ])
             ])
           ]
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("p", [
-              _vm._v(
-                "Requiere factura: " + _vm._s(_vm.presupuesto.requiereFactura)
-              )
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                "Requiere montaje: " + _vm._s(_vm.presupuesto.requiereMontaje)
-              )
-            ])
-          ])
-        ]),
+        _vm._m(2),
         _vm._v(" "),
         _c(
           "div",
@@ -91733,14 +91678,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "p",
       {
@@ -91766,6 +91703,14 @@ var staticRenderFns = [
         staticClass: "si si-calendar",
         staticStyle: { "font-size": "24px" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" })
     ])
   },
   function() {
@@ -108076,13 +108021,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

@@ -601,6 +601,7 @@ class BudgetController extends Controller
         $oldVersion->version = $version->version;
         $oldVersion->comision = $version->comision;
         $oldVersion->total = $version->total;
+        $oldVersion->notasPresupuesto = $version->notasPresupuesto;
         $oldVersion->quienEdito = Auth::user()->name;
         $oldVersion->save();
 
@@ -644,6 +645,7 @@ class BudgetController extends Controller
         $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
+        $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];

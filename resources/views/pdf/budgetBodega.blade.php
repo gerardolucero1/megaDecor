@@ -16,6 +16,7 @@
           <td colspan="2" style="text-align: right">
             <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span><br>
               <span style="font-weight: bold; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: normal;  font-size: 13px;">{{$presupuesto->cliente}}</span>
+              <span style="font-weight: bold; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: normal;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
             </p>
             </td>
         </tr>
@@ -32,8 +33,8 @@
         <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento</H3></td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px;">
-<td colspan="2"><span>Fecha y Hora: </span></td>
-<td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
+<td colspan="3"><span>Fecha y Hora: </span></td>
+<td colspan="3"><span style="font-weight: bold">Lugar: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
     @php                        
