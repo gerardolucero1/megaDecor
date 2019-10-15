@@ -56,24 +56,25 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group row">
-            <div class="col-md-12">
-                <div class="form-material">
-                    {{ Form::label('proveedor1', 'Proveedor 1') }}
-                    {{ Form::text('proveedor1', null, ['class' => 'form-control', 'id' => 'proveedor1']) }}  
-                </div>
+<!-- -->
+<div class="form-group row">
+        <div class="col-md-12">
+            <br>
+            <label for="">Selecciona un provedor</label>
+                <select name="provedor" id="selectprovedor" style="width: 100%" onchange="seleccionarProvedor()">
+                        <option value="">Selecciona un provedor</option>
+                    @foreach($provedores as $provedor)    
+                    <option value="{{$provedor->nombre}}">{{$provedor->nombre}}</option>
+                    @endforeach
+                    </select>
+            <div class="form-material">
+                {{ Form::label('provedor', 'provedor') }}
+                <label for=""> Provedor seleccionado:</label>
+                {{ Form::text('provedor', null, ['class' => 'form-control', 'id' => 'provedor', 'disabled' => 'true']) }}  
             </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-md-12">
-                <div class="form-material">
-                    {{ Form::label('proveedor2', 'Proveedor 2') }}
-                    {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}  
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col-md-4">
 
@@ -115,6 +116,7 @@
                     </div>
                 </div>
             </div>
+            
     </div>
 
     <div class="row">
@@ -127,6 +129,10 @@
 function seleccionarFamilia(){
            NombreFamilia = document.getElementById('selectfamilia').value;
         document.getElementById('familia').value=NombreFamilia;
+        }
+function seleccionarProvedor(){
+        NombreProvedor = document.getElementById('selectprovedor').value;
+        document.getElementById('provedor').value=NombreProvedor;
         }
 function seleccionarMoneda(){
            TipoCambio = document.getElementById('selectmoneda').value;

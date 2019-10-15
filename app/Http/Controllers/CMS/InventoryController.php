@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 
 use App\Inventory;
 use App\Family;
+use App\Providers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -31,9 +32,9 @@ class InventoryController extends Controller
      */
     public function create()
     {
-
+        $provedores=Providers::orderBy('nombre', 'ASC')->get();
         $familias=Family::orderBy('nombre', 'ASC')->get();
-        return view('Inventories.create', compact('familias'));
+        return view('Inventories.create', compact('familias','provedores'));
     }
 
     /**
