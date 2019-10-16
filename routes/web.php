@@ -369,6 +369,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
     Route::get('caja/obtener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
     Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
+    Route::get('caja/corte', 'CMS\CashRegisterController@corte')->name('pagos.corte');
 
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Budget;
+use App\Payment;
 use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
@@ -120,6 +121,19 @@ class CashRegisterController extends Controller
     public function obtenerPresupuestos(){
         $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
         return $presupuestos;
+    }
+
+    public function corte(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+        $horaHoy = $date->toTimeString();
+
+        $registro = CashRegister::whereDate('created_at', $fechaHoy)->where('estatus', true)->first();
+        $pagos = Payment::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
+
+        return $pagos;
+
+        $cantidadTotal = $registro->cantidadRealApertura;
     }
 
 }

@@ -238,7 +238,7 @@
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
                     <li>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#cerrarCaja">Cerrar caja</button>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Cerrar caja</button>
                     </li>
                 </ul> 
             
@@ -524,10 +524,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-danger">Pre-corte: $12000</h4>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="block">
                                 <div class="block-header block-header-default">
-                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <h3 class="block-title">Cierre de caja</h3>
                                     <div class="block-options">
                                         
                                     </div>
@@ -606,7 +611,7 @@
                         <div class="col-md-4">
                             <div class="block">
                                 <div class="block-header block-header-default">
-                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <h3 class="block-title">Cierre de caja</h3>
                                     <div class="block-options">
                                         
                                     </div>
@@ -682,7 +687,7 @@
                         <div class="col-md-4">
                             <div class="block">
                                 <div class="block-header block-header-default">
-                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <h3 class="block-title">Cierre de caja</h3>
                                     <div class="block-options">
                                         
                                     </div>
@@ -763,6 +768,7 @@ export default {
             otrosPagos: [],
             pagoEditado: '',
             editarCambio: 0,
+            corte: '',
         }
     },
     created(){
@@ -852,6 +858,14 @@ export default {
             }
     },
     methods: {
+        obtenerCorte: function(){
+            let URL = 'caja/corte';
+
+            axios.get(URL).then((response) => {
+                this.corte = response.data;
+            })
+        },
+
         obtenerOtrosPagos: function(){
             let URL = 'pagos';
 
