@@ -29,9 +29,11 @@
                                         <i class="si si-settings"></i> <i>Configuraciones</i> 
                                 </button>
                     </div>
+                    @if ($usuario == 17)
                     <div class="col-2">
-                        <a style="display:none" href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
+                        <a style="" href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a> 
                     </div>
+                    @endif
                     
 
                     <div class="col-6 col-xl-3">

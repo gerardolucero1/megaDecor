@@ -13102,7 +13102,7 @@ var user = document.head.querySelector('meta[name="user"]');
   },
   computed: {
     sumarCantidad: function sumarCantidad() {
-      var billete = parseInt(this.cantidad.billete1000) * 1000 + parseInt(this.cantidad.billete500) * 500 + parseInt(this.cantidad.billete100) * 100 + parseInt(this.cantidad.billete50) * 50 + parseInt(this.cantidad.billete20) * 20;
+      var billete = parseInt(this.cantidad.billete1000) * 1000 + parseInt(this.cantidad.billete500) * 500 + parseInt(this.cantidad.billete200) * 200 + parseInt(this.cantidad.billete100) * 100 + parseInt(this.cantidad.billete50) * 50 + parseInt(this.cantidad.billete20) * 20;
       var monedas = parseInt(this.cantidad.moneda10) * 10 + parseInt(this.cantidad.moneda5) * 5 + parseInt(this.cantidad.moneda2) * 2 + parseInt(this.cantidad.moneda1) * 1 + parseInt(this.cantidad.centavo50) * 0.50;
       var suma = billete + monedas;
       return suma;
@@ -72958,7 +72958,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(15),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
                       directives: [
                         {
@@ -72994,7 +72994,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(17),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
                       directives: [
                         {
@@ -73026,7 +73026,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(19),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
                       directives: [
                         {
@@ -73058,7 +73058,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(21),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
                       directives: [
                         {
@@ -73090,7 +73090,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(23),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
                       directives: [
                         {
@@ -75050,7 +75050,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3336/608/10-Pesos.jpg",
@@ -75072,7 +75072,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg",
@@ -75094,7 +75094,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3782/629/2-Pesos.jpg",
@@ -75116,7 +75116,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3444/383/1-Peso.jpg",
@@ -75138,7 +75138,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3019/209/50-Centavos.jpg",

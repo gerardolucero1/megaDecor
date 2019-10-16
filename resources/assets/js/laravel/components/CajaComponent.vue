@@ -137,65 +137,65 @@
                     </div>
                     <div class="block-content">
                         <div class="form-group row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 <i class="fa fa-arrow-right"></i>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.moneda10">
                             </div>
                         </div>
                     </div>
                     <div class="block-content">
                         <div class="form-group row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 <i class="fa fa-arrow-right"></i>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.moneda5">
                             </div>
                         </div>
                     </div>
                     <div class="block-content">
                         <div class="form-group row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 <i class="fa fa-arrow-right"></i>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.moneda2">
                             </div>
                         </div>
                     </div>
                     <div class="block-content">
                         <div class="form-group row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 <i class="fa fa-arrow-right"></i>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.moneda1">
                             </div>
                         </div>
                     </div>
                     <div class="block-content">
                         <div class="form-group row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 <i class="fa fa-arrow-right"></i>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.centavo50">
                             </div>
                         </div>
@@ -777,7 +777,7 @@ export default {
     },
     computed: {
         sumarCantidad: function(){
-            let billete = (parseInt(this.cantidad.billete1000) * 1000) + (parseInt(this.cantidad.billete500) * 500) + (parseInt(this.cantidad.billete100) * 100) + (parseInt(this.cantidad.billete50) * 50) + (parseInt(this.cantidad.billete20) * 20);
+            let billete = (parseInt(this.cantidad.billete1000) * 1000) + (parseInt(this.cantidad.billete500) * 500) + (parseInt(this.cantidad.billete200) * 200) + (parseInt(this.cantidad.billete100) * 100) + (parseInt(this.cantidad.billete50) * 50) + (parseInt(this.cantidad.billete20) * 20);
             let monedas = (parseInt(this.cantidad.moneda10) * 10) + (parseInt(this.cantidad.moneda5) * 5) + (parseInt(this.cantidad.moneda2) * 2) + (parseInt(this.cantidad.moneda1) * 1) + (parseInt(this.cantidad.centavo50) * 0.50);
             let suma = billete + monedas;
             return suma;
