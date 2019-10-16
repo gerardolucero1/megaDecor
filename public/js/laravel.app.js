@@ -15913,6 +15913,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioEspecial': producto.precioUnitario,
         'precioAnterior': producto.precioUnitario
       });
+      this.inventarioLocal = this.inventarioLocal.reverse();
       setTimeout(function () {
         _this17.limpiar = false;
       }, 1000);
@@ -18612,6 +18613,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioEspecial': producto.precioUnitario,
         'precioAnterior': producto.precioUnitario
       });
+      this.inventarioLocal = this.inventarioLocal.reverse();
       setTimeout(function () {
         _this14.limpiar = false;
       }, 1000);

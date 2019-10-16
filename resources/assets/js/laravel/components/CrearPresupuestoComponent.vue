@@ -2247,6 +2247,8 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+
+                this.inventarioLocal = this.inventarioLocal.reverse();
                 
                 setTimeout(() => {
                     this.limpiar = false;
