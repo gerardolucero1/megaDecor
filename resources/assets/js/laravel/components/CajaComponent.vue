@@ -237,6 +237,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
+                    <li>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#cerrarCaja">Cerrar caja</button>
+                    </li>
                 </ul> 
             
         
@@ -298,17 +301,23 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6 text-center">
+                                                    <div class="col-md-4 text-center">
                                                         <p>
                                                             <strong>Total: </strong>
                                                         </p>
                                                         <p>$ {{ this.presupuestoSeleccionado.total }}</p>
                                                     </div>
-                                                    <div class="col-md-6 text-center">
+                                                    <div class="col-md-4 text-center">
                                                         <p>
-                                                            <strong>Total abonado</strong>
+                                                            <strong>Total abonado:</strong>
                                                         </p>
                                                         <p>$ {{ totalAbonado }}</p>
+                                                    </div>
+                                                    <div class="col-md-4 text-center">
+                                                        <p>
+                                                            <strong>Saldo pendiente:</strong>
+                                                        </p>
+                                                        <p class="text-danger">$ {{ this.presupuestoSeleccionado.total - totalAbonado }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -318,10 +327,17 @@
                                                                 <option value="EFECTIVO">Efectivo</option>
                                                                 <option value="CHEQUE">Cheque</option>
                                                                 <option value="TRANSFERENCIA">Transferencia</option>
+                                                                <option value="TARJETA">Tarjeta</option>
+                                                                <option value="DOLAR">Dolar</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input type="number" v-model="pago.amount">
+                                                        </div>
+                                                        <div class="col-md-12 mt-3" v-if="pago.method != ('EFECTIVO' || 'CHEQUE')">
+                                                            <input v-if="pago.method == 'DOLAR'" type="number" placeholder="Ingresa el tipo de cambio" v-model="pago.reference">
+                                                            <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa los digitos de referencia" v-model="pago.reference">
+                                                            <input v-if="pago.method == 'TARJETA'" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="pago.reference">
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <button class="btn btn-sm btn-info btn-block" @click="registrarPago()">Registrar pago</button>
@@ -339,6 +355,11 @@
                                             <div class="col-md-12">
                                                 <div class="registrosPagos" v-for="(item, index) in presupuestoSeleccionado.payments" :key="index">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p v-if="item.method == 'TRANSFERENCIA'"><strong>Referencia:</strong> {{ item.reference }}</p>
+                                                            <p v-if="item.method == 'TARJETA'"><strong>Numero de tarjeta:</strong> {{ item.reference }}</p>
+                                                            <p v-if="item.method == 'DOLAR'"><strong>Tipo de cambio:</strong> ${{ item.reference }}</p>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Fecha de pago:</strong></p>
                                                             <p>{{ item.created_at | formatearFecha }}</p>
@@ -355,7 +376,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Cantidad abonada</strong></p>
-                                                            <p>${{ item.amount }}</p>
+                                                            <p v-if="item.method != 'DOLAR'">${{ item.amount }}</p>
+                                                            <p v-else><strong class="text-danger">{{ item.amount }} $USD</strong> - ${{ (item.amount * item.reference) | truncarDecimales }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -418,8 +440,14 @@
                                     <div class="block col-md-12 caja-2">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="registrosPagos" v-for="(item, index) in presupuestoSeleccionado.payments" :key="index">
+                                                <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h6>Motivo: {{ item.motivo }}</h6>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Agregar cambio</button>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Fecha de pago:</strong></p>
                                                             <p>{{ item.created_at | formatearFecha }}</p>
@@ -431,17 +459,24 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p><strong>Metodo de pago:</strong></p>
-                                                            <p>{{ item.method }}</p>
+                                                            <p><strong>Tipo:</strong></p>
+                                                            <p>{{ item.tipo }}</p>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p><strong>Cantidad abonada</strong></p>
-                                                            <p>${{ item.amount }}</p>
+                                                            <p><strong>Cantidad</strong></p>
+                                                            <p>${{ item.cantidad }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p><strong>Cambio</strong></p>
+                                                            <p>${{ item.resto }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p><strong>Saldo pendiente: </strong> ${{ presupuestoSeleccionado.total - item.amount }}</p>
+                                                            <p><strong>Notas: </strong></p>
+                                                            <p>{{ item.descripcion }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -455,6 +490,228 @@
                 </div>
             </div>
         </div>
+
+        <!-- Agregar cambio -->
+        <div class="modal fade" id="agregarCambio" tabindex="-1" role="dialog" aria-labelledby="agregarCambio" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Añadir cambio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="number" v-model="editarCambio" class="form-control" style="width: 100%;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" @click="editarPago()">Registrar cambio</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cerrar caja -->
+        <div class="modal fade" id="cerrarCaja" tabindex="-1" role="dialog" aria-labelledby="cerrarCaja" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="block">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <div class="block-options">
+                                        
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="https://www.alaingarcia.net/conozca/i/billete_1000_pesos_holograma.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete1000">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="http://cdn.kaltura.com/p/0/thumbnail/entry_id/1_m98xxec5/quality/80/width/800/height/349" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete500">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="http://eltrochilero.com/wp-content/uploads/2018/02/Billete200anverso.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete200">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="http://www.unionpuebla.mx/sites/default/files/styles/galeria/public/field/image/billete-100_pesos.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="https://i.pinimg.com/originals/a4/07/21/a4072113bae69abe37ac3d547f6b60f9.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete50">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <img src="https://vanguardia.com.mx/sites/default/files/styles/paragraph_image_large_desktop_1x/public/mexico-20-pesos-benito-juarez-aztec-city-2012-p-image-88084-grande.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.billete20">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="block">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <div class="block-options">
+                                        
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.moneda10">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.moneda5">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.moneda2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.moneda1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="number" class="form-control" v-model="cantidad.centavo50">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="block">
+                                <div class="block-header block-header-default">
+                                    <h3 class="block-title">Apertura de caja</h3>
+                                    <div class="block-options">
+                                        
+                                    </div>
+                                </div>
+                                <div class="block-content">
+                                    <div class="form-group">
+                                        <label for="">Cantidad total</label>
+                                        <input type="number" class="form-control" v-model="sumarCantidad">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Cantidad al momento de apertura</label>
+                                        <input type="number" class="form-control" v-model="cantidadRealApertura">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja 1</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -492,7 +749,7 @@ export default {
                 tipo: '',
                 cantidad: '',
                 motivo: '',
-                descripcion: ''
+                descripcion: '',
             },
             cantidadApertura: null,
             cantidadRealApertura: null,
@@ -501,8 +758,11 @@ export default {
                 budget_id: '',
                 method: '',
                 amount: '',
+                reference: '',
             },
             otrosPagos: [],
+            pagoEditado: '',
+            editarCambio: 0,
         }
     },
     created(){
@@ -531,7 +791,12 @@ export default {
             if(this.presupuestoSeleccionado.length != 0){
                 let suma = 0;
                 this.presupuestoSeleccionado.payments.forEach((element) => {
-                    suma += element.amount;
+                    if(element.method != 'DOLAR'){
+                        suma += element.amount;
+                    }else{
+                        suma += (element.amount * element.reference);
+                    }
+                    
                 })
 
                 return suma;
@@ -556,7 +821,35 @@ export default {
             moment.locale('es');
             let hora = moment(val).format('h:mm:ss a');
             return hora;
-        }
+        },
+
+        truncarDecimales: function (x, posiciones = 2) {
+                var s = x.toString()
+                var l = s.length
+                var decimalLength = s.indexOf('.') + 1
+
+                if (l - decimalLength <= posiciones){
+                    return x
+                }
+                // Parte decimal del número
+                var isNeg  = x < 0
+                var decimal =  x % 1
+                var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
+                // Parte decimal como número entero
+                // Ejemplo: parte decimal = 0.77
+                // decimalFormated = 0.77 * (10^posiciones)
+                // si posiciones es 2 ==> 0.77 * 100
+                // si posiciones es 3 ==> 0.77 * 1000
+                var decimalFormated = Math.floor(
+                    Math.abs(decimal) * Math.pow(10, posiciones)
+                )
+                // Sustraemos del número original la parte decimal
+                // y le sumamos la parte decimal que hemos formateado
+                var finalNum = entera + 
+                    ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
+                
+                return finalNum;
+            }
     },
     methods: {
         obtenerOtrosPagos: function(){
@@ -572,6 +865,20 @@ export default {
 
             axios.post(URL, this.movimiento).then((response) => {
                 this.obtenerOtrosPagos();
+            })
+        },
+
+        editarPago: function(){
+            let URL = 'pagos/' + this.pagoEditado.id;
+            
+            Object.defineProperty(this.pagoEditado, 'resto', {
+                value: this.editarCambio,
+                enumerable: true,
+                configurable: true,
+                writable: true,
+            })
+            axios.put(URL, this.pagoEditado).then((response) => {
+                alert('Pago editado');
             })
         },
 

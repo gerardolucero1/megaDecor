@@ -75,7 +75,10 @@ class OtherPaymentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pago = OtherPayments::findOrFail($id);
+        $pago->fill($request->all())->save();
+
+        return;
     }
 
     /**
