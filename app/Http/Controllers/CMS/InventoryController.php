@@ -33,6 +33,7 @@ class InventoryController extends Controller
     {
 
         $familias=Family::orderBy('nombre', 'ASC')->get();
+        
         return view('Inventories.create', compact('familias'));
     }
 
@@ -87,6 +88,7 @@ class InventoryController extends Controller
     {
         $inventory = Inventory::find($id);
         $familias=Family::orderBy('nombre', 'ASC')->get();
+        
         return view('Inventories.edit', compact('inventory', 'familias'));
     }
 

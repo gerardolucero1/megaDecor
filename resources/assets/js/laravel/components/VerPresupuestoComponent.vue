@@ -225,35 +225,39 @@
                 </div>
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento" disabled>
                         <label for="lugarMismo">Misma Direccion</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento" disabled>
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento" disabled>
+                        <label for="lugarOtro">Recoge en bodega</label>
+                    </div>
+                    <div class="col-md-3">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar" disabled>
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
 
-                    <div class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
                         <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar" readonly>
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
                         <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar" readonly>
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar" readonly>
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
                         <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar" readonly>
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
-                    <div class="col-md-12 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-12 mt-4">
                         <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 

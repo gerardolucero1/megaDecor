@@ -34,7 +34,7 @@
                         <h3 class="block-title" style="color:green">Inventario</h3>
                             @php
                             use App\Family;
-                            $familias=Family::all();
+                            $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')

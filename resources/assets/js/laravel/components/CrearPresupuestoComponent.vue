@@ -172,12 +172,12 @@ padding: 0;
                 <div class="row">
                     <div class="col-md-4">
                         <label>Requiere factura:</label> 
-                        -SI <input type="radio" value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                        -SI <input type="radio" required value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
                         -NO <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
                     </div>
                     <div class="col-md-4">
                         <label>Requiere montaje:</label>
-                        -SI <input type="radio" value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
+                        -SI <input type="radio" required value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
                         -NO <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> 
                     </div>
                 </div>
@@ -265,19 +265,19 @@ padding: 0;
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
 
-                    <div class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Nombre del lugar" v-model="presupuesto.nombreLugar">
                     </div>
-                    <div class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input required type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
                         <input required type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
@@ -2357,7 +2357,7 @@ padding: 0;
                     }   
                     
                 }).catch((error) => {
-                    alert(error.message);
+                   // alert(error.message);
                     if(error.message=='Request failed with status code 419'){
                         error.message='';
                         window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");

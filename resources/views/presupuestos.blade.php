@@ -115,10 +115,10 @@
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if($usuario != 2)
-                                    <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">

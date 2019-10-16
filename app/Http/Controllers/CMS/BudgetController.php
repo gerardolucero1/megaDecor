@@ -305,15 +305,23 @@ class BudgetController extends Controller
         $arregloFamilias = [];
 
         foreach($Elementos as $item){
+            
             $element = Inventory::where('servicio', $item->servicio)->first();
-            array_push($arregloFamilias, $element->familia);
+            if(is_null($element)){
+                array_push($arregloFamilias, 'General');
+            }else{
+            array_push($arregloFamilias, $element->familia);}
         }
 
         foreach($Paquetes as $paquete){
             $elements = BudgetPackInventory::where('budget_pack_id', $paquete->id)->get();
             foreach($elements as $element){
                 $producto = Inventory::where('servicio', $element->servicio)->first();
-                array_push($arregloFamilias, $producto->familia);
+                if(is_null($producto)){
+                    array_push($arregloFamilias, 'General');
+                }else{
+                array_push($arregloFamilias, $producto->familia);}
+           
             }
         }
 
