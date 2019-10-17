@@ -238,7 +238,7 @@
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
                     <li>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Cerrar caja</button>
+                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Cerrar caja</button>
                     </li>
                 </ul> 
             
@@ -418,11 +418,32 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label for="">Metodo de pago</label>
+                                                    <select name="" class="form-control" id="" v-model="movimiento.metodo">
+                                                        <option value="EFECTIVO">Efectivo</option>
+                                                        <option value="CHEQUE">Cheque</option>
+                                                        <option value="TRANSFERENCIA">Transferencia</option>
+                                                        <option value="TARJETA">Tarjeta</option>
+                                                        <option value="DOLAR">Dolar</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label for="">Cantidad</label>
                                                     <input class="form-control" type="number" v-model="movimiento.cantidad">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" v-if="movimiento.metodo != ('EFECTIVO' || 'CHEQUE')">
+                                                <input v-if="movimiento.metodo == 'DOLAR'" class="form-control" type="number" placeholder="Ingresa el tipo de cambio" v-model="movimiento.referencia">
+                                                <input v-if="movimiento.metodo == 'TRANSFERENCIA'" class="form-control" type="number" placeholder="Ingresa los digitos de referencia" v-model="movimiento.referencia">
+                                                <input v-if="movimiento.metodo == 'TARJETA'" class="form-control" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="movimiento.referencia">
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="">Datos extras</label>
                                                     <textarea class="form-control" v-model="movimiento.descripcion"></textarea>
@@ -445,9 +466,11 @@
                                                         <div class="col-md-6">
                                                             <h6>Motivo: {{ item.motivo }}</h6>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6" v-if="item.tipo == 'EGRESO'">
                                                             <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Agregar cambio</button>
                                                         </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-6">
                                                             <p><strong>Fecha de pago:</strong></p>
                                                             <p>{{ item.created_at | formatearFecha }}</p>
@@ -469,8 +492,19 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
+                                                            <p><strong>Metodo</strong></p>
+                                                            <p>{{ item.metodo }}</p>
+                                                        </div>
+                                                        <div class="col-md-6" v-if="item.resto">
                                                             <p><strong>Cambio</strong></p>
                                                             <p>${{ item.resto }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p v-if="item.metodo == 'TRANSFERENCIA'"><strong>Referencia:</strong> {{ item.referencia }}</p>
+                                                            <p v-if="item.metodo == 'TARJETA'"><strong>Numero de tarjeta:</strong> {{ item.referencia }}</p>
+                                                            <p v-if="item.metodo == 'DOLAR'"><strong>Tipo de cambio:</strong> ${{ item.referencia }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -524,8 +558,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h4 class="text-danger">Pre-corte: $12000</h4>
+                        <div class="col-md-12" v-if="pagosCorte.length != 0">
+                            <h4 class="text-danger">Pre-corte: ${{ cantidadPreCorte[0] }}</h4>
+                            <h4 class="text-danger">Cheques: ${{ cantidadPreCorte[1] }}</h4>
+                            <h4 class="text-danger">Transferencias: ${{ cantidadPreCorte[2] }}</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -695,14 +731,14 @@
                                 <div class="block-content">
                                     <div class="form-group">
                                         <label for="">Cantidad total</label>
-                                        <input type="number" class="form-control" v-model="sumarCantidad">
+                                        <input type="number" class="form-control" v-model="sumarCantidad" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Cantidad al momento de apertura</label>
-                                        <input type="number" class="form-control" v-model="cantidadRealApertura">
+                                        <label for="">Cantidad al momento de cierre</label>
+                                        <input type="number" class="form-control" v-model="cantidadRealCierre">
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja 1</button>
+                                        <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja 1</button>
                                     </div>
                                 </div>
                             </div>
@@ -755,9 +791,15 @@ export default {
                 cantidad: '',
                 motivo: '',
                 descripcion: '',
+                metodo: '',
+                referencia: '',
             },
             cantidadApertura: null,
             cantidadRealApertura: null,
+
+            cantidadCierre: null,
+            cantidadRealCierre: null,
+
             presupuestoSeleccionado: '',
             pago: {
                 budget_id: '',
@@ -768,7 +810,7 @@ export default {
             otrosPagos: [],
             pagoEditado: '',
             editarCambio: 0,
-            corte: '',
+            pagosCorte: '',
         }
     },
     created(){
@@ -782,8 +824,58 @@ export default {
         });
     },
     computed: {
+        cantidadPreCorte: function(){
+            if(this.pagosCorte.length != 0){
+                let arrayDeDatos = [];
+                let suma = 0;
+                let cheques = 0;
+                let transferencias = 0;
+
+                this.pagosCorte[0][0].forEach((element) => {
+                    if(element.method == 'CHEQUE'){
+                        cheques = cheques + (element.amount);
+                    }else if(element.method == 'TRANSFERENCIA'){
+                        transferencias = transferencias + (element.amount);
+                    }else{
+                        if(element.method == 'DOLAR'){
+                            suma = suma + ((element.amount) * (element.reference));
+                        }else{
+                            suma = suma + (element.amount);
+                        }
+                    }
+                });
+
+                suma = suma + this.sesion.cantidadRealApertura;
+
+                this.pagosCorte[0][1].forEach((element) => {
+                    if(element.tipo == 'INGRESO'){
+                        if(element.metodo != ('TRANSFERENCIA' || 'CHEQUE')){
+                            if(element.metodo == 'DOLAR'){
+                                suma = suma + ((element.cantidad) * (element.referencia));
+                            }else{
+                                suma = suma + (element.cantidad);
+                            }
+                        }
+                    }else{
+                        if(element.metodo != ('TRANSFERENCIA' || 'CHEQUE')){
+                            if(element.metodo == 'DOLAR'){
+                                suma = suma - ((element.cantidad) * (element.referencia));
+                                suma = suma + element.resto;
+                            }else{
+                                suma = suma - (element.cantidad);
+                                suma = suma + element.resto;
+                            }
+                        }
+                    }
+                });
+                
+                arrayDeDatos.push(suma, cheques, transferencias);
+                return arrayDeDatos;
+            }
+        },
+
         sumarCantidad: function(){
-            let billete = (parseInt(this.cantidad.billete1000) * 1000) + (parseInt(this.cantidad.billete500) * 500) + (parseInt(this.cantidad.billete100) * 100) + (parseInt(this.cantidad.billete50) * 50) + (parseInt(this.cantidad.billete20) * 20);
+            let billete = (parseInt(this.cantidad.billete1000) * 1000) + (parseInt(this.cantidad.billete500) * 500) + (parseInt(this.cantidad.billete200) * 200) + (parseInt(this.cantidad.billete100) * 100) + (parseInt(this.cantidad.billete50) * 50) + (parseInt(this.cantidad.billete20) * 20);
             let monedas = (parseInt(this.cantidad.moneda10) * 10) + (parseInt(this.cantidad.moneda5) * 5) + (parseInt(this.cantidad.moneda2) * 2) + (parseInt(this.cantidad.moneda1) * 1) + (parseInt(this.cantidad.centavo50) * 0.50);
             let suma = billete + monedas;
             return suma;
@@ -862,7 +954,7 @@ export default {
             let URL = 'caja/corte';
 
             axios.get(URL).then((response) => {
-                this.corte = response.data;
+                this.pagosCorte = response.data;
             })
         },
 
@@ -893,6 +985,7 @@ export default {
             })
             axios.put(URL, this.pagoEditado).then((response) => {
                 alert('Pago editado');
+                this.obtenerOtrosPagos();
             })
         },
 
@@ -1007,6 +1100,41 @@ export default {
             })
         },
 
+        confirmarCerrarCaja: function(){
+            Swal.fire({
+                title: 'Estas a punto de cerrar caja',
+                text: "¿Estas seguro de esto?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Cerrar caja'
+                }).then((result) => {
+                    if (result.value) {
+                        this.cerrarCaja();
+                    }
+            })
+        },
+
+        cerrarCaja: function(){
+            let URL = 'caja/' + this.sesion.id;
+
+            axios.put(URL, {
+                cantidadRealCierre: this.cantidadRealCierre,
+                cantidadCierre: this.sumarCantidad,
+                billetes: this.cantidad,
+            }).then((response) => {
+                Swal.fire(
+                    'Cerrada!',
+                    'Caja ha sido cerrada',
+                    'success'
+                )
+                this.enviarEmail();
+                this.mostrarAbrirCaja = true;
+                $('#cerrarCaja').modal('hide');
+            })
+        },
+
         registrarPago(){
             let URL = '/registrar-pago';
             
@@ -1019,6 +1147,14 @@ export default {
                 console.log(error.data)
             })
         },
+
+        enviarEmail: function(){
+            let URL = 'caja/enviar-email';
+
+            axios.get(URL).then((response) => {
+                console.log('email enviado');
+            })
+        }
     },
 }
 

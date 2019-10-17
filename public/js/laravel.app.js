@@ -13047,6 +13047,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13078,10 +13114,14 @@ var user = document.head.querySelector('meta[name="user"]');
         tipo: '',
         cantidad: '',
         motivo: '',
-        descripcion: ''
+        descripcion: '',
+        metodo: '',
+        referencia: ''
       },
       cantidadApertura: null,
       cantidadRealApertura: null,
+      cantidadCierre: null,
+      cantidadRealCierre: null,
       presupuestoSeleccionado: '',
       pago: {
         budget_id: '',
@@ -13092,7 +13132,7 @@ var user = document.head.querySelector('meta[name="user"]');
       otrosPagos: [],
       pagoEditado: '',
       editarCambio: 0,
-      corte: ''
+      pagosCorte: ''
     };
   },
   created: function created() {
@@ -13107,8 +13147,53 @@ var user = document.head.querySelector('meta[name="user"]');
     });
   },
   computed: {
+    cantidadPreCorte: function cantidadPreCorte() {
+      if (this.pagosCorte.length != 0) {
+        var arrayDeDatos = [];
+        var suma = 0;
+        var cheques = 0;
+        var transferencias = 0;
+        this.pagosCorte[0][0].forEach(function (element) {
+          if (element.method == 'CHEQUE') {
+            cheques = cheques + element.amount;
+          } else if (element.method == 'TRANSFERENCIA') {
+            transferencias = transferencias + element.amount;
+          } else {
+            if (element.method == 'DOLAR') {
+              suma = suma + element.amount * element.reference;
+            } else {
+              suma = suma + element.amount;
+            }
+          }
+        });
+        suma = suma + this.sesion.cantidadRealApertura;
+        this.pagosCorte[0][1].forEach(function (element) {
+          if (element.tipo == 'INGRESO') {
+            if (element.metodo != ('TRANSFERENCIA' || false)) {
+              if (element.metodo == 'DOLAR') {
+                suma = suma + element.cantidad * element.referencia;
+              } else {
+                suma = suma + element.cantidad;
+              }
+            }
+          } else {
+            if (element.metodo != ('TRANSFERENCIA' || false)) {
+              if (element.metodo == 'DOLAR') {
+                suma = suma - element.cantidad * element.referencia;
+                suma = suma + element.resto;
+              } else {
+                suma = suma - element.cantidad;
+                suma = suma + element.resto;
+              }
+            }
+          }
+        });
+        arrayDeDatos.push(suma, cheques, transferencias);
+        return arrayDeDatos;
+      }
+    },
     sumarCantidad: function sumarCantidad() {
-      var billete = parseInt(this.cantidad.billete1000) * 1000 + parseInt(this.cantidad.billete500) * 500 + parseInt(this.cantidad.billete100) * 100 + parseInt(this.cantidad.billete50) * 50 + parseInt(this.cantidad.billete20) * 20;
+      var billete = parseInt(this.cantidad.billete1000) * 1000 + parseInt(this.cantidad.billete500) * 500 + parseInt(this.cantidad.billete200) * 200 + parseInt(this.cantidad.billete100) * 100 + parseInt(this.cantidad.billete50) * 50 + parseInt(this.cantidad.billete20) * 20;
       var monedas = parseInt(this.cantidad.moneda10) * 10 + parseInt(this.cantidad.moneda5) * 5 + parseInt(this.cantidad.moneda2) * 2 + parseInt(this.cantidad.moneda1) * 1 + parseInt(this.cantidad.centavo50) * 0.50;
       var suma = billete + monedas;
       return suma;
@@ -13180,7 +13265,7 @@ var user = document.head.querySelector('meta[name="user"]');
 
       var URL = 'caja/corte';
       axios.get(URL).then(function (response) {
-        _this2.corte = response.data;
+        _this2.pagosCorte = response.data;
       });
     },
     obtenerOtrosPagos: function obtenerOtrosPagos() {
@@ -13200,6 +13285,8 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     editarPago: function editarPago() {
+      var _this5 = this;
+
       var URL = 'pagos/' + this.pagoEditado.id;
       Object.defineProperty(this.pagoEditado, 'resto', {
         value: this.editarCambio,
@@ -13209,27 +13296,29 @@ var user = document.head.querySelector('meta[name="user"]');
       });
       axios.put(URL, this.pagoEditado).then(function (response) {
         alert('Pago editado');
+
+        _this5.obtenerOtrosPagos();
       });
     },
     obtenerSesion: function obtenerSesion() {
-      var _this5 = this;
+      var _this6 = this;
 
       var URL = 'obtener-sesion-caja';
       axios.get(URL).then(function (response) {
-        _this5.sesion = response.data;
+        _this6.sesion = response.data;
 
-        _this5.habilitarCaja();
+        _this6.habilitarCaja();
       });
     },
     obtenerClientes: function obtenerClientes() {
-      var _this6 = this;
+      var _this7 = this;
 
       var URL = 'obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this6.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
+        _this7.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
 
-        _this6.presupuestos.forEach(function (element) {
-          _this6.clientes.forEach(function (item) {
+        _this7.presupuestos.forEach(function (element) {
+          _this7.clientes.forEach(function (item) {
             if (item.id == element.client_id) {
               if (item.hasOwnProperty('apellidoPaterno')) {
                 Object.defineProperty(element, 'cliente', {
@@ -13250,23 +13339,23 @@ var user = document.head.querySelector('meta[name="user"]');
           });
         });
 
-        if (_this6.presupuestoSeleccionado.length != 0) {
-          var presupuesto = _this6.presupuestos.find(function (element) {
-            return element.id == _this6.presupuestoSeleccionado.id;
+        if (_this7.presupuestoSeleccionado.length != 0) {
+          var presupuesto = _this7.presupuestos.find(function (element) {
+            return element.id == _this7.presupuestoSeleccionado.id;
           });
 
-          _this6.presupuestoSeleccionado = presupuesto;
+          _this7.presupuestoSeleccionado = presupuesto;
         }
       });
     },
     obtenerPresupuestos: function obtenerPresupuestos() {
-      var _this7 = this;
+      var _this8 = this;
 
       var URL = 'caja/obtener-presupuestos';
       axios.get(URL).then(function (response) {
-        _this7.presupuestos = response.data;
+        _this8.presupuestos = response.data;
 
-        _this7.obtenerClientes();
+        _this8.obtenerClientes();
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -13279,16 +13368,16 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     obtenerPresupuesto: function obtenerPresupuesto(presupuesto) {
-      var _this8 = this;
+      var _this9 = this;
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
       setTimeout(function () {
-        _this8.limpiar = false;
+        _this9.limpiar = false;
       }, 1000);
     },
     abrirCaja: function abrirCaja() {
-      var _this9 = this;
+      var _this10 = this;
 
       var URL = 'caja';
       axios.post(URL, {
@@ -13309,7 +13398,7 @@ var user = document.head.querySelector('meta[name="user"]');
           },
           onClose: function onClose() {
             clearInterval(timerInterval);
-            _this9.mostrarAbrirCaja = false;
+            _this10.mostrarAbrirCaja = false;
           }
         }).then(function (result) {
           if (
@@ -13320,17 +13409,57 @@ var user = document.head.querySelector('meta[name="user"]');
         });
       });
     },
+    confirmarCerrarCaja: function confirmarCerrarCaja() {
+      var _this11 = this;
+
+      Swal.fire({
+        title: 'Estas a punto de cerrar caja',
+        text: "¿Estas seguro de esto?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Cerrar caja'
+      }).then(function (result) {
+        if (result.value) {
+          _this11.cerrarCaja();
+        }
+      });
+    },
+    cerrarCaja: function cerrarCaja() {
+      var _this12 = this;
+
+      var URL = 'caja/' + this.sesion.id;
+      axios.put(URL, {
+        cantidadRealCierre: this.cantidadRealCierre,
+        cantidadCierre: this.sumarCantidad,
+        billetes: this.cantidad
+      }).then(function (response) {
+        Swal.fire('Cerrada!', 'Caja ha sido cerrada', 'success');
+
+        _this12.enviarEmail();
+
+        _this12.mostrarAbrirCaja = true;
+        $('#cerrarCaja').modal('hide');
+      });
+    },
     registrarPago: function registrarPago() {
-      var _this10 = this;
+      var _this13 = this;
 
       var URL = '/registrar-pago';
       this.pago.budget_id = this.presupuestoSeleccionado.id;
       axios.post(URL, this.pago).then(function (response) {
         alert('Pago registrado');
 
-        _this10.obtenerPresupuestos();
+        _this13.obtenerPresupuestos();
       })["catch"](function (error) {
         console.log(error.data);
+      });
+    },
+    enviarEmail: function enviarEmail() {
+      var URL = 'caja/enviar-email';
+      axios.get(URL).then(function (response) {
+        console.log('email enviado');
       });
     }
   }
@@ -73182,7 +73311,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-info",
+                      staticClass: "btn btn-info ml-2",
                       attrs: {
                         "data-toggle": "modal",
                         "data-target": "#cerrarCaja"
@@ -74070,6 +74199,86 @@ var render = function() {
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c("div", { staticClass: "form-group" }, [
                                   _c("label", { attrs: { for: "" } }, [
+                                    _vm._v("Metodo de pago")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.movimiento.metodo,
+                                          expression: "movimiento.metodo"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { name: "", id: "" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.movimiento,
+                                            "metodo",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "EFECTIVO" } },
+                                        [_vm._v("Efectivo")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "CHEQUE" } },
+                                        [_vm._v("Cheque")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "TRANSFERENCIA" } },
+                                        [_vm._v("Transferencia")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "TARJETA" } },
+                                        [_vm._v("Tarjeta")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "DOLAR" } },
+                                        [_vm._v("Dolar")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", { attrs: { for: "" } }, [
                                     _vm._v("Cantidad")
                                   ]),
                                   _vm._v(" "),
@@ -74101,9 +74310,122 @@ var render = function() {
                                     }
                                   })
                                 ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-6" }, [
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _vm.movimiento.metodo != ("EFECTIVO" || false)
+                                ? _c("div", { staticClass: "col-md-12" }, [
+                                    _vm.movimiento.metodo == "DOLAR"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.movimiento.referencia,
+                                              expression:
+                                                "movimiento.referencia"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "number",
+                                            placeholder:
+                                              "Ingresa el tipo de cambio"
+                                          },
+                                          domProps: {
+                                            value: _vm.movimiento.referencia
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.movimiento,
+                                                "referencia",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.movimiento.metodo == "TRANSFERENCIA"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.movimiento.referencia,
+                                              expression:
+                                                "movimiento.referencia"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "number",
+                                            placeholder:
+                                              "Ingresa los digitos de referencia"
+                                          },
+                                          domProps: {
+                                            value: _vm.movimiento.referencia
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.movimiento,
+                                                "referencia",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.movimiento.metodo == "TARJETA"
+                                      ? _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.movimiento.referencia,
+                                              expression:
+                                                "movimiento.referencia"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            type: "number",
+                                            placeholder:
+                                              "Ingresa los ultimos 4 digitos de la tarjeta"
+                                          },
+                                          domProps: {
+                                            value: _vm.movimiento.referencia
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.movimiento,
+                                                "referencia",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      : _vm._e()
+                                  ])
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row mt-2" }, [
+                              _c("div", { staticClass: "col-md-12" }, [
                                 _c("div", { staticClass: "form-group" }, [
                                   _c("label", { attrs: { for: "" } }, [
                                     _vm._v("Datos extras")
@@ -74186,26 +74508,35 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-sm btn-info",
-                                              attrs: {
-                                                "data-toggle": "modal",
-                                                "data-target": "#agregarCambio"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.pagoEditado = item
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Agregar cambio")]
-                                          )
-                                        ]),
-                                        _vm._v(" "),
+                                        item.tipo == "EGRESO"
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "col-md-6" },
+                                              [
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-sm btn-info",
+                                                    attrs: {
+                                                      "data-toggle": "modal",
+                                                      "data-target":
+                                                        "#agregarCambio"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.pagoEditado = item
+                                                      }
+                                                    }
+                                                  },
+                                                  [_vm._v("Agregar cambio")]
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
                                           _vm._m(37, true),
                                           _vm._v(" "),
@@ -74255,10 +74586,24 @@ var render = function() {
                                         _c("div", { staticClass: "col-md-6" }, [
                                           _vm._m(41, true),
                                           _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v("$" + _vm._s(item.resto))
-                                          ])
-                                        ])
+                                          _c("p", [_vm._v(_vm._s(item.metodo))])
+                                        ]),
+                                        _vm._v(" "),
+                                        item.resto
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "col-md-6" },
+                                              [
+                                                _vm._m(42, true),
+                                                _vm._v(" "),
+                                                _c("p", [
+                                                  _vm._v(
+                                                    "$" + _vm._s(item.resto)
+                                                  )
+                                                ])
+                                              ]
+                                            )
+                                          : _vm._e()
                                       ]),
                                       _vm._v(" "),
                                       _c("div", { staticClass: "row" }, [
@@ -74266,7 +74611,51 @@ var render = function() {
                                           "div",
                                           { staticClass: "col-md-12" },
                                           [
-                                            _vm._m(42, true),
+                                            item.metodo == "TRANSFERENCIA"
+                                              ? _c("p", [
+                                                  _c("strong", [
+                                                    _vm._v("Referencia:")
+                                                  ]),
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(item.referencia)
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            item.metodo == "TARJETA"
+                                              ? _c("p", [
+                                                  _c("strong", [
+                                                    _vm._v("Numero de tarjeta:")
+                                                  ]),
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(item.referencia)
+                                                  )
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            item.metodo == "DOLAR"
+                                              ? _c("p", [
+                                                  _c("strong", [
+                                                    _vm._v("Tipo de cambio:")
+                                                  ]),
+                                                  _vm._v(
+                                                    " $" +
+                                                      _vm._s(item.referencia)
+                                                  )
+                                                ])
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-12" },
+                                          [
+                                            _vm._m(43, true),
                                             _vm._v(" "),
                                             _c("p", [
                                               _vm._v(_vm._s(item.descripcion))
@@ -74312,7 +74701,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(43),
+              _vm._m(44),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -74390,10 +74779,31 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(44),
+              _vm._m(45),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _vm._m(45),
+                _c("div", { staticClass: "row" }, [
+                  _vm.pagosCorte.length != 0
+                    ? _c("div", { staticClass: "col-md-12" }, [
+                        _c("h4", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "Pre-corte: $" + _vm._s(_vm.cantidadPreCorte[0])
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "text-danger" }, [
+                          _vm._v("Cheques: $" + _vm._s(_vm.cantidadPreCorte[1]))
+                        ]),
+                        _vm._v(" "),
+                        _c("h4", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "Transferencias: $" +
+                              _vm._s(_vm.cantidadPreCorte[2])
+                          )
+                        ])
+                      ])
+                    : _vm._e()
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-4" }, [
@@ -74814,7 +75224,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { type: "number" },
+                            attrs: { type: "number", readonly: "" },
                             domProps: { value: _vm.sumarCantidad },
                             on: {
                               input: function($event) {
@@ -74829,7 +75239,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
                           _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Cantidad al momento de apertura")
+                            _vm._v("Cantidad al momento de cierre")
                           ]),
                           _vm._v(" "),
                           _c("input", {
@@ -74837,19 +75247,19 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.cantidadRealApertura,
-                                expression: "cantidadRealApertura"
+                                value: _vm.cantidadRealCierre,
+                                expression: "cantidadRealCierre"
                               }
                             ],
                             staticClass: "form-control",
                             attrs: { type: "number" },
-                            domProps: { value: _vm.cantidadRealApertura },
+                            domProps: { value: _vm.cantidadRealCierre },
                             on: {
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
-                                _vm.cantidadRealApertura = $event.target.value
+                                _vm.cantidadRealCierre = $event.target.value
                               }
                             }
                           })
@@ -74862,11 +75272,11 @@ var render = function() {
                               staticClass: "btn btn-sm btn-block btn-info",
                               on: {
                                 click: function($event) {
-                                  return _vm.abrirCaja()
+                                  return _vm.confirmarCerrarCaja()
                                 }
                               }
                             },
-                            [_vm._v("Abrir Caja 1")]
+                            [_vm._v("Cerrar Caja 1")]
                           )
                         ])
                       ])
@@ -75303,6 +75713,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("p", [_c("strong", [_vm._v("Metodo")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("p", [_c("strong", [_vm._v("Cambio")])])
   },
   function() {
@@ -75365,16 +75781,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("h4", { staticClass: "text-danger" }, [_vm._v("Pre-corte: $12000")])
-      ])
     ])
   },
   function() {

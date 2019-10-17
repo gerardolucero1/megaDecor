@@ -11,6 +11,7 @@ use App\TaskComment;
 use App\CashRegister;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\Mail\CorteCaja;
 use App\PhysicalPerson;
 use App\BudgetInventory;
 use App\BudgetPackInventory;
@@ -369,7 +370,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
     Route::get('caja/obtener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
     Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
+    Route::put('caja/{id}', 'CMS\CashRegisterController@update')->name('caja.update');
     Route::get('caja/corte', 'CMS\CashRegisterController@corte')->name('pagos.corte');
+    Route::get('caja/enviar-email', function(){
+        $sesion = CashRegister::orderBy('id', 'DESC')->first();
+
+        Mail::to('ivonnearroyosg@msn.com', 'Corte de caja')
+            ->send(new CorteCaja($sesion));
+    });
 
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {
