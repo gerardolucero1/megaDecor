@@ -18762,6 +18762,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     obtenerCliente: function obtenerCliente(cliente) {
       var _this10 = this;
 
+      this.clienteSeleccionado.apellidoPaterno = '';
+      this.clienteSeleccionado.apellidoMaterno = '';
       this.limpiar = true; //let URL = '/obtener-cliente/' + cliente.id;
 
       var URL = '/obtener-cliente';

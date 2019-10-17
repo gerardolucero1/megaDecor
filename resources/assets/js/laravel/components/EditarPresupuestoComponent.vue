@@ -1741,6 +1741,8 @@ padding: 0;
             },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
+                this.clienteSeleccionado.apellidoPaterno = '';
+                this.clienteSeleccionado.apellidoMaterno = '';
                 this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';
