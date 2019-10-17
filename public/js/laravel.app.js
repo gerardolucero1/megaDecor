@@ -13306,6 +13306,17 @@ var user = document.head.querySelector('meta[name="user"]');
       var URL = 'obtener-sesion-caja';
       axios.get(URL).then(function (response) {
         _this6.sesion = response.data;
+        _this6.cantidad.billete1000 = _this6.sesion.cierreBillete1000;
+        _this6.cantidad.billete500 = _this6.sesion.cierreBillete500;
+        _this6.cantidad.billete200 = _this6.sesion.cierreBillete200;
+        _this6.cantidad.billete100 = _this6.sesion.cierreBillete100;
+        _this6.cantidad.billete50 = _this6.sesion.cierreBillete50;
+        _this6.cantidad.billete20 = _this6.sesion.cierreBillete20;
+        _this6.cantidad.moneda10 = _this6.sesion.cierreMoneda10;
+        _this6.cantidad.moneda5 = _this6.sesion.cierreMoneda5;
+        _this6.cantidad.moneda2 = _this6.sesion.cierreMoneda2;
+        _this6.cantidad.moneda1 = _this6.sesion.cierreMoneda1;
+        _this6.cantidad.centavo50 = _this6.sesion.cierreCentavo50;
 
         _this6.habilitarCaja();
       });
@@ -73578,11 +73589,12 @@ var render = function() {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "$ " +
-                                                  _vm._s(
+                                                _vm._s(
+                                                  _vm._f("currency")(
                                                     this.presupuestoSeleccionado
                                                       .total - _vm.totalAbonado
                                                   )
+                                                )
                                               )
                                             ]
                                           )

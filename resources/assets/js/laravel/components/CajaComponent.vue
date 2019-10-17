@@ -317,7 +317,7 @@
                                                         <p>
                                                             <strong>Saldo pendiente:</strong>
                                                         </p>
-                                                        <p class="text-danger">$ {{ this.presupuestoSeleccionado.total - totalAbonado }}</p>
+                                                        <p class="text-danger">{{ this.presupuestoSeleccionado.total - totalAbonado | currency }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -994,6 +994,20 @@ export default {
 
             axios.get(URL).then((response) => {
                 this.sesion = response.data;
+
+                this.cantidad.billete1000 = this.sesion.cierreBillete1000;
+                this.cantidad.billete500 = this.sesion.cierreBillete500;
+                this.cantidad.billete200 = this.sesion.cierreBillete200;
+                this.cantidad.billete100 = this.sesion.cierreBillete100;
+                this.cantidad.billete50 = this.sesion.cierreBillete50;
+                this.cantidad.billete20 = this.sesion.cierreBillete20;
+
+                this.cantidad.moneda10 = this.sesion.cierreMoneda10;
+                this.cantidad.moneda5 = this.sesion.cierreMoneda5;
+                this.cantidad.moneda2 = this.sesion.cierreMoneda2;
+                this.cantidad.moneda1 = this.sesion.cierreMoneda1;
+                this.cantidad.centavo50 = this.sesion.cierreCentavo50;
+
                 this.habilitarCaja();
             })
         },
