@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Inventory;
+use App\Family;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,9 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('Inventories.create');
+
+        $familias=Family::orderBy('nombre', 'ASC')->get();
+        return view('Inventories.create', compact('familias'));
     }
 
     /**
@@ -83,7 +86,8 @@ class InventoryController extends Controller
     public function edit($id)
     {
         $inventory = Inventory::find($id);
-        return view('Inventories.edit', compact('inventory'));
+        $familias=Family::orderBy('nombre', 'ASC')->get();
+        return view('Inventories.edit', compact('inventory', 'familias'));
     }
 
     /**

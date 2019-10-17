@@ -78,12 +78,17 @@
             <div class="col-md-12">
             </div>
         </div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
+                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
         <div class="row">
             <div class="col-md-12" style="float: left">
                 <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
-            <p style="padding:20px; background: #FFEFEB; width:50%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p>
-            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:15px; width:20%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p>
-            <p style="padding:5px; background:#FEF9D8; border-radius5px; margin-top:0px; width:20%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p>
+                
+                
+            
+            
+            
             </div>
 
         </div>
@@ -99,7 +104,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p style="font-weight:bold; font-size:25px">Folio: {{ presupuesto.folio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
@@ -137,7 +142,7 @@
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
-                            Pendiende</label>
+                            Pendiente</label>
                             </div>
                     <div class="col-md-4">
                         
@@ -147,7 +152,7 @@
                                 <p>{{ presupuesto.categoriaEvento }}</p>
                                  <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
-                                <div class="row mt-4">
+                                <div class="row mt-4" style="background:#D0EFCF; border-radius:5px; padding:10px">
                                     <div class="col-md-10">
                                         <p>{{ mostrarFechaEvento }}</p>
                                     </div>
@@ -157,7 +162,7 @@
                                     
                                 </div>
                                 <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha" disabled="disabled">
-                                <label for="pendienteFecha">Pendiende</label>
+                                <label for="pendienteFecha">Pendiente</label>
 
                             </div>
                         </div>
@@ -187,7 +192,7 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -236,7 +241,7 @@
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar" readonly>
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -367,7 +372,7 @@
                                    
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -885,10 +890,10 @@
                     */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },

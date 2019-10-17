@@ -79,7 +79,7 @@ padding: 0;
         <div class="row mt-4">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-7 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -87,8 +87,8 @@ padding: 0;
 
                         </div>
                     </div>
-                    <div class="col-md-3 text-right info">
-                        <p style="font-size:25px; font-weight:bold">Folio: {{ presupuesto.folio }}</p>
+                    <div class="col-md-5 text-right info">
+                        <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
@@ -208,7 +208,7 @@ padding: 0;
                             </div>
                         </div>
                         <div style="padding-top:20px" v-if="clienteSeleccionado" class="info">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{ clienteSeleccionado.apellidoPaterno }} {{ clienteSeleccionado.apellidoMaterno }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -462,19 +462,20 @@ padding: 0;
                                 
                             </div>
                             <div class="col-md-4 mt-4">
-                                <h5 v-if="presupuesto.tipo == 'PRESUPUESTO'">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
-                                <h3 v-else>Subtotal: <span>{{ saldoFinal | currency }}</span><br>
-                                <span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
+                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5> 
+                                
+                               <h3><span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
 
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p>TOTAL con IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <H5 v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></H5>
+                                    <H5 v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></H5>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
-                                   <p style="font-size:16px; font-weight:bold;">Total: {{ calcularSubtotal + calcularIva | currency }} <i class="fa fa-edit"></i></p>
+                                   
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
                                     <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
@@ -493,7 +494,8 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Editar Presupuesto</button>
+                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
+                         <button class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                     </div>
                 </div>
@@ -582,14 +584,14 @@ padding: 0;
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
                                             <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="display:none">
                                         <label class="col-12" for="example-text-input">Costo total de proveedores</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo de proveedores" v-model="paquete.precioVenta" style="background:#FFECA7">
@@ -600,6 +602,7 @@ padding: 0;
                                 <div class="col-md-6">
                                     <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
                                     <h4>Utilidad: $<span v-text="utilidad"></span></h4>
+                                    <h4>Costo total proveedor: $<span v-text="costoProveedor"></span></h4>
                                     <input type="checkbox" id="guardarPaquete" v-model="paquete.guardarPaquete">
                                     <label for="guardarPaquete">Guardar paquete</label>
 
@@ -1234,6 +1237,7 @@ padding: 0;
                 },
                 precioSugerido: 0,
                 utilidad: 0,
+                costoProveedor:0,
 
                 cantidadPaquete: '',
                 precioUnitarioPaquete: '',
@@ -1593,9 +1597,13 @@ padding: 0;
                 console.log(this.paquete.inventario);
             },
                     actualizarPrecioSugerido(){
+                        this.precioSugerido=0;
+                        this.utilidad=0;
+                        this.costoProveedor=0;
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
-                            this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.precioSugerido+= parseInt(this.paquete.inventario[i].precioFinal);
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
                         this.paquete.precioFinal = this.precioSugerido;
                     },
@@ -1605,11 +1613,13 @@ padding: 0;
 
                         this.precioSugerido = 0;
                         this.utilidad = 0;
+                        this.costoProveedor = 0;
 
                         for (var i = 0; i < this.paquete.inventario.length; i++) {
                             
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
-                            this.utilidad+= this.paquete.inventario[i].precioFinal-this.paquete.inventario[i].precioVenta;
+                            this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
                         }
                     },
 
@@ -1641,6 +1651,7 @@ padding: 0;
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
+                        this.costoProveedor = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
                             return (indice == index);
                         });
@@ -1663,6 +1674,7 @@ padding: 0;
 
                         producto.precioUnitario = this.precioUnitarioPaquete;
                         producto.precioEspecial = this.precioUnitarioPaquete;
+                        producto.precioFinal = producto.cantidad * producto.precioEspecial;
                         this.paquete.inventario.splice(index, 1, producto);
                         this.precioUnitarioPaquete = '',
                         this.key = '',
@@ -1690,13 +1702,7 @@ padding: 0;
 
             guardarPaquete(){
                 let count;
-                if(isNaN(parseInt(this.paquete.precioVenta))){
-                   Swal.fire(
-                        'Paquete sin costo',
-                        'Agrega costo de proveedor',
-                        'warning'
-                        ) 
-                }else{
+                
                 
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -1732,7 +1738,7 @@ padding: 0;
                         ) 
                 }
 
-            }},
+            },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.limpiar = true;
@@ -1925,6 +1931,7 @@ padding: 0;
                     this.cantidadActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                  updatePrecioUnitario(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -1939,6 +1946,7 @@ padding: 0;
                     this.precioUnitarioActualizada = '';
                     this.key = '';
                     this.indice = '100000000';
+                    this.calcularSubtotal();
                 },
                 //Ahorro
                 editarAhorro(index, key){
@@ -2383,6 +2391,19 @@ padding: 0;
                         console.log(error.data);
                     })
                 }
+            },
+            enviarCorreoCliente(){
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                })
             },
         }
     }

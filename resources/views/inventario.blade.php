@@ -32,78 +32,18 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-
+                            @php
+                            use App\Family;
+                            $familias=Family::all();
+                            @endphp
                         <form action="{{ route('inventario.filtro') }}" method="POST">
                             @method('POST')
                             @csrf
                             <select name="familia" id="familia" style="width: 100px" onchange="seleccionarFamilia()">
                                 <option value="">Todos los elementos</option>
-                                <option value="AIRES - CALENTONES">AIRES - CALENTONES</option>
-                                <option value="BEBIDAS">BEBIDAS</option>
-                                <option value="BODEGA MATERIAL DE TRABAJO">BODEGA MATERIAL DE TRABAJO</option>
-                                <option value="BOLOS">BOLOS</option>
-                                <option value="Bolsitas Celofan">Bolsitas Celofan</option>
-                                <option value="BOLSITAS PARA DULCES">BOLSITAS PARA DULCES</option>
-                                <option value="Botanas">Botanas</option>
-                                <option value="BOTARGA">BOTARGA</option>
-                                <option value="BRINCA BRINCA">BRINCA BRINCA</option>
-                                <option value="CAJAS">CAJAS</option>
-                                <option value="CAMINOS">CAMINOS</option>
-                                <option value="CARPAS">CARPAS</option>
-                                <option value="CASETAS / PEAJE">CASETAS / PEAJE</option>
-                                <option value="CATERING">CATERING</option>
-                                <option value="Centros de Mesa">Centros de Mesa</option>
-                                <option value="COJÍN">COJIN</option>
-                                <option value="COROPLAS">COROPLAS</option>
-                                <option value="CORTINAS">CORTINAS</option>
-                                <option value="CUBRE MANTEL">CUBRE MANTEL</option>
-                                <option value="CUBRE MANTEL GRANDE PARA MESAS DE DULCES">CUBRE MANTEL GRANDE PARA MESAS DE DULCES</option>
-                                <option value="CUBRE SILLA">CUBRE SILLA</option>
-                                <option value="DECORACION AMBIENTAL">DECORACION AMBIENTAL</option>
-                                <option value="DESECHABLES">DESECHABLES</option>
-                                <option value="DETALLES PARA NIÑOS">DETALLES PARA NIÑOS</option>
-                                <option value="DISFRACES">DISFRACES</option>
-                                <option value="DULCES">DULCES</option>
-                                <option value="FALDONES">FALDONES</option>
-                                <option value="FERIAS">FERIAS</option>
-                                <option value="FLETE DE MOVILIARIO">FLETE DE MOVILIARIO</option>
-                                <option value="FLORES">FLORES</option>
-                                <option value="Globos">Globos</option>
-                                <option value="HALLOWEEN">HALLOWEEN</option>
-                                <option value="Helio">Helio</option>
-                                <option value="HIELERAS">HIELERAS</option>
-                                <option value="INVITACIONES /PAPELERIA/ TARJETERIA /PIN">INVITACIONES /PAPELERIA/ TARJETERIA /PIN</option>
-                                <option value="LUZ , ILUMINACION">LUZ , ILUMINACION</option>
-                                <option value="MANTELERIA RECTANGULAR ADULTO">MANTELERIA RECTANGULAR ADULTO</option>
-                                <option value="MANTELERIA NAVIDEÑA">MANTELERIA NAVIDEÑA</option>
-                                <option value="MANTELERIA NIÑO">MANTELERIA NIÑO</option>
-                                <option value="MANTELERIA PARA MESAS DE DULCES">MANTELERIA PARA MESAS DE DULCES</option>
-                                <option value="MANTELERIA REDONDO ADULTO">MANTELERIA REDONDO ADULTO</option>
-                                <option value="MAQUILLAJES">MAQUILLAJES</option>
-                                <option value="MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES">MAQUINA DE PALOMITAS Y/O MAQUINA DE ALGODONES</option>
-                                <option value="Menu Adultos">Menu Adultos</option>
-                                <option value="Menu Niños">Menu Niños</option>
-                                <option value="MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY">MESAS DE DULCES /FUENTES DE CHOCOLATE/QUESO/CHAMOY</option>
-                                <option value="MESERO / ANFITRIONAS">MESERO / ANFITRIONAS	</option>
-                                <option value="MOÑOS">MOÑOS</option>
-                                <option value="MOBILIARIO Y EQUIPO">MOBILIARIO Y EQUIPO</option>
-                                <option value="MOTORES">MOTORES</option>
-                                <option value="NAVIDAD">NAVIDAD</option>
-                                <option value="PAGOS">PAGOS</option>
-                                <option value="Pastel">Pastel</option>
-                                <option value="Piñata">Piñata</option>
-                                <option value="POSTRE">POSTRE</option>
-                                <option value="REFRACTARIOSE PAR MESAS DE DUCLES">REFRACTARIOSE PAR MESAS DE DUCLES</option>
-                                <option value="Renta">Renta</option>
-                                <option value="ROCKOLA - KARAOKE">ROCKOLA - KARAOKE</option>
-                                <option value="SERVILLETAS">SERVILLETAS</option>
-                                <option value="Show">Show</option>
-                                <option value="TALLERES">TALLERES</option>
-                                <option value="TELAS DECORATIVAS">TELAS DECORATIVAS</option>
-                                <option value="TOBOGANES DE AGUA">TOBOGANES DE AGUA</option>
-                                <option value="TRAJE PERSONAJES">TRAJE PERSONAJES</option>
-                                <option value="VELA">VELA</option>
-                                <option value="VIDEO - FOTOGRAFIA">VIDEO - FOTOGRAFIA</option>
+                                @foreach($familias as $familia)    
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                            @endforeach
                             </select>
                             <button style="margin-left: 20px" type="submit" class="btn btn-sm btn-info">Buscar</button><br>
                         </form>
@@ -116,6 +56,10 @@
 
                     </div>
                     <div class="col-md-9 text-right">
+                            @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
+                         @if($usuario != 2)
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
@@ -124,7 +68,8 @@
                         </a>
                         <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
-                        </a>          
+                        </a> 
+                        @endif         
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -135,8 +80,10 @@
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
+                                    @if($usuario != 2)
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
+                                    @endif
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -147,13 +94,15 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td id="cantidad-{{ $inventario->id }}" onclick="editarCantidad({{ $inventario->id }})">{{ $inventario->cantidad }}</td>
-                                <td id="exhibicion-{{ $inventario->id }}" onclick="editarExhibicion({{ $inventario->id }})">{{ $inventario->exhibicion }}</td>
+                                <td id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
+                                <td id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarExhibicion({{ $inventario->id }})" @endif>{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
+                                 @if($usuario != 2)
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
+                                @endif
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
