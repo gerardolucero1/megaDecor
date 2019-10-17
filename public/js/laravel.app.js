@@ -19204,6 +19204,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
         _this16.clienteSeleccionado.id = cliente.id;
         _this16.clienteSeleccionado.nombre = cliente.nombre;
+        _this16.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+        _this16.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
         _this16.clienteSeleccionado.email = cliente.email;
         _this16.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
         _this16.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;

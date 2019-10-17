@@ -2211,6 +2211,8 @@ padding: 0;
 
                 this.clienteSeleccionado.id = cliente.id;
                 this.clienteSeleccionado.nombre = cliente.nombre;
+                this.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+                this.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
                 this.clienteSeleccionado.email = cliente.email;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
