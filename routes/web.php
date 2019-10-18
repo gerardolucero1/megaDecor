@@ -14,6 +14,7 @@ use App\MoralCategory;
 use App\PhysicalPerson;
 use App\BudgetInventory;
 use App\BudgetPackInventory;
+use App\Faltantes;
 use Illuminate\Http\Request;
 use App\Mail\NuevoPresupuesto;
 use Illuminate\Support\Facades\DB;
@@ -363,9 +364,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('familia', 'CMS\FamilyController');
     Route::resource('grupo', 'CMS\FamilyGroupController');
+    Route::resource('provedores','CMS\ProvidersController');   
 
-    Route::resource('provedores', 'CMS\ProvidersController');
+    Route::resource('faltantes','CMS\FaltantesController');
 
+    
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
 
@@ -380,7 +383,6 @@ Route::group(['middleware' => ['auth']], function () {
 
             return $sesion;
         });
-
 });
 
 /*

@@ -2,6 +2,7 @@
 
 @section('content')
     <section class="container">
+        <h1>Proveedores</h1>
         <div class="block">
             <div class="block-header block-header-default">
                     <a href="{{ route('provedores.create')}}" class="btn btn-sm btn-primary">Agregar provedor</a>

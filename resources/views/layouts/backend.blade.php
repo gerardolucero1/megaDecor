@@ -234,6 +234,9 @@
                                         <li>
                                             <a href="{{ route('provedores.index') }}">Provedores</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('faltantes.index') }}">Faltantes</a>
+                                        </li>
                                     </ul>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>

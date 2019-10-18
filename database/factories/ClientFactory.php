@@ -8,7 +8,10 @@ $factory->define(Client::class, function (Faker $faker) {
         for($x = 0; $x < 10; $x++){
             $aleatoria = substr(str_shuffle($caracteres), 0, 10);
         }
+
     return [
         'clave' => $aleatoria,
+        'nombreCliente' => $faker->sentence(3),
+        'tipoPersona' => $faker->randomElement(['MORAL', 'FISICA']),
     ];
 });
