@@ -1750,6 +1750,8 @@ padding: 0;
             },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
+                this.clienteSeleccionado.apellidoPaterno = '';
+                this.clienteSeleccionado.apellidoMaterno = '';
                 this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';
@@ -2223,6 +2225,8 @@ padding: 0;
 
                 this.clienteSeleccionado.id = cliente.id;
                 this.clienteSeleccionado.nombre = cliente.nombre;
+                this.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+                this.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
                 this.clienteSeleccionado.email = cliente.email;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Budget;
+use App\Payment;
 use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
@@ -40,6 +41,7 @@ class CashRegisterController extends Controller
      */
     public function store(Request $request)
     {
+
         $date = Carbon::now();
         $fechaHoy = $date->toDateString();
         $horaHoy = $date->toTimeString();
@@ -103,7 +105,33 @@ class CashRegisterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $date = Carbon::now();
+        $fechaHoy   = $date->toDateString();
+        $horaHoy    = $date->toTimeString();
+        
+        $registro =  CashRegister::findOrFail($id);
+        
+        $registro->user_id          = Auth::user()->id;
+        $registro->horaCierre       = $horaHoy;
+        
+            $registro->cierreBillete1000  = $request['billetes']['billete1000'];
+            $registro->cierreBillete500   = $request['billetes']['billete500'];
+            $registro->cierreBillete200   = $request['billetes']['billete200'];
+            $registro->cierreBillete100   = $request['billetes']['billete100'];
+            $registro->cierreBillete50    = $request['billetes']['billete50'];
+            $registro->cierreBillete20    = $request['billetes']['billete20'];
+            $registro->cierreMoneda10     = $request['billetes']['moneda10'];
+            $registro->cierreMoneda5      = $request['billetes']['moneda5'];
+            $registro->cierreMoneda2      = $request['billetes']['moneda2'];
+            $registro->cierreMoneda1      = $request['billetes']['moneda1'];
+            $registro->cierreCentavo50    = $request['billetes']['centavo50'];
+
+        $registro->cantidadCierre       = $request['cantidadCierre'];
+        $registro->cantidadRealCierre   = $request['cantidadRealCierre'];
+        $registro->estatus = false;
+
+        $registro->save();
+        return;
     }
 
     /**
@@ -120,6 +148,21 @@ class CashRegisterController extends Controller
     public function obtenerPresupuestos(){
         $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
         return $presupuestos;
+    }
+
+    public function corte(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+        $horaHoy = $date->toTimeString();
+
+        $registro = CashRegister::whereDate('created_at', $fechaHoy)->where('estatus', true)->first();
+        $pagos = Payment::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
+        $otrosPagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
+
+        $registros = [];
+        array_push($registros, [$pagos, $otrosPagos]);
+
+        return $registros;
     }
 
 }
