@@ -373,8 +373,10 @@ Route::group(['middleware' => ['auth']], function () {
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {
             $sesion = CashRegister::orderBy('id', 'DESC')->first();
-
-            return $sesion;
+            $usuario = User::where('id', $sesion->user_id)->first();
+            $arraySesion=[];
+            array_push($arraySesion, [$sesion, $usuario]);
+            return $arraySesion;
         });
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');

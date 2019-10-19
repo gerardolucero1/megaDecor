@@ -141,7 +141,7 @@
                                                         <div class="text-right">
                                                             <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                         </div>
-                                                        <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
+                                                        <label for="" style="font-size:10px; color:green; font-style: italic">Disponible en modo test</label>
                                                         <div class="row pt-10 pb-30 text-center">
                                                             <div class="col-6 border-r">
                                                                 
@@ -167,7 +167,7 @@
                                                             <div class="text-right">
                                                                 <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                             </div>
-                                                            <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
+                                                            <label for="" style="font-size:10px; color:green; font-style: italic">Disponible en modo test</label>
                                                             <div class="row pt-10 pb-30 text-left">
                                                                 <div class="col-6  border-r">
                                                                     <p style="font-weight: bold;">Ingresos: </p>

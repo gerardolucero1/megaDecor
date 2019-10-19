@@ -50,19 +50,19 @@ class CashRegisterController extends Controller
         $registro->fechaApertura    = $fechaHoy;
         $registro->horaApertura     = $horaHoy;
         
-        foreach($request['billetes'] as $billete){
-            $registro->aperturaBillete1000 = $billete['billete1000'];
-            $registro->aperturaBillete500 = $billete['billete500'];
-            $registro->aperturaBillete200 = $billete['billete200'];
-            $registro->aperturaBillete100 = $billete['billete100'];
-            $registro->aperturaBillete50 = $billete['billete50'];
-            $registro->aperturaBillete20 = $billete['billete20'];
-            $registro->aperturaMoneda10 = $billete['moneda10'];
-            $registro->aperturaMoneda5 = $billete['moneda5'];
-            $registro->aperturaMoneda2 = $billete['moneda2'];
-            $registro->aperturaMoneda1 = $billete['moneda1'];
-            $registro->aperturaCentavo50 = $billete['centavo50'];
-        }
+       
+            $registro->aperturaBillete1000 = $request['billetes']['billete1000'];
+            $registro->aperturaBillete500 = $request['billetes']['billete500'];
+            $registro->aperturaBillete200 = $request['billetes']['billete200'];
+            $registro->aperturaBillete100 = $request['billetes']['billete100'];
+            $registro->aperturaBillete50 = $request['billetes']['billete50'];
+            $registro->aperturaBillete20 = $request['billetes']['billete20'];
+            $registro->aperturaMoneda10 = $request['billetes']['moneda10'];
+            $registro->aperturaMoneda5 = $request['billetes']['moneda5'];
+            $registro->aperturaMoneda2 = $request['billetes']['moneda2'];
+            $registro->aperturaMoneda1 = $request['billetes']['moneda1'];
+            $registro->aperturaCentavo50 = $request['billetes']['centavo50'];
+        
 
         $registro->cantidadApertura = $request['cantidadApertura'];
         $registro->cantidadRealApertura = $request['cantidadRealApertura'];

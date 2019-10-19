@@ -55,12 +55,12 @@
                                 <tr role="row">
                                     <th>Folio</th>
                                     <th>Fecha Evento</th>
-                                    <th>Cliente</th>
-                                    <th>Vendedor</th>
-                                    <th>Version</th>
-                                    <th>Etiquetas</th>
-                                     <th>Ultima Modificación</th>
-                                     <th>Total</th>
+                                    <th class="d-none d-sm-table-cell">Cliente</th>
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>
+                                    <th class="d-none d-sm-table-cell">Version</th>
+                                    <th class="d-none d-sm-table-cell">Etiquetas</th>
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                                     <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -74,16 +74,13 @@
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
                                 
                                 @if (!is_null($budget->fechaEvento))
-                                    @php
-                                        $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
-                                    @endphp
-                                    <td class="">
-                                        <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>
-                                        <br>
-                                        {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                    @else
-                                    <td class="">{{$budget->fechaEvento}}</td>
-                                @endif
+                                @php
+                                    $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
+                                @endphp
+                                <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                @else
+                                <td class="">Pendiente</td>
+                            @endif
                                 
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
@@ -91,7 +88,7 @@
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
-                            <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                            <td class="d-none d-sm-table-cell text-center" style="font-size:14px;">
                                 @if($usuario != 2)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
@@ -110,7 +107,7 @@
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
-                                <td>
+                                <td  class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif

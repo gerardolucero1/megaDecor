@@ -55,12 +55,12 @@
                                 <tr role="row">
                                     <th>Folio</th>
                                     <th>Fecha Evento</th>
-                                    <th>Cliente</th>
-                                    <th>Vendedor</th>
-                                    <th>Version</th>
-                                    <th>Etiquetas</th>
-                                     <th>Ultima Modificación</th>
-                                     <th>Total</th>
+                                    <th class="d-none d-sm-table-cell">Cliente</th>
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>
+                                    <th class="d-none d-sm-table-cell">Version</th>
+                                    <th class="d-none d-sm-table-cell">Etiquetas</th>
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                                     <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -91,7 +91,7 @@
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
-                            <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                            <td class="text-center d-none d-sm-table-cell" style="font-size:14px;">
                                 @if($usuario != 2)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
@@ -108,7 +108,7 @@
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
-                                <td>
+                                <td class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif

@@ -13028,20 +13028,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13134,12 +13120,12 @@ var user = document.head.querySelector('meta[name="user"]');
   filters: {
     formatearFecha: function formatearFecha(val) {
       moment.locale('es');
-      var fecha = moment(val).format('MMMM Do YYYY');
+      var fecha = moment(val).format('dddd D MMMM YYYY');
       return fecha;
     },
     formatearHora: function formatearHora(val) {
       moment.locale('es');
-      var hora = moment(val).format('h:mm:ss a');
+      var hora = moment(val).format('h:mm a');
       return hora;
     },
     truncarDecimales: function truncarDecimales(x) {
@@ -13195,6 +13181,7 @@ var user = document.head.querySelector('meta[name="user"]');
       });
       axios.put(URL, this.pagoEditado).then(function (response) {
         alert('Pago editado');
+        location.reload();
       });
     },
     obtenerSesion: function obtenerSesion() {
@@ -13242,6 +13229,14 @@ var user = document.head.querySelector('meta[name="user"]');
           });
 
           _this5.presupuestoSeleccionado = presupuesto;
+
+          if (_this5.presupuestoSeleccionado.opcionIVA == 1) {
+            _this5.presupuestoSeleccionado.total = _this5.presupuestoSeleccionado.total * 1.16;
+            presupuesto.total = presupuesto.total * 1.16;
+          } else {
+            _this5.presupuestoSeleccionado.total = _this5.presupuestoSeleccionado.total;
+            presupuesto.total = presupuesto.total;
+          }
         }
       });
     },
@@ -13258,9 +13253,9 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     habilitarCaja: function habilitarCaja() {
-      if (this.sesion == '') {
+      if (this.sesion[0][0] == '') {
         this.mostrarAbrirCaja = true;
-      } else if (this.sesion.user_id == this.usuario.id && this.sesion.estatus == true) {
+      } else if (this.sesion[0][0].user_id == this.usuario.id && this.sesion[0][0].estatus == true) {
         this.mostrarAbrirCaja = false;
       }
     },
@@ -13269,6 +13264,15 @@ var user = document.head.querySelector('meta[name="user"]');
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
+
+      if (this.presupuestoSeleccionado.opcionIVA == 1) {
+        this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total * 1.16;
+        presupuesto.total = presupuesto.total * 1.16;
+      } else {
+        this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+        presupuesto.total = presupuesto.total;
+      }
+
       setTimeout(function () {
         _this7.limpiar = false;
       }, 1000);
@@ -13310,14 +13314,27 @@ var user = document.head.querySelector('meta[name="user"]');
       var _this9 = this;
 
       var URL = '/registrar-pago';
-      this.pago.budget_id = this.presupuestoSeleccionado.id;
-      axios.post(URL, this.pago).then(function (response) {
-        alert('Pago registrado');
 
-        _this9.obtenerPresupuestos();
-      })["catch"](function (error) {
-        console.log(error.data);
-      });
+      if (this.presupuestoSeleccionado == '') {
+        alert('Selecciona un contrato');
+      } else {
+        if (this.pago.method == '') {
+          alert('Selecciona un metodo de pago');
+        } else {
+          if (this.pago.amount > this.presupuestoSeleccionado.total - this.totalAbonado) {
+            alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
+          } else {
+            this.pago.budget_id = this.presupuestoSeleccionado.id;
+            axios.post(URL, this.pago).then(function (response) {
+              alert('Pago registrado');
+
+              _this9.obtenerPresupuestos();
+            })["catch"](function (error) {
+              console.log(error.data);
+            });
+          }
+        }
+      }
     }
   }
 });
@@ -73203,6 +73220,46 @@ var render = function() {
         ])
       : _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "p",
+              { staticStyle: { "border-radius": "10px", padding: "5px" } },
+              [
+                _c(
+                  "span",
+                  {
+                    staticStyle: {
+                      "font-weight": "bold",
+                      color: "green",
+                      "text-decoration": "underline"
+                    }
+                  },
+                  [_vm._v("*Caja Abierta")]
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  { staticStyle: { color: "grey", "font-style": "italic" } },
+                  [
+                    _vm._v(
+                      "Apertura por " +
+                        _vm._s(_vm.sesion[0][1].name) +
+                        " - " +
+                        _vm._s(
+                          _vm._f("formatearFecha")(
+                            _vm.sesion[0][0].fechaApertura
+                          )
+                        ) +
+                        " " +
+                        _vm._s(_vm.sesion[0][0].horaApertura)
+                    )
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
             _vm._m(25),
             _vm._v(" "),
             _c(
@@ -73304,14 +73361,14 @@ var render = function() {
                                                                   {
                                                                     staticStyle: {
                                                                       "font-weight":
-                                                                        "bolder"
+                                                                        "bold"
                                                                     }
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      " " +
+                                                                      "Folio: " +
                                                                         _vm._s(
-                                                                          presupuesto.cliente
+                                                                          presupuesto.folio
                                                                         )
                                                                     )
                                                                   ]
@@ -73334,7 +73391,7 @@ var render = function() {
                                                               [
                                                                 _vm._v(
                                                                   _vm._s(
-                                                                    presupuesto.folio
+                                                                    presupuesto.cliente
                                                                   )
                                                                 )
                                                               ]
@@ -73354,9 +73411,50 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  _vm._s(
-                                                                    presupuesto.fechaEvento
-                                                                  )
+                                                                  "Fecha del evento: " +
+                                                                    _vm._s(
+                                                                      presupuesto.fechaEvento
+                                                                    )
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "p",
+                                                              {
+                                                                staticStyle: {
+                                                                  padding: "0",
+                                                                  margin: "0",
+                                                                  "line-height":
+                                                                    "14px",
+                                                                  "font-size":
+                                                                    "11px"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "font-weight":
+                                                                        "bold"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Total:"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(
+                                                                  " " +
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "currency"
+                                                                      )(
+                                                                        presupuesto.total
+                                                                      )
+                                                                    )
                                                                 )
                                                               ]
                                                             )
@@ -73374,400 +73472,738 @@ var render = function() {
                                     ])
                                   : _vm._e(),
                                 _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "col-md-12 p-2 mt-2 infoPresupuesto"
-                                  },
-                                  [
-                                    _c("div", { staticClass: "row" }, [
-                                      _vm._m(27),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "col-md-6" }, [
-                                        _c("p", [
-                                          _vm._v(
-                                            _vm._s(
-                                              this.presupuestoSeleccionado
-                                                .cliente
-                                            )
-                                          )
-                                        ])
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _vm._m(28),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "col-md-6" }, [
-                                        _c("p", [
-                                          _vm._v(
-                                            _vm._s(
-                                              this.presupuestoSeleccionado
-                                                .fechaEvento
-                                            )
-                                          )
-                                        ])
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "col-md-4 text-center" },
-                                        [
-                                          _vm._m(29),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v(
-                                              "$ " +
-                                                _vm._s(
-                                                  this.presupuestoSeleccionado
-                                                    .total
-                                                )
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "col-md-4 text-center" },
-                                        [
-                                          _vm._m(30),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v(
-                                              "$ " + _vm._s(_vm.totalAbonado)
-                                            )
-                                          ])
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "col-md-4 text-center" },
-                                        [
-                                          _vm._m(31),
-                                          _vm._v(" "),
-                                          _c(
-                                            "p",
-                                            { staticClass: "text-danger" },
-                                            [
-                                              _vm._v(
-                                                "$ " +
-                                                  _vm._s(
-                                                    this.presupuestoSeleccionado
-                                                      .total - _vm.totalAbonado
-                                                  )
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "row" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-md-8 offset-md-2 abonarPresupuesto"
-                                        },
-                                        [
+                                _vm.presupuestoSeleccionado
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-md-12 p-2 mt-2 infoPresupuesto"
+                                      },
+                                      [
+                                        _c("div", { staticClass: "row" }, [
                                           _c(
                                             "div",
-                                            { staticClass: "col-md-12 mt-3" },
+                                            { staticClass: "col-md-5" },
                                             [
-                                              _c(
-                                                "select",
-                                                {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: _vm.pago.method,
-                                                      expression: "pago.method"
-                                                    }
-                                                  ],
-                                                  attrs: { name: "", id: "" },
-                                                  on: {
-                                                    change: function($event) {
-                                                      var $$selectedVal = Array.prototype.filter
-                                                        .call(
-                                                          $event.target.options,
-                                                          function(o) {
-                                                            return o.selected
-                                                          }
-                                                        )
-                                                        .map(function(o) {
-                                                          var val =
-                                                            "_value" in o
-                                                              ? o._value
-                                                              : o.value
-                                                          return val
-                                                        })
-                                                      _vm.$set(
-                                                        _vm.pago,
-                                                        "method",
-                                                        $event.target.multiple
-                                                          ? $$selectedVal
-                                                          : $$selectedVal[0]
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "EFECTIVO"
-                                                      }
-                                                    },
-                                                    [_vm._v("Efectivo")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: { value: "CHEQUE" }
-                                                    },
-                                                    [_vm._v("Cheque")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "TRANSFERENCIA"
-                                                      }
-                                                    },
-                                                    [_vm._v("Transferencia")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        value: "TARJETA"
-                                                      }
-                                                    },
-                                                    [_vm._v("Tarjeta")]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: { value: "DOLAR" }
-                                                    },
-                                                    [_vm._v("Dolar")]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-12 mt-3" },
-                                            [
-                                              _c("input", {
-                                                directives: [
+                                              _c("p", [
+                                                _c("strong", [
+                                                  _vm._v("Folio de contrato:")
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
                                                   {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: _vm.pago.amount,
-                                                    expression: "pago.amount"
-                                                  }
-                                                ],
-                                                attrs: { type: "number" },
-                                                domProps: {
-                                                  value: _vm.pago.amount
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
+                                                    staticStyle: {
+                                                      "line-height": "22px"
                                                     }
-                                                    _vm.$set(
-                                                      _vm.pago,
-                                                      "amount",
-                                                      $event.target.value
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        this
+                                                          .presupuestoSeleccionado
+                                                          .folio
+                                                      )
                                                     )
-                                                  }
-                                                }
-                                              })
+                                                  ]
+                                                ),
+                                                _c("br"),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticStyle: {
+                                                      color: "blue"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: {
+                                                          target: "_blank",
+                                                          href:
+                                                            "/presupuestos/ver/" +
+                                                            _vm
+                                                              .presupuestoSeleccionado
+                                                              .id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Ver ficha tecnica"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ])
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm.pago.method !=
-                                          ("EFECTIVO" || false)
-                                            ? _c(
-                                                "div",
-                                                {
-                                                  staticClass: "col-md-12 mt-3"
-                                                },
-                                                [
-                                                  _vm.pago.method == "DOLAR"
-                                                    ? _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.pago
-                                                                .reference,
-                                                            expression:
-                                                              "pago.reference"
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "number",
-                                                          placeholder:
-                                                            "Ingresa el tipo de cambio"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.pago.reference
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.pago,
-                                                              "reference",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  _vm.pago.method ==
-                                                  "TRANSFERENCIA"
-                                                    ? _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.pago
-                                                                .reference,
-                                                            expression:
-                                                              "pago.reference"
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "number",
-                                                          placeholder:
-                                                            "Ingresa los digitos de referencia"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.pago.reference
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.pago,
-                                                              "reference",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  _vm.pago.method == "TARJETA"
-                                                    ? _c("input", {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm.pago
-                                                                .reference,
-                                                            expression:
-                                                              "pago.reference"
-                                                          }
-                                                        ],
-                                                        attrs: {
-                                                          type: "number",
-                                                          placeholder:
-                                                            "Ingresa los ultimos 4 digitos de la tarjeta"
-                                                        },
-                                                        domProps: {
-                                                          value:
-                                                            _vm.pago.reference
-                                                        },
-                                                        on: {
-                                                          input: function(
-                                                            $event
-                                                          ) {
-                                                            if (
-                                                              $event.target
-                                                                .composing
-                                                            ) {
-                                                              return
-                                                            }
-                                                            _vm.$set(
-                                                              _vm.pago,
-                                                              "reference",
-                                                              $event.target
-                                                                .value
-                                                            )
-                                                          }
-                                                        }
-                                                      })
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            : _vm._e(),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-7" },
+                                            [
+                                              _c("p", [
+                                                _c("strong", [
+                                                  _vm._v("Fecha del evento: ")
+                                                ]),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticStyle: {
+                                                      "line-height": "13px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      " " +
+                                                        _vm._s(
+                                                          _vm._f(
+                                                            "formatearFecha"
+                                                          )(
+                                                            this
+                                                              .presupuestoSeleccionado
+                                                              .fechaEvento
+                                                          )
+                                                        )
+                                                    )
+                                                  ]
+                                                )
+                                              ])
+                                            ]
+                                          ),
                                           _vm._v(" "),
                                           _c(
                                             "div",
-                                            { staticClass: "col-md-12 mt-3" },
+                                            { staticClass: "col-md-12" },
                                             [
+                                              _c("p", [
+                                                _c("strong", [
+                                                  _vm._v("Cliente:")
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("span", [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      this
+                                                        .presupuestoSeleccionado
+                                                        .cliente
+                                                    )
+                                                  )
+                                                ])
+                                              ])
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(27),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-4 text-center",
+                                              staticStyle: {
+                                                background: "#E2F9FF",
+                                                "padding-top": "10px"
+                                              }
+                                            },
+                                            [
+                                              _vm._m(28),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("currency")(
+                                                      this
+                                                        .presupuestoSeleccionado
+                                                        .total
+                                                    )
+                                                  )
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-4 text-center",
+                                              staticStyle: {
+                                                "padding-top": "10px"
+                                              }
+                                            },
+                                            [
+                                              _vm._m(29),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("currency")(
+                                                      _vm.totalAbonado
+                                                    )
+                                                  )
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-4 text-center",
+                                              staticStyle: {
+                                                background: "#FFE2E2",
+                                                "padding-top": "10px"
+                                              }
+                                            },
+                                            [
+                                              _vm._m(30),
+                                              _vm._v(" "),
                                               _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-sm btn-info btn-block",
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.registrarPago()
-                                                    }
-                                                  }
-                                                },
-                                                [_vm._v("Registrar pago")]
+                                                "p",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm._f("currency")(
+                                                        this
+                                                          .presupuestoSeleccionado
+                                                          .total -
+                                                          _vm.totalAbonado
+                                                      )
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ]
                                           )
-                                        ]
-                                      )
-                                    ])
-                                  ]
-                                )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "row",
+                                            staticStyle: {
+                                              "padding-top": "15px"
+                                            }
+                                          },
+                                          [
+                                            (_vm.pago.method ==
+                                              "TRANSFERENCIA") |
+                                              (_vm.pago.method == "TARJETA") &&
+                                            _vm.presupuestoSeleccionado
+                                              .opcionIVA != "1"
+                                              ? _c(
+                                                  "p",
+                                                  {
+                                                    staticStyle: {
+                                                      color: "red",
+                                                      "font-style": "italic",
+                                                      padding: "10px",
+                                                      "text-align": "center",
+                                                      "line-height": "16px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "*Este contrato no requiere factura, por lo que al realizar pago con tarjeta o tranferencia se debera cobrar un 16% extra al abono a realizar"
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            (_vm.pago.method ==
+                                              "TRANSFERENCIA") |
+                                              (_vm.pago.method == "TARJETA") &&
+                                            _vm.presupuestoSeleccionado
+                                              .opcionIVA != "1"
+                                              ? _c(
+                                                  "p",
+                                                  {
+                                                    staticStyle: {
+                                                      color: "blue",
+                                                      "font-weight": "bold",
+                                                      "font-style": "normal",
+                                                      padding: "10px",
+                                                      "text-align": "center",
+                                                      "line-height": "18px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Total a pagar: " +
+                                                        _vm._s(
+                                                          _vm._f("currency")(
+                                                            _vm.pago.amount *
+                                                              1.16
+                                                          )
+                                                        )
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            (_vm.pago.method ==
+                                              "TRANSFERENCIA") |
+                                              (_vm.pago.method == "TARJETA") &&
+                                            _vm.presupuestoSeleccionado
+                                              .opcionIVA == "1"
+                                              ? _c(
+                                                  "p",
+                                                  {
+                                                    staticStyle: {
+                                                      color: "green",
+                                                      "font-style": "italic",
+                                                      padding: "10px",
+                                                      "text-align": "center"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "*IVA ya incluido en total a pagar"
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.totalAbonado !=
+                                            _vm.presupuestoSeleccionado.total
+                                              ? _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "col-md-8 offset-md-2 abonarPresupuesto"
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-12 mt-3"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "select",
+                                                          {
+                                                            directives: [
+                                                              {
+                                                                name: "model",
+                                                                rawName:
+                                                                  "v-model",
+                                                                value:
+                                                                  _vm.pago
+                                                                    .method,
+                                                                expression:
+                                                                  "pago.method"
+                                                              }
+                                                            ],
+                                                            attrs: {
+                                                              name: "",
+                                                              id: ""
+                                                            },
+                                                            on: {
+                                                              change: function(
+                                                                $event
+                                                              ) {
+                                                                var $$selectedVal = Array.prototype.filter
+                                                                  .call(
+                                                                    $event
+                                                                      .target
+                                                                      .options,
+                                                                    function(
+                                                                      o
+                                                                    ) {
+                                                                      return o.selected
+                                                                    }
+                                                                  )
+                                                                  .map(function(
+                                                                    o
+                                                                  ) {
+                                                                    var val =
+                                                                      "_value" in
+                                                                      o
+                                                                        ? o._value
+                                                                        : o.value
+                                                                    return val
+                                                                  })
+                                                                _vm.$set(
+                                                                  _vm.pago,
+                                                                  "method",
+                                                                  $event.target
+                                                                    .multiple
+                                                                    ? $$selectedVal
+                                                                    : $$selectedVal[0]
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Selecciona un metodo de pago"
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value:
+                                                                    "EFECTIVO"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Efectivo"
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value:
+                                                                    "CHEQUE"
+                                                                }
+                                                              },
+                                                              [_vm._v("Cheque")]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value:
+                                                                    "TRANSFERENCIA"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Transferencia"
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value:
+                                                                    "TARJETA"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Tarjeta"
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "option",
+                                                              {
+                                                                attrs: {
+                                                                  value: "DOLAR"
+                                                                }
+                                                              },
+                                                              [_vm._v("Dolar")]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-12 mt-3"
+                                                      },
+                                                      [
+                                                        _c("input", {
+                                                          directives: [
+                                                            {
+                                                              name: "model",
+                                                              rawName:
+                                                                "v-model",
+                                                              value:
+                                                                _vm.pago.amount,
+                                                              expression:
+                                                                "pago.amount"
+                                                            }
+                                                          ],
+                                                          attrs: {
+                                                            type: "number",
+                                                            min: "0"
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              _vm.pago.amount
+                                                          },
+                                                          on: {
+                                                            input: function(
+                                                              $event
+                                                            ) {
+                                                              if (
+                                                                $event.target
+                                                                  .composing
+                                                              ) {
+                                                                return
+                                                              }
+                                                              _vm.$set(
+                                                                _vm.pago,
+                                                                "amount",
+                                                                $event.target
+                                                                  .value
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm.pago.method !=
+                                                    ("EFECTIVO" || false)
+                                                      ? _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "col-md-12 mt-3"
+                                                          },
+                                                          [
+                                                            _vm.pago.method ==
+                                                            "DOLAR"
+                                                              ? _c("input", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "model",
+                                                                      rawName:
+                                                                        "v-model",
+                                                                      value:
+                                                                        _vm.pago
+                                                                          .reference,
+                                                                      expression:
+                                                                        "pago.reference"
+                                                                    }
+                                                                  ],
+                                                                  attrs: {
+                                                                    type:
+                                                                      "number",
+                                                                    placeholder:
+                                                                      "Ingresa el tipo de cambio"
+                                                                  },
+                                                                  domProps: {
+                                                                    value:
+                                                                      _vm.pago
+                                                                        .reference
+                                                                  },
+                                                                  on: {
+                                                                    input: function(
+                                                                      $event
+                                                                    ) {
+                                                                      if (
+                                                                        $event
+                                                                          .target
+                                                                          .composing
+                                                                      ) {
+                                                                        return
+                                                                      }
+                                                                      _vm.$set(
+                                                                        _vm.pago,
+                                                                        "reference",
+                                                                        $event
+                                                                          .target
+                                                                          .value
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                })
+                                                              : _vm._e(),
+                                                            _vm._v(" "),
+                                                            _vm.pago.method ==
+                                                            "TRANSFERENCIA"
+                                                              ? _c("input", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "model",
+                                                                      rawName:
+                                                                        "v-model",
+                                                                      value:
+                                                                        _vm.pago
+                                                                          .reference,
+                                                                      expression:
+                                                                        "pago.reference"
+                                                                    }
+                                                                  ],
+                                                                  attrs: {
+                                                                    type:
+                                                                      "number",
+                                                                    placeholder:
+                                                                      "Ingresa numero referencia de transacción"
+                                                                  },
+                                                                  domProps: {
+                                                                    value:
+                                                                      _vm.pago
+                                                                        .reference
+                                                                  },
+                                                                  on: {
+                                                                    input: function(
+                                                                      $event
+                                                                    ) {
+                                                                      if (
+                                                                        $event
+                                                                          .target
+                                                                          .composing
+                                                                      ) {
+                                                                        return
+                                                                      }
+                                                                      _vm.$set(
+                                                                        _vm.pago,
+                                                                        "reference",
+                                                                        $event
+                                                                          .target
+                                                                          .value
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                })
+                                                              : _vm._e(),
+                                                            _vm._v(" "),
+                                                            _vm.pago.method ==
+                                                            "TARJETA"
+                                                              ? _c("input", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "model",
+                                                                      rawName:
+                                                                        "v-model",
+                                                                      value:
+                                                                        _vm.pago
+                                                                          .reference,
+                                                                      expression:
+                                                                        "pago.reference"
+                                                                    }
+                                                                  ],
+                                                                  attrs: {
+                                                                    type:
+                                                                      "number",
+                                                                    placeholder:
+                                                                      "Ingresa los ultimos 4 digitos de la tarjeta"
+                                                                  },
+                                                                  domProps: {
+                                                                    value:
+                                                                      _vm.pago
+                                                                        .reference
+                                                                  },
+                                                                  on: {
+                                                                    input: function(
+                                                                      $event
+                                                                    ) {
+                                                                      if (
+                                                                        $event
+                                                                          .target
+                                                                          .composing
+                                                                      ) {
+                                                                        return
+                                                                      }
+                                                                      _vm.$set(
+                                                                        _vm.pago,
+                                                                        "reference",
+                                                                        $event
+                                                                          .target
+                                                                          .value
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                })
+                                                              : _vm._e()
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-12 mt-3"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "button",
+                                                          {
+                                                            staticClass:
+                                                              "btn btn-sm btn-info btn-block",
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.registrarPago()
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Registrar pago"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.totalAbonado ==
+                                            _vm.presupuestoSeleccionado.total
+                                              ? _c(
+                                                  "div",
+                                                  { staticClass: "col-md-12" },
+                                                  [
+                                                    _c(
+                                                      "p",
+                                                      {
+                                                        staticStyle: {
+                                                          color: "white",
+                                                          background: "green",
+                                                          padding: "10px",
+                                                          "border-radius":
+                                                            "5px",
+                                                          "font-style":
+                                                            "italic",
+                                                          "text-align": "center"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Contrato pagado"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
                               ],
                               1
                             )
@@ -73780,179 +74216,232 @@ var render = function() {
                               _c(
                                 "div",
                                 { staticClass: "col-md-12" },
-                                _vm._l(
-                                  _vm.presupuestoSeleccionado.payments,
-                                  function(item, index) {
-                                    return _c(
-                                      "div",
-                                      {
-                                        key: index,
-                                        staticClass: "registrosPagos"
+                                [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticStyle: {
+                                        "font-size": "15px",
+                                        padding: "10px"
                                       },
-                                      [
-                                        _c("div", { staticClass: "row" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-12" },
-                                            [
-                                              item.method == "TRANSFERENCIA"
-                                                ? _c("p", [
-                                                    _c("strong", [
-                                                      _vm._v("Referencia:")
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(item.reference)
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              item.method == "TARJETA"
-                                                ? _c("p", [
-                                                    _c("strong", [
-                                                      _vm._v(
-                                                        "Numero de tarjeta:"
-                                                      )
-                                                    ]),
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(item.reference)
-                                                    )
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              item.method == "DOLAR"
-                                                ? _c("p", [
-                                                    _c("strong", [
-                                                      _vm._v("Tipo de cambio:")
-                                                    ]),
-                                                    _vm._v(
-                                                      " $" +
-                                                        _vm._s(item.reference)
-                                                    )
-                                                  ])
-                                                : _vm._e()
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-6" },
-                                            [
-                                              _vm._m(32, true),
-                                              _vm._v(" "),
-                                              _c("p", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm._f("formatearFecha")(
-                                                      item.created_at
-                                                    )
-                                                  )
-                                                )
-                                              ])
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-6" },
-                                            [
-                                              _vm._m(33, true),
-                                              _vm._v(" "),
-                                              _c("p", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm._f("formatearHora")(
-                                                      item.created_at
-                                                    )
-                                                  )
-                                                )
-                                              ])
-                                            ]
+                                      attrs: { for: "" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Pagos realizados al contrato: " +
+                                          _vm._s(
+                                            _vm.presupuestoSeleccionado.folio
                                           )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "row" }, [
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(
+                                    _vm.presupuestoSeleccionado.payments,
+                                    function(item, index) {
+                                      return _c(
+                                        "div",
+                                        {
+                                          key: index,
+                                          staticClass: "registrosPagos"
+                                        },
+                                        [
                                           _c(
                                             "div",
-                                            { staticClass: "col-md-6" },
+                                            {
+                                              staticClass: "row",
+                                              staticStyle: { padding: "10px" }
+                                            },
                                             [
-                                              _vm._m(34, true),
-                                              _vm._v(" "),
-                                              _c("p", [
-                                                _vm._v(_vm._s(item.method))
-                                              ])
+                                              _c(
+                                                "div",
+                                                { staticClass: "col-md-12" },
+                                                [
+                                                  item.method != "DOLAR"
+                                                    ? _c("span", [
+                                                        _vm._v(
+                                                          "Abono: " +
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "currency"
+                                                              )(item.amount)
+                                                            )
+                                                        )
+                                                      ])
+                                                    : _c("span", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm._f("currency")(
+                                                              item.amount
+                                                            )
+                                                          ) +
+                                                            " $USD - " +
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "currency"
+                                                              )(
+                                                                item.amount *
+                                                                  item.reference
+                                                              )
+                                                            )
+                                                        )
+                                                      ]),
+                                                  _vm._v(" - "),
+                                                  _c("span", [
+                                                    _vm._v(_vm._s(item.method))
+                                                  ]),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  (_vm.presupuestoSeleccionado
+                                                    .opcionIVA != 1 &&
+                                                    item.method == "TARJETA") ||
+                                                  (_vm.presupuestoSeleccionado
+                                                    .opcionIVA != 1 &&
+                                                    item.method ==
+                                                      "TRANSFERENCIA")
+                                                    ? _c(
+                                                        "span",
+                                                        {
+                                                          staticStyle: {
+                                                            color: "green"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "IVA: " +
+                                                              _vm._s(
+                                                                _vm._f(
+                                                                  "currency"
+                                                                )(
+                                                                  item.amount *
+                                                                    0.16
+                                                                )
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _c("br"),
+                                                  _vm._v(" "),
+                                                  (_vm.presupuestoSeleccionado
+                                                    .opcionIVA != 1 &&
+                                                    item.method == "TARJETA") ||
+                                                  (_vm.presupuestoSeleccionado
+                                                    .opcionIVA != 1 &&
+                                                    item.method ==
+                                                      "TRANSFERENCIA")
+                                                    ? _c(
+                                                        "span",
+                                                        {
+                                                          staticStyle: {
+                                                            color: "blue"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Total Cobrado: " +
+                                                              _vm._s(
+                                                                _vm._f(
+                                                                  "currency"
+                                                                )(
+                                                                  item.amount *
+                                                                    1.16
+                                                                )
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              )
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-6" },
-                                            [
-                                              _vm._m(35, true),
-                                              _vm._v(" "),
-                                              item.method != "DOLAR"
-                                                ? _c("p", [
-                                                    _vm._v(
-                                                      "$" + _vm._s(item.amount)
-                                                    )
-                                                  ])
-                                                : _c("p", [
-                                                    _c(
-                                                      "strong",
-                                                      {
-                                                        staticClass:
-                                                          "text-danger"
-                                                      },
-                                                      [
+                                          _c("div", { staticClass: "row" }, [
+                                            _c(
+                                              "div",
+                                              { staticClass: "col-md-12" },
+                                              [
+                                                item.method == "TRANSFERENCIA"
+                                                  ? _c("p", [
+                                                      _c("strong", [
+                                                        _vm._v("Referencia:")
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(item.reference)
+                                                      )
+                                                    ])
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.method == "TARJETA"
+                                                  ? _c("p", [
+                                                      _c("strong", [
                                                         _vm._v(
-                                                          _vm._s(item.amount) +
-                                                            " $USD"
+                                                          "Numero de tarjeta:"
                                                         )
-                                                      ]
-                                                    ),
+                                                      ]),
+                                                      _vm._v(
+                                                        " " +
+                                                          _vm._s(item.reference)
+                                                      )
+                                                    ])
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.method == "DOLAR"
+                                                  ? _c("p", [
+                                                      _c("strong", [
+                                                        _vm._v(
+                                                          "Tipo de cambio:"
+                                                        )
+                                                      ]),
+                                                      _vm._v(
+                                                        " $" +
+                                                          _vm._s(item.reference)
+                                                      )
+                                                    ])
+                                                  : _vm._e()
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "col-md-12" },
+                                              [
+                                                _c("p", [
+                                                  _c("strong", [
                                                     _vm._v(
-                                                      " - $" +
+                                                      "Fecha y hora de pago: "
+                                                    )
+                                                  ]),
+                                                  _c("span", [
+                                                    _vm._v(
+                                                      " " +
                                                         _vm._s(
                                                           _vm._f(
-                                                            "truncarDecimales"
-                                                          )(
-                                                            item.amount *
-                                                              item.reference
-                                                          )
+                                                            "formatearFecha"
+                                                          )(item.created_at)
+                                                        ) +
+                                                        " " +
+                                                        _vm._s(
+                                                          _vm._f(
+                                                            "formatearHora"
+                                                          )(item.created_at)
                                                         )
                                                     )
                                                   ])
-                                            ]
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "row" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "col-md-12" },
-                                            [
-                                              _c("p", [
-                                                _c("strong", [
-                                                  _vm._v("Saldo pendiente: ")
-                                                ]),
-                                                _vm._v(
-                                                  " $" +
-                                                    _vm._s(
-                                                      _vm
-                                                        .presupuestoSeleccionado
-                                                        .total - item.amount
-                                                    )
-                                                )
-                                              ])
-                                            ]
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  }
-                                ),
-                                0
+                                                ])
+                                              ]
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "row" })
+                                        ]
+                                      )
+                                    }
+                                  )
+                                ],
+                                2
                               )
                             ])
                           ])
@@ -74170,123 +74659,259 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-6" }, [
-                          _c("div", { staticClass: "block col-md-12 caja-2" }, [
-                            _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block col-md-12 caja-2",
+                              staticStyle: {
+                                "max-height": "500px",
+                                overflow: "scroll"
+                              }
+                            },
+                            [
                               _c(
-                                "div",
-                                { staticClass: "col-md-12" },
-                                _vm._l(_vm.otrosPagos, function(item, index) {
-                                  return _c(
-                                    "div",
-                                    {
-                                      key: index,
-                                      staticClass: "registrosPagos"
-                                    },
-                                    [
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _c("h6", [
-                                            _vm._v(
-                                              "Motivo: " + _vm._s(item.motivo)
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-6" }, [
+                                "h5",
+                                {
+                                  staticStyle: {
+                                    "padding-top": "15px",
+                                    "text-align": "center"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "Ingresos / Egresos desde apertura de caja"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "col-md-12" },
+                                  _vm._l(_vm.otrosPagos, function(item, index) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        key: index,
+                                        staticClass: "registrosPagos"
+                                      },
+                                      [
+                                        _c("div", { staticClass: "row" }, [
                                           _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-sm btn-info",
-                                              attrs: {
-                                                "data-toggle": "modal",
-                                                "data-target": "#agregarCambio"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.pagoEditado = item
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Agregar cambio")]
+                                            "div",
+                                            { staticClass: "col-md-6" },
+                                            [
+                                              _c(
+                                                "h6",
+                                                {
+                                                  staticStyle: { color: "blue" }
+                                                },
+                                                [_vm._v(_vm._s(item.motivo))]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-6" },
+                                            [
+                                              item.tipo == "EGRESO"
+                                                ? _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-sm btn-info",
+                                                      staticStyle: {
+                                                        position: "absolute",
+                                                        right: "10px"
+                                                      },
+                                                      attrs: {
+                                                        "data-toggle": "modal",
+                                                        "data-target":
+                                                          "#agregarCambio"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.pagoEditado = item
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Devolución")]
+                                                  )
+                                                : _vm._e()
+                                            ]
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(36, true),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm._f("formatearFecha")(
-                                                  item.created_at
-                                                )
-                                              )
-                                            )
-                                          ])
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-12" },
+                                            [
+                                              _c("p", [
+                                                item.tipo == "EGRESO"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          color: "white",
+                                                          background: "red",
+                                                          padding: "3px",
+                                                          "border-radius":
+                                                            "7px",
+                                                          "font-size": "12px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(item.tipo) +
+                                                            ":"
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.tipo == "INGRESO"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          color: "white",
+                                                          background: "green",
+                                                          padding: "3px",
+                                                          "border-radius":
+                                                            "7px",
+                                                          "font-size": "12px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(item.tipo) +
+                                                            ":"
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticStyle: {
+                                                      "margin-left": "10px",
+                                                      "font-weight": "bold"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm._f("currency")(
+                                                          item.cantidad
+                                                        )
+                                                      )
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                item.resto > 0
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "margin-left": "15px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "Devolución: " +
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "currency"
+                                                              )(item.resto)
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
+                                            ]
+                                          )
                                         ]),
                                         _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(37, true),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm._f("formatearHora")(
-                                                  item.created_at
-                                                )
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-12" },
+                                            [
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "line-height": "16px"
+                                                  }
+                                                },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("Notas: ")
+                                                  ]),
+                                                  _c("br"),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticStyle: {
+                                                        "font-style": "italic"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(item.descripcion)
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    "font-style": "italic",
+                                                    position: "absolute",
+                                                    bottom: "0",
+                                                    right: "15px",
+                                                    "padding-top": "15px",
+                                                    "margin-bottom": "0",
+                                                    color: "grey"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm._f("formatearFecha")(
+                                                        item.created_at
+                                                      )
+                                                    ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm._f("formatearHora")(
+                                                          item.created_at
+                                                        )
+                                                      )
+                                                  )
+                                                ]
                                               )
-                                            )
-                                          ])
+                                            ]
+                                          )
                                         ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(38, true),
-                                          _vm._v(" "),
-                                          _c("p", [_vm._v(_vm._s(item.tipo))])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(39, true),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v("$" + _vm._s(item.cantidad))
-                                          ])
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(40, true),
-                                          _vm._v(" "),
-                                          _c("p", [
-                                            _vm._v("$" + _vm._s(item.resto))
-                                          ])
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "row" }, [
-                                        _c(
-                                          "div",
-                                          { staticClass: "col-md-12" },
-                                          [
-                                            _vm._m(41, true),
-                                            _vm._v(" "),
-                                            _c("p", [
-                                              _vm._v(_vm._s(item.descripcion))
-                                            ])
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                }),
-                                0
-                              )
-                            ])
-                          ])
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              ])
+                            ]
+                          )
                         ])
                       ])
                     ])
@@ -74318,7 +74943,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(42),
+              _vm._m(31),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -74396,19 +75021,19 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(43),
+              _vm._m(32),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(44),
+                      _vm._m(33),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(45),
+                          _vm._m(34),
                           _vm._v(" "),
-                          _vm._m(46),
+                          _vm._m(35),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74440,9 +75065,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(47),
+                          _vm._m(36),
                           _vm._v(" "),
-                          _vm._m(48),
+                          _vm._m(37),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74474,9 +75099,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(49),
+                          _vm._m(38),
                           _vm._v(" "),
-                          _vm._m(50),
+                          _vm._m(39),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74508,9 +75133,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(51),
+                          _vm._m(40),
                           _vm._v(" "),
-                          _vm._m(52),
+                          _vm._m(41),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74542,9 +75167,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(53),
+                          _vm._m(42),
                           _vm._v(" "),
-                          _vm._m(54),
+                          _vm._m(43),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74576,9 +75201,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(55),
+                          _vm._m(44),
                           _vm._v(" "),
-                          _vm._m(56),
+                          _vm._m(45),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74614,13 +75239,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(57),
+                      _vm._m(46),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(58),
+                          _vm._m(47),
                           _vm._v(" "),
-                          _vm._m(59),
+                          _vm._m(48),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74654,9 +75279,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(60),
+                          _vm._m(49),
                           _vm._v(" "),
-                          _vm._m(61),
+                          _vm._m(50),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74690,9 +75315,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(62),
+                          _vm._m(51),
                           _vm._v(" "),
-                          _vm._m(63),
+                          _vm._m(52),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74726,9 +75351,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(64),
+                          _vm._m(53),
                           _vm._v(" "),
-                          _vm._m(65),
+                          _vm._m(54),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74762,9 +75387,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(66),
+                          _vm._m(55),
                           _vm._v(" "),
-                          _vm._m(67),
+                          _vm._m(56),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -74800,7 +75425,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(68),
+                      _vm._m(57),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group" }, [
@@ -74870,7 +75495,10 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Abrir Caja 1")]
+                            [
+                              _c("i", { staticClass: "fa fa-inbox" }),
+                              _vm._v("Abrir Cajacambio")
+                            ]
                           )
                         ])
                       ])
@@ -74879,7 +75507,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(69)
+              _vm._m(58)
             ])
           ]
         )
@@ -75218,9 +75846,10 @@ var staticRenderFns = [
             "button",
             {
               staticClass: "btn btn-info",
+              staticStyle: { "margin-left": "15px" },
               attrs: { "data-toggle": "modal", "data-target": "#cerrarCaja" }
             },
-            [_vm._v("Cerrar caja")]
+            [_c("i", { staticClass: "fa fa-inbox" }), _vm._v(" Cerrar caja")]
           )
         ])
       ]
@@ -75241,23 +75870,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("p", [_c("strong", [_vm._v("Nombre cliente: ")])])
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("p", [_c("strong", [_vm._v("Fecha Limite de pago: ")])])
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("p", [_c("strong", [_vm._v("Fecha del evento: ")])])
+    return _c("p", [
+      _c("strong", { staticStyle: { "font-weight": "bold" } }, [
+        _vm._v("Total a pagar: ")
+      ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Total: ")])])
   },
   function() {
     var _vm = this
@@ -75275,66 +75902,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Fecha de pago:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Hora de pago:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Metodo de pago:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Cantidad abonada")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Fecha de pago:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Hora de pago:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Tipo:")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Cantidad")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Cambio")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("strong", [_vm._v("Notas: ")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "h5",
@@ -75342,7 +75909,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "exampleModalCenterTitle" }
         },
-        [_vm._v("Añadir cambio")]
+        [_vm._v("Devolución / Cambio")]
       ),
       _vm._v(" "),
       _c(
@@ -93702,14 +94269,6 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         "\n                                " +
-                          _vm._s(_vm._f("currency")(producto.precioEspecial)) +
-                          "\n                                \n                            "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        "\n                                " +
                           _vm._s(_vm._f("currency")(producto.precioUnitario)) +
                           " "
                       ),
@@ -93724,6 +94283,14 @@ var render = function() {
                             )
                           ])
                         : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(_vm._f("currency")(producto.precioEspecial)) +
+                          "\n                                \n                            "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", [
@@ -94279,7 +94846,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "row", staticStyle: { display: "none" } }, [
           _c(
             "div",
             {
@@ -94400,7 +94967,11 @@ var render = function() {
               "div",
               {
                 staticClass: "row",
-                staticStyle: { "padding-top": "15px", "padding-bottom": "15px" }
+                staticStyle: {
+                  "padding-top": "15px",
+                  "padding-bottom": "15px",
+                  display: "none"
+                }
               },
               [
                 _c("div", { staticClass: "col-md-12" }, [
@@ -94784,9 +95355,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Especial")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Unitario")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Especial")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio Final")]),
         _vm._v(" "),
