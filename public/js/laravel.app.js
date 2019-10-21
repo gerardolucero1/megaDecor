@@ -77934,26 +77934,18 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm._m(1),
-                _c("br"),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                  _vm._v("Nuevo Ingreso")
-                ]),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                  _vm._v("Nuevo Egreso")
-                ])
+                _c("br")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }, [
+                _vm._m(2),
+                _vm._v(" "),
                 _c("div", { staticClass: "font-size-h3 font-w600" }, [
                   _vm._v(_vm._s(_vm._f("currency")(_vm.sumarTotalCaja)))
                 ]),
                 _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
                 _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                  _vm._v("Corte de caja")
+                  _vm._v("Caja")
                 ])
               ])
             ])
