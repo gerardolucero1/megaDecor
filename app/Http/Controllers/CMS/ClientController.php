@@ -121,7 +121,7 @@ class ClientController extends Controller
             $cliente->nombre = $request->nombreCliente;
             $cliente->apellidoPaterno = $request->apellidoCliente;
             $cliente->apellidoMaterno = $request->apellidoCliente2;
-            $cliente->email = $request->emailFacturacion;
+            $cliente->email = $request->emailCliente;
             $cliente->direccionEmpresa = $request->direccionEmpresa;
             $cliente->coloniaEmpresa = $request->coloniaEmpresa;
             $cliente->numeroEmpresa = $request->numeroEmpresa;

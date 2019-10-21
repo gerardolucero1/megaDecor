@@ -105,7 +105,7 @@
                         <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
                                 <option value="">Selecciona una familia</option>
                             @foreach($familias as $familia)    
-                        <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                             @endforeach
                             </select>
                     <div class="form-material">

@@ -55,12 +55,12 @@
                                 <tr role="row">
                                     <th>Folio</th>
                                     <th>Fecha Evento</th>
-                                    <th>Cliente</th>
-                                    <th>Vendedor</th>
-                                    <th>Version</th>
-                                    <th>Etiquetas</th>
-                                     <th>Ultima Modificación</th>
-                                     <th>Total</th>
+                                    <th class="d-none d-sm-table-cell">Cliente</th>
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>
+                                    <th class="d-none d-sm-table-cell">Version</th>
+                                    <th class="d-none d-sm-table-cell">Etiquetas</th>
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                                     <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -91,14 +91,12 @@
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
-                            <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                            <td class="text-center d-none d-sm-table-cell" style="font-size:14px;">
                                 @if($usuario != 2)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                     </a>
-                                    <a href="">
-                                        <i class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
-                                    </a>
+                                    <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>             
                                 @endif
                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
@@ -110,17 +108,17 @@
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
-                                <td>
+                                <td class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if($usuario != 2)
-                                    <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
@@ -194,8 +192,7 @@
                                     </td>
                                 <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
                                 <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                    <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
-                                    <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a></td>
+                                <i onclick="enviarCorreoCliente({{$budgetArchivados->id}})" class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                             @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                     </td>
@@ -272,15 +269,17 @@
                                             @php
                                                 $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
-                                                if($cliente->tipo = "FISICO"){
-                                                    $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre. ' '.$clienteCompleto->apellidoPaterno;
+                                                if($cliente->tipoPersona == "FISICA"){
+                                                    $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                                    $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                                   // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                   
                                                 }else{
-                                                    $clienteCompleto = App\MoralPerson::where('client_id', $cliente->id)->first();
-                                                    $nombre = $clienteCompleto->nombre;
+                                                    $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                                    $clienteNombre = $clienteMoral->nombre;
                                                 }
                                             @endphp
-                                            <td class="d-none d-sm-table-cell">{{$nombre}}</td>
+                                            <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->version>1)
@@ -290,7 +289,7 @@
                                             </td>
                                             <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
                                                 <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                                <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
+                                                <i onclick="enviarCorreoCliente({{$budgetArchivados->id}})" class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
                                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                             </td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
@@ -301,12 +300,12 @@
                                                 @endphp
                                             <td>${{$total}}</td>
                                             <td class="d-flex" style="box-sizing: content-box;">
-                                                <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
+                                                <a href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
-                                                </button>
-                                                <button style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
+                                                </a>
+                                                <a href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
-                                                </button> 
+                                                </a> 
                                             </td>
                                         </tr>
                                     @endforeach
@@ -355,6 +354,24 @@
                             
         })
     }
+    function enviarCorreoCliente(id){
+                let URL = '/enviar-email-cliente/'  + id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                            'Error!',
+                            'A ocurrido un error al enviar el correo, intentar mas tarde',
+                            'Danger'
+                        ); 
+                })
+            }
     function presupuestosArchivados(){
         document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";
@@ -373,3 +390,4 @@
     </script>
 
 @endsection
+

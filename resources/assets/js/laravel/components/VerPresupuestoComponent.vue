@@ -74,9 +74,22 @@
         <div class="container-version">
     Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
-        <div class="row">
-            <div class="col-md-12">
+        
+        <div v-if="presupuesto.tipo == 'CONTRATO'" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
+            <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
+            <div class="col-md-4">
+                <p><span style="font-weight:bold">Entrega de mobiliario: </span>{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
+                <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
             </div>
+            <div class="col-md-4">
+                <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+                <p><span style="font-weight:bold">Dirección Facturación: </span>{{presupuesto.direccionFacturacion}} {{presupuesto.numeroFacturacion}} {{presupuesto.coloniaFacturacion}}</p>
+            </div>
+            <div class="col-md-4">
+                <p><span style="font-weight:bold">Email Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+            </div>
+            
+            
         </div>
         <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
@@ -104,8 +117,9 @@
                         </div>
                     </div>
                     <div class="col-md-4 text-right info">
-                        <p style="font-weight:bold; font-size:25px">Folio: {{ presupuesto.folio }}</p>
+                        <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
+                            <div> <p style=" text-align:right"><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
                             </div>
@@ -131,45 +145,38 @@
                     </div>
                     <div class="col-md-4  row">
                                 <h4>Horario del evento</h4>
-                            <div class="col-md-6" style="padding-left:0">
+                                <p style="width:100%" v-if="presupuesto.pendienteHora">Horario Pendiente</p>
+                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
                             </div>
                            
-                            <div class="col-md-6" style="padding-left:0">
+                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoFin" readonly>
                             </div>
-                             <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora" disabled>
-                            Pendiende</label>
+                             
                             </div>
                     <div class="col-md-4">
                         
                         <div class="row" >
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
-                                <select name="categoriaEvento" id="" v-model="presupuesto.categoriaEvento" disabled>
-                                    <option value="1">Boda</option>
-                                    <option value="2">XV Años</option>
-                                    <option value="3">Aniversario</option>
-                                    <option value="4">Cumpleaños</option>
-                                    <option value="5">Gala</option>
-                                    <option value="6">Baile</option>
-                                </select>
+                                <p>{{ presupuesto.categoriaEvento }}</p>
                                  <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
-                                <div class="row mt-4">
+                                <div class="row mt-4" style="background:#D0EFCF; border-radius:5px; padding:10px">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento" readonly>
+                                        <p v-if="presupuesto.pendienteFecha==null">{{ mostrarFechaEvento }}</p>
+                                        <label v-if="presupuesto.pendienteFecha">Fecha Pendiente</label>
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
                                     </div>
                                     
                                 </div>
-                                <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha" disabled="disabled">
-                                <label for="pendienteFecha">Pendiende</label>
+                                
+                                
 
                             </div>
                         </div>
@@ -180,8 +187,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <p>Requiere factura: {{ presupuesto.requiereFactura }}</p> <br>
-                        <p>Requiere montaje: {{ presupuesto.requiereMontaje }}</p>
+                        
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
@@ -219,36 +225,40 @@
                 </div>
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento" disabled>
                         <label for="lugarMismo">Misma Direccion</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento" disabled>
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento" disabled>
+                        <label for="lugarOtro">Recoge en bodega</label>
+                    </div>
+                    <div class="col-md-3">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar" disabled>
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
 
-                    <div class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
                         <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar" readonly>
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
                         <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar" readonly>
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar" readonly>
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
                         <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar" readonly>
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
-                    <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar" readonly>
+                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-12 mt-4">
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -297,8 +307,8 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
@@ -317,12 +327,12 @@
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioEspecial | currency}}
-                                    
-                                </td>
-                                <td>
                                     {{ producto.precioUnitario | currency}} <br>
                                     <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
+                                </td>
+                                <td>
+                                    {{ producto.precioEspecial | currency}}
+                                    
                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
@@ -379,7 +389,7 @@
                                    
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
-                                    <p>Comision pagada en base a $ <span>150</span></p>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -389,7 +399,7 @@
                 <!-- Registro de pagos -->
 
             
-                <div class="row">
+                <div class="row" style="display:none">
                     <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
                         <label for="">Metodo de pago: </label>
                         <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
@@ -408,7 +418,7 @@
                 </div>
                
 
-                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px; display:none">
                     <div class="col-md-12">
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
@@ -753,6 +763,13 @@
             
         },
         computed:{
+            mostrarFechaEvento: function(){
+                let fecha = this.presupuesto.fechaEvento;
+                moment.locale('es'); 
+                let date = moment(fecha).format('LLLL');
+
+                return date;
+            },
             pagarAntesDe: function(){
                 let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
                 return fechaLimite;
@@ -890,10 +907,10 @@
                     */
 
                 }else{
-                     this.presupuesto.nombreLugar = '';
-                    this.presupuesto.direccionLugar = '';
-                    this.presupuesto.numeroLugar = '';
-                    this.presupuesto.coloniaLugar = '';
+                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
                 }
                 
             },

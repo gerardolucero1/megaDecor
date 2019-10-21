@@ -6,6 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Presupuesto</title>
 </head>
+@php                        
+    use Carbon\Carbon;    
+    $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
+@endphp
 <body style="font-family: Helvetica; ">
     <p style="line-height: 15px; font-size: 16px; font-style: italic">Ficha tecnica de evento para operadores</p>
     <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
@@ -15,7 +19,9 @@
           </td>
           <td colspan="2" style="text-align: right">
             <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span><br>
-              <span style="font-weight: bold; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: normal;  font-size: 13px;">{{$presupuesto->cliente}}</span>
+              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 16px;">{{$presupuesto->cliente}}</span><br>
+              <span style="font-weight: bold; font-size: 13px;">Fecha y hora del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 14px;">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+              <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
             </p>
             </td>
         </tr>
@@ -32,17 +38,21 @@
         <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento</H3></td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px;">
-<td colspan="2"><span>Fecha y Hora: </span></td>
-<td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
+<td colspan="2"><span>Fecha y Hora del evento: </span></td>
+<td colspan="4"><span style="font-weight: bold">Dirección de entrega: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
-    @php                        
-    use Carbon\Carbon;    
-    $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
-@endphp
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Pendiente @endif</td>
-<td colspan="2">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif</td>
+<td colspan="2">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic; font-weight:bold">Notas lugar de entrega:</span><span> {{$presupuesto->observacionesLugar}}</span></td>
 </tr>
+<tr>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+  </tr>
 <tr style="font-weight: bold; padding-top: 20px">
 <td colspan="2"><span>Entrega de Mobiliario: </span></td>
 <td colspan="2"><span>Recolección de Mobiliario: </span></td> 
@@ -68,6 +78,18 @@
 
 
 </table>
+
+<table>
+    <tr style="background:#F7F7F7; width: 100%">
+        <td style="width: 100%">
+          <p>
+          <span style="font-weight: bold">Notas de presupuesto:</span><br>
+          <span style="font-weight: normal; font-style: italic">{{$presupuesto->notasPresupuesto}}</span>
+        </p>
+        </td>
+      </tr>
+</table>
+
 <table style="width: 100%; margin-top: 10px">
   <tr style="padding: 4px; color:white; background:#9E9E9E; text-align: center;">
     
@@ -118,12 +140,7 @@
 @endforeach
 
     @endif
-<tr>
-  <td colspan="3"><br>
-    <span style="font-weight: bold">Notas de presupuesto:</span><br>
-    <span style="font-weight: normal; font-style: italic">{{$presupuesto->notasPresupuesto}}</span>
-  </td>
-</tr>
+
 </table>
 @php
   if($presupuesto->opcionIVA==1){

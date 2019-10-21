@@ -8,8 +8,10 @@ use App\Telephone;
 use App\BudgetPack;
 use App\MoralPerson;
 use App\TaskComment;
+use App\CashRegister;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\Mail\CorteCaja;
 use App\PhysicalPerson;
 use App\BudgetInventory;
 use App\BudgetPackInventory;
@@ -126,6 +128,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
     Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
     Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
+
+    //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
+    Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
+    Route::post('budget-categorias', 'CMS\BudgetCategoryController@store')->name('budgetCategoria.store');
+    Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@delete')->name('budgetCategoria.delete');
 
         //Versiones
         Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
@@ -358,6 +365,30 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
+
+    //Route::resource('caja', 'CMS\CashRegisterController');
+    Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
+    Route::get('caja/obtener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
+    Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
+    Route::put('caja/{id}', 'CMS\CashRegisterController@update')->name('caja.update');
+    Route::get('caja/corte', 'CMS\CashRegisterController@corte')->name('pagos.corte');
+    Route::get('caja/enviar-email', function(){
+        $sesion = CashRegister::orderBy('id', 'DESC')->first();
+
+        Mail::to('ivonnearroyosg@msn.com', 'Corte de caja')
+            ->send(new CorteCaja($sesion));
+    });
+
+        //Obtener la sesion de caja
+        Route::get('obtener-sesion-caja', function () {
+            $sesion = CashRegister::orderBy('id', 'DESC')->first();
+            $usuario = User::where('id', $sesion->user_id)->first();
+            $arraySesion=[];
+            array_push($arraySesion, [$sesion, $usuario]);
+            return $arraySesion;
+        });
+
+    Route::resource('pagos', 'CMS\OtherPaymentsController');
 
 });
 

@@ -55,12 +55,12 @@
                                 <tr role="row">
                                     <th>Folio</th>
                                     <th>Fecha Evento</th>
-                                    <th>Cliente</th>
-                                    <th>Vendedor</th>
-                                    <th>Version</th>
-                                    <th>Etiquetas</th>
-                                     <th>Ultima Modificación</th>
-                                     <th>Total</th>
+                                    <th class="d-none d-sm-table-cell">Cliente</th>
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>
+                                    <th class="d-none d-sm-table-cell">Version</th>
+                                    <th class="d-none d-sm-table-cell">Etiquetas</th>
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                                     <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -74,16 +74,13 @@
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
                                 
                                 @if (!is_null($budget->fechaEvento))
-                                    @php
-                                        $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
-                                    @endphp
-                                    <td class="">
-                                        <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>
-                                        <br>
-                                        {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                    @else
-                                    <td class="">{{$budget->fechaEvento}}</td>
-                                @endif
+                                @php
+                                    $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
+                                @endphp
+                                <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                @else
+                                <td class="">Pendiente</td>
+                            @endif
                                 
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
@@ -91,14 +88,14 @@
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
-                            <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                            <td class="d-none d-sm-table-cell text-center" style="font-size:14px;">
                                 @if($usuario != 2)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                     </a>
-                                    <a href="">
-                                        <i class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
-                                    </a>
+                                
+                                    <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>   
+                                 
                                 @endif
                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
@@ -110,7 +107,7 @@
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
-                                <td>
+                                <td  class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif
@@ -269,8 +266,20 @@
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif
-                                            
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->client_id}}</td>
+                                        @php
+                                        $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
+
+                                        if($cliente->tipoPersona == "FISICA"){
+                                            $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                            $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                           // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                           
+                                        }else{
+                                            $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
+                                            $clienteNombre = $clienteMoral->nombre;
+                                        }
+                                    @endphp
+                                            <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->version>1)
@@ -291,12 +300,12 @@
                                                 @endphp
                                             <td>${{$total}}</td>
                                             <td class="d-flex" style="box-sizing: content-box;">
-                                                <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
+                                                <a href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
-                                                </button>
-                                                <button style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
+                                                </a>
+                                                <a href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
-                                                </button> 
+                                                </a> 
                                             </td>
                                         </tr>
                                     @endforeach
@@ -345,6 +354,24 @@
                             
         })
     }
+    function enviarCorreoCliente(id){
+                let URL = '/enviar-email-cliente/'  + id;
+
+                axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'El presupuesto ha sido enviado por correo',
+                            'success'
+                        ); 
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                            'Error!',
+                            'A ocurrido un error al enviar el correo, intentar mas tarde',
+                            'Danger'
+                        ); 
+                })
+            }
     function presupuestosArchivados(){
         document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";

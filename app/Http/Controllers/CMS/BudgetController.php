@@ -305,15 +305,23 @@ class BudgetController extends Controller
         $arregloFamilias = [];
 
         foreach($Elementos as $item){
+            
             $element = Inventory::where('servicio', $item->servicio)->first();
-            array_push($arregloFamilias, $element->familia);
+            if(is_null($element)){
+                array_push($arregloFamilias, 'General');
+            }else{
+            array_push($arregloFamilias, $element->familia);}
         }
 
         foreach($Paquetes as $paquete){
             $elements = BudgetPackInventory::where('budget_pack_id', $paquete->id)->get();
             foreach($elements as $element){
                 $producto = Inventory::where('servicio', $element->servicio)->first();
-                array_push($arregloFamilias, $producto->familia);
+                if(is_null($producto)){
+                    array_push($arregloFamilias, 'General');
+                }else{
+                array_push($arregloFamilias, $producto->familia);}
+           
             }
         }
 
@@ -601,6 +609,7 @@ class BudgetController extends Controller
         $oldVersion->version = $version->version;
         $oldVersion->comision = $version->comision;
         $oldVersion->total = $version->total;
+        $oldVersion->notasPresupuesto = $version->notasPresupuesto;
         $oldVersion->quienEdito = Auth::user()->name;
         $oldVersion->save();
 
@@ -644,6 +653,7 @@ class BudgetController extends Controller
         $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
+        $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];

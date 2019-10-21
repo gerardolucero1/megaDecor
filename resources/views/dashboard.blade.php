@@ -12,7 +12,7 @@
         
             
                 <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
-                    <div class="col-12" style="padding-bottom:20px">
+                    <div class="col-10" style="padding-bottom:20px">
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                     <i class="fa fa-calendar-plus-o"></i> <i>Crear presupuesto</i> 
                                 </button>
@@ -29,6 +29,11 @@
                                         <i class="si si-settings"></i> <i>Configuraciones</i> 
                                 </button>
                     </div>
+                    @if ($usuario == 17)
+                    <div class="col-2">
+                        <a style="" href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a> 
+                    </div>
+                    @endif
                     
 
                     <div class="col-6 col-xl-3">
@@ -136,7 +141,7 @@
                                                         <div class="text-right">
                                                             <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                         </div>
-                                                        <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
+                                                        <label for="" style="font-size:10px; color:green; font-style: italic">Disponible en modo test</label>
                                                         <div class="row pt-10 pb-30 text-center">
                                                             <div class="col-6 border-r">
                                                                 
@@ -162,7 +167,7 @@
                                                             <div class="text-right">
                                                                 <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                                                             </div>
-                                                            <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
+                                                            <label for="" style="font-size:10px; color:green; font-style: italic">Disponible en modo test</label>
                                                             <div class="row pt-10 pb-30 text-left">
                                                                 <div class="col-6  border-r">
                                                                     <p style="font-weight: bold;">Ingresos: </p>
