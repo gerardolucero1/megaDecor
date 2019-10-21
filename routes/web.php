@@ -246,7 +246,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('enviar-email-cliente/{id}', function($id){
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
-        $presupuesto->impresion = 1;
+        $presupuesto->enviado = 1;
         $presupuesto->save();
 
         $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();

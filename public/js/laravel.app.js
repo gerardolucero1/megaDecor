@@ -18146,6 +18146,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -18253,6 +18254,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       inventarioLocal: [],
       festejados: [],
+      notasAnterior: '',
       //Edicion de paquete
       indicePaqueteEdicion: '',
       paqueteEdicion: {
@@ -19025,7 +19027,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     //Notas
-    editarNotas: function editarNotas(index, key) {
+    editarNotas: function editarNotas(index, key, notas) {
+      this.notasActualizadas = notas;
       this.indice = index;
       this.key = key[7];
       console.log(index);
@@ -20925,6 +20928,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
 //
 //
 //
@@ -85944,7 +85949,9 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("h4", [_vm._v("Lugar del Evento")]),
+              _vm.presupuesto.lugarEvento != "BODEGA"
+                ? _c("h4", [_vm._v("Lugar del Evento")])
+                : _c("h4", [_vm._v("Recolección en bodega")]),
               _vm._v(" "),
               _c(
                 "div",
@@ -85960,140 +85967,150 @@ var render = function() {
                   }
                 },
                 [
-                  _c("div", { staticClass: "col-md-10 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.nombreLugar,
-                          expression: "presupuesto.nombreLugar"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Nombre" },
-                      domProps: { value: _vm.presupuesto.nombreLugar },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _vm.presupuesto.lugarEvento != "BODEGA"
+                    ? _c("div", { staticClass: "col-md-10 mt-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.nombreLugar,
+                              expression: "presupuesto.nombreLugar"
+                            }
+                          ],
+                          attrs: { type: "text", placeholder: "Nombre" },
+                          domProps: { value: _vm.presupuesto.nombreLugar },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "nombreLugar",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "nombreLugar",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
+                        })
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.direccionLugar,
-                          expression: "presupuesto.direccionLugar"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Direccion" },
-                      domProps: { value: _vm.presupuesto.direccionLugar },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _vm.presupuesto.lugarEvento != "BODEGA"
+                    ? _c("div", { staticClass: "col-md-4 mt-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.direccionLugar,
+                              expression: "presupuesto.direccionLugar"
+                            }
+                          ],
+                          attrs: { type: "text", placeholder: "Direccion" },
+                          domProps: { value: _vm.presupuesto.direccionLugar },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "direccionLugar",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "direccionLugar",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
+                        })
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-2 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.numeroLugar,
-                          expression: "presupuesto.numeroLugar"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Numero" },
-                      domProps: { value: _vm.presupuesto.numeroLugar },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _vm.presupuesto.lugarEvento != "BODEGA"
+                    ? _c("div", { staticClass: "col-md-2 mt-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.numeroLugar,
+                              expression: "presupuesto.numeroLugar"
+                            }
+                          ],
+                          attrs: { type: "text", placeholder: "Numero" },
+                          domProps: { value: _vm.presupuesto.numeroLugar },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "numeroLugar",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "numeroLugar",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
+                        })
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.coloniaLugar,
-                          expression: "presupuesto.coloniaLugar"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "Colonia" },
-                      domProps: { value: _vm.presupuesto.coloniaLugar },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _vm.presupuesto.lugarEvento != "BODEGA"
+                    ? _c("div", { staticClass: "col-md-4 mt-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.coloniaLugar,
+                              expression: "presupuesto.coloniaLugar"
+                            }
+                          ],
+                          attrs: { type: "text", placeholder: "Colonia" },
+                          domProps: { value: _vm.presupuesto.coloniaLugar },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "coloniaLugar",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "coloniaLugar",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
+                        })
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-2 mt-4" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.CPLugar,
-                          expression: "presupuesto.CPLugar"
-                        }
-                      ],
-                      attrs: { type: "text", placeholder: "C.P" },
-                      domProps: { value: _vm.presupuesto.CPLugar },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _vm.presupuesto.lugarEvento != "BODEGA"
+                    ? _c("div", { staticClass: "col-md-2 mt-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.CPLugar,
+                              expression: "presupuesto.CPLugar"
+                            }
+                          ],
+                          attrs: { type: "text", placeholder: "C.P" },
+                          domProps: { value: _vm.presupuesto.CPLugar },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.presupuesto,
+                                "CPLugar",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.presupuesto,
-                            "CPLugar",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ]),
+                        })
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-12 mt-4" }, [
                     _c("input", {
@@ -86889,7 +86906,8 @@ var render = function() {
                                       click: function($event) {
                                         _vm.editarNotas(
                                           index,
-                                          Object.keys(producto)
+                                          Object.keys(producto),
+                                          producto.notas
                                         )
                                       }
                                     }
@@ -94128,7 +94146,9 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c("h4", [_vm._v("Lugar del Evento")]),
+        _vm.presupuesto.lugarEvento != "BODEGA"
+          ? _c("h4", [_vm._v("Lugar del Evento")])
+          : _c("h4", [_vm._v("Recolección en bodega")]),
         _vm._v(" "),
         _c(
           "div",

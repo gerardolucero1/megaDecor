@@ -223,7 +223,9 @@
                         </div>
                     </div>
                 </div>
-                <h4>Lugar del Evento</h4>
+                <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
+                <h4 v-else>Recolección en bodega</h4>
+
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento" disabled>
