@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -168,7 +170,7 @@ class CashRegisterController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('registro'));
+        $pdf = PDF::loadView('pdf.contabilidad', compact('registro'));
 
         return $pdf->stream();
     }

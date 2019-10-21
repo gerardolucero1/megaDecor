@@ -13083,6 +13083,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13116,7 +13177,8 @@ var user = document.head.querySelector('meta[name="user"]');
         motivo: '',
         descripcion: '',
         metodo: '',
-        referencia: ''
+        referencia: '',
+        responsable: ''
       },
       cantidadApertura: null,
       cantidadRealApertura: null,
@@ -13383,6 +13445,7 @@ var user = document.head.querySelector('meta[name="user"]');
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
+      this.movimiento.responsable = presupuesto.folio;
       setTimeout(function () {
         _this9.limpiar = false;
       }, 1000);
@@ -74363,31 +74426,415 @@ var render = function() {
                                     _vm._v("Motivo")
                                   ]),
                                   _vm._v(" "),
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.movimiento.motivo,
-                                        expression: "movimiento.motivo"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: { type: "text" },
-                                    domProps: { value: _vm.movimiento.motivo },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.movimiento.motivo,
+                                          expression: "movimiento.motivo"
                                         }
-                                        _vm.$set(
-                                          _vm.movimiento,
-                                          "motivo",
-                                          $event.target.value
-                                        )
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { name: "", id: "" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.movimiento,
+                                            "motivo",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
                                       }
-                                    }
-                                  })
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "OTRO", id: "" } },
+                                        [_vm._v("Otro")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        {
+                                          attrs: { value: "CONTRATO", id: "" }
+                                        },
+                                        [_vm._v("Contrato")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        {
+                                          attrs: { value: "PROVEEDOR", id: "" }
+                                        },
+                                        [_vm._v("Proveedor")]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-12" }, [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _vm.movimiento.motivo == "PROVEEDOR"
+                                    ? _c("div", [
+                                        _c("label", { attrs: { for: "" } }, [
+                                          _vm._v("Proveedores")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "select",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value:
+                                                  _vm.movimiento.responsable,
+                                                expression:
+                                                  "movimiento.responsable"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: { name: "", id: "" },
+                                            on: {
+                                              change: function($event) {
+                                                var $$selectedVal = Array.prototype.filter
+                                                  .call(
+                                                    $event.target.options,
+                                                    function(o) {
+                                                      return o.selected
+                                                    }
+                                                  )
+                                                  .map(function(o) {
+                                                    var val =
+                                                      "_value" in o
+                                                        ? o._value
+                                                        : o.value
+                                                    return val
+                                                  })
+                                                _vm.$set(
+                                                  _vm.movimiento,
+                                                  "responsable",
+                                                  $event.target.multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "ELEKTRA" } },
+                                              [_vm._v("Elektra")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "WALMART" } },
+                                              [_vm._v("Walmart")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "OXXO" } },
+                                              [_vm._v("Oxxo")]
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.movimiento.motivo == "OTRO"
+                                    ? _c("div", [
+                                        _c("label", { attrs: { for: "" } }, [
+                                          _vm._v("Responsable")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.movimiento.responsable,
+                                              expression:
+                                                "movimiento.responsable"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "text" },
+                                          domProps: {
+                                            value: _vm.movimiento.responsable
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                _vm.movimiento,
+                                                "responsable",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.movimiento.motivo == "CONTRATO"
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("label", { attrs: { for: "" } }, [
+                                            _vm._v("Contrato")
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("buscador-component", {
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              limpiar: _vm.limpiar,
+                                              placeholder: "Buscar presupuesto",
+                                              "event-name":
+                                                "presupuestosResults",
+                                              list: _vm.presupuestos,
+                                              keys: [
+                                                "folio",
+                                                "fechaEvento",
+                                                "cliente"
+                                              ]
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _vm.presupuestosResults.length <
+                                          _vm.presupuestos.length
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "row" },
+                                                [
+                                                  _vm.presupuestosResults
+                                                    .length !== 0
+                                                    ? _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "col-md-12 resultadoInventario"
+                                                        },
+                                                        _vm._l(
+                                                          _vm.presupuestosResults.slice(
+                                                            0,
+                                                            20
+                                                          ),
+                                                          function(
+                                                            presupuesto
+                                                          ) {
+                                                            return _c(
+                                                              "div",
+                                                              {
+                                                                key:
+                                                                  presupuesto.id
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "row contenedor-producto",
+                                                                    staticStyle: {
+                                                                      margin:
+                                                                        "0"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.obtenerPresupuesto(
+                                                                          presupuesto
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._m(
+                                                                      37,
+                                                                      true
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "col-md-8"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticStyle: {
+                                                                              padding:
+                                                                                "0",
+                                                                              margin:
+                                                                                "0",
+                                                                              "line-height":
+                                                                                "14px",
+                                                                              "font-size":
+                                                                                "13px"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "span",
+                                                                              {
+                                                                                staticStyle: {
+                                                                                  "font-weight":
+                                                                                    "bolder"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  " " +
+                                                                                    _vm._s(
+                                                                                      presupuesto.cliente
+                                                                                    )
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticStyle: {
+                                                                              padding:
+                                                                                "0",
+                                                                              margin:
+                                                                                "0",
+                                                                              "line-height":
+                                                                                "14px",
+                                                                              "font-size":
+                                                                                "11px"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                presupuesto.folio
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticStyle: {
+                                                                              padding:
+                                                                                "0",
+                                                                              margin:
+                                                                                "0",
+                                                                              "line-height":
+                                                                                "14px",
+                                                                              "font-size":
+                                                                                "11px"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                presupuesto.fechaEvento
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          }
+                                                        ),
+                                                        0
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticStyle: {
+                                                "background-color":
+                                                  "rgba(240, 242, 245, 1)",
+                                                "margin-top": "8px",
+                                                padding: "5px"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "p",
+                                                { staticClass: "text-danger" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm
+                                                        .presupuestoSeleccionado
+                                                        .folio
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "h4",
+                                                {
+                                                  staticStyle: {
+                                                    "line-height": "2px"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm
+                                                        .presupuestoSeleccionado
+                                                        .cliente
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
                                 ])
                               ])
                             ]),
@@ -74735,7 +75182,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(37, true),
+                                          _vm._m(38, true),
                                           _vm._v(" "),
                                           _c("p", [
                                             _vm._v(
@@ -74749,7 +75196,7 @@ var render = function() {
                                         ]),
                                         _vm._v(" "),
                                         _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(38, true),
+                                          _vm._m(39, true),
                                           _vm._v(" "),
                                           _c("p", [
                                             _vm._v(
@@ -74765,13 +75212,13 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(39, true),
+                                          _vm._m(40, true),
                                           _vm._v(" "),
                                           _c("p", [_vm._v(_vm._s(item.tipo))])
                                         ]),
                                         _vm._v(" "),
                                         _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(40, true),
+                                          _vm._m(41, true),
                                           _vm._v(" "),
                                           _c("p", [
                                             _vm._v("$" + _vm._s(item.cantidad))
@@ -74781,7 +75228,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("div", { staticClass: "row" }, [
                                         _c("div", { staticClass: "col-md-6" }, [
-                                          _vm._m(41, true),
+                                          _vm._m(42, true),
                                           _vm._v(" "),
                                           _c("p", [_vm._v(_vm._s(item.metodo))])
                                         ]),
@@ -74791,7 +75238,7 @@ var render = function() {
                                               "div",
                                               { staticClass: "col-md-6" },
                                               [
-                                                _vm._m(42, true),
+                                                _vm._m(43, true),
                                                 _vm._v(" "),
                                                 _c("p", [
                                                   _vm._v(
@@ -74852,7 +75299,7 @@ var render = function() {
                                           "div",
                                           { staticClass: "col-md-12" },
                                           [
-                                            _vm._m(43, true),
+                                            _vm._m(44, true),
                                             _vm._v(" "),
                                             _c("p", [
                                               _vm._v(_vm._s(item.descripcion))
@@ -74898,7 +75345,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(44),
+              _vm._m(45),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -74976,7 +75423,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(45),
+              _vm._m(46),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "row" }, [
@@ -75005,13 +75452,13 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(46),
+                      _vm._m(47),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(47),
-                          _vm._v(" "),
                           _vm._m(48),
+                          _vm._v(" "),
+                          _vm._m(49),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75043,9 +75490,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(49),
-                          _vm._v(" "),
                           _vm._m(50),
+                          _vm._v(" "),
+                          _vm._m(51),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75077,9 +75524,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(51),
-                          _vm._v(" "),
                           _vm._m(52),
+                          _vm._v(" "),
+                          _vm._m(53),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75111,9 +75558,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(53),
-                          _vm._v(" "),
                           _vm._m(54),
+                          _vm._v(" "),
+                          _vm._m(55),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75145,9 +75592,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(55),
-                          _vm._v(" "),
                           _vm._m(56),
+                          _vm._v(" "),
+                          _vm._m(57),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75179,9 +75626,9 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(57),
-                          _vm._v(" "),
                           _vm._m(58),
+                          _vm._v(" "),
+                          _vm._m(59),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75217,13 +75664,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(59),
+                      _vm._m(60),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(60),
-                          _vm._v(" "),
                           _vm._m(61),
+                          _vm._v(" "),
+                          _vm._m(62),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75257,9 +75704,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(62),
-                          _vm._v(" "),
                           _vm._m(63),
+                          _vm._v(" "),
+                          _vm._m(64),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75293,9 +75740,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(64),
-                          _vm._v(" "),
                           _vm._m(65),
+                          _vm._v(" "),
+                          _vm._m(66),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75329,9 +75776,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(66),
-                          _vm._v(" "),
                           _vm._m(67),
+                          _vm._v(" "),
+                          _vm._m(68),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75365,9 +75812,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(68),
-                          _vm._v(" "),
                           _vm._m(69),
+                          _vm._v(" "),
+                          _vm._m(70),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
                             _c("input", {
@@ -75403,7 +75850,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "block" }, [
-                      _vm._m(70),
+                      _vm._m(71),
                       _vm._v(" "),
                       _c("div", { staticClass: "block-content" }, [
                         _c("div", { staticClass: "form-group" }, [
@@ -75482,7 +75929,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(71)
+              _vm._m(72)
             ])
           ]
         )
@@ -75881,6 +76328,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", [_c("strong", [_vm._v("Cantidad abonada")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "https://i.stack.imgur.com/l60Hf.png", alt: "" }
+      })
+    ])
   },
   function() {
     var _vm = this
@@ -109875,7 +110333,12 @@ Vue.component('contabilidad-component', __webpack_require__(/*! ./components/Con
 var EventBus = new Vue();
 var app = new Vue({
   el: '#app',
-  store: _store__WEBPACK_IMPORTED_MODULE_6__["default"]
+  store: _store__WEBPACK_IMPORTED_MODULE_6__["default"],
+  methods: {
+    obtenerPresupuestos: function obtenerPresupuestos(id) {
+      alert(id);
+    }
+  }
 });
 document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');

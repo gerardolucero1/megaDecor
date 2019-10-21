@@ -411,7 +411,68 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="">Motivo</label>
-                                                    <input class="form-control" type="text" v-model="movimiento.motivo">
+                                                    <select class="form-control" name="" id="" v-model="movimiento.motivo">
+                                                        <option value="OTRO" id="">Otro</option>
+                                                        <option value="CONTRATO" id="">Contrato</option>
+                                                        <option value="PROVEEDOR" id="">Proveedor</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div v-if="movimiento.motivo == 'PROVEEDOR'">
+                                                        <label for="">Proveedores</label>
+                                                        <select class="form-control" name="" id="" v-model="movimiento.responsable">
+                                                            <option value="ELEKTRA">Elektra</option>
+                                                            <option value="WALMART">Walmart</option>
+                                                            <option value="OXXO">Oxxo</option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div v-if="movimiento.motivo == 'OTRO'">
+                                                        <label for="">Responsable</label>
+                                                        <input type="text" class="form-control" v-model="movimiento.responsable">
+                                                    </div>
+                                                    
+                                                    <div v-if="movimiento.motivo == 'CONTRATO'">
+                                                        <label for="">Contrato</label>
+                                                        <buscador-component
+                                                            :limpiar="limpiar"
+                                                            placeholder="Buscar presupuesto"
+                                                            event-name="presupuestosResults"
+                                                            :list="presupuestos"
+                                                            :keys="['folio', 'fechaEvento', 'cliente']"
+                                                            class="form-control"
+                                                        ></buscador-component>
+
+                                                        <!-- Resultado Busqueda -->
+                                                        <div class="row" v-if="presupuestosResults.length < presupuestos.length">
+                                                            <div v-if="presupuestosResults.length !== 0" class="col-md-12 resultadoInventario">
+                                                                <div v-for="presupuesto in presupuestosResults.slice(0,20)" :key="presupuesto.id">
+                                                                    <div class="row contenedor-producto" v-on:click="obtenerPresupuesto(presupuesto)" style="margin:0">
+                                                                        <div class="col-md-3">
+                                                                            <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ presupuesto.cliente }}</span></p>
+                                                                            <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.folio }}</p>
+                                                                            <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.fechaEvento }}</p>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="background-color: rgba(240, 242, 245, 1); margin-top: 8px; padding: 5px;">
+                                                            <p class="text-danger">{{ presupuestoSeleccionado.folio }}</p>
+                                                            <h4 style="line-height: 2px;">{{ presupuestoSeleccionado.cliente }}</h4>
+                                                        </div>
+
+                                                        <!-- Fin resultado busqueda -->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -793,6 +854,7 @@ export default {
                 descripcion: '',
                 metodo: '',
                 referencia: '',
+                responsable: '',
             },
             cantidadApertura: null,
             cantidadRealApertura: null,
@@ -1073,6 +1135,7 @@ export default {
         obtenerPresupuesto: function(presupuesto){
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
+            this.movimiento.responsable = presupuesto.folio;
 
             setTimeout(() => {
                 this.limpiar = false;
