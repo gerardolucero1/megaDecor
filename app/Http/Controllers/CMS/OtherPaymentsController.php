@@ -25,7 +25,6 @@ class OtherPaymentsController extends Controller
         $registro = CashRegister::where('estatus', true)->first();
         $pagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
 
-
         return $pagos;
     }
 
