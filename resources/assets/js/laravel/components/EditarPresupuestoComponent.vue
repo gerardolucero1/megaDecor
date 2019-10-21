@@ -229,6 +229,18 @@ padding: 0;
                                 <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
                     </div>
+                    <div class="row">
+                    <div class="col-md-4">
+                        <label>Requiere factura:</label> 
+                        -SI <input type="radio" required value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                        -NO <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                    </div>
+                    <div class="col-md-4">
+                        <label>Requiere montaje:</label>
+                        -SI <input type="radio" required value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
+                        -NO <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> 
+                    </div>
+                </div>
                 </div>
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>

@@ -221,7 +221,7 @@
                             <input type="number" class="form-control" v-model="cantidadRealApertura">
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja 1</button>
+                            <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
                         </div>
                     </div>
                 </div>
@@ -688,7 +688,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -701,7 +701,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -714,7 +714,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -727,7 +727,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -740,7 +740,7 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -772,7 +772,7 @@
                                         <input type="number" class="form-control" v-model="cantidadRealCierre">
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()"><i class="fa fa-inbox"></i>Abrir Cajacambio</button>
+                                        <button style="display:none" class="btn btn-sm btn-block btn-info" @click="abrirCaja()"><i class="fa fa-inbox"></i>Abrir Cajacambio</button>
                                         <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja 1</button>
                                     </div>
                                 </div>
@@ -881,7 +881,7 @@ export default {
                     }
                 });
 
-                suma = suma + this.sesion.cantidadRealApertura;
+                suma = suma + this.sesion[0][0].cantidadRealApertura;
 
                 this.pagosCorte[0][1].forEach((element) => {
                     if(element.tipo == 'INGRESO'){
@@ -1184,7 +1184,7 @@ export default {
         },
 
         cerrarCaja: function(){
-            let URL = 'caja/' + this.sesion.id;
+            let URL = 'caja/' + this.sesion[0][0].id;
 
             axios.put(URL, {
                 cantidadRealCierre: this.cantidadRealCierre,

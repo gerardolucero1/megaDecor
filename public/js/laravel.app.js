@@ -13202,7 +13202,7 @@ var user = document.head.querySelector('meta[name="user"]');
             }
           }
         });
-        suma = suma + this.sesion.cantidadRealApertura;
+        suma = suma + this.sesion[0][0].cantidadRealApertura;
         this.pagosCorte[0][1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
             if (element.metodo != ('TRANSFERENCIA' || false)) {
@@ -13495,7 +13495,7 @@ var user = document.head.querySelector('meta[name="user"]');
     cerrarCaja: function cerrarCaja() {
       var _this12 = this;
 
-      var URL = 'caja/' + this.sesion.id;
+      var URL = 'caja/' + this.sesion[0][0].id;
       axios.put(URL, {
         cantidadRealCierre: this.cantidadRealCierre,
         cantidadCierre: this.sumarCantidad,
@@ -17277,6 +17277,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -73577,7 +73589,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Abrir Caja 1")]
+                    [_vm._v("Abrir Caja")]
                   )
                 ])
               ])
@@ -76485,6 +76497,7 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-sm btn-block btn-info",
+                              staticStyle: { display: "none" },
                               on: {
                                 click: function($event) {
                                   return _vm.abrirCaja()
@@ -77119,7 +77132,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3336/608/10-Pesos.jpg",
@@ -77141,7 +77154,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg",
@@ -77163,7 +77176,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3782/629/2-Pesos.jpg",
@@ -77185,7 +77198,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3444/383/1-Peso.jpg",
@@ -77207,7 +77220,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
           src: "https://i.colnect.net/f/3019/209/50-Centavos.jpg",
@@ -86747,7 +86760,131 @@ var render = function() {
                             : _vm._e()
                         ])
                       ])
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("label", [_vm._v("Requiere factura:")]),
+                      _vm._v(" \n                        -SI "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.requiereFactura,
+                            expression: "presupuesto.requiereFactura"
+                          }
+                        ],
+                        attrs: {
+                          type: "radio",
+                          required: "",
+                          value: "SI",
+                          name: "requiereFactura"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.presupuesto.requiereFactura, "SI")
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.presupuesto,
+                              "requiereFactura",
+                              "SI"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" \n                        -NO "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.requiereFactura,
+                            expression: "presupuesto.requiereFactura"
+                          }
+                        ],
+                        attrs: {
+                          type: "radio",
+                          value: "NO",
+                          name: "requiereFactura"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.presupuesto.requiereFactura, "NO")
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.presupuesto,
+                              "requiereFactura",
+                              "NO"
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("label", [_vm._v("Requiere montaje:")]),
+                      _vm._v("\n                        -SI "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.requiereMontaje,
+                            expression: "presupuesto.requiereMontaje"
+                          }
+                        ],
+                        attrs: {
+                          type: "radio",
+                          required: "",
+                          value: "SI",
+                          name: "requiereMontaje"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.presupuesto.requiereMontaje, "SI")
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.presupuesto,
+                              "requiereMontaje",
+                              "SI"
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v("\n                        -NO "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.presupuesto.requiereMontaje,
+                            expression: "presupuesto.requiereMontaje"
+                          }
+                        ],
+                        attrs: {
+                          type: "radio",
+                          value: "NO",
+                          name: "requiereMontaje"
+                        },
+                        domProps: {
+                          checked: _vm._q(_vm.presupuesto.requiereMontaje, "NO")
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.$set(
+                              _vm.presupuesto,
+                              "requiereMontaje",
+                              "NO"
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
                 ]
               ),
               _vm._v(" "),
@@ -112944,13 +113081,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
