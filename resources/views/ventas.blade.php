@@ -22,7 +22,7 @@
             <div class="col-md-3"><button class="btn btn-primary"><i class="si si-printer"></i>Imprimir</button></div>
         </div>
     </section>
-    <section class="container">
+    <section id="ventas" class="container">
         <div class="row">
             <div class="col-md-12 block">
                 <div class="block-content block-content-full clearfix">
@@ -56,9 +56,15 @@
                                     <td class="d-none d-sm-table-cell">{{ $contrato->user->name }}</td>
                                     <td class="d-none d-sm-table-cell">{{ $contrato->comision }}</td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Lista de eventos" data-original-title="View Customer">
+                                        <a href="{{ route('ventas.show', $contrato->client_id) }}" 
+                                            target="_blank"
+                                            type="button" 
+                                            class="btn btn-sm btn-secondary js-tooltip-enabled" 
+                                            data-toggle="tooltip" title="Ver Lista de eventos" 
+                                            data-original-title="View Customer"
+                                            >
                                             <i class="fa fa-list-ul"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -155,10 +161,6 @@
 
 @section('scripts')
     <script>
-        function obtenerDatos(){
-            let fecha = document.getElementById('fecha').value;
-
-            axios.get()
-        }
+        
     </script>
 @endsection

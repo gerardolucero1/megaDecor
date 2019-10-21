@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CMS;
 
+use App\Payment;
 use Carbon\Carbon;
 use App\OtherPayments;
 use Illuminate\Http\Request;
@@ -91,4 +92,5 @@ class OtherPaymentsController extends Controller
     {
         //
     }
+
 }

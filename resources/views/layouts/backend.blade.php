@@ -233,8 +233,16 @@
                                         </li>
                                     </ul>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
-                                    <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
+                                    
                                 </li>
+                                <li class="">
+                                    <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ route('contabilidad.historialCortes') }}">Historial cortes</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 <li class="nav-main-heading">
                                     <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
                                 </li>

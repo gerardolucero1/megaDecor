@@ -4,12 +4,15 @@ namespace App\Http\Controllers\CMS;
 
 use App\Task;
 use stdClass;
+use App\Budget;
+use App\User;
+use App\Client;
+use App\Inventory;
+use App\Telephone;
 use Carbon\Carbon;
-Use App\Budget;
-Use App\User;
-Use App\Client;
-Use App\Inventory;
-Use App\Telephone;
+use App\MoralPerson;
+use App\CashRegister;
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
@@ -766,5 +769,24 @@ class IndexController extends Controller
         $pdf = PDF::loadView('pdf.reporteVentas', compact('contratos'));
 
         return $pdf->stream();
+    }
+
+    public function ventasShow($id){
+        $cliente = Client::where('id', $id)->first();
+
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+        }else{
+            $persona = MoralPerson::where('client_id', $cliente->id)->first();
+        }
+
+        $presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get();
+
+        return view('ventasShow', compact('presupuestos', 'persona'));
+    }
+
+    public function historialCortes(){
+        $cortes = CashRegister::orderBy('id', 'DESC')->where('estatus', false)->get();
+        return view('cortesCaja', compact('cortes'));
     }
 }

@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -155,7 +157,7 @@ class CashRegisterController extends Controller
         $fechaHoy = $date->format('Y-m-d');
         $horaHoy = $date->toTimeString();
 
-        $registro = CashRegister::whereDate('created_at', $fechaHoy)->where('estatus', true)->first();
+        $registro = CashRegister::where('estatus', true)->first();
         $pagos = Payment::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
         $otrosPagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
 
@@ -163,6 +165,16 @@ class CashRegisterController extends Controller
         array_push($registros, [$pagos, $otrosPagos]);
 
         return $registros;
+    }
+
+    public function pdf($id){
+        $registro = CashRegister::findOrFail($id);
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.contabilidad', compact('registro'));
+
+        return $pdf->stream();
     }
 
 }

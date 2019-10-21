@@ -66,6 +66,7 @@ class CreateBudgetsTable extends Migration
             $table->string('numeroFacturacion')->nullable();
             $table->string('coloniaFacturacion')->nullable();
             $table->string('emailFacturacion')->nullable();
+            $table->string('rfcFacturacion')->nullable();
 
             //Impresion
             $table->boolean('impresion')->nullable();

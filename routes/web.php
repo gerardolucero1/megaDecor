@@ -3,14 +3,17 @@
 use App\User;
 use App\Budget;
 use App\Client;
+use App\Payment;
 use App\Inventory;
 use App\Telephone;
+use Carbon\Carbon;
 use App\BudgetPack;
 use App\MoralPerson;
 use App\TaskComment;
 use App\CashRegister;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\OtherPayments;
 use App\Mail\CorteCaja;
 use App\PhysicalPerson;
 use App\BudgetInventory;
@@ -132,7 +135,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
     Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
     Route::post('budget-categorias', 'CMS\BudgetCategoryController@store')->name('budgetCategoria.store');
-    Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@delete')->name('budgetCategoria.delete');
+    Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@destroy')->name('budgetCategoria.delete');
 
         //Versiones
         Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
@@ -169,6 +172,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ventas', 'CMS\IndexController@ventas')->name('index.ventas');
     Route::post('/ventas', 'CMS\IndexController@ventasFiltro')->name('show.ventas');
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
+    Route::get('/ventas/{id}', 'CMS\IndexController@ventasShow')->name('ventas.show');
 
     //Emails
     Route::post('enviar-email', function(Request $request){
@@ -379,6 +383,8 @@ Route::group(['middleware' => ['auth']], function () {
             ->send(new CorteCaja($sesion));
     });
 
+    Route::get('contabilidad/cortes', 'CMS\IndexController@historialCortes')->name('contabilidad.historialCortes');
+
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {
             $sesion = CashRegister::orderBy('id', 'DESC')->first();
@@ -387,6 +393,19 @@ Route::group(['middleware' => ['auth']], function () {
             array_push($arraySesion, [$sesion, $usuario]);
             return $arraySesion;
         });
+    Route::get('contabilidad/pagos', function(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $sesion = CashRegister::where('estatus', true)->first();
+
+        $arrayDatos = [$pagos, $otrosPagos, $sesion];
+
+        return $arrayDatos;
+    });
+
+    Route::get('contabilidad/pdf/{id}', 'CMS\CashRegisterController@pdf')->name('contabilidad.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
 
