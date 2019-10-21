@@ -14238,6 +14238,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -77448,7 +77449,16 @@ var render = function() {
             _c("div", { staticClass: "row pt-10 pb-30 text-center" }, [
               _c("div", { staticClass: "col-6 border-r" }, [
                 _c("div", { staticClass: "font-size-h3 font-w600" }, [
-                  _c("span", [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "font-size-sm font-w600 text-uppercase text-muted"
+                    },
+                    [_vm._v("Ingresos del dia")]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticStyle: { color: "green" } }, [
                     _vm._v(_vm._s(_vm._f("currency")(_vm.sumarPagos)))
                   ]),
                   _c("br"),
@@ -77461,37 +77471,37 @@ var render = function() {
                         "line-height": "10px"
                       }
                     },
-                    [
-                      _vm._v(
-                        "Egresos: " +
-                          _vm._s(_vm._f("currency")(_vm.sumarEgresos))
-                      )
-                    ]
+                    [_vm._v("Egresos: ")]
+                  ),
+                  _c(
+                    "span",
+                    {
+                      staticStyle: {
+                        color: "red",
+                        "font-size": "14px",
+                        "line-height": "10px"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm._f("currency")(_vm.sumarEgresos)))]
                   )
-                ]),
-                _vm._v(" "),
-                _vm._m(1),
-                _c("br"),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                  _vm._v("Nuevo Ingreso")
-                ]),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                  _vm._v("Nuevo Egreso")
                 ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }, [
+                _vm._m(1),
+                _vm._v(" "),
                 _c("div", { staticClass: "font-size-h3 font-w600" }, [
                   _vm._v(_vm._s(_vm._f("currency")(_vm.sumarTotalCaja)))
                 ]),
                 _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                  _vm._v("Corte de caja")
-                ])
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-sm btn-success",
+                    attrs: { href: "caja" }
+                  },
+                  [_vm._v("Ver Caja")]
+                )
               ])
             ])
           ])
@@ -77501,7 +77511,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-6" }, [
         _c("a", { staticClass: "block", attrs: { href: "#" } }, [
           _c("div", { staticClass: "block-content block-content-full" }, [
-            _vm._m(3),
+            _vm._m(2),
             _vm._v(" "),
             _c("div", { staticClass: "row pt-10 pb-30 text-left" }, [
               _c("div", { staticClass: "col-6  border-r" }, [
@@ -77528,11 +77538,21 @@ var render = function() {
                       return item.tipo == "INGRESO"
                         ? _c("li", { key: index }, [
                             _vm._v(
-                              "\n                                    Pago por " +
+                              "\n                                 " +
                                 _vm._s(item.motivo) +
                                 " - " +
                                 _vm._s(_vm._f("currency")(item.cantidad)) +
-                                "\n                                "
+                                " - "
+                            ),
+                            _c(
+                              "span",
+                              {
+                                staticStyle: {
+                                  color: "green",
+                                  "font-size": "6px"
+                                }
+                              },
+                              [_vm._v(" " + _vm._s(item.metodo))]
                             )
                           ])
                         : _vm._e()
@@ -77544,21 +77564,28 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-6" }, [
                 _c("p", { staticStyle: { "font-weight": "bold" } }, [
-                  _vm._v("Ingresos: ")
+                  _vm._v("Egresos: ")
                 ]),
                 _vm._v(" "),
                 _c(
                   "ul",
-                  { staticStyle: { "font-size": "12px" } },
+                  { staticStyle: { "font-size": "12px", margin: "0" } },
                   _vm._l(_vm.otrosPagos, function(item, index) {
                     return item.tipo == "EGRESO"
                       ? _c("li", { key: index }, [
                           _vm._v(
-                            "\n                                    Pago " +
+                            "\n                                    " +
                               _vm._s(item.motivo) +
                               " - " +
                               _vm._s(_vm._f("currency")(item.cantidad)) +
-                              "\n                                "
+                              " - "
+                          ),
+                          _c(
+                            "span",
+                            {
+                              staticStyle: { color: "red", "font-size": "6px" }
+                            },
+                            [_vm._v(" " + _vm._s(item.metodo))]
                           )
                         ])
                       : _vm._e()
@@ -77581,16 +77608,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "text-right" }, [
       _c("i", { staticClass: "si si-wallet fa-2x text-body-bg-dark" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "font-size-sm font-w600 text-uppercase text-muted" },
-      [_c("br"), _vm._v("Ingresos del dia")]
-    )
   },
   function() {
     var _vm = this

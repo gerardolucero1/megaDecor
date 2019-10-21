@@ -10,17 +10,18 @@
                         <div class="row pt-10 pb-30 text-center">
                             <div class="col-6 border-r">
                                 <div class="font-size-h3 font-w600">
-                                    <span>{{ sumarPagos | currency }}</span><br>
-                                    <span style="font-size:14px; line-height: 10px;">Egresos: {{ sumarEgresos | currency }}</span>
+                                    <div class="font-size-sm font-w600 text-uppercase text-muted">Ingresos del dia</div>
+                                    <span style="color:green">{{ sumarPagos | currency }}</span><br>
+                                    <span style="font-size:14px; line-height: 10px;">Egresos: </span><span style="color:red; font-size:14px; line-height: 10px;">{{ sumarEgresos | currency }}</span>
                                 </div>
-                                <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos del dia</div><br>
-                                <button class="btn btn-sm btn-success" style="">Nuevo Ingreso</button> <button class="btn btn-sm btn-danger" style="">Nuevo Egreso</button>
+                                
+                               
                                 
                             </div>
                             <div class="col-6">
-                                <div class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
                                 <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Total en caja</div>
-                                <button class="btn btn-sm btn-success" style="">Corte de caja</button>
+                                <div class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
+                                <a href="caja" class="btn btn-sm btn-success" style="">Ver Caja</a>
                             </div>
                         </div>
                     </div>
@@ -39,15 +40,15 @@
                                 <ul style="font-size: 12px;">
                                     <li v-for="(item, index) in pagos" :key="index">Abono Contrato {{ item.budget.folio }} - {{ item.amount | currency }}</li>
                                     <li v-for="(item, index) in otrosPagos" :key="index" v-if="item.tipo == 'INGRESO'">
-                                        Pago por {{ item.motivo }} - {{ item.cantidad | currency }}
+                                     {{ item.motivo }} - {{ item.cantidad | currency }} - <span style="color:green; font-size:6px"> {{ item.metodo }}</span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-6">
-                                <p style="font-weight: bold;">Ingresos: </p>
-                                <ul style="font-size: 12px;">
+                                <p style="font-weight: bold;">Egresos: </p>
+                                <ul style="font-size: 12px; margin:0">
                                     <li v-for="(item, index) in otrosPagos" :key="index" v-if="item.tipo == 'EGRESO'">
-                                        Pago {{ item.motivo }} - {{ item.cantidad | currency }}
+                                        {{ item.motivo }} - {{ item.cantidad | currency }} - <span style="color:red; font-size:6px"> {{ item.metodo }}</span>
                                     </li>
                                 </ul>
                             </div>
