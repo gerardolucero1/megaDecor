@@ -1168,6 +1168,14 @@ export default {
             axios.get(URL).then((response) => {
                 console.log('email enviado');
             })
+        },
+
+        imprimirPDF: function(){
+            let URL = 'caja/imprimir-pdf';
+
+            axios.get(URL).then((response) => {
+                alert('Corte impreso');
+            })
         }
     },
 }

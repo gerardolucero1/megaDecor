@@ -3,14 +3,17 @@
 use App\User;
 use App\Budget;
 use App\Client;
+use App\Payment;
 use App\Inventory;
 use App\Telephone;
+use Carbon\Carbon;
 use App\BudgetPack;
 use App\MoralPerson;
 use App\TaskComment;
 use App\CashRegister;
 use App\AboutCategory;
 use App\MoralCategory;
+use App\OtherPayments;
 use App\Mail\CorteCaja;
 use App\PhysicalPerson;
 use App\BudgetInventory;
@@ -379,12 +382,27 @@ Route::group(['middleware' => ['auth']], function () {
             ->send(new CorteCaja($sesion));
     });
 
+    Route::get('contabilidad/cortes', 'CMS\IndexController@historialCortes')->name('contabilidad.historialCortes');
+
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {
             $sesion = CashRegister::orderBy('id', 'DESC')->first();
 
             return $sesion;
         });
+    Route::get('contabilidad/pagos', function(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $sesion = CashRegister::where('estatus', true)->first();
+
+        $arrayDatos = [$pagos, $otrosPagos, $sesion];
+
+        return $arrayDatos;
+    });
+
+    Route::get('contabilidad/pdf/{id}', 'CMS\CashRegisterController@pdf')->name('contabilidad.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
 

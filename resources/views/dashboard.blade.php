@@ -30,7 +30,7 @@
                                 </button>
                     </div>
                     <div class="col-2">
-                        <a style="display:none" href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
+                        <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
                     </div>
                     
 
@@ -132,66 +132,8 @@
                                 $usuario = Auth::user()->id;    
                             @endphp
                             @if ($usuario == 17)
-                                            
-                                        <div class="col-md-6">
-                                                <a class="block" href="javascript:void(0)">
-                                                    <div class="block-content block-content-full">
-                                                        <div class="text-right">
-                                                            <i class="si si-wallet fa-2x text-body-bg-dark"></i>
-                                                        </div>
-                                                        <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
-                                                        <div class="row pt-10 pb-30 text-center">
-                                                            <div class="col-6 border-r">
-                                                                
-                                                                <div class="font-size-h3 font-w600">$1,550.00<span><br><span style="font-size:14px; line-height: 10px;">Egresos: $238.00<span></div>
-                                                                <div class="font-size-sm font-w600 text-uppercase text-muted"></span><br>Ingresos del dia</div><br>
-                                                                <button class="btn btn-sm btn-success" style="">Nuevo Ingreso</button> <button class="btn btn-sm btn-danger" style="">Nuevo Egreso</button>
-                                                                
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="font-size-h3 font-w600">$1,322.00 </div>
-                                                                <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Total en caja</div>
-                                                                <button class="btn btn-sm btn-success" style="">Corte de caja</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                           
-                            
-                                            <div class="col-md-6">
-                                                    <a class="block" href="javascript:void(0)">
-                                                        <div class="block-content block-content-full">
-                                                            <div class="text-right">
-                                                                <i class="si si-wallet fa-2x text-body-bg-dark"></i>
-                                                            </div>
-                                                            <label for="" style="font-size:10px; color:red; font-style: italic">Elementos test, disponible a partir del 16 Octubre 2019</label>
-                                                            <div class="row pt-10 pb-30 text-left">
-                                                                <div class="col-6  border-r">
-                                                                    <p style="font-weight: bold;">Ingresos: </p>
-                                                                    <ul style="font-size: 12px;">
-                                                                        <li>Abono Contrato NM23 - $350.00</li>
-                                                                        <li>Abono Contrato NM27 - $1,700.00</li>
-                                                                        <li>Abono Contrato NM48 - $3,950.00</li>
-                                                                    </ul>
-                                                                  
-                                                                    
-                                                                </div>
-                                                                <div class="col-6">
-                                                                        <p style="font-weight: bold;">Ingresos: </p>
-                                                                        <ul style="font-size: 12px;">
-                                                                            <li>Pago Proveedor - $3,450.00</li>
-                                                                            <li>Pago Proveedor - $700.00</li>
-                                                                            <li style="font-style: italic">Gasolina - $200.00</li>
-                                                                        </ul>
-                                                                      
-                                                                        
-                                                                    </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                @endif
+                                <contabilidad-component></contabilidad-component>        
+                            @endif
                     </div>
                     <div class="row">
                         <div class="col-md-4">

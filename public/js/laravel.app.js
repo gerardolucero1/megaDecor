@@ -13472,6 +13472,12 @@ var user = document.head.querySelector('meta[name="user"]');
       axios.get(URL).then(function (response) {
         console.log('email enviado');
       });
+    },
+    imprimirPDF: function imprimirPDF() {
+      var URL = 'caja/imprimir-pdf';
+      axios.get(URL).then(function (response) {
+        alert('Corte impreso');
+      });
     }
   }
 });
@@ -14150,6 +14156,146 @@ __webpack_require__.r(__webpack_exports__);
           cancelButtonColor: '#d33'
         });
       })["catch"](function (error) {// console.log(error.data);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      pagos: '',
+      otrosPagos: '',
+      sesion: ''
+    };
+  },
+  mounted: function mounted() {
+    this.obtenerPagos();
+  },
+  computed: {
+    sumarPagos: function sumarPagos() {
+      var suma = 0;
+
+      if (this.pagos.length != 0) {
+        this.pagos.forEach(function (element) {
+          suma += element.amount;
+        });
+      }
+
+      if (this.otrosPagos.length != 0) {
+        this.otrosPagos.forEach(function (element) {
+          if (element.tipo == 'INGRESO') {
+            suma += element.cantidad;
+          }
+        });
+      }
+
+      return suma;
+    },
+    sumarEgresos: function sumarEgresos() {
+      var suma = 0;
+
+      if (this.otrosPagos.length != 0) {
+        this.otrosPagos.forEach(function (element) {
+          if (element.tipo == 'EGRESO') {
+            suma += element.cantidad;
+          }
+        });
+      }
+
+      return suma;
+    },
+    sumarTotalCaja: function sumarTotalCaja() {
+      var suma = 0;
+
+      if (this.sesion.length != 0) {
+        suma = this.sumarPagos + this.sesion.cantidadRealApertura;
+      }
+
+      return suma;
+    }
+  },
+  methods: {
+    obtenerPagos: function obtenerPagos() {
+      var _this = this;
+
+      var URL = 'contabilidad/pagos';
+      axios.get(URL).then(function (response) {
+        _this.pagos = response.data[0];
+        _this.otrosPagos = response.data[1];
+        _this.sesion = response.data[2];
       });
     }
   }
@@ -76769,6 +76915,200 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("a", { staticClass: "block", attrs: { href: "#" } }, [
+          _c("div", { staticClass: "block-content block-content-full" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "row pt-10 pb-30 text-center" }, [
+              _c("div", { staticClass: "col-6 border-r" }, [
+                _c("div", { staticClass: "font-size-h3 font-w600" }, [
+                  _c("span", [
+                    _vm._v(_vm._s(_vm._f("currency")(_vm.sumarPagos)))
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticStyle: {
+                        "font-size": "14px",
+                        "line-height": "10px"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "Egresos: " +
+                          _vm._s(_vm._f("currency")(_vm.sumarEgresos))
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _c("br"),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-sm btn-success" }, [
+                  _vm._v("Nuevo Ingreso")
+                ]),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+                  _vm._v("Nuevo Egreso")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6" }, [
+                _c("div", { staticClass: "font-size-h3 font-w600" }, [
+                  _vm._v(_vm._s(_vm._f("currency")(_vm.sumarTotalCaja)))
+                ]),
+                _vm._v(" "),
+                _vm._m(2),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-sm btn-success" }, [
+                  _vm._v("Corte de caja")
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("a", { staticClass: "block", attrs: { href: "#" } }, [
+          _c("div", { staticClass: "block-content block-content-full" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "row pt-10 pb-30 text-left" }, [
+              _c("div", { staticClass: "col-6  border-r" }, [
+                _c("p", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Ingresos: ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticStyle: { "font-size": "12px" } },
+                  [
+                    _vm._l(_vm.pagos, function(item, index) {
+                      return _c("li", { key: index }, [
+                        _vm._v(
+                          "Abono Contrato " +
+                            _vm._s(item.budget.folio) +
+                            " - " +
+                            _vm._s(_vm._f("currency")(item.amount))
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _vm._l(_vm.otrosPagos, function(item, index) {
+                      return item.tipo == "INGRESO"
+                        ? _c("li", { key: index }, [
+                            _vm._v(
+                              "\n                                    Pago por " +
+                                _vm._s(item.motivo) +
+                                " - " +
+                                _vm._s(_vm._f("currency")(item.cantidad)) +
+                                "\n                                "
+                            )
+                          ])
+                        : _vm._e()
+                    })
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6" }, [
+                _c("p", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("Ingresos: ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticStyle: { "font-size": "12px" } },
+                  _vm._l(_vm.otrosPagos, function(item, index) {
+                    return item.tipo == "EGRESO"
+                      ? _c("li", { key: index }, [
+                          _vm._v(
+                            "\n                                    Pago " +
+                              _vm._s(item.motivo) +
+                              " - " +
+                              _vm._s(_vm._f("currency")(item.cantidad)) +
+                              "\n                                "
+                          )
+                        ])
+                      : _vm._e()
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-right" }, [
+      _c("i", { staticClass: "si si-wallet fa-2x text-body-bg-dark" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "font-size-sm font-w600 text-uppercase text-muted" },
+      [_c("br"), _vm._v("Ingresos del dia")]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "font-size-sm font-w600 text-uppercase text-muted" },
+      [_c("br"), _vm._v("Total en caja")]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-right" }, [
+      _c("i", { staticClass: "si si-wallet fa-2x text-body-bg-dark" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0&":
 /*!*******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue?vue&type=template&id=65f54ba0& ***!
@@ -109525,6 +109865,7 @@ Vue.component('editar-presupuesto-component', __webpack_require__(/*! ./componen
 Vue.component('ver-presupuesto-component', __webpack_require__(/*! ./components/VerPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/VerPresupuestoComponent.vue")["default"]);
 Vue.component('calendario-component', __webpack_require__(/*! ./components/CalendarioComponent.vue */ "./resources/assets/js/laravel/components/CalendarioComponent.vue")["default"]);
 Vue.component('caja-component', __webpack_require__(/*! ./components/CajaComponent.vue */ "./resources/assets/js/laravel/components/CajaComponent.vue")["default"]);
+Vue.component('contabilidad-component', __webpack_require__(/*! ./components/ContabilidadComponent.vue */ "./resources/assets/js/laravel/components/ContabilidadComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -110348,6 +110689,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ComoSupoComponent_vue_vue_type_template_id_41cb281d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ContabilidadComponent.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ContabilidadComponent.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0& */ "./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0&");
+/* harmony import */ var _ContabilidadComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContabilidadComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ContabilidadComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/laravel/components/ContabilidadComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ContabilidadComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/laravel/components/ContabilidadComponent.vue?vue&type=template&id=a1b2fbd0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

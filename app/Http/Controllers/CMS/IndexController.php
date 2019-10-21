@@ -10,6 +10,7 @@ Use App\User;
 Use App\Client;
 Use App\Inventory;
 Use App\Telephone;
+use App\CashRegister;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
@@ -766,5 +767,10 @@ class IndexController extends Controller
         $pdf = PDF::loadView('pdf.reporteVentas', compact('contratos'));
 
         return $pdf->stream();
+    }
+
+    public function historialCortes(){
+        $cortes = CashRegister::orderBy('id', 'DESC')->where('estatus', false)->get();
+        return view('cortesCaja', compact('cortes'));
     }
 }
