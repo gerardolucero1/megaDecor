@@ -707,7 +707,7 @@
                                     <div class="form-group">
                                         <label for="">Suma total de efectivo en caja</label>
                                         <input type="number" class="form-control" v-model="sumarCantidad" readonly>
-                                        <p v-if="cantidadPreCorte[0]!=sumarCantidad" style="color:red"></p>
+                                        
                                     </div>
                                     <div class="form-group">
                                         <label for="">*Confirmar total al cierre</label>

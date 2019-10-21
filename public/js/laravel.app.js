@@ -76093,11 +76093,7 @@ var render = function() {
                                 _vm.sumarCantidad = $event.target.value
                               }
                             }
-                          }),
-                          _vm._v(" "),
-                          _vm.cantidadPreCorte[0] != _vm.sumarCantidad
-                            ? _c("p", { staticStyle: { color: "red" } })
-                            : _vm._e()
+                          })
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
@@ -86315,7 +86311,13 @@ var render = function() {
                                 _vm._v(
                                   _vm._s(_vm.clienteSeleccionado.nombre) +
                                     " " +
-                                    _vm._s(_vm.clienteSeleccionado.apellido)
+                                    _vm._s(
+                                      _vm.clienteSeleccionado.apellidoPaterno
+                                    ) +
+                                    " " +
+                                    _vm._s(
+                                      _vm.clienteSeleccionado.apellidoMaterno
+                                    )
                                 )
                               ]
                             ),
