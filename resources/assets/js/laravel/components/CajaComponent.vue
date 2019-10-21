@@ -213,11 +213,13 @@
                     </div>
                     <div class="block-content">
                         <div class="form-group">
-                            <label for="">Cantidad total</label>
-                            <input type="number" class="form-control" v-model="sumarCantidad">
+                            <label for="">Suma total de efectivo en caja</label>
+                            <input disabled type="number" class="form-control" v-model="sumarCantidad">
+                            <p v-if="sesion[0][0].cantidadRealCierre!=sumarCantidad" style="font-size:9px; font-style:italic; color:red"><i class="fa fa-remove"></i>Cantidad de apertura no concuerda con cierre anterior<i class="fa fa-remove"></i></p>
+                            <p v-else style="font-size:9px; font-style:italic; color:green"><i class="fa fa-check"></i>Cantidad de apertura concuerda con cierre anterior<i class="fa fa-check"></i></p>
                         </div>
                         <div class="form-group">
-                            <label for="">Cantidad al momento de apertura</label>
+                            <label for="">*Confirma la cantidad al momento de apertura</label>
                             <input type="number" class="form-control" v-model="cantidadRealApertura">
                         </div>
                         <div class="form-group">
@@ -444,7 +446,7 @@
                                         <div class="row mt-2">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="">Datos extras</label>
+                                                    <label for="">Comentarios</label>
                                                     <textarea class="form-control" v-model="movimiento.descripcion"></textarea>
                                                 </div>
                                             </div>
@@ -476,7 +478,7 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span></p>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>-<span style="font-size:10px; font-style:italic">{{ item.metodo }}</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -625,9 +627,9 @@
                                         
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -638,9 +640,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -651,9 +653,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -664,9 +666,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -677,9 +679,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -703,16 +705,17 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group">
-                                        <label for="">Cantidad total</label>
+                                        <label for="">Suma total de efectivo en caja</label>
                                         <input type="number" class="form-control" v-model="sumarCantidad" readonly>
+                                        <p v-if="cantidadPreCorte[0]!=sumarCantidad" style="color:red"></p>
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Cantidad al momento de cierre</label>
+                                        <label for="">*Confirmar total al cierre</label>
                                         <input type="number" class="form-control" v-model="cantidadRealCierre">
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()"><i class="fa fa-inbox"></i>Abrir Cajacambio</button>
-                                        <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja 1</button>
+                                        
+                                        <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja</button>
                                     </div>
                                 </div>
                             </div>
@@ -808,18 +811,22 @@ export default {
                 this.pagosCorte[0][0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
                         cheques = cheques + (element.amount);
+                        console.log('Cheques'+cheques);
                     }else if(element.method == 'TRANSFERENCIA'){
                         transferencias = transferencias + (element.amount);
+                        console.log('Transferencias'+transferencias);
                     }else{
                         if(element.method == 'DOLAR'){
                             suma = suma + ((element.amount) * (element.reference));
+                            console.log('Suma'+cheques);
                         }else{
                             suma = suma + (element.amount);
+                            console.log('sumA'+suma);
                         }
                     }
                 });
 
-                suma = suma + this.sesion.cantidadRealApertura;
+                suma = suma + this.sesion[0][0].cantidadRealApertura;
 
                 this.pagosCorte[0][1].forEach((element) => {
                     if(element.tipo == 'INGRESO'){
@@ -944,6 +951,18 @@ export default {
             let URL = 'pagos';
 
             axios.post(URL, this.movimiento).then((response) => {
+                this.movimiento.tipo = '';
+                this.movimiento.motivo ='';
+                this.movimiento.referencia ='';
+                this.movimiento.cantidad ='';
+                this.movimiento.metodo ='';
+                this.movimiento.descripcion ='';
+                Swal.fire(
+                    'Movimiento registrado!',
+                    'El movimiento se registro con exito',
+                    'success'
+                )
+            
                 this.obtenerOtrosPagos();
             })
         },
@@ -1092,6 +1111,7 @@ export default {
                 onClose: () => {
                     clearInterval(timerInterval);
                     this.mostrarAbrirCaja = false;
+                    location.reload();
                 }
                 }).then((result) => {
                 if (
@@ -1121,7 +1141,7 @@ export default {
         },
 
         cerrarCaja: function(){
-            let URL = 'caja/' + this.sesion.id;
+            let URL = 'caja/' + this.sesion[0][0].id;
 
             axios.put(URL, {
                 cantidadRealCierre: this.cantidadRealCierre,

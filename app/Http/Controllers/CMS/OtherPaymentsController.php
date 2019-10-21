@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CMS;
 use App\Payment;
 use Carbon\Carbon;
 use App\OtherPayments;
+use App\CashRegister;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,7 +20,12 @@ class OtherPaymentsController extends Controller
     {
         $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
-        $pagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $horaHoy = $date->toTimeString();
+
+        $registro = CashRegister::where('estatus', true)->first();
+        $pagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
+
+
         return $pagos;
     }
 
