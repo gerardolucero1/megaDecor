@@ -86654,7 +86654,13 @@ var render = function() {
                                 _vm._v(
                                   _vm._s(_vm.clienteSeleccionado.nombre) +
                                     " " +
-                                    _vm._s(_vm.clienteSeleccionado.apellido)
+                                    _vm._s(
+                                      _vm.clienteSeleccionado.apellidoPaterno
+                                    ) +
+                                    " " +
+                                    _vm._s(
+                                      _vm.clienteSeleccionado.apellidoMaterno
+                                    )
                                 )
                               ]
                             ),
