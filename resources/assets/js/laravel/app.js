@@ -66,9 +66,13 @@ var EventBus = new Vue;
 const app = new Vue({
     el: '#app',
     store,
+    methods: {
+        obtenerPresupuestos: function(id) {
+            alert(id);
+        }
+    },
 
 });
-
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');

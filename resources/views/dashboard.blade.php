@@ -31,7 +31,7 @@
                     </div>
                     @if ($usuario == 17)
                     <div class="col-2">
-                        <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
+                        <a href="{{ route('caja.index') }}" class="btn btn-info">Caja</a>
                     </div>
                     @endif
                     

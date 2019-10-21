@@ -14,13 +14,13 @@
                                     <span style="font-size:14px; line-height: 10px;">Egresos: {{ sumarEgresos | currency }}</span>
                                 </div>
                                 <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos del dia</div><br>
-                                <button class="btn btn-sm btn-success" style="">Nuevo Ingreso</button> <button class="btn btn-sm btn-danger" style="">Nuevo Egreso</button>
+                               
                                 
                             </div>
                             <div class="col-6">
-                                <div class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
                                 <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Total en caja</div>
-                                <button class="btn btn-sm btn-success" style="">Corte de caja</button>
+                                <div class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
+                                <button class="btn btn-sm btn-success" style="">Caja</button>
                             </div>
                         </div>
                     </div>

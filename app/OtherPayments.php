@@ -10,6 +10,7 @@ class OtherPayments extends Model
         'tipo',
         'cantidad',
         'motivo',
+        'responsable',
         'resto',
         'descripcion',
         'metodo',

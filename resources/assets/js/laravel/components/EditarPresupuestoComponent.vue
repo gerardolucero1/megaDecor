@@ -210,7 +210,7 @@ padding: 0;
                             </div>
                         </div>
                         <div style="padding-top:20px" v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellido}}</p>
+                            <p style="font-size:25px; color:blue">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellidoPaterno}} {{clienteSeleccionado.apellidoMaterno}}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -230,7 +230,8 @@ padding: 0;
                         </div>
                     </div>
                 </div>
-                <h4>Lugar del Evento</h4>
+                <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
+                <h4 v-else>Recolección en bodega</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                     <!--
                     <div class="col-md-4">
@@ -246,19 +247,19 @@ padding: 0;
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
                     -->
-                    <div class="col-md-10 mt-4">
+                    <div class="col-md-10 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
                         <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div class="col-md-4 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
                         <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div class="col-md-2 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
                         <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
-                    <div class="col-md-4 mt-4">
+                    <div class="col-md-4 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
                         <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
-                    <div class="col-md-2 mt-4">
+                    <div class="col-md-2 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
@@ -420,7 +421,7 @@ padding: 0;
                                     <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
                                         
                                     </textarea>
-                                    <p style="background:#E4F9DB; widht:100%; min-height:10px; border-radius:5px" v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                    <p style="background:#E4F9DB; widht:100%; min-height:10px; border-radius:5px" v-else v-on:click="editarNotas(index, Object.keys(producto), producto.notas)">
                                         {{ producto.notas }}
                                     </p>
                                     
@@ -957,7 +958,7 @@ padding: 0;
                             <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfc">
+                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
                             <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
@@ -1202,6 +1203,8 @@ padding: 0;
                 inventarioLocal: [],
                 festejados: [],
 
+                notasAnterior:'',
+
                 //Edicion de paquete
                 indicePaqueteEdicion: '',
                 paqueteEdicion:{
@@ -1271,6 +1274,7 @@ padding: 0;
                     numeroFacturacion: '',
                     coloniaFacturacion: '',
                     emailFacturacion: '',
+                    rfcFacturacion: '',
                 },
                 configuraciones: '',
                 ultimoPresupuesto: '',
@@ -1448,7 +1452,7 @@ padding: 0;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
-                    this.facturacion.rfc = this.clienteSeleccionado.rfc;
+                    this.facturacion.rfcFacturacion = this.clienteSeleccionado.rfc;
                     this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
 
                 }else{
@@ -1457,6 +1461,8 @@ padding: 0;
                     this.facturacion.numeroFacturacion = '';
                     this.facturacion.coloniaFacturacion = '';
                     this.facturacion.emailFacturacion = '';
+                    this.facturacion.rfcFacturacion = '';
+                    this.facturacion.codigoPostal = '';
                 }
                 
             },
@@ -1788,8 +1794,7 @@ padding: 0;
                 this.clienteSeleccionado.nombre = cliente.nombre;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
-                this.clienteSeleccionado.rfc = cliente.rfc;
-                this.clienteSeleccionado.apellido = cliente.apellidoPaterno;
+                this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -2017,7 +2022,8 @@ padding: 0;
                 },
 
                 //Notas
-                editarNotas(index, key){
+                editarNotas(index, key, notas){
+                    this.notasActualizadas= notas;
                     this.indice = index; 
                     this.key = key[7];
                     console.log(index);
@@ -2228,6 +2234,7 @@ padding: 0;
                 this.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
                 this.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
                 this.clienteSeleccionado.email = cliente.email;
+                this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
