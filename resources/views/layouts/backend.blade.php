@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-        <title>Codebase - Bootstrap 4 Admin Template &amp; UI Framework</title>
+        <title>Mega Mundo Decor</title>
 
         <meta name="description" content="Codebase - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
         <meta name="author" content="pixelcave">
@@ -15,9 +15,9 @@
         <meta name="user" content="{{ Auth::user() }}">
 
         <!-- Icons -->
-        <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
-        <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
+        <link rel="shortcut icon" href="http://megamundodecor.com/favicon.ico">
+        <link rel="icon" sizes="192x192" type="image/png" href="http://megamundodecor.com/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="http://megamundodecor.com/favicon.ico">
 
         <!-- Fonts and Styles -->
         @yield('css_before')
@@ -273,6 +273,9 @@
                 <div class="content-header">
                     <!-- Left Section -->
                     <div class="content-header-section">
+                            <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
+                                    <i class="fa fa-navicon"></i>
+                                </button>
                     </div>
                     <div class="content-header-section">
                         <!-- User Dropdown -->

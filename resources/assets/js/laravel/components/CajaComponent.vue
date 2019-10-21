@@ -228,7 +228,8 @@
             </div>
         </div>
 
-        <div class="row" v-else>
+        <div class="row" v-else >
+            <div class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesion[0][1].name }} - {{ sesion[0][0].fechaApertura | formatearFecha}} {{ sesion[0][0].horaApertura}}</span></p></div>
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -259,7 +260,7 @@
                                                 
                                             ></buscador-component>
 
-                                            <!-- Resultado Busqueda -->
+                                            <!-- Resultados de Busqueda -->
                                             <div class="row" v-if="presupuestosResults.length < presupuestos.length">
                                                 <div v-if="presupuestosResults.length !== 0" class="col-md-12 resultadoInventario">
                                                     <div v-for="presupuesto in presupuestosResults.slice(0,20)" :key="presupuesto.id">
@@ -268,62 +269,67 @@
                                                                 <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
                                                             </div>
                                                             <div class="col-md-8">
-                                                                <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ presupuesto.cliente }}</span></p>
-                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.folio }}</p>
-                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.fechaEvento }}</p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bold">Folio: {{ presupuesto.folio }}</span></p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.cliente }}</p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">Fecha del evento: {{ presupuesto.fechaEvento }}</p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; "><span style="font-weight:bold">Total:</span> {{ presupuesto.total | currency}}</p>
                                                                 
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Fin resultado busqueda -->
+                                            <!-- Fin resultados de busqueda -->
 
-                                            <div class="col-md-12 p-2 mt-2 infoPresupuesto">
+                                            <div class="col-md-12 p-2 mt-2 infoPresupuesto" v-if="presupuestoSeleccionado">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-5">
                                                         <p>
-                                                            <strong>Nombre cliente: </strong>
+                                                            <strong>Folio de contrato:</strong> <span style="line-height:22px;">{{ this.presupuestoSeleccionado.folio }}</span><br><span style="color:blue;"><a target="_blank" :href="'/presupuestos/ver/' + presupuestoSeleccionado.id">Ver ficha tecnica</a></span>
                                                         </p>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <p>{{ this.presupuestoSeleccionado.cliente }}</p>
+                                                    <div class="col-md-7">
+                                                        <p>
+                                                            <strong>Fecha del evento: </strong><span style="line-height:13px"> {{ this.presupuestoSeleccionado.fechaEvento | formatearFecha}}</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p>
+                                                            <strong>Cliente:</strong> <span>{{ this.presupuestoSeleccionado.cliente }}</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p>
-                                                            <strong>Fecha del evento: </strong>
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <p>{{ this.presupuestoSeleccionado.fechaEvento }}</p>
-                                                    </div>
+                                                    <div class="col-md-12"><p><strong>Fecha Limite de pago: </strong> </p></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4 text-center">
+                                                    <div class="col-md-4 text-center" style="background:#E2F9FF; padding-top:10px">
                                                         <p>
-                                                            <strong>Total: </strong>
+                                                            <strong style="font-weight:bold">Total a pagar: </strong>
                                                         </p>
-                                                        <p>$ {{ this.presupuestoSeleccionado.total }}</p>
+                                                        <p>{{ this.presupuestoSeleccionado.total | currency}}</p>
                                                     </div>
-                                                    <div class="col-md-4 text-center">
+                                                    <div class="col-md-4 text-center" style=" padding-top:10px">
                                                         <p>
                                                             <strong>Total abonado:</strong>
                                                         </p>
-                                                        <p>$ {{ totalAbonado }}</p>
+                                                        <p>{{ totalAbonado  | currency}}</p>
                                                     </div>
-                                                    <div class="col-md-4 text-center">
+                                                    <div class="col-md-4 text-center" style="background:#FFE2E2; padding-top:10px">
                                                         <p>
                                                             <strong>Saldo pendiente:</strong>
                                                         </p>
                                                         <p class="text-danger">{{ this.presupuestoSeleccionado.total - totalAbonado | currency }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-8 offset-md-2 abonarPresupuesto">
+                                                <div class="row" style="padding-top:15px">
+                                                    <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:red; font-style:italic; padding:10px; text-align:center; line-height:16px">*Este contrato no requiere factura, por lo que al realizar pago con tarjeta o tranferencia se debera cobrar un 16% extra al abono a realizar</p>
+                                                    <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:blue; font-weight:bold; font-style:normal; padding:10px; text-align:center; line-height:18px">Total a pagar: {{pago.amount*1.16 | currency}}</p>
+                                                    <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA=='1'))" style="color:green; font-style:italic; padding:10px; text-align:center">*IVA ya incluido en total a pagar</p>
+                                                    <div v-if="totalAbonado!=presupuestoSeleccionado.total" class="col-md-8 offset-md-2 abonarPresupuesto">
                                                         <div class="col-md-12 mt-3">
                                                             <select name="" id="" v-model="pago.method">
+                                                                <option value="">Selecciona un metodo de pago</option>
                                                                 <option value="EFECTIVO">Efectivo</option>
                                                                 <option value="CHEQUE">Cheque</option>
                                                                 <option value="TRANSFERENCIA">Transferencia</option>
@@ -332,17 +338,19 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-12 mt-3">
-                                                            <input type="number" v-model="pago.amount">
+                                                            <input type="number" v-model="pago.amount" min='0'>
+                                                            
                                                         </div>
                                                         <div class="col-md-12 mt-3" v-if="pago.method != ('EFECTIVO' || 'CHEQUE')">
                                                             <input v-if="pago.method == 'DOLAR'" type="number" placeholder="Ingresa el tipo de cambio" v-model="pago.reference">
-                                                            <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa los digitos de referencia" v-model="pago.reference">
+                                                            <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa numero referencia de transacción" v-model="pago.reference">
                                                             <input v-if="pago.method == 'TARJETA'" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="pago.reference">
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <button class="btn btn-sm btn-info btn-block" @click="registrarPago()">Registrar pago</button>
                                                         </div>
                                                     </div>
+                                                    <div v-if="totalAbonado==presupuestoSeleccionado.total" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -353,37 +361,28 @@
                                     <div class="block">
                                         <div class="row">
                                             <div class="col-md-12">
+                                                <label for="" style="font-size:15px; padding:10px">Pagos realizados al contrato: {{presupuestoSeleccionado.folio}}</label>
                                                 <div class="registrosPagos" v-for="(item, index) in presupuestoSeleccionado.payments" :key="index">
+                                                    <div class="row" style="padding:10px">
+                                                        <div class="col-md-12">
+                                                            <span v-if="item.method != 'DOLAR'">Abono: {{ item.amount | currency}}</span><span v-else>{{ item.amount | currency}} $USD - {{ (item.amount * item.reference) | currency }}</span> - <span>{{ item.method }}</span><br>
+                                                            <span v-if="(presupuestoSeleccionado.opcionIVA!=1 && item.method == 'TARJETA') || (presupuestoSeleccionado.opcionIVA!=1 && item.method == 'TRANSFERENCIA')" style="color:green">IVA: {{ item.amount*.16 | currency}}</span><br>
+                                                            <span v-if="(presupuestoSeleccionado.opcionIVA!=1 && item.method == 'TARJETA') || (presupuestoSeleccionado.opcionIVA!=1 && item.method == 'TRANSFERENCIA')" style="color:blue">Total Cobrado: {{ item.amount*1.16 | currency}}</span>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <p v-if="item.method == 'TRANSFERENCIA'"><strong>Referencia:</strong> {{ item.reference }}</p>
                                                             <p v-if="item.method == 'TARJETA'"><strong>Numero de tarjeta:</strong> {{ item.reference }}</p>
                                                             <p v-if="item.method == 'DOLAR'"><strong>Tipo de cambio:</strong> ${{ item.reference }}</p>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Fecha de pago:</strong></p>
-                                                            <p>{{ item.created_at | formatearFecha }}</p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Hora de pago:</strong></p>
-                                                            <p>{{ item.created_at | formatearHora }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Metodo de pago:</strong></p>
-                                                            <p>{{ item.method }}</p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Cantidad abonada</strong></p>
-                                                            <p v-if="item.method != 'DOLAR'">${{ item.amount }}</p>
-                                                            <p v-else><strong class="text-danger">{{ item.amount }} $USD</strong> - ${{ (item.amount * item.reference) | truncarDecimales }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-md-12">
-                                                            <p><strong>Saldo pendiente: </strong> ${{ presupuestoSeleccionado.total - item.amount }}</p>
+                                                            <p><strong>Fecha y hora de pago: </strong><span> {{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</span></p>
+                                                            
                                                         </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
                                                     </div>
                                                 </div>
                                             </div>
@@ -458,60 +457,34 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="block col-md-12 caja-2">
+                                    <div class="block col-md-12 caja-2" style="max-height:500px; overflow:scroll">
+                                        <h5 style="padding-top:15px; text-align:center;">Ingresos / Egresos desde apertura de caja</h5>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6>Motivo: {{ item.motivo }}</h6>
-                                                        </div>
-                                                        <div class="col-md-6" v-if="item.tipo == 'EGRESO'">
-                                                            <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Agregar cambio</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Fecha de pago:</strong></p>
-                                                            <p>{{ item.created_at | formatearFecha }}</p>
+                                                            <h6 style="color:blue">{{ item.motivo }}</h6>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p><strong>Hora de pago:</strong></p>
-                                                            <p>{{ item.created_at | formatearHora }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Tipo:</strong></p>
-                                                            <p>{{ item.tipo }}</p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Cantidad</strong></p>
-                                                            <p>${{ item.cantidad }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Metodo</strong></p>
-                                                            <p>{{ item.metodo }}</p>
-                                                        </div>
-                                                        <div class="col-md-6" v-if="item.resto">
-                                                            <p><strong>Cambio</strong></p>
-                                                            <p>${{ item.resto }}</p>
+                                                            <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p v-if="item.metodo == 'TRANSFERENCIA'"><strong>Referencia:</strong> {{ item.referencia }}</p>
-                                                            <p v-if="item.metodo == 'TARJETA'"><strong>Numero de tarjeta:</strong> {{ item.referencia }}</p>
-                                                            <p v-if="item.metodo == 'DOLAR'"><strong>Tipo de cambio:</strong> ${{ item.referencia }}</p>
+                                                            <p>
+                                                            <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
+                                                            <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
+                                                            <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <p><strong>Notas: </strong></p>
-                                                            <p>{{ item.descripcion }}</p>
+                                                            <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
+                                                            <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</p>
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -530,7 +503,7 @@
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Añadir cambio</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Devolución / Cambio</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -738,6 +711,7 @@
                                         <input type="number" class="form-control" v-model="cantidadRealCierre">
                                     </div>
                                     <div class="form-group">
+                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()"><i class="fa fa-inbox"></i>Abrir Cajacambio</button>
                                         <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja 1</button>
                                     </div>
                                 </div>
@@ -911,13 +885,13 @@ export default {
     filters: {
         formatearFecha: function(val){
             moment.locale('es');
-            let fecha = moment(val).format('MMMM Do YYYY');
+            let fecha = moment(val).format('dddd D MMMM YYYY');
             return fecha;
         },
 
         formatearHora: function(val){
             moment.locale('es');
-            let hora = moment(val).format('h:mm:ss a');
+            let hora = moment(val).format('h:mm a');
             return hora;
         },
 
@@ -985,6 +959,7 @@ export default {
             })
             axios.put(URL, this.pagoEditado).then((response) => {
                 alert('Pago editado');
+                location.reload();
                 this.obtenerOtrosPagos();
             })
         },
@@ -1047,6 +1022,13 @@ export default {
                     })
 
                     this.presupuestoSeleccionado = presupuesto;
+                    if(this.presupuestoSeleccionado.opcionIVA==1){
+                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total*1.16;
+                presupuesto.total=presupuesto.total*1.16;
+            }else{
+                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+                presupuesto.total=presupuesto.total;
+            }
                 }
             })
         },
@@ -1063,9 +1045,9 @@ export default {
         },
 
         habilitarCaja: function(){
-            if(this.sesion == ''){
+            if(this.sesion[0][0] == ''){
                 this.mostrarAbrirCaja = true;
-            }else if((this.sesion.user_id == this.usuario.id) && (this.sesion.estatus == true)){
+            }else if((this.sesion[0][0].user_id == this.usuario.id) && (this.sesion[0][0].estatus == true)){
                 this.mostrarAbrirCaja = false;
             }
         },
@@ -1073,6 +1055,14 @@ export default {
         obtenerPresupuesto: function(presupuesto){
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
+
+            if(this.presupuestoSeleccionado.opcionIVA==1){
+                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total*1.16;
+                presupuesto.total=presupuesto.total*1.16;
+            }else{
+                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+                presupuesto.total=presupuesto.total;
+            }
 
             setTimeout(() => {
                 this.limpiar = false;
@@ -1152,6 +1142,15 @@ export default {
         registrarPago(){
             let URL = '/registrar-pago';
             
+            if(this.presupuestoSeleccionado==''){
+                alert('Selecciona un contrato');
+            }else{
+            if(this.pago.method==''){
+                alert('Selecciona un metodo de pago');
+            }else{
+            if(this.pago.amount>(this.presupuestoSeleccionado.total - this.totalAbonado)){
+                alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
+            }else{
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
@@ -1160,6 +1159,9 @@ export default {
             }).catch((error) => {
                 console.log(error.data)
             })
+                        }
+                    }
+                }
         },
 
         enviarEmail: function(){

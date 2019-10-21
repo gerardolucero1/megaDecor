@@ -307,8 +307,8 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Especial</th>
                                 <th scope="col">Precio Final</th>
                                 <th scope="col">Ahorro</th>
                                 <th scope="col" width="252">Notas</th>
@@ -327,12 +327,12 @@
                                     
                                 </td>
                                 <td>
-                                    {{ producto.precioEspecial | currency}}
-                                    
-                                </td>
-                                <td>
                                     {{ producto.precioUnitario | currency}} <br>
                                     <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
+                                </td>
+                                <td>
+                                    {{ producto.precioEspecial | currency}}
+                                    
                                 </td>
                                 <td>
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
@@ -399,7 +399,7 @@
                 <!-- Registro de pagos -->
 
             
-                <div class="row">
+                <div class="row" style="display:none">
                     <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
                         <label for="">Metodo de pago: </label>
                         <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
@@ -418,7 +418,7 @@
                 </div>
                
 
-                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px; display:none">
                     <div class="col-md-12">
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
