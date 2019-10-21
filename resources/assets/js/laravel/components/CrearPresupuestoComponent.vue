@@ -169,18 +169,7 @@ padding: 0;
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <label>Requiere factura:</label> 
-                        -SI <input type="radio" required value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
-                        -NO <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
-                    </div>
-                    <div class="col-md-4">
-                        <label>Requiere montaje:</label>
-                        -SI <input type="radio" required value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
-                        -NO <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> 
-                    </div>
-                </div>
+                
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
@@ -245,7 +234,20 @@ padding: 0;
                                 <div v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
                         </div>
                     </div>
+                    <div class="row">
+                    <div class="col-md-4">
+                        <label>Requiere factura:</label> 
+                        -SI <input type="radio" required value="SI" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                        -NO <input type="radio" value="NO" name="requiereFactura" v-model="presupuesto.requiereFactura"> 
+                    </div>
+                    <div class="col-md-4">
+                        <label>Requiere montaje:</label>
+                        -SI <input type="radio" required value="SI" name="requiereMontaje" v-model="presupuesto.requiereMontaje">
+                        -NO <input type="radio" value="NO" name="requiereMontaje" v-model="presupuesto.requiereMontaje"> 
+                    </div>
                 </div>
+                </div>
+                
                 <h4>Lugar del Evento</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                     <div class="col-md-3">
@@ -1624,8 +1626,9 @@ padding: 0;
                    this.paquete.precioFinal =this.precioSugerido;
                 }
             },
-            'requiereFactura': function(val){
-                if(val){
+            'presupuesto.requiereFactura': function(val){
+                if(val=='SI'){
+                    this.requiereFactura = true;
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;

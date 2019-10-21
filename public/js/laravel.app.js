@@ -15591,6 +15591,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
  // Importamos el evento Bus.
@@ -15937,8 +15939,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.paquete.precioFinal = this.precioSugerido;
       }
     },
-    'requiereFactura': function requiereFactura(val) {
-      if (val) {
+    'presupuesto.requiereFactura': function presupuestoRequiereFactura(val) {
+      if (val == 'SI') {
+        this.requiereFactura = true;
         this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
         this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
         this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
@@ -78319,114 +78322,6 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-4" }, [
-                _c("label", [_vm._v("Requiere factura:")]),
-                _vm._v(" \n                        -SI "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.presupuesto.requiereFactura,
-                      expression: "presupuesto.requiereFactura"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    required: "",
-                    value: "SI",
-                    name: "requiereFactura"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.presupuesto.requiereFactura, "SI")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.presupuesto, "requiereFactura", "SI")
-                    }
-                  }
-                }),
-                _vm._v(" \n                        -NO "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.presupuesto.requiereFactura,
-                      expression: "presupuesto.requiereFactura"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    value: "NO",
-                    name: "requiereFactura"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.presupuesto.requiereFactura, "NO")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.presupuesto, "requiereFactura", "NO")
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-4" }, [
-                _c("label", [_vm._v("Requiere montaje:")]),
-                _vm._v("\n                        -SI "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.presupuesto.requiereMontaje,
-                      expression: "presupuesto.requiereMontaje"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    required: "",
-                    value: "SI",
-                    name: "requiereMontaje"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.presupuesto.requiereMontaje, "SI")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.presupuesto, "requiereMontaje", "SI")
-                    }
-                  }
-                }),
-                _vm._v("\n                        -NO "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.presupuesto.requiereMontaje,
-                      expression: "presupuesto.requiereMontaje"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    value: "NO",
-                    name: "requiereMontaje"
-                  },
-                  domProps: {
-                    checked: _vm._q(_vm.presupuesto.requiereMontaje, "NO")
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.$set(_vm.presupuesto, "requiereMontaje", "NO")
-                    }
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
             _c(
               "div",
               {
@@ -78684,7 +78579,131 @@ var render = function() {
                           : _vm._e()
                       ])
                     ])
-                  : _vm._e()
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("label", [_vm._v("Requiere factura:")]),
+                    _vm._v(" \n                        -SI "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.presupuesto.requiereFactura,
+                          expression: "presupuesto.requiereFactura"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        required: "",
+                        value: "SI",
+                        name: "requiereFactura"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.presupuesto.requiereFactura, "SI")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.presupuesto,
+                            "requiereFactura",
+                            "SI"
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" \n                        -NO "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.presupuesto.requiereFactura,
+                          expression: "presupuesto.requiereFactura"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        value: "NO",
+                        name: "requiereFactura"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.presupuesto.requiereFactura, "NO")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.presupuesto,
+                            "requiereFactura",
+                            "NO"
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("label", [_vm._v("Requiere montaje:")]),
+                    _vm._v("\n                        -SI "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.presupuesto.requiereMontaje,
+                          expression: "presupuesto.requiereMontaje"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        required: "",
+                        value: "SI",
+                        name: "requiereMontaje"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.presupuesto.requiereMontaje, "SI")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.presupuesto,
+                            "requiereMontaje",
+                            "SI"
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v("\n                        -NO "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.presupuesto.requiereMontaje,
+                          expression: "presupuesto.requiereMontaje"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        value: "NO",
+                        name: "requiereMontaje"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.presupuesto.requiereMontaje, "NO")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.presupuesto,
+                            "requiereMontaje",
+                            "NO"
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ])
               ]
             ),
             _vm._v(" "),
