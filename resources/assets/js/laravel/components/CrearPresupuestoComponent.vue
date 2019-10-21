@@ -978,7 +978,7 @@ padding: 0;
                             <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfc">
+                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
                             <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
@@ -1439,6 +1439,7 @@ padding: 0;
                     numeroFacturacion: '',
                     coloniaFacturacion: '',
                     emailFacturacion: '',
+                    rfcFacturacion: '',
                 },
                 configuraciones: '',
                 ultimoPresupuesto: '',
@@ -1631,7 +1632,7 @@ padding: 0;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
                     this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
                     this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
-                    this.facturacion.rfc = this.clienteSeleccionado.rfc;
+                    this.facturacion.rfcFacturacion = this.clienteSeleccionado.rfc;
                     this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
 
                 }else{
@@ -1639,7 +1640,9 @@ padding: 0;
                     this.facturacion.direccionFacturacion = '';
                     this.facturacion.numeroFacturacion = '';
                     this.facturacion.coloniaFacturacion = '';
+                    this.facturacion.rfcFacturacion = '';
                     this.facturacion.emailFacturacion = '';
+                    this.facturacion.codigoPostal = '';
                 }
                 
             },
@@ -1970,7 +1973,7 @@ padding: 0;
                 this.clienteSeleccionado.nombre = cliente.nombre;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
-                this.clienteSeleccionado.rfc = cliente.rfc;
+                this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;

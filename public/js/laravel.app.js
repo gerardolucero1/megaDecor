@@ -15802,7 +15802,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         direccionFacturacion: '',
         numeroFacturacion: '',
         coloniaFacturacion: '',
-        emailFacturacion: ''
+        emailFacturacion: '',
+        rfcFacturacion: ''
       },
       configuraciones: ''
     }, _defineProperty(_ref, "ultimoPresupuesto", ''), _defineProperty(_ref, "nombreCategoria", ''), _defineProperty(_ref, "categorias", []), _ref;
@@ -15990,14 +15991,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
         this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
         this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
-        this.facturacion.rfc = this.clienteSeleccionado.rfc;
+        this.facturacion.rfcFacturacion = this.clienteSeleccionado.rfc;
         this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
       } else {
         this.facturacion.nombreFacturacion = '';
         this.facturacion.direccionFacturacion = '';
         this.facturacion.numeroFacturacion = '';
         this.facturacion.coloniaFacturacion = '';
+        this.facturacion.rfcFacturacion = '';
         this.facturacion.emailFacturacion = '';
+        this.facturacion.codigoPostal = '';
       }
     }
   },
@@ -16315,7 +16318,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       this.clienteSeleccionado.email = cliente.email;
-      this.clienteSeleccionado.rfc = cliente.rfc;
+      this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
       this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
       this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -18523,7 +18526,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         direccionFacturacion: '',
         numeroFacturacion: '',
         coloniaFacturacion: '',
-        emailFacturacion: ''
+        emailFacturacion: '',
+        rfcFacturacion: ''
       },
       configuraciones: ''
     }, "ultimoPresupuesto", '');
@@ -18695,7 +18699,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
         this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
         this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
-        this.facturacion.rfc = this.clienteSeleccionado.rfc;
+        this.facturacion.rfcFacturacion = this.clienteSeleccionado.rfc;
         this.facturacion.codigoPostal = this.clienteSeleccionado.codigoPostal;
       } else {
         this.facturacion.nombreFacturacion = '';
@@ -18703,6 +18707,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.facturacion.numeroFacturacion = '';
         this.facturacion.coloniaFacturacion = '';
         this.facturacion.emailFacturacion = '';
+        this.facturacion.rfcFacturacion = '';
+        this.facturacion.codigoPostal = '';
       }
     }
   },
@@ -19016,8 +19022,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       this.clienteSeleccionado.email = cliente.email;
-      this.clienteSeleccionado.rfc = cliente.rfc;
-      this.clienteSeleccionado.apellido = cliente.apellidoPaterno;
+      this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
       this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
       this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -19424,6 +19429,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this16.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
         _this16.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
         _this16.clienteSeleccionado.email = cliente.email;
+        _this16.clienteSeleccionado.rfc = cliente.rfcFacturacion;
         _this16.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
         _this16.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
         _this16.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -82678,13 +82684,13 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.facturacion.rfc,
-                            expression: "facturacion.rfc"
+                            value: _vm.facturacion.rfcFacturacion,
+                            expression: "facturacion.rfcFacturacion"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "text", placeholder: "RFC" },
-                        domProps: { value: _vm.facturacion.rfc },
+                        domProps: { value: _vm.facturacion.rfcFacturacion },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -82692,7 +82698,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.facturacion,
-                              "rfc",
+                              "rfcFacturacion",
                               $event.target.value
                             )
                           }
@@ -90483,13 +90489,15 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.facturacion.rfc,
-                                  expression: "facturacion.rfc"
+                                  value: _vm.facturacion.rfcFacturacion,
+                                  expression: "facturacion.rfcFacturacion"
                                 }
                               ],
                               staticClass: "form-control",
                               attrs: { type: "text", placeholder: "RFC" },
-                              domProps: { value: _vm.facturacion.rfc },
+                              domProps: {
+                                value: _vm.facturacion.rfcFacturacion
+                              },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
@@ -90497,7 +90505,7 @@ var render = function() {
                                   }
                                   _vm.$set(
                                     _vm.facturacion,
-                                    "rfc",
+                                    "rfcFacturacion",
                                     $event.target.value
                                   )
                                 }
@@ -112930,13 +112938,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
