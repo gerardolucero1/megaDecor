@@ -385,20 +385,23 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('contabilidad/cortes', 'CMS\IndexController@historialCortes')->name('contabilidad.historialCortes');
 
-        //Obtener la sesion de caja
+        //Obtener la sesion de caja anterior
         Route::get('obtener-sesion-caja', function () {
-            $arraySesion=[];
-            $sesion = CashRegister::orderBy('id', 'DESC')->first();
+            
+            $sesion = CashRegister::with('user')->orderBy('id', 'DESC')->first();
 
-            if(!is_null($sesion)){
-                $usuario = User::where('id', $sesion->user_id)->first();
-                array_push($arraySesion, [$sesion, $usuario]);
-                return $arraySesion;
-            }else{
-                $usuario = Auth::user();
-                array_push($arraySesion, [null, $usuario]);
-                return $arraySesion;
-            }
+            return $sesion;
+            
+        });
+
+        //Obtener la sesion de caja actual
+        Route::get('obtener-sesion-actual', function () {
+            
+            $sesion = CashRegister::with('user')->orderBy('id', 'DESC')->where('estatus', true)->first();
+            $sesionAnterior = CashRegister::with('user')->orderBy('id', 'DESC')->where('estatus', false)->first();
+
+            $arrayDatos = [$sesion, $sesionAnterior];
+            return $arrayDatos;
             
         });
     Route::get('contabilidad/pagos', function(){
@@ -416,6 +419,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('contabilidad/pdf/{id}', 'CMS\CashRegisterController@pdf')->name('contabilidad.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
+    Route::resource('categorias-pagos', 'CMS\CategoryPaymentController');
 
 });
 
