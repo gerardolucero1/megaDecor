@@ -157,12 +157,12 @@ class CashRegisterController extends Controller
         $fechaHoy = $date->format('Y-m-d');
         $horaHoy = $date->toTimeString();
 
-        $registro = CashRegister::where('estatus', true)->first();
+
+        $registro = CashRegister::orderBy('id', 'DESC')->where('estatus', true)->first();
         $pagos = Payment::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
         $otrosPagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
 
-        $registros = [];
-        array_push($registros, [$pagos, $otrosPagos]);
+        $registros = [$pagos, $otrosPagos];
 
         return $registros;
     }
