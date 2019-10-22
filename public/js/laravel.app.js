@@ -13276,6 +13276,12 @@ var user = document.head.querySelector('meta[name="user"]');
       var hora = moment(val).format('h:mm a');
       return hora;
     },
+    formatearHora2: function formatearHora2(val) {
+      moment.locale('es'); //let hora = moment(val).format('h:mm a');
+
+      var hora = moment(val).format('LT');
+      return hora;
+    },
     truncarDecimales: function truncarDecimales(x) {
       var posiciones = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
       var s = x.toString();
@@ -13432,7 +13438,7 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     habilitarCaja: function habilitarCaja() {
-      if (this.sesion[0][0] == '') {
+      if (this.sesion[0][0] == null) {
         this.mostrarAbrirCaja = true;
       } else if (this.sesion[0][0].user_id == this.usuario.id && this.sesion[0][0].estatus == true) {
         this.mostrarAbrirCaja = false;
@@ -73685,7 +73691,9 @@ var render = function() {
                           )
                         ) +
                         " " +
-                        _vm._s(_vm.sesion[0][0].horaApertura)
+                        _vm._s(
+                          _vm._f("formatearHora")(_vm.sesion[0][0].created_at)
+                        )
                     )
                   ]
                 )

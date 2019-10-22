@@ -231,7 +231,7 @@
         </div>
 
         <div class="row" v-else >
-            <div class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesion[0][1].name }} - {{ sesion[0][0].fechaApertura | formatearFecha}} {{ sesion[0][0].horaApertura}}</span></p></div>
+            <div class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesion[0][1].name }} - {{ sesion[0][0].fechaApertura | formatearFecha}} {{ sesion[0][0].created_at | formatearHora}}</span></p></div>
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -964,6 +964,13 @@ export default {
             return hora;
         },
 
+        formatearHora2: function(val){
+            moment.locale('es');
+            //let hora = moment(val).format('h:mm a');
+            let hora = moment(val).format('LT');
+            return hora;
+        },
+
         truncarDecimales: function (x, posiciones = 2) {
                 var s = x.toString()
                 var l = s.length
@@ -1130,7 +1137,7 @@ export default {
         },
 
         habilitarCaja: function(){
-            if(this.sesion[0][0] == ''){
+            if(this.sesion[0][0] == null){
                 this.mostrarAbrirCaja = true;
             }else if((this.sesion[0][0].user_id == this.usuario.id) && (this.sesion[0][0].estatus == true)){
                 this.mostrarAbrirCaja = false;
