@@ -417,6 +417,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
 
+    Route::resource('providers', 'ProvidersController');
+
 });
 
 /*

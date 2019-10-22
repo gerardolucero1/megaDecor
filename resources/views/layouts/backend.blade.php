@@ -232,6 +232,12 @@
                                         <li>
                                             <a href="{{ route('grupo.index') }}">Grupos</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('providers.index') }}">Proveedores</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('providers.index') }}">Faltantes</a>
+                                        </li>
                                     </ul>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                                     
