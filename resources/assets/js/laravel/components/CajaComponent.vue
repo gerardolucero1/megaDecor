@@ -235,7 +235,7 @@
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-home-tab" data-toggle="pill" href="#presupuestos" role="tab" aria-controls="pills-home" aria-selected="true">Registrar pagos presupuestos</a>
+                        <a class="nav-link" id="pills-home-tab" data-toggle="pill" href="#presupuestos" role="tab" aria-controls="pills-home" aria-selected="true">Registrar pagos a contratos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
@@ -309,7 +309,7 @@
                                                         <p>
                                                             <strong style="font-weight:bold">Total a pagar: </strong>
                                                         </p>
-                                                        <p>{{ this.presupuestoSeleccionado.total | currency}}</p>
+                                                        <p>{{ totalEtiqueta | currency}}</p>
                                                     </div>
                                                     <div class="col-md-4 text-center" style=" padding-top:10px">
                                                         <p>
@@ -321,7 +321,7 @@
                                                         <p>
                                                             <strong>Saldo pendiente:</strong>
                                                         </p>
-                                                        <p class="text-danger">{{ this.presupuestoSeleccionado.total - totalAbonado | currency }}</p>
+                                                        <p class="text-danger">{{ totalEtiqueta - totalAbonado | currency }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="padding-top:15px">
@@ -546,6 +546,7 @@
                                                         <div class="col-md-12">
                                                             <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
                                                             <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</p>
+                                                            <p style="position:absolute; z-index:2; bottom:-23px"><a target="_blank" :href="'/recibo-pago/pdf/' + item.id"><i class="fa fa-print"></i></a></p>
                                                         </div>
                                                         
                                                     </div>
@@ -811,6 +812,7 @@ export default {
             clientes: [],
             presupuestosResults: [],
             limpiar: false,
+            totalEtiqueta: null,
             cantidad: {
                 billete1000: 0,
                 billete500: 0,
@@ -1115,10 +1117,10 @@ export default {
 
                     this.presupuestoSeleccionado = presupuesto;
                     if(this.presupuestoSeleccionado.opcionIVA==1){
-                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total*1.16;
+                this.totalEtiqueta = this.presupuestoSeleccionado.total*1.16;
                 presupuesto.total=presupuesto.total*1.16;
             }else{
-                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+                this.totalEtiqueta = this.presupuestoSeleccionado.total;
                 presupuesto.total=presupuesto.total;
             }
                 }
@@ -1148,12 +1150,14 @@ export default {
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
             this.movimiento.responsable = presupuesto.folio;
-
+           
             if(this.presupuestoSeleccionado.opcionIVA==1){
-                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total*1.16;
+                alert(this.presupuestoSeleccionado.total*1.16);
+                this.totalEtiqueta = this.presupuestoSeleccionado.total*1.16;
                 presupuesto.total=presupuesto.total*1.16;
             }else{
-                this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+                alert(this.presupuestoSeleccionado.total);
+                this.totalEtiqueta = this.presupuestoSeleccionado.total;
                 presupuesto.total=presupuesto.total;
             }
 

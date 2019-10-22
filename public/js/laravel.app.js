@@ -13121,6 +13121,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13135,6 +13136,7 @@ var user = document.head.querySelector('meta[name="user"]');
       clientes: [],
       presupuestosResults: [],
       limpiar: false,
+      totalEtiqueta: null,
       cantidad: {
         billete1000: 0,
         billete500: 0,
@@ -13416,10 +13418,10 @@ var user = document.head.querySelector('meta[name="user"]');
           _this7.presupuestoSeleccionado = presupuesto;
 
           if (_this7.presupuestoSeleccionado.opcionIVA == 1) {
-            _this7.presupuestoSeleccionado.total = _this7.presupuestoSeleccionado.total * 1.16;
+            _this7.totalEtiqueta = _this7.presupuestoSeleccionado.total * 1.16;
             presupuesto.total = presupuesto.total * 1.16;
           } else {
-            _this7.presupuestoSeleccionado.total = _this7.presupuestoSeleccionado.total;
+            _this7.totalEtiqueta = _this7.presupuestoSeleccionado.total;
             presupuesto.total = presupuesto.total;
           }
         }
@@ -13452,10 +13454,12 @@ var user = document.head.querySelector('meta[name="user"]');
       this.movimiento.responsable = presupuesto.folio;
 
       if (this.presupuestoSeleccionado.opcionIVA == 1) {
-        this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total * 1.16;
+        alert(this.presupuestoSeleccionado.total * 1.16);
+        this.totalEtiqueta = this.presupuestoSeleccionado.total * 1.16;
         presupuesto.total = presupuesto.total * 1.16;
       } else {
-        this.presupuestoSeleccionado.total = this.presupuestoSeleccionado.total;
+        alert(this.presupuestoSeleccionado.total);
+        this.totalEtiqueta = this.presupuestoSeleccionado.total;
         presupuesto.total = presupuesto.total;
       }
 
@@ -74094,9 +74098,7 @@ var render = function() {
                                                 _vm._v(
                                                   _vm._s(
                                                     _vm._f("currency")(
-                                                      this
-                                                        .presupuestoSeleccionado
-                                                        .total
+                                                      _vm.totalEtiqueta
                                                     )
                                                   )
                                                 )
@@ -74148,9 +74150,7 @@ var render = function() {
                                                   _vm._v(
                                                     _vm._s(
                                                       _vm._f("currency")(
-                                                        this
-                                                          .presupuestoSeleccionado
-                                                          .total -
+                                                        _vm.totalEtiqueta -
                                                           _vm.totalAbonado
                                                       )
                                                     )
@@ -75982,6 +75982,36 @@ var render = function() {
                                                       )
                                                   )
                                                 ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "p",
+                                                {
+                                                  staticStyle: {
+                                                    position: "absolute",
+                                                    "z-index": "2",
+                                                    bottom: "-23px"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    {
+                                                      attrs: {
+                                                        target: "_blank",
+                                                        href:
+                                                          "/recibo-pago/pdf/" +
+                                                          item.id
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fa fa-print"
+                                                      })
+                                                    ]
+                                                  )
+                                                ]
                                               )
                                             ]
                                           )
@@ -76949,7 +76979,7 @@ var staticRenderFns = [
             "aria-selected": "true"
           }
         },
-        [_vm._v("Registrar pagos presupuestos")]
+        [_vm._v("Registrar pagos a contratos")]
       )
     ])
   },

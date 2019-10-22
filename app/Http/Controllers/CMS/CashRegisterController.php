@@ -185,4 +185,15 @@ class CashRegisterController extends Controller
         return $pdf->stream();
     }
 
+    public function pdfReciboDePago($id){
+        $date = Carbon::now();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('id', $id)->get();
+      
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.recibo_pago', compact('otrosPagos'));
+
+        return $pdf->stream();
+    }
+
 }
