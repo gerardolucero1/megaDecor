@@ -274,7 +274,7 @@
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bold">Folio: {{ presupuesto.folio }}</span></p>
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.cliente }}</p>
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">Fecha del evento: {{ presupuesto.fechaEvento }}</p>
-                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; "><span style="font-weight:bold">Total:</span> {{ presupuesto.total | currency}}</p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; "><span style="font-weight:bold">Total:</span> {{ totalBuscador | currency}}</p>
                                                                 
                                                             </div>
                                                         </div>
@@ -812,7 +812,8 @@ export default {
             clientes: [],
             presupuestosResults: [],
             limpiar: false,
-            totalEtiqueta: null,
+            totalEtiqueta: 0,
+            totalBuscador: 0,
             cantidad: {
                 billete1000: 0,
                 billete500: 0,
@@ -1116,12 +1117,15 @@ export default {
                     })
 
                     this.presupuestoSeleccionado = presupuesto;
-                    if(this.presupuestoSeleccionado.opcionIVA==1){
+                    if(this.presupuestoSeleccionado.opcionIVA){
+                this.totalEtiqueta=0;
+                this.totalBuscador=0;
                 this.totalEtiqueta = this.presupuestoSeleccionado.total*1.16;
-                presupuesto.total=presupuesto.total*1.16;
+                this.totalBuscador = presupuesto.total*1.16;
+                
             }else{
                 this.totalEtiqueta = this.presupuestoSeleccionado.total;
-                presupuesto.total=presupuesto.total;
+                this.totalBuscador = presupuesto.total;
             }
                 }
             })
@@ -1152,13 +1156,13 @@ export default {
             this.movimiento.responsable = presupuesto.folio;
            
             if(this.presupuestoSeleccionado.opcionIVA==1){
-                alert(this.presupuestoSeleccionado.total*1.16);
+                this.totalEtiqueta=0;
                 this.totalEtiqueta = this.presupuestoSeleccionado.total*1.16;
-                presupuesto.total=presupuesto.total*1.16;
+                
+             
             }else{
-                alert(this.presupuestoSeleccionado.total);
                 this.totalEtiqueta = this.presupuestoSeleccionado.total;
-                presupuesto.total=presupuesto.total;
+                
             }
 
             setTimeout(() => {

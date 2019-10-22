@@ -13136,7 +13136,8 @@ var user = document.head.querySelector('meta[name="user"]');
       clientes: [],
       presupuestosResults: [],
       limpiar: false,
-      totalEtiqueta: null,
+      totalEtiqueta: 0,
+      totalBuscador: 0,
       cantidad: {
         billete1000: 0,
         billete500: 0,
@@ -13417,12 +13418,14 @@ var user = document.head.querySelector('meta[name="user"]');
 
           _this7.presupuestoSeleccionado = presupuesto;
 
-          if (_this7.presupuestoSeleccionado.opcionIVA == 1) {
+          if (_this7.presupuestoSeleccionado.opcionIVA) {
+            _this7.totalEtiqueta = 0;
+            _this7.totalBuscador = 0;
             _this7.totalEtiqueta = _this7.presupuestoSeleccionado.total * 1.16;
-            presupuesto.total = presupuesto.total * 1.16;
+            _this7.totalBuscador = presupuesto.total * 1.16;
           } else {
             _this7.totalEtiqueta = _this7.presupuestoSeleccionado.total;
-            presupuesto.total = presupuesto.total;
+            _this7.totalBuscador = presupuesto.total;
           }
         }
       });
@@ -13454,13 +13457,10 @@ var user = document.head.querySelector('meta[name="user"]');
       this.movimiento.responsable = presupuesto.folio;
 
       if (this.presupuestoSeleccionado.opcionIVA == 1) {
-        alert(this.presupuestoSeleccionado.total * 1.16);
+        this.totalEtiqueta = 0;
         this.totalEtiqueta = this.presupuestoSeleccionado.total * 1.16;
-        presupuesto.total = presupuesto.total * 1.16;
       } else {
-        alert(this.presupuestoSeleccionado.total);
         this.totalEtiqueta = this.presupuestoSeleccionado.total;
-        presupuesto.total = presupuesto.total;
       }
 
       setTimeout(function () {
@@ -14346,14 +14346,14 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.pagos.length != 0) {
         this.pagos.forEach(function (element) {
-          suma += element.amount;
+          suma += parseFloat(element.amount);
         });
       }
 
       if (this.otrosPagos.length != 0) {
         this.otrosPagos.forEach(function (element) {
           if (element.tipo == 'INGRESO') {
-            suma += element.cantidad;
+            suma += parseFloat(element.cantidad);
           }
         });
       }
@@ -14366,7 +14366,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.otrosPagos.length != 0) {
         this.otrosPagos.forEach(function (element) {
           if (element.tipo == 'EGRESO') {
-            suma += element.cantidad;
+            suma += parseFloat(element.cantidad);
           }
         });
       }
@@ -73933,7 +73933,7 @@ var render = function() {
                                                                       _vm._f(
                                                                         "currency"
                                                                       )(
-                                                                        presupuesto.total
+                                                                        _vm.totalBuscador
                                                                       )
                                                                     )
                                                                 )
