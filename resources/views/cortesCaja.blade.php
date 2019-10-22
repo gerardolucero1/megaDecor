@@ -31,7 +31,7 @@
                                     {{ $corte->user->name }}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">
-                                    {{ $corte->cantidadRealCierre }}
+                                   $ {{ $corte->cantidadRealCierre}}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell text-center">
                                     <div class="btn-group">

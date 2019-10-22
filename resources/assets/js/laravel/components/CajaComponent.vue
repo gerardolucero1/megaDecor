@@ -1039,7 +1039,11 @@ export default {
                 writable: true,
             })
             axios.put(URL, this.pagoEditado).then((response) => {
-                alert('Pago editado');
+                Swal.fire(
+                    'Cambio registrado!',
+                    'Se a registrado una devolución al egreso correctamente',
+                    'success'
+                )
                 location.reload();
                 this.obtenerOtrosPagos();
             })

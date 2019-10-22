@@ -13346,7 +13346,7 @@ var user = document.head.querySelector('meta[name="user"]');
         writable: true
       });
       axios.put(URL, this.pagoEditado).then(function (response) {
-        alert('Pago editado');
+        Swal.fire('Cambio registrado!', 'Se a registrado una devolución al egreso correctamente', 'success');
         location.reload();
 
         _this5.obtenerOtrosPagos();

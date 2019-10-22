@@ -69,7 +69,7 @@ class OtherPaymentsController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -82,7 +82,9 @@ class OtherPaymentsController extends Controller
     public function update(Request $request, $id)
     {
         $pago = OtherPayments::findOrFail($id);
-        $pago->fill($request->all())->save();
+        $pago->resto=$request->resto;
+        $pago->created_at=$pago->updated_at;
+        $pago->save();
 
         return;
     }
