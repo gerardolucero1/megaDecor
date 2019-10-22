@@ -207,11 +207,12 @@
                                 $usuario = Auth::user()->id;    
                             @endphp
 
-                            @if ($usuario != 2)
+@if ($usuario != 2)
                                 <li>
                                     <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
                                         <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
                                     </a>
+                                   
                                     <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>

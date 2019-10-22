@@ -117,9 +117,11 @@
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
+                                    @endif
                                     <a style="margin-right:4px;" target="_blank"  href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
+                                    @if ($usuario != 2)
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-refresh"></i> 
                                     </a>

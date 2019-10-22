@@ -19,8 +19,9 @@
                                 
                             </div>
                             <div class="col-6">
-                                <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Total en caja</div>
-                                <div class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
+                                <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Total en caja </div>
+                                <div v-if="sesion.estatus==1" class="font-size-h3 font-w600">{{ sumarTotalCaja | currency }}</div>
+                                <div v-if="sesion.estatus==0" class="font-size-h3 font-w600">{{ sesion.cantidadRealCierre | currency }}</div>
                                 <button class="btn btn-sm btn-success" style="">Caja</button>
                             </div>
                         </div>
@@ -38,7 +39,7 @@
                             <div class="col-6  border-r">
                                 <p style="font-weight: bold;">Ingresos: </p>
                                 <ul style="font-size: 12px;">
-                                    <li v-for="(item, index) in pagos" :key="index">Abono Contrato {{ item.budget.folio }} - {{ item.amount | currency }}</li>
+                                    <li v-for="(item, index) in pagos" :key="index"> {{ item.budget.folio }} - {{ item.amount | currency }}- <span style="color:green; font-size:6px"> {{ item.method }}</span></li>
                                     <li v-for="(item, index) in otrosPagos" :key="index" v-if="item.tipo == 'INGRESO'">
                                      {{ item.motivo }} - {{ item.cantidad | currency }} - <span style="color:green; font-size:6px"> {{ item.metodo }}</span>
                                     </li>

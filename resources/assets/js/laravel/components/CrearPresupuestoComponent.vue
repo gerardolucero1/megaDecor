@@ -442,12 +442,12 @@ padding: 0;
                                     <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
                                 <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:change="updateNotas(index)">
+                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '' && indice == index && key == 'notas') || indice == index && key == 'notas'" v-model="notasActualizadas" v-on:change="updateNotas(index)">
                                         
                                     </textarea>
-                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
+                                    <p style="background:#E4F9DB; widht:100%; min-height:10px; border-radius:5px" v-else v-on:click="editarNotas(index, Object.keys(producto), producto.notas)">
                                         {{ producto.notas }}
-                                    </span>
+                                    </p>
                                     
 
                                 </td>
@@ -2203,7 +2203,8 @@ padding: 0;
                 },
 
                 //Notas
-                editarNotas(index, key){
+                editarNotas(index, key, notas){
+                    this.notasActualizadas = notas;
                     this.indice = index; 
                     this.key = key[7];
                     console.log(index);
@@ -2217,7 +2218,7 @@ padding: 0;
                         producto.notas = this.notasActualizadas;
                         this.inventarioLocal.splice(index, 1, producto);
                         console.log(this.inventarioLocal);
-                        this.notasActualizadas = '--';
+                        this.notasActualizadas = '';
                         this.key = '';
                         this.indice = '100000000';
                     

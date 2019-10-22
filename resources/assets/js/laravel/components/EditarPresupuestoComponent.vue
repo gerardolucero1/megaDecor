@@ -1241,7 +1241,7 @@ padding: 0;
                 cantidadActualizada: '',
                 ahorroActualizado: '0',
                 precioFinalActualizado: '',
-                notasActualizadas: 'N/A',
+                notasActualizadas: '--',
 
                 //Paquetes
                 paquete: {

@@ -26,7 +26,7 @@
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
+                        <h3 class="block-title" style="color:green">Contratos Hoy</h3>
                     </div>
                     <div class="col-md-9 text-right">
                         @php
@@ -120,9 +120,11 @@
                                     <a style="margin-right:4px;" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
+                                    @endif
                                     <a style="margin-right:4px;" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
+                                    @if($usuario != 2)
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-refresh"></i> 
                                     </a>

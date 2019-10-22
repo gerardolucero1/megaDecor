@@ -75,7 +75,7 @@
     Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
         
-        <div v-if="presupuesto.tipo == 'CONTRATO'" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
+        <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Entrega de mobiliario: </span>{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
@@ -309,10 +309,13 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Unitario</th>
-                                <th scope="col">Precio Especial</th>
-                                <th scope="col">Precio Final</th>
-                                <th scope="col">Ahorro</th>
+
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Especial</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Ahorro</th>
+
+
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -328,19 +331,19 @@
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                     
                                 </td>
-                                <td>
+                                <td v-if="usuarioActual.id!=2">
                                     {{ producto.precioUnitario | currency}} <br>
                                     <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
                                 </td>
-                                <td>
+                                <td v-if="usuarioActual.id!=2">
                                     {{ producto.precioEspecial | currency}}
                                     
                                 </td>
-                                <td>
+                                <td v-if="usuarioActual.id!=2">
                                     <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
                                     <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency }}</span>
                                 </td>
-                                <td>
+                                <td v-if="usuarioActual.id!=2">
                                     <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
                                     <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
                                 </td>
@@ -361,7 +364,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div v-if="usuarioActual.id!=2" class="row">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-5">
@@ -435,7 +438,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div v-if="usuarioActual.id!=2" class="row">
                    
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
@@ -510,10 +513,10 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Externo</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Precio Unitario</th>
-                                <th scope="col">Precio Final</th>
-                                <th scope="col">Precio Venta</th>
-                                <th scope="col">Proveedor</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Precio Venta</th>
+                                <th v-if="usuarioActual.id!=2" scope="col">Proveedor</th>
                             </tr>
                         </thead>
                         <tbody>

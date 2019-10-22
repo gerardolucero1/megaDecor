@@ -527,7 +527,7 @@
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6 style="color:blue">{{ item.motivo }}</h6>
+                                                            <h6 style="color:blue">{{ item.motivo }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
