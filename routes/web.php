@@ -387,18 +387,26 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Obtener la sesion de caja
         Route::get('obtener-sesion-caja', function () {
-            $sesion = CashRegister::orderBy('id', 'DESC')->first();
-            $usuario = User::where('id', $sesion->user_id)->first();
             $arraySesion=[];
-            array_push($arraySesion, [$sesion, $usuario]);
-            return $arraySesion;
+            $sesion = CashRegister::orderBy('id', 'DESC')->first();
+
+            if(!is_null($sesion)){
+                $usuario = User::where('id', $sesion->user_id)->first();
+                array_push($arraySesion, [$sesion, $usuario]);
+                return $arraySesion;
+            }else{
+                $usuario = Auth::user();
+                array_push($arraySesion, [null, $usuario]);
+                return $arraySesion;
+            }
+            
         });
     Route::get('contabilidad/pagos', function(){
         $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
         $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
         $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
-        $sesion = CashRegister::where('estatus', true)->first();
+        $sesion = CashRegister::orderBy('id', 'DESC')->first();
 
         $arrayDatos = [$pagos, $otrosPagos, $sesion];
 

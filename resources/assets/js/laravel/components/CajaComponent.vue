@@ -213,15 +213,17 @@
                     </div>
                     <div class="block-content">
                         <div class="form-group">
-                            <label for="">Cantidad total</label>
-                            <input type="number" class="form-control" v-model="sumarCantidad">
+                            <label for="">Suma total de efectivo en caja</label>
+                            <input disabled type="number" class="form-control" v-model="sumarCantidad">
+                            <p v-if="sesion[0][0].cantidadRealCierre!=sumarCantidad" style="font-size:9px; font-style:italic; color:red"><i class="fa fa-remove"></i>Cantidad de apertura no concuerda con cierre anterior<i class="fa fa-remove"></i></p>
+                            <p v-else style="font-size:9px; font-style:italic; color:green"><i class="fa fa-check"></i>Cantidad de apertura concuerda con cierre anterior<i class="fa fa-check"></i></p>
                         </div>
                         <div class="form-group">
-                            <label for="">Cantidad al momento de apertura</label>
+                            <label for="">*Confirma la cantidad al momento de apertura</label>
                             <input type="number" class="form-control" v-model="cantidadRealApertura">
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja 1</button>
+                            <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
                         </div>
                     </div>
                 </div>
@@ -229,7 +231,7 @@
         </div>
 
         <div class="row" v-else >
-            <div class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesion[0][1].name }} - {{ sesion[0][0].fechaApertura | formatearFecha}} {{ sesion[0][0].horaApertura}}</span></p></div>
+            <div class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesion[0][1].name }} - {{ sesion[0][0].fechaApertura | formatearFecha}} {{ sesion[0][0].created_at | formatearHora}}</span></p></div>
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -505,7 +507,7 @@
                                         <div class="row mt-2">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="">Datos extras</label>
+                                                    <label for="">Comentarios</label>
                                                     <textarea class="form-control" v-model="movimiento.descripcion"></textarea>
                                                 </div>
                                             </div>
@@ -525,7 +527,7 @@
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6 style="color:blue">{{ item.motivo }}</h6>
+                                                            <h6 style="color:blue">{{ item.motivo }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
@@ -537,7 +539,7 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span></p>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>-<span style="font-size:10px; font-style:italic">{{ item.metodo }}</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -686,9 +688,9 @@
                                         
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -699,9 +701,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -712,9 +714,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -725,9 +727,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -738,9 +740,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="block-content">
+                                <div class="block-content" style="padding-top:10px">
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
@@ -764,16 +766,17 @@
                                 </div>
                                 <div class="block-content">
                                     <div class="form-group">
-                                        <label for="">Cantidad total</label>
+                                        <label for="">Suma total de efectivo en caja</label>
                                         <input type="number" class="form-control" v-model="sumarCantidad" readonly>
+                                        
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Cantidad al momento de cierre</label>
+                                        <label for="">*Confirmar total al cierre</label>
                                         <input type="number" class="form-control" v-model="cantidadRealCierre">
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()"><i class="fa fa-inbox"></i>Abrir Cajacambio</button>
-                                        <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja 1</button>
+                                        
+                                        <button class="btn btn-sm btn-block btn-info" @click="confirmarCerrarCaja()">Cerrar Caja</button>
                                     </div>
                                 </div>
                             </div>
@@ -870,18 +873,22 @@ export default {
                 this.pagosCorte[0][0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
                         cheques = cheques + (element.amount);
+                        console.log('Cheques'+cheques);
                     }else if(element.method == 'TRANSFERENCIA'){
                         transferencias = transferencias + (element.amount);
+                        console.log('Transferencias'+transferencias);
                     }else{
                         if(element.method == 'DOLAR'){
                             suma = suma + ((element.amount) * (element.reference));
+                            console.log('Suma'+cheques);
                         }else{
                             suma = suma + (element.amount);
+                            console.log('sumA'+suma);
                         }
                     }
                 });
 
-                suma = suma + this.sesion.cantidadRealApertura;
+                suma = suma + this.sesion[0][0].cantidadRealApertura;
 
                 this.pagosCorte[0][1].forEach((element) => {
                     if(element.tipo == 'INGRESO'){
@@ -957,6 +964,13 @@ export default {
             return hora;
         },
 
+        formatearHora2: function(val){
+            moment.locale('es');
+            //let hora = moment(val).format('h:mm a');
+            let hora = moment(val).format('LT');
+            return hora;
+        },
+
         truncarDecimales: function (x, posiciones = 2) {
                 var s = x.toString()
                 var l = s.length
@@ -1006,6 +1020,18 @@ export default {
             let URL = 'pagos';
 
             axios.post(URL, this.movimiento).then((response) => {
+                this.movimiento.tipo = '';
+                this.movimiento.motivo ='';
+                this.movimiento.referencia ='';
+                this.movimiento.cantidad ='';
+                this.movimiento.metodo ='';
+                this.movimiento.descripcion ='';
+                Swal.fire(
+                    'Movimiento registrado!',
+                    'El movimiento se registro con exito',
+                    'success'
+                )
+            
                 this.obtenerOtrosPagos();
             })
         },
@@ -1020,7 +1046,11 @@ export default {
                 writable: true,
             })
             axios.put(URL, this.pagoEditado).then((response) => {
-                alert('Pago editado');
+                Swal.fire(
+                    'Cambio registrado!',
+                    'Se a registrado una devolución al egreso correctamente',
+                    'success'
+                )
                 location.reload();
                 this.obtenerOtrosPagos();
             })
@@ -1107,7 +1137,7 @@ export default {
         },
 
         habilitarCaja: function(){
-            if(this.sesion[0][0] == ''){
+            if(this.sesion[0][0] == null){
                 this.mostrarAbrirCaja = true;
             }else if((this.sesion[0][0].user_id == this.usuario.id) && (this.sesion[0][0].estatus == true)){
                 this.mostrarAbrirCaja = false;
@@ -1155,6 +1185,7 @@ export default {
                 onClose: () => {
                     clearInterval(timerInterval);
                     this.mostrarAbrirCaja = false;
+                    location.reload();
                 }
                 }).then((result) => {
                 if (
@@ -1184,7 +1215,7 @@ export default {
         },
 
         cerrarCaja: function(){
-            let URL = 'caja/' + this.sesion.id;
+            let URL = 'caja/' + this.sesion[0][0].id;
 
             axios.put(URL, {
                 cantidadRealCierre: this.cantidadRealCierre,

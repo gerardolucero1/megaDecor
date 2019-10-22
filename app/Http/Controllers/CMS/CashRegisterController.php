@@ -170,9 +170,17 @@ class CashRegisterController extends Controller
     public function pdf($id){
         $registro = CashRegister::findOrFail($id);
 
+        $date = Carbon::now();
+        $fechaApertura = Carbon::parse($registro->created_at);
+        $fechaCierre = Carbon::parse($registro->updated_at);
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        
+
+
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.contabilidad', compact('registro'));
+        $pdf = PDF::loadView('pdf.contabilidad', compact('registro', 'pagos', 'otrosPagos'));
 
         return $pdf->stream();
     }

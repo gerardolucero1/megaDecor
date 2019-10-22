@@ -33,7 +33,7 @@
                             $usuario = Auth::user()->id;    
                         @endphp 
                         
-                        @if($usuario != 2)
+                        @if($usuario != 2 || $usuario != 6)
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                 <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
                             </button>
@@ -92,7 +92,7 @@
                                     {{$budget->version}}
                                 </td>
                             <td class="text-center d-none d-sm-table-cell" style="font-size:14px;">
-                                @if($usuario != 2)
+                                @if($usuario != 2 || $usuario != 6)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                     </a>
