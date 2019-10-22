@@ -14,30 +14,34 @@
                 <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
                         @if ($usuario != 2)
                     <div class="col-10" style="padding-bottom:20px">
+                            @if ($usuario != 6)
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                     <i class="fa fa-calendar-plus-o"></i> <i>Crear presupuesto</i> 
                                 </button>
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                         <i class="fa fa-user-plus"></i> <i>Nuevo cliente</i> 
                                 </button>
+                                @endif
                                 <button class="btn btn-primary" data-toggle="modal" data-target="">
                                         <i class="fa fa-dollar"></i> <i>Nuevo Ingreso</i> 
                                 </button>
                                 <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
+                                @if ($usuario != 6)
                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                                         <i class="si si-settings"></i> <i>Configuraciones</i> 
                                 </button>
+                                @endif
                     </div>
                     @endif
-                    @if ($usuario == 17)
+                    @if ($usuario == 17 || $usuario==6)
                     <div class="col-2">
                         <a href="{{ route('caja.index') }}" class="btn btn-info">Caja</a>
                     </div>
                     @endif
                     
-                    @if ($usuario != 2)
+                    @if ($usuario != 2 || $usuario != 6)
                     <div class="col-6 col-xl-3">
                             <a class="block block-link-pop text-right bg-primary" href="{{ route('presupuestos') }}">
                                 <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -50,6 +54,7 @@
                             </a>
                         </div>
                         @endif
+                        @if ($usuario != 6)
                         <div class="col-6 col-xl-3">
                                 <a class="block block-link-pop text-right bg-earth" href="{{ route('presupuestos-hoy') }}">
                                     <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -61,7 +66,9 @@
                                     </div>
                                 </a>
                             </div>
+                            @endif
                             @if ($usuario != 2)
+                            @if ($usuario != 6)
                         <div class="col-6 col-xl-3">
                                     <a class="block block-link-pop text-right bg-corporate" href="javascript:void(0)">
                                         <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -84,7 +91,7 @@
                                             </div>
                                         </a>
                                     </div>
-
+@endif
                                 <div class="col-md-6">
                                         <a class="block" href="javascript:void(0)">
                                             <div class="block-content block-content-full">
@@ -138,7 +145,7 @@
                                         @php
                                 $usuario = Auth::user()->id;    
                             @endphp
-                            @if ($usuario == 17)
+                            @if ($usuario == 17 || $usuario == 6)
                                 <contabilidad-component></contabilidad-component>        
                             @endif
                     </div>
@@ -150,20 +157,20 @@
                         <div class="col-md-8">
                                 <div class="block">
                                     <div class="block-content block-content-full" style="position: relative">
-                                            @if ($usuario != 2)
+                                            @if ($usuario != 2 || $usuario != 6)
                                         <button onclick="calendarTodos()" class="btn btn-success">Todos</button>
                                         @endif
                                         <button onclick="soloTareas()" class="btn btn-success" style="background:#F2E06E">Tareas</button>
 
                                         <button onclick="soloContratos()" class="btn btn-info" style="background:#91DFEB">Eventos</button>
-                                        @if ($usuario != 2)
+                                        @if ($usuario != 2 || $usuario != 6)
                                         <button onclick="soloPresupuestos()" class="btn btn-info" style="background:#ECABF9">Presupuestos</button>
                                         @endif
 
-                                <div id='calendar' style="position:absolute; z-index:4;  @if ($usuario == 2) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar' style="position:absolute; z-index:4;  @if ($usuario == 2 || $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
                                 <div id='calendar2' style="position:absolute; z-index:1; background:white; padding:15px; margin-left:-20px; width:100%"></div>
                                 <div id='calendar3' style="position:absolute; z-index:2; background:white; padding:15px; margin-left:-20px; width:100%"></div>
-                                <div id='calendar4' style="position:absolute; z-index:3; @if ($usuario == 2) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar4' style="position:absolute; z-index:3; @if ($usuario == 2 || $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
                                     </div>
                                 </div>
                             </div>
