@@ -71,7 +71,13 @@
                             @if (!is_null($Presupuestos))
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd">
-                                <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
+                                <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}} 
+                                    <span>
+                                        @if ($budget->pagado)
+                                            <i class="fa fa-check" data-toggle="tooltip" title="Contrato pagado"></i> 
+                                        @endif
+                                    </span>
+                                </td>
                                 
                                 @if (!is_null($budget->fechaEvento))
                                 @php
@@ -157,7 +163,7 @@
                      <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>#Presupuesto</th>
+                                    <th>#Folio</th>
                                     <th>Fecha Evento</th>
                                     <th>Cliente</th>
                                     <th>Lugar</th>
@@ -244,7 +250,7 @@
                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados" role="grid" >
                         <thead>
                             <tr role="row">
-                                <th>#Presupuesto</th>
+                                <th>#Folio</th>
                                 <th>Fecha Evento</th>
                                 <th>Cliente</th>
                                 <th>Lugar</th>
@@ -259,7 +265,13 @@
                             @if (!is_null($presupuestosHistorial))
                                 @foreach ($presupuestosHistorial as $budgetArchivados)                          
                                     <tr role="row" class="odd">
-                                        <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
+                                        <td class="text-center sorting_1">{{$budgetArchivados->folio}}
+                                                <span>
+                                                        @if ($budgetArchivados->pagado)
+                                                            <i class="fa fa-check" data-toggle="tooltip" title="Contrato pagado"></i> 
+                                                        @endif
+                                                    </span>
+                                        </td>
                                         @if (!is_null($budgetArchivados->fechaEvento))
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');

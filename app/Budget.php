@@ -57,6 +57,7 @@ class Budget extends Model
         'version',
         'comision',
         'total',
+        'pagado',
 
         //Notas
         'notasPresupuesto',

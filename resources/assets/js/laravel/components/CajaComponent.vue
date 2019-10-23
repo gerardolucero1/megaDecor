@@ -221,6 +221,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row" v-if="pagosPasados.length != 0">
+                    <div class="col-md-12">
+                        <h4>Pagos a contratos</h4>
+                        <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
+                        <label>Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
+                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -617,7 +626,7 @@
                             
                         </div>
                     </div>
-                    <div class="row">
+                    <div v-if="!controlDetalles" class="row">
                         <div class="col-md-4">
                             <div class="block">
                                 <div class="block-header block-header-default">
@@ -792,6 +801,79 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-sm btn-info btn-block" @click="obtenerDetalles()">Ver detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else class="row">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-sm btn-info" @click="controlDetalles = false">Ver vista corte</button>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Banco</th>
+                                        <th scope="col">Metodo</th>
+                                        <th scope="col">Referencia</th>
+                                        <th scope="col">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in pagosTotalesActuales[0]" :key="index">
+                                        <th scope="row">{{ index }}</th>
+                                        <td>
+                                            <span v-if="item.banco">{{ item.banco }}</span>
+                                            <span v-else>--</span>
+                                        </td>
+                                        <td>{{ item.metodo }}</td>
+                                        <td>
+                                            <span v-if="item.referencia">{{ item.referencia }}</span>
+                                            <span v-else>--</span>
+                                        </td>
+                                        <td>{{ item.cantidad | currency }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-12 text-right">
+                                <h5 class="text-danger">Total: {{ sumaIngresosActuales[0] | currency }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Banco</th>
+                                        <th scope="col">Metodo</th>
+                                        <th scope="col">Referencia</th>
+                                        <th scope="col">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in pagosTotalesActuales[1]" :key="index">
+                                        <th scope="row">{{ index }}</th>
+                                        <td>
+                                            <span v-if="item.banco">{{ item.banco }}</span>
+                                            <span v-else>--</span>
+                                        </td>
+                                        <td>{{ item.metodo }}</td>
+                                        <td>
+                                            <span v-if="item.referencia">{{ item.referencia }}</span>
+                                            <span v-else>--</span>
+                                        </td>
+                                        <td>{{ item.cantidad | currency }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-12 text-right">
+                                <h5 class="text-danger">Total: {{ sumaIngresosActuales[1] | currency }}</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -857,6 +939,7 @@ export default {
     },
     data(){
         return{
+            controlDetalles: false,
             mostrarAbrirCaja: true,
             sesion: null,
             sesionActual: '',
@@ -890,6 +973,7 @@ export default {
                 referencia: '',
                 responsable: '',
                 banco: '',
+                contrato: '',
             },
             cantidadApertura: null,
             cantidadRealApertura: null,
@@ -909,12 +993,15 @@ export default {
             pagoEditado: '',
             editarCambio: 0,
             pagosCorte: '',
+            pagosPasados: [],
+            pagosTotalesActuales: [],
         }
     },
     created(){
         this.obtenerSesion();
         this.obtenerPresupuestos();
         this.obtenerCategorias();
+        this.obtenerPagosPasados();
 
         //Buscadores
         this.$on('presupuestosResults', presupuestosResults => {
@@ -922,6 +1009,99 @@ export default {
         });
     },
     computed: {
+        sumaIngresosActuales: function(){
+            let suma = 0;
+            let suma2 = 0;
+
+            let datos = [];
+            this.pagosTotalesActuales[0].forEach((element) => {
+                suma = suma + parseFloat(element.cantidad);
+            })
+
+            this.pagosTotalesActuales[1].forEach((element) => {
+                suma2 = suma2 + parseFloat(element.cantidad);
+            })
+
+            datos.push(suma, suma2);
+            return datos;
+        },
+
+        sumaPagosPasados: function(){
+            let pagos = [];
+            let cheques = 0;
+            let transferencias = 0;
+            let dolar = 0;
+            let suma = 0;
+
+            if(this.pagosPasados.length != 0){
+                this.pagosPasados[0].forEach((element) => {
+                    if(element.method == 'CHEQUE'){
+                        cheques = cheques + parseFloat(element.amount);
+                    }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
+                        transferencias = transferencias + parseFloat(element.amount);
+                    }else{
+                        if(element.method == 'DOLAR'){
+                            dolar = dolar + (parseFloat(element.cantidad));
+                        }else{
+                            suma = suma + parseFloat(element.amount);
+                        }
+                    }
+                });
+
+                this.pagosPasados[1].forEach((element) => {
+if(element.tipo == 'INGRESO'){
+                    switch(element.metodo){
+                        case 'TRANSFERENCIA':
+                            transferencias = transferencias + parseFloat(element.cantidad);
+                            alert
+                            break;
+                        case 'TARJETA':
+                            transferencias = transferencias + parseFloat(element.cantidad);
+                            break;
+                        case 'CHEQUE':
+                            cheques = cheques + parseFloat(element.cantidad);
+                            break;
+                        case 'EFECTIVO':
+                             suma = suma + parseFloat(element.cantidad);
+                            break;
+                        case 'DOLAR':
+                             dolar = dolar + (parseFloat(element.cantidad));
+                            break;  
+                    }
+}else{
+    
+                    switch(element.metodo){
+                        case 'TRANSFERENCIA':
+                            transferencias = transferencias - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'TARJETA':
+                            transferencias = transferencias - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'CHEQUE':
+                            cheques = cheques - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'EFECTIVO':
+                             suma -= parseFloat(element.cantidad);
+                             suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'DOLAR':
+                             dolar = dolar - (parseFloat(element.cantidad));
+                             dolar = dolar + parseFloat(element.resto);
+                            break;  
+                    }
+
+}
+
+                });
+
+                pagos.push(cheques, transferencias, dolar);
+                return pagos;
+            }
+        },
+
         cantidadPreCorte: function(){
             if(this.pagosCorte.length != 0){
                 let arrayDeDatos = [];
@@ -1085,12 +1265,70 @@ if(element.tipo == 'INGRESO'){
             }
     },
     methods: {
+        obtenerDetalles: function(){
+            this.controlDetalles = true;
+
+            let URL = 'obtener-detalles';
+            
+            axios.get(URL).then((response) => {
+                let pagos = [];
+                let otrosPagos = [];
+                this.pagosTotalesActuales = response.data;
+
+                this.pagosTotalesActuales[0].forEach((element) => {
+                    let pago = {
+                        cantidad: element.amount,
+                        metodo: element.method,
+                        referencia: element.reference,
+                        banco: element.bank,
+                    }
+                    let pago2 = JSON.parse(JSON.stringify(pago));
+                    pagos.push(pago2);
+                })
+
+                this.pagosTotalesActuales[1].forEach((element) => {
+                    if(element.tipo == 'INGRESO'){
+                        let pago = {
+                            cantidad: element.cantidad,
+                            metodo: element.metodo,
+                            referencia: element.referencia,
+                            banco: element.banco,
+                            responsable: element.responsable,
+                            contrato: element.contrato
+                        }
+
+                        let pago2 = JSON.parse(JSON.stringify(pago));
+                        pagos.push(pago2);
+                    }else{
+                        let pago = {
+                            cantidad: element.cantidad,
+                            metodo: element.metodo,
+                            referencia: element.referencia,
+                            banco: element.banco,
+                            responsable: element.responsable,
+                            contrato: element.contrato
+                        }
+
+                        let pago2 = JSON.parse(JSON.stringify(pago));
+                        otrosPagos.push(pago2);
+                    }
+                })
+
+                this.pagosTotalesActuales[0] = pagos;
+                this.pagosTotalesActuales[1] = otrosPagos;
+            })
+        },
+
         obtenerCorte: function(){
             let URL = 'caja/corte';
 
             axios.get(URL).then((response) => {
                 this.pagosCorte = response.data;
             })
+
+            this.obtenerDetalles();
+
+            this.controlDetalles = false;
         },
 
         obtenerOtrosPagos: function(){
@@ -1098,6 +1336,14 @@ if(element.tipo == 'INGRESO'){
 
             axios.get(URL).then((response) => {
                 this.otrosPagos = response.data;
+            })
+        },
+
+        obtenerPagosPasados: function(){
+            let URL = 'obtener-pagos-pasados';
+
+            axios.get(URL).then((response) => {
+                this.pagosPasados = response.data;
             })
         },
 
@@ -1270,7 +1516,7 @@ if(element.tipo == 'INGRESO'){
         obtenerPresupuesto: function(presupuesto){
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
-            this.movimiento.responsable = presupuesto.folio;
+            this.movimiento.contrato = presupuesto.folio;
            
             if(this.presupuestoSeleccionado.opcionIVA==1){
                 this.totalEtiqueta=0;
@@ -1382,8 +1628,15 @@ if(element.tipo == 'INGRESO'){
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
-
+                if(this.pago.amount == (this.presupuestoSeleccionado.total - this.totalAbonado)){
+                    let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
+                    
+                    axios.get(URL).then((response) => {
+                        alert('Contrato pagado');
+                    })
+                }
                 this.obtenerPresupuestos();
+                
             }).catch((error) => {
                 console.log(error.data)
             })
