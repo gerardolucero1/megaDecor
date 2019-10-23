@@ -235,7 +235,7 @@
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
                     <li>
-                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Pre Corte</button>
+                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Pre-corte</button>
                     </li>
                 </ul> 
             
@@ -340,6 +340,7 @@
                                                         <div class="col-md-12 mt-3">
                                                             <input v-if="pago.method == 'DOLAR'" type="number" placeholder="Ingresa el tipo de cambio" v-model="pago.reference">
                                                             <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa numero referencia de transacción" v-model="pago.reference">
+                                                            <input v-if="pago.method == 'CHEQUE'" type="number" placeholder="Ingresa numero de cheque" v-model="pago.reference">
                                                             <input v-if="pago.method == 'TARJETA'" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="pago.reference">
                                                             <input v-if="pago.method == 'CHEQUE'" type="text" placeholder="Ingresa numero de cheque" v-model="pago.reference">
                                                         </div>
@@ -429,7 +430,7 @@
                                                         </select>
                                                     </div>
                                                     
-                                                    <div v-if="movimiento.motivo != 'Proveedor' && movimiento.motivo!='Contrato'">
+                                                    <div v-if="movimiento.tipo == 'EGRESO' && movimiento.motivo !== 'Proveedor'">
                                                         <label for="">Responsable</label>
                                                         <input type="text" class="form-control" v-model="movimiento.responsable">
                                                     </div>
@@ -498,6 +499,7 @@
                                             <div class="col-md-12">
                                                 <input v-if="movimiento.metodo == 'DOLAR'" class="form-control" type="number" placeholder="Ingresa el tipo de cambio" v-model="movimiento.referencia">
                                                 <input v-if="movimiento.metodo == 'TRANSFERENCIA'" class="form-control" type="number" placeholder="Ingresa los digitos de referencia" v-model="movimiento.referencia">
+                                                <input v-if="movimiento.metodo == 'CHEQUE'" class="form-control" type="number" placeholder="Ingresa numero de cheque" v-model="movimiento.referencia">
                                                 <input v-if="movimiento.metodo == 'TARJETA'" class="form-control" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="movimiento.referencia">
                                                 <input v-if="movimiento.metodo == 'CHEQUE'" class="form-control" type="number" placeholder="Ingresa una referencia" v-model="movimiento.referencia">
                                             </div>
@@ -528,8 +530,7 @@
                                         <div class="row">
 
                                             <div class="col-md-12">
-                                                <!--  <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index"> iNICIO DEL FOR  -->
-                                                    <!-- TARJETA DE EGRESOS E INGRESOS -->
+                                                <!--tarjetas de ingresos y egresos-->
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -546,11 +547,10 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>-
-                                                            <span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{item.banco}}</span> 
-                                                            <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"> <br><br><br><br>Referencia: {{ item.referencia }}</span>
-                                                            <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"> <br><br><br><br>Tipo de cambio: {{ item.referencia | currency }}</span>
-                                                            </p>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>
+                                                            -<span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{ item.banco }}</span>
+                                                            <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }}</span>
+                                                            <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
                                                         </div>
                                                     </div> 
                                                     <div class="row">
@@ -563,6 +563,7 @@
                                                         
                                                     </div>
                                                 </div>
+                                                <!--tarjetas de ingresos y egresos-->
                                             </div>
                                         </div>
                                     </div>
@@ -942,7 +943,7 @@ export default {
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                            dolar = dolar + parseFloat(element.cantidad) ;
+                           dolar = dolar + (parseFloat(element.cantidad));
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }

@@ -512,6 +512,7 @@ padding: 0;
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
                          <button class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
+                        <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
                     </div>
                 </div>
                 
@@ -924,20 +925,26 @@ padding: 0;
                         </div>
                         <div class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
-                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
+                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
+                                <option value="OTRO">Otro</option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-6" style="padding-top:20px">
-                            <label form="fecha-hora">Fecha y hora de recoleccion</label>
-                            <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        <div class="col-md-4" style="padding-top:20px">
+                            <label form="fecha-hora">Fecha de recoleccion</label>
+                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        </div>
+                        <div class="col-md-4" style="padding-top:20px">
+                            <label form="fecha-hora">Hora de recoleccion</label>
+                            <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
                         <div class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
-                            <select id="" class="form-control">
+                            <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
+                                <option value="OTRO">Otra</option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -1036,58 +1043,6 @@ padding: 0;
                 </div>
             </div>
         </div>
-
-        <!-- Modal 
-        <div class="modal fade" id="agregarCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content" style="border: solid gray">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar nueva categoria</h5>
-                    <button type="button" class="close" onClick="$('#agregarCategoria').modal('hide')" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <input type="text" v-model="nombreCategoria" width="100%">
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-sm btn-info btn-block" @click="agregarCategoria()">Agregar</button>
-                        </div>
-                    </div>
-
-                    <div class="row" v-if="categorias.length != 0">
-                        <div class="col-md-12">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in categorias" :key="index">
-                                        <th scope="row">{{ item.id }}</th>
-                                        <td>{{ item.nombre }}</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-danger btn-block" @click="eliminarCategoria(item)">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#agregarCategoria').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
-            </div>
-        </div>
-        -->
 
     </section>
 </template>
@@ -1278,6 +1233,8 @@ padding: 0;
                     horaFin: '',
                     horaEntrega: '',
                     fechaRecoleccion: '',
+                    horaRecoleccion: '',
+                    recoleccionPreferente: '',
                     notasFacturacion: '',
 
                     //Datos
@@ -1457,8 +1414,10 @@ padding: 0;
                 }
                 
             },
-            'requiereFactura': function(val){
-                if(val){
+            'presupuesto.requiereFactura': function(val){
+                if(val=='SI'){
+                    this.presupuesto.opcionIVA = true;
+                    this.requiereFactura = true;
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
                     this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
@@ -1472,14 +1431,40 @@ padding: 0;
                     this.facturacion.direccionFacturacion = '';
                     this.facturacion.numeroFacturacion = '';
                     this.facturacion.coloniaFacturacion = '';
-                    this.facturacion.emailFacturacion = '';
                     this.facturacion.rfcFacturacion = '';
+                    this.facturacion.emailFacturacion = '';
                     this.facturacion.codigoPostal = '';
                 }
                 
             },
         },
         methods:{
+            modificarHoraEntrega(){
+                if(this.facturacion.horaEntrega != 'OTRO'){
+                    this.facturacion.horaInicio = '00:00';
+                    this.facturacion.horaFin = '00:00';
+
+                    document.getElementById('hora-1').setAttribute('disabled', '');
+                    document.getElementById('hora-2').setAttribute('disabled', '');
+                }else{
+                    document.getElementById('hora-1').removeAttribute('disabled');
+                    document.getElementById('hora-2').removeAttribute('disabled'); 
+                }
+                
+            },
+
+            modificarHoraRecoleccion(){
+                if(this.facturacion.recoleccionPreferente != 'OTRO'){
+                    this.facturacion.fechaRecoleccion = '1995-08-23';
+                    this.facturacion.horaRecoleccion = '00:00';
+
+                    document.getElementById('recoleccionFecha').setAttribute('disabled', '');
+                    document.getElementById('recoleccionHora').setAttribute('disabled', '');
+                }else{
+                    document.getElementById('recoleccionFecha').removeAttribute('disabled');
+                    document.getElementById('recoleccionHora').removeAttribute('disabled'); 
+                }
+            },
             /*
             obtenerCategorias(){
                 let URL = 'budget-categorias';
@@ -2203,6 +2188,8 @@ padding: 0;
 
                 axios.get(URL).then((response) => {
                     this.presupuesto = response.data;
+                    this.facturacion = response.data;
+                    
                     console.log('Este es el presupuesto: ', response.data);
                     this.saldoFinal = this.presupuesto.total;
                     let cliente = this.clientes.find(function(element){
