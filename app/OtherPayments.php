@@ -16,5 +16,6 @@ class OtherPayments extends Model
         'metodo',
         'referencia',
         'banco',
+        'contrato',
     ];
 }

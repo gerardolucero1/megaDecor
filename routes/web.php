@@ -421,7 +421,33 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('recibo-pago/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePago')->name('recibo-pago.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
+    Route::get('obtener-pagos-pasados', function(){
+        $date = Carbon::yesterday();
+        $fechaAyer = $date->format('Y-m-d');
+        $pagos = Payment::orderBy('id', 'DESC')->whereDate('created_at', $fechaAyer)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaAyer)->get();
+
+        $arrayDatos = [$pagos, $otrosPagos];
+        return $arrayDatos;
+    });
+
+    Route::get('obtener-detalles', function(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+
+        $arrayDatos = [$pagos, $otrosPagos];
+
+        return $arrayDatos;
+    });
     Route::resource('categorias-pagos', 'CMS\CategoryPaymentController');
+    Route::get('pagar-contrato/{id}', function($id){
+        $contrato = Budget::findOrFail($id);
+
+        $contrato->pagado = true;
+        $contrato->save();
+    });
 
     Route::resource('providers', 'ProvidersController');
 

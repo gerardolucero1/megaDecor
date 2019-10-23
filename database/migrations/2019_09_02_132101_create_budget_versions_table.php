@@ -61,7 +61,9 @@ class CreateBudgetVersionsTable extends Migration
             $table->time('horaInicio')->nullable();
             $table->time('horaFin')->nullable();
             $table->string('horaEntrega')->nullable();
-            $table->dateTime('fechaRecoleccion')->nullable();
+            $table->date('fechaRecoleccion')->nullable();
+            $table->time('horaRecoleccion')->nullable();
+            $table->string('recoleccionPreferente')->nullable();
             $table->string('notasFacturacion')->nullable();
             $table->string('nombreFacturacion')->nullable();
             $table->string('direccionFacturacion')->nullable();
@@ -72,6 +74,9 @@ class CreateBudgetVersionsTable extends Migration
 
             //Impresion
             $table->boolean('impresion')->nullable();
+
+            //Pagado
+            $table->boolean('pagado')->nullable();
 
             //Version
             $table->integer('version')->nullable();
