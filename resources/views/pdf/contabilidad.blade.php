@@ -124,6 +124,7 @@
             </tr>
             @endforeach
             </table>
+            
 
     <script type="text/php">
         if ( isset($pdf) ) {
@@ -134,7 +135,3 @@
 </body>
 </html>
 
-{{ $registro->id }}<br>
-{{ $registro->fechaApertura }} {{ $registro->horaApertura }} - {{$registro->horaCierre}}<br>
-${{ $registro->cantidadApertura }} / ${{ $registro->cantidadRealApertura }}<br>
-${{ $registro->cantidadCierre }} / ${{ $registro->cantidadRealCierre }}<br>

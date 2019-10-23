@@ -17,6 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('budget_id')->unsigned();
             $table->string('method')->nullable();
+            $table->string('bank')->nullable();
             $table->float('amount')->nullable();
             $table->timestamps();
 

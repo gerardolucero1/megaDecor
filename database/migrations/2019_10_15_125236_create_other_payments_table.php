@@ -19,6 +19,7 @@ class CreateOtherPaymentsTable extends Migration
             $table->double('cantidad')->nullable();
             $table->string('motivo')->nullable();
             $table->string('responsable')->nullable();
+            $table->string('banco')->nullable();
             $table->double('resto')->nullable();
             $table->text('dscripcion')->nullable();
             $table->timestamps();

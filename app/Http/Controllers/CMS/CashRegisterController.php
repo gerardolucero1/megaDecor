@@ -157,12 +157,12 @@ class CashRegisterController extends Controller
         $fechaHoy = $date->format('Y-m-d');
         $horaHoy = $date->toTimeString();
 
-        $registro = CashRegister::where('estatus', true)->first();
+
+        $registro = CashRegister::orderBy('id', 'DESC')->where('estatus', true)->first();
         $pagos = Payment::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
         $otrosPagos = OtherPayments::whereDate('created_at', $fechaHoy)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $horaHoy)->get();
 
-        $registros = [];
-        array_push($registros, [$pagos, $otrosPagos]);
+        $registros = [$pagos, $otrosPagos];
 
         return $registros;
     }
@@ -181,6 +181,17 @@ class CashRegisterController extends Controller
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.contabilidad', compact('registro', 'pagos', 'otrosPagos'));
+
+        return $pdf->stream();
+    }
+
+    public function pdfReciboDePago($id){
+        $date = Carbon::now();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('id', $id)->get();
+      
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.recibo_pago', compact('otrosPagos'));
 
         return $pdf->stream();
     }

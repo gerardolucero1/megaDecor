@@ -80,14 +80,14 @@ export default {
             let suma = 0;
             if(this.pagos.length != 0){
                 this.pagos.forEach((element) => {
-                suma += element.amount;
+                suma += parseFloat(element.amount);
                 })
             }
 
             if(this.otrosPagos.length != 0){
                 this.otrosPagos.forEach((element) => {
                     if(element.tipo == 'INGRESO'){
-                        suma += element.cantidad;
+                        suma += parseFloat(element.cantidad);
                     }
                 })
             }
@@ -100,7 +100,7 @@ export default {
             if(this.otrosPagos.length != 0){
                 this.otrosPagos.forEach((element) => {
                     if(element.tipo == 'EGRESO'){
-                        suma += element.cantidad;
+                        suma += parseFloat(element.cantidad);
                     }
                 })
             }
