@@ -13681,7 +13681,7 @@ var user = document.head.querySelector('meta[name="user"]');
         if (this.pago.method == '') {
           alert('Selecciona un metodo de pago');
         } else {
-          if (this.pago.amount > this.presupuestoSeleccionado.total - this.totalAbonado) {
+          if (this.pago.amount > this.totalEtiqueta - this.totalAbonado) {
             alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
           } else {
             this.pago.budget_id = this.presupuestoSeleccionado.id;
@@ -21334,6 +21334,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
 //
 //
 //
@@ -74338,7 +74339,7 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             _vm.totalAbonado !=
-                                            _vm.presupuestoSeleccionado.total
+                                            this.totalEtiqueta
                                               ? _c(
                                                   "div",
                                                   {
@@ -74836,7 +74837,7 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             _vm.totalAbonado ==
-                                            _vm.presupuestoSeleccionado.total
+                                            this.totalEtiqueta
                                               ? _c(
                                                   "div",
                                                   { staticClass: "col-md-12" },
@@ -95378,7 +95379,8 @@ var render = function() {
                   _vm._v("Entrega de mobiliario: ")
                 ]),
                 _vm._v(
-                  _vm._s(_vm.presupuesto.horaEntrega) +
+                  "POR LA " +
+                    _vm._s(_vm.presupuesto.horaEntrega) +
                     " " +
                     _vm._s(_vm.presupuesto.horaInicio) +
                     "-" +
@@ -97099,71 +97101,110 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.opcionIVA,
-                          expression: "presupuesto.opcionIVA"
-                        }
-                      ],
-                      attrs: { type: "checkbox", id: "iva", disabled: "" },
-                      domProps: {
-                        checked: Array.isArray(_vm.presupuesto.opcionIVA)
-                          ? _vm._i(_vm.presupuesto.opcionIVA, null) > -1
-                          : _vm.presupuesto.opcionIVA
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.presupuesto.opcionIVA,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "opcionIVA",
-                                  $$a.concat([$$v])
-                                )
-                            } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "opcionIVA",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
+                    _vm.presupuesto.opcionIVA
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.opcionIVA,
+                              expression: "presupuesto.opcionIVA"
                             }
-                          } else {
-                            _vm.$set(_vm.presupuesto, "opcionIVA", $$c)
+                          ],
+                          attrs: { type: "checkbox", id: "iva", disabled: "" },
+                          domProps: {
+                            checked: Array.isArray(_vm.presupuesto.opcionIVA)
+                              ? _vm._i(_vm.presupuesto.opcionIVA, null) > -1
+                              : _vm.presupuesto.opcionIVA
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.presupuesto.opcionIVA,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "opcionIVA",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "opcionIVA",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.presupuesto, "opcionIVA", $$c)
+                              }
+                            }
                           }
-                        }
-                      }
-                    }),
+                        })
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("label", { attrs: { for: "iva" } }, [
-                      _vm._v("IVA: $"),
-                      _c("span", [
-                        _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularIva)))
-                      ])
-                    ]),
+                    _vm.presupuesto.opcionIVA
+                      ? _c("label", { attrs: { for: "iva" } }, [
+                          _vm._v("IVA: $"),
+                          _c("span", [
+                            _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularIva)))
+                          ])
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "info mt-3" }, [
-                      _c("p", [
-                        _vm._v("TOTAL con IVA: $"),
-                        _c("span", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("decimales")(
-                                _vm.calcularSubtotal + _vm.calcularIva
-                              )
-                            )
+                      _vm.presupuesto.opcionIVA
+                        ? _c(
+                            "p",
+                            {
+                              staticStyle: {
+                                "font-size": "20px",
+                                color: "orange"
+                              }
+                            },
+                            [
+                              _vm._v("TOTAL con IVA: $"),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("decimales")(
+                                      _vm.calcularSubtotal + _vm.calcularIva
+                                    )
+                                  )
+                                )
+                              ])
+                            ]
                           )
-                        ])
-                      ]),
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.presupuesto.opcionIVA != 1
+                        ? _c(
+                            "p",
+                            {
+                              staticStyle: {
+                                "font-size": "20px",
+                                color: "orange"
+                              }
+                            },
+                            [
+                              _vm._v("TOTAL: $"),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("decimales")(_vm.calcularSubtotal)
+                                  )
+                                )
+                              ])
+                            ]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("p", [
                         _vm._v("Ahorro General: $"),

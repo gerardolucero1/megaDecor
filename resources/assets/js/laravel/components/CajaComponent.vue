@@ -322,7 +322,7 @@
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:red; font-style:italic; padding:10px; text-align:center; line-height:16px">*Este contrato no requiere factura, por lo que al realizar pago con tarjeta o tranferencia se debera cobrar un 16% extra al abono a realizar</p>
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:blue; font-weight:bold; font-style:normal; padding:10px; text-align:center; line-height:18px">Total a pagar: {{pago.amount*1.16 | currency}}</p>
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA=='1'))" style="color:green; font-style:italic; padding:10px; text-align:center">*IVA ya incluido en total a pagar</p>
-                                                    <div v-if="totalAbonado!=presupuestoSeleccionado.total" class="col-md-8 offset-md-2 abonarPresupuesto">
+                                                    <div v-if="totalAbonado!=this.totalEtiqueta" class="col-md-8 offset-md-2 abonarPresupuesto">
                                                         <div class="col-md-12 mt-3">
                                                             <select name="" id="" v-model="pago.method">
                                                                 <option value="">Selecciona un metodo de pago</option>
@@ -350,7 +350,7 @@
                                                             <button class="btn btn-sm btn-info btn-block" @click="registrarPago()">Registrar pago</button>
                                                         </div>
                                                     </div>
-                                                    <div v-if="totalAbonado==presupuestoSeleccionado.total" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
+                                                    <div v-if="totalAbonado==this.totalEtiqueta" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1376,7 +1376,7 @@ if(element.tipo == 'INGRESO'){
             if(this.pago.method==''){
                 alert('Selecciona un metodo de pago');
             }else{
-            if(this.pago.amount>(this.presupuestoSeleccionado.total - this.totalAbonado)){
+            if(this.pago.amount>(this.totalEtiqueta - this.totalAbonado)){
                 alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
             }else{
             this.pago.budget_id = this.presupuestoSeleccionado.id;
