@@ -13158,6 +13158,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13235,53 +13254,75 @@ var user = document.head.querySelector('meta[name="user"]');
         var arrayDeDatos = [];
         var suma = 0;
         var cheques = 0;
+        var dolar = 0;
         var transferencias = 0;
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
             cheques = cheques + parseFloat(element.amount);
-          } else if (element.method == 'TRANSFERENCIA') {
+          } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              suma = suma + parseFloat(element.amount) * parseFloat(element.reference);
+              dolar = dolar + parseFloat(element.cantidad);
             } else {
               suma = suma + parseFloat(element.amount);
             }
           }
         });
-        suma = suma + this.sesion.cantidadRealApertura;
+        suma = suma + parseFloat(this.sesionActual.cantidadApertura);
         this.pagosCorte[1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
-            if (element.metodo != ('TRANSFERENCIA' || false)) {
-              if (element.metodo == 'DOLAR') {
-                suma = suma + parseFloat(element.cantidad) * parseFloat(element.referencia);
-              } else {
+            switch (element.metodo) {
+              case 'TRANSFERENCIA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques + parseFloat(element.cantidad);
+                break;
+
+              case 'EFECTIVO':
                 suma = suma + parseFloat(element.cantidad);
-              }
-            } else if (element.metodo == 'CHEQUE') {
-              cheques = cheques + parseFloat(element.cantidad);
-            } else {
-              transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'DOLAR':
+                dolar = dolar + parseFloat(element.cantidad);
+                break;
             }
           } else {
-            if (element.metodo != ('TRANSFERENCIA' || false)) {
-              if (element.metodo == 'DOLAR') {
-                suma = suma - parseFloat(element.cantidad) * parseFloat(element.referencia);
+            switch (element.metodo) {
+              case 'TRANSFERENCIA':
+                transferencias = transferencias - parseFloat(element.cantidad);
                 suma = suma + parseFloat(element.resto);
-              } else {
-                suma = suma - parseFloat(element.cantidad);
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias - parseFloat(element.cantidad);
                 suma = suma + parseFloat(element.resto);
-              }
-            } else if (element.metodo == 'CHEQUE') {
-              cheques = cheques - parseFloat(element.cantidad);
-              cheques = cheques + parseFloat(element.resto);
-            } else {
-              transferencias = transferencias + parseFloat(element.cantidad);
-              transferencias = transferencias + parseFloat(element.resto);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'EFECTIVO':
+                suma -= parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'DOLAR':
+                dolar = dolar - parseFloat(element.cantidad);
+                dolar = dolar + parseFloat(element.resto);
+                break;
             }
           }
         });
-        arrayDeDatos.push(suma, cheques, transferencias);
+        arrayDeDatos.push(suma, cheques, transferencias, dolar);
         return arrayDeDatos;
       }
     },
@@ -22902,7 +22943,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.row-tasks {\n  color: black;\n}\n.row-tasks:hover {\n  background: #f5f5f5;\n}\n", ""]);
+exports.push([module.i, "\n.row-tasks {\r\n  color: black;\n}\n.row-tasks:hover {\r\n  background: #f5f5f5;\n}\r\n", ""]);
 
 // exports
 
@@ -73776,7 +73817,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar caja")]
+                    [_vm._v("Pre Corte")]
                   )
                 ])
               ]
@@ -74641,6 +74682,54 @@ var render = function() {
                                                                 }
                                                               }
                                                             })
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        _vm.pago.method ==
+                                                        "CHEQUE"
+                                                          ? _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    _vm.pago
+                                                                      .reference,
+                                                                  expression:
+                                                                    "pago.reference"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "text",
+                                                                placeholder:
+                                                                  "Ingresa numero de cheque"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  _vm.pago
+                                                                    .reference
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    _vm.pago,
+                                                                    "reference",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
                                                           : _vm._e()
                                                       ]
                                                     ),
@@ -75251,7 +75340,8 @@ var render = function() {
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.movimiento.motivo == "Otro"
+                                    _vm.movimiento.motivo != "Proveedor" &&
+                                    _vm.movimiento.motivo != "Contrato"
                                       ? _c("div", [
                                           _c("label", { attrs: { for: "" } }, [
                                             _vm._v("Responsable")
@@ -75752,6 +75842,39 @@ var render = function() {
                                         }
                                       }
                                     })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.movimiento.metodo == "CHEQUE"
+                                  ? _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.movimiento.referencia,
+                                          expression: "movimiento.referencia"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Ingresa una referencia"
+                                      },
+                                      domProps: {
+                                        value: _vm.movimiento.referencia
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.movimiento,
+                                            "referencia",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
                                   : _vm._e()
                               ])
                             ]),
@@ -76047,7 +76170,9 @@ var render = function() {
                                                       ]
                                                     )
                                                   : _vm._e(),
-                                                _vm._v("-"),
+                                                _vm._v(
+                                                  "-\n                                                        "
+                                                ),
                                                 _c(
                                                   "span",
                                                   {
@@ -76056,8 +76181,65 @@ var render = function() {
                                                       "font-style": "italic"
                                                     }
                                                   },
-                                                  [_vm._v(_vm._s(item.metodo))]
-                                                )
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(item.metodo) +
+                                                        " - " +
+                                                        _vm._s(item.banco)
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                item.metodo != "EFECTIVO" &&
+                                                item.metodo != "DOLAR"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10px",
+                                                          "font-style": "italic"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "Referencia: " +
+                                                            _vm._s(
+                                                              item.referencia
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.metodo == "DOLAR"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10px",
+                                                          "font-style": "italic"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "Tipo de cambio: " +
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "currency"
+                                                              )(item.referencia)
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
                                               ])
                                             ]
                                           )
@@ -76281,21 +76463,50 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _vm.pagosCorte.length != 0
                     ? _c("div", { staticClass: "col-md-12" }, [
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v(
-                            "Pre-corte: $" + _vm._s(_vm.cantidadPreCorte[0])
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v("Cheques: $" + _vm._s(_vm.cantidadPreCorte[1]))
-                        ]),
-                        _vm._v(" "),
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v(
-                            "Transferencias: $" +
-                              _vm._s(_vm.cantidadPreCorte[2])
-                          )
+                        _c("div", { staticClass: "container d-flex" }, [
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("h4", { staticClass: "text-danger" }, [
+                              _vm._v(
+                                "Pre-corte:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[0])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Cheques:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[1])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Transferencias:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[2])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Dolar:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[3])
+                                  )
+                              )
+                            ])
+                          ])
                         ])
                       ])
                     : _vm._e()
@@ -96664,57 +96875,63 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.presupuesto.opcionIVA,
-                          expression: "presupuesto.opcionIVA"
-                        }
-                      ],
-                      attrs: { type: "checkbox", id: "iva", disabled: "" },
-                      domProps: {
-                        checked: Array.isArray(_vm.presupuesto.opcionIVA)
-                          ? _vm._i(_vm.presupuesto.opcionIVA, null) > -1
-                          : _vm.presupuesto.opcionIVA
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.presupuesto.opcionIVA,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "opcionIVA",
-                                  $$a.concat([$$v])
-                                )
-                            } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "opcionIVA",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
+                    _vm.presupuesto.opcionIVA == true
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.presupuesto.opcionIVA,
+                              expression: "presupuesto.opcionIVA"
                             }
-                          } else {
-                            _vm.$set(_vm.presupuesto, "opcionIVA", $$c)
+                          ],
+                          attrs: { type: "checkbox", id: "iva", disabled: "" },
+                          domProps: {
+                            checked: Array.isArray(_vm.presupuesto.opcionIVA)
+                              ? _vm._i(_vm.presupuesto.opcionIVA, null) > -1
+                              : _vm.presupuesto.opcionIVA
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.presupuesto.opcionIVA,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "opcionIVA",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "opcionIVA",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.presupuesto, "opcionIVA", $$c)
+                              }
+                            }
                           }
-                        }
-                      }
-                    }),
+                        })
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("label", { attrs: { for: "iva" } }, [
-                      _vm._v("IVA: $"),
-                      _c("span", [
-                        _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularIva)))
-                      ])
-                    ]),
+                    _vm.presupuesto.opcionIVA == true
+                      ? _c("label", { attrs: { for: "iva" } }, [
+                          _vm._v("IVA: $"),
+                          _c("span", [
+                            _vm._v(_vm._s(_vm._f("decimales")(_vm.calcularIva)))
+                          ])
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "info mt-3" }, [
                       _c("p", [
@@ -111553,8 +111770,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store */ "./resources/assets/js/laravel/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -111570,7 +111787,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
-Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default.a, {
+Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default.a, {
   symbol: '$',
   // El símbolo, por ejemplo €
   thousandsSeparator: ',',
@@ -111901,7 +112118,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 try {
    window.Popper = require('popper.js').default;
    window.$ = window.jQuery = require('jquery');
-    require('bootstrap');
+
+   require('bootstrap');
 } catch (e) {}
 */
 
@@ -113623,13 +113841,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\js\laravel\app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
