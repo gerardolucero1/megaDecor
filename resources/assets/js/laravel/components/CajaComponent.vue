@@ -235,7 +235,7 @@
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
                     <li>
-                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Cerrar caja</button>
+                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Pre Corte</button>
                     </li>
                 </ul> 
             
@@ -428,7 +428,7 @@
                                                         </select>
                                                     </div>
                                                     
-                                                    <div v-if="movimiento.motivo == 'Otro'">
+                                                    <div v-if="movimiento.motivo != 'Proveedor' && movimiento.motivo!='Contrato'">
                                                         <label for="">Responsable</label>
                                                         <input type="text" class="form-control" v-model="movimiento.responsable">
                                                     </div>
@@ -914,10 +914,11 @@ export default {
                 let cheques = 0;
                 let transferencias = 0;
 
+
                 this.pagosCorte[0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
                         cheques = cheques + parseFloat(element.amount);
-                    }else if(element.method == 'TRANSFERENCIA'){
+                    }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
@@ -928,11 +929,57 @@ export default {
                     }
                 });
 
-                suma = suma + this.sesion.cantidadRealApertura;
+                suma = suma +  parseFloat(this.sesionActual.cantidadApertura);
+               
 
                 this.pagosCorte[1].forEach((element) => {
-                    if(element.tipo == 'INGRESO'){
-                        if(element.metodo != ('TRANSFERENCIA' || 'CHEQUE')){
+if(element.tipo == 'INGRESO'){
+                    switch(element.method){
+                        case 'TRANFERENCIA':
+                            transferencias = transferencias + parseFloat(element.cantidad);
+                            break;
+                        case 'TARJETA':
+                            transferencias = transferencias + parseFloat(element.cantidad);
+                            break;
+                        case 'CHEQUE':
+                            cheques = cheques + parseFloat(element.cantidad);
+                            break;
+                        case 'EFECTIVO':
+                             suma = suma + parseFloat(element.cantidad);
+                            break;
+                        case 'DOLAR':
+                             suma = suma + (parseFloat(element.cantidad) * parseFloat(element.referencia));
+                            break;  
+                    }
+}else{
+    
+                    switch(element.metodo){
+                        case 'TRANFERENCIA':
+                            transferencias = transferencias - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'TARJETA':
+                            transferencias = transferencias - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'CHEQUE':
+                            cheques = cheques - parseFloat(element.cantidad);
+                            suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'EFECTIVO':
+                             suma -= parseFloat(element.cantidad);
+                             suma = suma + parseFloat(element.resto);
+                            break;
+                        case 'DOLAR':
+                             suma = suma - (parseFloat(element.cantidad) * parseFloat(element.referencia));
+                             suma = suma + parseFloat(element.resto);
+                            break;  
+                    }
+
+}
+
+                   /* if(element.tipo == 'INGRESO'){
+                        if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
                             if(element.metodo == 'DOLAR'){
                                 suma = suma + (parseFloat(element.cantidad) * parseFloat(element.referencia));
                             }else{
@@ -943,8 +990,8 @@ export default {
                         }else{
                             transferencias = transferencias + parseFloat(element.cantidad)
                         }
-                    }else{
-                        if(element.metodo != ('TRANSFERENCIA' || 'CHEQUE')){
+                    }else{ //egresos
+                        if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
                             if(element.metodo == 'DOLAR'){
                                 suma = suma - (parseFloat(element.cantidad) * parseFloat(element.referencia));
                                 suma = suma + parseFloat(element.resto);
@@ -959,7 +1006,7 @@ export default {
                             transferencias = transferencias + parseFloat(element.cantidad)
                             transferencias = transferencias + parseFloat(element.resto);
                         }
-                    }
+                    }*/
                 });
                 
                 arrayDeDatos.push(suma, cheques, transferencias);

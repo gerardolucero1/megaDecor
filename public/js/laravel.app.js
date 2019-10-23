@@ -13239,7 +13239,7 @@ var user = document.head.querySelector('meta[name="user"]');
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
             cheques = cheques + parseFloat(element.amount);
-          } else if (element.method == 'TRANSFERENCIA') {
+          } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
@@ -13249,37 +13249,88 @@ var user = document.head.querySelector('meta[name="user"]');
             }
           }
         });
-        suma = suma + this.sesion.cantidadRealApertura;
+        suma = suma + parseFloat(this.sesionActual.cantidadApertura);
         this.pagosCorte[1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
-            if (element.metodo != ('TRANSFERENCIA' || false)) {
-              if (element.metodo == 'DOLAR') {
-                suma = suma + parseFloat(element.cantidad) * parseFloat(element.referencia);
-              } else {
+            switch (element.method) {
+              case 'TRANFERENCIA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques + parseFloat(element.cantidad);
+                break;
+
+              case 'EFECTIVO':
                 suma = suma + parseFloat(element.cantidad);
-              }
-            } else if (element.metodo == 'CHEQUE') {
-              cheques = cheques + parseFloat(element.cantidad);
-            } else {
-              transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'DOLAR':
+                suma = suma + parseFloat(element.cantidad) * parseFloat(element.referencia);
+                break;
             }
           } else {
-            if (element.metodo != ('TRANSFERENCIA' || false)) {
-              if (element.metodo == 'DOLAR') {
+            switch (element.metodo) {
+              case 'TRANFERENCIA':
+                transferencias = transferencias - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'EFECTIVO':
+                suma -= parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'DOLAR':
                 suma = suma - parseFloat(element.cantidad) * parseFloat(element.referencia);
                 suma = suma + parseFloat(element.resto);
-              } else {
-                suma = suma - parseFloat(element.cantidad);
-                suma = suma + parseFloat(element.resto);
-              }
-            } else if (element.metodo == 'CHEQUE') {
-              cheques = cheques - parseFloat(element.cantidad);
-              cheques = cheques + parseFloat(element.resto);
-            } else {
-              transferencias = transferencias + parseFloat(element.cantidad);
-              transferencias = transferencias + parseFloat(element.resto);
+                break;
             }
           }
+          /* if(element.tipo == 'INGRESO'){
+               if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
+                   if(element.metodo == 'DOLAR'){
+                       suma = suma + (parseFloat(element.cantidad) * parseFloat(element.referencia));
+                   }else{
+                       suma = suma + parseFloat(element.cantidad);
+                   }
+               }else if(element.metodo == 'CHEQUE'){
+                   cheques = cheques + parseFloat(element.cantidad)
+               }else{
+                   transferencias = transferencias + parseFloat(element.cantidad)
+               }
+           }else{ //egresos
+               if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
+                   if(element.metodo == 'DOLAR'){
+                       suma = suma - (parseFloat(element.cantidad) * parseFloat(element.referencia));
+                       suma = suma + parseFloat(element.resto);
+                   }else{
+                       suma = suma - parseFloat(element.cantidad);
+                       suma = suma + parseFloat(element.resto);
+                   }
+               }else if(element.metodo == 'CHEQUE'){
+                   cheques = cheques - parseFloat(element.cantidad)
+                   cheques = cheques + parseFloat(element.resto);
+               }else{
+                   transferencias = transferencias + parseFloat(element.cantidad)
+                   transferencias = transferencias + parseFloat(element.resto);
+               }
+           }*/
+
         });
         arrayDeDatos.push(suma, cheques, transferencias);
         return arrayDeDatos;
@@ -73776,7 +73827,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar caja")]
+                    [_vm._v("Pre Corte")]
                   )
                 ])
               ]
@@ -75251,7 +75302,8 @@ var render = function() {
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.movimiento.motivo == "Otro"
+                                    _vm.movimiento.motivo != "Proveedor" &&
+                                    _vm.movimiento.motivo != "Contrato"
                                       ? _c("div", [
                                           _c("label", { attrs: { for: "" } }, [
                                             _vm._v("Responsable")
