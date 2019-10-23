@@ -423,7 +423,7 @@
                 </div>
                
 
-                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px; display:none">
+                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
                     <div class="col-md-12">
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>

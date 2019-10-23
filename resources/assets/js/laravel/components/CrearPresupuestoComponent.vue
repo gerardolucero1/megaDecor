@@ -132,7 +132,7 @@ padding: 0;
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
-                            Pendiende</label>
+                            Pendiente</label>
                             </div>
                     <div class="col-md-4">
                         
@@ -932,22 +932,26 @@ padding: 0;
                         </div>
                         <div class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
-                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega">
-                                <option value=""></option>
+                            <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
+                                <option value="OTRO">Otra</option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-6" style="padding-top:20px">
-                            <label form="fecha-hora">Fecha y hora de recoleccion</label>
-                            <input id="fecha-hora" type="datetime-local" name="fecha-hora" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        <div class="col-md-4" style="padding-top:20px">
+                            <label form="fecha-hora">Fecha de recoleccion</label>
+                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
+                        </div>
+                        <div class="col-md-4" style="padding-top:20px">
+                            <label form="fecha-hora">Hora de recoleccion</label>
+                            <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
                         <div class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
-                            <select id="" class="form-control">
-                                <option value=""></option>
+                            <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
+                                <option value="OTRO">Otra</option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -1433,6 +1437,8 @@ padding: 0;
                     horaFin: '',
                     horaEntrega: '',
                     fechaRecoleccion: '',
+                    horaRecoleccion: '',
+                    recoleccionPreferente: '',
                     notasFacturacion: '',
 
                     //Datos
@@ -1474,6 +1480,7 @@ padding: 0;
             
         },
         computed:{
+
             imagen: function(){
                 return this.productoExterno.imagen;
             },
@@ -1629,6 +1636,7 @@ padding: 0;
             },
             'presupuesto.requiereFactura': function(val){
                 if(val=='SI'){
+                    this.presupuesto.opcionIVA = true;
                     this.requiereFactura = true;
                     this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
                     this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
@@ -1651,6 +1659,33 @@ padding: 0;
             },
         },
         methods:{
+            modificarHoraEntrega(){
+                if(this.facturacion.horaEntrega != 'OTRO'){
+                    this.facturacion.horaInicio = '00:00';
+                    this.facturacion.horaFin = '00:00';
+
+                    document.getElementById('hora-1').setAttribute('disabled', '');
+                    document.getElementById('hora-2').setAttribute('disabled', '');
+                }else{
+                    document.getElementById('hora-1').removeAttribute('disabled');
+                    document.getElementById('hora-2').removeAttribute('disabled'); 
+                }
+                
+            },
+
+            modificarHoraRecoleccion(){
+                if(this.facturacion.recoleccionPreferente != 'OTRO'){
+                    this.facturacion.fechaRecoleccion = '1995-08-23';
+                    this.facturacion.horaRecoleccion = '00:00';
+
+                    document.getElementById('recoleccionFecha').setAttribute('disabled', '');
+                    document.getElementById('recoleccionHora').setAttribute('disabled', '');
+                }else{
+                    document.getElementById('recoleccionFecha').removeAttribute('disabled');
+                    document.getElementById('recoleccionHora').removeAttribute('disabled'); 
+                }
+            },
+
             obtenerCategorias(){
                 let URL = 'budget-categorias';
 
@@ -2245,7 +2280,7 @@ padding: 0;
                     'precioUnitario': producto.precioUnitario,
                     'precioFinal': producto.precioUnitario,
                     'ahorro': '0',
-                    'notas': '',
+                    'notas': '-',
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
