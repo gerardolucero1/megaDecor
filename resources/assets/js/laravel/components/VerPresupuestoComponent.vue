@@ -386,8 +386,8 @@
                             </div>
                             <div class="col-md-4 offset-md-3 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <input v-if="presupuesto.opcionIVA==true" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
+                                <label v-if="presupuesto.opcionIVA==true" for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
 
                                 <div class="info mt-3">

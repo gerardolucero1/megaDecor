@@ -419,6 +419,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('providers', 'ProvidersController');
 
+    Route::resource('missing', 'MissingProductsController');
+
+    
+    
+
 });
 
 /*
