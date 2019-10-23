@@ -392,7 +392,9 @@
 
                                 <div class="info mt-3">
                                    
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p v-if="presupuesto.opcionIVA==1">TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p v-if="presupuesto.opcionIVA!=1" style="color:red; font-size:19px;">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
+                                    
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                    
                                 </div>

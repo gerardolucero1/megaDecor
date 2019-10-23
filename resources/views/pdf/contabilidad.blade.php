@@ -13,6 +13,13 @@
         use App\Budget;
         $date = Carbon::now();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
+        $sumatoriaContrato = 0;  
+        $sumatoriaIngreso = 0;  
+        $sumatoriaIngresoCheque = 0; 
+        $sumatoriaIngresoDolares = 0; 
+        $sumatoriaEgreso = 0;  
+        $sumatoriaEgresoCheque = 0;  
+        $sumatoriaEgresoDolares = 0;  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
         $horaApertura = date("g:i a", strtotime($registro->horaApertura));
@@ -97,11 +104,19 @@
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at}}</td>
     </tr>
-    @endforeach
+            @php
+            $sumatoriaContrato += $pago->amount;
+            @endphp
+    @endforeach    
     </table>
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
+    <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaContrato}}</p>
+
+   
     <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos y Egresos no relacionados a contratos</label>
+    <h4>Ingresos</h4>
     <table style="width: 100%; font-size: 13px;">
+        
             <tr style="background: #F9E7A8">
                 <td style="text-align: center; padding: 4px;">Tipo</td>
                 <td style="text-align: center; padding: 4px;">Motivo</td>
@@ -112,7 +127,7 @@
                 <td style="text-align: center; padding: 4px;">Entregado a</td>
             </tr>
             @foreach ($otrosPagos as $pago)
-           
+           @if($pago->tipo=='INGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
@@ -122,9 +137,62 @@
             <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
             </tr>
+            @php
+            if($pago->metodo=='EFECTIVO')
+            $sumatoriaIngreso += $pago->cantidad;
+            
+            if($pago->metodo=='CHEQUE')
+            $sumatoriaIngresoCheque += $pago->cantidad;
+            
+            if($pago->metodo=='DOLARES')
+            $sumatoriaIngresoDolares += $pago->cantidad;
+            @endphp
+            @endif
             @endforeach
             </table>
+           
+                <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaIngreso}}</p>
+                <p style="text-align: right; color:red;">Total de cheques: {{$sumatoriaIngresoCheque}}</p>
+                <p style="text-align: right; color:red;">Total de dolares: {{$sumatoriaIngresoDolares}}</p>               
             
+           
+       
+        <h4>Egresos</h4>
+    <table style="width: 100%; font-size: 13px;">
+       
+            <tr style="background: #F9E7A8">
+                <td style="text-align: center; padding: 4px;">Tipo</td>
+                <td style="text-align: center; padding: 4px;">Motivo</td>
+                <td style="text-align: center; padding: 4px;">Monto</td>
+                <td style="text-align: center; padding: 4px;">Devolución</td>
+                <td style="text-align: center; padding: 4px;">Descripción</td>
+                <td style="text-align: center; padding: 4px;">Metodo</td>
+                <td style="text-align: center; padding: 4px;">Entregado a</td>
+            </tr>
+            @foreach ($otrosPagos as $pago)
+            @if($pago->tipo=='EGRESO')
+            <tr style="border: solid; border-color:black">
+            <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
+            <td style="text-align: center; padding: 3px; @if($pago->tipo=='EGRESO') background:#F7C2C2; @else background:#D0F7C2; @endif">${{$pago->cantidad}}</td>
+            <td style="text-align: center; padding: 3px;">@if($pago->resto!='')${{$pago->resto}}@else--@endif</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
+            </tr>
+            @php
+             $sumatoriaEgreso += $pago->cantidad;
+            @endphp
+            @endif
+            @endforeach
+            </table>
+            <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaEgreso}}</p>
+
+            <p style="text-align: right; color:red;">Balance: {{$sumatoriaContrato+$sumatoriaIngreso-$sumatoriaEgreso+($registro->cantidadApertura)}}</p>
+                <!--<p style="text-align: right; color:red;">Total: {{$sumatoriaIngreso}}</p>
+                <p style="text-align: right; color:red;">Total: {{$sumatoriaIngresoCheque}}</p>
+                <p style="text-align: right; color:red;">Total: {{$sumatoriaIngresoDolares}}</p>     -->
+
 
     <script type="text/php">
         if ( isset($pdf) ) {

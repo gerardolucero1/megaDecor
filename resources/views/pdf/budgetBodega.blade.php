@@ -26,7 +26,9 @@
             </td>
         </tr>
         <tr>
-            <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}} </td>
+            <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}} </td><br>
+            <span style="color: red;font-size:11px;">*Este contrato aun no esta pagado en su totalidad por lo que es necesario confirmar con
+              vendedor asignado su liberación</span>
         </tr>
         
       </table>
@@ -44,7 +46,7 @@
 <tr style=" font-size: 14px;">
 <td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif</td>
 <td colspan="2">
-  @if($presupuesto->requiereMontaje!='SI')
+  @if($presupuesto->lugarEvento!='BODEGA')
     {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
   @else
   <span>*RECOLECCIÓN EN BODEGA</span>
@@ -60,12 +62,12 @@
     <td></td>
   </tr>
 <tr style="font-weight: bold; padding-top: 20px">
-<td colspan="2">@if($presupuesto->requiereMontaje!='SI')<span>Entrega de Mobiliario: </span>@else Recolección en bodega @endif</td>
+<td colspan="2">@if($presupuesto->lugarEvento!='BODEGA')<span>Entrega de Mobiliario: </span>@else Recolección en bodega @endif</td>
 <td colspan="2"><span>Recolección de Mobiliario: </span></td> 
 </tr>
 <tr>
 <td colspan="2">@if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif</td>
-<td colspan="2">@if($presupuesto->fechaRecoleccion!=null){{$presupuesto->fechaRecoleccion}}@else Por Definir @endif</td>
+<td colspan="2">@if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif</td>
 </tr>
 <tr>
 <td><span style="font-weight: bold">Requiere Montaje:</span> <span>{{$presupuesto->requiereMontaje}}</span></td>
@@ -105,6 +107,8 @@
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
     <td style="font-size: 13px; padding: 4px;">Notas</td>
+    <td style="font-size: 11px; padding: 4px;">Entrega</td>
+    <td style="font-size: 11px; padding: 4px;">Recoleccion</td>
   </tr>
   @php
       $descuento=0;
@@ -118,29 +122,34 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
+    <td style=" border: 1px solid black;"></td>
+    <td style=" border: 1px solid black;"></td>
+    
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
     <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
-      <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
+    <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
+    <td style=" border: 1px solid black;"></td>
+    <td style=" border: 1px solid black;"></td>
     </tr>
     @if($presupuesto->opcionDescripcionPaquete==1)
     <tr style="text-align: center; font-size: 12px;">
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
+        <td style=" border: 1px solid black;">Entrega</td>
+        <td style=" border: 1px solid black;">Recoleccion</td>
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
-          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
-          
-          
-        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+        <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>        
+        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>  
         </tr> 
         @endif
         
@@ -151,6 +160,32 @@
     @endif
 
 </table>
+<div>
+  <p style="font-style: italic; text-align: center; font-size: 11px">
+    Indicar con un "SI" , los articulos entregados correctamente y con una "X" los productos que no cuenten con un problema con la entrega o recoleccion, firmar unicamente los espacios de entrega al momento de la entrega, asi como firmar y completar al momento de la recoleccion
+  </p>
+</div>
+<table style="width:100%; text-align: center; margin-top: 30px">
+  <tr>
+    <td>__________________________________ <br> Firma de recepcion de moviliario cliente
+    </td>
+    <td>__________________________________ <br> Firma y nombre de entrega de mobiliario Operador
+    </td>
+  </tr>
+</table>
+<table style="width:100%; text-align: center; margin-top: 30px">
+  <tr>
+    <td>__________________________________ <br> Firma de recepcion de moviliario cliente
+    </td>
+    <td>__________________________________ <br> Firma y nombre de entrega de mobiliario Operador
+    </td>
+  </tr>
+</table>
+
+<label for="" style="font-weight: bold;">Comentarios: </label>
+
+
+
 @php
   if($presupuesto->opcionIVA==1){
      $iva=(($presupuesto->total/116) * 16);
