@@ -122,9 +122,8 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
-    <td style=" border: 1px solid black;"></td>
-    <td style=" border: 1px solid black;"></td>
-    
+    <td style="border:solid; border-width: 1px; background:white"></td>
+    <td style="border:solid; border-width: 1px; background:white"></td>
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
@@ -141,15 +140,19 @@
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
-        <td style=" border: 1px solid black;">Entrega</td>
-        <td style=" border: 1px solid black;">Recoleccion</td>
+        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Entrega</td>
+        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Recolección</td>
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
-        <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>        
-        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>  
+        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
+          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+          
+          
+        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+        <td style="border:solid; border-width: 1px; background:white"></td>
+        <td style="border:solid; border-width: 1px; background:white"></td>
         </tr> 
         @endif
         
@@ -160,31 +163,38 @@
     @endif
 
 </table>
-<div>
-  <p style="font-style: italic; text-align: center; font-size: 11px">
-    Indicar con un "SI" , los articulos entregados correctamente y con una "X" los productos que no cuenten con un problema con la entrega o recoleccion, firmar unicamente los espacios de entrega al momento de la entrega, asi como firmar y completar al momento de la recoleccion
-  </p>
-</div>
-<table style="width:100%; text-align: center; margin-top: 30px">
+
+<div style="width: 100%">
+    <p style="font-style:italic; text-align: center; font-size:11px">*Indicar con un "S", los articulos entregados correctamente y con una "X" los productos que cuenten con un problema al momento de la entrega o la recolección, firmar unicamente los espacios de entrega al momento de la entrega y firmar y completas los campos faltantes al momento de la recolección</p>
+  </div>
+
+<div></div>
+
+<table style="width: 100%; text-align:center; margin-top:50px">
   <tr>
-    <td>__________________________________ <br> Firma de recepcion de moviliario cliente
-    </td>
-    <td>__________________________________ <br> Firma y nombre de entrega de mobiliario Operador
-    </td>
+    <td>_________________________________</td>
+    <td>_________________________________</td>
   </tr>
-</table>
-<table style="width:100%; text-align: center; margin-top: 30px">
   <tr>
-    <td>__________________________________ <br> Firma de recepcion de moviliario cliente
-    </td>
-    <td>__________________________________ <br> Firma y nombre de entrega de mobiliario Operador
-    </td>
-  </tr>
+      <td>Firma de recepción de mobiliario cliente</td>
+      <td>Firma y nombre de entrega de mobiliario Operador</td>
+    </tr>
 </table>
 
-<label for="" style="font-weight: bold;">Comentarios: </label>
+<table style="width: 100%; text-align:center; margin-top:50px">
+    <tr>
+      <td>_________________________________</td>
+      <td>_________________________________</td>
+    </tr>
+    <tr>
+        <td>Firma de entrega de mobiliario cliente</td>
+        <td>Firma y nombre de recolección de mobiliario Operador</td>
+      </tr>
+  </table>
 
-
+  <label for="" style="font-weight: bold; padding-left:40px;>Comentarios:</label>
+  
+  
 
 @php
   if($presupuesto->opcionIVA==1){

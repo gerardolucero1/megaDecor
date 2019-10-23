@@ -78,7 +78,7 @@
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario: </span>{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
+                <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
                 <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
             </div>
             <div class="col-md-4">

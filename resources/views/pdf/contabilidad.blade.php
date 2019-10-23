@@ -26,6 +26,16 @@
         $horaCierre = date("g:i a", strtotime($registro->horaCierre));
         $cajero = User::orderBy('id', 'DESC')->where('id', $registro->user_id)->first();        
         $precorte=$registro->cantidadApertura;
+        $ingresosExtraordinariosTarjeta=0;
+        $ingresosExtraordinariosCheque=0;
+        $ingresosExtraordinariosDolar=0;
+        $egresosExtraordinariosTarjeta=0;
+        $egresosExtraordinariosCheque=0;
+        $egresosExtraordinariosDolar=0;
+        $ingresosContratos=0;
+        $ingresosContratosTarjeta=0;
+        $ingresosContratosCheque=0;
+        $ingresosContratosDolar=0;
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
@@ -33,6 +43,9 @@
     if($pago->method=='EFECTIVO'){
        $precorte = $precorte + $pago->amount;
     }
+    $ingresosContratos=0;
+    $ingresosExtraordinarios=0;
+    $egresosExtraordinarios=0;
     @endphp
     @endforeach
     @foreach ($otrosPagos as $pago)
@@ -89,9 +102,9 @@
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Metodo de pago</td>
-        <td style="text-align: center; padding: 4px;">Monto</td>
         <td style="text-align: center; padding: 4px;">Referencia</td>
-        <td style="text-align: center; padding: 4px;">Fecha Creacion</td>
+        <td style="text-align: center; padding: 4px;">Fecha Registro</td>
+        <td style="text-align: center; padding: 4px;">Monto</td>
     </tr>
     @foreach ($pagos as $pago)
     @php
@@ -100,42 +113,62 @@
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->method}}</td>
-    <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at}}</td>
+    <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
+    @php
+        if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        if($pago->method=="TARJETA" || $pago->metodo=="TRANSFERENCIA"){
+        $ingresosContratosTarjeta += $pago->amount;}
+        if($pago->method=="CHEQUE"){
+        $ingresosContratosCheque += $pago->amount;}
+        if($pago->method=="DOLAR"){
+        $ingresosContratosDolar += $pago->amount;}
+    @endphp
     </tr>
             @php
             $sumatoriaContrato += $pago->amount;
             @endphp
     @endforeach    
     </table>
-    <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
-    <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaContrato}}</p>
 
+<p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
+<p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
+            <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en electronico (Transferencia / tarjeta): ${{number_format($ingresosContratosTarjeta,2)}}</p>
+            <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}</p>
    
-    <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos y Egresos no relacionados a contratos</label>
-    <h4>Ingresos</h4>
+<div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
+    <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos Extraordinarios</label>
     <table style="width: 100%; font-size: 13px;">
         
             <tr style="background: #F9E7A8">
                 <td style="text-align: center; padding: 4px;">Tipo</td>
                 <td style="text-align: center; padding: 4px;">Motivo</td>
-                <td style="text-align: center; padding: 4px;">Monto</td>
-                <td style="text-align: center; padding: 4px;">Devolución</td>
                 <td style="text-align: center; padding: 4px;">Descripción</td>
                 <td style="text-align: center; padding: 4px;">Metodo</td>
                 <td style="text-align: center; padding: 4px;">Entregado a</td>
+                <td style="text-align: center; padding: 4px;">Monto</td>
             </tr>
             @foreach ($otrosPagos as $pago)
            @if($pago->tipo=='INGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
-            <td style="text-align: center; padding: 3px; @if($pago->tipo=='EGRESO') background:#F7C2C2; @else background:#D0F7C2; @endif">${{$pago->cantidad}}</td>
-            <td style="text-align: center; padding: 3px;">@if($pago->resto!='')${{$pago->resto}}@else--@endif</td>
             <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
+            <td style="text-align: center; padding: 3px; @if($pago->tipo=='EGRESO') background:#F7C2C2; @else background:#D0F7C2; @endif">${{$pago->cantidad}}</td>
+            @php
+            if($pago->metodo=="EFECTIVO"){
+        $ingresosExtraordinarios += $pago->cantidad;}
+        if($pago->metodo=="TARJETA" || $pago->metodo=="TRANSFERENCIA"){
+        $ingresosExtraordinariosTarjeta += $pago->cantidad;}
+        if($pago->metodo=="CHEQUE"){
+        $ingresosExtraordinariosCheque += $pago->cantidad;}
+        if($pago->metodo=="DOLAR"){
+        $ingresosExtraordinariosDolar += $pago->cantidad;}
+    @endphp
             </tr>
             @php
             if($pago->metodo=='EFECTIVO')

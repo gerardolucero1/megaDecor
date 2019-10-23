@@ -322,7 +322,7 @@
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:red; font-style:italic; padding:10px; text-align:center; line-height:16px">*Este contrato no requiere factura, por lo que al realizar pago con tarjeta o tranferencia se debera cobrar un 16% extra al abono a realizar</p>
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA!='1'))" style="color:blue; font-weight:bold; font-style:normal; padding:10px; text-align:center; line-height:18px">Total a pagar: {{pago.amount*1.16 | currency}}</p>
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA=='1'))" style="color:green; font-style:italic; padding:10px; text-align:center">*IVA ya incluido en total a pagar</p>
-                                                    <div v-if="totalAbonado!=presupuestoSeleccionado.total" class="col-md-8 offset-md-2 abonarPresupuesto">
+                                                    <div v-if="totalAbonado!=this.totalEtiqueta" class="col-md-8 offset-md-2 abonarPresupuesto">
                                                         <div class="col-md-12 mt-3">
                                                             <select name="" id="" v-model="pago.method">
                                                                 <option value="">Selecciona un metodo de pago</option>

@@ -71850,7 +71850,7 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             _vm.totalAbonado !=
-                                            _vm.presupuestoSeleccionado.total
+                                            this.totalEtiqueta
                                               ? _c(
                                                   "div",
                                                   {
@@ -86659,7 +86659,8 @@ var render = function() {
                   _vm._v("Entrega de mobiliario: ")
                 ]),
                 _vm._v(
-                  _vm._s(_vm.presupuesto.horaEntrega) +
+                  "POR LA " +
+                    _vm._s(_vm.presupuesto.horaEntrega) +
                     " " +
                     _vm._s(_vm.presupuesto.horaInicio) +
                     "-" +
