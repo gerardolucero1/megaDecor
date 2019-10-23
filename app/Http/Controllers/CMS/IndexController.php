@@ -96,6 +96,7 @@ class IndexController extends Controller
          $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
          $Presupuesto->vendedor = $DatosVendedor->name;
          $Presupuesto->version = $budget->version;
+         $Presupuesto->pagado = $budget->pagado;
          $Presupuesto->updated_at = $budget->updated_at;
          
 
@@ -549,6 +550,7 @@ class IndexController extends Controller
                 $Presupuesto->version = $budget->version;
                 $Presupuesto->impresion = $budget->impresion;
                 $Presupuesto->enviado = $budget->enviado;
+                $Presupuesto->pagado = $budget->pagado;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
                 }else{

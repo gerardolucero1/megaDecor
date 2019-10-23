@@ -13173,6 +13173,88 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13181,6 +13263,7 @@ var user = document.head.querySelector('meta[name="user"]');
   },
   data: function data() {
     return {
+      controlDetalles: false,
       mostrarAbrirCaja: true,
       sesion: null,
       sesionActual: '',
@@ -13213,7 +13296,8 @@ var user = document.head.querySelector('meta[name="user"]');
         metodo: '',
         referencia: '',
         responsable: '',
-        banco: ''
+        banco: '',
+        contrato: ''
       },
       cantidadApertura: null,
       cantidadRealApertura: null,
@@ -13230,7 +13314,9 @@ var user = document.head.querySelector('meta[name="user"]');
       otrosPagos: [],
       pagoEditado: '',
       editarCambio: 0,
-      pagosCorte: ''
+      pagosCorte: '',
+      pagosPasados: [],
+      pagosTotalesActuales: []
     };
   },
   created: function created() {
@@ -13238,13 +13324,105 @@ var user = document.head.querySelector('meta[name="user"]');
 
     this.obtenerSesion();
     this.obtenerPresupuestos();
-    this.obtenerCategorias(); //Buscadores
+    this.obtenerCategorias();
+    this.obtenerPagosPasados(); //Buscadores
 
     this.$on('presupuestosResults', function (presupuestosResults) {
       _this.presupuestosResults = presupuestosResults;
     });
   },
   computed: {
+    sumaIngresosActuales: function sumaIngresosActuales() {
+      var suma = 0;
+      var suma2 = 0;
+      var datos = [];
+      this.pagosTotalesActuales[0].forEach(function (element) {
+        suma = suma + parseFloat(element.cantidad);
+      });
+      this.pagosTotalesActuales[1].forEach(function (element) {
+        suma2 = suma2 + parseFloat(element.cantidad);
+      });
+      datos.push(suma, suma2);
+      return datos;
+    },
+    sumaPagosPasados: function sumaPagosPasados() {
+      var pagos = [];
+      var cheques = 0;
+      var transferencias = 0;
+      var dolar = 0;
+      var suma = 0;
+
+      if (this.pagosPasados.length != 0) {
+        this.pagosPasados[0].forEach(function (element) {
+          if (element.method == 'CHEQUE') {
+            cheques = cheques + parseFloat(element.amount);
+          } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
+            transferencias = transferencias + parseFloat(element.amount);
+          } else {
+            if (element.method == 'DOLAR') {
+              dolar = dolar + parseFloat(element.cantidad);
+            } else {
+              suma = suma + parseFloat(element.amount);
+            }
+          }
+        });
+        this.pagosPasados[1].forEach(function (element) {
+          if (element.tipo == 'INGRESO') {
+            switch (element.metodo) {
+              case 'TRANSFERENCIA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                alert;
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias + parseFloat(element.cantidad);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques + parseFloat(element.cantidad);
+                break;
+
+              case 'EFECTIVO':
+                suma = suma + parseFloat(element.cantidad);
+                break;
+
+              case 'DOLAR':
+                dolar = dolar + parseFloat(element.cantidad);
+                break;
+            }
+          } else {
+            switch (element.metodo) {
+              case 'TRANSFERENCIA':
+                transferencias = transferencias - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'TARJETA':
+                transferencias = transferencias - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'CHEQUE':
+                cheques = cheques - parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'EFECTIVO':
+                suma -= parseFloat(element.cantidad);
+                suma = suma + parseFloat(element.resto);
+                break;
+
+              case 'DOLAR':
+                dolar = dolar - parseFloat(element.cantidad);
+                dolar = dolar + parseFloat(element.resto);
+                break;
+            }
+          }
+        });
+        pagos.push(cheques, transferencias, dolar);
+        return pagos;
+      }
+    },
     cantidadPreCorte: function cantidadPreCorte() {
       if (this.pagosCorte.length != 0) {
         var arrayDeDatos = [];
@@ -13397,75 +13575,138 @@ var user = document.head.querySelector('meta[name="user"]');
     }
   },
   methods: {
-    obtenerCorte: function obtenerCorte() {
+    obtenerDetalles: function obtenerDetalles() {
       var _this2 = this;
+
+      this.controlDetalles = true;
+      var URL = 'obtener-detalles';
+      axios.get(URL).then(function (response) {
+        var pagos = [];
+        var otrosPagos = [];
+        _this2.pagosTotalesActuales = response.data;
+
+        _this2.pagosTotalesActuales[0].forEach(function (element) {
+          var pago = {
+            cantidad: element.amount,
+            metodo: element.method,
+            referencia: element.reference,
+            banco: element.bank
+          };
+          var pago2 = JSON.parse(JSON.stringify(pago));
+          pagos.push(pago2);
+        });
+
+        _this2.pagosTotalesActuales[1].forEach(function (element) {
+          if (element.tipo == 'INGRESO') {
+            var pago = {
+              cantidad: element.cantidad,
+              metodo: element.metodo,
+              referencia: element.referencia,
+              banco: element.banco,
+              responsable: element.responsable,
+              contrato: element.contrato
+            };
+            var pago2 = JSON.parse(JSON.stringify(pago));
+            pagos.push(pago2);
+          } else {
+            var _pago = {
+              cantidad: element.cantidad,
+              metodo: element.metodo,
+              referencia: element.referencia,
+              banco: element.banco,
+              responsable: element.responsable,
+              contrato: element.contrato
+            };
+
+            var _pago2 = JSON.parse(JSON.stringify(_pago));
+
+            otrosPagos.push(_pago2);
+          }
+        });
+
+        _this2.pagosTotalesActuales[0] = pagos;
+        _this2.pagosTotalesActuales[1] = otrosPagos;
+      });
+    },
+    obtenerCorte: function obtenerCorte() {
+      var _this3 = this;
 
       var URL = 'caja/corte';
       axios.get(URL).then(function (response) {
-        _this2.pagosCorte = response.data;
+        _this3.pagosCorte = response.data;
       });
+      this.obtenerDetalles();
+      this.controlDetalles = false;
     },
     obtenerOtrosPagos: function obtenerOtrosPagos() {
-      var _this3 = this;
+      var _this4 = this;
 
       var URL = 'pagos';
       axios.get(URL).then(function (response) {
-        _this3.otrosPagos = response.data;
+        _this4.otrosPagos = response.data;
+      });
+    },
+    obtenerPagosPasados: function obtenerPagosPasados() {
+      var _this5 = this;
+
+      var URL = 'obtener-pagos-pasados';
+      axios.get(URL).then(function (response) {
+        _this5.pagosPasados = response.data;
       });
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this4 = this;
+      var _this6 = this;
 
       var URL = 'categorias-pagos';
       axios.get(URL).then(function (response) {
-        _this4.categorias = response.data;
+        _this6.categorias = response.data;
       });
     },
     guardarCategoria: function guardarCategoria() {
-      var _this5 = this;
+      var _this7 = this;
 
       var URL = 'categorias-pagos';
       axios.post(URL, {
         nombre: this.nuevaCategoria
       }).then(function (response) {
-        _this5.obtenerCategorias();
+        _this7.obtenerCategorias();
       });
     },
     eliminarCategoria: function eliminarCategoria(id) {
-      var _this6 = this;
+      var _this8 = this;
 
       var URL = 'categorias-pagos/' + id;
       axios["delete"](URL).then(function (response) {
-        _this6.obtenerCategorias();
+        _this8.obtenerCategorias();
       });
     },
     obtenerSesionActual: function obtenerSesionActual() {
-      var _this7 = this;
+      var _this9 = this;
 
       var URL = 'obtener-sesion-actual';
       axios.get(URL).then(function (response) {
-        _this7.sesionActual = response.data[0];
-        _this7.sesion = response.data[1];
+        _this9.sesionActual = response.data[0];
+        _this9.sesion = response.data[1];
       });
     },
     registrarMovimiento: function registrarMovimiento() {
-      var _this8 = this;
+      var _this10 = this;
 
       var URL = 'pagos';
       axios.post(URL, this.movimiento).then(function (response) {
-        _this8.movimiento.tipo = '';
-        _this8.movimiento.motivo = '';
-        _this8.movimiento.referencia = '';
-        _this8.movimiento.cantidad = '';
-        _this8.movimiento.metodo = '';
-        _this8.movimiento.descripcion = '';
+        _this10.movimiento.tipo = '';
+        _this10.movimiento.motivo = '';
+        _this10.movimiento.referencia = '';
+        _this10.movimiento.cantidad = '';
+        _this10.movimiento.metodo = '';
+        _this10.movimiento.descripcion = '';
         Swal.fire('Movimiento registrado!', 'El movimiento se registro con exito', 'success');
 
-        _this8.obtenerOtrosPagos();
+        _this10.obtenerOtrosPagos();
       });
     },
     editarPago: function editarPago() {
-      var _this9 = this;
+      var _this11 = this;
 
       var URL = 'pagos/' + this.pagoEditado.id;
       Object.defineProperty(this.pagoEditado, 'resto', {
@@ -13477,39 +13718,39 @@ var user = document.head.querySelector('meta[name="user"]');
       axios.put(URL, this.pagoEditado).then(function (response) {
         Swal.fire('Cambio registrado!', 'Se a registrado una devolución al egreso correctamente', 'success');
 
-        _this9.obtenerOtrosPagos();
+        _this11.obtenerOtrosPagos();
       });
     },
     obtenerSesion: function obtenerSesion() {
-      var _this10 = this;
+      var _this12 = this;
 
       var URL = 'obtener-sesion-caja';
       axios.get(URL).then(function (response) {
-        _this10.sesion = response.data;
-        _this10.cantidad.billete1000 = _this10.sesion.cierreBillete1000;
-        _this10.cantidad.billete500 = _this10.sesion.cierreBillete500;
-        _this10.cantidad.billete200 = _this10.sesion.cierreBillete200;
-        _this10.cantidad.billete100 = _this10.sesion.cierreBillete100;
-        _this10.cantidad.billete50 = _this10.sesion.cierreBillete50;
-        _this10.cantidad.billete20 = _this10.sesion.cierreBillete20;
-        _this10.cantidad.moneda10 = _this10.sesion.cierreMoneda10;
-        _this10.cantidad.moneda5 = _this10.sesion.cierreMoneda5;
-        _this10.cantidad.moneda2 = _this10.sesion.cierreMoneda2;
-        _this10.cantidad.moneda1 = _this10.sesion.cierreMoneda1;
-        _this10.cantidad.centavo50 = _this10.sesion.cierreCentavo50;
+        _this12.sesion = response.data;
+        _this12.cantidad.billete1000 = _this12.sesion.cierreBillete1000;
+        _this12.cantidad.billete500 = _this12.sesion.cierreBillete500;
+        _this12.cantidad.billete200 = _this12.sesion.cierreBillete200;
+        _this12.cantidad.billete100 = _this12.sesion.cierreBillete100;
+        _this12.cantidad.billete50 = _this12.sesion.cierreBillete50;
+        _this12.cantidad.billete20 = _this12.sesion.cierreBillete20;
+        _this12.cantidad.moneda10 = _this12.sesion.cierreMoneda10;
+        _this12.cantidad.moneda5 = _this12.sesion.cierreMoneda5;
+        _this12.cantidad.moneda2 = _this12.sesion.cierreMoneda2;
+        _this12.cantidad.moneda1 = _this12.sesion.cierreMoneda1;
+        _this12.cantidad.centavo50 = _this12.sesion.cierreCentavo50;
 
-        _this10.habilitarCaja();
+        _this12.habilitarCaja();
       });
     },
     obtenerClientes: function obtenerClientes() {
-      var _this11 = this;
+      var _this13 = this;
 
       var URL = 'obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this11.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
+        _this13.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
 
-        _this11.presupuestos.forEach(function (element) {
-          _this11.clientes.forEach(function (item) {
+        _this13.presupuestos.forEach(function (element) {
+          _this13.clientes.forEach(function (item) {
             if (item.id == element.client_id) {
               if (item.hasOwnProperty('apellidoPaterno')) {
                 Object.defineProperty(element, 'cliente', {
@@ -13530,33 +13771,33 @@ var user = document.head.querySelector('meta[name="user"]');
           });
         });
 
-        if (_this11.presupuestoSeleccionado.length != 0) {
-          var presupuesto = _this11.presupuestos.find(function (element) {
-            return element.id == _this11.presupuestoSeleccionado.id;
+        if (_this13.presupuestoSeleccionado.length != 0) {
+          var presupuesto = _this13.presupuestos.find(function (element) {
+            return element.id == _this13.presupuestoSeleccionado.id;
           });
 
-          _this11.presupuestoSeleccionado = presupuesto;
+          _this13.presupuestoSeleccionado = presupuesto;
 
-          if (_this11.presupuestoSeleccionado.opcionIVA) {
-            _this11.totalEtiqueta = 0;
-            _this11.totalBuscador = 0;
-            _this11.totalEtiqueta = _this11.presupuestoSeleccionado.total * 1.16;
-            _this11.totalBuscador = presupuesto.total * 1.16;
+          if (_this13.presupuestoSeleccionado.opcionIVA) {
+            _this13.totalEtiqueta = 0;
+            _this13.totalBuscador = 0;
+            _this13.totalEtiqueta = _this13.presupuestoSeleccionado.total * 1.16;
+            _this13.totalBuscador = presupuesto.total * 1.16;
           } else {
-            _this11.totalEtiqueta = _this11.presupuestoSeleccionado.total;
-            _this11.totalBuscador = presupuesto.total;
+            _this13.totalEtiqueta = _this13.presupuestoSeleccionado.total;
+            _this13.totalBuscador = presupuesto.total;
           }
         }
       });
     },
     obtenerPresupuestos: function obtenerPresupuestos() {
-      var _this12 = this;
+      var _this14 = this;
 
       var URL = 'caja/obtener-presupuestos';
       axios.get(URL).then(function (response) {
-        _this12.presupuestos = response.data;
+        _this14.presupuestos = response.data;
 
-        _this12.obtenerClientes();
+        _this14.obtenerClientes();
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -13571,11 +13812,11 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     obtenerPresupuesto: function obtenerPresupuesto(presupuesto) {
-      var _this13 = this;
+      var _this15 = this;
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
-      this.movimiento.responsable = presupuesto.folio;
+      this.movimiento.contrato = presupuesto.folio;
 
       if (this.presupuestoSeleccionado.opcionIVA == 1) {
         this.totalEtiqueta = 0;
@@ -13585,11 +13826,11 @@ var user = document.head.querySelector('meta[name="user"]');
       }
 
       setTimeout(function () {
-        _this13.limpiar = false;
+        _this15.limpiar = false;
       }, 1000);
     },
     abrirCaja: function abrirCaja() {
-      var _this14 = this;
+      var _this16 = this;
 
       var URL = 'caja';
       var diferencia = 0;
@@ -13617,9 +13858,9 @@ var user = document.head.querySelector('meta[name="user"]');
           onClose: function onClose() {
             clearInterval(timerInterval);
 
-            _this14.obtenerSesionActual();
+            _this16.obtenerSesionActual();
 
-            _this14.mostrarAbrirCaja = false;
+            _this16.mostrarAbrirCaja = false;
           }
         }).then(function (result) {
           if (
@@ -13631,7 +13872,7 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     confirmarCerrarCaja: function confirmarCerrarCaja() {
-      var _this15 = this;
+      var _this17 = this;
 
       Swal.fire({
         title: 'Estas a punto de cerrar caja',
@@ -13643,12 +13884,12 @@ var user = document.head.querySelector('meta[name="user"]');
         confirmButtonText: 'Cerrar caja'
       }).then(function (result) {
         if (result.value) {
-          _this15.cerrarCaja();
+          _this17.cerrarCaja();
         }
       });
     },
     cerrarCaja: function cerrarCaja() {
-      var _this16 = this;
+      var _this18 = this;
 
       var URL = 'caja/' + this.sesionActual.id;
       var diferencia = 0;
@@ -13664,14 +13905,14 @@ var user = document.head.querySelector('meta[name="user"]');
       }).then(function (response) {
         Swal.fire('Cerrada!', 'Caja ha sido cerrada', 'success');
 
-        _this16.enviarEmail();
+        _this18.enviarEmail();
 
-        _this16.mostrarAbrirCaja = true;
+        _this18.mostrarAbrirCaja = true;
         $('#cerrarCaja').modal('hide');
       });
     },
     registrarPago: function registrarPago() {
-      var _this17 = this;
+      var _this19 = this;
 
       var URL = '/registrar-pago';
 
@@ -13688,7 +13929,15 @@ var user = document.head.querySelector('meta[name="user"]');
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
 
-              _this17.obtenerPresupuestos();
+              if (_this19.pago.amount == _this19.presupuestoSeleccionado.total - _this19.totalAbonado) {
+                var _URL = 'pagar-contrato/' + _this19.presupuestoSeleccionado.id;
+
+                axios.get(_URL).then(function (response) {
+                  alert('Contrato pagado');
+                });
+              }
+
+              _this19.obtenerPresupuestos();
             })["catch"](function (error) {
               console.log(error.data);
             });
@@ -73747,7 +73996,46 @@ var render = function() {
                   )
                 ])
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.pagosPasados.length != 0
+              ? _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("h4", [_vm._v("Pagos a contratos")]),
+                    _vm._v(" "),
+                    _c("label", [
+                      _vm._v("Cheques: "),
+                      _c("span", [
+                        _vm._v(
+                          _vm._s(_vm._f("currency")(_vm.sumaPagosPasados[0]))
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("label", [
+                      _vm._v("Transferencias: "),
+                      _c("span", [
+                        _vm._v(
+                          _vm._s(_vm._f("currency")(_vm.sumaPagosPasados[1]))
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("label", [
+                      _vm._v("Dolares: "),
+                      _c("span", [
+                        _vm._v(
+                          _vm._s(_vm._f("currency")(_vm.sumaPagosPasados[2]))
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              : _vm._e()
           ])
         ])
       : _c("div", { staticClass: "row" }, [
@@ -76519,494 +76807,640 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "block" }, [
-                      _vm._m(35),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "block-content" }, [
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(36),
+                !_vm.controlDetalles
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "block" }, [
+                          _vm._m(35),
                           _vm._v(" "),
-                          _vm._m(37),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete1000,
-                                  expression: "cantidad.billete1000"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete1000 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                          _c("div", { staticClass: "block-content" }, [
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(36),
+                              _vm._v(" "),
+                              _vm._m(37),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete1000,
+                                      expression: "cantidad.billete1000"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete1000 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete1000",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete1000",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(38),
-                          _vm._v(" "),
-                          _vm._m(39),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete500,
-                                  expression: "cantidad.billete500"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete500 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(38),
+                              _vm._v(" "),
+                              _vm._m(39),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete500,
+                                      expression: "cantidad.billete500"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete500 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete500",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete500",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(40),
-                          _vm._v(" "),
-                          _vm._m(41),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete200,
-                                  expression: "cantidad.billete200"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete200 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(40),
+                              _vm._v(" "),
+                              _vm._m(41),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete200,
+                                      expression: "cantidad.billete200"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete200 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete200",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete200",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(42),
-                          _vm._v(" "),
-                          _vm._m(43),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete100,
-                                  expression: "cantidad.billete100"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete100 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(42),
+                              _vm._v(" "),
+                              _vm._m(43),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete100,
+                                      expression: "cantidad.billete100"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete100 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete100",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete100",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(44),
-                          _vm._v(" "),
-                          _vm._m(45),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete50,
-                                  expression: "cantidad.billete50"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete50 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(44),
+                              _vm._v(" "),
+                              _vm._m(45),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete50,
+                                      expression: "cantidad.billete50"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete50 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete50",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete50",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group row" }, [
-                          _vm._m(46),
-                          _vm._v(" "),
-                          _vm._m(47),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-5" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.cantidad.billete20,
-                                  expression: "cantidad.billete20"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number" },
-                              domProps: { value: _vm.cantidad.billete20 },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group row" }, [
+                              _vm._m(46),
+                              _vm._v(" "),
+                              _vm._m(47),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.cantidad.billete20,
+                                      expression: "cantidad.billete20"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.cantidad.billete20 },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.cantidad,
+                                        "billete20",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.cantidad,
-                                    "billete20",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
+                                })
+                              ])
+                            ])
                           ])
                         ])
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "block" }, [
-                      _vm._m(48),
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "block-content",
-                          staticStyle: { "padding-top": "10px" }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group row" }, [
-                            _vm._m(49),
-                            _vm._v(" "),
-                            _vm._m(50),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-5" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cantidad.moneda10,
-                                    expression: "cantidad.moneda10"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number" },
-                                domProps: { value: _vm.cantidad.moneda10 },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.cantidad,
-                                      "moneda10",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "block-content",
-                          staticStyle: { "padding-top": "10px" }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group row" }, [
-                            _vm._m(51),
-                            _vm._v(" "),
-                            _vm._m(52),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-5" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cantidad.moneda5,
-                                    expression: "cantidad.moneda5"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number" },
-                                domProps: { value: _vm.cantidad.moneda5 },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.cantidad,
-                                      "moneda5",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "block-content",
-                          staticStyle: { "padding-top": "10px" }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group row" }, [
-                            _vm._m(53),
-                            _vm._v(" "),
-                            _vm._m(54),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-5" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cantidad.moneda2,
-                                    expression: "cantidad.moneda2"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number" },
-                                domProps: { value: _vm.cantidad.moneda2 },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.cantidad,
-                                      "moneda2",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "block-content",
-                          staticStyle: { "padding-top": "10px" }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group row" }, [
-                            _vm._m(55),
-                            _vm._v(" "),
-                            _vm._m(56),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-5" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cantidad.moneda1,
-                                    expression: "cantidad.moneda1"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number" },
-                                domProps: { value: _vm.cantidad.moneda1 },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.cantidad,
-                                      "moneda1",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "block-content",
-                          staticStyle: { "padding-top": "10px" }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group row" }, [
-                            _vm._m(57),
-                            _vm._v(" "),
-                            _vm._m(58),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-5" }, [
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.cantidad.centavo50,
-                                    expression: "cantidad.centavo50"
-                                  }
-                                ],
-                                staticClass: "form-control",
-                                attrs: { type: "number" },
-                                domProps: { value: _vm.cantidad.centavo50 },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.cantidad,
-                                      "centavo50",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ])
-                          ])
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c("div", { staticClass: "block" }, [
-                      _vm._m(59),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "block-content" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Suma total de efectivo en caja")
-                          ]),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "block" }, [
+                          _vm._m(48),
                           _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.sumarCantidad,
-                                expression: "sumarCantidad"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "number" },
-                            domProps: { value: _vm.sumarCantidad },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.sumarCantidad = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
                           _c(
-                            "button",
+                            "div",
                             {
-                              staticClass: "btn btn-sm btn-block btn-info",
-                              on: {
-                                click: function($event) {
-                                  return _vm.confirmarCerrarCaja()
-                                }
-                              }
+                              staticClass: "block-content",
+                              staticStyle: { "padding-top": "10px" }
                             },
-                            [_vm._v("Cerrar Caja")]
+                            [
+                              _c("div", { staticClass: "form-group row" }, [
+                                _vm._m(49),
+                                _vm._v(" "),
+                                _vm._m(50),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-5" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cantidad.moneda10,
+                                        expression: "cantidad.moneda10"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.cantidad.moneda10 },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.cantidad,
+                                          "moneda10",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { "padding-top": "10px" }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group row" }, [
+                                _vm._m(51),
+                                _vm._v(" "),
+                                _vm._m(52),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-5" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cantidad.moneda5,
+                                        expression: "cantidad.moneda5"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.cantidad.moneda5 },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.cantidad,
+                                          "moneda5",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { "padding-top": "10px" }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group row" }, [
+                                _vm._m(53),
+                                _vm._v(" "),
+                                _vm._m(54),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-5" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cantidad.moneda2,
+                                        expression: "cantidad.moneda2"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.cantidad.moneda2 },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.cantidad,
+                                          "moneda2",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { "padding-top": "10px" }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group row" }, [
+                                _vm._m(55),
+                                _vm._v(" "),
+                                _vm._m(56),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-5" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cantidad.moneda1,
+                                        expression: "cantidad.moneda1"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.cantidad.moneda1 },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.cantidad,
+                                          "moneda1",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "block-content",
+                              staticStyle: { "padding-top": "10px" }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group row" }, [
+                                _vm._m(57),
+                                _vm._v(" "),
+                                _vm._m(58),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-5" }, [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.cantidad.centavo50,
+                                        expression: "cantidad.centavo50"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.cantidad.centavo50 },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.cantidad,
+                                          "centavo50",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
                           )
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("div", { staticClass: "block" }, [
+                          _vm._m(59),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "block-content" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", { attrs: { for: "" } }, [
+                                _vm._v("Suma total de efectivo en caja")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.sumarCantidad,
+                                    expression: "sumarCantidad"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "number" },
+                                domProps: { value: _vm.sumarCantidad },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.sumarCantidad = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-block btn-info",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.confirmarCerrarCaja()
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cerrar Caja")]
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-sm btn-info btn-block",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.obtenerDetalles()
+                                  }
+                                }
+                              },
+                              [_vm._v("Ver detalles")]
+                            )
+                          ])
+                        ])
                       ])
                     ])
-                  ])
-                ])
+                  : _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-12 text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            on: {
+                              click: function($event) {
+                                _vm.controlDetalles = false
+                              }
+                            }
+                          },
+                          [_vm._v("Ver vista corte")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("table", { staticClass: "table table-hover" }, [
+                          _vm._m(60),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.pagosTotalesActuales[0], function(
+                              item,
+                              index
+                            ) {
+                              return _c("tr", { key: index }, [
+                                _c("th", { attrs: { scope: "row" } }, [
+                                  _vm._v(_vm._s(index))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  item.banco
+                                    ? _c("span", [_vm._v(_vm._s(item.banco))])
+                                    : _c("span", [_vm._v("--")])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(item.metodo))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  item.referencia
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(item.referencia))
+                                      ])
+                                    : _c("span", [_vm._v("--")])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("currency")(item.cantidad))
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12 text-right" }, [
+                          _c("h5", { staticClass: "text-danger" }, [
+                            _vm._v(
+                              "Total: " +
+                                _vm._s(
+                                  _vm._f("currency")(
+                                    _vm.sumaIngresosActuales[0]
+                                  )
+                                )
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("table", { staticClass: "table table-hover" }, [
+                          _vm._m(61),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.pagosTotalesActuales[1], function(
+                              item,
+                              index
+                            ) {
+                              return _c("tr", { key: index }, [
+                                _c("th", { attrs: { scope: "row" } }, [
+                                  _vm._v(_vm._s(index))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  item.banco
+                                    ? _c("span", [_vm._v(_vm._s(item.banco))])
+                                    : _c("span", [_vm._v("--")])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(item.metodo))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  item.referencia
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(item.referencia))
+                                      ])
+                                    : _c("span", [_vm._v("--")])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("currency")(item.cantidad))
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12 text-right" }, [
+                          _c("h5", { staticClass: "text-danger" }, [
+                            _vm._v(
+                              "Total: " +
+                                _vm._s(
+                                  _vm._f("currency")(
+                                    _vm.sumaIngresosActuales[1]
+                                  )
+                                )
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
               ]),
               _vm._v(" "),
-              _vm._m(60)
+              _vm._m(62)
             ])
           ]
         )
@@ -77034,7 +77468,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(61),
+              _vm._m(63),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -77060,7 +77494,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(62),
+                  _vm._m(64),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -77833,6 +78267,42 @@ var staticRenderFns = [
       _c("h3", { staticClass: "block-title" }, [_vm._v("Cierre de caja")]),
       _vm._v(" "),
       _c("div", { staticClass: "block-options" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Banco")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Metodo")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Referencia")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Banco")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Metodo")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Referencia")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Cantidad")])
+      ])
     ])
   },
   function() {
