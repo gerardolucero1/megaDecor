@@ -13158,6 +13158,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13235,6 +13250,7 @@ var user = document.head.querySelector('meta[name="user"]');
         var arrayDeDatos = [];
         var suma = 0;
         var cheques = 0;
+        var dolar = 0;
         var transferencias = 0;
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
@@ -13243,7 +13259,7 @@ var user = document.head.querySelector('meta[name="user"]');
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              suma = suma + parseFloat(element.amount) * parseFloat(element.reference);
+              dolar = dolar + parseFloat(element.cantidad);
             } else {
               suma = suma + parseFloat(element.amount);
             }
@@ -13252,9 +13268,10 @@ var user = document.head.querySelector('meta[name="user"]');
         suma = suma + parseFloat(this.sesionActual.cantidadApertura);
         this.pagosCorte[1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
-            switch (element.method) {
-              case 'TRANFERENCIA':
+            switch (element.metodo) {
+              case 'TRANSFERENCIA':
                 transferencias = transferencias + parseFloat(element.cantidad);
+                alert;
                 break;
 
               case 'TARJETA':
@@ -13270,12 +13287,12 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'DOLAR':
-                suma = suma + parseFloat(element.cantidad) * parseFloat(element.referencia);
+                dolar = dolar + parseFloat(element.cantidad);
                 break;
             }
           } else {
             switch (element.metodo) {
-              case 'TRANFERENCIA':
+              case 'TRANSFERENCIA':
                 transferencias = transferencias - parseFloat(element.cantidad);
                 suma = suma + parseFloat(element.resto);
                 break;
@@ -13296,43 +13313,13 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'DOLAR':
-                suma = suma - parseFloat(element.cantidad) * parseFloat(element.referencia);
-                suma = suma + parseFloat(element.resto);
+                dolar = dolar - parseFloat(element.cantidad);
+                dolar = dolar + parseFloat(element.resto);
                 break;
             }
           }
-          /* if(element.tipo == 'INGRESO'){
-               if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
-                   if(element.metodo == 'DOLAR'){
-                       suma = suma + (parseFloat(element.cantidad) * parseFloat(element.referencia));
-                   }else{
-                       suma = suma + parseFloat(element.cantidad);
-                   }
-               }else if(element.metodo == 'CHEQUE'){
-                   cheques = cheques + parseFloat(element.cantidad)
-               }else{
-                   transferencias = transferencias + parseFloat(element.cantidad)
-               }
-           }else{ //egresos
-               if(element.metodo != ('TRANSFERENCIA' && 'CHEQUE')){
-                   if(element.metodo == 'DOLAR'){
-                       suma = suma - (parseFloat(element.cantidad) * parseFloat(element.referencia));
-                       suma = suma + parseFloat(element.resto);
-                   }else{
-                       suma = suma - parseFloat(element.cantidad);
-                       suma = suma + parseFloat(element.resto);
-                   }
-               }else if(element.metodo == 'CHEQUE'){
-                   cheques = cheques - parseFloat(element.cantidad)
-                   cheques = cheques + parseFloat(element.resto);
-               }else{
-                   transferencias = transferencias + parseFloat(element.cantidad)
-                   transferencias = transferencias + parseFloat(element.resto);
-               }
-           }*/
-
         });
-        arrayDeDatos.push(suma, cheques, transferencias);
+        arrayDeDatos.push(suma, cheques, transferencias, dolar);
         return arrayDeDatos;
       }
     },
@@ -74647,6 +74634,54 @@ var render = function() {
                                                           : _vm._e(),
                                                         _vm._v(" "),
                                                         _vm.pago.method ==
+                                                        "CHEQUE"
+                                                          ? _c("input", {
+                                                              directives: [
+                                                                {
+                                                                  name: "model",
+                                                                  rawName:
+                                                                    "v-model",
+                                                                  value:
+                                                                    _vm.pago
+                                                                      .reference,
+                                                                  expression:
+                                                                    "pago.reference"
+                                                                }
+                                                              ],
+                                                              attrs: {
+                                                                type: "number",
+                                                                placeholder:
+                                                                  "Ingresa numero de cheque"
+                                                              },
+                                                              domProps: {
+                                                                value:
+                                                                  _vm.pago
+                                                                    .reference
+                                                              },
+                                                              on: {
+                                                                input: function(
+                                                                  $event
+                                                                ) {
+                                                                  if (
+                                                                    $event
+                                                                      .target
+                                                                      .composing
+                                                                  ) {
+                                                                    return
+                                                                  }
+                                                                  _vm.$set(
+                                                                    _vm.pago,
+                                                                    "reference",
+                                                                    $event
+                                                                      .target
+                                                                      .value
+                                                                  )
+                                                                }
+                                                              }
+                                                            })
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        _vm.pago.method ==
                                                         "TARJETA"
                                                           ? _c("input", {
                                                               directives: [
@@ -75772,6 +75807,39 @@ var render = function() {
                                     })
                                   : _vm._e(),
                                 _vm._v(" "),
+                                _vm.movimiento.metodo == "CHEQUE"
+                                  ? _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.movimiento.referencia,
+                                          expression: "movimiento.referencia"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        placeholder: "Ingresa numero de cheque"
+                                      },
+                                      domProps: {
+                                        value: _vm.movimiento.referencia
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.movimiento,
+                                            "referencia",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  : _vm._e(),
+                                _vm._v(" "),
                                 _vm.movimiento.metodo == "TARJETA"
                                   ? _c("input", {
                                       directives: [
@@ -76099,7 +76167,9 @@ var render = function() {
                                                       ]
                                                     )
                                                   : _vm._e(),
-                                                _vm._v("-"),
+                                                _vm._v(
+                                                  "\n                                                        -"
+                                                ),
                                                 _c(
                                                   "span",
                                                   {
@@ -76108,8 +76178,63 @@ var render = function() {
                                                       "font-style": "italic"
                                                     }
                                                   },
-                                                  [_vm._v(_vm._s(item.metodo))]
-                                                )
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(item.metodo) +
+                                                        " - " +
+                                                        _vm._s(item.banco)
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                item.metodo != "EFECTIVO" &&
+                                                item.metodo != "DOLAR"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10px",
+                                                          "font-style": "italic"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "Referencia: " +
+                                                            _vm._s(
+                                                              item.referencia
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.metodo == "DOLAR"
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10px",
+                                                          "font-style": "italic"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _c("br"),
+                                                        _vm._v(
+                                                          "Tipo de cambio: " +
+                                                            _vm._s(
+                                                              _vm._f(
+                                                                "currency"
+                                                              )(item.referencia)
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
                                               ])
                                             ]
                                           )
@@ -76333,21 +76458,50 @@ var render = function() {
                 _c("div", { staticClass: "row" }, [
                   _vm.pagosCorte.length != 0
                     ? _c("div", { staticClass: "col-md-12" }, [
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v(
-                            "Pre-corte: $" + _vm._s(_vm.cantidadPreCorte[0])
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v("Cheques: $" + _vm._s(_vm.cantidadPreCorte[1]))
-                        ]),
-                        _vm._v(" "),
-                        _c("h4", { staticClass: "text-danger" }, [
-                          _vm._v(
-                            "Transferencias: $" +
-                              _vm._s(_vm.cantidadPreCorte[2])
-                          )
+                        _c("div", { staticClass: "container d-flex" }, [
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("h4", { staticClass: "text-danger" }, [
+                              _vm._v(
+                                "Pre-corte:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[0])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Cheques:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[1])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Transferencias:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[2])
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-3" }, [
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "Dolar:" +
+                                  _vm._s(
+                                    _vm._f("currency")(_vm.cantidadPreCorte[3])
+                                  )
+                              )
+                            ])
+                          ])
                         ])
                       ])
                     : _vm._e()
