@@ -15760,6 +15760,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -15919,6 +15923,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         horaFin: '',
         horaEntrega: '',
         fechaRecoleccion: '',
+        horaRecoleccion: '',
+        recoleccionPreferente: '',
         notasFacturacion: '',
         //Datos
         nombreFacturacion: '',
@@ -16109,6 +16115,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     'presupuesto.requiereFactura': function presupuestoRequiereFactura(val) {
       if (val == 'SI') {
+        this.presupuesto.opcionIVA = true;
         this.requiereFactura = true;
         this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
         this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
@@ -16129,6 +16136,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: (_methods = {
+    modificarHoraEntrega: function modificarHoraEntrega() {
+      if (this.facturacion.horaEntrega != 'OTRO') {
+        this.facturacion.horaInicio = '00:00';
+        this.facturacion.horaFin = '00:00';
+        document.getElementById('hora-1').setAttribute('disabled', '');
+        document.getElementById('hora-2').setAttribute('disabled', '');
+      } else {
+        document.getElementById('hora-1').removeAttribute('disabled');
+        document.getElementById('hora-2').removeAttribute('disabled');
+      }
+    },
+    modificarHoraRecoleccion: function modificarHoraRecoleccion() {
+      if (this.facturacion.recoleccionPreferente != 'OTRO') {
+        this.facturacion.fechaRecoleccion = '1995-08-23';
+        this.facturacion.horaRecoleccion = '00:00';
+        document.getElementById('recoleccionFecha').setAttribute('disabled', '');
+        document.getElementById('recoleccionHora').setAttribute('disabled', '');
+      } else {
+        document.getElementById('recoleccionFecha').removeAttribute('disabled');
+        document.getElementById('recoleccionHora').removeAttribute('disabled');
+      }
+    },
     obtenerCategorias: function obtenerCategorias() {
       var _this4 = this;
 
@@ -16701,7 +16730,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'precioUnitario': producto.precioUnitario,
         'precioFinal': producto.precioUnitario,
         'ahorro': '0',
-        'notas': '',
+        'notas': '-',
         'paquete': '',
         'tipo': 'PRODUCTO',
         'id': producto.id,
@@ -18451,51 +18480,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
  // Importamos el evento Bus.
@@ -18657,6 +18641,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         horaFin: '',
         horaEntrega: '',
         fechaRecoleccion: '',
+        horaRecoleccion: '',
+        recoleccionPreferente: '',
         notasFacturacion: '',
         //Datos
         nombreFacturacion: '',
@@ -18829,8 +18815,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
       }
     },
-    'requiereFactura': function requiereFactura(val) {
-      if (val) {
+    'presupuesto.requiereFactura': function presupuestoRequiereFactura(val) {
+      if (val == 'SI') {
+        this.presupuesto.opcionIVA = true;
+        this.requiereFactura = true;
         this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
         this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
         this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
@@ -18843,13 +18831,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.facturacion.direccionFacturacion = '';
         this.facturacion.numeroFacturacion = '';
         this.facturacion.coloniaFacturacion = '';
-        this.facturacion.emailFacturacion = '';
         this.facturacion.rfcFacturacion = '';
+        this.facturacion.emailFacturacion = '';
         this.facturacion.codigoPostal = '';
       }
     }
   },
   methods: {
+    modificarHoraEntrega: function modificarHoraEntrega() {
+      if (this.facturacion.horaEntrega != 'OTRO') {
+        this.facturacion.horaInicio = '00:00';
+        this.facturacion.horaFin = '00:00';
+        document.getElementById('hora-1').setAttribute('disabled', '');
+        document.getElementById('hora-2').setAttribute('disabled', '');
+      } else {
+        document.getElementById('hora-1').removeAttribute('disabled');
+        document.getElementById('hora-2').removeAttribute('disabled');
+      }
+    },
+    modificarHoraRecoleccion: function modificarHoraRecoleccion() {
+      if (this.facturacion.recoleccionPreferente != 'OTRO') {
+        this.facturacion.fechaRecoleccion = '1995-08-23';
+        this.facturacion.horaRecoleccion = '00:00';
+        document.getElementById('recoleccionFecha').setAttribute('disabled', '');
+        document.getElementById('recoleccionHora').setAttribute('disabled', '');
+      } else {
+        document.getElementById('recoleccionFecha').removeAttribute('disabled');
+        document.getElementById('recoleccionHora').removeAttribute('disabled');
+      }
+    },
+
     /*
     obtenerCategorias(){
         let URL = 'budget-categorias';
@@ -19523,6 +19534,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
         _this16.presupuesto = response.data;
+        _this16.facturacion = response.data;
         console.log('Este es el presupuesto: ', response.data);
         _this16.saldoFinal = _this16.presupuesto.total;
 
@@ -73772,7 +73784,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Cerrar caja")]
+                    [_vm._v("Pre-corte")]
                   )
                 ])
               ]
@@ -75251,7 +75263,8 @@ var render = function() {
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _vm.movimiento.motivo == "Otro"
+                                    _vm.movimiento.tipo == "EGRESO" &&
+                                    _vm.movimiento.motivo !== "Proveedor"
                                       ? _c("div", [
                                           _c("label", { attrs: { for: "" } }, [
                                             _vm._v("Responsable")
@@ -78948,7 +78961,7 @@ var render = function() {
                           }
                         }
                       }),
-                      _vm._v("\n                            Pendiende")
+                      _vm._v("\n                            Pendiente")
                     ]
                   )
                 ]),
@@ -82818,27 +82831,34 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: { name: "horaEntrega", id: "" },
                           on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.facturacion,
-                                "horaEntrega",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.facturacion,
+                                  "horaEntrega",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              },
+                              function($event) {
+                                return _vm.modificarHoraEntrega()
+                              }
+                            ]
                           }
                         },
                         [
-                          _c("option", { attrs: { value: "" } }),
+                          _c("option", { attrs: { value: "OTRO" } }, [
+                            _vm._v("Otra")
+                          ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "MAÑANA" } }, [
                             _vm._v("Por la mañana")
@@ -82862,12 +82882,12 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass: "col-md-6",
+                        staticClass: "col-md-4",
                         staticStyle: { "padding-top": "20px" }
                       },
                       [
                         _c("label", { attrs: { form: "fecha-hora" } }, [
-                          _vm._v("Fecha y hora de recoleccion")
+                          _vm._v("Fecha de recoleccion")
                         ]),
                         _vm._v(" "),
                         _c("input", {
@@ -82881,9 +82901,9 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            id: "fecha-hora",
-                            type: "datetime-local",
-                            name: "fecha-hora"
+                            id: "recoleccionFecha",
+                            type: "date",
+                            name: "recoleccionFecha"
                           },
                           domProps: { value: _vm.facturacion.fechaRecoleccion },
                           on: {
@@ -82902,7 +82922,123 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(24),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-md-4",
+                        staticStyle: { "padding-top": "20px" }
+                      },
+                      [
+                        _c("label", { attrs: { form: "fecha-hora" } }, [
+                          _vm._v("Hora de recoleccion")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.facturacion.horaRecoleccion,
+                              expression: "facturacion.horaRecoleccion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "recoleccionHora",
+                            type: "time",
+                            name: "recoleccionHora"
+                          },
+                          domProps: { value: _vm.facturacion.horaRecoleccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.facturacion,
+                                "horaRecoleccion",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-md-4",
+                        staticStyle: { "padding-top": "20px" }
+                      },
+                      [
+                        _c("label", { attrs: { for: "hora-2" } }, [
+                          _vm._v("Recolección preferente")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.facturacion.recoleccionPreferente,
+                                expression: "facturacion.recoleccionPreferente"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.facturacion,
+                                    "recoleccionPreferente",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                                function($event) {
+                                  return _vm.modificarHoraRecoleccion()
+                                }
+                              ]
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "OTRO" } }, [
+                              _vm._v("Otra")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "MAÑANA" } }, [
+                              _vm._v("Por la mañana")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "TARDE" } }, [
+                              _vm._v("Por la tarde")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "MEDIO DIA" } }, [
+                              _vm._v("A medio dia")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "NOCHE" } }, [
+                              _vm._v("Por la noche")
+                            ])
+                          ]
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-6 mt-4" }, [
                       _c("input", {
@@ -83192,7 +83328,7 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(25)
+                    _vm._m(24)
                   ])
                 ]),
                 _vm._v(" "),
@@ -83254,7 +83390,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(26),
+                _vm._m(25),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -83314,7 +83450,7 @@ var render = function() {
                                                   "block-content block-content-full clearfix"
                                               },
                                               [
-                                                _vm._m(27, true),
+                                                _vm._m(26, true),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -83643,7 +83779,7 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-hover" }, [
-                            _vm._m(28),
+                            _vm._m(27),
                             _vm._v(" "),
                             _vm.paquete.inventario
                               ? _c(
@@ -83817,12 +83953,12 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(29),
+                _vm._m(28),
                 _vm._v(" "),
                 _vm.viendoPaquete.length != 0
                   ? _c("div", { staticClass: "modal-body" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(30),
+                        _vm._m(29),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -83854,7 +83990,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(31)
+                _vm._m(30)
               ]
             )
           ]
@@ -83889,7 +84025,7 @@ var render = function() {
                 staticStyle: { border: "solid gray" }
               },
               [
-                _vm._m(32),
+                _vm._m(31),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "row" }, [
@@ -83936,7 +84072,7 @@ var render = function() {
                     ? _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-12" }, [
                           _c("table", { staticClass: "table table-striped" }, [
-                            _vm._m(33),
+                            _vm._m(32),
                             _vm._v(" "),
                             _c(
                               "tbody",
@@ -83973,7 +84109,7 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(34)
+                _vm._m(33)
               ]
             )
           ]
@@ -84440,36 +84576,6 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "col-md-4", staticStyle: { "padding-top": "20px" } },
-      [
-        _c("label", { attrs: { for: "hora-2" } }, [
-          _vm._v("Recolección preferente")
-        ]),
-        _vm._v(" "),
-        _c("select", { staticClass: "form-control", attrs: { id: "" } }, [
-          _c("option", { attrs: { value: "" } }),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "MAÑANA" } }, [
-            _vm._v("Por la mañana")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "TARDE" } }, [_vm._v("Por la tarde")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "MEDIO DIA" } }, [
-            _vm._v("A medio dia")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "NOCHE" } }, [_vm._v("Por la noche")])
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -88858,6 +88964,23 @@ var render = function() {
                           _vm._v(" Guardar como contrato")
                         ]
                       )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.presupuesto.tipo == "CONTRATO"
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-block btn-primary mt-3",
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#guardarContrato"
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-check" }),
+                          _vm._v(" Editar datos de facturacion")
+                        ]
+                      )
                     : _vm._e()
                 ])
               ]),
@@ -90738,27 +90861,38 @@ var render = function() {
                                 staticClass: "form-control",
                                 attrs: { name: "horaEntrega", id: "" },
                                 on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.$set(
-                                      _vm.facturacion,
-                                      "horaEntrega",
-                                      $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    )
-                                  }
+                                  change: [
+                                    function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.facturacion,
+                                        "horaEntrega",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    },
+                                    function($event) {
+                                      return _vm.modificarHoraEntrega()
+                                    }
+                                  ]
                                 }
                               },
                               [
+                                _c("option", { attrs: { value: "OTRO" } }, [
+                                  _vm._v("Otro")
+                                ]),
+                                _vm._v(" "),
                                 _c("option", { attrs: { value: "MAÑANA" } }, [
                                   _vm._v("Por la mañana")
                                 ]),
@@ -90783,12 +90917,12 @@ var render = function() {
                           _c(
                             "div",
                             {
-                              staticClass: "col-md-6",
+                              staticClass: "col-md-4",
                               staticStyle: { "padding-top": "20px" }
                             },
                             [
                               _c("label", { attrs: { form: "fecha-hora" } }, [
-                                _vm._v("Fecha y hora de recoleccion")
+                                _vm._v("Fecha de recoleccion")
                               ]),
                               _vm._v(" "),
                               _c("input", {
@@ -90802,9 +90936,9 @@ var render = function() {
                                 ],
                                 staticClass: "form-control",
                                 attrs: {
-                                  id: "fecha-hora",
-                                  type: "datetime-local",
-                                  name: "fecha-hora"
+                                  id: "recoleccionFecha",
+                                  type: "date",
+                                  name: "recoleccionFecha"
                                 },
                                 domProps: {
                                   value: _vm.facturacion.fechaRecoleccion
@@ -90825,7 +90959,131 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _vm._m(23),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-4",
+                              staticStyle: { "padding-top": "20px" }
+                            },
+                            [
+                              _c("label", { attrs: { form: "fecha-hora" } }, [
+                                _vm._v("Hora de recoleccion")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.facturacion.horaRecoleccion,
+                                    expression: "facturacion.horaRecoleccion"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "recoleccionHora",
+                                  type: "time",
+                                  name: "recoleccionHora"
+                                },
+                                domProps: {
+                                  value: _vm.facturacion.horaRecoleccion
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.facturacion,
+                                      "horaRecoleccion",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-4",
+                              staticStyle: { "padding-top": "20px" }
+                            },
+                            [
+                              _c("label", { attrs: { for: "hora-2" } }, [
+                                _vm._v("Recolección preferente")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value:
+                                        _vm.facturacion.recoleccionPreferente,
+                                      expression:
+                                        "facturacion.recoleccionPreferente"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { id: "" },
+                                  on: {
+                                    change: [
+                                      function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          _vm.facturacion,
+                                          "recoleccionPreferente",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      },
+                                      function($event) {
+                                        return _vm.modificarHoraRecoleccion()
+                                      }
+                                    ]
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "OTRO" } }, [
+                                    _vm._v("Otra")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "MAÑANA" } }, [
+                                    _vm._v("Por la mañana")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "TARDE" } }, [
+                                    _vm._v("Por la tarde")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "MEDIO DIA" } },
+                                    [_vm._v("A medio dia")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "NOCHE" } }, [
+                                    _vm._v("Por la noche")
+                                  ])
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-6 mt-4" }, [
                             _c("input", {
@@ -91129,7 +91387,7 @@ var render = function() {
                             })
                           ]),
                           _vm._v(" "),
-                          _vm._m(24)
+                          _vm._m(23)
                         ])
                       ]),
                       _vm._v(" "),
@@ -91194,12 +91452,12 @@ var render = function() {
                       staticStyle: { border: "solid gray" }
                     },
                     [
-                      _vm._m(25),
+                      _vm._m(24),
                       _vm._v(" "),
                       _vm.viendoPaquete.length != 0
                         ? _c("div", { staticClass: "modal-body" }, [
                             _c("table", { staticClass: "table table-hover" }, [
-                              _vm._m(26),
+                              _vm._m(25),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -91251,7 +91509,7 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm._m(27)
+                      _vm._m(26)
                     ]
                   )
                 ]
@@ -91713,34 +91971,6 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "col-md-4", staticStyle: { "padding-top": "20px" } },
-      [
-        _c("label", { attrs: { for: "hora-2" } }, [
-          _vm._v("Recolección preferente")
-        ]),
-        _vm._v(" "),
-        _c("select", { staticClass: "form-control", attrs: { id: "" } }, [
-          _c("option", { attrs: { value: "MAÑANA" } }, [
-            _vm._v("Por la mañana")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "TARDE" } }, [_vm._v("Por la tarde")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "MEDIO DIA" } }, [
-            _vm._v("A medio dia")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "NOCHE" } }, [_vm._v("Por la noche")])
-        ])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -96836,11 +97066,7 @@ var render = function() {
               "div",
               {
                 staticClass: "row",
-                staticStyle: {
-                  "padding-top": "15px",
-                  "padding-bottom": "15px",
-                  display: "none"
-                }
+                staticStyle: { "padding-top": "15px", "padding-bottom": "15px" }
               },
               [
                 _c("div", { staticClass: "col-md-12" }, [

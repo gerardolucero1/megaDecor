@@ -235,7 +235,7 @@
                         <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#otros" role="tab" aria-controls="pills-profile" aria-selected="false">Registrar otros ingresos</a>
                     </li>
                     <li>
-                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Cerrar caja</button>
+                        <button class="btn btn-info ml-2" data-toggle="modal" data-target="#cerrarCaja" @click="obtenerCorte()">Pre-corte</button>
                     </li>
                 </ul> 
             
@@ -428,7 +428,7 @@
                                                         </select>
                                                     </div>
                                                     
-                                                    <div v-if="movimiento.motivo == 'Otro'">
+                                                    <div v-if="movimiento.tipo == 'EGRESO' && movimiento.motivo !== 'Proveedor'">
                                                         <label for="">Responsable</label>
                                                         <input type="text" class="form-control" v-model="movimiento.responsable">
                                                     </div>

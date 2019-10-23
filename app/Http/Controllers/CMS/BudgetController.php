@@ -141,6 +141,8 @@ class BudgetController extends Controller
             $presupuesto->horaFin                   = $request->facturacion['horaFin'];
             $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
             $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
+            $presupuesto->horaRecoleccion           = $request->facturacion['horaRecoleccion'];
+            $presupuesto->recoleccionPreferente     = $request->facturacion['recoleccionPreferente'];
             $presupuesto->notasFacturacion          = $request->facturacion['notasFacturacion'];
             $presupuesto->nombreFacturacion         = $request->facturacion['nombreFacturacion'];
             $presupuesto->direccionFacturacion      = $request->facturacion['direccionFacturacion'];
@@ -661,6 +663,8 @@ class BudgetController extends Controller
             $presupuesto->horaFin                   = $request->facturacion['horaFin'];
             $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
             $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
+            $presupuesto->horaRecoleccion           = $request->facturacion['horaRecoleccion'];
+            $presupuesto->recoleccionPreferente     = $request->facturacion['recoleccionPreferente'];
             $presupuesto->notasFacturacion          = $request->facturacion['notasFacturacion'];
             $presupuesto->nombreFacturacion         = $request->facturacion['nombreFacturacion'];
             $presupuesto->direccionFacturacion      = $request->facturacion['direccionFacturacion'];
