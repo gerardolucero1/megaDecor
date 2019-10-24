@@ -62,6 +62,18 @@ class InventoryController extends Controller
 
         $inventory = Inventory::create($request->all());
 
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $inventory->fill(['imagen' => asset($url.$path)])->save();
+        }
+
         return redirect()->route('inventory.create')
             ->with('info', 'Producto creado con exito');
 
@@ -120,12 +132,25 @@ class InventoryController extends Controller
         $inventory->fill($request->all())->save();
 
         //Imagen
+        /*
         if($request->file('imagen')){
             $image = $request->file('imagen');
             $image->move('images', $image->getClientOriginalName());
             $inventory->imagen = time().$image->getClientOriginalName();
             $inventory->save();
 
+        }*/
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $inventory->fill(['imagen' => asset($url.$path)])->save();
         }
 
         return redirect()->route('inventory.edit', $inventory->id)
