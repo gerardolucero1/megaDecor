@@ -277,7 +277,7 @@
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bold">Folio: {{ presupuesto.folio }}</span></p>
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.cliente }}</p>
                                                                 <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">Fecha del evento: {{ presupuesto.fechaEvento }}</p>
-                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; "><span style="font-weight:bold">Total:</span> {{ totalBuscador | currency}}</p>
+                                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; "><span style="font-weight:bold">Total:</span> {{ presupuesto.total | currency}}</p>
                                                                 
                                                             </div>
                                                         </div>
@@ -814,6 +814,7 @@
                             <button class="btn btn-sm btn-info" @click="controlDetalles = false">Ver vista corte</button>
                         </div>
                         <div class="col-md-12">
+                            <h2>Ingresos</h2>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -841,10 +842,11 @@
                                 </tbody>
                             </table>
                             <div class="col-md-12 text-right">
-                                <h5 class="text-danger">Total: {{ sumaIngresosActuales[0] | currency }}</h5>
+                               
                             </div>
                         </div>
                         <div class="col-md-12">
+                            <h2>Egresos</h2>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -872,7 +874,7 @@
                                 </tbody>
                             </table>
                             <div class="col-md-12 text-right">
-                                <h5 class="text-danger">Total: {{ sumaIngresosActuales[1] | currency }}</h5>
+                               
                             </div>
                         </div>
                     </div>
@@ -1395,7 +1397,7 @@ if(element.tipo == 'INGRESO'){
                     'El movimiento se registro con exito',
                     'success'
                 )
-            
+                this.movimiento.responsable='';
                 this.obtenerOtrosPagos();
             })
         },
