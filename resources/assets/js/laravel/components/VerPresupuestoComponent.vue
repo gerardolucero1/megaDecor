@@ -78,7 +78,7 @@
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario: </span>{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
+                <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
                 <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
             </div>
             <div class="col-md-4">
@@ -386,13 +386,14 @@
                             </div>
                             <div class="col-md-4 offset-md-3 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
-                                <label for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <input v-if="presupuesto.opcionIVA" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
+                                <label v-if="presupuesto.opcionIVA" for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
 
                                 <div class="info mt-3">
                                    
-                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA">TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
+                                    <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                    
                                 </div>
