@@ -13929,7 +13929,7 @@ var user = document.head.querySelector('meta[name="user"]');
         if (this.pago.method == '') {
           alert('Selecciona un metodo de pago');
         } else {
-          if (this.pago.amount > this.totalEtiqueta - this.totalAbonado) {
+          if (this.pago.amount > this.presupuestoSeleccionado.total - this.totalAbonado) {
             alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
           } else {
             this.pago.budget_id = this.presupuestoSeleccionado.id;
@@ -21590,8 +21590,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
-//
-//
 //
 //
 //
@@ -75181,7 +75179,7 @@ var render = function() {
                                               : _vm._e(),
                                             _vm._v(" "),
                                             _vm.totalAbonado ==
-                                            this.totalEtiqueta
+                                            _vm.presupuestoSeleccionado.total
                                               ? _c(
                                                   "div",
                                                   { staticClass: "col-md-12" },
@@ -97701,39 +97699,18 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("div", { staticClass: "info mt-3" }, [
-                      _vm.presupuesto.opcionIVA == 1
-                        ? _c("p", [
-                            _vm._v("TOTAL con IVA: $"),
-                            _c("span", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm._f("decimales")(
-                                    _vm.calcularSubtotal + _vm.calcularIva
-                                  )
-                                )
+                      _c("p", [
+                        _vm._v("TOTAL con IVA: $"),
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("decimales")(
+                                _vm.calcularSubtotal + _vm.calcularIva
                               )
-                            ])
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.presupuesto.opcionIVA != 1
-                        ? _c(
-                            "p",
-                            {
-                              staticStyle: { color: "red", "font-size": "19px" }
-                            },
-                            [
-                              _vm._v("TOTAL: $"),
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm._f("decimales")(_vm.calcularSubtotal)
-                                  )
-                                )
-                              ])
-                            ]
+                            )
                           )
-                        : _vm._e(),
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("p", [
                         _vm._v("Ahorro General: $"),

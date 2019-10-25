@@ -13,13 +13,6 @@
         use App\Budget;
         $date = Carbon::now();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
-        $sumatoriaContrato = 0;  
-        $sumatoriaIngreso = 0;  
-        $sumatoriaIngresoCheque = 0; 
-        $sumatoriaIngresoDolares = 0; 
-        $sumatoriaEgreso = 0;  
-        $sumatoriaEgresoCheque = 0;  
-        $sumatoriaEgresoDolares = 0;  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
         $horaApertura = date("g:i a", strtotime($registro->horaApertura));
@@ -127,11 +120,9 @@
         $ingresosContratosDolar += $pago->amount;}
     @endphp
     </tr>
-            @php
-            $sumatoriaContrato += $pago->amount;
-            @endphp
-    @endforeach    
+    @endforeach
     </table>
+<<<<<<< HEAD
 
 <p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
 <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
@@ -140,8 +131,11 @@
    
 <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos Extraordinarios</label>
+=======
+    <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
+    <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos y Egresos no relacionados a contratos</label>
+>>>>>>> parent of 2c263a5... Caja y pdfs
     <table style="width: 100%; font-size: 13px;">
-        
             <tr style="background: #F9E7A8">
                 <td style="text-align: center; padding: 4px;">Tipo</td>
                 <td style="text-align: center; padding: 4px;">Motivo</td>
@@ -151,6 +145,7 @@
                 <td style="text-align: center; padding: 4px;">Monto</td>
             </tr>
             @foreach ($otrosPagos as $pago)
+<<<<<<< HEAD
            @if($pago->tipo=='INGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
@@ -183,27 +178,9 @@
             @endif
             @endforeach
             </table>
+=======
+>>>>>>> parent of 2c263a5... Caja y pdfs
            
-                <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaIngreso}}</p>
-                <p style="text-align: right; color:red;">Total de cheques: {{$sumatoriaIngresoCheque}}</p>
-                <p style="text-align: right; color:red;">Total de dolares: {{$sumatoriaIngresoDolares}}</p>               
-            
-           
-       
-        <h4>Egresos</h4>
-    <table style="width: 100%; font-size: 13px;">
-       
-            <tr style="background: #F9E7A8">
-                <td style="text-align: center; padding: 4px;">Tipo</td>
-                <td style="text-align: center; padding: 4px;">Motivo</td>
-                <td style="text-align: center; padding: 4px;">Monto</td>
-                <td style="text-align: center; padding: 4px;">Devolución</td>
-                <td style="text-align: center; padding: 4px;">Descripción</td>
-                <td style="text-align: center; padding: 4px;">Metodo</td>
-                <td style="text-align: center; padding: 4px;">Entregado a</td>
-            </tr>
-            @foreach ($otrosPagos as $pago)
-            @if($pago->tipo=='EGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
@@ -213,19 +190,9 @@
             <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
             </tr>
-            @php
-             $sumatoriaEgreso += $pago->cantidad;
-            @endphp
-            @endif
             @endforeach
             </table>
-            <p style="text-align: right; color:red;">Total en efectivo: {{$sumatoriaEgreso}}</p>
-
-            <p style="text-align: right; color:red;">Balance: {{$sumatoriaContrato+$sumatoriaIngreso-$sumatoriaEgreso+($registro->cantidadApertura)}}</p>
-                <!--<p style="text-align: right; color:red;">Total: {{$sumatoriaIngreso}}</p>
-                <p style="text-align: right; color:red;">Total: {{$sumatoriaIngresoCheque}}</p>
-                <p style="text-align: right; color:red;">Total: {{$sumatoriaIngresoDolares}}</p>     -->
-
+            
 
     <script type="text/php">
         if ( isset($pdf) ) {

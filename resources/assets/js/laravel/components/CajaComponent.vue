@@ -360,7 +360,7 @@
                                                             <button class="btn btn-sm btn-info btn-block" @click="registrarPago()">Registrar pago</button>
                                                         </div>
                                                     </div>
-                                                    <div v-if="totalAbonado==this.totalEtiqueta" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
+                                                    <div v-if="totalAbonado==presupuestoSeleccionado.total" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1626,7 +1626,7 @@ if(element.tipo == 'INGRESO'){
             if(this.pago.method==''){
                 alert('Selecciona un metodo de pago');
             }else{
-            if(this.pago.amount>(this.totalEtiqueta - this.totalAbonado)){
+            if(this.pago.amount>(this.presupuestoSeleccionado.total - this.totalAbonado)){
                 alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
             }else{
             this.pago.budget_id = this.presupuestoSeleccionado.id;
