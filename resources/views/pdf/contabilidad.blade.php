@@ -19,6 +19,8 @@
         $horaCierre = date("g:i a", strtotime($registro->horaCierre));
         $cajero = User::orderBy('id', 'DESC')->where('id', $registro->user_id)->first();        
         $precorte=$registro->cantidadApertura;
+        $ingresosExtraordinarios=0;
+        $egresosExtraordinarios=0;
         $ingresosExtraordinariosTarjeta=0;
         $ingresosExtraordinariosCheque=0;
         $ingresosExtraordinariosDolar=0;
