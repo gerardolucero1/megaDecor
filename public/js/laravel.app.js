@@ -13260,6 +13260,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13705,6 +13707,7 @@ var user = document.head.querySelector('meta[name="user"]');
         _this10.movimiento.metodo = '';
         _this10.movimiento.descripcion = '';
         Swal.fire('Movimiento registrado!', 'El movimiento se registro con exito', 'success');
+        _this10.movimiento.responsable = '';
 
         _this10.obtenerOtrosPagos();
       });
@@ -71822,7 +71825,7 @@ var render = function() {
                                                                       _vm._f(
                                                                         "currency"
                                                                       )(
-                                                                        _vm.totalBuscador
+                                                                        presupuesto.total
                                                                       )
                                                                     )
                                                                 )
@@ -74920,6 +74923,8 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
+                        _c("h2", [_vm._v("Ingresos")]),
+                        _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
                           _vm._m(60),
                           _vm._v(" "),
@@ -74961,21 +74966,12 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12 text-right" }, [
-                          _c("h5", { staticClass: "text-danger" }, [
-                            _vm._v(
-                              "Total: " +
-                                _vm._s(
-                                  _vm._f("currency")(
-                                    _vm.sumaIngresosActuales[0]
-                                  )
-                                )
-                            )
-                          ])
-                        ])
+                        _c("div", { staticClass: "col-md-12 text-right" })
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
+                        _c("h2", [_vm._v("Egresos")]),
+                        _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
                           _vm._m(61),
                           _vm._v(" "),
@@ -75017,18 +75013,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12 text-right" }, [
-                          _c("h5", { staticClass: "text-danger" }, [
-                            _vm._v(
-                              "Total: " +
-                                _vm._s(
-                                  _vm._f("currency")(
-                                    _vm.sumaIngresosActuales[1]
-                                  )
-                                )
-                            )
-                          ])
-                        ])
+                        _c("div", { staticClass: "col-md-12 text-right" })
                       ])
                     ])
               ]),

@@ -17,10 +17,10 @@
           <td style="padding-right:100px;">
               <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
           </td>
-          <td colspan="2" style="text-align: right">
-            <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 16px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: bold; font-size: 13px;">Fecha y hora del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 14px;">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+          <td colspan="3" style="text-align: right">
+            <p><span style="font-weight: bolder;">Numero de contrato:</span>  <span style="font-weight:normal;  font-size:20px">{{$presupuesto->folio}}</span><br>
+              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
+              <span style="font-weight: bold; font-size: 13px;">Fecha y hora del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
             </p>
             </td>
