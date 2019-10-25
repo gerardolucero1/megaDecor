@@ -1617,6 +1617,7 @@ if(element.tipo == 'INGRESO'){
 
         registrarPago(){
             let URL = '/registrar-pago';
+            let numero = this.totalEtiqueta - this.totalAbonado;
             
             if(this.presupuestoSeleccionado==''){
                 alert('Selecciona un contrato');
@@ -1624,13 +1625,13 @@ if(element.tipo == 'INGRESO'){
             if(this.pago.method==''){
                 alert('Selecciona un metodo de pago');
             }else{
-            if(this.pago.amount>(this.totalEtiqueta - this.totalAbonado)){
+            if(this.pago.amount>(numero.toFixed(2))){
                 alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
             }else{
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
-                if(this.pago.amount == (this.presupuestoSeleccionado.total - this.totalAbonado)){
+                if(this.pago.amount == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     
                     axios.get(URL).then((response) => {

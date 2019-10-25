@@ -13918,6 +13918,7 @@ var user = document.head.querySelector('meta[name="user"]');
       var _this19 = this;
 
       var URL = '/registrar-pago';
+      var numero = this.totalEtiqueta - this.totalAbonado;
 
       if (this.presupuestoSeleccionado == '') {
         alert('Selecciona un contrato');
@@ -13925,14 +13926,14 @@ var user = document.head.querySelector('meta[name="user"]');
         if (this.pago.method == '') {
           alert('Selecciona un metodo de pago');
         } else {
-          if (this.pago.amount > this.totalEtiqueta - this.totalAbonado) {
+          if (this.pago.amount > numero.toFixed(2)) {
             alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
           } else {
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
 
-              if (_this19.pago.amount == _this19.presupuestoSeleccionado.total - _this19.totalAbonado) {
+              if (_this19.pago.amount == numero.toFixed(2)) {
                 var _URL = 'pagar-contrato/' + _this19.presupuestoSeleccionado.id;
 
                 axios.get(_URL).then(function (response) {
