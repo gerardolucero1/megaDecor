@@ -87893,17 +87893,15 @@ var render = function() {
                     _vm.clienteSeleccionado
                       ? _c(
                           "div",
-                          {
-                            staticClass: "info",
-                            staticStyle: { "padding-top": "20px" }
-                          },
+                          { staticClass: "info" },
                           [
                             _c(
                               "p",
                               {
                                 staticStyle: {
                                   "font-size": "25px",
-                                  color: "blue"
+                                  color: "blue",
+                                  "line-height": "27px"
                                 }
                               },
                               [

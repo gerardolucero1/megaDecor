@@ -442,8 +442,10 @@ class IndexController extends Controller
                 $Presupuesto->enviado = $budget->enviado;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
+                    $Presupuesto->IVA = true;
                 }else{
                     $Presupuesto->total = $budget->total;
+                    $Presupuesto->IVA = false;
                 }
                 $Presupuesto->impresionBodega = $budget->impresionBodega;
                 $Presupuesto->updated_at = $budget->updated_at;
@@ -483,12 +485,17 @@ class IndexController extends Controller
          $PresupuestoArchivados->folio = $budgetArchivados->folio;
          $PresupuestoArchivados->fechaEvento = $budgetArchivados->fechaEvento;
          //$Presupuesto->vendedor = $budget->vendedor_id;
-         $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
+         $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budgetArchivados->vendedor_id)->first();
          $PresupuestoArchivados->vendedor = $DatosVendedor->name;
          $PresupuestoArchivados->version = $budgetArchivados->version;
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         if($budgetArchivados->opcionIVA==1){
+            $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
+        }else{
+            $PresupuestoArchivados->total = $budgetArchivados->total;
+        }
          $PresupuestoArchivados->impresionBodega = $budgetArchivados->impresionBodega;
          $PresupuestoArchivados->updated_at = $budgetArchivados->updated_at;
 
@@ -501,7 +508,7 @@ class IndexController extends Controller
                     if($cliente->apellidoPaterno==$cliente->nombre){$PresupuestoArchivados->cliente = $cliente->nombre;}else{
                      $PresupuestoArchivados->cliente = $cliente->nombre.' '.$cliente->apellidoPaterno;}
 
-                if($budget->lugarEvento = 'MISMA'){
+                if($budgetArchivados->lugarEvento = 'MISMA'){
                     $PresupuestoArchivados->lugarEvento = $cliente->direccionFacturacion; 
                     
                 }else{
@@ -514,7 +521,7 @@ class IndexController extends Controller
          array_push($PresupuestosArchivados,$PresupuestoArchivados);
         }
 
-        //dd($clientes);
+        //dd(count($Presupuestos));
         return view('presupuestos',compact('Presupuestos', 'PresupuestosArchivados', 'presupuestosHistorial'));   
     }
 
@@ -553,8 +560,10 @@ class IndexController extends Controller
                 $Presupuesto->pagado = $budget->pagado;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
+                    $Presupuesto->IVA = true;
                 }else{
                     $Presupuesto->total = $budget->total;
+                    $Presupuesto->IVA = false;
                 }
                 $Presupuesto->impresionBodega = $budget->impresionBodega;
                 $Presupuesto->updated_at = $budget->updated_at;
@@ -584,7 +593,7 @@ class IndexController extends Controller
 
 
         //Obtenemos los archivados
-        $budgetsArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'PRESUPUESTO')->where('archivado', '1')->get();
+        $budgetsArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '1')->get();
         $PresupuestosArchivados=[];
       
         //No obtenemos clientes por que ya los tenemos arriba
@@ -600,6 +609,13 @@ class IndexController extends Controller
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         if($budgetArchivados->opcionIVA==1){
+            $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
+            $PresupuestoArchivados->IVA = true;
+        }else{
+            $PresupuestoArchivados->total = $budget->total;
+            $PresupuestoArchivados->IVA = false;
+        }
          $PresupuestoArchivados->impresionBodega = $budgetArchivados->impresionBodega;
          $PresupuestoArchivados->updated_at = $budgetArchivados->updated_at;
 

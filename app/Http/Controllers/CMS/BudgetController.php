@@ -81,21 +81,20 @@ class BudgetController extends Controller
         }
         
 
-        $ultimoFolio = Budget::orderBy('id', 'DESC')->pluck('folio')->first();
+        $ultimoFolio = Budget::orderBy('id', 'DESC')->first();
         
         //$ultimoFolio = 'NM10000';
         if(!is_null($ultimoFolio)){
-            $numero = explode('M', $ultimoFolio);
-
+            $numero = explode('M', $ultimoFolio->folio);
             if($request->presupuesto['tipoEvento'] == 'INTERNO'){
-                $folio = 'M'.($numero[1] + 1);
+                $folio = 'SM'.($numero[1] + 1);
             }else{
                 $folio = 'NM'.($numero[1] + 1);
             }
         }else{
             $numero = 0;
             if($request->presupuesto['tipoEvento'] == 'INTERNO'){
-                $folio = 'M'.($numero + 1);
+                $folio = 'SM'.($numero + 1);
             }else{
                 $folio = 'NM'.($numero + 1);
             }
