@@ -103763,8 +103763,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_locales_es__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
-/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/VueCurrencyFilter.min.js");
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store */ "./resources/assets/js/laravel/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -103780,7 +103780,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
-Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7___default.a, {
+Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_5___default.a, {
   symbol: '$',
   // El símbolo, por ejemplo €
   thousandsSeparator: ',',
@@ -103816,7 +103816,7 @@ Vue.component('categoria-evento-component', __webpack_require__(/*! ./components
 Vue.component('task-list-component', __webpack_require__(/*! ./components/TaskListComponent.vue */ "./resources/assets/js/laravel/components/TaskListComponent.vue")["default"]);
 Vue.component('tipo-empresa-component', __webpack_require__(/*! ./components/TipoEmpresaComponent.vue */ "./resources/assets/js/laravel/components/TipoEmpresaComponent.vue")["default"]);
 Vue.component('como-supo-component', __webpack_require__(/*! ./components/ComoSupoComponent.vue */ "./resources/assets/js/laravel/components/ComoSupoComponent.vue")["default"]);
-Vue.component('crear-presupuesto-component', __webpack_require__(/*! ./components/CrearPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue")["default"]);
+Vue.component('crear-presupuesto-component', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module './components/CrearPresupuestoComponent.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))["default"]);
 Vue.component('settings-master-component', __webpack_require__(/*! ./components/SettingsMasterComponent.vue */ "./resources/assets/js/laravel/components/SettingsMasterComponent.vue")["default"]);
 Vue.component('editar-presupuesto-component', __webpack_require__(/*! ./components/EditarPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/EditarPresupuestoComponent.vue")["default"]);
 Vue.component('ver-presupuesto-component', __webpack_require__(/*! ./components/VerPresupuestoComponent.vue */ "./resources/assets/js/laravel/components/VerPresupuestoComponent.vue")["default"]);
@@ -104723,17 +104723,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContabilidadComponent_vue_vue_type_template_id_a1b2fbd0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue":
-/*!******************************************************************************!*\
-  !*** ./resources/assets/js/laravel/components/CrearPresupuestoComponent.vue ***!
-  \******************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'C:\\Users\\Gizflores\\Desktop\\Github\\megaDecor\\resources\\assets\\js\\laravel\\components\\CrearPresupuestoComponent.vue'");
 
 /***/ }),
 
@@ -105758,7 +105747,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\js\laravel\app.js */"./resources/assets/js/laravel/app.js");
 __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\main.scss */"./resources/assets/sass/main.scss");
 __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
@@ -105766,15 +105754,6 @@ __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\as
 __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
 __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
 module.exports = __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
-=======
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
->>>>>>> origin/Eduardo
 
 
 /***/ })
