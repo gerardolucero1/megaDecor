@@ -74310,7 +74310,7 @@ var render = function() {
                                                                       _vm._f(
                                                                         "currency"
                                                                       )(
-                                                                        _vm.totalBuscador
+                                                                        presupuesto.total
                                                                       )
                                                                     )
                                                                 )
