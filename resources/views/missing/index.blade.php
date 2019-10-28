@@ -15,8 +15,8 @@
                     <a href="{{ route('missing.create')}}" class="btn btn-sm btn-primary">Agregar faltantes</a>
             </div>
             <div class="row">
-                <div class="col-md-12 p-4">
-                    <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                <div class="col-md-12">
+                    <table  style="font-size: 10px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                         <thead>
                             <tr role="row">
                                 <!-- (Nombre, Telefono, Correo, Dirección) -->
@@ -24,10 +24,10 @@
                                 <th>id_article</th>
                                 <th>contrato</th>
                                 <th>fecha</th>
-                                <th>nombre_de_persona</th>
+                                <th>Nombre</th>
                                 <th>descripcion</th>
-                                <th>cantidad_que_falta</th>
-                                <th>dias_desde_no_regreso</th>
+                                <th>cantidad faltante</th>
+                                <th>dias sin regresar</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
                                 <th>Detalles</th>

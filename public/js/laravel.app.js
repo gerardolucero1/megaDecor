@@ -13270,6 +13270,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13444,80 +13449,85 @@ var user = document.head.querySelector('meta[name="user"]');
       var _this2 = this;
 
       if (this.pagosCorte.length != 0) {
-        var arrayDeDatos = [];
-        var suma = 0;
-        var cheques = 0;
-        var dolar = 0;
-        var transferencias = 0;
+        var _arrayDeDatos = [];
+        var _suma = 0;
+        var _cheques = 0;
+        var _dolar = 0;
+        var _transferencias = 0;
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
-            cheques = cheques + parseFloat(element.amount) + _this2.chequesApertura;
+            _cheques = _cheques + parseFloat(element.amount) + _this2.chequesApertura;
           } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
-            transferencias = transferencias + parseFloat(element.amount);
+            _transferencias = _transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              dolar = dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
+              _dolar = _dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
             } else {
-              suma = suma + parseFloat(element.amount);
+              _suma = _suma + parseFloat(element.amount);
             }
           }
         });
-        suma = suma + parseFloat(this.sesionActual.cantidadApertura);
+        _suma = _suma + parseFloat(this.sesionActual.cantidadApertura);
         this.pagosCorte[1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
             switch (element.metodo) {
               case 'TRANSFERENCIA':
-                transferencias = transferencias + parseFloat(element.cantidad);
+                _transferencias = _transferencias + parseFloat(element.cantidad);
                 break;
 
               case 'TARJETA':
-                transferencias = transferencias + parseFloat(element.cantidad);
+                _transferencias = _transferencias + parseFloat(element.cantidad);
                 break;
 
               case 'CHEQUE':
-                cheques = cheques + parseFloat(element.cantidad);
+                _cheques = _cheques + parseFloat(element.cantidad);
                 break;
 
               case 'EFECTIVO':
-                suma = suma + parseFloat(element.cantidad);
+                _suma = _suma + parseFloat(element.cantidad);
                 break;
 
               case 'DOLAR':
-                dolar = dolar + parseFloat(element.cantidad);
+                _dolar = _dolar + parseFloat(element.cantidad);
                 break;
             }
           } else {
             switch (element.metodo) {
               case 'TRANSFERENCIA':
-                transferencias = transferencias - parseFloat(element.cantidad);
-                suma = suma + parseFloat(element.resto);
+                _transferencias = _transferencias - parseFloat(element.cantidad);
+                _suma = _suma + parseFloat(element.resto);
                 break;
 
               case 'TARJETA':
-                transferencias = transferencias - parseFloat(element.cantidad);
-                suma = suma + parseFloat(element.resto);
+                _transferencias = _transferencias - parseFloat(element.cantidad);
+                _suma = _suma + parseFloat(element.resto);
                 break;
 
               case 'CHEQUE':
-                cheques = cheques - parseFloat(element.cantidad);
-                suma = suma + parseFloat(element.resto);
+                _cheques = _cheques - parseFloat(element.cantidad);
+                _suma = _suma + parseFloat(element.resto);
                 break;
 
               case 'EFECTIVO':
-                suma -= parseFloat(element.cantidad);
-                suma = suma + parseFloat(element.resto);
+                _suma -= parseFloat(element.cantidad);
+                _suma = _suma + parseFloat(element.resto);
                 break;
 
               case 'DOLAR':
-                dolar = dolar - parseFloat(element.cantidad);
-                dolar = dolar + parseFloat(element.resto);
+                _dolar = _dolar - parseFloat(element.cantidad);
+                _dolar = _dolar + parseFloat(element.resto);
                 break;
             }
           }
         });
-        arrayDeDatos.push(suma, cheques, transferencias, dolar);
-        return arrayDeDatos;
+
+        _arrayDeDatos.push(_suma, _cheques, _transferencias, _dolar);
+
+        return _arrayDeDatos;
       }
+
+      arrayDeDatos.push(suma, cheques, transferencias, dolar);
+      return arrayDeDatos;
     },
     updateChequesApertura: function updateChequesApertura() {
       this.sumaPagosPasados[0] = this.chequesApertura;
@@ -13536,15 +13546,15 @@ var user = document.head.querySelector('meta[name="user"]');
     },
     totalAbonado: function totalAbonado() {
       if (this.presupuestoSeleccionado.length != 0) {
-        var suma = 0;
+        var _suma2 = 0;
         this.presupuestoSeleccionado.payments.forEach(function (element) {
           if (element.method != 'DOLAR') {
-            suma += element.amount;
+            _suma2 += element.amount;
           } else {
-            suma += element.amount * element.reference;
+            _suma2 += element.amount * element.reference;
           }
         });
-        return suma;
+        return _suma2;
       }
     }
   },
@@ -22169,8 +22179,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
+ // Importamos el evento Bus.
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({

@@ -1,5 +1,5 @@
     <section class="container">
-        <h1>Detalles del cliente</h1>
+        <h1>Detalles del Cliente</h1>
         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                 <thead>
                     <tr role="row">
