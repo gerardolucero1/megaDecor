@@ -16058,6 +16058,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -18774,6 +18775,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -19762,6 +19767,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // Guardar como presupuesto
     guardarPresupuesto: function guardarPresupuesto() {
+      var _this16 = this;
+
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';
       }
@@ -19787,7 +19794,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (response.data == 1) {
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
-          Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+          Swal.fire('Creado!', 'El presupuesto se actualizo correctamente', 'success');
+
+          _this16.obtenerPresupuesto();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -19821,18 +19830,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     obtenerPresupuesto: function obtenerPresupuesto() {
-      var _this16 = this;
+      var _this17 = this;
 
       var data = window.location.pathname.split('/');
       var path = data[3];
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
-        _this16.presupuesto = response.data;
-        _this16.facturacion = response.data;
+        _this17.presupuesto = response.data;
+        _this17.facturacion = response.data;
         console.log('Este es el presupuesto: ', response.data);
-        _this16.saldoFinal = _this16.presupuesto.total;
+        _this17.saldoFinal = _this17.presupuesto.total;
 
-        var cliente = _this16.clientes.find(function (element) {
+        var cliente = _this17.clientes.find(function (element) {
           return element.id == response.data.client_id;
         });
 
@@ -19843,7 +19852,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'telefonos'
         }).then(function (response) {
-          _this16.clienteSeleccionado.telefonos = response.data;
+          _this17.clienteSeleccionado.telefonos = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -19851,42 +19860,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'presupuestos'
         }).then(function (response) {
-          _this16.clienteSeleccionado.presupuestos = [];
-          _this16.ultimoEvento = '';
+          _this17.clienteSeleccionado.presupuestos = [];
+          _this17.ultimoEvento = '';
 
           if (response.data.length !== 0) {
-            _this16.clienteSeleccionado.presupuestos = response.data;
+            _this17.clienteSeleccionado.presupuestos = response.data;
             var arreglo = response.data;
             arreglo.sort(function (a, b) {
               return new Date(b.fechaEvento) - new Date(a.fechaEvento);
             });
-            _this16.ultimoEvento = arreglo.shift();
+            _this17.ultimoEvento = arreglo.shift();
 
-            _this16.clienteSeleccionado.presupuestos.push(_this16.ultimoEvento);
+            _this17.clienteSeleccionado.presupuestos.push(_this17.ultimoEvento);
           }
         })["catch"](function (error) {
           console.log(error.data);
         });
-        _this16.clienteSeleccionado.id = cliente.id;
-        _this16.clienteSeleccionado.nombre = cliente.nombre;
-        _this16.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
-        _this16.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
-        _this16.clienteSeleccionado.email = cliente.email;
-        _this16.clienteSeleccionado.rfc = cliente.rfcFacturacion;
-        _this16.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-        _this16.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-        _this16.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-        _this16.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-        _this16.presupuesto.client_id = cliente.id; //Obtener los festejados
+        _this17.clienteSeleccionado.id = cliente.id;
+        _this17.clienteSeleccionado.nombre = cliente.nombre;
+        _this17.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+        _this17.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
+        _this17.clienteSeleccionado.email = cliente.email;
+        _this17.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+        _this17.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        _this17.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        _this17.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        _this17.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+        _this17.presupuesto.client_id = cliente.id; //Obtener los festejados
 
-        var direction = '/obtener-festejados/' + _this16.presupuesto.id;
+        var direction = '/obtener-festejados/' + _this17.presupuesto.id;
         axios.get(direction).then(function (response) {
-          _this16.festejados = response.data;
+          _this17.festejados = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         }); //Obtener el inventario
 
-        var direction2 = '/obtener-inventario-1/' + _this16.presupuesto.id;
+        var direction2 = '/obtener-inventario-1/' + _this17.presupuesto.id;
         axios.get(direction2).then(function (response) {
           var arreglo = [];
           response.data.forEach(function (element) {
@@ -19932,9 +19941,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             return arreglo;
           });
-          _this16.inventarioLocal = arreglo;
+          _this17.inventarioLocal = arreglo;
         });
-        var direction3 = '/obtener-paquetes/' + _this16.presupuesto.id;
+        var direction3 = '/obtener-paquetes/' + _this17.presupuesto.id;
         axios.get(direction3).then(function (response) {
           var arregloPaquetes = [];
           response.data.forEach(function (element) {
@@ -20003,8 +20012,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             };
             arregloPaquetes.push(objeto);
           });
-          _this16.inventarioLocal = _this16.inventarioLocal.concat(arregloPaquetes);
-          _this16.unlock = true;
+          _this17.inventarioLocal = _this17.inventarioLocal.concat(arregloPaquetes);
+          _this17.unlock = true;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -20013,14 +20022,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     imprimirPDF: function imprimirPDF() {
-      var _this17 = this;
+      var _this18 = this;
 
       if (!this.imprimir) {
         Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
       } else {
         var URL = '/obtener-ultimo-presupuesto';
         axios.get(URL).then(function (response) {
-          _this17.imprimir = false;
+          _this18.imprimir = false;
           var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
           window.open('/presupuestos/generar-pdf/' + data.id);
@@ -21586,6 +21595,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ListaInventarioComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaInventarioComponent */ "./resources/assets/js/laravel/components/ListaInventarioComponent.vue");
 /* harmony import */ var _BuscadorComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BuscadorComponent.vue */ "./resources/assets/js/laravel/components/BuscadorComponent.vue");
 /* harmony import */ var _eventBus_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../eventBus.js */ "./resources/assets/js/laravel/eventBus.js");
+//
+//
 //
 //
 //
@@ -79724,30 +79735,40 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "row mt-4" }, [
                         _c("div", { staticClass: "col-md-10" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.presupuesto.fechaEvento,
-                                expression: "presupuesto.fechaEvento"
-                              }
-                            ],
-                            attrs: { type: "date" },
-                            domProps: { value: _vm.presupuesto.fechaEvento },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                          _vm.presupuesto.pendienteFecha
+                            ? _c("label", { attrs: { for: "" } }, [
+                                _vm._v("Fecha del evento pendiente")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.presupuesto.pendienteFecha == false
+                            ? _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.presupuesto.fechaEvento,
+                                    expression: "presupuesto.fechaEvento"
+                                  }
+                                ],
+                                attrs: { type: "date" },
+                                domProps: {
+                                  value: _vm.presupuesto.fechaEvento
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "fechaEvento",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "fechaEvento",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
+                              })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _vm._m(2)
@@ -87169,6 +87190,31 @@ var render = function() {
         "section",
         { staticClass: "container", staticStyle: { background: "white" } },
         [
+          _c(
+            "div",
+            {
+              staticClass: "container-version",
+              staticStyle: { "margin-top": "-35px" }
+            },
+            [
+              _vm._v("\n    Estas viendo la versión de "),
+              _vm.presupuesto.tipo == "PRESUPUESTO"
+                ? _c("span", { staticStyle: { color: "green" } }, [
+                    _vm._v("presupuesto")
+                  ])
+                : _c("span", { staticStyle: { color: "green" } }, [
+                    _vm._v("contrato")
+                  ]),
+              _vm._v(
+                " " +
+                  _vm._s(_vm.presupuesto.version) +
+                  " de " +
+                  _vm._s(_vm.presupuesto.version) +
+                  "\n        "
+              )
+            ]
+          ),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }),
           _vm._v(" "),
           _c("div", { staticClass: "row mt-4" }, [
@@ -87620,30 +87666,40 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "row mt-4" }, [
                           _c("div", { staticClass: "col-md-10" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.presupuesto.fechaEvento,
-                                  expression: "presupuesto.fechaEvento"
-                                }
-                              ],
-                              attrs: { type: "date" },
-                              domProps: { value: _vm.presupuesto.fechaEvento },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                            _vm.presupuesto.pendienteFecha
+                              ? _c("label", { attrs: { for: "" } }, [
+                                  _vm._v("Fecha Pendiente")
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.presupuesto.pendienteFecha == false
+                              ? _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.presupuesto.fechaEvento,
+                                      expression: "presupuesto.fechaEvento"
+                                    }
+                                  ],
+                                  attrs: { type: "date" },
+                                  domProps: {
+                                    value: _vm.presupuesto.fechaEvento
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.presupuesto,
+                                        "fechaEvento",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "fechaEvento",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
+                                })
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _vm._m(2)
@@ -95847,7 +95903,9 @@ var render = function() {
                 _c("span", { staticStyle: { "font-weight": "bold" } }, [
                   _vm._v("Recolección: ")
                 ]),
-                _vm._v(_vm._s(_vm.presupuesto.fechaRecoleccion))
+                _vm._v(
+                  "POR LA " + _vm._s(_vm.presupuesto.recoleccionPreferente)
+                )
               ])
             ]),
             _vm._v(" "),
@@ -95879,6 +95937,20 @@ var render = function() {
                   _vm._v("Email Facturación: ")
                 ]),
                 _vm._v(_vm._s(_vm.presupuesto.nombreFacturacion))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("RFC: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.rfcFacturacion))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("CP: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.cp))
               ])
             ])
           ]

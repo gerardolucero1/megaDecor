@@ -106,6 +106,9 @@
                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                 </a>
+                                <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                    </a>
                             </td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
