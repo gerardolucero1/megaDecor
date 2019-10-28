@@ -449,6 +449,13 @@ Route::group(['middleware' => ['auth']], function () {
         $contrato->save();
     });
 
+    Route::get('obtener-producto/{id}', function($id){
+        $producto = Inventory::findOrFail($id);
+        return $producto;
+    });
+
+    Route::resource('registrar-alta', 'CMS\RegisterController');
+
 });
 
 /*
