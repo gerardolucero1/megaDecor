@@ -118,11 +118,6 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
-<<<<<<< HEAD
-    <td style="border:solid; border-width: 1px; background:white"></td>
-    <td style="border:solid; border-width: 1px; background:white"></td>
-=======
->>>>>>> parent of 2c263a5... Caja y pdfs
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
@@ -137,30 +132,15 @@
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
-<<<<<<< HEAD
-        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Entrega</td>
-        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Recolección</td>
-=======
->>>>>>> parent of 2c263a5... Caja y pdfs
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-<<<<<<< HEAD
-        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
-          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
-          
-          
-        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
-        <td style="border:solid; border-width: 1px; background:white"></td>
-        <td style="border:solid; border-width: 1px; background:white"></td>
-=======
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
           <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
           
           
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
->>>>>>> parent of 2c263a5... Caja y pdfs
         </tr> 
         @endif
         
