@@ -73,25 +73,21 @@ class MissingProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id,$bool)
+    public function show($id)
     {
         $faltante = MissingProducts::where('id',$id)->first();
-
+        $faltanteArticulo = MissingProducts::where('id', $faltante->id_article)->first();
         $cliente2 = Client::where('id', $faltante->nombre_de_persona)->first();
         $cliente = Client::where('id', $faltante->id)->first();
-        $bool= this.$bool;
         //dd($faltante,$cliente);
         if($cliente == null){
         return redirect()->route('missing.index')
             ->with('info', 'El cliente no existe');
         }
         else{
-            //si la categoria es cliente ** cliente es en este caso el nulo
-            
-            return view('missing.show', compact('faltante','cliente','cliente2','bool'));
-           
-        }
-       
+            //si la categoria es cliente ** cliente es en este caso el nulo            
+            return view('missing.show', compact('faltante','cliente','cliente2','faltanteArticulo'));           
+        }       
     }
 
     /**

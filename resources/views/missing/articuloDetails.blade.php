@@ -5,20 +5,22 @@
                     <tr role="row">
                         
                         <!-- (Nombre, Telefono, Correo, Dirección) -->
-                        <th>#</th>
-                        <th>clave</th>
-                        <th>nombreCliente</th>
-                        <th>tipoPersona</th>
+                        <th>id</th>
+                        <th>contrato</th>
+                        <th>fecha</th>
+                        <th>nombre_de_persona</th>
+                        <th>descripcion</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if($cliente!=null)
                         <tr role="row" class="odd">
 
-                            <td>{{ $cliente->id }}</td>
-                            <td>{{ $cliente->clave }}</td>
-                            <td>{{ $cliente->nombreCliente }}</td>
-                            <td>{{ $cliente->tipoPersona }}</td>
+                            <td>{{ $faltanteArticulo->id }}</td>
+                            <td>{{ $faltanteArticulo->contrato }}</td>
+                            <td>{{ $faltanteArticulo->fecha }}</td>
+                            <td>{{ $faltanteArticulo->nombre_de_persona }}</td>
+                            <td>{{ $faltanteArticulo->descripcion }}</td>
                             
                         </tr>   
                            @endif                 
@@ -31,24 +33,27 @@
             <hr>
         <div class="form-group">
           <label for="email">ID:</label>
-          <p class="badge badge-info">{{ $cliente->id }}</p>
+          <p class="badge badge-info">{{ $faltanteArticulo->id }}</p>
         </div>
 
         <div class="form-group">
-          <label for="pwd">CLAVE:</label>
-          <p class="badge badge-info">{{ $cliente->clave }}</p>
+          <label for="pwd">contrato:</label>
+          <p class="badge badge-info">{{ $faltanteArticulo->contrato }}</p>
         </div>
         
         <div class="form-group">
-            <label for="email">NOMBRE CLIENTE:</label>
-            <p class="badge badge-info">{{ $cliente->nombreCliente }}</p>
+            <label for="email">fecha:</label>
+            <p class="badge badge-info">{{ $faltanteArticulo->fecha }}</p>
         </div>
       
         <div class="form-group">
-            <label for="pwd">TIPO DE PERSONA:</label>
-            <p class="badge badge-info">{{ $cliente->tipoPersona }}</p>
+            <label for="pwd">nombre_de_persona:</label>
+            <p class="badge badge-info">{{ $faltanteArticulo->nombre_de_persona }}</p>
         </div>
-              
-        <a href="/missing" class="btn btn-primary btn-block">Volver</a>
+        <div class="form-group">
+            <label for="pwd">descripcion:</label>
+            <p class="badge badge-info">{{ $faltante->descripcion }}</p>
+        </div>
+              <hr><br>
       </form>
     </div>
