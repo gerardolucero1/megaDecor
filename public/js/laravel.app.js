@@ -13275,6 +13275,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13373,13 +13391,16 @@ var user = document.head.querySelector('meta[name="user"]');
       var transferencias = 0;
       var dolar = 0;
       var suma = 0;
+      var tarjeta = 0;
 
       if (this.pagosPasados.length != 0) {
         this.pagosPasados[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
             cheques = cheques + parseFloat(element.amount);
-          } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
+          } else if (element.method == 'TRANSFERENCIA') {
             transferencias = transferencias + parseFloat(element.amount);
+          } else if (element.method == 'TARJETA') {
+            tarjeta = tarjeta + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
               dolar = dolar + parseFloat(element.cantidad);
@@ -13397,7 +13418,7 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'TARJETA':
-                transferencias = transferencias + parseFloat(element.cantidad);
+                tarjeta = tarjeta + parseFloat(element.cantidad);
                 break;
 
               case 'CHEQUE':
@@ -13420,7 +13441,7 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'TARJETA':
-                transferencias = transferencias - parseFloat(element.cantidad);
+                tarjeta = tarjeta - parseFloat(element.cantidad);
                 suma = suma + parseFloat(element.resto);
                 break;
 
@@ -13441,7 +13462,7 @@ var user = document.head.querySelector('meta[name="user"]');
             }
           }
         });
-        pagos.push(cheques, transferencias, dolar);
+        pagos.push(cheques, transferencias, dolar, tarjeta);
         return pagos;
       }
     },
@@ -13454,11 +13475,14 @@ var user = document.head.querySelector('meta[name="user"]');
         var _cheques = 0;
         var _dolar = 0;
         var _transferencias = 0;
+        var _tarjeta = 0;
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
             _cheques = _cheques + parseFloat(element.amount) + _this2.chequesApertura;
-          } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
+          } else if (element.method == 'TRANSFERENCIA') {
             _transferencias = _transferencias + parseFloat(element.amount);
+          } else if (element.method == 'TARJETA') {
+            _tarjeta = _tarjeta + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
               _dolar = _dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
@@ -13476,7 +13500,7 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'TARJETA':
-                _transferencias = _transferencias + parseFloat(element.cantidad);
+                _tarjeta = _tarjeta + parseFloat(element.cantidad);
                 break;
 
               case 'CHEQUE':
@@ -13499,7 +13523,7 @@ var user = document.head.querySelector('meta[name="user"]');
                 break;
 
               case 'TARJETA':
-                _transferencias = _transferencias - parseFloat(element.cantidad);
+                _tarjeta = _tarjeta - parseFloat(element.cantidad);
                 _suma = _suma + parseFloat(element.resto);
                 break;
 
@@ -13521,12 +13545,12 @@ var user = document.head.querySelector('meta[name="user"]');
           }
         });
 
-        _arrayDeDatos.push(_suma, _cheques, _transferencias, _dolar);
+        _arrayDeDatos.push(_suma, _cheques, _transferencias, _dolar, _tarjeta);
 
         return _arrayDeDatos;
       }
 
-      arrayDeDatos.push(suma, cheques, transferencias, dolar);
+      arrayDeDatos.push(suma, cheques, transferencias, dolar, tarjeta);
       return arrayDeDatos;
     },
     updateChequesApertura: function updateChequesApertura() {
@@ -76278,7 +76302,9 @@ var render = function() {
                                         )
                                       }
                                     }
-                                  })
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._m(22)
                                 ])
                               ])
                             ]),
@@ -76746,7 +76772,7 @@ var render = function() {
                                                     )
                                                   : _vm._e(),
                                                 _vm._v(
-                                                  "\n                                                        -"
+                                                  "                                                            \n                                                        -"
                                                 ),
                                                 _c(
                                                   "span",
@@ -76809,6 +76835,65 @@ var render = function() {
                                                                 "currency"
                                                               )(item.referencia)
                                                             )
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "col-md-12",
+                                              staticStyle: {
+                                                "padding-top": "5px"
+                                              }
+                                            },
+                                            [
+                                              _c("p", [
+                                                item.tipo == "EGRESO" &&
+                                                item.resto > 0
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          color: "white",
+                                                          background: "red",
+                                                          padding: "3px",
+                                                          "border-radius":
+                                                            "7px",
+                                                          "font-size": "12px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(item.tipo) +
+                                                            " TOTAL:"
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.resto > 0
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "margin-left": "15px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            _vm._f("currency")(
+                                                              item.cantidad -
+                                                                item.resto
+                                                            )
+                                                          )
                                                         )
                                                       ]
                                                     )
@@ -76952,7 +77037,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(22),
+              _vm._m(23),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -77030,17 +77115,17 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(23),
+              _vm._m(24),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "row" }, [
                   _vm.pagosCorte.length != 0
                     ? _c("div", { staticClass: "col-md-12" }, [
                         _c("div", { staticClass: "container d-flex" }, [
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("h4", { staticClass: "text-danger" }, [
+                          _c("div", { staticClass: "col-md-4" }, [
+                            _c("h3", { staticClass: "text-danger" }, [
                               _vm._v(
-                                "Pre-corte:" +
+                                "Efectivo:" +
                                   _vm._s(
                                     _vm._f("currency")(_vm.cantidadPreCorte[0])
                                   )
@@ -77048,32 +77133,70 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "text-muted" }, [
-                              _vm._v(
-                                "Cheques:" +
-                                  _vm._s(
-                                    _vm._f("currency")(_vm.cantidadPreCorte[1])
-                                  )
-                              )
-                            ])
-                          ]),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-2",
+                              staticStyle: { "font-size": "12px" }
+                            },
+                            [
+                              _c("p", { staticClass: "text-muted" }, [
+                                _vm._v(
+                                  "Tarjeta:" +
+                                    _vm._s(
+                                      _vm._f("currency")(
+                                        _vm.cantidadPreCorte[4]
+                                      )
+                                    )
+                                )
+                              ])
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "text-muted" }, [
-                              _vm._v(
-                                "Transferencias:" +
-                                  _vm._s(
-                                    _vm._f("currency")(_vm.cantidadPreCorte[2])
-                                  )
-                              )
-                            ])
-                          ]),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-2",
+                              staticStyle: { "font-size": "12px" }
+                            },
+                            [
+                              _c("p", { staticClass: "text-muted" }, [
+                                _vm._v(
+                                  "Transferencias:" +
+                                    _vm._s(
+                                      _vm._f("currency")(
+                                        _vm.cantidadPreCorte[2]
+                                      )
+                                    )
+                                )
+                              ])
+                            ]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "col-md-2",
+                              staticStyle: { "font-size": "12px" }
+                            },
+                            [
+                              _c("p", { staticClass: "text-muted" }, [
+                                _vm._v(
+                                  "Cheques:" +
+                                    _vm._s(
+                                      _vm._f("currency")(
+                                        _vm.cantidadPreCorte[1]
+                                      )
+                                    )
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-2" }, [
                             _c("p", { staticClass: "text-muted" }, [
                               _vm._v(
-                                "Dolar:" +
+                                "Dolares:" +
                                   _vm._s(
                                     _vm._f("currency")(_vm.cantidadPreCorte[3])
                                   )
@@ -77089,13 +77212,13 @@ var render = function() {
                   ? _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(24),
+                          _vm._m(25),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(25),
-                              _vm._v(" "),
                               _vm._m(26),
+                              _vm._v(" "),
+                              _vm._m(27),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77127,9 +77250,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(27),
-                              _vm._v(" "),
                               _vm._m(28),
+                              _vm._v(" "),
+                              _vm._m(29),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77161,9 +77284,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(29),
-                              _vm._v(" "),
                               _vm._m(30),
+                              _vm._v(" "),
+                              _vm._m(31),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77195,9 +77318,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(31),
-                              _vm._v(" "),
                               _vm._m(32),
+                              _vm._v(" "),
+                              _vm._m(33),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77229,9 +77352,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(33),
-                              _vm._v(" "),
                               _vm._m(34),
+                              _vm._v(" "),
+                              _vm._m(35),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77263,9 +77386,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(35),
-                              _vm._v(" "),
                               _vm._m(36),
+                              _vm._v(" "),
+                              _vm._m(37),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77301,7 +77424,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(37),
+                          _vm._m(38),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -77311,9 +77434,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(38),
-                                _vm._v(" "),
                                 _vm._m(39),
+                                _vm._v(" "),
+                                _vm._m(40),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77354,9 +77477,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(40),
-                                _vm._v(" "),
                                 _vm._m(41),
+                                _vm._v(" "),
+                                _vm._m(42),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77397,9 +77520,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(42),
-                                _vm._v(" "),
                                 _vm._m(43),
+                                _vm._v(" "),
+                                _vm._m(44),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77440,9 +77563,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(44),
-                                _vm._v(" "),
                                 _vm._m(45),
+                                _vm._v(" "),
+                                _vm._m(46),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77483,9 +77606,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(46),
-                                _vm._v(" "),
                                 _vm._m(47),
+                                _vm._v(" "),
+                                _vm._m(48),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77522,7 +77645,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(48),
+                          _vm._m(49),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c("div", { staticClass: "form-group" }, [
@@ -77608,7 +77731,7 @@ var render = function() {
                         _c("h2", [_vm._v("Ingresos")]),
                         _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(49),
+                          _vm._m(50),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -77655,7 +77778,7 @@ var render = function() {
                         _c("h2", [_vm._v("Egresos")]),
                         _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(50),
+                          _vm._m(51),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -77700,7 +77823,7 @@ var render = function() {
                     ])
               ]),
               _vm._v(" "),
-              _vm._m(51)
+              _vm._m(52)
             ])
           ]
         )
@@ -77728,7 +77851,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(52),
+              _vm._m(53),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -77754,7 +77877,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(53),
+                  _vm._m(54),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -78105,6 +78228,23 @@ var staticRenderFns = [
         staticClass: "img-fluid",
         attrs: { src: "https://i.stack.imgur.com/l60Hf.png", alt: "" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("form", { attrs: { id: "form", method: "post", action: "" } }, [
+      _c("p", [
+        _c("label", { attrs: { for: "amount" } }, [_vm._v("Enter amount")])
+      ]),
+      _c("div", { staticClass: "flex" }, [
+        _c("span", { staticClass: "currency" }, [_vm._v("$")]),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { id: "amount", name: "amount", type: "text", maxlength: "15" }
+        })
+      ])
     ])
   },
   function() {
@@ -113155,14 +113295,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CajaComponent.vue ***!
   \******************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CajaComponent_vue_vue_type_template_id_191cb952_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=template&id=191cb952&scoped=true& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=template&id=191cb952&scoped=true&");
 /* harmony import */ var _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _CajaComponent_vue_vue_type_style_index_0_id_191cb952_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _CajaComponent_vue_vue_type_style_index_0_id_191cb952_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -113194,7 +113335,7 @@ component.options.__file = "resources/assets/js/laravel/components/CajaComponent
 /*!*******************************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -24,6 +24,7 @@ class CreateOtherPaymentsTable extends Migration
             $table->text('descripcion')->nullable();
             $table->string('metodo')->nullable();
             $table->string('referencia')->nullable();
+            $table->string('contrato')->nullable();
             $table->timestamps();
         });
     }
