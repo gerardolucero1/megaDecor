@@ -94,7 +94,7 @@
                 <div class="form-material">
                     {{ Form::label('imagen', 'Imagen') }}
                     {{ Form::file('imagen', ['class' => 'form-control']) }} 
-                    <img src="{{ $inventory->imagen }}" alt="" style="width: 80px">
+                    
                 </div>
             </div>
         </div>
@@ -104,9 +104,7 @@
                         <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
                                 <option value="">Selecciona una familia</option>
                             @foreach($familias as $familia)    
-                            <option value="{{$familia->nombre}}" @if ($inventory->familia == $familia->nombre)
-                                selected="selected"
-                            @endif>{{$familia->nombre}}</option>
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                             @endforeach
                             </select>
                     <div class="form-material">
