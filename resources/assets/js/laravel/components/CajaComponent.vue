@@ -62,6 +62,7 @@
                                 <img src="https://www.alaingarcia.net/conozca/i/billete_1000_pesos_holograma.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete1000}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -73,6 +74,7 @@
                                 <img src="http://cdn.kaltura.com/p/0/thumbnail/entry_id/1_m98xxec5/quality/80/width/800/height/349" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete500}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -84,6 +86,7 @@
                                 <img src="http://eltrochilero.com/wp-content/uploads/2018/02/Billete200anverso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete200}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -95,6 +98,7 @@
                                 <img src="http://www.unionpuebla.mx/sites/default/files/styles/galeria/public/field/image/billete-100_pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete100}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -106,6 +110,7 @@
                                 <img src="https://i.pinimg.com/originals/a4/07/21/a4072113bae69abe37ac3d547f6b60f9.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete50}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -117,6 +122,7 @@
                                 <img src="https://vanguardia.com.mx/sites/default/files/styles/paragraph_image_large_desktop_1x/public/mexico-20-pesos-benito-juarez-aztec-city-2012-p-image-88084-grande.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete20}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -141,6 +147,7 @@
                                 <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda10}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -154,6 +161,7 @@
                                 <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda5}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -167,6 +175,7 @@
                                 <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda2}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -180,6 +189,7 @@
                                 <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda1}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -193,7 +203,7 @@
                                 <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
-                                <i class="fa fa-arrow-right"></i>
+                               {{sesion.cierreCentavo50}} <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.centavo50">
@@ -226,8 +236,11 @@
                     <div class="col-md-12">
                         <h4>Pagos a contratos</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
-                        <label>Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
-                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label>
+                        <input v-on:change="updateChequesApertura()" type="input" v-model="chequesApertura"><br>
+                        <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
+                        <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
+                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label><br>
+                        <input v-on:change="updateDolaresApertura()" type="input" v-model="dolaresApertura">
                     </div>
                 </div>
             </div>
@@ -610,7 +623,7 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Pre-corte</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -957,6 +970,8 @@ export default {
             totalEtiqueta: 0,
             totalBuscador: 0,
             nuevaCategoria: '',
+            chequesApertura:0,
+            dolaresApertura:0,
             categorias: [],
             cantidad: {
                 billete1000: 0,
@@ -1002,6 +1017,7 @@ export default {
             pagosCorte: '',
             pagosPasados: [],
             pagosTotalesActuales: [],
+            
         }
     },
     created(){
@@ -1120,12 +1136,12 @@ if(element.tipo == 'INGRESO'){
 
                 this.pagosCorte[0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
-                        cheques = cheques + parseFloat(element.amount);
+                        cheques = cheques + parseFloat(element.amount) + this.chequesApertura;
                     }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.cantidad));
+                           dolar = dolar + (parseFloat(element.cantidad)) +this.dolaresApertura;
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1184,7 +1200,26 @@ if(element.tipo == 'INGRESO'){
                         arrayDeDatos.push(suma, cheques, transferencias,dolar);
                         return arrayDeDatos;
                     }
-                },
+
+
+
+                
+                
+                arrayDeDatos.push(suma, cheques, transferencias, dolar);
+                return arrayDeDatos;
+            
+        },
+        updateChequesApertura: function(){
+this.sumaPagosPasados[0]=this.chequesApertura;
+
+
+        },
+
+        updateDolaresApertura: function(){
+this.sumaPagosPasados[2]=this.dolaresApertura;
+
+
+        },
 
         sumarCantidad: function(){
             let billete = (parseInt(this.cantidad.billete1000) * 1000) + (parseInt(this.cantidad.billete500) * 500) + (parseInt(this.cantidad.billete200) * 200) + (parseInt(this.cantidad.billete100) * 100) + (parseInt(this.cantidad.billete50) * 50) + (parseInt(this.cantidad.billete20) * 20);
@@ -1619,6 +1654,7 @@ if(element.tipo == 'INGRESO'){
 
         registrarPago(){
             let URL = '/registrar-pago';
+            let numero = this.totalEtiqueta - this.totalAbonado;
             
             if(this.presupuestoSeleccionado==''){
                 alert('Selecciona un contrato');
@@ -1626,13 +1662,13 @@ if(element.tipo == 'INGRESO'){
             if(this.pago.method==''){
                 alert('Selecciona un metodo de pago');
             }else{
-            if(this.pago.amount>(this.presupuestoSeleccionado.total - this.totalAbonado)){
+            if(this.pago.amount>(numero.toFixed(2))){
                 alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
             }else{
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
-                if(this.pago.amount == (this.presupuestoSeleccionado.total - this.totalAbonado)){
+                if(this.pago.amount == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     
                     axios.get(URL).then((response) => {

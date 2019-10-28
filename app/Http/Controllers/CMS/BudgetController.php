@@ -81,21 +81,20 @@ class BudgetController extends Controller
         }
         
 
-        $ultimoFolio = Budget::orderBy('id', 'DESC')->pluck('folio')->first();
+        $ultimoFolio = Budget::orderBy('id', 'DESC')->first();
         
         //$ultimoFolio = 'NM10000';
         if(!is_null($ultimoFolio)){
-            $numero = explode('M', $ultimoFolio);
-
+            $numero = explode('M', $ultimoFolio->folio);
             if($request->presupuesto['tipoEvento'] == 'INTERNO'){
-                $folio = 'M'.($numero[1] + 1);
+                $folio = 'SM'.($numero[1] + 1);
             }else{
                 $folio = 'NM'.($numero[1] + 1);
             }
         }else{
             $numero = 0;
             if($request->presupuesto['tipoEvento'] == 'INTERNO'){
-                $folio = 'M'.($numero + 1);
+                $folio = 'SM'.($numero + 1);
             }else{
                 $folio = 'NM'.($numero + 1);
             }
@@ -521,6 +520,105 @@ class BudgetController extends Controller
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.budgetBodega', compact('presupuesto', 'DatosPresupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
+
+        return $pdf->stream();
+
+    }
+
+    public function pdfBodegaCliente($id){        
+
+        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        $presupuesto->impresionBodega = 1;
+        $presupuesto->save();
+
+        $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
+        $presupuesto->vendedor = $Vendedor->name;
+        $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
+       
+        //Obtenemos los elementos que pertenecen al inventario
+        $Elementos= BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+        
+        //Obtenemos los paquetes
+        $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
+        
+        $arregloEmentos=[];
+        foreach($Paquetes as $paquete){
+            $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
+            foreach($Elementos_paquete as $Elemento_paquete){
+                $arregloElemento   = new stdClass();
+                $arregloElemento->imagen = $Elemento_paquete->imagen;
+                $arregloElemento->servicio = $Elemento_paquete->servicio;
+                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
+                $arregloElemento->notas = $Elemento_paquete->notas;
+                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
+                array_push($arregloEmentos,$arregloElemento);
+            }
+           
+        }
+       // dd($Elemento_paquete);
+
+         //Obtenemos clientes morales y fisicos
+         $clientes_morales = DB::table('clients')
+         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito')
+         ->get();
+ 
+         $clientes_fisicos = DB::table('clients')
+         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito')
+         ->get();
+         
+         $clientes = $clientes_morales->merge($clientes_fisicos);
+
+         //formato de minusculas
+         $presupuesto->tipoEvento=ucfirst(strtolower($presupuesto->tipoEvento));
+         $presupuesto->tipoServicio=ucfirst(strtolower($presupuesto->tipoServicio));
+
+         //Definimos la categoria del evento
+         switch($presupuesto->categoriaEvento){
+            case 1:
+            $presupuesto->categoria="XV años";
+            break;
+            case 2:
+            $presupuesto->categoria="Aniversario";
+            break;
+            case 3:
+            $presupuesto->categoria="Cumpleaños";
+            break;
+            case 4:
+            $presupuesto->categoria="Graduación";
+            break;
+            case 5:
+            $presupuesto->categoria="Cena de Gala";
+            break;
+            case 6:
+            $presupuesto->categoria="Otro";
+            break;
+
+        }
+        
+        //Obtener datos generales del cliente
+         foreach($clientes as $cliente){
+             if($presupuesto->client_id == $cliente->id){
+                 if($cliente->apellidoPaterno==$cliente->nombre){
+                $presupuesto->cliente=$cliente->nombre;
+                $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->creditoCliente=$cliente->tipoCredito;
+                 }else{
+                $presupuesto->cliente=$cliente->nombre." ".$cliente->apellidoPaterno." ".$cliente->apellidoMaterno;}
+                $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->creditoCliente=$cliente->tipoCredito;
+            }
+         }
+
+        $DatosPresupuesto = 0;
+
+
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.budgetBodega2', compact('presupuesto', 'DatosPresupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos'));
 
         return $pdf->stream();
 

@@ -79,7 +79,7 @@
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
-                <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
+                <p><span style="font-weight:bold">Recolección: </span>POR LA {{presupuesto.recoleccionPreferente}}</p>
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
@@ -87,6 +87,8 @@
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Email Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+                <p><span style="font-weight:bold">RFC: </span>{{presupuesto.rfcFacturacion}}</p>
+                <p><span style="font-weight:bold">CP: </span>{{presupuesto.cp}}</p>
             </div>
             
             

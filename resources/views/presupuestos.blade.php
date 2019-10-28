@@ -68,7 +68,7 @@
                             @php
                                 use Carbon\Carbon;
                             @endphp         
-                            @if (!is_null($Presupuestos))
+                            @if (count($Presupuestos) > 0)
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd">
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
@@ -112,6 +112,10 @@
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif
+                                    @if ($budget->IVA)
+                                    <br>
+                                        <span style="font-size: 10px; color: green;">IVA incluido</span>
+                                    @endif
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if($usuario != 2)
@@ -128,6 +132,8 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @else
+                            nada
                             @endif
                             
                             </tbody>
@@ -289,16 +295,27 @@
                                             </td>
                                             <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
                                                 <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                                <i onclick="enviarCorreoCliente({{$budgetArchivados->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
+                                                <i onclick="enviarCorreoCliente({{$budgetArchivados->id}})" class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
                                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                             </td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                                 @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                             </td>
                                                 @php
-                                                    $total=number_format($budgetArchivados->total,2);
+                                                    if($budgetArchivados->opcionIVA == 1){
+                                                        $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
+                                                    }else{
+                                                        $total = $budgetArchivados->total;
+                                                    }
+                                                    $total=number_format($total,2);
                                                 @endphp
-                                            <td>${{$total}}</td>
+                                            <td>
+                                                ${{$total}}
+                                                @if ($budgetArchivados->opcionIVA == 1)
+                                                    <br>
+                                                    <span style="font-size: 10px; color: green;">IVA</span>
+                                                @endif
+                                            </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                 <a href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>

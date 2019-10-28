@@ -36,17 +36,17 @@
                 </div>
             </div>
         </div>
+        <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="form-material">
+                        {{ Form::label('precioVenta', 'Costo Proveedor') }}
+                        {{ Form::text('precioVenta', null, ['class' => 'form-control', 'id' => 'precioVenta']) }}  
+                    </div>
+                </div>
+            </div>
 
     </div>
     <div class="col-md-4">
-        <div class="form-group row">
-            <div class="col-md-12">
-                <div class="form-material">
-                    {{ Form::label('precioVenta', 'Costo Proveedor') }}
-                    {{ Form::text('precioVenta', null, ['class' => 'form-control', 'id' => 'precioVenta']) }}  
-                </div>
-            </div>
-        </div>
 
         <div class="form-group row">
             <div class="col-md-12">
@@ -74,28 +74,27 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-
         <div class="form-group row">
-            <div class="col-md-12">
-                <div class="form-material">
-                    <select name="selectmoneda" id="selectmoneda" onchange="seleccionarMoneda()">
-                        <option value="">Selecciona tipo de cambio</option>
-                        <option value="MXN">MXN</option>
-                        <option value="DLLS">DLLS</option>
-                    </select>
-                    {{ Form::label('tipoCambio', 'Tipo de cambio') }}
-                    {{ Form::text('tipoCambio', null, ['class' => 'form-control', 'id' => 'tipoCambio']) }}  
+                <div class="col-md-12">
+                    <div class="form-material">
+                        <select name="selectmoneda" id="selectmoneda" onchange="seleccionarMoneda()">
+                            <option value="">Selecciona tipo de cambio</option>
+                            <option value="MXN">MXN</option>
+                            <option value="DLLS">DLLS</option>
+                        </select>
+                        {{ Form::label('tipoCambio', 'Tipo de cambio') }}
+                        {{ Form::text('tipoCambio', null, ['class' => 'form-control', 'id' => 'tipoCambio']) }}  
+                    </div>
                 </div>
             </div>
-        </div>
-
+    </div>
+    <div class="col-md-4">
         <div class="form-group row">
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('imagen', 'Imagen') }}
                     {{ Form::file('imagen', ['class' => 'form-control']) }} 
+                    
                 </div>
             </div>
         </div>
@@ -118,10 +117,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <button type="submit" class="btn btn-sm btn-info">Guardar</button>
+        <div class="col-md-12" style="padding: 10px">
+            <button type="submit" class="btn btn-sm btn-info" style="margin-left: 10px">Guardar</button>
         </div>
+        
     </div>
+   
 </section>
 <script>
 function seleccionarFamilia(){

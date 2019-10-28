@@ -148,7 +148,8 @@ padding: 0;
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento">
+                                        <label v-if="presupuesto.pendienteFecha" for="">Fecha del evento pendiente</label>
+                                        <input v-if="presupuesto.pendienteFecha==false" type="date" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>

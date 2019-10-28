@@ -13262,6 +13262,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13281,6 +13289,8 @@ var user = document.head.querySelector('meta[name="user"]');
       totalEtiqueta: 0,
       totalBuscador: 0,
       nuevaCategoria: '',
+      chequesApertura: 0,
+      dolaresApertura: 0,
       categorias: [],
       cantidad: {
         billete1000: 0,
@@ -13431,6 +13441,8 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     cantidadPreCorte: function cantidadPreCorte() {
+      var _this2 = this;
+
       if (this.pagosCorte.length != 0) {
         var arrayDeDatos = [];
         var suma = 0;
@@ -13439,12 +13451,12 @@ var user = document.head.querySelector('meta[name="user"]');
         var transferencias = 0;
         this.pagosCorte[0].forEach(function (element) {
           if (element.method == 'CHEQUE') {
-            cheques = cheques + parseFloat(element.amount);
+            cheques = cheques + parseFloat(element.amount) + _this2.chequesApertura;
           } else if (element.method == 'TRANSFERENCIA' || element.method == 'TARJETA') {
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              dolar = dolar + parseFloat(element.cantidad);
+              dolar = dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
             } else {
               suma = suma + parseFloat(element.amount);
             }
@@ -13506,6 +13518,12 @@ var user = document.head.querySelector('meta[name="user"]');
         arrayDeDatos.push(suma, cheques, transferencias, dolar);
         return arrayDeDatos;
       }
+    },
+    updateChequesApertura: function updateChequesApertura() {
+      this.sumaPagosPasados[0] = this.chequesApertura;
+    },
+    updateDolaresApertura: function updateDolaresApertura() {
+      this.sumaPagosPasados[2] = this.dolaresApertura;
     },
     sumarCantidad: function sumarCantidad() {
       var billete = parseInt(this.cantidad.billete1000) * 1000 + parseInt(this.cantidad.billete500) * 500 + parseInt(this.cantidad.billete200) * 200 + parseInt(this.cantidad.billete100) * 100 + parseInt(this.cantidad.billete50) * 50 + parseInt(this.cantidad.billete20) * 20;
@@ -13582,16 +13600,16 @@ var user = document.head.querySelector('meta[name="user"]');
   },
   methods: {
     obtenerDetalles: function obtenerDetalles() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.controlDetalles = true;
       var URL = 'obtener-detalles';
       axios.get(URL).then(function (response) {
         var pagos = [];
         var otrosPagos = [];
-        _this2.pagosTotalesActuales = response.data;
+        _this3.pagosTotalesActuales = response.data;
 
-        _this2.pagosTotalesActuales[0].forEach(function (element) {
+        _this3.pagosTotalesActuales[0].forEach(function (element) {
           var pago = {
             cantidad: element.amount,
             metodo: element.method,
@@ -13602,7 +13620,7 @@ var user = document.head.querySelector('meta[name="user"]');
           pagos.push(pago2);
         });
 
-        _this2.pagosTotalesActuales[1].forEach(function (element) {
+        _this3.pagosTotalesActuales[1].forEach(function (element) {
           if (element.tipo == 'INGRESO') {
             var pago = {
               cantidad: element.cantidad,
@@ -13630,90 +13648,90 @@ var user = document.head.querySelector('meta[name="user"]');
           }
         });
 
-        _this2.pagosTotalesActuales[0] = pagos;
-        _this2.pagosTotalesActuales[1] = otrosPagos;
+        _this3.pagosTotalesActuales[0] = pagos;
+        _this3.pagosTotalesActuales[1] = otrosPagos;
       });
     },
     obtenerCorte: function obtenerCorte() {
-      var _this3 = this;
+      var _this4 = this;
 
       var URL = 'caja/corte';
       axios.get(URL).then(function (response) {
-        _this3.pagosCorte = response.data;
+        _this4.pagosCorte = response.data;
       });
       this.obtenerDetalles();
       this.controlDetalles = false;
     },
     obtenerOtrosPagos: function obtenerOtrosPagos() {
-      var _this4 = this;
+      var _this5 = this;
 
       var URL = 'pagos';
       axios.get(URL).then(function (response) {
-        _this4.otrosPagos = response.data;
+        _this5.otrosPagos = response.data;
       });
     },
     obtenerPagosPasados: function obtenerPagosPasados() {
-      var _this5 = this;
+      var _this6 = this;
 
       var URL = 'obtener-pagos-pasados';
       axios.get(URL).then(function (response) {
-        _this5.pagosPasados = response.data;
+        _this6.pagosPasados = response.data;
       });
     },
     obtenerCategorias: function obtenerCategorias() {
-      var _this6 = this;
+      var _this7 = this;
 
       var URL = 'categorias-pagos';
       axios.get(URL).then(function (response) {
-        _this6.categorias = response.data;
+        _this7.categorias = response.data;
       });
     },
     guardarCategoria: function guardarCategoria() {
-      var _this7 = this;
+      var _this8 = this;
 
       var URL = 'categorias-pagos';
       axios.post(URL, {
         nombre: this.nuevaCategoria
       }).then(function (response) {
-        _this7.obtenerCategorias();
-      });
-    },
-    eliminarCategoria: function eliminarCategoria(id) {
-      var _this8 = this;
-
-      var URL = 'categorias-pagos/' + id;
-      axios["delete"](URL).then(function (response) {
         _this8.obtenerCategorias();
       });
     },
-    obtenerSesionActual: function obtenerSesionActual() {
+    eliminarCategoria: function eliminarCategoria(id) {
       var _this9 = this;
+
+      var URL = 'categorias-pagos/' + id;
+      axios["delete"](URL).then(function (response) {
+        _this9.obtenerCategorias();
+      });
+    },
+    obtenerSesionActual: function obtenerSesionActual() {
+      var _this10 = this;
 
       var URL = 'obtener-sesion-actual';
       axios.get(URL).then(function (response) {
-        _this9.sesionActual = response.data[0];
-        _this9.sesion = response.data[1];
+        _this10.sesionActual = response.data[0];
+        _this10.sesion = response.data[1];
       });
     },
     registrarMovimiento: function registrarMovimiento() {
-      var _this10 = this;
+      var _this11 = this;
 
       var URL = 'pagos';
       axios.post(URL, this.movimiento).then(function (response) {
-        _this10.movimiento.tipo = '';
-        _this10.movimiento.motivo = '';
-        _this10.movimiento.referencia = '';
-        _this10.movimiento.cantidad = '';
-        _this10.movimiento.metodo = '';
-        _this10.movimiento.descripcion = '';
+        _this11.movimiento.tipo = '';
+        _this11.movimiento.motivo = '';
+        _this11.movimiento.referencia = '';
+        _this11.movimiento.cantidad = '';
+        _this11.movimiento.metodo = '';
+        _this11.movimiento.descripcion = '';
         Swal.fire('Movimiento registrado!', 'El movimiento se registro con exito', 'success');
-        _this10.movimiento.responsable = '';
+        _this11.movimiento.responsable = '';
 
-        _this10.obtenerOtrosPagos();
+        _this11.obtenerOtrosPagos();
       });
     },
     editarPago: function editarPago() {
-      var _this11 = this;
+      var _this12 = this;
 
       var URL = 'pagos/' + this.pagoEditado.id;
       Object.defineProperty(this.pagoEditado, 'resto', {
@@ -13725,39 +13743,39 @@ var user = document.head.querySelector('meta[name="user"]');
       axios.put(URL, this.pagoEditado).then(function (response) {
         Swal.fire('Cambio registrado!', 'Se a registrado una devolución al egreso correctamente', 'success');
 
-        _this11.obtenerOtrosPagos();
+        _this12.obtenerOtrosPagos();
       });
     },
     obtenerSesion: function obtenerSesion() {
-      var _this12 = this;
+      var _this13 = this;
 
       var URL = 'obtener-sesion-caja';
       axios.get(URL).then(function (response) {
-        _this12.sesion = response.data;
-        _this12.cantidad.billete1000 = _this12.sesion.cierreBillete1000;
-        _this12.cantidad.billete500 = _this12.sesion.cierreBillete500;
-        _this12.cantidad.billete200 = _this12.sesion.cierreBillete200;
-        _this12.cantidad.billete100 = _this12.sesion.cierreBillete100;
-        _this12.cantidad.billete50 = _this12.sesion.cierreBillete50;
-        _this12.cantidad.billete20 = _this12.sesion.cierreBillete20;
-        _this12.cantidad.moneda10 = _this12.sesion.cierreMoneda10;
-        _this12.cantidad.moneda5 = _this12.sesion.cierreMoneda5;
-        _this12.cantidad.moneda2 = _this12.sesion.cierreMoneda2;
-        _this12.cantidad.moneda1 = _this12.sesion.cierreMoneda1;
-        _this12.cantidad.centavo50 = _this12.sesion.cierreCentavo50;
+        _this13.sesion = response.data;
+        _this13.cantidad.billete1000 = _this13.sesion.cierreBillete1000;
+        _this13.cantidad.billete500 = _this13.sesion.cierreBillete500;
+        _this13.cantidad.billete200 = _this13.sesion.cierreBillete200;
+        _this13.cantidad.billete100 = _this13.sesion.cierreBillete100;
+        _this13.cantidad.billete50 = _this13.sesion.cierreBillete50;
+        _this13.cantidad.billete20 = _this13.sesion.cierreBillete20;
+        _this13.cantidad.moneda10 = _this13.sesion.cierreMoneda10;
+        _this13.cantidad.moneda5 = _this13.sesion.cierreMoneda5;
+        _this13.cantidad.moneda2 = _this13.sesion.cierreMoneda2;
+        _this13.cantidad.moneda1 = _this13.sesion.cierreMoneda1;
+        _this13.cantidad.centavo50 = _this13.sesion.cierreCentavo50;
 
-        _this12.habilitarCaja();
+        _this13.habilitarCaja();
       });
     },
     obtenerClientes: function obtenerClientes() {
-      var _this13 = this;
+      var _this14 = this;
 
       var URL = 'obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this13.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
+        _this14.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
 
-        _this13.presupuestos.forEach(function (element) {
-          _this13.clientes.forEach(function (item) {
+        _this14.presupuestos.forEach(function (element) {
+          _this14.clientes.forEach(function (item) {
             if (item.id == element.client_id) {
               if (item.hasOwnProperty('apellidoPaterno')) {
                 Object.defineProperty(element, 'cliente', {
@@ -13778,33 +13796,33 @@ var user = document.head.querySelector('meta[name="user"]');
           });
         });
 
-        if (_this13.presupuestoSeleccionado.length != 0) {
-          var presupuesto = _this13.presupuestos.find(function (element) {
-            return element.id == _this13.presupuestoSeleccionado.id;
+        if (_this14.presupuestoSeleccionado.length != 0) {
+          var presupuesto = _this14.presupuestos.find(function (element) {
+            return element.id == _this14.presupuestoSeleccionado.id;
           });
 
-          _this13.presupuestoSeleccionado = presupuesto;
+          _this14.presupuestoSeleccionado = presupuesto;
 
-          if (_this13.presupuestoSeleccionado.opcionIVA) {
-            _this13.totalEtiqueta = 0;
-            _this13.totalBuscador = 0;
-            _this13.totalEtiqueta = _this13.presupuestoSeleccionado.total * 1.16;
-            _this13.totalBuscador = presupuesto.total * 1.16;
+          if (_this14.presupuestoSeleccionado.opcionIVA) {
+            _this14.totalEtiqueta = 0;
+            _this14.totalBuscador = 0;
+            _this14.totalEtiqueta = _this14.presupuestoSeleccionado.total * 1.16;
+            _this14.totalBuscador = presupuesto.total * 1.16;
           } else {
-            _this13.totalEtiqueta = _this13.presupuestoSeleccionado.total;
-            _this13.totalBuscador = presupuesto.total;
+            _this14.totalEtiqueta = _this14.presupuestoSeleccionado.total;
+            _this14.totalBuscador = presupuesto.total;
           }
         }
       });
     },
     obtenerPresupuestos: function obtenerPresupuestos() {
-      var _this14 = this;
+      var _this15 = this;
 
       var URL = 'caja/obtener-presupuestos';
       axios.get(URL).then(function (response) {
-        _this14.presupuestos = response.data;
+        _this15.presupuestos = response.data;
 
-        _this14.obtenerClientes();
+        _this15.obtenerClientes();
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -13819,7 +13837,7 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     obtenerPresupuesto: function obtenerPresupuesto(presupuesto) {
-      var _this15 = this;
+      var _this16 = this;
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
@@ -13833,11 +13851,11 @@ var user = document.head.querySelector('meta[name="user"]');
       }
 
       setTimeout(function () {
-        _this15.limpiar = false;
+        _this16.limpiar = false;
       }, 1000);
     },
     abrirCaja: function abrirCaja() {
-      var _this16 = this;
+      var _this17 = this;
 
       var URL = 'caja';
       var diferencia = 0;
@@ -13865,9 +13883,9 @@ var user = document.head.querySelector('meta[name="user"]');
           onClose: function onClose() {
             clearInterval(timerInterval);
 
-            _this16.obtenerSesionActual();
+            _this17.obtenerSesionActual();
 
-            _this16.mostrarAbrirCaja = false;
+            _this17.mostrarAbrirCaja = false;
           }
         }).then(function (result) {
           if (
@@ -13879,7 +13897,7 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     confirmarCerrarCaja: function confirmarCerrarCaja() {
-      var _this17 = this;
+      var _this18 = this;
 
       Swal.fire({
         title: 'Estas a punto de cerrar caja',
@@ -13891,12 +13909,12 @@ var user = document.head.querySelector('meta[name="user"]');
         confirmButtonText: 'Cerrar caja'
       }).then(function (result) {
         if (result.value) {
-          _this17.cerrarCaja();
+          _this18.cerrarCaja();
         }
       });
     },
     cerrarCaja: function cerrarCaja() {
-      var _this18 = this;
+      var _this19 = this;
 
       var URL = 'caja/' + this.sesionActual.id;
       var diferencia = 0;
@@ -13912,16 +13930,17 @@ var user = document.head.querySelector('meta[name="user"]');
       }).then(function (response) {
         Swal.fire('Cerrada!', 'Caja ha sido cerrada', 'success');
 
-        _this18.enviarEmail();
+        _this19.enviarEmail();
 
-        _this18.mostrarAbrirCaja = true;
+        _this19.mostrarAbrirCaja = true;
         $('#cerrarCaja').modal('hide');
       });
     },
     registrarPago: function registrarPago() {
-      var _this19 = this;
+      var _this20 = this;
 
       var URL = '/registrar-pago';
+      var numero = this.totalEtiqueta - this.totalAbonado;
 
       if (this.presupuestoSeleccionado == '') {
         alert('Selecciona un contrato');
@@ -13929,22 +13948,22 @@ var user = document.head.querySelector('meta[name="user"]');
         if (this.pago.method == '') {
           alert('Selecciona un metodo de pago');
         } else {
-          if (this.pago.amount > this.presupuestoSeleccionado.total - this.totalAbonado) {
+          if (this.pago.amount > numero.toFixed(2)) {
             alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
           } else {
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
 
-              if (_this19.pago.amount == _this19.presupuestoSeleccionado.total - _this19.totalAbonado) {
-                var _URL = 'pagar-contrato/' + _this19.presupuestoSeleccionado.id;
+              if (_this20.pago.amount == numero.toFixed(2)) {
+                var _URL = 'pagar-contrato/' + _this20.presupuestoSeleccionado.id;
 
                 axios.get(_URL).then(function (response) {
                   alert('Contrato pagado');
                 });
               }
 
-              _this19.obtenerPresupuestos();
+              _this20.obtenerPresupuestos();
             })["catch"](function (error) {
               console.log(error.data);
             });
@@ -14807,6 +14826,7 @@ var _methods;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -18778,6 +18798,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -19766,6 +19790,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // Guardar como presupuesto
     guardarPresupuesto: function guardarPresupuesto() {
+      var _this16 = this;
+
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';
       }
@@ -19791,7 +19817,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (response.data == 1) {
           Swal.fire('Error!', 'El salon de eventos ya esta ocupado en esta fecha', 'error');
         } else {
-          Swal.fire('Creado!', 'El presupuesto se creo correctamente', 'success');
+          Swal.fire('Creado!', 'El presupuesto se actualizo correctamente', 'success');
+
+          _this16.obtenerPresupuesto();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -19825,18 +19853,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     obtenerPresupuesto: function obtenerPresupuesto() {
-      var _this16 = this;
+      var _this17 = this;
 
       var data = window.location.pathname.split('/');
       var path = data[3];
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
-        _this16.presupuesto = response.data;
-        _this16.facturacion = response.data;
+        _this17.presupuesto = response.data;
+        _this17.facturacion = response.data;
         console.log('Este es el presupuesto: ', response.data);
-        _this16.saldoFinal = _this16.presupuesto.total;
+        _this17.saldoFinal = _this17.presupuesto.total;
 
-        var cliente = _this16.clientes.find(function (element) {
+        var cliente = _this17.clientes.find(function (element) {
           return element.id == response.data.client_id;
         });
 
@@ -19847,7 +19875,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'telefonos'
         }).then(function (response) {
-          _this16.clienteSeleccionado.telefonos = response.data;
+          _this17.clienteSeleccionado.telefonos = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -19855,42 +19883,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'presupuestos'
         }).then(function (response) {
-          _this16.clienteSeleccionado.presupuestos = [];
-          _this16.ultimoEvento = '';
+          _this17.clienteSeleccionado.presupuestos = [];
+          _this17.ultimoEvento = '';
 
           if (response.data.length !== 0) {
-            _this16.clienteSeleccionado.presupuestos = response.data;
+            _this17.clienteSeleccionado.presupuestos = response.data;
             var arreglo = response.data;
             arreglo.sort(function (a, b) {
               return new Date(b.fechaEvento) - new Date(a.fechaEvento);
             });
-            _this16.ultimoEvento = arreglo.shift();
+            _this17.ultimoEvento = arreglo.shift();
 
-            _this16.clienteSeleccionado.presupuestos.push(_this16.ultimoEvento);
+            _this17.clienteSeleccionado.presupuestos.push(_this17.ultimoEvento);
           }
         })["catch"](function (error) {
           console.log(error.data);
         });
-        _this16.clienteSeleccionado.id = cliente.id;
-        _this16.clienteSeleccionado.nombre = cliente.nombre;
-        _this16.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
-        _this16.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
-        _this16.clienteSeleccionado.email = cliente.email;
-        _this16.clienteSeleccionado.rfc = cliente.rfcFacturacion;
-        _this16.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-        _this16.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-        _this16.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-        _this16.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-        _this16.presupuesto.client_id = cliente.id; //Obtener los festejados
+        _this17.clienteSeleccionado.id = cliente.id;
+        _this17.clienteSeleccionado.nombre = cliente.nombre;
+        _this17.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+        _this17.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
+        _this17.clienteSeleccionado.email = cliente.email;
+        _this17.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+        _this17.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        _this17.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        _this17.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        _this17.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+        _this17.presupuesto.client_id = cliente.id; //Obtener los festejados
 
-        var direction = '/obtener-festejados/' + _this16.presupuesto.id;
+        var direction = '/obtener-festejados/' + _this17.presupuesto.id;
         axios.get(direction).then(function (response) {
-          _this16.festejados = response.data;
+          _this17.festejados = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         }); //Obtener el inventario
 
-        var direction2 = '/obtener-inventario-1/' + _this16.presupuesto.id;
+        var direction2 = '/obtener-inventario-1/' + _this17.presupuesto.id;
         axios.get(direction2).then(function (response) {
           var arreglo = [];
           response.data.forEach(function (element) {
@@ -19936,9 +19964,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             return arreglo;
           });
-          _this16.inventarioLocal = arreglo;
+          _this17.inventarioLocal = arreglo;
         });
-        var direction3 = '/obtener-paquetes/' + _this16.presupuesto.id;
+        var direction3 = '/obtener-paquetes/' + _this17.presupuesto.id;
         axios.get(direction3).then(function (response) {
           var arregloPaquetes = [];
           response.data.forEach(function (element) {
@@ -20007,8 +20035,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             };
             arregloPaquetes.push(objeto);
           });
-          _this16.inventarioLocal = _this16.inventarioLocal.concat(arregloPaquetes);
-          _this16.unlock = true;
+          _this17.inventarioLocal = _this17.inventarioLocal.concat(arregloPaquetes);
+          _this17.unlock = true;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -20017,14 +20045,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     imprimirPDF: function imprimirPDF() {
-      var _this17 = this;
+      var _this18 = this;
 
       if (!this.imprimir) {
         Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
       } else {
         var URL = '/obtener-ultimo-presupuesto';
         axios.get(URL).then(function (response) {
-          _this17.imprimir = false;
+          _this18.imprimir = false;
           var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
           window.open('/presupuestos/generar-pdf/' + data.id);
@@ -22140,9 +22168,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
- // Importamos el evento Bus.
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -73577,7 +73605,14 @@ var render = function() {
                 _c("div", { staticClass: "form-group row" }, [
                   _vm._m(1),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete1000) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73609,9 +73644,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
-                  _vm._m(4),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete500) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73643,9 +73685,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(5),
+                  _vm._m(3),
                   _vm._v(" "),
-                  _vm._m(6),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete200) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73677,9 +73726,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(7),
+                  _vm._m(4),
                   _vm._v(" "),
-                  _vm._m(8),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete100) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73711,9 +73767,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(9),
+                  _vm._m(5),
                   _vm._v(" "),
-                  _vm._m(10),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete50) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73745,9 +73808,16 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(11),
+                  _vm._m(6),
                   _vm._v(" "),
-                  _vm._m(12),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreBillete20) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("input", {
@@ -73783,13 +73853,20 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "block" }, [
-              _vm._m(13),
+              _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(14),
+                  _vm._m(8),
                   _vm._v(" "),
-                  _vm._m(15),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreMoneda10) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -73823,9 +73900,16 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(16),
+                  _vm._m(9),
                   _vm._v(" "),
-                  _vm._m(17),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreMoneda5) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -73855,9 +73939,16 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(18),
+                  _vm._m(10),
                   _vm._v(" "),
-                  _vm._m(19),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreMoneda2) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -73887,9 +73978,16 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(20),
+                  _vm._m(11),
                   _vm._v(" "),
-                  _vm._m(21),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(_vm.sesion.cierreMoneda1) +
+                        "\n                            "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -73919,9 +74017,16 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(22),
+                  _vm._m(12),
                   _vm._v(" "),
-                  _vm._m(23),
+                  _c("div", { staticClass: "col-md-1 text-center" }, [
+                    _vm._v(
+                      "\n                           " +
+                        _vm._s(_vm.sesion.cierreCentavo50) +
+                        " "
+                    ),
+                    _c("i", { staticClass: "fa fa-arrow-right" })
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -73957,7 +74062,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "block" }, [
-              _vm._m(24),
+              _vm._m(13),
               _vm._v(" "),
               _c("div", { staticClass: "block-content" }, [
                 _c("div", { staticClass: "form-group" }, [
@@ -74021,7 +74126,32 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
-                    _c("label", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.chequesApertura,
+                          expression: "chequesApertura"
+                        }
+                      ],
+                      attrs: { type: "input" },
+                      domProps: { value: _vm.chequesApertura },
+                      on: {
+                        change: function($event) {
+                          return _vm.updateChequesApertura()
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.chequesApertura = $event.target.value
+                        }
+                      }
+                    }),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("label", { staticStyle: { display: "none" } }, [
                       _vm._v("Transferencias: "),
                       _c("span", [
                         _vm._v(
@@ -74032,6 +74162,29 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.sumaPagosPasados[1],
+                          expression: "sumaPagosPasados[1]"
+                        }
+                      ],
+                      staticStyle: { display: "none" },
+                      attrs: { type: "input" },
+                      domProps: { value: _vm.sumaPagosPasados[1] },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.sumaPagosPasados, 1, $event.target.value)
+                        }
+                      }
+                    }),
+                    _c("br"),
+                    _vm._v(" "),
                     _c("label", [
                       _vm._v("Dolares: "),
                       _c("span", [
@@ -74039,7 +74192,32 @@ var render = function() {
                           _vm._s(_vm._f("currency")(_vm.sumaPagosPasados[2]))
                         )
                       ])
-                    ])
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.dolaresApertura,
+                          expression: "dolaresApertura"
+                        }
+                      ],
+                      attrs: { type: "input" },
+                      domProps: { value: _vm.dolaresApertura },
+                      on: {
+                        change: function($event) {
+                          return _vm.updateDolaresApertura()
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.dolaresApertura = $event.target.value
+                        }
+                      }
+                    })
                   ])
                 ])
               : _vm._e()
@@ -74102,9 +74280,9 @@ var render = function() {
                 attrs: { id: "pills-tab", role: "tablist" }
               },
               [
-                _vm._m(25),
+                _vm._m(14),
                 _vm._v(" "),
-                _vm._m(26),
+                _vm._m(15),
                 _vm._v(" "),
                 _c("li", [
                   _c(
@@ -74199,7 +74377,7 @@ var render = function() {
                                                         }
                                                       },
                                                       [
-                                                        _vm._m(27, true),
+                                                        _vm._m(16, true),
                                                         _vm._v(" "),
                                                         _c(
                                                           "div",
@@ -74462,7 +74640,7 @@ var render = function() {
                                           )
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(28),
+                                        _vm._m(17),
                                         _vm._v(" "),
                                         _c("div", { staticClass: "row" }, [
                                           _c(
@@ -74476,7 +74654,7 @@ var render = function() {
                                               }
                                             },
                                             [
-                                              _vm._m(29),
+                                              _vm._m(18),
                                               _vm._v(" "),
                                               _c("p", [
                                                 _vm._v(
@@ -74500,7 +74678,7 @@ var render = function() {
                                               }
                                             },
                                             [
-                                              _vm._m(30),
+                                              _vm._m(19),
                                               _vm._v(" "),
                                               _c("p", [
                                                 _vm._v(
@@ -74525,7 +74703,7 @@ var render = function() {
                                               }
                                             },
                                             [
-                                              _vm._m(31),
+                                              _vm._m(20),
                                               _vm._v(" "),
                                               _c(
                                                 "p",
@@ -75808,7 +75986,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._m(
-                                                                        32,
+                                                                        21,
                                                                         true
                                                                       ),
                                                                       _vm._v(
@@ -76762,7 +76940,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(33),
+              _vm._m(22),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -76840,7 +77018,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(34),
+              _vm._m(23),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "row" }, [
@@ -76899,13 +77077,13 @@ var render = function() {
                   ? _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(35),
+                          _vm._m(24),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(36),
+                              _vm._m(25),
                               _vm._v(" "),
-                              _vm._m(37),
+                              _vm._m(26),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -76937,9 +77115,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(38),
+                              _vm._m(27),
                               _vm._v(" "),
-                              _vm._m(39),
+                              _vm._m(28),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -76971,9 +77149,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(40),
+                              _vm._m(29),
                               _vm._v(" "),
-                              _vm._m(41),
+                              _vm._m(30),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77005,9 +77183,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(42),
+                              _vm._m(31),
                               _vm._v(" "),
-                              _vm._m(43),
+                              _vm._m(32),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77039,9 +77217,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(44),
+                              _vm._m(33),
                               _vm._v(" "),
-                              _vm._m(45),
+                              _vm._m(34),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77073,9 +77251,9 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group row" }, [
-                              _vm._m(46),
+                              _vm._m(35),
                               _vm._v(" "),
-                              _vm._m(47),
+                              _vm._m(36),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-md-5" }, [
                                 _c("input", {
@@ -77111,7 +77289,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(48),
+                          _vm._m(37),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -77121,9 +77299,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(49),
+                                _vm._m(38),
                                 _vm._v(" "),
-                                _vm._m(50),
+                                _vm._m(39),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77164,9 +77342,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(51),
+                                _vm._m(40),
                                 _vm._v(" "),
-                                _vm._m(52),
+                                _vm._m(41),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77207,9 +77385,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(53),
+                                _vm._m(42),
                                 _vm._v(" "),
-                                _vm._m(54),
+                                _vm._m(43),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77250,9 +77428,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(55),
+                                _vm._m(44),
                                 _vm._v(" "),
-                                _vm._m(56),
+                                _vm._m(45),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77293,9 +77471,9 @@ var render = function() {
                             },
                             [
                               _c("div", { staticClass: "form-group row" }, [
-                                _vm._m(57),
+                                _vm._m(46),
                                 _vm._v(" "),
-                                _vm._m(58),
+                                _vm._m(47),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "col-md-5" }, [
                                   _c("input", {
@@ -77332,7 +77510,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("div", { staticClass: "block" }, [
-                          _vm._m(59),
+                          _vm._m(48),
                           _vm._v(" "),
                           _c("div", { staticClass: "block-content" }, [
                             _c("div", { staticClass: "form-group" }, [
@@ -77418,7 +77596,7 @@ var render = function() {
                         _c("h2", [_vm._v("Ingresos")]),
                         _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(60),
+                          _vm._m(49),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -77465,7 +77643,7 @@ var render = function() {
                         _c("h2", [_vm._v("Egresos")]),
                         _vm._v(" "),
                         _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(61),
+                          _vm._m(50),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -77510,7 +77688,7 @@ var render = function() {
                     ])
               ]),
               _vm._v(" "),
-              _vm._m(62)
+              _vm._m(51)
             ])
           ]
         )
@@ -77538,7 +77716,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(63),
+              _vm._m(52),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("input", {
@@ -77564,7 +77742,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("table", { staticClass: "table table-hover" }, [
-                  _vm._m(64),
+                  _vm._m(53),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -77658,14 +77836,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         attrs: {
@@ -77675,14 +77845,6 @@ var staticRenderFns = [
           width: "100%"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
     ])
   },
   function() {
@@ -77704,14 +77866,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         attrs: {
@@ -77721,14 +77875,6 @@ var staticRenderFns = [
           width: "100%"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
     ])
   },
   function() {
@@ -77750,14 +77896,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5" }, [
       _c("img", {
         attrs: {
@@ -77767,14 +77905,6 @@ var staticRenderFns = [
           width: "100%"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
     ])
   },
   function() {
@@ -77805,14 +77935,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
@@ -77821,14 +77943,6 @@ var staticRenderFns = [
           width: "100%"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
     ])
   },
   function() {
@@ -77849,14 +77963,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
@@ -77871,14 +77977,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3" }, [
       _c("img", {
         attrs: {
@@ -77887,14 +77985,6 @@ var staticRenderFns = [
           width: "100%"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-1 text-center" }, [
-      _c("i", { staticClass: "fa fa-arrow-right" })
     ])
   },
   function() {
@@ -78044,7 +78134,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "exampleModalCenterTitle" }
         },
-        [_vm._v("Modal title")]
+        [_vm._v("Pre-corte")]
       ),
       _vm._v(" "),
       _c(
@@ -79808,30 +79898,40 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "row mt-4" }, [
                         _c("div", { staticClass: "col-md-10" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.presupuesto.fechaEvento,
-                                expression: "presupuesto.fechaEvento"
-                              }
-                            ],
-                            attrs: { type: "date" },
-                            domProps: { value: _vm.presupuesto.fechaEvento },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                          _vm.presupuesto.pendienteFecha
+                            ? _c("label", { attrs: { for: "" } }, [
+                                _vm._v("Fecha del evento pendiente")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.presupuesto.pendienteFecha == false
+                            ? _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.presupuesto.fechaEvento,
+                                    expression: "presupuesto.fechaEvento"
+                                  }
+                                ],
+                                attrs: { type: "date" },
+                                domProps: {
+                                  value: _vm.presupuesto.fechaEvento
+                                },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.presupuesto,
+                                      "fechaEvento",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
-                                _vm.$set(
-                                  _vm.presupuesto,
-                                  "fechaEvento",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
+                              })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _vm._m(2)
@@ -87253,6 +87353,31 @@ var render = function() {
         "section",
         { staticClass: "container", staticStyle: { background: "white" } },
         [
+          _c(
+            "div",
+            {
+              staticClass: "container-version",
+              staticStyle: { "margin-top": "-35px" }
+            },
+            [
+              _vm._v("\n    Estas viendo la versión de "),
+              _vm.presupuesto.tipo == "PRESUPUESTO"
+                ? _c("span", { staticStyle: { color: "green" } }, [
+                    _vm._v("presupuesto")
+                  ])
+                : _c("span", { staticStyle: { color: "green" } }, [
+                    _vm._v("contrato")
+                  ]),
+              _vm._v(
+                " " +
+                  _vm._s(_vm.presupuesto.version) +
+                  " de " +
+                  _vm._s(_vm.presupuesto.version) +
+                  "\n        "
+              )
+            ]
+          ),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }),
           _vm._v(" "),
           _c("div", { staticClass: "row mt-4" }, [
@@ -87704,30 +87829,40 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "row mt-4" }, [
                           _c("div", { staticClass: "col-md-10" }, [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.presupuesto.fechaEvento,
-                                  expression: "presupuesto.fechaEvento"
-                                }
-                              ],
-                              attrs: { type: "date" },
-                              domProps: { value: _vm.presupuesto.fechaEvento },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                            _vm.presupuesto.pendienteFecha
+                              ? _c("label", { attrs: { for: "" } }, [
+                                  _vm._v("Fecha Pendiente")
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.presupuesto.pendienteFecha == false
+                              ? _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.presupuesto.fechaEvento,
+                                      expression: "presupuesto.fechaEvento"
+                                    }
+                                  ],
+                                  attrs: { type: "date" },
+                                  domProps: {
+                                    value: _vm.presupuesto.fechaEvento
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.presupuesto,
+                                        "fechaEvento",
+                                        $event.target.value
+                                      )
+                                    }
                                   }
-                                  _vm.$set(
-                                    _vm.presupuesto,
-                                    "fechaEvento",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
+                                })
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _vm._m(2)
@@ -87976,17 +88111,15 @@ var render = function() {
                     _vm.clienteSeleccionado
                       ? _c(
                           "div",
-                          {
-                            staticClass: "info",
-                            staticStyle: { "padding-top": "20px" }
-                          },
+                          { staticClass: "info" },
                           [
                             _c(
                               "p",
                               {
                                 staticStyle: {
                                   "font-size": "25px",
-                                  color: "blue"
+                                  color: "blue",
+                                  "line-height": "27px"
                                 }
                               },
                               [
@@ -95931,7 +96064,9 @@ var render = function() {
                 _c("span", { staticStyle: { "font-weight": "bold" } }, [
                   _vm._v("Recolección: ")
                 ]),
-                _vm._v(_vm._s(_vm.presupuesto.fechaRecoleccion))
+                _vm._v(
+                  "POR LA " + _vm._s(_vm.presupuesto.recoleccionPreferente)
+                )
               ])
             ]),
             _vm._v(" "),
@@ -95963,6 +96098,20 @@ var render = function() {
                   _vm._v("Email Facturación: ")
                 ]),
                 _vm._v(_vm._s(_vm.presupuesto.nombreFacturacion))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("RFC: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.rfcFacturacion))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                  _vm._v("CP: ")
+                ]),
+                _vm._v(_vm._s(_vm.presupuesto.cp))
               ])
             ])
           ]

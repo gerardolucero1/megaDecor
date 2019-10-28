@@ -106,6 +106,9 @@
                                 <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                 </a>
+                                <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                    </a>
                             </td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
@@ -116,6 +119,10 @@
                                 <td  class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
                                         ${{$total}}
+                                    @endif
+                                    @if ($budget->IVA)
+                                    <br>
+                                        <span style="font-size: 10px; color: green;">IVA incluido</span>
                                     @endif
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
@@ -310,9 +317,20 @@
                                                 @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                             </td>
                                                 @php
-                                                    $total=number_format($budgetArchivados->total,2);
+                                                    if($budgetArchivados->opcionIVA == 1){
+                                                        $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
+                                                    }else{
+                                                        $total = $budgetArchivados->total;
+                                                    }
+                                                    $total=number_format($total,2);
                                                 @endphp
-                                            <td>${{$total}}</td>
+                                            <td>
+                                                ${{$total}}
+                                                @if ($budgetArchivados->opcionIVA == 1)
+                                                    <br>
+                                                    <span style="font-size: 10px; color: green;">IVA</span>
+                                                @endif
+                                            </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                 <a  target="_blank"  href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
