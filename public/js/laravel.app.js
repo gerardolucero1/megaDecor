@@ -13918,6 +13918,7 @@ var user = document.head.querySelector('meta[name="user"]');
       var _this19 = this;
 
       var URL = '/registrar-pago';
+      var numero = this.totalEtiqueta - this.totalAbonado;
 
       if (this.presupuestoSeleccionado == '') {
         alert('Selecciona un contrato');
@@ -13925,14 +13926,14 @@ var user = document.head.querySelector('meta[name="user"]');
         if (this.pago.method == '') {
           alert('Selecciona un metodo de pago');
         } else {
-          if (this.pago.amount > this.totalEtiqueta - this.totalAbonado) {
+          if (this.pago.amount > numero.toFixed(2)) {
             alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');
           } else {
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
 
-              if (_this19.pago.amount == _this19.presupuestoSeleccionado.total - _this19.totalAbonado) {
+              if (_this19.pago.amount == numero.toFixed(2)) {
                 var _URL = 'pagar-contrato/' + _this19.presupuestoSeleccionado.id;
 
                 axios.get(_URL).then(function (response) {
@@ -87948,17 +87949,15 @@ var render = function() {
                     _vm.clienteSeleccionado
                       ? _c(
                           "div",
-                          {
-                            staticClass: "info",
-                            staticStyle: { "padding-top": "20px" }
-                          },
+                          { staticClass: "info" },
                           [
                             _c(
                               "p",
                               {
                                 staticStyle: {
                                   "font-size": "25px",
-                                  color: "blue"
+                                  color: "blue",
+                                  "line-height": "27px"
                                 }
                               },
                               [
@@ -114622,13 +114621,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/excel02/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })

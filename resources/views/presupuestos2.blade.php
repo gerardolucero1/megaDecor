@@ -120,6 +120,10 @@
                                     @if($usuario != 2)
                                         ${{$total}}
                                     @endif
+                                    @if ($budget->IVA)
+                                    <br>
+                                        <span style="font-size: 10px; color: green;">IVA</span>
+                                    @endif
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if($usuario != 2 || $usuario !=6)
@@ -313,9 +317,20 @@
                                                 @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                             </td>
                                                 @php
-                                                    $total=number_format($budgetArchivados->total,2);
+                                                    if($budgetArchivados->opcionIVA == 1){
+                                                        $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
+                                                    }else{
+                                                        $total = $budgetArchivados->total;
+                                                    }
+                                                    $total=number_format($total,2);
                                                 @endphp
-                                            <td>${{$total}}</td>
+                                            <td>
+                                                ${{$total}}
+                                                @if ($budgetArchivados->opcionIVA == 1)
+                                                    <br>
+                                                    <span style="font-size: 10px; color: green;">IVA</span>
+                                                @endif
+                                            </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                 <a  target="_blank"  href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
