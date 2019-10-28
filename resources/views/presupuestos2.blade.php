@@ -122,7 +122,7 @@
                                     @endif
                                     @if ($budget->IVA)
                                     <br>
-                                        <span style="font-size: 10px; color: green;">IVA</span>
+                                        <span style="font-size: 10px; color: green;">IVA incluido</span>
                                     @endif
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
