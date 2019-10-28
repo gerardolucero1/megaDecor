@@ -13270,6 +13270,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13291,6 +13297,7 @@ var user = document.head.querySelector('meta[name="user"]');
       nuevaCategoria: '',
       chequesApertura: 0,
       dolaresApertura: 0,
+      liquidar: false,
       categorias: [],
       cantidad: {
         billete1000: 0,
@@ -13652,6 +13659,13 @@ var user = document.head.querySelector('meta[name="user"]');
         _this3.pagosTotalesActuales[0] = pagos;
         _this3.pagosTotalesActuales[1] = otrosPagos;
       });
+    },
+    liquidarBtn: function liquidarBtn() {
+      if (this.liquidar == true) {
+        this.pago.amount = 0;
+      } else {
+        this.pago.amount = this.totalEtiqueta - this.totalAbonado;
+      }
     },
     obtenerCorte: function obtenerCorte() {
       var _this4 = this;
@@ -74966,6 +74980,114 @@ var render = function() {
                                                               [_vm._v("Dolar")]
                                                             )
                                                           ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "label",
+                                                          {
+                                                            staticStyle: {
+                                                              width: "100%",
+                                                              color: "white"
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.liquidarBtn()
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("span", [
+                                                              _c("input", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm.liquidar,
+                                                                    expression:
+                                                                      "liquidar"
+                                                                  }
+                                                                ],
+                                                                staticStyle: {
+                                                                  width: "10px"
+                                                                },
+                                                                attrs: {
+                                                                  type:
+                                                                    "checkbox"
+                                                                },
+                                                                domProps: {
+                                                                  checked: Array.isArray(
+                                                                    _vm.liquidar
+                                                                  )
+                                                                    ? _vm._i(
+                                                                        _vm.liquidar,
+                                                                        null
+                                                                      ) > -1
+                                                                    : _vm.liquidar
+                                                                },
+                                                                on: {
+                                                                  change: function(
+                                                                    $event
+                                                                  ) {
+                                                                    var $$a =
+                                                                        _vm.liquidar,
+                                                                      $$el =
+                                                                        $event.target,
+                                                                      $$c = $$el.checked
+                                                                        ? true
+                                                                        : false
+                                                                    if (
+                                                                      Array.isArray(
+                                                                        $$a
+                                                                      )
+                                                                    ) {
+                                                                      var $$v = null,
+                                                                        $$i = _vm._i(
+                                                                          $$a,
+                                                                          $$v
+                                                                        )
+                                                                      if (
+                                                                        $$el.checked
+                                                                      ) {
+                                                                        $$i <
+                                                                          0 &&
+                                                                          (_vm.liquidar = $$a.concat(
+                                                                            [
+                                                                              $$v
+                                                                            ]
+                                                                          ))
+                                                                      } else {
+                                                                        $$i >
+                                                                          -1 &&
+                                                                          (_vm.liquidar = $$a
+                                                                            .slice(
+                                                                              0,
+                                                                              $$i
+                                                                            )
+                                                                            .concat(
+                                                                              $$a.slice(
+                                                                                $$i +
+                                                                                  1
+                                                                              )
+                                                                            ))
+                                                                      }
+                                                                    } else {
+                                                                      _vm.liquidar = $$c
+                                                                    }
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]),
+                                                            _c("span", [
+                                                              _vm._v(
+                                                                " Pagar total"
+                                                              )
+                                                            ])
+                                                          ]
                                                         )
                                                       ]
                                                     ),
@@ -76513,7 +76635,10 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(item.motivo) + " - "
+                                                    _vm._s(item.motivo) +
+                                                      " " +
+                                                      _vm._s(item.contrato) +
+                                                      " - "
                                                   ),
                                                   _c(
                                                     "span",
@@ -76778,16 +76903,10 @@ var render = function() {
                                                 [
                                                   _vm._v(
                                                     _vm._s(
-                                                      _vm._f("formatearFecha")(
+                                                      _vm._f("formatearHora")(
                                                         item.created_at
                                                       )
-                                                    ) +
-                                                      " " +
-                                                      _vm._s(
-                                                        _vm._f("formatearHora")(
-                                                          item.created_at
-                                                        )
-                                                      )
+                                                    )
                                                   )
                                                 ]
                                               ),
@@ -77461,7 +77580,63 @@ var render = function() {
                                     _vm.sumarCantidad = $event.target.value
                                   }
                                 }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _vm.pagosCorte.length != 0 &&
+                              _vm.cantidadPreCorte[0] == _vm.sumarCantidad
+                                ? _c(
+                                    "label",
+                                    {
+                                      staticStyle: { color: "green" },
+                                      attrs: { for: "" }
+                                    },
+                                    [_vm._v("La cantidad es correcta")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.pagosCorte.length != 0 &&
+                              _vm.cantidadPreCorte[0] < _vm.sumarCantidad
+                                ? _c(
+                                    "label",
+                                    {
+                                      staticStyle: { color: "red" },
+                                      attrs: { for: "" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Tienes un excedente de " +
+                                          _vm._s(
+                                            _vm._f("currency")(
+                                              _vm.sumarCantidad -
+                                                _vm.cantidadPreCorte[0]
+                                            )
+                                          )
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.pagosCorte.length != 0 &&
+                              _vm.cantidadPreCorte[0] > _vm.sumarCantidad
+                                ? _c(
+                                    "label",
+                                    {
+                                      staticStyle: { color: "red" },
+                                      attrs: { for: "" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Tienes un faltante de " +
+                                          _vm._s(
+                                            _vm._f("currency")(
+                                              _vm.cantidadPreCorte[0] -
+                                                _vm.sumarCantidad
+                                            )
+                                          )
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
@@ -79969,7 +80144,7 @@ var render = function() {
                                         "col-md-12 resultadoInventario"
                                     },
                                     _vm._l(
-                                      _vm.clientResults.slice(0, 20),
+                                      _vm.clientResults.slice(0, 35),
                                       function(cliente) {
                                         return _c("div", { key: cliente.id }, [
                                           _c(
@@ -80976,7 +81151,7 @@ var render = function() {
                     ? _c(
                         "div",
                         { staticClass: "col-md-4 resultadoInventario" },
-                        _vm._l(_vm.results.slice(0, 20), function(producto) {
+                        _vm._l(_vm.results.slice(0, 40), function(producto) {
                           return _c(
                             "div",
                             { key: producto.id, staticClass: "list-group" },
@@ -95954,6 +96129,22 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
+    _vm.presupuesto.pagado
+      ? _c(
+          "div",
+          {
+            staticStyle: {
+              width: "100%",
+              background: "green",
+              "text-align": "center",
+              color: "white",
+              padding: "5px"
+            }
+          },
+          [_vm._v("CONTRATO PAGADO")]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm.presupuesto.tipo == "CONTRATO" && _vm.usuarioActual.id != 2
       ? _c(
           "div",
@@ -97994,7 +98185,9 @@ var render = function() {
                                 )
                               ]
                             ),
-                            _vm._v(" $" + _vm._s(pago.amount)),
+                            _vm._v(
+                              " - " + _vm._s(_vm._f("currency")(pago.amount))
+                            ),
                             _c(
                               "span",
                               {
@@ -98003,7 +98196,14 @@ var render = function() {
                                   color: "green"
                                 }
                               },
-                              [_vm._v(" -" + _vm._s(pago.method))]
+                              [
+                                _vm._v(
+                                  " - " +
+                                    _vm._s(pago.method) +
+                                    " - " +
+                                    _vm._s(pago.bank)
+                                )
+                              ]
                             )
                           ])
                         }),
