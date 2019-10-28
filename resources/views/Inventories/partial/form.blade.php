@@ -94,7 +94,7 @@
                 <div class="form-material">
                     {{ Form::label('imagen', 'Imagen') }}
                     {{ Form::file('imagen', ['class' => 'form-control']) }} 
-                    <img src="{{ $inventory->imagen }}" alt="" style="width: 80px">
+                    
                 </div>
             </div>
         </div>
