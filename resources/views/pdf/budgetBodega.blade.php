@@ -137,15 +137,30 @@
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
+<<<<<<< HEAD
+        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Entrega</td>
+        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Recolección</td>
+=======
+>>>>>>> parent of 2c263a5... Caja y pdfs
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
+<<<<<<< HEAD
+        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
+          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+          
+          
+        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+        <td style="border:solid; border-width: 1px; background:white"></td>
+        <td style="border:solid; border-width: 1px; background:white"></td>
+=======
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
           <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
           
           
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
+>>>>>>> parent of 2c263a5... Caja y pdfs
         </tr> 
         @endif
         
@@ -156,6 +171,42 @@
     @endif
 
 </table>
+<<<<<<< HEAD
+
+<div style="width: 100%">
+    <p style="font-style:italic; text-align: center; font-size:11px">*Indicar con un "S", los articulos entregados correctamente y con una "X" los productos que cuenten con un problema al momento de la entrega o la recolección, firmar unicamente los espacios de entrega al momento de la entrega y firmar y completas los campos faltantes al momento de la recolección</p>
+  </div>
+
+<div></div>
+
+<table style="width: 100%; text-align:center; margin-top:50px">
+  <tr>
+    <td>_________________________________</td>
+    <td>_________________________________</td>
+  </tr>
+  <tr>
+      <td>Firma de recepción de mobiliario cliente</td>
+      <td>Firma y nombre de entrega de mobiliario Operador</td>
+    </tr>
+</table>
+
+<table style="width: 100%; text-align:center; margin-top:50px">
+    <tr>
+      <td>_________________________________</td>
+      <td>_________________________________</td>
+    </tr>
+    <tr>
+        <td>Firma de entrega de mobiliario cliente</td>
+        <td>Firma y nombre de recolección de mobiliario Operador</td>
+      </tr>
+  </table>
+
+  <label for="" style="font-weight: bold; padding-left:40px;>Comentarios:</label>
+  
+  
+
+=======
+>>>>>>> parent of 2c263a5... Caja y pdfs
 @php
   if($presupuesto->opcionIVA==1){
      $iva=(($presupuesto->total/116) * 16);
