@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\CMS;
 
-use App\Inventory;
 use App\Family;
+use App\Register;
+use App\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\App;
 
 class InventoryController extends Controller
 {
@@ -100,8 +101,9 @@ class InventoryController extends Controller
     {
         $inventory = Inventory::find($id);
         $familias=Family::orderBy('nombre', 'ASC')->get();
+        $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
         
-        return view('Inventories.edit', compact('inventory', 'familias'));
+        return view('Inventories.edit', compact('inventory', 'familias', 'registros'));
     }
 
     /**

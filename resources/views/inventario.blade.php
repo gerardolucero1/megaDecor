@@ -112,11 +112,11 @@
                                     <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="fa fa-remove"></i> 
                                     </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" class="fa fa-chevron-up"></i>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-up"></i>
                                     </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" class="fa fa-chevron-down"></i>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
                                     </button>
                                     @else
                                         SIN PERMISOS
