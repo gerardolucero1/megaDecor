@@ -31,6 +31,9 @@
         $ingresosContratosTarjeta=0;
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
+        $sumatoriaIngreso=0;
+        $sumatoriaIngresoCheque=0;
+        $sumatoriaIngresoDolar=0;
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
@@ -125,7 +128,6 @@
     </tr>
     @endforeach
     </table>
-<<<<<<< HEAD
 
 <p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
 <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
@@ -134,10 +136,6 @@
    
 <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos Extraordinarios</label>
-=======
-    <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
-    <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos y Egresos no relacionados a contratos</label>
->>>>>>> parent of 2c263a5... Caja y pdfs
     <table style="width: 100%; font-size: 13px;">
             <tr style="background: #F9E7A8">
                 <td style="text-align: center; padding: 4px;">Tipo</td>
@@ -148,7 +146,6 @@
                 <td style="text-align: center; padding: 4px;">Monto</td>
             </tr>
             @foreach ($otrosPagos as $pago)
-<<<<<<< HEAD
            @if($pago->tipo=='INGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
@@ -179,10 +176,8 @@
             $sumatoriaIngresoDolares += $pago->cantidad;
             @endphp
             @endif
-            @endforeach
+       
             </table>
-=======
->>>>>>> parent of 2c263a5... Caja y pdfs
            
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
