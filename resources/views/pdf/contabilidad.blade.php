@@ -65,7 +65,8 @@
     <table style="width: 100%" style="padding-top: 20px;">
         <tr>
             <td colspan="2">
-                    <span style="font-weight: bold">Cajero: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+                    <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+                    <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span>
             </td>
         </tr>
         <tr>
@@ -76,7 +77,7 @@
         </tr>
         <tr>
             <td>
-                <p><span style="font-weight: bold">Efectivo al abrir caja: </span> ${{ $registro->cantidadApertura}}<br></p>
+                <p><span style="font-weight: bold">Efectivo al abrir caja (cierre dia anterior): </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
             </td>
             <td>
                 <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ $registro->cantidadCierre}}<br>
@@ -199,7 +200,7 @@
     <script type="text/php">
         if ( isset($pdf) ) {
             $font = "helvetica";
-            $pdf->page_text(72, 18, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+            $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
         }
       </script> 
 </body>

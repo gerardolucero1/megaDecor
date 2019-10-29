@@ -112,8 +112,11 @@
                                     <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="fa fa-remove"></i> 
                                     </button>
-                                <button disabled class="btn btn-sm btn-success">
-                                        <i class="fa fa-check"></i>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" class="fa fa-chevron-up"></i>
+                                    </button>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" class="fa fa-chevron-down"></i>
                                     </button>
                                     @else
                                         SIN PERMISOS
@@ -132,8 +135,8 @@
                 </div>
                 <!-- Vista presupuestos archivados -->
                 
-<!-- modal paquete -->
-<div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+        <!-- modal paquete -->
+        <div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
             <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
@@ -152,6 +155,15 @@
                     <div  class="btn btn-primary" >Guardar paquete</div>
                 </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="asignarAlta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <altas-component></altas-component>
+            </div>
             </div>
         </div>
                 

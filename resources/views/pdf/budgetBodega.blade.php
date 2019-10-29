@@ -161,6 +161,13 @@
 
 
       
+  <script type="text/php">
+  if ( isset($pdf) ) {
+      $font = "helvetica";
+      $pdf->page_text(495, 17, "Folio de contrato: {{$presupuesto->folio}}", $font , 6, array(0,0,0));
+      $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+  }
+</script> 
 
    
   

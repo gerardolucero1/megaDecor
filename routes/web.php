@@ -453,9 +453,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('providers', 'ProvidersController');
 
     Route::resource('missing', 'MissingProductsController');
+    
+    Route::get('obtener-producto/{id}', function($id){
+        $producto = Inventory::findOrFail($id);
+        return $producto;
+    });
 
-    
-    
+    Route::resource('registrar-alta', 'CMS\RegisterController');
 
 });
 

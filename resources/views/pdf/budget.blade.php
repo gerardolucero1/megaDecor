@@ -113,8 +113,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @if($presupuesto->opcionPrecioUnitario==1) 
     <td style="font-size: 13px; padding: 4px;">Precio Unitario</td>
     @endif
+    @if($presupuesto->opcionPrecio==1)
     <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
-    @if($presupuesto->opcionPrecio==1) 
     <td style="font-size: 13px; padding: 4px;">Total Con Descuento</td>
     @endif
     <td style="font-size: 13px; padding: 4px;">Notas</td>
@@ -139,8 +139,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       @if($presupuesto->opcionPrecioUnitario==1)  
       <td style="text-align: center">${{ (strtolower($elemento->precioUnitario)) }}</td>
       @endif
+      @if($presupuesto->opcionPrecioUnitario==1)
       <td style="text-align: center">@if($elemento->precioUnitario!=$elemento->precioEspecial)${{ (strtolower($elemento->precioEspecial)) }}@else -- @endif</td>
-      @if($presupuesto->opcionPrecioUnitario==1) 
       <td style="text-align: center">${{ (strtolower($elemento->precioFinal)) }}</td>
       @endif
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
@@ -281,7 +281,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <script type="text/php">
   if ( isset($pdf) ) {
       $font = "helvetica";
-      $pdf->page_text(72, 18, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+      $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
   }
 </script> 
    

@@ -354,6 +354,9 @@
                                                                 <option value="TARJETA">Tarjeta</option>
                                                                 <option value="DOLAR">Dolar</option>
                                                             </select>
+                                                            <label style="width:100%; color:white" @click="liquidarBtn()">
+                                                            <span><input style="width:10px" type="checkbox" v-model="liquidar"></span><span> Pagar total</span>
+                                                            </label>
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input type="number" v-model="pago.amount" min='0'>
@@ -568,7 +571,7 @@
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6 style="color:blue">{{ item.motivo }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
+                                                            <h6 style="color:blue">{{ item.motivo }} {{ item.contrato }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
@@ -598,7 +601,7 @@
 
                                                         <div class="col-md-12">
                                                             <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
-                                                            <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</p>
+                                                            <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearHora }}</p>
                                                             <p style="position:absolute; z-index:2; bottom:-23px"><a target="_blank" :href="'/recibo-pago/pdf/' + item.id"><i class="fa fa-print"></i></a></p>
                                                         </div>
                                                         
@@ -830,6 +833,9 @@
                                     <div class="form-group">
                                         <label for="">Suma total de efectivo en caja</label>
                                         <input type="number" class="form-control" v-model="sumarCantidad">
+                                        <label style="color:green"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]==sumarCantidad" for="">La cantidad es correcta</label>
+                                        <label style="color:red" v-if="pagosCorte.length != 0 && cantidadPreCorte[0]<sumarCantidad" for="">Tienes un excedente de {{ sumarCantidad - cantidadPreCorte[0] | currency}}</label>
+                                        <label style="color:red"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]>sumarCantidad" for="">Tienes un faltante de {{ cantidadPreCorte[0] - sumarCantidad | currency}}</label>
                                     </div>
                                     <div class="form-group">
                                         
@@ -990,6 +996,7 @@ export default {
             nuevaCategoria: '',
             chequesApertura:0,
             dolaresApertura:0,
+            liquidar:false,
             categorias: [],
             cantidad: {
                 billete1000: 0,
@@ -1066,7 +1073,6 @@ export default {
             datos.push(suma, suma2);
             return datos;
         },
-
         sumaPagosPasados: function(){
             let pagos = [];
             let cheques = 0;
@@ -1383,6 +1389,13 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             })
         },
 
+    liquidarBtn: function(){
+           if(this.liquidar==true){
+ this.pago.amount = 0;
+           }else{
+               this.pago.amount = this.totalEtiqueta - this.totalAbonado;
+           }
+        },
         obtenerCorte: function(){
             let URL = 'caja/corte';
 

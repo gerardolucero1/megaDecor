@@ -37,7 +37,7 @@
     <tr>
     <td colspan="4">
             
-        <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento <span style="padding-left: 70px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span> <span style="padding-left: 30px; font-size: 13px; ">@if($presupuesto->lugarEvento!='BODEGA')<span style="padding-lef:20px">Entrega de Mobiliario:</span><span style="font-weight: normal"> @if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif @endif</span></H3></td>
+        <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento <span style="padding-left: 40px; margin-right:20px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span>  <span style="padding-left: 20px; font-size: 13px; "> @if($presupuesto->lugarEvento!='BODEGA')<span style="padding-lef:20px">Entrega de Mobiliario:</span><span style="font-weight: normal"> @if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif @endif</span></H3></td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px;">
 <td colspan="2"><span>Fecha y Hora del evento: </span></td>
@@ -185,8 +185,18 @@ Telefonos de contacto:<br>
       </tr>
   </table>
 
-  <label for="" style="font-weight: bold; padding-left:40px;">Comentarios:</label>
-  
+  <div style="width: 90%">
+  <label for="" style="font-weight: bold; padding-left:40px; padding-right:40px; width: 100%"><br>Comentarios de entrega: ___________________________________________________________________________
+    ___________________________________________________________________________
+    ___________________________________________________________________________
+    ___________________________________________________________________________
+    ___________________________________________________________________________</label><br>
+  <label for="" style="font-weight: bold; padding-left:40px;"><br>Comentarios de recolección: ___________________________________________________________________________<br>
+    ___________________________________________________________________________<br>
+    ___________________________________________________________________________<br>
+    ___________________________________________________________________________<br>
+    ___________________________________________________________________________</label>
+</div>
   
 
 @php
@@ -198,7 +208,8 @@ Telefonos de contacto:<br>
 <script type="text/php">
   if ( isset($pdf) ) {
       $font = "helvetica";
-      $pdf->page_text(72, 18, "Página: {PAGE_NUM} de {PAGE_COUNT} - Folio de contrato: {{$presupuesto->folio}}", $font , 6, array(0,0,0));
+      $pdf->page_text(495, 17, "Folio de contrato: {{$presupuesto->folio}}", $font , 6, array(0,0,0));
+      $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
   }
 </script> 
 

@@ -113,8 +113,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @if($presupuesto->opcionPrecioUnitario==1) 
     <td style="font-size: 13px; padding: 4px;">Precio Unitario</td>
     @endif
-    <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
     @if($presupuesto->opcionPrecio==1) 
+    <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
     <td style="font-size: 13px; padding: 4px;">Total Con Descuento</td>
     @endif
     <td style="font-size: 13px; padding: 4px;">Notas</td>
@@ -152,8 +152,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       @if($presupuesto->opcionPrecio==1) 
       <td style="text-align: center">${{ (strtolower($paquete->precioUnitario)) }}</td>
       @endif
-      <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
       @if($presupuesto->opcionPrecio==1) 
+      <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
       <td style="text-align: center">${{ (strtolower($paquete->precioFinal)) }}</td>
       @endif
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>

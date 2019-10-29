@@ -74,7 +74,7 @@
         <div class="container-version">
     Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
         </div>
-        
+        <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
@@ -425,13 +425,14 @@
                 </div>
                
 
-                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                <div v-if="pagos.length != 0 && 
+                usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
                     <div class="col-md-12">
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
                             <ul>
                                 <li v-for="(pago, index) in pagos" :key="index">
-                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> ${{ pago.amount }}<span style="font-size:10px; color:green"> -{{ pago.method }}</span>
+                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
                             <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
