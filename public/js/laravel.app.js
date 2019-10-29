@@ -22354,6 +22354,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -98766,7 +98767,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm.pagos.length != 0
+        _vm.pagos.length != 0 && _vm.usuarioActual.id != 2
           ? _c(
               "div",
               {
