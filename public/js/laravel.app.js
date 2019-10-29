@@ -23272,7 +23272,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.row-tasks {\r\n  color: black;\n}\n.row-tasks:hover {\r\n  background: #f5f5f5;\n}\r\n", ""]);
+exports.push([module.i, "\n.row-tasks {\n  color: black;\n}\n.row-tasks:hover {\n  background: #f5f5f5;\n}\n", ""]);
 
 // exports
 
@@ -113180,8 +113180,7 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 try {
    window.Popper = require('popper.js').default;
    window.$ = window.jQuery = require('jquery');
-
-   require('bootstrap');
+    require('bootstrap');
 } catch (e) {}
 */
 
@@ -113295,15 +113294,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CajaComponent.vue ***!
   \******************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CajaComponent_vue_vue_type_template_id_191cb952_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=template&id=191cb952&scoped=true& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=template&id=191cb952&scoped=true&");
 /* harmony import */ var _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=script&lang=js& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _CajaComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _CajaComponent_vue_vue_type_style_index_0_id_191cb952_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CajaComponent_vue_vue_type_style_index_0_id_191cb952_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css& */ "./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=style&index=0&id=191cb952&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -113335,7 +113333,7 @@ component.options.__file = "resources/assets/js/laravel/components/CajaComponent
 /*!*******************************************************************************************!*\
   !*** ./resources/assets/js/laravel/components/CajaComponent.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -114904,13 +114902,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\js\laravel\app.js */"./resources/assets/js/laravel/app.js");
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\main.scss */"./resources/assets/sass/main.scss");
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
-__webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
-module.exports = __webpack_require__(/*! C:\Users\Gizflores\Desktop\Github\megaDecor\resources\assets\sass\codebase\themes\pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/js/laravel/app.js */"./resources/assets/js/laravel/app.js");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/main.scss */"./resources/assets/sass/main.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/corporate.scss */"./resources/assets/sass/codebase/themes/corporate.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/earth.scss */"./resources/assets/sass/codebase/themes/earth.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/elegance.scss */"./resources/assets/sass/codebase/themes/elegance.scss");
+__webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/flat.scss */"./resources/assets/sass/codebase/themes/flat.scss");
+module.exports = __webpack_require__(/*! /Users/samueleduardoacosta/Documents/GitHub/megaDecor/resources/assets/sass/codebase/themes/pulse.scss */"./resources/assets/sass/codebase/themes/pulse.scss");
 
 
 /***/ })
