@@ -98,7 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
-    Route::post('/inventario', 'CMS\IndexController@inventarioFiltro')->name('inventario.filtro');
+    Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
 
     //Imprimir budget
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
@@ -346,6 +346,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('inventario/edit/{id}', 'CMS\InventoryController@edit')->name('inventory.edit');
     Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
+    Route::put('inventario/archivar/{id}', 'CMS\InventoryController@archivar')->name('inventory.archivar');
 
 
     Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){
