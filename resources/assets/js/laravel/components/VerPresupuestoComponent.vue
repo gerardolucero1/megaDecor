@@ -76,12 +76,12 @@
             <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('pasado')" class="fa fa-chevron-left"></i>   
             <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('futuro')" class="fa fa-chevron-right"></i> 
         </div>
-        
+        <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
-                <p><span style="font-weight:bold">Recolección: </span>{{presupuesto.fechaRecoleccion}}</p>
+                <p><span style="font-weight:bold">Recolección: </span>POR LA {{presupuesto.recoleccionPreferente}}</p>
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
@@ -89,6 +89,8 @@
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Email Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
+                <p><span style="font-weight:bold">RFC: </span>{{presupuesto.rfcFacturacion}}</p>
+                <p><span style="font-weight:bold">CP: </span>{{presupuesto.cp}}</p>
             </div>
             
             
@@ -426,16 +428,19 @@
                 </div>
                
 
-                <div v-if="pagos.length != 0" class="row" style="padding-top:15px; padding-bottom:15px;">
+                <div v-if="pagos.length != 0 && 
+                usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
                     <div class="col-md-12">
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
                             <ul>
                                 <li v-for="(pago, index) in pagos" :key="index">
-                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> ${{ pago.amount }}<span style="font-size:10px; color:green"> -{{ pago.method }}</span>
+                                    <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
-                            <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
+                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: ${{ saldoPendiente*1.16 }}</label>
+                            <label v-else>Saldo pendiente: ${{ saldoPendiente }}</label>
+                            <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
                     </div>
@@ -446,9 +451,13 @@
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir Ficha Tecnica</a>
+                        <button v-if="presupuesto.facturaSolicitada!=true" class="btn btn-primary" @click="solicitarFactura()"><i class="fa fa-check"></i> Solicitar Factura</button>
+                        <span v-if="presupuesto.facturaSolicitada" style="color:green"> <i class="fa fa-check"></i>Factura Solicitada</span>
                     </div>
+                    
                     
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
@@ -542,7 +551,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -794,10 +802,14 @@
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                    suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
                 }
+                let saldo=0;
+                if(this.presupuesto.opcionIVA){
+                   saldo  = (this.presupuesto.total*1.16) - suma;
+                }else{
+                 saldo = this.presupuesto.total - suma;}
                 
-                let saldo = this.presupuesto.total - suma;
                 return saldo;
             },
             obtenerVendedor: function(){
@@ -1549,6 +1561,24 @@
                     console.log(error.data);
                 })
             },
+            solicitarFactura(){
+                let URL = '/solicitar-factura/'  + this.presupuesto.id;
+
+                axios.put(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
+                        ); 
+                        obtenerUltimoPresupuesto();
+                }).catch((error) => {
+                    Swal.fire(
+                            'Error!',
+                            'Algo salio mal',
+                            'error'
+                        ); 
+                })
+            }
         },
     }
 </script>

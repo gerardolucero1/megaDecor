@@ -148,7 +148,8 @@ padding: 0;
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento">
+                                        <label v-if="presupuesto.pendienteFecha" for="">Fecha del evento pendiente</label>
+                                        <input v-if="presupuesto.pendienteFecha==false" type="date" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -187,7 +188,7 @@ padding: 0;
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
                                     <div v-if="clientResults.length !== 0" class="col-md-12 resultadoInventario">
-                                        <div v-for="cliente in clientResults.slice(0,20)" :key="cliente.id">
+                                        <div v-for="cliente in clientResults.slice(0,35)" :key="cliente.id">
                                             <div class="row contenedor-producto" v-on:click="obtenerCliente(cliente)" style="margin:0">
                                                <div class="col-md-3">
                                                     <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
@@ -376,7 +377,7 @@ padding: 0;
                 <!-- Resultado Busqueda items -->
                 <div class="row" v-if="results.length < inventario.length">
                     <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
-                        <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
+                        <div class="list-group" v-for="producto in results.slice(0,40)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
                                 <div class="col-md-3" >
                                     <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
@@ -775,7 +776,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <div  class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Cerrar</div>
-                    <div  class="btn btn-primary" @click="agregarProductoExterno()">Save changes</div>
+                    <div  class="btn btn-primary" @click="agregarProductoExterno()">Guardar</div>
                 </div>
                 </div>
             </div>
@@ -1019,7 +1020,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <div  class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrar</div>
-                    <div  class="btn btn-primary" @click="guardarContrato()">Save</div>
+                    <div  class="btn btn-primary" @click="guardarContrato()">Guardar</div>
                 </div>
                 </div>
             </div>
@@ -1244,7 +1245,6 @@ padding: 0;
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#agregarCategoria').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -1691,6 +1691,7 @@ padding: 0;
 
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
+                    
                 })
             },
             agregarCategoria(){

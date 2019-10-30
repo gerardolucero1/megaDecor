@@ -73,6 +73,9 @@ padding: 0;
 
 <template>
     <section class="container" v-if="unlock" style="background:white;">
+        <div class="container-version" style="margin-top:-35px">
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+        </div>
         <div class="row">
             
         </div>
@@ -145,14 +148,15 @@ padding: 0;
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
-                                        <input type="date" v-model="presupuesto.fechaEvento">
+                                        <label v-if="presupuesto.pendienteFecha" for="">Fecha Pendiente</label>
+                                        <input v-if="presupuesto.pendienteFecha==false" type="date" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
                                     </div>
                                     
                                 </div>
-                                <input type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
+                                <input  type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
                                 <label for="pendienteFecha">Pendiende</label>
 
                             </div>
@@ -768,7 +772,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
+                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Guardar</button>
                 </div>
                 </div>
             </div>
@@ -995,7 +999,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Guardar</button>
                 </div>
                 </div>
             </div>
@@ -2130,9 +2134,10 @@ padding: 0;
                     }else{
                         Swal.fire(
                             'Creado!',
-                            'El presupuesto se creo correctamente',
+                            'El presupuesto se actualizo correctamente',
                             'success'
                         );
+                        this.obtenerPresupuesto();
                     }       
                 }).catch((error) => {
                     console.log(error.data);

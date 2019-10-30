@@ -22,9 +22,6 @@
                                         <i class="fa fa-user-plus"></i> <i>Nuevo cliente</i> 
                                 </button>
                                 @endif
-                                <button class="btn btn-primary" data-toggle="modal" data-target="">
-                                        <i class="fa fa-dollar"></i> <i>Nuevo Ingreso</i> 
-                                </button>
                                 <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>

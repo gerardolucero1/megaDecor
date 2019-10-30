@@ -54,12 +54,16 @@
                 </div>
                 <div class="col-md-4">
                     <label>Direccion de la empresa</label>
-                    <input type="text" required="required" placeholder="Apellido Paterno" v-model="cliente.direccionEmpresa">
+                    <input type="text" required="required" placeholder="Dirección de la empresa" v-model="cliente.direccionEmpresa">
                 </div>
                 <div class="col-md-4">
                     <label>Colonia de la empresa</label>
-                    <input type="text" required="required" placeholder="Apellido Materno" v-model="cliente.coloniaEmpresa">
+                    <input type="text" required="required" placeholder="Colonia de la empresa" v-model="cliente.coloniaEmpresa">
                 </div>
+                <div class="col-md-4 mt-4">
+                    <label>Telefono de la empresa</label>
+                <input type="email" name="" id="" placeholder="Telefono" v-model="cliente.telefono">
+            </div>
                 <div class="col-md-4 mt-4">
                     <label>Numero de la empresa</label>
                     <input type="text" placeholder="Numero" v-model="cliente.numeroEmpresa">
@@ -99,6 +103,10 @@
                 <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.email">
             </div>
             <div class="col-md-5">
+                <label >Dias de credito</label>
+                <input type="number" v-model="cliente.diasCredito">
+            </div>
+            <div class="col-md-5">
                 <div class="row">
                     <div class="col-md-6 mt-4">
                         <button class="btn btn-sm btn-block btn-primary flex-1" @click="verBudgets(1)">Ver presupuestos</button>
@@ -116,12 +124,13 @@
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
             Nuevo telefono
         </button>
+        {{cliente.client.tipoPersona}}
         <div class="row" v-if="telefonos.length !== 0">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" v-if="cliente.client.tipoPersona == 'moral'">NOMBRE</th>
-                        <th scope="col" v-if="cliente.client.tipoPersona == 'moral'">EMAIL</th>
+                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">NOMBRE</th>
+                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">EMAIL</th>
                         <th scope="col">TIPO</th>
                         <th scope="col">NUMERO</th>
                         <th scope="col">EXT</th>
@@ -130,8 +139,8 @@
                 </thead>
                 <tbody>
                     <tr v-for="telefono in telefonos" v-bind:key="telefono.index">
-                        <td v-if="cliente.client.tipoPersona == 'moral'">{{ telefono.nombre }}</td>
-                        <td v-if="cliente.client.tipoPersona == 'moral'">{{ telefono.email }}</td>
+                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.nombre}} {{telefono.apellidoPaterno}} {{telefono.apellidoMaterno}}</td>
+                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.email }}</td>
                         <td>{{ telefono.tipo }}</td>
                         <td>{{ telefono.numero }}</td>
                         <td>{{ telefono.ext }}</td>
@@ -181,7 +190,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>

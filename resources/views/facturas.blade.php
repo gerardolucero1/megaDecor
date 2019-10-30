@@ -26,7 +26,7 @@
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Contratos Activos</h3>
+                        <h3 class="block-title" style="color:green">Facturas Solicitadas</h3>
                     </div>
                     <div class="col-md-9 text-right">
                         @php
@@ -34,15 +34,6 @@
                         @endphp 
                         
                         @if($usuario != 2 || $usuario != 6)
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
-                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
-                            </button>
-                            <button class="btn btn-primary"  onclick="vista_calendario()">
-                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
-                            </button>
-                            <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                                <i class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
-                            </button>
                             <button onclick="PresupuestosHistorial()" class="btn btn-info">
                                 <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
                             </button>
@@ -57,9 +48,8 @@
                                     <th>Fecha Evento</th>
                                     <th class="d-none d-sm-table-cell">Cliente</th>
                                     <th class="d-none d-sm-table-cell">Vendedor</th>
-                                    <th class="d-none d-sm-table-cell">Version</th>
-                                    <th class="d-none d-sm-table-cell">Etiquetas</th>
-                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                                    <th class="d-none d-sm-table-cell">Status</th>
+                                     <th class="d-none d-sm-table-cell">Fecha de solicitud</th>
                                      <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
@@ -91,27 +81,15 @@
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
                                 <td class="d-none d-sm-table-cell text-center">
-                                        @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
-                                    {{$budget->version}}
-                                </td>
-                            <td class="d-none d-sm-table-cell text-center" style="font-size:14px;">
-                                @if($usuario != 2)
-                                    <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
-                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
-                                    </a>
-                                
-                                    <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>   
-                                 
+                                    @if($budget->facturaSolicitada==1)
+                                    Factura Solicitada
                                 @endif
-                                <a style="display:none" target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
-                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
-                                </a>
-                                <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
-                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
-                                    </a>
-                            </td>
+                                @if($budget->facturaSolicitada==2)
+                                    Factura Enviada
+                                @endif
+                                </td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
-                                        @if($budget->version>1)por: Ivonne Arroyos @endif
+                                       
                                 </td>
                                 @php
                                     $total=number_format($budget->total,2);
@@ -127,21 +105,9 @@
                                    
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                    @if($usuario != 2 || $usuario !=6)
-                                    <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    @endif
                                     <a style="margin-right:4px;" target="_blank"  href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
-                                    </a> 
-                                    @if ($usuario != 2 || $usuario !=6)
-                                    <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i class="si si-refresh"></i> 
-                                    </a>
-                                    
-                                    @endif
-                                    
+                                    </a>  
                                 </td>
                             </tr>
                         @endforeach
@@ -152,93 +118,8 @@
                             </div>
                         </div>
                 </div>
-                <!-- Vista presupuestos archivados -->
-                <div class="content" id="presupuestosArchivados" style="display: none">
-                <div class="block">
-                    <div class="block-header block-header-default">
-                        <div class="col-md-3">
-                        <h3 class="block-title" style="color:indianred">Contratos Archivados</h3>
-                    </div>
-                    <div class="col-md-9 text-right">
-                           
-                                    <button onclick="PresupuestosActivos()" class="btn btn-success">
-                                                <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
-                                            </button>
-                                    <button onclick="PresupuestosHistorial()" class="btn btn-info">
-                                                <i  class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
-                                            </button>
-                    </div>
-                    </div>
-                    <div style="padding:15px; padding-top:30px;">
-                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
-                            <thead>
-                                <tr role="row">
-                                    <th>#Folio</th>
-                                    <th>Fecha Evento</th>
-                                    <th>Cliente</th>
-                                    <th>Lugar</th>
-                                    <th>Vendedor</th>
-                                    <th>Version</th>
-                                     <th>Última Modificación</th>
-                                     <th>Opciones</th>
-                                </tr>
-                                </tr>
-                            </thead>
-                            <tbody>                    
-                                        
-                                          
-                                @if (!is_null($PresupuestosArchivados))
-                                @foreach ($PresupuestosArchivados as $budgetArchivados)                          
-                                <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
-                                    
-                                    @if (!is_null($budgetArchivados->fechaEvento))
-                                        @php
-                                            $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
-                                        @endphp
-                                        <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                        @else
-                                        <td class="">{{$budgetArchivados->fechaEvento}}</td>
-                                    @endif
-                                    
-                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->cliente}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->vendedor}}</td>
-                                    <td class="d-none d-sm-table-cell text-center">
-                                            @if($budgetArchivados->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
-                                        {{$budgetArchivados->version}}
-                                    </td>
-                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
-                                <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                    <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
-                                    <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a></td>
-                                    <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
-                                            @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
-                                    </td>
-                                    @php
-                                        $total=number_format($budgetArchivados->total,2);
-                                    @endphp
-                                <td>${{$total}}</td>
-                                    <td class="d-flex" style="box-sizing: content-box;">
-                                        <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                        <button disabled style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="View Customer">
-                                            <i class="fa fa-eye"></i> 
-                                        </button> 
-                                        <a href="{{route('presupuesto.desarchivar', $budgetArchivados->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-success" data-toggle="tooltip" title="Re-activar Presupuesto" data-original-title="View Customer">
-                                            <i class="si si-refresh"></i> 
-                                        </a>
-                                    
-                                    </td>
-                                </tr>
-                            @endforeach
-                                @endif
-                        
-                            </tbody>
-                     </table>
-                            </div>
-                        </div>
-                </div>
+               
+                
 
         <!--Vista historial -->
         <div class="content" id="PresupuestosHistorial" style="display: none">
@@ -251,9 +132,7 @@
                         <button onclick="PresupuestosActivos()" class="btn btn-success">
                             <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
                         </button>
-                        <button onclick="presupuestosArchivados()" class="btn btn-success">
-                            <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
-                        </button>
+                       
                     </div>
                 </div>
                 <div style="padding:15px; padding-top:30px;">
@@ -262,11 +141,8 @@
                             <tr role="row">
                                 <th>#Folio</th>
                                 <th>Fecha Evento</th>
-                                <th>Cliente</th>
-                                <th>Lugar</th>
+                                <th>Cliente</th> 
                                 <th>Vendedor</th>
-                                <th>Version</th>
-                                <th>Última Modificación</th>
                                 <th>Total</th>
                                 <th>Opciones</th>
                             </tr>
@@ -306,19 +182,14 @@
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
-                                                @if($budgetArchivados->version>1)
-                                                    <i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>
+                                                @if($budgetArchivados->facturaSolicitada==1)
+                                                    Factura Solicitada
                                                 @endif
-                                                {{$budgetArchivados->version}}
+                                                @if($budgetArchivados->facturaSolicitada==2)
+                                                    Factura Enviada
+                                                @endif
                                             </td>
-                                            <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
-                                                <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                                <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
-                                                <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                            </td>
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
-                                                @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
-                                            </td>
+                                           
                                                 @php
                                                     if($budgetArchivados->opcionIVA == 1){
                                                         $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
@@ -408,17 +279,14 @@
                 })
             }
     function presupuestosArchivados(){
-        document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";
         document.getElementById('PresupuestosHistorial').style.display="none";
     }
     function PresupuestosActivos(){
-        document.getElementById('presupuestosArchivados').style.display="none";
         document.getElementById('PresupuestosActivos').style.display="block";
         document.getElementById('PresupuestosHistorial').style.display="none";
     }
     function PresupuestosHistorial(){
-        document.getElementById('presupuestosArchivados').style.display="none";
         document.getElementById('PresupuestosActivos').style.display="none";
         document.getElementById('PresupuestosHistorial').style.display="block";
     }

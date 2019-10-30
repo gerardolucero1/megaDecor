@@ -40,6 +40,8 @@ class Budget extends Model
         'opcionIVA',
         'tipo',
         'impresion',
+        'pagado',
+        'facturaSolicitada',
 
         //Datos facturacion
         'horaInicio',

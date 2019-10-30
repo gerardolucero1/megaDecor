@@ -242,6 +242,9 @@
                                             <li>
                                                 <a href="{{ route('contabilidad.historialCortes') }}">Historial cortes</a>
                                             </li>
+                                            <li>
+                                                <a href="{{ route('facturas') }}">Facturas Solicitadas</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 <li class="nav-main-heading">

@@ -11,26 +11,23 @@
     $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
 @endphp
 <body style="font-family: Helvetica; ">
-    <p style="line-height: 15px; font-size: 16px; font-style: italic">Ficha tecnica de evento para operadores</p>
+    
     <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
         <tr>
-          <td style="padding-right:100px;">
+          <td style="width: 30%">
               <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
+             <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}}<br>@if($presupuesto->pagado!=1)
+              <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
+                @endif</p>
           </td>
-          <td colspan="3" style="text-align: right">
-            <p><span style="font-weight: bolder;">Numero de contrato:</span>  <span style="font-weight:normal;  font-size:20px">{{$presupuesto->folio}}</span><br>
+          <td colspan="3" style="text-align: right; width: 70%">
+            <p><span style="font-weight: ;">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: bold; font-size: 13px;">Fecha y hora del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+              <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
             </p>
             </td>
         </tr>
-        <tr>
-            <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}}<br>
-              @if($presupuesto->pagado!=1)
-            <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
-              @endif
-          </tr>
         
       </table>
 <!--INFORMACION DEL EVENTO-->
@@ -108,8 +105,6 @@
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
     <td style="font-size: 13px; padding: 4px;">Notas</td>
-    <td style="font-size: 11px; padding: 4px;">Entrega</td>
-    <td style="font-size: 11px; padding: 4px;">Recolección</td>
   </tr>
   @php
       $descuento=0;
@@ -123,8 +118,6 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
-    <td style="border:solid; border-width: 1px; background:white"></td>
-    <td style="border:solid; border-width: 1px; background:white"></td>
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
@@ -140,7 +133,6 @@
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
         <td style="border-left:solid; border-left-width: 1px;" colspan="1">Entrega</td>
-        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Recolección</td>
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
@@ -150,8 +142,6 @@
           
           
         <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
-        <td style="border:solid; border-width: 1px; background:white"></td>
-        <td style="border:solid; border-width: 1px; background:white"></td>
         </tr> 
         @endif
         
@@ -204,6 +194,13 @@
 
 
       
+  <script type="text/php">
+  if ( isset($pdf) ) {
+      $font = "helvetica";
+      $pdf->page_text(495, 17, "Folio de contrato: {{$presupuesto->folio}}", $font , 6, array(0,0,0));
+      $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+  }
+</script> 
 
    
   

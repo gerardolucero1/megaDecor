@@ -62,6 +62,7 @@
                                 <img src="https://www.alaingarcia.net/conozca/i/billete_1000_pesos_holograma.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete1000}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -73,6 +74,7 @@
                                 <img src="http://cdn.kaltura.com/p/0/thumbnail/entry_id/1_m98xxec5/quality/80/width/800/height/349" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete500}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -84,6 +86,7 @@
                                 <img src="http://eltrochilero.com/wp-content/uploads/2018/02/Billete200anverso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete200}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -95,6 +98,7 @@
                                 <img src="http://www.unionpuebla.mx/sites/default/files/styles/galeria/public/field/image/billete-100_pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete100}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -106,6 +110,7 @@
                                 <img src="https://i.pinimg.com/originals/a4/07/21/a4072113bae69abe37ac3d547f6b60f9.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete50}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -117,6 +122,7 @@
                                 <img src="https://vanguardia.com.mx/sites/default/files/styles/paragraph_image_large_desktop_1x/public/mexico-20-pesos-benito-juarez-aztec-city-2012-p-image-88084-grande.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreBillete20}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-5">
@@ -141,6 +147,7 @@
                                 <img src="https://i.colnect.net/f/3336/608/10-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda10}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -154,6 +161,7 @@
                                 <img src="https://i.colnect.net/f/3336/603/5-Nuevos-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda5}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -167,6 +175,7 @@
                                 <img src="https://i.colnect.net/f/3782/629/2-Pesos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda2}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -180,6 +189,7 @@
                                 <img src="https://i.colnect.net/f/3444/383/1-Peso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
+                                {{sesion.cierreMoneda1}}
                                 <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
@@ -193,7 +203,7 @@
                                 <img src="https://i.colnect.net/f/3019/209/50-Centavos.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
-                                <i class="fa fa-arrow-right"></i>
+                               {{sesion.cierreCentavo50}} <i class="fa fa-arrow-right"></i>
                             </div>
                             <div class="col-md-6">
                                 <input type="number" class="form-control" v-model="cantidad.centavo50">
@@ -226,8 +236,11 @@
                     <div class="col-md-12">
                         <h4>Pagos a contratos</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
-                        <label>Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
-                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label>
+                        <input v-on:change="updateChequesApertura()" type="input" v-model="chequesApertura"><br>
+                        <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
+                        <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
+                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label><br>
+                        <input v-on:change="updateDolaresApertura()" type="input" v-model="dolaresApertura">
                     </div>
                 </div>
             </div>
@@ -341,6 +354,9 @@
                                                                 <option value="TARJETA">Tarjeta</option>
                                                                 <option value="DOLAR">Dolar</option>
                                                             </select>
+                                                            <label style="width:100%; color:white" @click="liquidarBtn()">
+                                                            <span><input style="width:10px" type="checkbox" v-model="liquidar"></span><span> Pagar total</span>
+                                                            </label>
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input type="number" v-model="pago.amount" min='0'>
@@ -540,7 +556,7 @@
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6 style="color:blue">{{ item.motivo }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
+                                                            <h6 style="color:blue">{{ item.motivo }} {{ item.contrato }} - <span style="font-style:italic"></span> </h6>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
@@ -552,16 +568,17 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}} Total egreso: <span style="font-weight:bold">{{item.cantidad-item.resto | currency}}</span></span>
                                                             -<span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{ item.banco }}</span>
                                                             <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }}</span>
                                                             <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
+                                                            <span v-if="item.tipo=='EGRESO'">Entregado a: {{ item.responsable }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
-                                                            <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</p>
+                                                            <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearHora }}</p>
                                                             <p style="position:absolute; z-index:2; bottom:-23px"><a target="_blank" :href="'/recibo-pago/pdf/' + item.id"><i class="fa fa-print"></i></a></p>
                                                         </div>
                                                         
@@ -605,7 +622,7 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Pre-corte</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -794,6 +811,9 @@
                                     <div class="form-group">
                                         <label for="">Suma total de efectivo en caja</label>
                                         <input type="number" class="form-control" v-model="sumarCantidad">
+                                        <label style="color:green"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]==sumarCantidad" for="">La cantidad es correcta</label>
+                                        <label style="color:red" v-if="pagosCorte.length != 0 && cantidadPreCorte[0]<sumarCantidad" for="">Tienes un excedente de {{ sumarCantidad - cantidadPreCorte[0] | currency}}</label>
+                                        <label style="color:red"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]>sumarCantidad" for="">Tienes un faltante de {{ cantidadPreCorte[0] - sumarCantidad | currency}}</label>
                                     </div>
                                     <div class="form-group">
                                         
@@ -881,7 +901,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -952,6 +971,9 @@ export default {
             totalEtiqueta: 0,
             totalBuscador: 0,
             nuevaCategoria: '',
+            chequesApertura:0,
+            dolaresApertura:0,
+            liquidar:false,
             categorias: [],
             cantidad: {
                 billete1000: 0,
@@ -997,6 +1019,7 @@ export default {
             pagosCorte: '',
             pagosPasados: [],
             pagosTotalesActuales: [],
+            
         }
     },
     created(){
@@ -1027,7 +1050,6 @@ export default {
             datos.push(suma, suma2);
             return datos;
         },
-
         sumaPagosPasados: function(){
             let pagos = [];
             let cheques = 0;
@@ -1115,12 +1137,12 @@ if(element.tipo == 'INGRESO'){
 
                 this.pagosCorte[0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
-                        cheques = cheques + parseFloat(element.amount);
+                        cheques = cheques + parseFloat(element.amount) + this.chequesApertura;
                     }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.cantidad));
+                           dolar = dolar + (parseFloat(element.cantidad)) +this.dolaresApertura;
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1182,6 +1204,17 @@ if(element.tipo == 'INGRESO'){
                 arrayDeDatos.push(suma, cheques, transferencias, dolar);
                 return arrayDeDatos;
             }
+        },
+        updateChequesApertura: function(){
+this.sumaPagosPasados[0]=this.chequesApertura;
+
+
+        },
+
+        updateDolaresApertura: function(){
+this.sumaPagosPasados[2]=this.dolaresApertura;
+
+
         },
 
         sumarCantidad: function(){
@@ -1321,6 +1354,13 @@ if(element.tipo == 'INGRESO'){
             })
         },
 
+    liquidarBtn: function(){
+           if(this.liquidar==true){
+ this.pago.amount = 0;
+           }else{
+               this.pago.amount = this.totalEtiqueta - this.totalAbonado;
+           }
+        },
         obtenerCorte: function(){
             let URL = 'caja/corte';
 
@@ -1518,7 +1558,7 @@ if(element.tipo == 'INGRESO'){
         obtenerPresupuesto: function(presupuesto){
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
-            this.movimiento.contrato = presupuesto.folio;
+            this.movimiento.contrato = presupuesto.folio + ' - ' +presupuesto.cliente;
            
             if(this.presupuestoSeleccionado.opcionIVA==1){
                 this.totalEtiqueta=0;
@@ -1631,6 +1671,9 @@ if(element.tipo == 'INGRESO'){
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
+                this.pago.amount='';
+                this.pago.reference='';
+                this.pago.bank='';
                 if(this.pago.amount == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     

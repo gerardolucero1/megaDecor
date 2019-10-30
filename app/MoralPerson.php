@@ -17,6 +17,7 @@ class MoralPerson extends Model
         'coloniaEmpresa',
         'numeroEmpresa',
         'telefono',
+        'diasCredito',
 
         //Facturacion
 
