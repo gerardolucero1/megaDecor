@@ -141,7 +141,7 @@
                             <tr role="row">
                                 <th>#Folio</th>
                                 <th>Fecha Evento</th>
-                                <th>Cliente</th>
+                                <th>Cliente</th> 
                                 <th>Vendedor</th>
                                 <th>Total</th>
                                 <th>Opciones</th>
