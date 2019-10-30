@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Imprimir budget
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
+    Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
     Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
     Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
         // API Presupuestos
@@ -127,6 +128,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos2', 'CMS\IndexController@presupuestos2')->name('presupuestos2');
+    Route::get('/facturas', 'CMS\IndexController@facturas')->name('facturas');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
@@ -354,6 +356,14 @@ Route::group(['middleware' => ['auth']], function () {
 
         $inventario->cantidad = $request->cantidad;
         $inventario->save();
+        return;
+    });
+
+    Route::put('solicitar-factura/{id}', function($id){
+        $budget = Budget::find($id);
+
+        $budget->facturaSolicitada = 1;
+        $budget->save();
         return;
     });
 

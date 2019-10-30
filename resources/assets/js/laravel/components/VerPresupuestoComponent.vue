@@ -436,7 +436,9 @@
                                     <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
-                            <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
+                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: ${{ saldoPendiente*1.16 }}</label>
+                            <label v-else>Saldo pendiente: ${{ saldoPendiente }}</label>
+                            <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
                     </div>
@@ -447,9 +449,13 @@
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir Ficha Tecnica</a>
+                        <button v-if="presupuesto.facturaSolicitada!=true" class="btn btn-primary" @click="solicitarFactura()"><i class="fa fa-check"></i> Solicitar Factura</button>
+                        <span v-if="presupuesto.facturaSolicitada" style="color:green"> <i class="fa fa-check"></i>Factura Solicitada</span>
                     </div>
+                    
                     
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
@@ -543,7 +549,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -794,10 +799,14 @@
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                    suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
                 }
+                let saldo=0;
+                if(this.presupuesto.opcionIVA){
+                   saldo  = (this.presupuesto.total*1.16) - suma;
+                }else{
+                 saldo = this.presupuesto.total - suma;}
                 
-                let saldo = this.presupuesto.total - suma;
                 return saldo;
             },
             obtenerVendedor: function(){
@@ -1504,6 +1513,24 @@
                     console.log(error.data);
                 })
             },
+            solicitarFactura(){
+                let URL = '/solicitar-factura/'  + this.presupuesto.id;
+
+                axios.put(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
+                        ); 
+                        obtenerUltimoPresupuesto();
+                }).catch((error) => {
+                    Swal.fire(
+                            'Error!',
+                            'Algo salio mal',
+                            'error'
+                        ); 
+                })
+            }
         },
     }
 </script>

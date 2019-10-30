@@ -41,6 +41,7 @@ class Budget extends Model
         'tipo',
         'impresion',
         'pagado',
+        'facturaSolicitada',
 
         //Datos facturacion
         'horaInicio',

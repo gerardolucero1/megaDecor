@@ -100,7 +100,7 @@
         <div class="form-group row">
                 <div class="col-md-12">
                     <label for="">Selecciona una familia</label>
-                        <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
+                        <select  id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
                                 <option value="">Selecciona una familia</option>
                             @foreach($familias as $familia)    
                             <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
@@ -110,6 +110,10 @@
                         {{ Form::label('familia', 'Familia') }}
                         <label for="">Familia seleccionada:</label>
                         {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
+
+                        <div>
+                            <img src="" alt="">
+                        </div>
                     </div>
                 </div>
             </div>

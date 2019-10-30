@@ -776,7 +776,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <div  class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Cerrar</div>
-                    <div  class="btn btn-primary" @click="agregarProductoExterno()">Save changes</div>
+                    <div  class="btn btn-primary" @click="agregarProductoExterno()">Guardar</div>
                 </div>
                 </div>
             </div>
@@ -1020,7 +1020,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <div  class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrar</div>
-                    <div  class="btn btn-primary" @click="guardarContrato()">Save</div>
+                    <div  class="btn btn-primary" @click="guardarContrato()">Guardar</div>
                 </div>
                 </div>
             </div>
@@ -1245,7 +1245,6 @@ padding: 0;
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#agregarCategoria').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -1692,6 +1691,7 @@ padding: 0;
 
                 axios.get(URL).then((response) => {
                     this.categorias = response.data;
+                    
                 })
             },
             agregarCategoria(){

@@ -14024,7 +14024,7 @@ var user = document.head.querySelector('meta[name="user"]');
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
-      this.movimiento.contrato = presupuesto.folio;
+      this.movimiento.contrato = presupuesto.folio + ' - ' + presupuesto.cliente;
 
       if (this.presupuestoSeleccionado.opcionIVA == 1) {
         this.totalEtiqueta = 0;
@@ -14137,6 +14137,9 @@ var user = document.head.querySelector('meta[name="user"]');
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
+              _this20.pago.amount = '';
+              _this20.pago.reference = '';
+              _this20.pago.bank = '';
 
               if (_this20.pago.amount == numero.toFixed(2)) {
                 var _URL = 'pagar-contrato/' + _this20.presupuestoSeleccionado.id;
@@ -15009,7 +15012,6 @@ var _methods;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -17447,6 +17449,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20844,7 +20854,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 // Import the EventBus.
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -22355,6 +22364,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
  // Importamos el evento Bus.
@@ -22566,10 +22580,17 @@ __webpack_require__.r(__webpack_exports__);
       var suma = 0; //Recorriendo el objeto
 
       for (var x in data) {
-        suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+        suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
       }
 
-      var saldo = this.presupuesto.total - suma;
+      var saldo = 0;
+
+      if (this.presupuesto.opcionIVA) {
+        saldo = this.presupuesto.total * 1.16 - suma;
+      } else {
+        saldo = this.presupuesto.total - suma;
+      }
+
       return saldo;
     },
     obtenerVendedor: function obtenerVendedor() {},
@@ -23214,6 +23235,15 @@ __webpack_require__.r(__webpack_exports__);
         Swal.fire('Enviado!', 'El presupuesto ha sido enviado por correo', 'success');
       })["catch"](function (error) {
         console.log(error.data);
+      });
+    },
+    solicitarFactura: function solicitarFactura() {
+      var URL = '/solicitar-factura/' + this.presupuesto.id;
+      axios.put(URL).then(function (response) {
+        Swal.fire('Enviado!', 'Se a solicitado la factura del contrato', 'success');
+        obtenerUltimoPresupuesto();
+      })["catch"](function (error) {
+        Swal.fire('Error!', 'Algo salio mal', 'error');
       });
     }
   }
@@ -77268,19 +77298,11 @@ var render = function() {
                                                       _vm._s(item.contrato) +
                                                       " - "
                                                   ),
-                                                  _c(
-                                                    "span",
-                                                    {
-                                                      staticStyle: {
-                                                        "font-style": "italic"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(item.responsable)
-                                                      )
-                                                    ]
-                                                  )
+                                                  _c("span", {
+                                                    staticStyle: {
+                                                      "font-style": "italic"
+                                                    }
+                                                  })
                                                 ]
                                               )
                                             ]
@@ -77404,7 +77426,29 @@ var render = function() {
                                                               _vm._f(
                                                                 "currency"
                                                               )(item.resto)
+                                                            ) +
+                                                            " Total egreso: "
+                                                        ),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticStyle: {
+                                                              "font-weight":
+                                                                "bold"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm._f(
+                                                                  "currency"
+                                                                )(
+                                                                  item.cantidad -
+                                                                    item.resto
+                                                                )
+                                                              )
                                                             )
+                                                          ]
                                                         )
                                                       ]
                                                     )
@@ -77477,7 +77521,16 @@ var render = function() {
                                                       ]
                                                     )
                                                   : _vm._e()
-                                              ])
+                                              ]),
+                                              _vm._v(" "),
+                                              item.tipo == "EGRESO"
+                                                ? _c("span", [
+                                                    _vm._v(
+                                                      "Entregado a: " +
+                                                        _vm._s(item.responsable)
+                                                    )
+                                                  ])
+                                                : _vm._e()
                                             ]
                                           )
                                         ]),
@@ -79203,12 +79256,6 @@ var staticRenderFns = [
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   },
@@ -84000,7 +84047,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Save changes")]
+                    [_vm._v("Guardar")]
                   )
                 ])
               ]
@@ -84953,7 +85000,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Save")]
+                    [_vm._v("Guardar")]
                   )
                 ])
               ]
@@ -86421,12 +86468,6 @@ var staticRenderFns = [
           }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   }
@@ -86784,7 +86825,7 @@ var render = function() {
                     attrs: {
                       type: "text",
                       required: "required",
-                      placeholder: "Apellido Paterno"
+                      placeholder: "Dirección de la empresa"
                     },
                     domProps: { value: _vm.cliente.direccionEmpresa },
                     on: {
@@ -86817,7 +86858,7 @@ var render = function() {
                     attrs: {
                       type: "text",
                       required: "required",
-                      placeholder: "Apellido Materno"
+                      placeholder: "Colonia de la empresa"
                     },
                     domProps: { value: _vm.cliente.coloniaEmpresa },
                     on: {
@@ -86830,6 +86871,36 @@ var render = function() {
                           "coloniaEmpresa",
                           $event.target.value
                         )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 mt-4" }, [
+                  _c("label", [_vm._v("Telefono de la empresa")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.cliente.telefono,
+                        expression: "cliente.telefono"
+                      }
+                    ],
+                    attrs: {
+                      type: "email",
+                      name: "",
+                      id: "",
+                      placeholder: "Telefono"
+                    },
+                    domProps: { value: _vm.cliente.telefono },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.cliente, "telefono", $event.target.value)
                       }
                     }
                   })
@@ -87101,6 +87172,31 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-5" }, [
+            _c("label", [_vm._v("Dias de credito")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.diasCredito,
+                  expression: "cliente.diasCredito"
+                }
+              ],
+              attrs: { type: "number" },
+              domProps: { value: _vm.cliente.diasCredito },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "diasCredito", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-5" }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-6 mt-4" }, [
                 _c(
@@ -87162,19 +87258,21 @@ var render = function() {
           },
           [_vm._v("\n          Nuevo telefono\n      ")]
         ),
-        _vm._v(" "),
+        _vm._v(
+          "\n      " + _vm._s(_vm.cliente.client.tipoPersona) + "\n      "
+        ),
         _vm.telefonos.length !== 0
           ? _c("div", { staticClass: "row" }, [
               _c("table", { staticClass: "table table-striped" }, [
                 _c("thead", [
                   _c("tr", [
-                    _vm.cliente.client.tipoPersona == "moral"
+                    _vm.cliente.client.tipoPersona == "MORAL"
                       ? _c("th", { attrs: { scope: "col" } }, [
                           _vm._v("NOMBRE")
                         ])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.cliente.client.tipoPersona == "moral"
+                    _vm.cliente.client.tipoPersona == "MORAL"
                       ? _c("th", { attrs: { scope: "col" } }, [_vm._v("EMAIL")])
                       : _vm._e(),
                     _vm._v(" "),
@@ -87196,11 +87294,19 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.telefonos, function(telefono) {
                     return _c("tr", { key: telefono.index }, [
-                      _vm.cliente.client.tipoPersona == "moral"
-                        ? _c("td", [_vm._v(_vm._s(telefono.nombre))])
+                      _vm.cliente.client.tipoPersona == "MORAL"
+                        ? _c("td", [
+                            _vm._v(
+                              _vm._s(telefono.nombre) +
+                                " " +
+                                _vm._s(telefono.apellidoPaterno) +
+                                " " +
+                                _vm._s(telefono.apellidoMaterno)
+                            )
+                          ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _vm.cliente.client.tipoPersona == "moral"
+                      _vm.cliente.client.tipoPersona == "MORAL"
                         ? _c("td", [_vm._v(_vm._s(telefono.email))])
                         : _vm._e(),
                       _vm._v(" "),
@@ -87993,12 +88099,6 @@ var staticRenderFns = [
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   },
@@ -92033,7 +92133,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Save changes")]
+                          [_vm._v("Guardar")]
                         )
                       ])
                     ]
@@ -93049,7 +93149,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Save")]
+                          [_vm._v("Guardar")]
                         )
                       ])
                     ]
@@ -95775,12 +95875,6 @@ var staticRenderFns = [
           }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   }
@@ -98838,11 +98932,19 @@ var render = function() {
                         0
                       ),
                       _vm._v(" "),
-                      _c("label", [
-                        _vm._v(
-                          "Saldo pendiente: $" + _vm._s(_vm.saldoPendiente)
-                        )
-                      ]),
+                      _vm.presupuesto.opcionIVA
+                        ? _c("label", [
+                            _vm._v(
+                              "Saldo pendiente: $" +
+                                _vm._s(_vm.saldoPendiente * 1.16)
+                            )
+                          ])
+                        : _c("label", [
+                            _vm._v(
+                              "Saldo pendiente: $" + _vm._s(_vm.saldoPendiente)
+                            )
+                          ]),
+                      _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
                       _c("label", { staticStyle: { "font-style": "italic" } }, [
@@ -98859,7 +98961,7 @@ var render = function() {
           ? _c("div", { staticClass: "row" }, [
               _vm._m(5),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-4" }, [
+              _c("div", { staticClass: "col-md-8" }, [
                 _c(
                   "button",
                   {
@@ -98874,7 +98976,47 @@ var render = function() {
                     _c("i", { staticClass: "fa fa-send-o" }),
                     _vm._v(" Enviar budget por correo")
                   ]
-                )
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      target: "_blank",
+                      href: "/imprimir-budgetVentas/" + _vm.presupuesto.id
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "si si-printer" }),
+                    _vm._v(" Imprimir Ficha Tecnica")
+                  ]
+                ),
+                _vm._v(" "),
+                _vm.presupuesto.facturaSolicitada != true
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.solicitarFactura()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-check" }),
+                        _vm._v(" Solicitar Factura")
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.presupuesto.facturaSolicitada
+                  ? _c("span", { staticStyle: { color: "green" } }, [
+                      _c("i", { staticClass: "fa fa-check" }),
+                      _vm._v("Factura Solicitada")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               !_vm.original
@@ -99294,12 +99436,6 @@ var staticRenderFns = [
           attrs: { type: "button", onClick: "$('#verPaquete').modal('hide')" }
         },
         [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   }

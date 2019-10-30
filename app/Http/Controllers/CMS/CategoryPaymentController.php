@@ -15,7 +15,7 @@ class CategoryPaymentController extends Controller
      */
     public function index()
     {
-        $categorias = CategoryPayment::all();
+        $categorias = CategoryPayment::orderBy('nombre', 'ASC')->get();
         return $categorias;
     }
 

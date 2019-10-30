@@ -556,7 +556,7 @@
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <h6 style="color:blue">{{ item.motivo }} {{ item.contrato }} - <span style="font-style:italic">{{ item.responsable }}</span> </h6>
+                                                            <h6 style="color:blue">{{ item.motivo }} {{ item.contrato }} - <span style="font-style:italic"></span> </h6>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <button style="position:absolute; right:10px" v-if="item.tipo=='EGRESO'" class="btn btn-sm btn-info" data-toggle="modal" data-target="#agregarCambio" @click="pagoEditado = item">Devolución</button>
@@ -568,10 +568,11 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}</span>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}} Total egreso: <span style="font-weight:bold">{{item.cantidad-item.resto | currency}}</span></span>
                                                             -<span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{ item.banco }}</span>
                                                             <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }}</span>
                                                             <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
+                                                            <span v-if="item.tipo=='EGRESO'">Entregado a: {{ item.responsable }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -900,7 +901,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -1558,7 +1558,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
         obtenerPresupuesto: function(presupuesto){
             this.limpiar = true;
             this.presupuestoSeleccionado = presupuesto;
-            this.movimiento.contrato = presupuesto.folio;
+            this.movimiento.contrato = presupuesto.folio + ' - ' +presupuesto.cliente;
            
             if(this.presupuestoSeleccionado.opcionIVA==1){
                 this.totalEtiqueta=0;
@@ -1671,6 +1671,9 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
+                this.pago.amount='';
+                this.pago.reference='';
+                this.pago.bank='';
                 if(this.pago.amount == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     

@@ -772,7 +772,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#agregarElemento').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Save changes</button>
+                    <button type="button" class="btn btn-primary" @click="agregarProductoExterno()">Guardar</button>
                 </div>
                 </div>
             </div>
@@ -999,7 +999,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Save</button>
+                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Guardar</button>
                 </div>
                 </div>
             </div>

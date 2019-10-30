@@ -31,6 +31,7 @@
         $ingresosContratosTarjeta=0;
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
+        $ingresosContratosTransferencia=0;
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
@@ -58,7 +59,7 @@
         <td colspan="1">
             <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-style: italic"> Reporte generado: {{ $fechaHoy->translatedFormat(' l j F Y') }}</span></td>
+    <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }}</span></td>
     </tr>
    
     </table>
@@ -92,25 +93,22 @@
          
     </table>
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
-    <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label>
-
+    <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>
+    <label for="" style="font-style:italic">Efectivo</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
-        <td style="text-align: center; padding: 4px;">Metodo de pago</td>
-        <td style="text-align: center; padding: 4px;">Referencia</td>
-        <td style="text-align: center; padding: 4px;">Fecha Registro</td>
+        <td style="text-align: center; padding: 4px;">Hora de transacción</td>
         <td style="text-align: center; padding: 4px;">Monto</td>
     </tr>
     @foreach ($pagos as $pago)
+    @if($pago->method=="EFECTIVO")
     @php
         $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
     @endphp
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
-    <td style="text-align: center; padding: 3px;">{{$pago->method}}</td>
-    <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
-    <td style="text-align: center; padding: 3px;">{{$pago->created_at}}</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
     @php
         if($pago->method=="EFECTIVO"){
@@ -123,19 +121,152 @@
         $ingresosContratosDolar += $pago->amount;}
     @endphp
     </tr>
+    @endif
     @endforeach
     </table>
+    <p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
 
-<p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
-<p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
-            <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en electronico (Transferencia / tarjeta): ${{number_format($ingresosContratosTarjeta,2)}}</p>
-            <p style="text-align: right; font-weight: normal; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}</p>
+    <label for="" style="font-style:italic">Tarjeta</label>
+    <table style="width: 100%; font-size: 13px;">
+    <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Ultimos 4 numeros de tarjeta</td>
+        <td style="text-align: center; padding: 4px;">Banco</td>
+        <td style="text-align: center; padding: 4px;">Hora de transacción</td>
+        <td style="text-align: center; padding: 4px;">Monto</td>
+    </tr>
+    @foreach ($pagos as $pago)
+    @if($pago->method=="TARJETA")
+    @php
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    @endphp
+    <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->bank}}</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
+    <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
+    @php
+        if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        if($pago->method=="TARJETA"){
+        $ingresosContratosTarjeta += $pago->amount;}
+        if($pago->method=="CHEQUE"){
+        $ingresosContratosCheque += $pago->amount;}
+        if($pago->method=="DOLAR"){
+        $ingresosContratosDolar += $pago->amount;}
+    @endphp
+    </tr>
+    @endif
+    @endforeach
+    </table>
+    <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con tarjeta: ${{number_format($ingresosContratosTarjeta,2)}}</p>
+
+    <label for="" style="font-style:italic">Transferencia</label>
+    <table style="width: 100%; font-size: 13px;">
+    <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Referencia</td>
+        <td style="text-align: center; padding: 4px;">Banco</td>
+        <td style="text-align: center; padding: 4px;">Hora de transacción</td>
+        <td style="text-align: center; padding: 4px;">Monto</td>
+    </tr>
+    @foreach ($pagos as $pago)
+    @if($pago->method=="TRANSFERENCIA")
+    @php
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    @endphp
+    <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->bank}}</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
+    <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
+    @php
+        
+        
+        $ingresosContratosTransferencia += $pago->amount;
+    @endphp
+    </tr>
+    @endif
+    @endforeach
+    </table>
+    <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con transferencia: ${{number_format($ingresosContratosTransferencia,2)}}</p>
+
+    <label for="" style="font-style:italic">Cheques</label>
+    <table style="width: 100%; font-size: 13px;">
+    <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Numero de cheque</td>
+        <td style="text-align: center; padding: 4px;">Banco</td>
+        <td style="text-align: center; padding: 4px;">Hora de transacción</td>
+        <td style="text-align: center; padding: 4px;">Monto</td>
+    </tr>
+    @foreach ($pagos as $pago)
+    @if($pago->method=="CHEQUE")
+    @php
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    @endphp
+    <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">{{$contrato->bank}}</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
+    <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
+    @php
+        if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        if($pago->method=="TARJETA" || $pago->metodo=="TRANSFERENCIA"){
+        $ingresosContratosTarjeta += $pago->amount;}
+        if($pago->method=="CHEQUE"){
+        $ingresosContratosCheque += $pago->amount;}
+        if($pago->method=="DOLAR"){
+        $ingresosContratosDolar += $pago->amount;}
+    @endphp
+    </tr>
+    @endif
+    @endforeach
+    </table>
+    <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
+
+    <label for="" style="font-style:italic">Dolares</label>
+    <table style="width: 100%; font-size: 13px;">
+    <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
+        <td style="text-align: center; padding: 4px;">Hora de transacción</td>
+        <td style="text-align: center; padding: 4px;">Monto</td>
+    </tr>
+    @foreach ($pagos as $pago)
+    @if($pago->method=="DOLAR")
+    @php
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    @endphp
+    <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
+    <td style="text-align: center; padding: 3px;">${{$pago->amount}}Dlls</td>
+    @php
+        if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        if($pago->method=="TARJETA" || $pago->metodo=="TRANSFERENCIA"){
+        $ingresosContratosTarjeta += $pago->amount;}
+        if($pago->method=="CHEQUE"){
+        $ingresosContratosCheque += $pago->amount;}
+        if($pago->method=="DOLAR"){
+        $ingresosContratosDolar += $pago->amount;}
+    @endphp
+    </tr>
+    @endif
+    @endforeach
+    </table>
+            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}Dlls</p>
    
 <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos Extraordinarios</label>
     <table style="width: 100%; font-size: 13px;">
             <tr style="background: #F9E7A8">
-                <td style="text-align: center; padding: 4px;">Tipo</td>
                 <td style="text-align: center; padding: 4px;">Motivo</td>
                 <td style="text-align: center; padding: 4px;">Descripción</td>
                 <td style="text-align: center; padding: 4px;">Metodo</td>
@@ -145,7 +276,6 @@
             @foreach ($otrosPagos as $pago)
             @if($pago->tipo=="INGRESO")
             <tr style="border: solid; border-color:black">
-            <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
@@ -174,7 +304,6 @@
             <label for="" style="font-weight: bold; margin-bottom: 10px; padding-top:50px">Egresos extraordinarios</label>
             <table style="width: 100%; font-size: 13px;">
                     <tr style="background: #F9E7A8">
-                        <td style="text-align: center; padding: 4px;">Tipo</td>
                         <td style="text-align: center; padding: 4px;">Motivo</td>
                         <td style="text-align: center; padding: 4px;">Descripción</td>
                         <td style="text-align: center; padding: 4px;">Metodo</td>
@@ -185,7 +314,6 @@
                     @foreach ($otrosPagos as $pago)
                    @if($pago->tipo=="EGRESO")
                     <tr style="border: solid; border-color:black">
-                    <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
@@ -219,6 +347,7 @@
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
             <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{number_format($totalEfectivoEnCaja,2)}}</p>
+            <p style="font-size: 15px; font-weight: bold; text-align: center; padding-top:30px">___________________________<br>Firma de responsable</p>
    
 <script type="text/php">
         if ( isset($pdf) ) {
