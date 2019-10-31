@@ -13586,7 +13586,7 @@ var user = document.head.querySelector('meta[name="user"]');
     return {
       controlDetalles: false,
       mostrarAbrirCaja: true,
-      sesion: null,
+      sesion: '',
       sesionActual: '',
       presupuestos: [],
       clientes: [],
@@ -13640,7 +13640,8 @@ var user = document.head.querySelector('meta[name="user"]');
       editarCambio: 0,
       pagosCorte: '',
       pagosPasados: [],
-      pagosTotalesActuales: []
+      pagosTotalesActuales: [],
+      arrayDatos: []
     };
   },
   created: function created() {
@@ -13763,7 +13764,7 @@ var user = document.head.querySelector('meta[name="user"]');
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              dolar = dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
+              dolar = dolar + parseFloat(element.amount) + _this2.dolaresApertura;
             } else {
               suma = suma + parseFloat(element.amount);
             }
@@ -13991,7 +13992,32 @@ var user = document.head.querySelector('meta[name="user"]');
       var URL = 'obtener-pagos-pasados';
       axios.get(URL).then(function (response) {
         _this6.pagosPasados = response.data;
+
+        _this6.filtrarPagosPasados();
       });
+    },
+    filtrarPagosPasados: function filtrarPagosPasados() {
+      var cheques = 0;
+      var dolares = 0;
+
+      if (this.pagosPasados.length != 0) {
+        this.pagosPasados[0].forEach(function (element) {
+          if (element.method == 'CHEQUE') {
+            cheques = cheques + parseFloat(element.amount);
+          } else if (element.method == 'DOLAR') {
+            dolares = dolares + parseFloat(element.amount);
+          }
+        });
+        this.pagosPasados[1].forEach(function (element) {
+          if (element.metodo == 'CHEQUE') {
+            cheques = cheques + parseFloat(element.cantidad);
+          } else if (element.metodo == 'DOLAR') {
+            dolares = dolares + parseFloat(element.cantidad);
+          }
+        });
+      }
+
+      this.arrayDatos = [cheques, dolares];
     },
     obtenerCategorias: function obtenerCategorias() {
       var _this7 = this;
@@ -14182,7 +14208,8 @@ var user = document.head.querySelector('meta[name="user"]');
       axios.post(URL, {
         cantidadRealApertura: diferencia,
         cantidadApertura: this.sumarCantidad,
-        billetes: this.cantidad
+        billetes: this.cantidad,
+        arrayDatos: this.arrayDatos
       }).then(function (response) {
         var timerInterval;
         Swal.fire({
@@ -74655,259 +74682,261 @@ var render = function() {
   return _c("section", { staticClass: "container" }, [
     _vm.mostrarAbrirCaja
       ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "block" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "block-content" }, [
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(1),
+          _vm.sesion.length != 0
+            ? _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "block" }, [
+                  _vm._m(0),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete1000) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete1000,
-                          expression: "cantidad.billete1000"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete1000 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  _c("div", { staticClass: "block-content" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete1000) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete1000,
+                              expression: "cantidad.billete1000"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete1000 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete1000",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete1000",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete500) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete500,
-                          expression: "cantidad.billete500"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete500 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete500) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete500,
+                              expression: "cantidad.billete500"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete500 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete500",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete500",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(3),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete200) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete200,
-                          expression: "cantidad.billete200"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete200 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete200) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete200,
+                              expression: "cantidad.billete200"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete200 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete200",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete200",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete100) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete100,
-                          expression: "cantidad.billete100"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete100 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete100) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete100,
+                              expression: "cantidad.billete100"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete100 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete100",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete100",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete50) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete50,
-                          expression: "cantidad.billete50"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete50 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete50) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete50,
+                              expression: "cantidad.billete50"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete50 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete50",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete50",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group row" }, [
-                  _vm._m(6),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-1 text-center" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(_vm.sesion.cierreBillete20) +
-                        "\n                            "
-                    ),
-                    _c("i", { staticClass: "fa fa-arrow-right" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cantidad.billete20,
-                          expression: "cantidad.billete20"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "number" },
-                      domProps: { value: _vm.cantidad.billete20 },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1 text-center" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.sesion.cierreBillete20) +
+                            "\n                            "
+                        ),
+                        _c("i", { staticClass: "fa fa-arrow-right" })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad.billete20,
+                              expression: "cantidad.billete20"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.cantidad.billete20 },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.cantidad,
+                                "billete20",
+                                $event.target.value
+                              )
+                            }
                           }
-                          _vm.$set(
-                            _vm.cantidad,
-                            "billete20",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
+                        })
+                      ])
+                    ])
                   ])
                 ])
               ])
-            ])
-          ]),
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "block" }, [
@@ -75189,12 +75218,12 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.chequesApertura,
-                          expression: "chequesApertura"
+                          value: _vm.arrayDatos[0],
+                          expression: "arrayDatos[0]"
                         }
                       ],
                       attrs: { type: "input" },
-                      domProps: { value: _vm.chequesApertura },
+                      domProps: { value: _vm.arrayDatos[0] },
                       on: {
                         change: function($event) {
                           return _vm.updateChequesApertura()
@@ -75203,7 +75232,7 @@ var render = function() {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.chequesApertura = $event.target.value
+                          _vm.$set(_vm.arrayDatos, 0, $event.target.value)
                         }
                       }
                     }),
@@ -75258,12 +75287,12 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.dolaresApertura,
-                          expression: "dolaresApertura"
+                          value: _vm.arrayDatos[1],
+                          expression: "arrayDatos[1]"
                         }
                       ],
                       attrs: { type: "input" },
-                      domProps: { value: _vm.dolaresApertura },
+                      domProps: { value: _vm.arrayDatos[1] },
                       on: {
                         change: function($event) {
                           return _vm.updateDolaresApertura()
@@ -75272,7 +75301,7 @@ var render = function() {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.dolaresApertura = $event.target.value
+                          _vm.$set(_vm.arrayDatos, 1, $event.target.value)
                         }
                       }
                     })

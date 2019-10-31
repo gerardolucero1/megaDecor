@@ -85,11 +85,75 @@
                                         @endphp
                                          </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Lista de eventos" data-original-title="View Customer">
+                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="modal" data-target="#contratos{{ $usuario->id }}">
                                             <i class="fa fa-list-ul"></i>
                                         </button>
+
+                                        <!-- Modal -->
+                                    <div class="modal fade" id="contratos{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Contratos del usuario {{ $usuario->name }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Fecha Evento</th>
+                                                                <th scope="col">Cliente</th>
+                                                                <th scope="col">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $user = App\User::where('id', $usuario->id)->first();
+                                                            @endphp
+                                                            @foreach ($user->budgets as $budget)
+                                                                <tr>
+                                                                    <th scope="row">{{ $budget->id }}</th>
+                                                                    <td>{{ $budget->fechaEvento }}</td>
+                                                                    @php
+                                                                        $cliente = App\Client::where('id', $budget->client_id)->first();
+
+                                                                        if($cliente->tipoPersona == "FISICA"){
+                                                                            $clienteFisico = App\PhysicalPerson::where('client_id', $budget->client_id)->first();
+                                                                            $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                                                        
+                                                                        }else{
+                                                                            $clienteMoral = App\MoralPerson::where('client_id', $budget->client_id)->first();
+                                                                            $clienteNombre = $clienteMoral->nombre;
+                                                                        }
+                                                                    @endphp
+                                                                    <td>{{$clienteNombre}}</td>
+                                                                    @php
+                                                                        if($budget->opcionIVA){
+                                                                            $total = $budget->total * 0.16;
+                                                                        }else{
+                                                                            $total = $budget->total;
+                                                                        }
+                                                                    @endphp
+                                                                    <td>{{ $total }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
+
+                                    
                                 @endforeach
                             
                             </tbody>

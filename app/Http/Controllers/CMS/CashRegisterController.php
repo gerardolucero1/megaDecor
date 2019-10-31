@@ -43,7 +43,6 @@ class CashRegisterController extends Controller
      */
     public function store(Request $request)
     {
-
         $date = Carbon::now();
         $fechaHoy = $date->toDateString();
         $horaHoy = $date->toTimeString();
@@ -70,6 +69,8 @@ class CashRegisterController extends Controller
 
         $registro->cantidadApertura = $request['cantidadApertura'];
         $registro->cantidadRealApertura = $request['cantidadRealApertura'];
+        $registro->cantidadCheques = $request['arrayDatos'][0];
+        $registro->cantidadDolares = $request['arrayDatos'][1];
         $registro->estatus = true;
 
         $registro->save();
