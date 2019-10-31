@@ -71,8 +71,10 @@
 
 <template>
     <section class="container block mt-3">
-        <div class="container-version">
-    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+        <div class="container-version" v-if="presupuesto.length != 0">
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ versionesOrdenadas.length }}
+            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('pasado')" class="fa fa-chevron-left"></i>   
+            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('futuro')" class="fa fa-chevron-right"></i> 
         </div>
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
@@ -743,6 +745,7 @@
                     coloniaFacturacion: '',
                     emailFacturacion: '',
                 },
+                versionesOrdenadas: [],
 
                 demoP: '',
 
@@ -954,6 +957,41 @@
             },
         },
         methods:{
+            obtenerVersionPresupuesto(direccion){
+                let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
+                console.log(posicion);
+                if(direccion == 'futuro'){
+                    let version = this.versionesOrdenadas[posicion + 1]
+                    if(typeof version === 'undefined'){
+                        alert('No hay mas versiones');
+                    }else{
+                        let presupuesto = this.versiones.find((element) => {
+                            return element.version == version;
+                        });
+                        if(typeof presupuesto == 'undefined'){
+                            this.obtenerPresupuesto()
+                        }else{
+                            this.obtenerVersion(presupuesto.id);
+                        }
+                    }
+                }else{
+                    let version = this.versionesOrdenadas[posicion - 1]
+
+                    if(typeof version === 'undefined'){
+                        alert('No hay mas versiones');
+                    }else{
+                        let presupuesto = this.versiones.find((element) => {
+                            return element.version == version;
+                        });
+                        if(typeof presupuesto == 'undefined'){
+                            this.obtenerPresupuesto()
+                        }else{
+                            this.obtenerVersion(presupuesto.id);
+                        }
+                    }
+                }
+            },
+
             registrarPago(){
                 let URL = '/registrar-pago';
                 
@@ -1247,7 +1285,17 @@
               let direction4 = '/obtener-versiones/' + path;
 
               axios.get(direction4).then((response) => {
-                  this.versiones = response.data;
+                    this.versiones = response.data;
+
+                    
+                    
+                
+                    this.versionesOrdenadas = [];
+                    this.versiones.forEach((element) => {
+                        this.versionesOrdenadas.push(element.version);
+                    })
+                    this.versionesOrdenadas.push(this.presupuesto.version);
+                    this.versionesOrdenadas.sort();
               })  
             },
 

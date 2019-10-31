@@ -247,12 +247,6 @@ class IndexController extends Controller
         return view('inventario', compact('Inventario'));
     }
 
-    public function inventarioFiltro(Request $request){
-        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-
-        return view('inventario', compact('Inventario'));
-    }
-
     public function comisiones(){
         $fecha_actual= date('Y-m-d',time());
         //Empleado del mes

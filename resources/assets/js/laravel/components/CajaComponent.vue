@@ -48,7 +48,7 @@
 <template>
     <section class="container">
         <div class="row" v-if="mostrarAbrirCaja">
-            <div class="col-md-4">
+            <div class="col-md-4" v-if="sesion.length != 0">
                 <div class="block">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">Apertura de caja</h3>
@@ -236,11 +236,11 @@
                     <div class="col-md-12">
                         <h4>Pagos a contratos</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
-                        <input v-on:change="updateChequesApertura()" type="input" v-model="chequesApertura"><br>
+                        <input v-on:change="updateChequesApertura()" type="input" v-model="arrayDatos[0]"><br>
                         <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
                         <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
                         <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label><br>
-                        <input v-on:change="updateDolaresApertura()" type="input" v-model="dolaresApertura">
+                        <input v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
                     </div>
                 </div>
             </div>
@@ -1008,7 +1008,7 @@ export default {
         return{
             controlDetalles: false,
             mostrarAbrirCaja: true,
-            sesion: null,
+            sesion: '',
             sesionActual: '',
             presupuestos: [],
             clientes: [],
@@ -1068,7 +1068,7 @@ export default {
             pagosCorte: '',
             pagosPasados: [],
             pagosTotalesActuales: [],
-            
+            arrayDatos: [],
         }
     },
     created(){
@@ -1427,7 +1427,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             let URL = 'pagos';
 
             axios.get(URL).then((response) => {
-                this.otrosPagos = response.data;
+                this.otrosPagos = response.data; 
             })
         },
 
@@ -1436,7 +1436,33 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.get(URL).then((response) => {
                 this.pagosPasados = response.data;
+                this.filtrarPagosPasados();
             })
+        },
+
+        filtrarPagosPasados: function(){
+            let cheques = 0;
+            let dolares = 0;
+
+            if(this.pagosPasados.length != 0){
+                this.pagosPasados[0].forEach((element) => {
+                    if(element.method == 'CHEQUE'){
+                        cheques = cheques + parseFloat(element.amount);
+                    }else if(element.method == 'DOLAR'){
+                        dolares = dolares + parseFloat(element.amount);
+                    }
+                })
+
+                this.pagosPasados[1].forEach((element) => {
+                    if(element.metodo == 'CHEQUE'){
+                        cheques = cheques + parseFloat(element.cantidad);
+                    }else if(element.metodo == 'DOLAR'){
+                        dolares = dolares + parseFloat(element.cantidad);
+                    }
+                })
+            }
+
+            this.arrayDatos = [cheques, dolares];
         },
 
         obtenerCategorias: function(){
@@ -1661,6 +1687,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 cantidadRealApertura: diferencia,
                 cantidadApertura: this.sumarCantidad,
                 billetes: this.cantidad,
+                arrayDatos: this.arrayDatos,
             }).then((response) => {
                 let timerInterval
                 Swal.fire({

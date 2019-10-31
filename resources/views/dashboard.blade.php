@@ -89,6 +89,41 @@
                                         </a>
                                     </div>
 @endif
+                                @php
+                                $carbon = new \Carbon\Carbon();
+
+                                $date = $carbon->now();
+                                $datePasado = $carbon->now()->subYear();
+
+                                $fechaHoy = $date->format('Y-m-d');
+                                $fechaPasado = $datePasado->format('Y-m-d');
+
+                                $fechaComoEntero = strtotime($fechaHoy);
+                                $fechaComoEnteroPasado = strtotime($fechaPasado);
+                                $anio = date("Y", $fechaComoEntero);
+                                $anioPasado = date("Y", $fechaComoEnteroPasado);
+                                
+
+                                $start = new \Carbon\Carbon('first day of this month'); 
+                                $end = new \Carbon\Carbon('last day of this month');
+                                $fechaInicio = $start->format('Y-m-d');
+                                $fechaFin = $end->format('Y-m-d');
+                                $ingresoActual = 0;
+
+                                $contratos = App\Budget::whereBetween('fechaEvento', array($fechaInicio, $fechaFin))->where('tipo', 'CONTRATO')->get();
+
+                                foreach($contratos as $contrato){
+                                    if($contrato->opcionIVA){
+                                        $ingresoActual = $ingresoActual + ($contrato->total * 1.16);
+                                    }else{
+                                        $ingresoActual = $ingresoActual + $contrato->total;
+                                    }
+                                }
+
+                                setlocale(LC_ALL, 'es_ES');
+                                $date->format("F"); // Inglés.
+                                $mes = $date->formatLocalized('%B');// mes en idioma español
+                                @endphp
                                 <div class="col-md-6">
                                         <a class="block" href="javascript:void(0)">
                                             <div class="block-content block-content-full">
@@ -104,11 +139,11 @@
                                                                         @else
                                                                         style="color:orange"
                                                                         @endif>{{ round($porcentajeActual , 1) }}%</span><br>
-                                                            Ventas Octubre 2019</div>
+                                                                Ventas {{ $mes }} {{ $anio }}</div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="font-size-h3 font-w600">{{ count($presupuestosAnoPasado) }}</div>
-                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas Octubre 2018</div>
+                                                    <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas {{ $mes }} {{ $anioPasado }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,6 +151,7 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        
                                             <a class="block" href="javascript:void(0)">
                                                 <div class="block-content block-content-full">
                                                     <div class="text-right">
@@ -123,16 +159,16 @@
                                                     </div>
                                                     <div class="row pt-10 pb-30 text-center">
                                                         <div class="col-6 border-r">
-                                                            <div class="font-size-h3 font-w600">${{ $ventasAnoActual }} <span @if( $ventasAnoActual > $ventasAnoPasado)
+                                                            <div class="font-size-h3 font-w600">${{ $ingresoActual }} <span @if( $ingresoActual > $ventasAnoPasado)
                                                                     style="color:green"
                                                                     @else
                                                                     style="color:orange"
                                                                     @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
-                                                            <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos Octubre 2019</div>
+                                                                    <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos {{ $mes }} {{ $anio }}</div>
                                                         </div>
                                                         <div class="col-6">
                                                             <div class="font-size-h3 font-w600">${{ $ventasAnoPasado }} </div>
-                                                            <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos Octubre 2018</div>
+                                                        <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos {{ $mes }} {{ $anioPasado }}</div>
                                                         </div>
                                                     </div>
                                                 </div>

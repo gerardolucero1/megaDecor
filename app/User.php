@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function budgets()
+    {
+        return $this->hasMany(Budget::class, 'vendedor_id');
+    }
 }

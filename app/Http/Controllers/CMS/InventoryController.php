@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\CMS;
 
-use App\Inventory;
 use App\Family;
+use App\Register;
+use App\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\App;
 
 class InventoryController extends Controller
 {
@@ -100,8 +101,9 @@ class InventoryController extends Controller
     {
         $inventory = Inventory::find($id);
         $familias=Family::orderBy('nombre', 'ASC')->get();
+        $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
         
-        return view('Inventories.edit', compact('inventory', 'familias'));
+        return view('Inventories.edit', compact('inventory', 'familias', 'registros'));
     }
 
     /**
@@ -166,7 +168,18 @@ class InventoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+
+    public function archivar($id){
+        $inventory = Inventory::find($id);
+        $inventory->archivar = true;
+        $inventory->save();
+
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('archivar', false)->orWhere('archivar', null)->get();
+
+        return view('inventario', compact('Inventario'));
+
     }
 
     public function pdf(Request $request){        
@@ -181,5 +194,29 @@ class InventoryController extends Controller
 
         return $pdf->stream();
 
+    }
+
+    public function inventarioFiltro(Request $request){
+        if($request->familia && ($request->fecha_1 == null && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+
+            return view('inventario', compact('Inventario'));
+        }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->whereDate('updated_at', '<=', $request->fecha_2)->get();
+
+            return view('inventario', compact('Inventario'));
+        }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->get();
+
+            return view('inventario', compact('Inventario'));
+        }else if($request->familia && ($request->fecha_1 && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->whereDate('updated_at', '>=', $request->fecha_1)->get();
+
+            return view('inventario', compact('Inventario'));
+        }else{
+            $Inventario = Inventory::orderBy('id', 'DESC')->get();
+
+            return view('inventario', compact('Inventario'));
+        }
     }
 }

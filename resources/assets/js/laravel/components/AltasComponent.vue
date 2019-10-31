@@ -27,9 +27,9 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label for="">Fecha de Ingreso</label>
-                            <input type="date" class="form-control" v-model="alta.fechaIngreso">
+                            <input id="fechaIngreso" type="date" class="form-control" v-model="alta.fechaIngreso">
                         </div>
                         <div class="form-group">
                             <label for="">Precio</label>
@@ -56,6 +56,46 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Evento</label>
+                            <buscador-component
+                                :limpiar="limpiar"
+                                placeholder="Buscar presupuesto"
+                                event-name="presupuestosResults"
+                                :list="presupuestos"
+                                :keys="['folio', 'fechaEvento', 'cliente']"
+                                class="form-control"
+                            ></buscador-component>
+
+                            <!-- Resultado Busqueda -->
+                            <div class="row" v-if="presupuestosResults.length < presupuestos.length">
+                                <div v-if="presupuestosResults.length !== 0" class="col-md-12 resultadoInventario">
+                                    <div v-for="presupuesto in presupuestosResults.slice(0,20)" :key="presupuesto.id">
+                                        <div class="row contenedor-producto" v-on:click="obtenerPresupuesto(presupuesto)" style="margin:0">
+                                            <div class="col-md-3">
+                                                <img class="img-fluid" src="https://i.stack.imgur.com/l60Hf.png" alt="">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p style="padding:0; margin:0; line-height:14px; font-size:13px; "><span style="font-weight:bolder"> {{ presupuesto.cliente }}</span></p>
+                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.folio }}</p>
+                                                <p style="padding:0; margin:0; line-height:14px; font-size:11px; ">{{ presupuesto.fechaEvento }}</p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(240, 242, 245, 1); margin-top: 8px; padding: 5px;">
+                                <p class="text-danger">{{ presupuestoSeleccionado.folio }}</p>
+                                <h4 style="line-height: 2px;">{{ presupuestoSeleccionado.cliente }}</h4>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Cantidad</label>
@@ -75,10 +115,6 @@
                             <label for="">Fecha de baja del sistema</label>
                             <input type="date" class="form-control" v-model="alta.fechaCompra">
                         </div>
-                        <div class="form-group">
-                            <label for="">Evento</label>
-                            <input type="text" class="form-control" v-model="alta.budget_id">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -92,8 +128,13 @@
 
 <script>
 let user = document.head.querySelector('meta[name="user"]');
+import BuscadorComponent from './BuscadorComponent.vue';
+import moment from 'moment';
 
 export default {
+    components: {
+        BuscadorComponent,
+    },
     data(){
         return{
             producto: '',
@@ -111,7 +152,14 @@ export default {
                 cantidad: '',
                 motivo: '',
                 tipo: '',
-            }
+            },
+            presupuestos: [],
+            presupuestosResults: [],
+            presupuestoSeleccionado: '',
+            limpiar: false,
+            clientes: [],
+            cantidadBodega: '',
+            fechaHoy: '',
         }
     },
 
@@ -119,6 +167,30 @@ export default {
         usuario: function(){
             return JSON.parse(user.content);
         },
+
+        nuevaCantidad: function(){
+            let cantidadOriginal = this.cantidadBodega.innerHTML;
+
+            if(this.tipo.length != 0){
+                if(this.tipo == 'alta'){
+                    let cantidadReal = parseInt(cantidadOriginal) + parseInt(this.alta.cantidad);
+                    return cantidadReal
+                }else{
+                    let cantidadReal = parseInt(cantidadOriginal) - parseInt(this.alta.cantidad);
+                    return cantidadReal
+                }
+            }
+        }
+    },
+
+    created(){
+        this.obtenerPresupuestos();
+
+        //Buscadores
+        this.$on('presupuestosResults', presupuestosResults => {
+            this.presupuestosResults = presupuestosResults
+        });
+
     },
 
     mounted(){
@@ -132,9 +204,12 @@ export default {
         if(botones.length != 0){
             for (var i = 0; i < botones.length; i++) {
                 botones[i].addEventListener('click', (e) => {
+                    let cantidadBodega = e.target.dataset.cantidad;
                     this.tipo = e.target.dataset.tipo;
                     let id = e.target.dataset.id;
                     let URL = 'obtener-producto/' + id;
+
+                    this.cantidadBodega = document.getElementById(cantidadBodega);
 
                     axios.get(URL).then((response) => {
                         this.producto = response.data;
@@ -146,22 +221,87 @@ export default {
     },
 
     methods: {
+        obtenerPresupuestos: function(){
+            let URL = 'caja/obtener-presupuestos';
+
+            axios.get(URL).then((response) => {
+                this.presupuestos = response.data;
+                this.obtenerClientes();
+            }).catch((error) => {
+                console.log(error.data);
+            })
+        },
+
+        obtenerClientes: function(){
+            let URL = 'obtener-clientes';
+
+            axios.get(URL).then((response) => {
+                this.clientes = response.data;
+                 
+                 //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
+                 this.presupuestos.forEach((element) => {
+                     this.clientes.forEach((item) => {
+                         if(item.id == element.client_id){
+                            if(item.hasOwnProperty('apellidoPaterno')){
+                                Object.defineProperty(element, 'cliente', {
+                                    value: item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno,
+                                    writable: true,
+                                    enumerable: true,
+                                    configurable: true
+                                });
+                            }else{
+                                Object.defineProperty(element, 'cliente', {
+                                    value: item.nombre,
+                                    writable: true,
+                                    enumerable: true,
+                                    configurable: true
+                                });
+                            }
+                         }
+                     })
+                 })
+            })
+        },
+
         registrarAlta: function(){
             let URL = 'registrar-alta';
             this.alta.producto = this.producto.id;
             this.alta.user_id = this.usuario.id;
             this.alta.tipo = this.tipo;
+            this.alta.evento = this.presupuestoSeleccionado.id;
 
             axios.post(URL, this.alta).then((response) => {
                 console.log('Alta registrada');
+                $('#asignarAlta').modal('hide');
+                
+                this.cantidadBodega.innerHTML = this.nuevaCantidad;
             }).catch((error) => {
                 console.log(error.data);
             })
-        }
+        },
+
+        obtenerPresupuesto: function(presupuesto){
+            this.limpiar = true;
+            this.presupuestoSeleccionado = presupuesto;
+
+            setTimeout(() => {
+                this.limpiar = false;
+            }, 1000);
+        },
     },
 }
 </script>
 
-<style>
-
+<style scooped>
+    .resultadoInventario{
+        position: absolute;
+        z-index: 3000;
+        background-color: white;
+        overflow: scroll; 
+        max-height: 300px;
+        -webkit-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+        -moz-box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+        box-shadow: 0px 5px 5px -2px rgba(38,38,38,1);
+        padding: 0;
+    }
 </style>

@@ -29,31 +29,48 @@
     </div>
         <div class="content" id="PresupuestosActivos">
                 <div class="block" id="divLista">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @php
+                                use App\Family;
+                                $familias=Family::orderBy('nombre', 'ASC')->get();
+                            @endphp
+                            <form action="{{ route('inventario.filtro') }}" method="POST">
+                                @method('POST')
+                                @csrf   
+                                <div class="col-md-3 mt-2">
+                                    <select name="familia" class="form-control" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
+                                        <option value="">Todos los elementos</option>
+                                        @foreach($familias as $familia)    
+                                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <input type="date" name="fecha_1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="date" name="fecha_2" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                            @php
-                            use App\Family;
-                            $familias=Family::orderBy('nombre', 'ASC')->get();
-                            @endphp
-                        <form action="{{ route('inventario.filtro') }}" method="POST">
-                            @method('POST')
-                            @csrf
-                            <select name="familia" id="familia" style="width: 100px" onchange="seleccionarFamilia()">
-                                <option value="">Todos los elementos</option>
-                                @foreach($familias as $familia)    
-                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                            @endforeach
-                            </select>
-                            <button style="margin-left: 20px" type="submit" class="btn btn-sm btn-info">Buscar</button><br>
-                        </form>
-                            <form method="POST" action="{{route('imprimir.familia')}}" >
+                        <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
-                                @csrf   
-                                <input type="hidden" name="familia" id="inputfamilia" value="">
-                            <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
-                            </form>    
-
+                                @csrf 
+                            <input type="hidden" name="familia" id="inputfamilia" value="">
+                        <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
+                        </form>    
                     </div>
                     <div class="col-md-9 text-right">
                             @php
@@ -109,14 +126,18 @@
                                     <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i class="fa fa-remove"></i> 
+                                    <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                            <i class="fa fa-remove"></i> 
+                                        </button>
+                                    </form>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-up"></i>
                                     </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" class="fa fa-chevron-up"></i>
-                                    </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" class="fa fa-chevron-down"></i>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
                                     </button>
                                     @else
                                         SIN PERMISOS
@@ -175,6 +196,38 @@
 
 @section("scripts")
     <script>
+        $(function(){
+            let archivar = document.getElementsByClassName('archivar');
+
+            if(archivar.length != 0){
+                for (var i = 0; i < archivar.length; i++) {
+                    archivar[i].addEventListener('click', (e) => {
+                        let id = e.target.dataset.archivar;
+                    });
+                }
+            }
+        })
+        function archivarPresupuesto(){
+            alert(id);
+            // Swal.fire({
+            //     title: 'Are you sure?',
+            //     text: "You won't be able to revert this!",
+            //     type: 'warning',
+            //     showCancelButton: true,
+            //     confirmButtonColor: '#3085d6',
+            //     cancelButtonColor: '#d33',
+            //     confirmButtonText: 'Yes, delete it!'
+            //     }).then((result) => {
+            //     if (result.value) {
+            //         let URL = 'inventario/delete/' id;
+            //         Swal.fire(
+            //         'Deleted!',
+            //         'Your file has been deleted.',
+            //         'success'
+            //         )
+            //     }
+            // })
+        }
         function seleccionarFamilia(){
            NombreFamilia = document.getElementById('familia').value;
         document.getElementById('inputfamilia').value=NombreFamilia;
