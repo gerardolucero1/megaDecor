@@ -456,7 +456,10 @@
                                                     
                                                     <div v-if="movimiento.tipo == 'EGRESO' && movimiento.motivo !== 'Proveedor'">
                                                         <label for="">Responsable</label>
-                                                        <input type="text" class="form-control" v-model="movimiento.responsable">
+                                                    <select class="form-control" name="" id="" v-model="movimiento.responsable">
+                                                        <option v-for="(item, index) in responsables" :key="index" :value="item.nombre">{{ item.nombre }}</option>
+                                                    </select>
+                                                    <label style="cursor: pointer; font-size: 11px;" data-toggle="modal" data-target="#administrarResponsables">Añadir nuevo registro</label>
                                                     </div>
                                                     
                                                     <div v-if="movimiento.motivo == 'Contrato'">
@@ -514,7 +517,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="">Cantidad</label>
+                                                    <label for="">Monto</label>
                                                     <input class="form-control" type="number" v-model="movimiento.cantidad">
                                                 </div>
                                             </div>
@@ -530,6 +533,9 @@
                                          <div class="row">
                                             <div class="col-md-12 mt-3" v-if="movimiento.metodo == 'TRANSFERENCIA' || movimiento.metodo == 'CHEQUE' || movimiento.metodo == 'TARJETA'">
                                                 <input type="text" class="form-control" v-model="movimiento.banco" placeholder="Banco emisor">
+                                            </div>
+                                            <div class="col-md-12 mt-3" v-if="movimiento.metodo == 'TRANSFERENCIA'">
+                                                <input type="date" class="form-control" v-model="movimiento.fechaTransferencia" placeholder="Fecha de la transferencia">
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -570,7 +576,7 @@
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
                                                             <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}} Total egreso: <span style="font-weight:bold">{{item.cantidad-item.resto | currency}}</span></span>
                                                             -<span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{ item.banco }}</span>
-                                                            <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }}</span>
+                                                            <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }} <span v-if="item.metodo=='TRANSFERENCIA'">Fecha de transferencia: {{ item.referencia }}</span></span>
                                                             <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
                                                             <span v-if="item.tipo=='EGRESO'">Entregado a: {{ item.responsable }}</span>
                                                         </div>
@@ -946,6 +952,46 @@
             </div>
         </div>
 
+        <!-- Administrar responsables -->
+        <div class="modal fade" id="administrarResponsables" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Administrar Responsable</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" v-model="nuevoResponsable">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in responsables" :key="index">
+                                <th scope="row">{{ item.id }}</th>
+                                <td>{{ item.nombre }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger" @click="eliminarResponsable(item.id)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" @click="guardarResponsable()">Guardar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -973,6 +1019,8 @@ export default {
             nuevaCategoria: '',
             chequesApertura:0,
             dolaresApertura:0,
+            responsables:[],
+            nuevoResponsable:'',
             liquidar:false,
             categorias: [],
             cantidad: {
@@ -998,6 +1046,7 @@ export default {
                 responsable: '',
                 banco: '',
                 contrato: '',
+                fechaTransferencia: '',
             },
             cantidadApertura: null,
             cantidadRealApertura: null,
@@ -1027,6 +1076,7 @@ export default {
         this.obtenerPresupuestos();
         this.obtenerCategorias();
         this.obtenerPagosPasados();
+        this.obtenerResponsable();
 
         //Buscadores
         this.$on('presupuestosResults', presupuestosResults => {
@@ -1142,7 +1192,7 @@ if(element.tipo == 'INGRESO'){
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.cantidad)) +this.dolaresApertura;
+                           dolar = dolar + (parseFloat(element.amount)+this.dolaresApertura);
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1413,6 +1463,30 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             })
         },
 
+        obtenerResponsable: function(){
+            let URL = 'responsable-pagos';
+
+            axios.get(URL).then((response) => {
+                this.responsables = response.data;
+            })
+        },
+
+        guardarResponsable: function(){
+            let URL = 'responsable-pagos';
+
+            axios.post(URL, {nombre: this.nuevoResponsable}).then((response) => {
+                this.obtenerResponsable();
+            })
+        },
+
+        eliminarResponsable: function(id){
+            let URL = 'responsable-pagos/' + id;
+
+            axios.delete(URL).then((response) => {
+                this.obtenerResponsable();
+            })
+        },
+
         obtenerSesionActual: function(){
             let URL = 'obtener-sesion-actual';
 
@@ -1432,6 +1506,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.movimiento.cantidad ='';
                 this.movimiento.metodo ='';
                 this.movimiento.descripcion ='';
+                this.movimiento.fechaTransferencia ='';
                 Swal.fire(
                     'Movimiento registrado!',
                     'El movimiento se registro con exito',

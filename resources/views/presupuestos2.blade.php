@@ -35,7 +35,7 @@
                         
                         @if($usuario != 2 || $usuario != 6)
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
-                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
+                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Contrato</i> 
                             </button>
                             <button class="btn btn-primary"  onclick="vista_calendario()">
                                 <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
@@ -80,13 +80,16 @@
                                 </td>
                                 
                                 @if (!is_null($budget->fechaEvento))
-                                @php
-                                    $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
-                                @endphp
-                                <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                @else
-                                <td class="">Pendiente</td>
-                            @endif
+                                    @php
+                                        $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
+                                    @endphp
+                                    <td class="">
+                                        <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>
+                                        <br>
+                                        {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                    @else
+                                    <td class="">Pendiente</td>
+                                @endif
                                 
                                 <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
@@ -193,13 +196,16 @@
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
                                     @if (!is_null($budgetArchivados->fechaEvento))
-                                        @php
-                                            $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
-                                        @endphp
-                                        <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                        @else
-                                        <td class="">{{$budgetArchivados->fechaEvento}}</td>
-                                    @endif
+                                    @php
+                                        $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
+                                    @endphp
+                                    <td class="">
+                                        <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>
+                                        <br>
+                                        {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                    @else
+                                    <td class="">Pendiente</td>
+                                @endif
                                     
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->cliente}}</td>
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->vendedor}}</td>
@@ -398,6 +404,7 @@
                             'El presupuesto ha sido enviado por correo',
                             'success'
                         ); 
+                        location.reload();
                 }).catch((error) => {
                     console.log(error.data);
                     Swal.fire(

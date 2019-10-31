@@ -177,6 +177,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
     Route::get('/ventas/{id}', 'CMS\IndexController@ventasShow')->name('ventas.show');
 
+    //Factura
+    Route::get('/factura-enviada/{id}', 'CMS\BudgetController@facturaEnviada')->name('presupuesto.facturaEnviada');
+
     //Emails
     Route::post('enviar-email', function(Request $request){
         
@@ -453,6 +456,7 @@ Route::group(['middleware' => ['auth']], function () {
         return $arrayDatos;
     });
     Route::resource('categorias-pagos', 'CMS\CategoryPaymentController');
+    Route::resource('responsable-pagos', 'CMS\ResponsablePaymentController');
     Route::get('pagar-contrato/{id}', function($id){
         $contrato = Budget::findOrFail($id);
 

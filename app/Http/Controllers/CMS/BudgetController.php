@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 
 use App\User;
 use stdClass;
+use Carbon\Carbon;
 use App\Budget;
 use App\Client;
 use App\Family;
@@ -1123,6 +1124,13 @@ class BudgetController extends Controller
     public function archivar($id){
         $budget=Budget::find($id);
         $budget->archivado='1';
+        $budget->save();
+        return back();
+    }
+    public function facturaEnviada($id){
+        $budget=Budget::find($id);
+        $budget->fechaEnvioFactura= $date = Carbon::now();
+        $budget->facturaSolicitada= 2;
         $budget->save();
         return back();
     }

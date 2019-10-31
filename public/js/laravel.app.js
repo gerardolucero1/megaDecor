@@ -13444,6 +13444,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13465,6 +13511,8 @@ var user = document.head.querySelector('meta[name="user"]');
       nuevaCategoria: '',
       chequesApertura: 0,
       dolaresApertura: 0,
+      responsables: [],
+      nuevoResponsable: '',
       liquidar: false,
       categorias: [],
       cantidad: {
@@ -13489,7 +13537,8 @@ var user = document.head.querySelector('meta[name="user"]');
         referencia: '',
         responsable: '',
         banco: '',
-        contrato: ''
+        contrato: '',
+        fechaTransferencia: ''
       },
       cantidadApertura: null,
       cantidadRealApertura: null,
@@ -13517,7 +13566,8 @@ var user = document.head.querySelector('meta[name="user"]');
     this.obtenerSesion();
     this.obtenerPresupuestos();
     this.obtenerCategorias();
-    this.obtenerPagosPasados(); //Buscadores
+    this.obtenerPagosPasados();
+    this.obtenerResponsable(); //Buscadores
 
     this.$on('presupuestosResults', function (presupuestosResults) {
       _this.presupuestosResults = presupuestosResults;
@@ -13631,7 +13681,7 @@ var user = document.head.querySelector('meta[name="user"]');
             transferencias = transferencias + parseFloat(element.amount);
           } else {
             if (element.method == 'DOLAR') {
-              dolar = dolar + parseFloat(element.cantidad) + _this2.dolaresApertura;
+              dolar = dolar + (parseFloat(element.amount) + _this2.dolaresApertura);
             } else {
               suma = suma + parseFloat(element.amount);
             }
@@ -13887,34 +13937,61 @@ var user = document.head.querySelector('meta[name="user"]');
         _this9.obtenerCategorias();
       });
     },
-    obtenerSesionActual: function obtenerSesionActual() {
+    obtenerResponsable: function obtenerResponsable() {
       var _this10 = this;
+
+      var URL = 'responsable-pagos';
+      axios.get(URL).then(function (response) {
+        _this10.responsables = response.data;
+      });
+    },
+    guardarResponsable: function guardarResponsable() {
+      var _this11 = this;
+
+      var URL = 'responsable-pagos';
+      axios.post(URL, {
+        nombre: this.nuevoResponsable
+      }).then(function (response) {
+        _this11.obtenerResponsable();
+      });
+    },
+    eliminarResponsable: function eliminarResponsable(id) {
+      var _this12 = this;
+
+      var URL = 'responsable-pagos/' + id;
+      axios["delete"](URL).then(function (response) {
+        _this12.obtenerResponsable();
+      });
+    },
+    obtenerSesionActual: function obtenerSesionActual() {
+      var _this13 = this;
 
       var URL = 'obtener-sesion-actual';
       axios.get(URL).then(function (response) {
-        _this10.sesionActual = response.data[0];
-        _this10.sesion = response.data[1];
+        _this13.sesionActual = response.data[0];
+        _this13.sesion = response.data[1];
       });
     },
     registrarMovimiento: function registrarMovimiento() {
-      var _this11 = this;
+      var _this14 = this;
 
       var URL = 'pagos';
       axios.post(URL, this.movimiento).then(function (response) {
-        _this11.movimiento.tipo = '';
-        _this11.movimiento.motivo = '';
-        _this11.movimiento.referencia = '';
-        _this11.movimiento.cantidad = '';
-        _this11.movimiento.metodo = '';
-        _this11.movimiento.descripcion = '';
+        _this14.movimiento.tipo = '';
+        _this14.movimiento.motivo = '';
+        _this14.movimiento.referencia = '';
+        _this14.movimiento.cantidad = '';
+        _this14.movimiento.metodo = '';
+        _this14.movimiento.descripcion = '';
+        _this14.movimiento.fechaTransferencia = '';
         Swal.fire('Movimiento registrado!', 'El movimiento se registro con exito', 'success');
-        _this11.movimiento.responsable = '';
+        _this14.movimiento.responsable = '';
 
-        _this11.obtenerOtrosPagos();
+        _this14.obtenerOtrosPagos();
       });
     },
     editarPago: function editarPago() {
-      var _this12 = this;
+      var _this15 = this;
 
       var URL = 'pagos/' + this.pagoEditado.id;
       Object.defineProperty(this.pagoEditado, 'resto', {
@@ -13926,39 +14003,39 @@ var user = document.head.querySelector('meta[name="user"]');
       axios.put(URL, this.pagoEditado).then(function (response) {
         Swal.fire('Cambio registrado!', 'Se a registrado una devolución al egreso correctamente', 'success');
 
-        _this12.obtenerOtrosPagos();
+        _this15.obtenerOtrosPagos();
       });
     },
     obtenerSesion: function obtenerSesion() {
-      var _this13 = this;
+      var _this16 = this;
 
       var URL = 'obtener-sesion-caja';
       axios.get(URL).then(function (response) {
-        _this13.sesion = response.data;
-        _this13.cantidad.billete1000 = _this13.sesion.cierreBillete1000;
-        _this13.cantidad.billete500 = _this13.sesion.cierreBillete500;
-        _this13.cantidad.billete200 = _this13.sesion.cierreBillete200;
-        _this13.cantidad.billete100 = _this13.sesion.cierreBillete100;
-        _this13.cantidad.billete50 = _this13.sesion.cierreBillete50;
-        _this13.cantidad.billete20 = _this13.sesion.cierreBillete20;
-        _this13.cantidad.moneda10 = _this13.sesion.cierreMoneda10;
-        _this13.cantidad.moneda5 = _this13.sesion.cierreMoneda5;
-        _this13.cantidad.moneda2 = _this13.sesion.cierreMoneda2;
-        _this13.cantidad.moneda1 = _this13.sesion.cierreMoneda1;
-        _this13.cantidad.centavo50 = _this13.sesion.cierreCentavo50;
+        _this16.sesion = response.data;
+        _this16.cantidad.billete1000 = _this16.sesion.cierreBillete1000;
+        _this16.cantidad.billete500 = _this16.sesion.cierreBillete500;
+        _this16.cantidad.billete200 = _this16.sesion.cierreBillete200;
+        _this16.cantidad.billete100 = _this16.sesion.cierreBillete100;
+        _this16.cantidad.billete50 = _this16.sesion.cierreBillete50;
+        _this16.cantidad.billete20 = _this16.sesion.cierreBillete20;
+        _this16.cantidad.moneda10 = _this16.sesion.cierreMoneda10;
+        _this16.cantidad.moneda5 = _this16.sesion.cierreMoneda5;
+        _this16.cantidad.moneda2 = _this16.sesion.cierreMoneda2;
+        _this16.cantidad.moneda1 = _this16.sesion.cierreMoneda1;
+        _this16.cantidad.centavo50 = _this16.sesion.cierreCentavo50;
 
-        _this13.habilitarCaja();
+        _this16.habilitarCaja();
       });
     },
     obtenerClientes: function obtenerClientes() {
-      var _this14 = this;
+      var _this17 = this;
 
       var URL = 'obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this14.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
+        _this17.clientes = response.data; //Asignamos una nueva propiedad a los presupuestos con su respectivo cliente
 
-        _this14.presupuestos.forEach(function (element) {
-          _this14.clientes.forEach(function (item) {
+        _this17.presupuestos.forEach(function (element) {
+          _this17.clientes.forEach(function (item) {
             if (item.id == element.client_id) {
               if (item.hasOwnProperty('apellidoPaterno')) {
                 Object.defineProperty(element, 'cliente', {
@@ -13979,33 +14056,33 @@ var user = document.head.querySelector('meta[name="user"]');
           });
         });
 
-        if (_this14.presupuestoSeleccionado.length != 0) {
-          var presupuesto = _this14.presupuestos.find(function (element) {
-            return element.id == _this14.presupuestoSeleccionado.id;
+        if (_this17.presupuestoSeleccionado.length != 0) {
+          var presupuesto = _this17.presupuestos.find(function (element) {
+            return element.id == _this17.presupuestoSeleccionado.id;
           });
 
-          _this14.presupuestoSeleccionado = presupuesto;
+          _this17.presupuestoSeleccionado = presupuesto;
 
-          if (_this14.presupuestoSeleccionado.opcionIVA) {
-            _this14.totalEtiqueta = 0;
-            _this14.totalBuscador = 0;
-            _this14.totalEtiqueta = _this14.presupuestoSeleccionado.total * 1.16;
-            _this14.totalBuscador = presupuesto.total * 1.16;
+          if (_this17.presupuestoSeleccionado.opcionIVA) {
+            _this17.totalEtiqueta = 0;
+            _this17.totalBuscador = 0;
+            _this17.totalEtiqueta = _this17.presupuestoSeleccionado.total * 1.16;
+            _this17.totalBuscador = presupuesto.total * 1.16;
           } else {
-            _this14.totalEtiqueta = _this14.presupuestoSeleccionado.total;
-            _this14.totalBuscador = presupuesto.total;
+            _this17.totalEtiqueta = _this17.presupuestoSeleccionado.total;
+            _this17.totalBuscador = presupuesto.total;
           }
         }
       });
     },
     obtenerPresupuestos: function obtenerPresupuestos() {
-      var _this15 = this;
+      var _this18 = this;
 
       var URL = 'caja/obtener-presupuestos';
       axios.get(URL).then(function (response) {
-        _this15.presupuestos = response.data;
+        _this18.presupuestos = response.data;
 
-        _this15.obtenerClientes();
+        _this18.obtenerClientes();
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -14020,7 +14097,7 @@ var user = document.head.querySelector('meta[name="user"]');
       }
     },
     obtenerPresupuesto: function obtenerPresupuesto(presupuesto) {
-      var _this16 = this;
+      var _this19 = this;
 
       this.limpiar = true;
       this.presupuestoSeleccionado = presupuesto;
@@ -14034,11 +14111,11 @@ var user = document.head.querySelector('meta[name="user"]');
       }
 
       setTimeout(function () {
-        _this16.limpiar = false;
+        _this19.limpiar = false;
       }, 1000);
     },
     abrirCaja: function abrirCaja() {
-      var _this17 = this;
+      var _this20 = this;
 
       var URL = 'caja';
       var diferencia = 0;
@@ -14066,9 +14143,9 @@ var user = document.head.querySelector('meta[name="user"]');
           onClose: function onClose() {
             clearInterval(timerInterval);
 
-            _this17.obtenerSesionActual();
+            _this20.obtenerSesionActual();
 
-            _this17.mostrarAbrirCaja = false;
+            _this20.mostrarAbrirCaja = false;
           }
         }).then(function (result) {
           if (
@@ -14080,7 +14157,7 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     confirmarCerrarCaja: function confirmarCerrarCaja() {
-      var _this18 = this;
+      var _this21 = this;
 
       Swal.fire({
         title: 'Estas a punto de cerrar caja',
@@ -14092,12 +14169,12 @@ var user = document.head.querySelector('meta[name="user"]');
         confirmButtonText: 'Cerrar caja'
       }).then(function (result) {
         if (result.value) {
-          _this18.cerrarCaja();
+          _this21.cerrarCaja();
         }
       });
     },
     cerrarCaja: function cerrarCaja() {
-      var _this19 = this;
+      var _this22 = this;
 
       var URL = 'caja/' + this.sesionActual.id;
       var diferencia = 0;
@@ -14113,14 +14190,14 @@ var user = document.head.querySelector('meta[name="user"]');
       }).then(function (response) {
         Swal.fire('Cerrada!', 'Caja ha sido cerrada', 'success');
 
-        _this19.enviarEmail();
+        _this22.enviarEmail();
 
-        _this19.mostrarAbrirCaja = true;
+        _this22.mostrarAbrirCaja = true;
         $('#cerrarCaja').modal('hide');
       });
     },
     registrarPago: function registrarPago() {
-      var _this20 = this;
+      var _this23 = this;
 
       var URL = '/registrar-pago';
       var numero = this.totalEtiqueta - this.totalAbonado;
@@ -14137,19 +14214,19 @@ var user = document.head.querySelector('meta[name="user"]');
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then(function (response) {
               alert('Pago registrado');
-              _this20.pago.amount = '';
-              _this20.pago.reference = '';
-              _this20.pago.bank = '';
+              _this23.pago.amount = '';
+              _this23.pago.reference = '';
+              _this23.pago.bank = '';
 
-              if (_this20.pago.amount == numero.toFixed(2)) {
-                var _URL = 'pagar-contrato/' + _this20.presupuestoSeleccionado.id;
+              if (_this23.pago.amount == numero.toFixed(2)) {
+                var _URL = 'pagar-contrato/' + _this23.presupuestoSeleccionado.id;
 
                 axios.get(_URL).then(function (response) {
                   alert('Contrato pagado');
                 });
               }
 
-              _this20.obtenerPresupuestos();
+              _this23.obtenerPresupuestos();
             })["catch"](function (error) {
               console.log(error.data);
             });
@@ -17028,6 +17105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         })) {
           Swal.fire('Registro duplicado', 'Ya existe un producto con el nombre ' + this.productoExterno.servicio, 'warning');
         } else {
+          this.inventarioLocal = this.inventarioLocal.reverse();
           this.inventarioLocal.push({
             'externo': true,
             'imagen': this.productoExterno.imagen,
@@ -17046,6 +17124,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             'precioEspecial': this.productoExterno.precioUnitario,
             'precioAnterior': this.productoExterno.precioUnitario
           });
+          this.inventarioLocal = this.inventarioLocal.reverse();
         }
       }
 
@@ -17064,6 +17143,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     busEvent: function busEvent() {
       // Enviar el evento por el canal click
       _eventBus_js__WEBPACK_IMPORTED_MODULE_3__["EventBus"].$emit('click');
+    },
+    limpiarInput: function limpiarInput() {
+      var _this16 = this;
+
+      this.limpiar = true;
+      setTimeout(function () {
+        _this16.limpiar = false;
+      }, 1000);
     },
     //Metodos dentro de la tabla productos
     // Eliminar
@@ -17211,20 +17298,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this16 = this;
+      var _this17 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this16.inventario = response.data;
-        console.log(_this16.inventario);
+        _this17.inventario = response.data;
+        console.log(_this17.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
     },
     agregarProducto: function agregarProducto(producto) {
-      var _this17 = this;
+      var _this18 = this;
 
       this.limpiar = true;
+      this.inventarioLocal = this.inventarioLocal.reverse();
       this.inventarioLocal.push({
         'externo': false,
         'imagen': producto.imagen,
@@ -17244,17 +17332,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.inventarioLocal = this.inventarioLocal.reverse();
       setTimeout(function () {
-        _this17.limpiar = false;
+        _this18.limpiar = false;
       }, 1000);
       console.log(this.inventarioLocal);
     },
     obtenerClientes: function obtenerClientes() {
-      var _this18 = this;
+      var _this19 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this18.clientes = response.data;
-        console.log(_this18.clientes);
+        _this19.clientes = response.data;
+        console.log(_this19.clientes);
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -17269,18 +17357,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.festejados.splice(index, 1);
     }
   }, _defineProperty(_methods, "obtenerUltimoPresupuesto", function obtenerUltimoPresupuesto() {
-    var _this19 = this;
+    var _this20 = this;
 
     var URL = 'obtener-ultimo-presupuesto';
     axios.get(URL).then(function (response) {
-      _this19.ultimoPresupuesto = response.data;
-      var URL = 'enviar-email/' + _this19.ultimoPresupuesto.id;
+      _this20.ultimoPresupuesto = response.data;
+      var URL = 'enviar-email/' + _this20.ultimoPresupuesto.id;
       axios.get(URL).then(function (response) {
         console.log('email enviado');
       });
     });
   }), _defineProperty(_methods, "guardarPresupuesto", function guardarPresupuesto() {
-    var _this20 = this;
+    var _this21 = this;
 
     if (this.inventarioLocal.length == 0) {
       Swal.fire('Elementos', 'Agrega Elementos a tu presupuesto para continuar', 'error');
@@ -17310,7 +17398,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'festejados': this.festejados,
           'inventario': this.inventarioLocal
         }).then(function (response) {
-          _this20.imprimir = true;
+          _this21.imprimir = true;
           /*
           this.obtenerUltimoPresupuesto()
           */
@@ -17345,7 +17433,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }), _defineProperty(_methods, "guardarContrato", function guardarContrato() {
-    var _this21 = this;
+    var _this22 = this;
 
     if (isNaN(parseInt(this.facturacion.fechaRecoleccion))) {
       Swal.fire('Hora de recolección', 'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente', 'error');
@@ -17391,7 +17479,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               'inventario': this.inventarioLocal,
               'facturacion': this.facturacion
             }).then(function (response) {
-              _this21.imprimir = true;
+              _this22.imprimir = true;
 
               if (response.data == 1) {
                 Swal.fire('Error!', 'El salon de eventos ya esta ocupado para esta fecha', 'error');
@@ -17420,14 +17508,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }), _defineProperty(_methods, "imprimirPDF", function imprimirPDF() {
-    var _this22 = this;
+    var _this23 = this;
 
     if (!this.imprimir) {
       Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
     } else {
       var URL = '/obtener-ultimo-presupuesto';
       axios.get(URL).then(function (response) {
-        _this22.imprimir = false;
+        _this23.imprimir = false;
         var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
         window.open('/presupuestos/generar-pdf/' + data.id);
@@ -19569,6 +19657,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.indice = index;
     },
+    limpiarInput: function limpiarInput() {
+      var _this9 = this;
+
+      this.limpiar = true;
+      setTimeout(function () {
+        _this9.limpiar = false;
+      }, 1000);
+    },
     updateCantidadPaquete: function updateCantidadPaquete(index) {
       this.precioSugerido = 0;
       this.utilidad = 0;
@@ -19610,12 +19706,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.actualizarPrecioSugerido();
     },
     guardarPaquete: function guardarPaquete() {
-      var _this9 = this;
+      var _this10 = this;
 
       var count;
 
       if (this.inventarioLocal.some(function (element) {
-        return element.servicio == _this9.paquete.servicio;
+        return element.servicio == _this10.paquete.servicio;
       })) {
         Swal.fire('Registro duplicado', 'Ya existe un paquete con el nombre ' + this.paquete.servicio, 'warning');
       } else {
@@ -19641,7 +19737,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // Metodo para obtener el cliente seleccionado
     obtenerCliente: function obtenerCliente(cliente) {
-      var _this10 = this;
+      var _this11 = this;
 
       this.clienteSeleccionado.apellidoPaterno = '';
       this.clienteSeleccionado.apellidoMaterno = '';
@@ -19652,7 +19748,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'id': cliente.id,
         'accion': 'telefonos'
       }).then(function (response) {
-        _this10.clienteSeleccionado.telefonos = response.data;
+        _this11.clienteSeleccionado.telefonos = response.data;
       })["catch"](function (error) {
         console.log(error.data);
       });
@@ -19660,18 +19756,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'id': cliente.id,
         'accion': 'presupuestos'
       }).then(function (response) {
-        _this10.clienteSeleccionado.presupuestos = [];
-        _this10.ultimoEvento = '';
+        _this11.clienteSeleccionado.presupuestos = [];
+        _this11.ultimoEvento = '';
 
         if (response.data.length !== 0) {
-          _this10.clienteSeleccionado.presupuestos = response.data;
+          _this11.clienteSeleccionado.presupuestos = response.data;
           var arreglo = response.data;
           arreglo.sort(function (a, b) {
             return new Date(b.fechaEvento) - new Date(a.fechaEvento);
           });
-          _this10.ultimoEvento = arreglo.shift();
+          _this11.ultimoEvento = arreglo.shift();
 
-          _this10.clienteSeleccionado.presupuestos.push(_this10.ultimoEvento);
+          _this11.clienteSeleccionado.presupuestos.push(_this11.ultimoEvento);
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -19692,7 +19788,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
       this.presupuesto.client_id = cliente.id;
       setTimeout(function () {
-        _this10.limpiar = false;
+        _this11.limpiar = false;
       }, 1000);
     },
     //Metodos para procesar la imagen de prodcuto extero
@@ -19702,21 +19798,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.cargarImagen(files[0]);
     },
     cargarImagen: function cargarImagen(file) {
-      var _this11 = this;
+      var _this12 = this;
 
       var reader = new FileReader();
       var vm = this;
 
       reader.onload = function (e) {
         //this.thumbnail = e.target.result;
-        _this11.productoExterno.imagen = e.target.result;
+        _this12.productoExterno.imagen = e.target.result;
       };
 
       reader.readAsDataURL(file);
     },
     //Agregar producto externo a la tabla de productos
     agregarProductoExterno: function agregarProductoExterno() {
-      var _this12 = this;
+      var _this13 = this;
 
       if (this.controlElementoExterno) {
         this.paquete.inventario.push({
@@ -19735,10 +19831,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       } else {
         if (this.inventarioLocal.some(function (element) {
-          return element.servicio == _this12.productoExterno.servicio;
+          return element.servicio == _this13.productoExterno.servicio;
         })) {
           Swal.fire('Registro duplicado', 'Ya existe un producto con el nombre ' + this.productoExterno.servicio, 'warning');
         } else {
+          this.inventarioLocal = this.inventarioLocal.reverse();
           this.inventarioLocal.push({
             'externo': true,
             'imagen': this.productoExterno.imagen,
@@ -19757,6 +19854,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             'precioEspecial': this.productoExterno.precioUnitario,
             'precioAnterior': this.productoExterno.precioUnitario
           });
+          this.inventarioLocal = this.inventarioLocal.reverse();
         }
       }
 
@@ -19924,20 +20022,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //Otros metodos
     obtenerInventario: function obtenerInventario() {
-      var _this13 = this;
+      var _this14 = this;
 
       var URL = '/obtener-inventario';
       axios.get(URL).then(function (response) {
-        _this13.inventario = response.data;
-        console.log(_this13.inventario);
+        _this14.inventario = response.data;
+        console.log(_this14.inventario);
       })["catch"](function (error) {
         console.log(error.data);
       });
     },
     agregarProducto: function agregarProducto(producto) {
-      var _this14 = this;
+      var _this15 = this;
 
       this.limpiar = true;
+      this.inventarioLocal = this.inventarioLocal.reverse();
       this.inventarioLocal.push({
         'externo': false,
         'imagen': producto.imagen,
@@ -19957,19 +20056,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.inventarioLocal = this.inventarioLocal.reverse();
       setTimeout(function () {
-        _this14.limpiar = false;
+        _this15.limpiar = false;
       }, 1000);
       console.log(this.inventarioLocal);
     },
     obtenerClientes: function obtenerClientes() {
-      var _this15 = this;
+      var _this16 = this;
 
       var URL = '/obtener-clientes';
       axios.get(URL).then(function (response) {
-        _this15.clientes = response.data;
-        console.log('Estos son los clientes: ', _this15.clientes);
+        _this16.clientes = response.data;
+        console.log('Estos son los clientes: ', _this16.clientes);
 
-        _this15.obtenerPresupuesto();
+        _this16.obtenerPresupuesto();
       });
     },
     agregarFestejado: function agregarFestejado() {
@@ -19983,7 +20082,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // Guardar como presupuesto
     guardarPresupuesto: function guardarPresupuesto() {
-      var _this16 = this;
+      var _this17 = this;
 
       if (this.presupuesto.tipoEvento == 'INTERNO') {
         this.presupuesto.tipoServicio = '';
@@ -20012,7 +20111,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         } else {
           Swal.fire('Creado!', 'El presupuesto se actualizo correctamente', 'success');
 
-          _this16.obtenerPresupuesto();
+          _this17.obtenerPresupuesto();
         }
       })["catch"](function (error) {
         console.log(error.data);
@@ -20046,18 +20145,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     obtenerPresupuesto: function obtenerPresupuesto() {
-      var _this17 = this;
+      var _this18 = this;
 
       var data = window.location.pathname.split('/');
       var path = data[3];
       var URL = '/obtener-presupuesto/' + path;
       axios.get(URL).then(function (response) {
-        _this17.presupuesto = response.data;
-        _this17.facturacion = response.data;
+        _this18.presupuesto = response.data;
+        _this18.facturacion = response.data;
         console.log('Este es el presupuesto: ', response.data);
-        _this17.saldoFinal = _this17.presupuesto.total;
+        _this18.saldoFinal = _this18.presupuesto.total;
 
-        var cliente = _this17.clientes.find(function (element) {
+        var cliente = _this18.clientes.find(function (element) {
           return element.id == response.data.client_id;
         });
 
@@ -20068,7 +20167,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'telefonos'
         }).then(function (response) {
-          _this17.clienteSeleccionado.telefonos = response.data;
+          _this18.clienteSeleccionado.telefonos = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -20076,42 +20175,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'id': cliente.id,
           'accion': 'presupuestos'
         }).then(function (response) {
-          _this17.clienteSeleccionado.presupuestos = [];
-          _this17.ultimoEvento = '';
+          _this18.clienteSeleccionado.presupuestos = [];
+          _this18.ultimoEvento = '';
 
           if (response.data.length !== 0) {
-            _this17.clienteSeleccionado.presupuestos = response.data;
+            _this18.clienteSeleccionado.presupuestos = response.data;
             var arreglo = response.data;
             arreglo.sort(function (a, b) {
               return new Date(b.fechaEvento) - new Date(a.fechaEvento);
             });
-            _this17.ultimoEvento = arreglo.shift();
+            _this18.ultimoEvento = arreglo.shift();
 
-            _this17.clienteSeleccionado.presupuestos.push(_this17.ultimoEvento);
+            _this18.clienteSeleccionado.presupuestos.push(_this18.ultimoEvento);
           }
         })["catch"](function (error) {
           console.log(error.data);
         });
-        _this17.clienteSeleccionado.id = cliente.id;
-        _this17.clienteSeleccionado.nombre = cliente.nombre;
-        _this17.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
-        _this17.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
-        _this17.clienteSeleccionado.email = cliente.email;
-        _this17.clienteSeleccionado.rfc = cliente.rfcFacturacion;
-        _this17.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-        _this17.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-        _this17.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-        _this17.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-        _this17.presupuesto.client_id = cliente.id; //Obtener los festejados
+        _this18.clienteSeleccionado.id = cliente.id;
+        _this18.clienteSeleccionado.nombre = cliente.nombre;
+        _this18.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
+        _this18.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
+        _this18.clienteSeleccionado.email = cliente.email;
+        _this18.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+        _this18.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        _this18.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        _this18.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        _this18.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+        _this18.presupuesto.client_id = cliente.id; //Obtener los festejados
 
-        var direction = '/obtener-festejados/' + _this17.presupuesto.id;
+        var direction = '/obtener-festejados/' + _this18.presupuesto.id;
         axios.get(direction).then(function (response) {
-          _this17.festejados = response.data;
+          _this18.festejados = response.data;
         })["catch"](function (error) {
           console.log(error.data);
         }); //Obtener el inventario
 
-        var direction2 = '/obtener-inventario-1/' + _this17.presupuesto.id;
+        var direction2 = '/obtener-inventario-1/' + _this18.presupuesto.id;
         axios.get(direction2).then(function (response) {
           var arreglo = [];
           response.data.forEach(function (element) {
@@ -20157,9 +20256,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             return arreglo;
           });
-          _this17.inventarioLocal = arreglo;
+          _this18.inventarioLocal = arreglo;
         });
-        var direction3 = '/obtener-paquetes/' + _this17.presupuesto.id;
+        var direction3 = '/obtener-paquetes/' + _this18.presupuesto.id;
         axios.get(direction3).then(function (response) {
           var arregloPaquetes = [];
           response.data.forEach(function (element) {
@@ -20228,8 +20327,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             };
             arregloPaquetes.push(objeto);
           });
-          _this17.inventarioLocal = _this17.inventarioLocal.concat(arregloPaquetes);
-          _this17.unlock = true;
+          _this18.inventarioLocal = _this18.inventarioLocal.concat(arregloPaquetes);
+          _this18.unlock = true;
         })["catch"](function (error) {
           console.log(error.data);
         });
@@ -20238,14 +20337,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     imprimirPDF: function imprimirPDF() {
-      var _this18 = this;
+      var _this19 = this;
 
       if (!this.imprimir) {
         Swal.fire('Error!', 'Antes de imprimir es necesario guardar el presupuesto o contrato', 'error');
       } else {
         var URL = '/obtener-ultimo-presupuesto';
         axios.get(URL).then(function (response) {
-          _this18.imprimir = false;
+          _this19.imprimir = false;
           var data = response.data; //window.location.href = '/presupuestos/generar-pdf/' + data.id;
 
           window.open('/presupuestos/generar-pdf/' + data.id);
@@ -76613,35 +76712,80 @@ var render = function() {
                                             _vm._v("Responsable")
                                           ]),
                                           _vm._v(" "),
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value:
-                                                  _vm.movimiento.responsable,
-                                                expression:
-                                                  "movimiento.responsable"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: { type: "text" },
-                                            domProps: {
-                                              value: _vm.movimiento.responsable
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
+                                          _c(
+                                            "select",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value:
+                                                    _vm.movimiento.responsable,
+                                                  expression:
+                                                    "movimiento.responsable"
                                                 }
-                                                _vm.$set(
-                                                  _vm.movimiento,
-                                                  "responsable",
-                                                  $event.target.value
-                                                )
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: { name: "", id: "" },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$selectedVal = Array.prototype.filter
+                                                    .call(
+                                                      $event.target.options,
+                                                      function(o) {
+                                                        return o.selected
+                                                      }
+                                                    )
+                                                    .map(function(o) {
+                                                      var val =
+                                                        "_value" in o
+                                                          ? o._value
+                                                          : o.value
+                                                      return val
+                                                    })
+                                                  _vm.$set(
+                                                    _vm.movimiento,
+                                                    "responsable",
+                                                    $event.target.multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  )
+                                                }
                                               }
-                                            }
-                                          })
+                                            },
+                                            _vm._l(_vm.responsables, function(
+                                              item,
+                                              index
+                                            ) {
+                                              return _c(
+                                                "option",
+                                                {
+                                                  key: index,
+                                                  domProps: {
+                                                    value: item.nombre
+                                                  }
+                                                },
+                                                [_vm._v(_vm._s(item.nombre))]
+                                              )
+                                            }),
+                                            0
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "label",
+                                            {
+                                              staticStyle: {
+                                                cursor: "pointer",
+                                                "font-size": "11px"
+                                              },
+                                              attrs: {
+                                                "data-toggle": "modal",
+                                                "data-target":
+                                                  "#administrarResponsables"
+                                              }
+                                            },
+                                            [_vm._v("Añadir nuevo registro")]
+                                          )
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
@@ -76973,7 +77117,7 @@ var render = function() {
                               _c("div", { staticClass: "col-md-6" }, [
                                 _c("div", { staticClass: "form-group" }, [
                                   _c("label", { attrs: { for: "" } }, [
-                                    _vm._v("Cantidad")
+                                    _vm._v("Monto")
                                   ]),
                                   _vm._v(" "),
                                   _c("input", {
@@ -77173,6 +77317,43 @@ var render = function() {
                                           _vm.$set(
                                             _vm.movimiento,
                                             "banco",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.movimiento.metodo == "TRANSFERENCIA"
+                                ? _c("div", { staticClass: "col-md-12 mt-3" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value:
+                                            _vm.movimiento.fechaTransferencia,
+                                          expression:
+                                            "movimiento.fechaTransferencia"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "date",
+                                        placeholder: "Fecha de la transferencia"
+                                      },
+                                      domProps: {
+                                        value: _vm.movimiento.fechaTransferencia
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.movimiento,
+                                            "fechaTransferencia",
                                             $event.target.value
                                           )
                                         }
@@ -77491,8 +77672,20 @@ var render = function() {
                                                           "Referencia: " +
                                                             _vm._s(
                                                               item.referencia
-                                                            )
-                                                        )
+                                                            ) +
+                                                            " "
+                                                        ),
+                                                        item.metodo ==
+                                                        "TRANSFERENCIA"
+                                                          ? _c("span", [
+                                                              _vm._v(
+                                                                "Fecha de transferencia: " +
+                                                                  _vm._s(
+                                                                    item.referencia
+                                                                  )
+                                                              )
+                                                            ])
+                                                          : _vm._e()
                                                       ]
                                                     )
                                                   : _vm._e(),
@@ -78582,6 +78775,116 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "administrarResponsables",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered modal-sm",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(54),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.nuevoResponsable,
+                      expression: "nuevoResponsable"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.nuevoResponsable },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.nuevoResponsable = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("table", { staticClass: "table table-hover" }, [
+                  _vm._m(55),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.responsables, function(item, index) {
+                      return _c("tr", { key: index }, [
+                        _c("th", { attrs: { scope: "row" } }, [
+                          _vm._v(_vm._s(item.id))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.nombre))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-danger",
+                              on: {
+                                click: function($event) {
+                                  return _vm.eliminarResponsable(item.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Eliminar")]
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.guardarResponsable()
+                      }
+                    }
+                  },
+                  [_vm._v("Guardar")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -79271,6 +79574,48 @@ var staticRenderFns = [
           attrs: { id: "exampleModalCenterTitle" }
         },
         [_vm._v("Agregar nueva categoria")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "exampleModalCenterTitle" }
+        },
+        [_vm._v("Administrar Responsable")]
       ),
       _vm._v(" "),
       _c(
@@ -81788,7 +82133,18 @@ var render = function() {
                           list: _vm.inventario,
                           keys: ["servicio", "id", "familia"]
                         }
-                      })
+                      }),
+                      _c("span", [
+                        _c("i", {
+                          staticClass: "fa fa-remove",
+                          staticStyle: { color: "red" },
+                          on: {
+                            click: function($event) {
+                              return _vm.limpiarInput()
+                            }
+                          }
+                        })
+                      ])
                     ],
                     1
                   ),
@@ -89609,7 +89965,18 @@ var render = function() {
                             list: _vm.inventario,
                             keys: ["servicio", "id", "familia"]
                           }
-                        })
+                        }),
+                        _c("span", [
+                          _c("i", {
+                            staticClass: "fa fa-remove",
+                            staticStyle: { color: "red" },
+                            on: {
+                              click: function($event) {
+                                return _vm.limpiarInput()
+                              }
+                            }
+                          })
+                        ])
                       ],
                       1
                     ),

@@ -647,7 +647,7 @@ class IndexController extends Controller
     }
 
     public function facturas(){
-        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('facturaSolicitada', '1')->where('archivado', '0')->get();
+        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('facturaSolicitada', '>','0')->where('archivado', '0')->get();
 
         $fechaHoy = Carbon::yesterday();
         $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
@@ -678,6 +678,7 @@ class IndexController extends Controller
                 $Presupuesto->version = $budget->version;
                 $Presupuesto->impresion = $budget->impresion;
                 $Presupuesto->enviado = $budget->enviado;
+                $Presupuesto->fechaEnvioFactura = $budget->fechaEnvioFactura;
                 $Presupuesto->facturaSolicitada = $budget->facturaSolicitada;
                 $Presupuesto->pagado = $budget->pagado;
                 if($budget->opcionIVA==1){
