@@ -218,6 +218,7 @@ padding: 0;
                         <div v-if="clienteSeleccionado" class="info" style="padding-top:15px;">
                             <p>{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
+                            <p>{{ clienteSeleccionado.tipo }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
                             </p>
@@ -364,7 +365,7 @@ padding: 0;
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
                                     
-                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red"></i></span>
+                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
                             <div class="col-md-4">
@@ -2013,6 +2014,7 @@ padding: 0;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+                this.clienteSeleccionado.tipo = cliente.tipo;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -2412,7 +2414,8 @@ padding: 0;
                     }   
                     
                 }).catch((error) => {
-                   // alert(error.message);
+                    alert(error.message);
+
                     if(error.message=='Request failed with status code 419'){
                         error.message='';
                         window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");

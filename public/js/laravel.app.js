@@ -16503,6 +16503,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // Importamos el evento Bus.
@@ -17211,6 +17212,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.clienteSeleccionado.email = cliente.email;
       this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+      this.clienteSeleccionado.tipo = cliente.tipo;
       this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
       this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
       this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
@@ -17581,7 +17583,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           }
         })["catch"](function (error) {
-          // alert(error.message);
+          alert(error.message);
+
           if (error.message == 'Request failed with status code 419') {
             error.message = '';
             window.open('http://localhost:8000/login', "ventana1", "width=350,height=350,scrollbars=NO");
@@ -81706,6 +81709,10 @@ var render = function() {
                             _vm._v(_vm._s(_vm.clienteSeleccionado.email))
                           ]),
                           _vm._v(" "),
+                          _c("p", [
+                            _vm._v(_vm._s(_vm.clienteSeleccionado.tipo))
+                          ]),
+                          _vm._v(" "),
                           _vm._l(_vm.clienteSeleccionado.telefonos, function(
                             telefono
                           ) {
@@ -82548,7 +82555,11 @@ var render = function() {
                       _c("span", [
                         _c("i", {
                           staticClass: "fa fa-remove",
-                          staticStyle: { color: "red" },
+                          staticStyle: {
+                            color: "red",
+                            position: "absolute",
+                            right: "0"
+                          },
                           on: {
                             click: function($event) {
                               return _vm.limpiarInput()
@@ -90380,7 +90391,11 @@ var render = function() {
                         _c("span", [
                           _c("i", {
                             staticClass: "fa fa-remove",
-                            staticStyle: { color: "red" },
+                            staticStyle: {
+                              color: "red",
+                              position: "absolute",
+                              right: "0"
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.limpiarInput()

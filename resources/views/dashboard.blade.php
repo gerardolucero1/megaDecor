@@ -73,7 +73,7 @@
                                                 <i class="si si-fire fa-3x text-corporate-light"></i>
                                             </div>
                                             <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
-                                            <div class="font-size-sm font-w600 text-uppercase text-white-op">Prospectos DEL MES</div>
+                                            <div class="font-size-sm font-w600 text-uppercase text-white-op">ELEMENTOS DAÑADOS</div>
                                         </div>
                                     </a>
                                 </div>
@@ -159,7 +159,7 @@
                                                     </div>
                                                     <div class="row pt-10 pb-30 text-center">
                                                         <div class="col-6 border-r">
-                                                            <div class="font-size-h3 font-w600">${{ $ingresoActual }} <span @if( $ingresoActual > $ventasAnoPasado)
+                                                            <div class="font-size-h3 font-w600">${{ number_format($ingresoActual,2)}} <span @if( $ingresoActual > $ventasAnoPasado)
                                                                     style="color:green"
                                                                     @else
                                                                     style="color:orange"
@@ -167,7 +167,7 @@
                                                                     <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos {{ $mes }} {{ $anio }}</div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="font-size-h3 font-w600">${{ $ventasAnoPasado }} </div>
+                                                            <div class="font-size-h3 font-w600">${{ number_format($ventasAnoPasado,2) }} </div>
                                                         <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos {{ $mes }} {{ $anioPasado }}</div>
                                                         </div>
                                                     </div>

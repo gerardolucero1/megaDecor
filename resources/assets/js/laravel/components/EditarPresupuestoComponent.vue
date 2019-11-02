@@ -354,7 +354,7 @@ padding: 0;
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
                                     
-                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red"></i></span>
+                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0"></i></span>
 
                             </div>
                             <div class="col-md-4">
