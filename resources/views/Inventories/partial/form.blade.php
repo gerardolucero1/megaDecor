@@ -113,7 +113,7 @@
                     <div class="form-material">
                         {{ Form::label('familia', 'Familia') }}
                         <label for="">Familia seleccionada:</label>
-                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
+                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia']) }}  
 
                         <div>
                             <img src="" alt="">

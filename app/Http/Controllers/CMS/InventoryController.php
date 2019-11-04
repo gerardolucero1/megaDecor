@@ -55,7 +55,7 @@ class InventoryController extends Controller
             'precioVenta' => 'required',
             'familia' => 'required',
         ]);
- 
+            
         if ($v->fails())
         {
             return redirect()->back()->withInput()->withErrors($v->errors());
