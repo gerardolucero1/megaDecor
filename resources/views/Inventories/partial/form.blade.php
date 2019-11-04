@@ -100,34 +100,19 @@
         <div class="form-group row">
                 <div class="col-md-12">
                     <label for="">Selecciona una familia</label>
-                        <select  id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
-                            @if (isset($inventory))
-                                <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
-                            @else
-                                <option value="null">Selecciona familia</option>
-                            @endif
-                            @foreach($familias as $familia)
-                                <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                        <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
+                                <option value="">Selecciona una familia</option>
+                            @foreach($familias as $familia)    
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                             @endforeach
                             </select>
                     <div class="form-material">
                         {{ Form::label('familia', 'Familia') }}
                         <label for="">Familia seleccionada:</label>
-                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia']) }}  
-
-                        <div>
-                            <img src="" alt="">
-                        </div>
+                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
                     </div>
                 </div>
-
             </div>
-            @if (isset($inventory))
-                <div class="col-md-12">
-                    <img src="{{ $inventory->imagen }}" width="100%" alt="">
-                </div>
-            @endif
-            
     </div>
 
     <div class="row">
