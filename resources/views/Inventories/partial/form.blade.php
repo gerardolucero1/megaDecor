@@ -100,7 +100,7 @@
         <div class="form-group row">
                 <div class="col-md-12">
                     <label for="">Selecciona una familia</label>
-                        <select  id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
+                        <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
                             @if (isset($inventory))
                                 <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
                             @else

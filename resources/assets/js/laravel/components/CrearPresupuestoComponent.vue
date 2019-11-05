@@ -2402,8 +2402,8 @@ padding: 0;
                     }   
                     
                 }).catch((error) => {
-                   // alert(error.message);
-                    if(error.message=='Request failed with status code 419'){
+                   console.log(error.response);
+                    if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
                         window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
@@ -2515,8 +2515,17 @@ padding: 0;
                     }   
                     
                 }).catch((error) => {
-                    console.log(error.data);
-                   
+                   console.log(error.response);
+                    if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             }
         }

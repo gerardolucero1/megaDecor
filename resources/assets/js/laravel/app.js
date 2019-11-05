@@ -56,6 +56,7 @@ Vue.component('calendario-component', require('./components/CalendarioComponent.
 Vue.component('caja-component', require('./components/CajaComponent.vue').default);
 Vue.component('contabilidad-component', require('./components/ContabilidadComponent.vue').default);
 Vue.component('altas-component', require('./components/AltasComponent.vue').default);
+Vue.component('editar-paquete-component', require('./components/EditarPaqueteComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
