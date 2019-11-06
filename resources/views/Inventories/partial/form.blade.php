@@ -101,9 +101,13 @@
                 <div class="col-md-12">
                     <label for="">Selecciona una familia</label>
                         <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
-                                <option value="">Selecciona una familia</option>
-                            @foreach($familias as $familia)    
-                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                            @if (isset($inventory))
+                                <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
+                            @else
+                                <option value="null">Selecciona familia</option>
+                            @endif
+                            @foreach($familias as $familia)
+                                <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                             @endforeach
                             </select>
                     <div class="form-material">
