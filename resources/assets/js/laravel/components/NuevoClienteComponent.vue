@@ -406,6 +406,9 @@ function emailCopy(){
                   //  console.log(this.tipos);
                 });
             },
+    emitGlobalClickEvent() {
+      EventBus.$emit('nuevoCliente');
+    },
 
             eliminarComoSupo(item){
                 var url= '/clientes/eliminar-comoSupo/'+item.id;
@@ -695,6 +698,7 @@ function emailCopy(){
 
                 }).then((response) => {
                     this.cliente = {};
+                    EventBus.$emit('nuevoCliente');
                    // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Cliente Registrado con exito',
@@ -704,7 +708,7 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
-                            location.reload();
+                            
                 }).catch((error) => {
                     console.log(error);
                 });

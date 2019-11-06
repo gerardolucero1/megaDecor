@@ -25,7 +25,6 @@ class ClientController extends Controller
     public function categorias(){
         return MoralCategory::orderBy('id', 'DESC')->get();   
     }
-
     
 
     // Esta funcion retorna todas las opciones de ¿Como nos conocio?

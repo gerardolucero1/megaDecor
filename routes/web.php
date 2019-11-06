@@ -125,6 +125,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Pantalla Usuarios
         Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+        Route::get('/archivar-usuario/{id}', 'CMS\IndexController@archivarUsuario')->name('usuario.archivar');
+        Route::get('/usuariosPermisos/{id}', 'CMS\IndexController@usuariosPermisos')->name('usuario.permisos');
 
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');

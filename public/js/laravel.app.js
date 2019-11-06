@@ -16503,7 +16503,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
  // Importamos el evento Bus.
@@ -16697,6 +16696,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     this.$on('resultsPaquetes', function (resultsPaquetes) {
       _this.resultsPaquetes = resultsPaquetes;
+    });
+    _eventBus_js__WEBPACK_IMPORTED_MODULE_3__["EventBus"].$emit('nuevoCliente', function (funcion) {
+      alert('busfunciona');
     });
   },
   computed: {
@@ -17136,6 +17138,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.key = '';
       this.indice = '100000000';
       this.actualizarPrecioSugerido();
+    },
+    refrescarClientes: function refrescarClientes() {
+      this.obtenerClientes();
+      alert('Lista de clientes actualizada');
     },
     guardarPaquete: function guardarPaquete() {
       var _this12 = this;
@@ -21212,6 +21218,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.tipos = response.data; //  console.log(this.tipos);
       });
     },
+    emitGlobalClickEvent: function emitGlobalClickEvent() {
+      _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoCliente');
+    },
     eliminarComoSupo: function eliminarComoSupo(item) {
       var _this3 = this;
 
@@ -21473,7 +21482,8 @@ __webpack_require__.r(__webpack_exports__);
           // Telefonos
           'telefonos': this.telefonos
         }).then(function (response) {
-          _this10.cliente = {}; // console.log(this.cliente);
+          _this10.cliente = {};
+          _eventBus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('nuevoCliente'); // console.log(this.cliente);
 
           Swal.fire({
             title: 'Cliente Registrado con exito',
@@ -21482,7 +21492,6 @@ __webpack_require__.r(__webpack_exports__);
             showCancelButton: false,
             cancelButtonColor: '#d33'
           });
-          location.reload();
         })["catch"](function (error) {
           console.log(error);
         });
@@ -81565,6 +81574,21 @@ var render = function() {
                               "apellidoPaterno",
                               "apellidoMaterno"
                             ]
+                          }
+                        }),
+                        _c("i", {
+                          staticClass: "si si-refresh",
+                          staticStyle: {
+                            color: "green",
+                            position: "absolute",
+                            right: "0",
+                            top: "5px",
+                            cursor: "pointer"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.refrescarClientes()
+                            }
                           }
                         }),
                         _vm._v(" "),

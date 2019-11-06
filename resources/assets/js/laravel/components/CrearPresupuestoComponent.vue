@@ -181,9 +181,8 @@ padding: 0;
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
-                                    :keys="['nombre', 'email', 'telefono', 'apellidoPaterno' , 'apellidoMaterno']"
-                                    
-                                ></buscador-component>
+                                    :keys="['nombre', 'email', 'telefono', 'apellidoPaterno' , 'apellidoMaterno']" 
+                                ></buscador-component><i class="si si-refresh" v-on:click="refrescarClientes()"  style="color:green; position:absolute; right:0; top:5px; cursor:pointer"></i>
 
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
@@ -1477,7 +1476,9 @@ padding: 0;
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
             });
-
+            EventBus.$emit('nuevoCliente', funcion => {
+  alert('busfunciona');
+            });
             
         },
         computed:{
@@ -1937,6 +1938,10 @@ padding: 0;
                         this.actualizarPrecioSugerido();
                     },
 
+            refrescarClientes(){
+                this.obtenerClientes();
+                alert('Lista de clientes actualizada');
+            },
             guardarPaquete(){
                 let count;
                 

@@ -234,11 +234,27 @@ class IndexController extends Controller
     //dd($clientes);
     return $Presupuestos; 
 }
-
+public function archivarUsuario($id){
+    $budget=User::find($id);
+    if($budget->archivado ==1){
+    $budget->archivado='0';
+    }else{
+    $budget->archivado='1';
+    }
+    $budget->save();
+    return back();
+}
     //Pantalla usuarios
     public function pantallaUsuarios(){
-        return view('pantallaUsuarios');
+        $Usuarios = User::orderBy('id', 'DESC')->get();
+        return view('pantallaUsuarios', compact('Usuarios'));
     }
+
+    public function usuariosPermisos($id){
+        $Usuario = User::orderBy('id', 'DESC')->where('id', $id)->first();
+        return view('usuariosPermisos', compact('Usuario'));
+    }
+    
      //Pantalla inventario
      public function inventario(){
 

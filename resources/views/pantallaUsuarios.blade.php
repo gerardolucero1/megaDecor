@@ -34,34 +34,34 @@
                                 <tr role="row">
                                     <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
                                     <th class="sorting" rowspan="1" colspan="1">Usuario</th>
-                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Numero</th>
-                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Contraseña</th>
-                                    <th rowspan="1" colspan="1">Tipo</th>
+                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Correo Electronico</th>
+                                    <th rowspan="1" colspan="1">Creación</th>
+                                    <th rowspan="1" colspan="1">Status</th>
                                     <th rowspan="1" colspan="1">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>                    
-                                                   
+                                     
+                                @foreach ($Usuarios as $usuario)  
                                 <tr role="row" class="odd">
-                                <td class="text-center sorting_1"></td>
-                                    <td class="font-w600"> 
-                                        
-                                       
-                                       
-
-                                        </td>
-                                    <td class="d-none d-sm-table-cell"></td>
-                                    <td class="d-none d-sm-table-cell"></td>
-                                    <td class="d-none d-sm-table-cell"></td>
+                                <td class="text-center sorting_1">{{$usuario->id}}</td>
+                                <td class="text-center sorting_1">{{$usuario->name}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$usuario->email}}</td>
+                                    <td class="d-none d-sm-table-cell">{{$usuario->created_at}}</td>
+                                    <td class="d-none d-sm-table-cell"><p style="color:@if($usuario->archivado==0) green @else red @endif">@if($usuario->archivado==0) Activo @else Inactivo @endif</p></td>
                                     <td class="text-center">
+                                    <a href="{{ route('usuario.permisos', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                                    <i class="si si-settings"></i>
+                                            </a>
                                         <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="fa fa-remove"></i>
-                                            </button>
+                                        <a href="{{route('usuario.archivar', $usuario->id)}}" type="button"  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
+                                                <i class="si si-refresh"></i>
+                                            </a>
                                     </td>
                                 </tr>
+                                @endforeach            
                                
                             
                             </tbody>
@@ -229,7 +229,7 @@
 @section("scripts")
 <script>
     
-function archivarCliente(){
+function archivarUsuario(){
     Swal.fire({
                                 title: '¿Estas seguro de archivar a este cliente?',
                                 text: "Al archivar un cliente no se eliminan sus registros, pero este ya no estara disponible en la creacion de presupuestos, ni en la lista de clientes",
@@ -241,9 +241,9 @@ function archivarCliente(){
                                 
                             }).then((result) => {
                             if (result.value) {
-                                var url= '/tareas/archivar-cliente/'+task;
+                                var url= 'archivar-usuario/'+task;
                                 axios.delete(url).then(response =>{
-                                    this.obtenerTareas();
+                                   location.reload();
                                     }) 
                                 }
                           

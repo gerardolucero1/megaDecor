@@ -39,6 +39,15 @@
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
     <body onload="fechaActual()">
+
+        @if(Auth::user()->archivado==1)
+        <p style="font-size: 30px; text-align: center; color: red; margin-top: 100px;">Esta cuenta se encuentra suspendida</p>
+        <a href="{{ route('logout') }}"><p style="width: 100%; text-align: center">Volver a Login</p></a>
+        @if(Auth::user()->id==17)
+            <a class="btn btn-info" style="width: 20%; margin-left: 40%" href="{{route('usuario.archivar', 17)}}">Reactivar cuenta</a>
+            <p style="font-size: 10px; font-style: italic; text-align: center">Solo como webmaster puedes reactivar tu cuenta desde esta pantalla, por lo que este boton solo sera visible para tí</p>
+        @endif
+        @else
         <!-- Page Container -->
         <!--
             Available classes for #page-container:
@@ -517,5 +526,6 @@ $(document).ready( function () {
 
         @yield('scripts')
         
+        @endif
     </body>
 </html>
