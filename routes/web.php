@@ -473,7 +473,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('editar-paquete/{id}', 'CMS\PackController@edit')->name('editar.paquete');
     Route::post('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobar.paquete');
     Route::delete('rechazar-paquete/{id}', 'CMS\PackController@rechazarPaquete')->name('rechazar.paquete');
-
+    Route::put('actualizar-paquete/{id}', 'CMS\PackController@update')->name('update.paquete');
 });
 
 /*
