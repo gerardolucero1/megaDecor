@@ -517,6 +517,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
         }else{
@@ -637,6 +638,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
             $PresupuestoArchivados->IVA = true;
@@ -759,6 +761,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
             $PresupuestoArchivados->IVA = true;
@@ -877,6 +880,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          $PresupuestoArchivados->impresionBodega = $budgetArchivados->impresionBodega;
          $PresupuestoArchivados->updated_at = $budgetArchivados->updated_at;
 
