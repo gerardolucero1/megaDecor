@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -74,6 +75,14 @@ class InventoryController extends Controller
 
             $inventory->fill(['imagen' => asset($url.$path)])->save();
         }
+
+        $producto = Inventory::orderBy('id', 'DESC')->first();
+        
+        $registro = new Register();
+        $registro->tipo = 'alta';
+        $registro->producto = $producto->id;
+        $registro->user_id = Auth::user()->id;
+        $registro->save();
 
         return redirect()->route('inventory.create')
             ->with('info', 'Producto creado con exito');

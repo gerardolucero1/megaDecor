@@ -197,4 +197,14 @@ class CashRegisterController extends Controller
         return $pdf->stream();
     }
 
+    public function cancelarContrato($id){
+        $budget = Budget::findOrFail($id);
+
+        $budget->cancelado = true;
+        $budget->fechaCancelacion = Carbon::now();
+
+        $budget->save();
+        return;
+    }
+
 }

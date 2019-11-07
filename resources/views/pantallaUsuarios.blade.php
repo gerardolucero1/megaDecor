@@ -9,66 +9,60 @@
             <div class="col-md-4 text-center">
                 
             </div>
-            
-           
         </div>
         <div class="content" id="ClientesActivos">
-                <div class="block">
-                    <div class="block-header block-header-default">
-                        <div class="col-md-7">
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <div class="col-md-7">
                         <h3 class="block-title" style="color:green">Usuarios Activos</h3>
                     </div>
-                    <div class="col-md-5 text-right">
-                           
-                    <button  class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
-                                            <i class="fa fa-user-plus"></i> <i>Nuevo Usario</i> 
-                                    </button>
-                                    <button onclick="VerArchivados()" class="btn btn-secondary">
-                                                <i class="fa fa-user-times"></i> <i>Usuarios Archivados</i> 
-                                            </button>
+                    <div class="col-md-5 text-right">    
+                        <a href="{{ route('users.create') }}" class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
+                            <i class="fa fa-user-plus"></i> <i>Nuevo Usario</i> 
+                        </a>
+                        <button onclick="VerArchivados()" class="btn btn-secondary">
+                            <i class="fa fa-user-times"></i> <i>Usuarios Archivados</i> 
+                        </button>
                     </div>
-                    </div>
-                    <div style="padding:15px; padding-top:30px;">
-                     <table style="font-size: 12px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
-                            <thead>
-                                <tr role="row">
-                                    <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
-                                    <th class="sorting" rowspan="1" colspan="1">Usuario</th>
-                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Correo Electronico</th>
-                                    <th rowspan="1" colspan="1">Creación</th>
-                                    <th rowspan="1" colspan="1">Status</th>
-                                    <th rowspan="1" colspan="1">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>                    
-                                     
-                                @foreach ($Usuarios as $usuario)  
+                </div>
+                <div style="padding:15px; padding-top:30px;">
+                    <table style="font-size: 12px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
+                        <thead>
+                            <tr role="row">
+                                <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
+                                <th class="sorting" rowspan="1" colspan="1">Usuario</th>
+                                <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Correo Electronico</th>
+                                <th rowspan="1" colspan="1">Creación</th>
+                                <th rowspan="1" colspan="1">Status</th>
+                                <th rowspan="1" colspan="1">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>                         
+                            @foreach ($Usuarios as $usuario)  
                                 <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{$usuario->id}}</td>
-                                <td class="text-center sorting_1">{{$usuario->name}}</td>
+                                    <td class="text-center sorting_1">{{$usuario->id}}</td>
+                                    <td class="text-center sorting_1">{{$usuario->name}}</td>
                                     <td class="d-none d-sm-table-cell">{{$usuario->email}}</td>
                                     <td class="d-none d-sm-table-cell">{{$usuario->created_at}}</td>
                                     <td class="d-none d-sm-table-cell"><p style="color:@if($usuario->archivado==0) green @else red @endif">@if($usuario->archivado==0) Activo @else Inactivo @endif</p></td>
                                     <td class="text-center">
-                                    <a href="{{ route('usuario.permisos', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
-                                                    <i class="si si-settings"></i>
-                                            </a>
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <a href="{{ route('usuario.permisos', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                            <i class="si si-settings"></i>
+                                        </a>
+                                        <a href="{{ route('users.edit', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
                                             <i class="fa fa-edit"></i>
-                                        </button>
+                                        </a>
                                         <a href="{{route('usuario.archivar', $usuario->id)}}" type="button"  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Archivas Contacto" data-original-title="View Customer">
-                                                <i class="si si-refresh"></i>
-                                            </a>
+                                            <i class="si si-refresh"></i>
+                                        </a>
                                     </td>
                                 </tr>
-                                @endforeach            
-                               
-                            
-                            </tbody>
-                     </table>
-                            </div>
-                        </div>
+                            @endforeach            
+                        </tbody>
+                    </table>
                 </div>
+            </div>
+        </div>
               
                 <!--Tabla archivados -->
                 <div class="content" id="ClientesArchivados" style="display: none">

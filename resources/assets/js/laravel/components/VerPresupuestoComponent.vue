@@ -76,6 +76,10 @@
             <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('pasado')" class="fa fa-chevron-left"></i>   
             <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('futuro')" class="fa fa-chevron-right"></i> 
         </div>
+
+        <div class="container-version" v-if="presupuesto.length != 0" style="margin-left: 400px;">
+            Edicion echa por: {{ presupuesto.quienEdito }}
+        </div>
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
@@ -208,9 +212,15 @@
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
+                            <p>
+                                <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
+                            </p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                <label>
+                                    <input type="radio" name="email" @change="emailSeleccionado = telefono.email"> 
+                                    {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                </label>
                             </p>
                         </div>
                     </div>
@@ -728,6 +738,8 @@
 
                 //Datos facturacion
                 requiereFactura: false,
+
+                emailSeleccionado: '',
                 facturacion: {
                     //Tiempos
                     horaInicio: '',
@@ -1547,7 +1559,7 @@
             },
 
             enviarCorreoCliente(){
-                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id + '&' + this.emailSeleccionado;
 
                 axios.get(URL).then((response) => {
                     Swal.fire(

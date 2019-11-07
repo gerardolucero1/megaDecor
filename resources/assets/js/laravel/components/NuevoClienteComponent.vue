@@ -165,11 +165,10 @@
                             <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-8 mt-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width: auto;"> @ 
-                            <input required @change="emailClick" id="emailTPF" type="text" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" style="width: auto;">
+                            <input type="email" placeholder="Email" v-model="telefono.email">
                         </div>
                         <div class="col-md-4 mt-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
+                            <input type="text"  placeholder="Departamento" v-model="telefono.departamento">
                         </div>
                     </div>
 
@@ -357,6 +356,7 @@ function emailCopy(){
                     apellidoPaterno: '',
                     apellidoMaterno: '',
                     email: '',
+                    departamento: '',
                 },
                 telefonos: [],
                 physicalTelephones: [],
@@ -644,7 +644,7 @@ function emailCopy(){
                 }
 
                 if(!existe){
-                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext, 'departamento': this.telefono.departamento});
                 }
 
 

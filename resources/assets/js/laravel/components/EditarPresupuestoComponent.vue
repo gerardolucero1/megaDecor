@@ -215,6 +215,9 @@ padding: 0;
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellidoPaterno}} {{clienteSeleccionado.apellidoMaterno}}</p>
+                            <p>
+                                <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
+                            </p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
@@ -1096,9 +1099,9 @@ padding: 0;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar nuevo producto</div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row">
                                 <!-- Primer columna -->
@@ -1949,6 +1952,7 @@ padding: 0;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+                this.clienteSeleccionado.tipo = cliente.tipoPersona;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -2396,6 +2400,8 @@ padding: 0;
                 this.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+                this.clienteSeleccionado.tipo = cliente.tipoPersona;
+                
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;

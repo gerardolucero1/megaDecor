@@ -4,14 +4,14 @@ namespace App\Http\Controllers\CMS;
 
 use App\Client;
 use App\Telephone;
+use App\ComoLoSupo;
 use App\MoralPerson;
-use App\PhysicalPerson;
+use App\tipo_empresa;
 use App\AboutCategory;
 use App\MoralCategory;
-use App\tipo_empresa;
-use App\ComoLoSupo;
-use Illuminate\Support\Facades\DB;
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
@@ -170,6 +170,7 @@ class ClientController extends Controller
             $telefono->tipo = $telephone['tipo'];
             $telefono->numero = $telephone['numero'];
             $telefono->ext = $telephone['ext'];
+            $telefono->departamento = $telephone['departamento'];
             $telefono->save();
 
         }

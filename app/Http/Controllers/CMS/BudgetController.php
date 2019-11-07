@@ -58,12 +58,12 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id','moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
+            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.rfcFacturacion')
+            ->select( 'clients.id', 'clients.tipoPersona', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.rfcFacturacion')
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -75,7 +75,8 @@ class BudgetController extends Controller
     
         if($request->presupuesto['tipoEvento'] == 'INTERNO'){
             $fecha = $request->presupuesto['fechaEvento'];
-            $evento = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha)->first();
+            $evento = Budget::orderBy('id', 'DESC')->where('tipoEvento', 'INTERNO')->where('fechaEvento', $fecha)->first();
+
             if(!is_null($evento)){
                 return 1;
             }
@@ -762,7 +763,7 @@ class BudgetController extends Controller
     }
 
     public function obtenerPresupuesto($id){
-        return Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        return Budget::with('client')->orderBy('id', 'DESC')->where('id', $id)->first();
     }
 
     public function obtenerFestejados($id){
