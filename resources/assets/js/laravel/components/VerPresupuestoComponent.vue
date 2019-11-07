@@ -134,17 +134,15 @@
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-4">
                         <h4>Informacion del evento</h4>
-                            <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento" disabled>
-                            <label for="salonMega">Salon Mega Mundo</label>
+                           
+                            <label v-if="presupuesto.tipoEvento=='INTERNO'" for="salonMega">Salon Mega Mundo</label>
                         <br>
-                        <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento" disabled>
-                        <label for="salonFuera">Evento Fuera</label>
+                        
+                        <label v-if="presupuesto.tipoEvento=='EXTERNO'" for="salonFuera">Evento Fuera</label>
                             <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
-                                <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio" disabled>
-                                <label for="servicioFormal">Servicio Formal</label>
+                                <label v-if="presupuesto.tipoServicio=='FORMAL'" for="servicioFormal">Servicio Formal</label>
                                 <br>
-                                <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio" disabled>
-                                <label for="servicioInfantil">Servicio Infantil</label>
+                                <label v-if="presupuesto.tipoServicio=='INFANTIL'" for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
                     <div class="col-md-4  row">

@@ -56,11 +56,10 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
                                             <th scope="col">Tipo</th>
+                                            <th scope="col">Cantidad</th>
                                             <th scope="col">Motivo</th>
                                             <th scope="col">Usuario</th>
-                                            <th scope="col">Cantidad</th>
                                             <th scope="col">Fecha Compra</th>
                                             <th scope="col">Fecha Ingreso</th>
                                             <th scope="col">Proveedor</th>
@@ -71,11 +70,10 @@
                                     <tbody>
                                         @foreach ($registros as $registro)
                                             <tr>
-                                                <th scope="row">{{ $registro->id }}</th>
                                                 <td>{{ $registro->tipo }}</td>
+                                                <td>{{ $registro->cantidad }}</td>
                                                 <td>{{ $registro->motivo }}</td>
                                                 <td>{{ $registro->user->name }}</td>
-                                                <td>{{ $registro->cantidad }}</td>
                                                 <td>{{ $registro->fechaCompra }}</td>
                                                 <td>{{ $registro->created_at }}</td>
                                                 <td>{{ $registro->proveedor }}</td>

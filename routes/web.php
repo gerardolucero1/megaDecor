@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -124,6 +125,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Pantalla Usuarios
         Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');
+        Route::get('/archivar-usuario/{id}', 'CMS\IndexController@archivarUsuario')->name('usuario.archivar');
+        Route::get('/usuariosPermisos/{id}', 'CMS\IndexController@usuariosPermisos')->name('usuario.permisos');
+        Route::put('/editarPermisos/{id}', 'CMS\IndexController@editarPermisos')->name('editar.permisos');
 
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
@@ -176,6 +180,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/ventas', 'CMS\IndexController@ventasFiltro')->name('show.ventas');
     Route::get('/ventas/pdf', 'CMS\IndexController@ventasPDF')->name('pdf.ventas');
     Route::get('/ventas/{id}', 'CMS\IndexController@ventasShow')->name('ventas.show');
+
+    //Factura
+    Route::get('/factura-enviada/{id}', 'CMS\BudgetController@facturaEnviada')->name('presupuesto.facturaEnviada');
 
     //Emails
     Route::post('enviar-email', function(Request $request){
@@ -454,6 +461,7 @@ Route::group(['middleware' => ['auth']], function () {
         return $arrayDatos;
     });
     Route::resource('categorias-pagos', 'CMS\CategoryPaymentController');
+    Route::resource('responsable-pagos', 'CMS\ResponsablePaymentController');
     Route::get('pagar-contrato/{id}', function($id){
         $contrato = Budget::findOrFail($id);
 

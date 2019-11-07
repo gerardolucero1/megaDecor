@@ -354,7 +354,7 @@ padding: 0;
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
                                     
-                                ></buscador-component>
+                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0"></i></span>
 
                             </div>
                             <div class="col-md-4">
@@ -1752,6 +1752,13 @@ padding: 0;
                         this.indice = index;
                     },
 
+                    limpiarInput(){
+                        this.limpiar=true;
+                        setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
+                    },
+
                     updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
@@ -2002,6 +2009,7 @@ padding: 0;
                             'warning'
                             )
                     }else{
+                        this.inventarioLocal = this.inventarioLocal.reverse();
                         this.inventarioLocal.push({
                             'externo': true,
                             'imagen': this.productoExterno.imagen,
@@ -2020,6 +2028,7 @@ padding: 0;
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
+                        this.inventarioLocal = this.inventarioLocal.reverse();
                     }
                     
                 }
@@ -2201,8 +2210,10 @@ padding: 0;
                 });
             
             },
+            
             agregarProducto(producto){
                 this.limpiar = true;
+                this.inventarioLocal = this.inventarioLocal.reverse();
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,

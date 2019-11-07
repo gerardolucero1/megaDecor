@@ -114,20 +114,9 @@
                         {{ Form::label('familia', 'Familia') }}
                         <label for="">Familia seleccionada:</label>
                         {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
-
-                        <div>
-                            <img src="" alt="">
-                        </div>
                     </div>
                 </div>
-
             </div>
-            @if (isset($inventory))
-                <div class="col-md-12">
-                    <img src="{{ $inventory->imagen }}" width="100%" alt="">
-                </div>
-            @endif
-            
     </div>
 
     <div class="row">

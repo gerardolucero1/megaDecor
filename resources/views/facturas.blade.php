@@ -49,9 +49,9 @@
                                     <th class="d-none d-sm-table-cell">Cliente</th>
                                     <th class="d-none d-sm-table-cell">Vendedor</th>
                                     <th class="d-none d-sm-table-cell">Status</th>
-                                     <th class="d-none d-sm-table-cell">Fecha de solicitud</th>
-                                     <th class="d-none d-sm-table-cell">Total</th>
-                                     <th>Opciones</th>
+                                    <th class="d-none d-sm-table-cell">Fecha de solicitud</th>
+                                    <th class="d-none d-sm-table-cell">Total</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>           
@@ -82,10 +82,11 @@
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
                                 <td class="d-none d-sm-table-cell text-center">
                                     @if($budget->facturaSolicitada==1)
-                                    Factura Solicitada
+                                    <span style="color:orange"> Factura Solicitada</span>
                                 @endif
                                 @if($budget->facturaSolicitada==2)
-                                    Factura Enviada
+                                <span style="color:green"> Factura Enviada</span><br>
+                                <span>{{$budget->fechaEnvioFactura}}</span>
                                 @endif
                                 </td>
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
@@ -107,7 +108,12 @@
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     <a style="margin-right:4px;" target="_blank"  href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
-                                    </a>  
+                                    </a> 
+                                    @if($budget->facturaSolicitada==1)
+                                    <a href="{{route('presupuesto.facturaEnviada', $budget->id)}}" style="margin-right:4px;" class="btn btn-sm btn-success" data-toggle="tooltip" title="Marcar como factura enviada" data-original-title="View Customer">
+                                        <i class="si si-check"></i> 
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -183,10 +189,10 @@
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
                                             <td class="d-none d-sm-table-cell text-center">
                                                 @if($budgetArchivados->facturaSolicitada==1)
-                                                    Factura Solicitada
+                                                   <span style="color:orange"> Factura Solicitada</span>
                                                 @endif
                                                 @if($budgetArchivados->facturaSolicitada==2)
-                                                    Factura Enviada
+                                                <span style="color:green">  Factura Enviada</span>
                                                 @endif
                                             </td>
                                            

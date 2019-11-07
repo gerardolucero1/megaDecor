@@ -181,9 +181,8 @@ padding: 0;
                                     placeholder="Buscar Clientes Existentes"
                                     event-name="clientResults"
                                     :list="clientes"
-                                    :keys="['nombre', 'email', 'telefono', 'apellidoPaterno' , 'apellidoMaterno']"
-                                    
-                                ></buscador-component>
+                                    :keys="['nombre', 'email', 'telefono', 'apellidoPaterno' , 'apellidoMaterno']" 
+                                ></buscador-component><i class="si si-refresh" v-on:click="refrescarClientes()"  style="color:green; position:absolute; right:0; top:5px; cursor:pointer"></i>
 
                                 <!-- Resultado Busqueda -->
                                 <div class="row" v-if="clientResults.length < clientes.length">
@@ -218,6 +217,7 @@ padding: 0;
                         <div v-if="clienteSeleccionado" class="info" style="padding-top:15px;">
                             <p>{{ clienteSeleccionado.nombre }}</p>
                             <p>{{ clienteSeleccionado.email }}</p>
+                            <p>{{ clienteSeleccionado.tipo }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
                             </p>
@@ -364,7 +364,7 @@ padding: 0;
                                     :list="inventario"
                                     :keys="['servicio', 'id', 'familia']"
                                     
-                                ></buscador-component>
+                                ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
                             <div class="col-md-4">
@@ -1476,7 +1476,9 @@ padding: 0;
             this.$on('resultsPaquetes', resultsPaquetes => {
                 this.resultsPaquetes = resultsPaquetes
             });
-
+            EventBus.$emit('nuevoCliente', funcion => {
+  alert('busfunciona');
+            });
             
         },
         computed:{
@@ -1526,7 +1528,7 @@ padding: 0;
                         let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
                         return nuevoFolio
                     }else{
-                        let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        let nuevoFolio = ('SM' + (parseInt(data[1]) + 1));
                         this.presupuesto.folio = nuevoFolio;
                         return nuevoFolio
                     }
@@ -1936,6 +1938,10 @@ padding: 0;
                         this.actualizarPrecioSugerido();
                     },
 
+            refrescarClientes(){
+                this.obtenerClientes();
+                alert('Lista de clientes actualizada');
+            },
             guardarPaquete(){
                 let count;
                 
@@ -2013,6 +2019,7 @@ padding: 0;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
+                this.clienteSeleccionado.tipo = cliente.tipo;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -2047,6 +2054,7 @@ padding: 0;
             //Agregar producto externo a la tabla de productos
             agregarProductoExterno(){
                 if(this.controlElementoExterno){
+                    
                         this.paquete.inventario.push({
                             'externo': true,
                             'nombre': this.productoExterno.servicio,
@@ -2074,6 +2082,7 @@ padding: 0;
                             'warning'
                             )
                     }else{
+                        this.inventarioLocal = this.inventarioLocal.reverse();
                         this.inventarioLocal.push({
                             'externo': true,
                             'imagen': this.productoExterno.imagen,
@@ -2092,6 +2101,7 @@ padding: 0;
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
+                        this.inventarioLocal = this.inventarioLocal.reverse();
                     }
                     
                 }
@@ -2105,6 +2115,12 @@ padding: 0;
                 // Enviar el evento por el canal click
                 EventBus.$emit('click');
             },
+            limpiarInput(){
+                        this.limpiar=true;
+                        setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
+                    },
             //Metodos dentro de la tabla productos
                 // Eliminar
                 eliminarProductoLocal(index){
@@ -2273,6 +2289,7 @@ padding: 0;
             },
             agregarProducto(producto){
                 this.limpiar = true;
+                this.inventarioLocal = this.inventarioLocal.reverse();
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,
@@ -2405,7 +2422,7 @@ padding: 0;
                    console.log(error.response);
                     if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
-                        window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
+                        window.open('http://mmdec.herokuapp.com/login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
                      Swal.fire(
                             'Error!',

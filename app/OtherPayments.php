@@ -17,5 +17,6 @@ class OtherPayments extends Model
         'referencia',
         'banco',
         'contrato',
+        'fechaTransferencia',
     ];
 }

@@ -9,6 +9,7 @@ use App\User;
 use App\Client;
 use App\Inventory;
 use App\Telephone;
+use App\Permission;
 use Carbon\Carbon;
 use App\MoralPerson;
 use App\CashRegister;
@@ -234,11 +235,41 @@ class IndexController extends Controller
     //dd($clientes);
     return $Presupuestos; 
 }
-
+public function archivarUsuario($id){
+    $budget=User::find($id);
+    if($budget->archivado ==1){
+    $budget->archivado='0';
+    }else{
+    $budget->archivado='1';
+    }
+    $budget->save();
+    return back();
+}
     //Pantalla usuarios
     public function pantallaUsuarios(){
-        return view('pantallaUsuarios');
+        $Usuarios = User::orderBy('id', 'DESC')->get();
+        return view('pantallaUsuarios', compact('Usuarios'));
     }
+
+    public function usuariosPermisos($id){
+        $Usuario = User::orderBy('id', 'DESC')->where('id', $id)->first();
+        $Permisos = Permission::where('user_id', $Usuario->id)->first();
+
+        return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
+    }
+
+    public function editarPermisos(Request $request, $id){
+        //dd($request);
+       
+        $Permisos = Permission::where('id', $id)->first();
+        $Permisos->delete();
+        $Permisos= Permission::create($request->all());
+        
+        $Permisos->fill($request->all())->save();
+
+        return redirect()->route('usuario.permisos', $Permisos->user_id);
+    }
+    
      //Pantalla inventario
      public function inventario(){
 
@@ -434,6 +465,7 @@ class IndexController extends Controller
                 $Presupuesto->version = $budget->version;
                 $Presupuesto->impresion = $budget->impresion;
                 $Presupuesto->enviado = $budget->enviado;
+                $Presupuesto->pendienteFecha = $budget->pendienteFecha;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
                     $Presupuesto->IVA = true;
@@ -485,6 +517,7 @@ class IndexController extends Controller
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
         }else{
@@ -553,6 +586,7 @@ class IndexController extends Controller
                 $Presupuesto->enviado = $budget->enviado;
                 $Presupuesto->facturaSolicitada = $budget->facturaSolicitada;
                 $Presupuesto->pagado = $budget->pagado;
+                $Presupuesto->pendienteFecha = $budget->pendienteFecha;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
                     $Presupuesto->IVA = true;
@@ -604,6 +638,7 @@ class IndexController extends Controller
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
             $PresupuestoArchivados->IVA = true;
@@ -641,7 +676,7 @@ class IndexController extends Controller
     }
 
     public function facturas(){
-        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('facturaSolicitada', '1')->where('archivado', '0')->get();
+        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('facturaSolicitada', '>','0')->where('archivado', '0')->get();
 
         $fechaHoy = Carbon::yesterday();
         $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
@@ -672,6 +707,7 @@ class IndexController extends Controller
                 $Presupuesto->version = $budget->version;
                 $Presupuesto->impresion = $budget->impresion;
                 $Presupuesto->enviado = $budget->enviado;
+                $Presupuesto->fechaEnvioFactura = $budget->fechaEnvioFactura;
                 $Presupuesto->facturaSolicitada = $budget->facturaSolicitada;
                 $Presupuesto->pagado = $budget->pagado;
                 if($budget->opcionIVA==1){
@@ -725,6 +761,7 @@ class IndexController extends Controller
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
             $PresupuestoArchivados->IVA = true;
@@ -843,6 +880,7 @@ class IndexController extends Controller
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          $PresupuestoArchivados->impresionBodega = $budgetArchivados->impresionBodega;
          $PresupuestoArchivados->updated_at = $budgetArchivados->updated_at;
 
