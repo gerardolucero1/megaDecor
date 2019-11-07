@@ -1528,7 +1528,7 @@ padding: 0;
                         let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
                         return nuevoFolio
                     }else{
-                        let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
+                        let nuevoFolio = ('SM' + (parseInt(data[1]) + 1));
                         this.presupuesto.folio = nuevoFolio;
                         return nuevoFolio
                     }

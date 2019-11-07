@@ -9,6 +9,7 @@ use App\User;
 use App\Client;
 use App\Inventory;
 use App\Telephone;
+use App\Permission;
 use Carbon\Carbon;
 use App\MoralPerson;
 use App\CashRegister;
@@ -252,7 +253,21 @@ public function archivarUsuario($id){
 
     public function usuariosPermisos($id){
         $Usuario = User::orderBy('id', 'DESC')->where('id', $id)->first();
-        return view('usuariosPermisos', compact('Usuario'));
+        $Permisos = Permission::where('user_id', $Usuario->id)->first();
+
+        return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
+    }
+
+    public function editarPermisos(Request $request, $id){
+        //dd($request);
+       
+        $Permisos = Permission::where('id', $id)->first();
+        $Permisos->delete();
+        $Permisos= Permission::create($request->all());
+        
+        $Permisos->fill($request->all())->save();
+
+        return redirect()->route('usuario.permisos', $Permisos->user_id);
     }
     
      //Pantalla inventario
@@ -450,6 +465,7 @@ public function archivarUsuario($id){
                 $Presupuesto->version = $budget->version;
                 $Presupuesto->impresion = $budget->impresion;
                 $Presupuesto->enviado = $budget->enviado;
+                $Presupuesto->pendienteFecha = $budget->pendienteFecha;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
                     $Presupuesto->IVA = true;
@@ -569,6 +585,7 @@ public function archivarUsuario($id){
                 $Presupuesto->enviado = $budget->enviado;
                 $Presupuesto->facturaSolicitada = $budget->facturaSolicitada;
                 $Presupuesto->pagado = $budget->pagado;
+                $Presupuesto->pendienteFecha = $budget->pendienteFecha;
                 if($budget->opcionIVA==1){
                     $Presupuesto->total = ($budget->total)+($budget->total*.16);
                     $Presupuesto->IVA = true;

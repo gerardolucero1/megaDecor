@@ -1767,9 +1767,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             if(this.pago.method==''){
                 alert('Selecciona un metodo de pago');
             }else{
-            if(this.pago.amount>(numero.toFixed(2))){
-                alert('La cantidad que intentas ingresar el mayor al adeudo total del contrato');  
-            }else{
+            
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
                 alert('Pago registrado');
@@ -1788,7 +1786,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             }).catch((error) => {
                 console.log(error.data)
             })
-                        }
+                        
                     }
                 }
         },

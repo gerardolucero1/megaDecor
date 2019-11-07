@@ -14,14 +14,23 @@
         <div class="content" id="PresupuestosActivos">
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                         <h3 class="block-title" style="color:green">Editar Permisos de {{$Usuario->name}}</h3>
                     </div>
-                   
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                            </div>
-                        </div>
+                          
+
+                    <form action="{{route('editar.permisos', $Permisos->id)}}" method="post">
+                        @csrf
+                        @method('PUT')
+                            <label for="">
+                            <input type="hidden" name="user_id" value="{{$Permisos->user_id}}">
+                            <input type="checkbox" name="dashboard" value="1" @if($Permisos->dashboard==1) checked @endif>Dashboard</label>
+                        <button type="submit">Guardar porfavor</button>
+                        </form>
+                    </div>
+                    </div>
                 </div>
               
 

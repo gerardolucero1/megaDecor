@@ -73,7 +73,7 @@
                             <tr role="row" class="odd">
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
                                 
-                                @if (!is_null($budget->fechaEvento))
+                                @if (is_null($budget->pendienteFecha))
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
                                     @endphp
@@ -181,7 +181,7 @@
                                 <tr role="row" class="odd">
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
-                                    @if (!is_null($budgetArchivados->fechaEvento))
+                                    @if (is_null($budgetArchivados->pendienteFecha))
                                         @php
                                             $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                         @endphp
@@ -264,7 +264,7 @@
                                 @foreach ($presupuestosHistorial as $budgetArchivados)                          
                                     <tr role="row" class="odd">
                                         <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
-                                        @if (!is_null($budgetArchivados->fechaEvento))
+                                        @if (is_null($budgetArchivados->pendienteFecha))
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                             @endphp
