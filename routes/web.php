@@ -361,7 +361,7 @@ Route::group(['middleware' => ['auth']], function () {
             $email=$cliente->email;
         }
     
-        Mail::to($email, 'Presupuesto MegaMundo')
+        Mail::to('samuel_acosta149@hotmail.com', 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
         Mail::to('ivonnearroyosg@msn.com', 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
