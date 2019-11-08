@@ -66,7 +66,7 @@
                                 <tr role="row">
                                     @if($permisos->presupuestosFolio==1)
                                     <th>Folio</th>@endif
-                                    @if($permisos->presupuestosFechaEvento==1)
+                                    @if($permisos->presupuestosFecha==1)
                                     <th>Fecha Evento</th>@endif
                                     @if($permisos->presupuestosCliente==1)
                                     <th class="d-none d-sm-table-cell">Cliente</th>@endif
