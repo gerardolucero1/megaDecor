@@ -2,7 +2,9 @@
 
 @section('content')
     @php
-        $usuario = Auth::user()->id;    
+        
+        $usuario = Auth::user()->id; 
+        $permisos = App\Permission::where('user_id', $usuario)->first();   
     @endphp
 
    
@@ -12,33 +14,37 @@
         
             
                 <div class="row js-appear-enabled animated fadeIn" data-toggle="appear">
-                        @if ($usuario != 2)
+                    
                     <div class="col-10" style="padding-bottom:20px">
-                            @if ($usuario != 6)
+                            @if($permisos->dashboardCrearPresupuesto==1)
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                     <i class="fa fa-calendar-plus-o"></i> <i>Crear presupuesto</i> 
                                 </button>
+                            @endif
+                            @if($permisos->dashboardNuevoCliente==1)
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                         <i class="fa fa-user-plus"></i> <i>Nuevo cliente</i> 
                                 </button>
-                                @endif
+                            @endif
+                            @if($permisos->dashboardReporteVentas==1)
                                 <a class="btn btn-primary" target="_blank" href="{{ route('pdf.ventas') }}">
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
-                                @if ($usuario != 6)
+                            @endif
+                            @if($permisos->dashboardConfiguraciones==1)
                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
                                         <i class="si si-settings"></i> <i>Configuraciones</i> 
                                 </button>
-                                @endif
+                            @endif
                     </div>
-                    @endif
-                    @if ($usuario == 17 || $usuario==6)
+                    
+                    @if($permisos->dashboardAperturaCaja==1)
                     <div class="col-2">
                         <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
                     </div>
                     @endif
                     
-                    @if ($usuario != 2 || $usuario != 6)
+                    @if($permisos->dashboardPresupuestosActivos==1)
                     <div class="col-6 col-xl-3">
                             <a class="block block-link-pop text-right bg-primary" href="{{ route('presupuestos') }}">
                                 <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -50,8 +56,9 @@
                                 </div>
                             </a>
                         </div>
-                        @endif
-                        @if ($usuario != 6)
+                     @endif
+
+                     @if($permisos->dashboardContratosHoy==1)
                         <div class="col-6 col-xl-3">
                                 <a class="block block-link-pop text-right bg-earth" href="{{ route('presupuestos-hoy') }}">
                                     <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -64,8 +71,8 @@
                                 </a>
                             </div>
                             @endif
-                            @if ($usuario != 2)
-                            @if ($usuario != 6)
+
+                            @if($permisos->dashboardElementosDanados==1)
                         <div class="col-6 col-xl-3">
                                     <a class="block block-link-pop text-right bg-corporate" href="javascript:void(0)">
                                         <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -77,6 +84,8 @@
                                         </div>
                                     </a>
                                 </div>
+                            @endif
+                            @if($permisos->dashboardCreditosAtrasados==1)
                         <div class="col-6 col-xl-3">
                                         <a class="block block-link-pop text-right bg-elegance" href="javascript:void(0)">
                                             <div class="block-content block-content-full clearfix border-black-op-b border-3x">
@@ -88,7 +97,7 @@
                                             </div>
                                         </a>
                                     </div>
-@endif
+                            @endif
                                 @php
                                 $carbon = new \Carbon\Carbon();
 
@@ -124,6 +133,8 @@
                                 $date->format("F"); // Inglés.
                                 $mes = $date->formatLocalized('%B');// mes en idioma español
                                 @endphp
+
+@if($permisos->dashboardComponenteVentas==1)
                                 <div class="col-md-6">
                                         <a class="block" href="javascript:void(0)">
                                             <div class="block-content block-content-full">
@@ -178,15 +189,21 @@
                                         @php
                                 $usuario = Auth::user()->id;    
                             @endphp
-                            @if ($usuario == 17 || $usuario == 6)
+                        
+                        @if($permisos->dashboardComponenteContabilidad==1)
                                 <contabilidad-component></contabilidad-component>        
-                            @endif
+                        @endif
                     </div>
+
                     <div class="row">
+                            @if($permisos->dashboardListaTareas==1)
                         <div class="col-md-4">
                             <task-list-component ></task-list-component>
                         </div>
+                        @endif
 
+
+                        @if($permisos->dashboardCalendario==1)
                         <div class="col-md-8">
                                 <div class="block">
                                     <div class="block-content block-content-full" style="position: relative">
@@ -207,9 +224,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
-
-                            @if ($usuario != 2)
+                            @if($permisos->dashboardVentasMes==1)
                         <div class="col-md-6 col-xl-4">
                                 <div class="block">
                                     <div class="block-content block-content-full text-center bg-gd-sea">
@@ -218,7 +235,7 @@
                                             Ventas del mes de
                                         </p>
                                         <p class="font-size-sm text-uppercase font-w600 text-white-op mb-0">
-                                            Septiembre 2019
+                                           Noviembre 2019
                                         </p>
                                     </div>
                                     <div class="block-content block-content-full">
@@ -246,7 +263,9 @@
                                     </div>
                                 </div>
                             </div>
-                          
+                          @endif
+
+                          @if($permisos->dashboardVendedorMes==1)
                             <div class="col-6 col-lg-4  col-xl-4">
                                     <a  class="block block-link-shadow text-right" href="javascript:void(0)">
                                         <div class="block-content block-content-full clearfix">

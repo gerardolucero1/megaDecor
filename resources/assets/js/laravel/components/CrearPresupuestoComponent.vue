@@ -93,9 +93,15 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
+                            
+                                
                             </div>
+                            
                             <div class="col-md-8">
-                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                <select v-if="permisos.creacionEditarVendedor==1" name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                </select>
+                                <select v-else name="vendedor" id="" v-model="presupuesto.vendedor_id" disabled>
                                     <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
                                 </select>
                             </div>
@@ -144,7 +150,7 @@ padding: 0;
                                         {{ item.nombre }}
                                     </option>
                                 </select>
-                                 <p style="" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p v-if="permisos.creacionAdministrarCategorias==1" style="" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -211,7 +217,7 @@ padding: 0;
                                 -->
                             </div>
                             <div class="col-md-5">
-                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
+                                <div v-if="permisos.creacionNuevoCliente==1" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info" style="padding-top:15px;">
@@ -513,8 +519,8 @@ padding: 0;
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
-                        <div class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
-                        <div class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
+                        <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
+                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
@@ -1431,6 +1437,8 @@ padding: 0;
 
                 //Datos facturacion
                 requiereFactura: false,
+                     //Permisos
+                permisos:'',
                 facturacion: {
                     //Tiempos
                     horaInicio: '',
@@ -1440,6 +1448,9 @@ padding: 0;
                     horaRecoleccion: '',
                     recoleccionPreferente: '',
                     notasFacturacion: '',
+
+               
+                    
 
                     //Datos
                     nombreFacturacion: '',
@@ -1461,6 +1472,7 @@ padding: 0;
             this.obtenerUsuarios();
             //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
+            this.obtenerPermisos();
             this.obtenerInventario();
             this.obtenerUsuario();
             this.obtenerUsuarios();
@@ -2320,7 +2332,12 @@ padding: 0;
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
-                    console.log(this.clientes);
+                })
+            },
+            obtenerPermisos(){
+                let URL = '/obtener-permisos';
+                axios.get(URL).then((response) => {
+                    this.permisos = response.data;
                 })
             },
             agregarFestejado(){

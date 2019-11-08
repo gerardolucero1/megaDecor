@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="{{ config('app.locale') }}" class="no-focus">
     <head>
+            @php
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
@@ -216,34 +220,52 @@
                                 $usuario = Auth::user()->id;    
                             @endphp
 
-@if ($usuario != 2)
+
                                 <li>
+                                        @if($permisos->dashboard==1)
                                     <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
                                         <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
                                     </a>
-                                   
+                                   @endif
+                                   @if($permisos->clientes==1)
                                     <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
+                                    @endif
+                                    @if($permisos->contratos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    @endif
+                                    @if($permisos->presupuestos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                    @endif
+                                    @if($permisos->comisiones==1)
                                     <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
-                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                    @endif
+                                    @if($permisos->ventas==1)
+                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>@endif
                                     <!--
                                     <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     -->
+                                   
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <ul>
+                                            @if($permisos->inventarioInventario==1)
                                         <li>
                                             <a href="{{ route('inventario') }}">Inventario</a>
                                         </li>
+                                        @endif
+                                        @if($permisos->inventarioFamilias==1)
                                         <li>
                                             <a href="{{ route('familia.index') }}">Familias</a>
                                         </li>
+                                        @endif
+                                        @if($permisos->inventarioGrupos==1)
                                         <li>
                                             <a href="{{ route('grupo.index') }}">Grupos</a>
                                         </li>
+                                        @endif
                                     </ul>
+                                    @if($permisos->usuarios==1)
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
-                                    
+                                    @endif
                                 </li>
                                 <li class="">
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
@@ -264,13 +286,9 @@
                                         <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
                                     </a>
                                 </li>  
-                            @else
-                                <li>
-                                        <a class="nav-menu" href="/dashboard"><i class="si si-doc"></i><span class="sidebar-mini-hide">Dashboard</span></a>
-                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
-                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Inventario</span></a>
-                                </li>                              
-                            @endif
+                       
+                                                        
+                        
                             
                         </ul>
                     </div>

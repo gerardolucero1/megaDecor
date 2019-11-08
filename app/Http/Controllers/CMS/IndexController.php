@@ -18,7 +18,9 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+
 
 class IndexController extends Controller
 {
@@ -256,6 +258,12 @@ public function archivarUsuario($id){
         $Permisos = Permission::where('user_id', $Usuario->id)->first();
 
         return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
+    }
+    //Permisos
+    public function obtenerPermisos(){
+        $usuario = Auth::user()->id; 
+        $permisos = Permission::where('user_id', $usuario)->first();
+        return $permisos;
     }
 
     public function editarPermisos(Request $request, $id){

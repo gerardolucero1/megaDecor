@@ -5,6 +5,11 @@
 @section('content')
 
     <section class="container">
+            @php
+        
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
         <div class="row">
             <div class="col-md-4 text-center">
                 
@@ -19,24 +24,32 @@
                         <h3 class="block-title" style="color:green">Clientes Activos</h3>
                     </div>
                     <div class="col-md-5 text-right">
-                           
+                            @if($permisos->clientesNuevoCliente==1)
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoClienteModal">
                                             <i class="fa fa-user-plus"></i> <i>Nuevo Cliente</i> 
                                         </button>
+                            @endif
+                            @if($permisos->clientesArchivados==1)
                                     <button onclick="VerArchivados()" class="btn btn-secondary">
                                                 <i class="fa fa-user-times"></i> <i>Clientes Archivados</i> 
                                             </button>
+                            @endif
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
                      <table style="font-size: 12px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
-                                    <th class="sorting" rowspan="1" colspan="1">Nombre</th>
-                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
-                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
-                                    <th rowspan="1" colspan="1">Correo Electrónico</th>
+                                        @if($permisos->clientesId==1)
+                                    <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>@endif
+                                    @if($permisos->clientesNombre==1)
+                                    <th class="sorting" rowspan="1" colspan="1">Nombre</th>@endif
+                                    @if($permisos->clientesFechaRegistro==1)
+                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>@endif
+                                    @if($permisos->clientesNumeroTelefono==1)
+                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>@endif
+                                    @if($permisos->clientesCorreoElectronico==1)
+                                    <th rowspan="1" colspan="1">Correo Electrónico</th>@endif
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
                                 </tr>
@@ -44,24 +57,31 @@
                             <tbody>                    
                                     @foreach ($CompleteClients as $cliente)                     
                                 <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{$cliente->id}}</td>
+                                        @if($permisos->clientesId==1)
+                                <td class="text-center sorting_1">{{$cliente->id}}</td>@endif
+                                @if($permisos->clientesNombre==1)
                                     <td class="font-w600">{{$cliente->nombre}} 
                                         @if(array_key_exists('apellidoPaterno', $cliente))
                                         {{$cliente->apellidoPaterno}}
-                                        @endif
-
-                                        </td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->created_at}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>
-                                    <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
+                                        @endif</td>@endif
+                                        @if($permisos->clientesFechaRegistro==1)
+                                    <td class="d-none d-sm-table-cell">{{$cliente->created_at}}</td>@endif
+                                    @if($permisos->clientesNumeroTelefono==1)
+                                    <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>@endif
+                                    @if($permisos->clientesCorreoElectronico==1)
+                                    <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>@endif
                                     <td class="d-none d-sm-table-cell">{{$cliente->presupuestos}}</td>
                                     <td class="text-center">
+                                        @if($permisos->clientesEditar==1)
                                         <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary " data-toggle="tooltip" title="Editar Cliente"  data-original-title="View Customer">
                                             <i class="fa fa-pencil"></i>
                                         </a>
+                                        @endif
+                                        @if($permisos->clientesArchivar==1)
                                         <button type="button" onclick="archivarCliente()" class="btn btn-sm btn-danger " data-toggle="tooltip" title="Archivar Cliente">
                                                 <i class="si si-refresh"></i>
                                         </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

@@ -139,6 +139,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
     Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
 
+
+    //Permisos
+    Route::get('/obtener-permisos', 'CMS\IndexController@obtenerPermisos');
+
     //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
     Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
     Route::post('budget-categorias', 'CMS\BudgetCategoryController@store')->name('budgetCategoria.store');
