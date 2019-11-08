@@ -358,7 +358,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
          if(is_null($email)){
-            $email=$presupuesto->email;
+            $email=$presupuesto->emailCliente;
         }
     
         Mail::to($email, 'Presupuesto MegaMundo')
