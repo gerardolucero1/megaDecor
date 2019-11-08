@@ -300,6 +300,18 @@
                                             <!-- Fin resultados de busqueda -->
 
                                             <div class="col-md-12 p-2 mt-2 infoPresupuesto" v-if="presupuestoSeleccionado">
+                                                <div class="row" v-if="presupuestoSeleccionado.cancelado">
+                                                    <div class="col-md-4">
+                                                        <p>
+                                                            <span class="badge badge-pill badge-danger" style="font-size: 12px;">CANCELADO</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <p>
+                                                            <strong>Fecha de cancelacion:</strong> <span style="line-height:22px;">{{ presupuestoSeleccionado.fechaCancelacion | formatearFecha}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <p>
@@ -379,6 +391,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="block p-3" v-if="presupuestoSeleccionado">
+                                        <button class="btn btn-sm btn-danger" @click="cancelarContrato">Cancelar contrato</button>
                                     </div>
                                 </div>
 
@@ -1350,6 +1366,18 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             }
     },
     methods: {
+        cancelarContrato: function(){
+            let URL = '/cancelar-contrato/' + this.presupuestoSeleccionado.id
+
+            axios.get(URL).then((response) => {
+                alert('Contrato cancelado')
+                this.obtenerPresupuestos()
+
+            }).catch((error) => {
+                console.log(error.data)
+            })
+        },
+
         obtenerDetalles: function(){
             this.controlDetalles = true;
 
@@ -1640,6 +1668,15 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.get(URL).then((response) => {
                 this.presupuestos = response.data;
+
+                if(this.presupuestoSeleccionado.length != 0){
+                    let presupuesto = this.presupuestos.find((element) => {
+                        return element.id = this.presupuestoSeleccionado
+                    })
+
+                    this.presupuestoSeleccionado.cancelado = presupuesto.cancelado
+                    this.presupuestoSeleccionado.fechaCancelacion = presupuesto.fechaCancelacion
+                }
                 this.obtenerClientes();
             }).catch((error) => {
                 console.log(error.data);

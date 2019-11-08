@@ -262,6 +262,13 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('enviar-email-cliente/{id}', function($id){
+        $URL = $_SERVER['REQUEST_URI'];
+
+        $URL = explode('&', $URL);
+        $email = $URL[1];
+        
+        $idArray = explode('/', $URL[0]);
+        $id = $idArray[2];
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
         $presupuesto->enviado = 1;
@@ -350,7 +357,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
     
-        Mail::to($presupuesto->emailCliente, 'Presupuesto MegaMundo')
+        Mail::to($email, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
         Mail::to('ivonnearroyosg@msn.com', 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
@@ -485,7 +492,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('editar-paquete/{id}', 'CMS\PackController@edit')->name('editar.paquete');
     Route::post('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobar.paquete');
     Route::delete('rechazar-paquete/{id}', 'CMS\PackController@rechazarPaquete')->name('rechazar.paquete');
+    Route::put('actualizar-paquete/{id}', 'CMS\PackController@update')->name('update.paquete');
 
+    //Rutas usurios
+    Route::get('usuarios/create', 'CMS\UsersController@create')->name('users.create');
+    Route::get('usuarios/edit/{id}', 'CMS\UsersController@edit')->name('users.edit');
+    Route::put('usuarios/update/{id}', 'CMS\UsersController@update')->name('users.update');
+
+    //Cancelacion de cotratos
+    Route::get('cancelar-contrato/{id}', 'CMS\CashRegisterController@cancelarContrato')->name('cancelarContrato');
 });
 
 /*

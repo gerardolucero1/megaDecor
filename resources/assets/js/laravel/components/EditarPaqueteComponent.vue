@@ -239,6 +239,8 @@ export default {
         agregarProducto(producto){
             this.limpiar = true;
             this.paquete.inventories.push({
+                'budget_pack_id': this.paquete.id,
+                'imagen': 'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1.png',
                 'servicio': producto.servicio,
                 'cantidad': '1',
                 'precioUnitario': producto.precioUnitario,
@@ -256,9 +258,9 @@ export default {
         },
 
         guardarPaquete: function(){
-            let URL = 'guardar-paquete'
+            let URL = '/actualizar-paquete/' + this.paquete.id
 
-            axios.post(URL, this.paquete).then((response) => {
+            axios.put(URL, this.paquete).then((response) => {
                 console.log('Paquete guardado')
             }).catch((error) => {
                 console.log(error.data)

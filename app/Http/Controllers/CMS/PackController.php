@@ -79,7 +79,29 @@ class PackController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $authorizedPack = AuthorizedPack::findOrFail($id);
+        $authorizedPack->fill($request->all())->save();
+        
+        $itemsPaquete = AuthorizedPackInventory::where('budget_pack_id', $authorizedPack->id)->get();
+        foreach($itemsPaquete as $item){
+            $item->delete();
+        }
+
+        foreach($request->inventories as $item){
+            $inventory = new AuthorizedPackInventory();
+            $inventory->budget_pack_id = $item['budget_pack_id'];
+            $inventory->servicio = $item['servicio'];
+            $inventory->imagen = $item['imagen'];
+            $inventory->cantidad = $item['cantidad'];
+            $inventory->precioUnitario = $item['precioUnitario'];
+            $inventory->precioFinal = $item['precioFinal'];
+            $inventory->precioVenta = $item['precioVenta'];
+            $inventory->precioEspecial = $item['precioEspecial'];
+            $inventory->proveedor = $item['proveedor'];
+            $inventory->save();
+        }
+
+        return;
     }
 
     /**
@@ -141,4 +163,5 @@ class PackController extends Controller
 
         return redirect()->route('pack.index'); 
     }
+
 }

@@ -220,10 +220,12 @@ padding: 0;
                                 <div v-if="permisos.creacionNuevoCliente==1" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
                             </div>
                         </div>
-                        <div v-if="clienteSeleccionado" class="info" style="padding-top:15px;">
+                        <div v-if="clienteSeleccionado.length != 0" class="info" style="padding-top:15px;">
                             <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p>
+                                <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
+                            </p>
                             <p>{{ clienteSeleccionado.email }}</p>
-                            <p>{{ clienteSeleccionado.tipo }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
                             </p>
@@ -1288,6 +1290,7 @@ padding: 0;
                     direccionLugar: '',
                     numeroLugar: '',
                     coloniaLugar: '',
+                    tipo: '',
                     telefonos: [],
                     presupuestos: [],
                 },
@@ -2031,7 +2034,7 @@ padding: 0;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
-                this.clienteSeleccionado.tipo = cliente.tipo;
+                this.clienteSeleccionado.tipo = cliente.tipoPersona;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
                 this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
@@ -2396,6 +2399,10 @@ padding: 0;
 
                 if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
                     this.presupuesto.comision = 0;
+                }
+
+                if(this.presupuesto.pendienteFecha){
+                    this.presupuesto.fechaEvento = ''
                 }
 
                 let URL = '/presupuestos/create';
