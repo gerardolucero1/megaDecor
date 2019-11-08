@@ -908,6 +908,11 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+
+            if($request->presupuesto['impresionBodega'] == 1){
+                $presupuesto->impresionBodega = 2;
+                $presupuesto->fechaEdicion = Carbon::now();
+            }
         }
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
