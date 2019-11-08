@@ -358,10 +358,10 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
          if(is_null($email)){
-            $email=$cliente->email;
+            $email=$presupuesto->email;
         }
     
-        Mail::to('samuel_acosta149@hotmail.com', 'Presupuesto MegaMundo')
+        Mail::to($email, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
         Mail::to('ivonnearroyosg@msn.com', 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
