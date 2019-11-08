@@ -93,7 +93,7 @@
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}
                                 
                                 </td>@endif
-                                @if($permisos->presupuestosFechaEvento==1)
+                                @if($permisos->presupuestosFecha==1)
                                 @if (is_null($budget->pendienteFecha))
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
