@@ -75,6 +75,8 @@ class Budget extends Model
         return $this->belongsTo(Client::class);
     }
 
+    
+
     public function celebrateds()
     {
         return $this->hasMany(Celebrated::class);
