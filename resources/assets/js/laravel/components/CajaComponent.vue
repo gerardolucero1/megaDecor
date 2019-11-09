@@ -1555,7 +1555,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
         registrarMovimiento: function(){
             let URL = 'pagos';
-
+                movimiento.resto=0;
             axios.post(URL, this.movimiento).then((response) => {
                 this.movimiento.tipo = '';
                 this.movimiento.motivo ='';
