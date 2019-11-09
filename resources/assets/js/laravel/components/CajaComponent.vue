@@ -657,6 +657,7 @@
                             <div class="container d-flex">
                             <div class="col-md-3"><h4 class="text-danger">Pre-corte:{{ cantidadPreCorte[0] | currency }}</h4></div>        
                             <div class="col-md-3"><p class="text-muted">Cheques:{{ cantidadPreCorte[1] | currency }}</p></div>   
+                            <div class="col-md-3"><p class="text-muted">Tarjeta:{{ cantidadPreCorte[4] | currency }}</p></div>  
                             <div class="col-md-3"><p class="text-muted">Transferencias:{{ cantidadPreCorte[2] | currency }}</p></div>   
                             <div class="col-md-3"><p class="text-muted">Dolar:{{ cantidadPreCorte[3] | currency }}</p></div>   
                             
@@ -1199,13 +1200,16 @@ if(element.tipo == 'INGRESO'){
                 let cheques = 0;
                 let dolar = 0;
                 let transferencias = 0;
+                let Ptarjeta = 0;
 
 
                 this.pagosCorte[0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
                         cheques = cheques + parseFloat(element.amount) + this.chequesApertura;
-                    }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
+                    }else if(element.method == 'TRANSFERENCIA'){
                         transferencias = transferencias + parseFloat(element.amount);
+                    }else if(element.method == 'TARJETA'){
+                        Ptarjeta = Ptarjeta + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
                            dolar = dolar + (parseFloat(element.amount)+this.dolaresApertura);
@@ -1226,7 +1230,7 @@ if(element.tipo == 'INGRESO'){
                             alert
                             break;
                         case 'TARJETA':
-                            transferencias = transferencias + parseFloat(element.cantidad);
+                            Ptarjeta = Ptarjeta + parseFloat(element.cantidad);
                             break;
                         case 'CHEQUE':
                             cheques = cheques + parseFloat(element.cantidad);
@@ -1246,7 +1250,7 @@ if(element.tipo == 'INGRESO'){
                             suma = suma + parseFloat(element.resto);
                             break;
                         case 'TARJETA':
-                            transferencias = transferencias - parseFloat(element.cantidad);
+                            Ptarjeta = Ptarjeta - parseFloat(element.cantidad);
                             suma = suma + parseFloat(element.resto);
                             break;
                         case 'CHEQUE':
@@ -1267,7 +1271,7 @@ if(element.tipo == 'INGRESO'){
 
                 });
                 
-                arrayDeDatos.push(suma, cheques, transferencias, dolar);
+                arrayDeDatos.push(suma, cheques, transferencias, dolar, Ptarjeta);
                 return arrayDeDatos;
             }
         },
