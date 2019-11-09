@@ -654,13 +654,12 @@
                         
                         <div class="col-md-12" v-if="pagosCorte.length != 0">
 
-                            <div class="container d-flex">
+                            <div class="container d-flex" style="background:#FFFDC8; border-radius:7px">
                             <div class="col-md-3"><h4 class="text-danger">Pre-corte:{{ cantidadPreCorte[0] | currency }}</h4></div>        
-                            <div class="col-md-3"><p class="text-muted">Cheques:{{ cantidadPreCorte[1] | currency }}</p></div>   
-                            <div class="col-md-3"><p class="text-muted">Tarjeta:{{ cantidadPreCorte[4] | currency }}</p></div>  
-                            <div class="col-md-3"><p class="text-muted">Transferencias:{{ cantidadPreCorte[2] | currency }}</p></div>   
-                            <div class="col-md-3"><p class="text-muted">Dolar:{{ cantidadPreCorte[3] | currency }}</p></div>   
-                            
+                            <div class="col-md-2"><p class="text-muted">Cheques:{{ cantidadPreCorte[1] | currency }}</p></div>   
+                            <div class="col-md-2"><p class="text-muted">Tarjeta:{{ cantidadPreCorte[4] | currency }}</p></div>  
+                            <div class="col-md-2"><p class="text-muted">Transferencias:{{ cantidadPreCorte[2] | currency }}</p></div>   
+                            <div class="col-md-2"><p class="text-muted">Dolar:{{ cantidadPreCorte[3] | currency }}</p></div>   
                             </div>
                             
                             
