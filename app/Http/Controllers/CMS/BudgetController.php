@@ -1097,7 +1097,7 @@ class BudgetController extends Controller
     }
 
     public function obtenerVersion($id){
-        return BudgetVersion::where('id', $id)->first();
+        return BudgetVersion::with('client')->where('id', $id)->first();
     }
 
     public function obtenerFestejadosVersion($id){
@@ -1139,5 +1139,20 @@ class BudgetController extends Controller
         $budget->facturaSolicitada= 2;
         $budget->save();
         return back();
+    }
+
+    public function obtenerInventario($id){
+        $presupuesto = Budget::where('id', $id)->first();
+
+        $version = $presupuesto->version - 1;
+
+        if($version <= 0){
+            $version = 1;
+        }
+
+        $inventarios = BudgetInventory::where('budget_id', $presupuesto->id)->where('version', $version)->get();
+        $paquetes = BudgetPack::with('inventories')->where('budget_id', $presupuesto->id)->where('version', $version)->get();
+        $inventario = [$inventarios, $paquetes];
+        return $inventario;
     }
 }

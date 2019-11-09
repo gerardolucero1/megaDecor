@@ -67,6 +67,11 @@
         border-width:1px; 
         z-index:30
     }
+
+    .nuevo{
+        position: absolute;
+        font-size: 14px;
+    }
 </style>
 
 <template>
@@ -212,9 +217,9 @@
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
-                            <p>
-                                <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
-                            </p>
+                                <p>
+                                    <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
+                                </p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 <label>
@@ -335,6 +340,9 @@
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <td>
+                                    <div class="nuevo" v-if="producto.nuevo">
+                                        <span class="badge badge-pill badge-danger">Nuevo</span>
+                                    </div>
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}</td>
@@ -548,7 +556,9 @@
                                 <td v-else>
                                     <input type="checkbox">
                                 </td>
-                                <td>{{ item.nombre }}</td>
+                                <td>
+                                    {{ item.nombre }}
+                                </td>
                                 <td>{{ item.precioUnitario | currency}}</td>
                                 <td>{{ item.precioFinal | currency}}</td>
                                 <td>{{ item.precioVenta | currency}}</td>
@@ -766,6 +776,7 @@
                 vendedor: '',
 
                 original: true,
+                inventarioPasado: '',
             }
         },
         created(){
@@ -967,6 +978,17 @@
             },
         },
         methods:{
+            obtenerInventarioPasado: function(){
+                let URL = '/obtener-inventario-pasado/' + this.presupuesto.id
+
+                axios.get(URL).then((response) => {
+                    this.inventarioPasado = response.data
+                    
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
+
             obtenerVersionPresupuesto(direccion){
                 let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
                 console.log(posicion);
@@ -1089,7 +1111,7 @@
 
               axios.get(URL).then((response) => {
                 this.presupuesto = response.data;
-
+                this.obtenerInventarioPasado();
                 let cliente = this.clientes.find(function(element){
                   return element.id == response.data.client_id;
                 })
@@ -1276,6 +1298,38 @@
                     }); 
                 this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
 
+                console.log('Inventario pasado: ', this.inventarioPasado);
+                console.log('Inventario local: ', this.inventarioLocal);
+
+                    this.inventarioLocal.forEach((element) => {
+                        if(element.tipo == 'PRODUCTO'){
+                            if(this.inventarioPasado[0].some((item) => {
+                                return item.servicio == element.servicio
+                            })){
+                                console.log('Existe')
+                            }else{
+                                let found = this.inventarioLocal.find((item) => {
+                                    return item.servicio == element.servicio
+                                })
+                                
+                                Object.defineProperty(found, 'nuevo', {
+                                    enumerable: true,
+                                    configurable: true,
+                                    writable: true,
+                                    value: true,
+                                })
+                            
+                            }
+                        }else if(element.tipo == 'PRODUCTO'){
+                            if(this.inventarioPasado[1].sime((item) => {
+                                return item.servicio == element.servicio
+                            })){
+                                console.log('Existe el paquete')
+                                
+                            }
+                        }
+                        
+                    })
                 }).catch((error) => {
                     console.log(error.data);
                 })
