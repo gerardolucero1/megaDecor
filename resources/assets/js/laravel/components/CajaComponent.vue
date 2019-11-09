@@ -590,7 +590,7 @@
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
                                                             <span v-if="item.tipo=='INGRESO'" style="color:white; background:green; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span> 
                                                             <span style="margin-left:10px; font-weight:bold">{{ item.cantidad | currency}}</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}} Total egreso: <span style="font-weight:bold">{{item.cantidad-item.resto | currency}}</span></span>
+                                                            <span v-if="item.resto>0" style="margin-left:15px;">Devolución: {{ item.resto | currency}}<br><br><br> Total egreso: <span style="font-weight:bold">{{item.cantidad-item.resto | currency}}</span></span>
                                                             -<span style="font-size:10px; font-style:italic">{{ item.metodo }} - {{ item.banco }}</span>
                                                             <span v-if="item.metodo!='EFECTIVO' && item.metodo!='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Referencia: {{ item.referencia }} <span v-if="item.metodo=='TRANSFERENCIA'">Fecha de transferencia: {{ item.referencia }}</span></span>
                                                             <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
@@ -860,7 +860,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                       <th scope="col">Contrato</th>
                                         <th scope="col">Banco</th>
                                         <th scope="col">Metodo</th>
                                         <th scope="col">Referencia</th>
@@ -869,7 +869,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in pagosTotalesActuales[0]" :key="index">
-                                        <th scope="row">{{ index }}</th>
+                                        <td>{{ item.contrato }}</td>
                                         <td>
                                             <span v-if="item.banco">{{ item.banco }}</span>
                                             <span v-else>--</span>
@@ -892,7 +892,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                       <th scope="col">Contrato</th>
                                         <th scope="col">Banco</th>
                                         <th scope="col">Metodo</th>
                                         <th scope="col">Referencia</th>
@@ -901,7 +901,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in pagosTotalesActuales[1]" :key="index">
-                                        <th scope="row">{{ index }}</th>
+                                     <td>{{ item.contrato }}</td>
                                         <td>
                                             <span v-if="item.banco">{{ item.banco }}</span>
                                             <span v-else>--</span>
@@ -1396,6 +1396,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                         cantidad: element.amount,
                         metodo: element.method,
                         referencia: element.reference,
+                        contrato: element.budget_id,
                         banco: element.bank,
                     }
                     let pago2 = JSON.parse(JSON.stringify(pago));
@@ -1409,6 +1410,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                             metodo: element.metodo,
                             referencia: element.referencia,
                             banco: element.banco,
+                             contrato: element.contrato,
                             responsable: element.responsable,
                             contrato: element.contrato
                         }
@@ -1417,7 +1419,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                         pagos.push(pago2);
                     }else{
                         let pago = {
-                            cantidad: element.cantidad,
+                            cantidad: element.cantidad -element.resto,
                             metodo: element.metodo,
                             referencia: element.referencia,
                             banco: element.banco,
