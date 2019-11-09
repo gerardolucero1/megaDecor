@@ -271,7 +271,7 @@
                                         <div class="col-md-12 p-2">
                                             <buscador-component
                                                 :limpiar="limpiar"
-                                                placeholder="Buscar presupuesto"
+                                                placeholder="Buscar contrato"
                                                 event-name="presupuestosResults"
                                                 :list="presupuestos"
                                                 :keys="['folio', 'fechaEvento', 'cliente']"
@@ -482,7 +482,7 @@
                                                         <label for="">Contrato</label>
                                                         <buscador-component
                                                             :limpiar="limpiar"
-                                                            placeholder="Buscar presupuesto"
+                                                            placeholder="Buscar contrato"
                                                             event-name="presupuestosResults"
                                                             :list="presupuestos"
                                                             :keys="['folio', 'fechaEvento', 'cliente']"
@@ -1564,6 +1564,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.movimiento.metodo ='';
                 this.movimiento.descripcion ='';
                 this.movimiento.fechaTransferencia ='';
+                this.movimiento.contrato ='';
                 Swal.fire(
                     'Movimiento registrado!',
                     'El movimiento se registro con exito',
