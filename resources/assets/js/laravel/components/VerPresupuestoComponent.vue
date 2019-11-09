@@ -132,7 +132,7 @@
                     <div class="col-md-4 text-right info">
                         <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <div> <p style=" text-align:right"><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
+                            <div> <p style=" text-align:right; "><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
                             </div>
@@ -1637,9 +1637,9 @@
                         obtenerUltimoPresupuesto();
                 }).catch((error) => {
                     Swal.fire(
-                            'Error!',
-                            'Algo salio mal',
-                            'error'
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
                         ); 
                 })
             }
