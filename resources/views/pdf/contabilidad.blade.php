@@ -398,7 +398,7 @@
             @php
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
-            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{number_format($totalEfectivoEnCaja,2)}}</p>
+            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{$precorte}}</p>
             <p style="font-size: 15px; font-weight: bold; text-align: center; padding-top:30px">___________________________<br>Firma de responsable</p>
    
 <script type="text/php">
