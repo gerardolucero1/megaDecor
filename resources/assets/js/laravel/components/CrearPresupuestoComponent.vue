@@ -2031,7 +2031,8 @@ padding: 0;
                 this.clienteSeleccionado.id = cliente.id;
                 if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
-              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
+              }else{
+                this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
                 this.clienteSeleccionado.tipo = cliente.tipoPersona;

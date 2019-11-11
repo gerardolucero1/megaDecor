@@ -350,7 +350,7 @@
             <p style="text-align: right; font-weight: bold;">Total ingresos extraordinarios en efectivo: ${{number_format($ingresosExtraordinarios,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en cheques: ${{number_format($ingresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($ingresosExtraordinariosTarjeta,2)}}</p>
-            <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinarios,2)}}</p>
+            <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinariosDolar,2)}}</p>
  
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             <label for="" style="font-weight: bold; margin-bottom: 10px; padding-top:50px">Egresos extraordinarios</label>

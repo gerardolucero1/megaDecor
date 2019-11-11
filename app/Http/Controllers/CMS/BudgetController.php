@@ -58,7 +58,7 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
+            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.email as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')

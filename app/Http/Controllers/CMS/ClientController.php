@@ -129,7 +129,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailCliente;
+            $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
@@ -143,7 +143,7 @@ class ClientController extends Controller
             $cliente->categoria_id = $request->categoriaCliente;
             $cliente->about_id = $request->categoriaAbout;
             $cliente->nombre = $request->nombreCliente;
-            $cliente->email = $request->emailFacturacion;
+            $cliente->email = $request->emailCliente;
             $cliente->direccionEmpresa = $request->direccionEmpresa;
             $cliente->coloniaEmpresa = $request->coloniaEmpresa;
             $cliente->numeroEmpresa = $request->numeroEmpresa;
@@ -152,7 +152,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailCliente;
+            $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];

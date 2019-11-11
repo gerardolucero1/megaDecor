@@ -1813,7 +1813,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
-                alert('Pago registrado');
+                alert('Pago registrado'+' Pagoamount:'+this.pago.amount+' numero:'+numero.toFixed(2));
                 this.pago.amount='';
                 this.pago.reference='';
                 this.pago.bank='';

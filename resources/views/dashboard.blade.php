@@ -243,7 +243,6 @@
                                             <tbody>
                                                 @foreach($ElementosVendedores as $ElementoVendedor)
                                                 <tr>
-                                                    <td class="text-center" style="width: 40px;">01</td>
                                                     <td>
                                                         <strong>{{$ElementoVendedor->name}}</strong>
                                                     </td>

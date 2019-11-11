@@ -25,23 +25,23 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" v-model="cliente.emailFacturacion">
+                    <input type="email" placeholder="Email" v-model="cliente.email">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Telefono</label>
-                    <input type="email" placeholder="number" v-model="cliente.telefono">
+                    <input type="text" placeholder="number" v-model="cliente.telefono">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Direccion</label>
-                    <input type="email" placeholder="text" v-model="cliente.direccionEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.direccionEmpresa">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Colonia</label>
-                    <input type="email" placeholder="text" v-model="cliente.coloniaEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.coloniaEmpresa">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Numero</label>
-                    <input type="email" placeholder="text" v-model="cliente.numeroEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Telefono de la empresa</label>
-                <input type="email" name="" id="" placeholder="Telefono" v-model="cliente.telefono">
+                <input type="text" name="" id="" placeholder="Telefono" v-model="cliente.telefono">
             </div>
                 <div class="col-md-4 mt-4">
                     <label>Numero de la empresa</label>
@@ -100,7 +100,7 @@
                 </select>
             </div>
             <div class="col-md-7 mt-4">
-                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.email">
+                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
             </div>
             <div class="col-md-5">
                 <label >Dias de credito</label>
