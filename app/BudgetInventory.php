@@ -24,6 +24,6 @@ class BudgetInventory extends Model
 
     public function budget()
     {
-        return $this->belongsTo(Budget::class);
+        return $this->belongsTo(Budget::class, 'budget_id');
     }
 }

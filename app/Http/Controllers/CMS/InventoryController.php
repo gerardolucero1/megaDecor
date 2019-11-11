@@ -5,6 +5,8 @@ namespace App\Http\Controllers\CMS;
 use App\Family;
 use App\Register;
 use App\Inventory;
+use App\Budget;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -227,5 +229,14 @@ class InventoryController extends Controller
 
             return view('inventario', compact('Inventario'));
         }
+    }
+
+    public function proximos(){
+        $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $date)->get();
+
+        return view('eventosProximos', compact('contratos'));
     }
 }

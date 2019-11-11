@@ -57,6 +57,7 @@ Vue.component('caja-component', require('./components/CajaComponent.vue').defaul
 Vue.component('contabilidad-component', require('./components/ContabilidadComponent.vue').default);
 Vue.component('altas-component', require('./components/AltasComponent.vue').default);
 Vue.component('editar-paquete-component', require('./components/EditarPaqueteComponent.vue').default);
+Vue.component('productos-danados-component', require('./components/DanadosComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

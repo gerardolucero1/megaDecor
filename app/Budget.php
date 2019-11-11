@@ -6,6 +6,7 @@ use App\User;
 use App\Client;
 use App\Payment;
 use App\Celebrated;
+use App\BudgetInventory;
 use Illuminate\Database\Eloquent\Model;
 
 class Budget extends Model
@@ -78,6 +79,11 @@ class Budget extends Model
     public function celebrateds()
     {
         return $this->hasMany(Celebrated::class);
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(BudgetInventory::class, 'budget_id');
     }
 
     public function budgetPacks()

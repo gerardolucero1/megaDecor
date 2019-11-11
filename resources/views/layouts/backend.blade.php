@@ -233,6 +233,9 @@
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <ul>
                                         <li>
+                                            <a href="{{ route('proximos') }}">Proximos</a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('inventario') }}">Inventario</a>
                                         </li>
                                         <li>
