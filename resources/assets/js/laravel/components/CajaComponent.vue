@@ -1813,18 +1813,20 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
-                alert('Pago registrado'+' Pagoamount:'+this.pago.amount+' numero:'+numero.toFixed(2));
-                this.pago.amount='';
-                this.pago.reference='';
-                this.pago.bank='';
-                if(this.pago.amount == (numero.toFixed(2))){
+                alert('Pago registrado');
+
+                if(parseFloat(this.pago.amount).toFixed(2) == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     
                     axios.get(URL).then((response) => {
                         alert('Contrato pagado');
+                        location.reload();
                     })
                 }
-                this.liquidar=false;
+                this.pago.amount='';
+                this.pago.reference='';
+                this.pago.bank='';
+                
                 this.obtenerPresupuestos();
                 
             }).catch((error) => {

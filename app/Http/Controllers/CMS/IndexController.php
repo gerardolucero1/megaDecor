@@ -33,7 +33,7 @@ class IndexController extends Controller
         ->get();
         $clientes_fisicos = DB::table('clients')
         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at')
+        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at')
         ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -53,10 +53,21 @@ class IndexController extends Controller
                 $tamanoPresupuestos=0;
             }
             
-            $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
+                        $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
                         $CompleteClient = new stdClass();
                         $CompleteClient->id = $cliente->id;
+                        
+                        $tipoCliente = Client::where('id', $cliente->id)->first();
+                        //dd($tipoCliente->tipoPersona);
+
+                        if($tipoCliente->tipoPersona=='MORAL'){
                         $CompleteClient->nombre = $cliente->nombre;
+                        }else{
+                        $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+                        }
+                    
+
+                    
                         $CompleteClient->email = $cliente->email;
                         $CompleteClient->created_at = $createdAt;
                         $CompleteClient->presupuestos = $tamanoPresupuestos;
