@@ -244,15 +244,14 @@
                                     <!--
                                     <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     -->
-                                   
+                                    @if($permisos->inventarioInventario==1)
+                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="fa fa-list-ul"></i><span class="sidebar-mini-hide">Productos</span></a>
+                                      @endif 
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <ul>
                                             @if($permisos->inventarioInventario==1)
                                         <li>
                                             <a href="{{ route('proximos') }}">Proximos</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('inventario') }}">Inventario</a>
                                         </li>
                                         @endif
                                         @if($permisos->inventarioFamilias==1)

@@ -47,6 +47,7 @@
 
 <template>
     <section class="container">
+        <p v-if="mostrarAbrirCaja" style="color:red; font-style:italic">Ultima Apertura: {{sesion.fechaApertura | formatearFecha}}</p>
         <div class="row" v-if="mostrarAbrirCaja">
             <div class="col-md-4" v-if="sesion.length != 0">
                 <div class="block">
@@ -358,6 +359,9 @@
                                                     <p v-if="((pago.method=='TRANSFERENCIA' | pago.method=='TARJETA') && (presupuestoSeleccionado.opcionIVA=='1'))" style="color:green; font-style:italic; padding:10px; text-align:center">*IVA ya incluido en total a pagar</p>
                                                     <div v-if="totalAbonado!=this.totalEtiqueta" class="col-md-8 offset-md-2 abonarPresupuesto">
                                                         <div class="col-md-12 mt-3">
+                                                            <label style="width:100%; color:white" @click="liquidarBtn()">
+                                                            <span><input style="width:10px" type="checkbox" v-model="liquidar"></span><span> Pagar total</span>
+                                                            </label>
                                                             <select name="" id="" v-model="pago.method">
                                                                 <option value="">Selecciona un metodo de pago</option>
                                                                 <option value="EFECTIVO">Efectivo</option>
@@ -366,9 +370,7 @@
                                                                 <option value="TARJETA">Tarjeta</option>
                                                                 <option value="DOLAR">Dolar</option>
                                                             </select>
-                                                            <label style="width:100%; color:white" @click="liquidarBtn()">
-                                                            <span><input style="width:10px" type="checkbox" v-model="liquidar"></span><span> Pagar total</span>
-                                                            </label>
+                                                            
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input type="number" v-model="pago.amount" min='0'>
@@ -1819,7 +1821,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
                     
                     axios.get(URL).then((response) => {
-                        alert('Contrato pagado');
+                        alert('Contrato pagado en su totalidad');
                         location.reload();
                     })
                 }

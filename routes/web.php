@@ -305,7 +305,7 @@ Route::group(['middleware' => ['auth']], function () {
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
          ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
          ->get();
  
          $clientes_fisicos = DB::table('clients')

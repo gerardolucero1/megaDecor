@@ -276,19 +276,19 @@ padding: 0;
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
 
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Nombre del lugar" v-model="presupuesto.nombreLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-2 mt-4">
                         <input required type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-4 mt-4">
                         <input required type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
