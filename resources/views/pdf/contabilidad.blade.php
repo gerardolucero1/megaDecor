@@ -37,6 +37,7 @@
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
         $numContratosHoy=0;
+        $egresosDolaresExtraordinarios=0;
         
         $numContratosHoy=count($contratosHoy);
     @endphp
