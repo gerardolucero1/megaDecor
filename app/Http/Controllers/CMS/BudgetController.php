@@ -156,6 +156,7 @@ class BudgetController extends Controller
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->notasPresupuesto = $request->presupuesto['notasPresupuesto'];
+        $presupuesto->quienEdito = Auth::user()->name;
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
@@ -849,7 +850,7 @@ class BudgetController extends Controller
         $oldVersion->comision = $version->comision;
         $oldVersion->total = $version->total;
         $oldVersion->notasPresupuesto = $version->notasPresupuesto;
-        $oldVersion->quienEdito = Auth::user()->name;
+        $oldVersion->quienEdito = $version->quienEdito;
         $oldVersion->save();
 
         //Obtenemos el budget original
@@ -917,6 +918,7 @@ class BudgetController extends Controller
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->version = ($presupuesto->version) + 1;
+        $presupuesto->quienEdito = Auth::user()->name;
         $presupuesto->save();
 
         //Buscamos el ultimo presupuesto actualizado guardado

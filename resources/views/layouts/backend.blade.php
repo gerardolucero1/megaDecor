@@ -249,6 +249,9 @@
                                     <ul>
                                             @if($permisos->inventarioInventario==1)
                                         <li>
+                                            <a href="{{ route('proximos') }}">Proximos</a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('inventario') }}">Inventario</a>
                                         </li>
                                         @endif

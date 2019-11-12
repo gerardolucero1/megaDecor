@@ -3,6 +3,8 @@
 namespace App;
 
 use App\BudgetPack;
+use App\Missing;
+use App\Budget;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
@@ -21,4 +23,10 @@ class Inventory extends Model
         'autorizado',
         'familia',
     ];
+
+    public function missings()
+    {
+        return $this->hasMany(Missing::class, 'inventory_id');
+    }
+
 }

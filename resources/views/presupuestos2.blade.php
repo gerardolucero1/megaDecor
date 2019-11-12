@@ -376,7 +376,10 @@
                                                 </a>
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
-                                                </a> 
+                                                </a>
+                                                <button data-id="{{ $budgetArchivados->id }}" style="margin-right:4px;" class="btn btn-sm btn-primary danados" data-toggle="modal" data-target="#productosDanados">
+                                                    <i data-id="{{ $budgetArchivados->id }}" class="fa fa-chain-broken"></i> 
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -387,6 +390,23 @@
                 </div>
             </div>   
     </section>
+
+    <!-- Modal productos dañados-->
+    <div class="modal fade" id="productosDanados" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Registro de faltantes</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <productos-danados-component></productos-danados-component>
+            </div>
+        </div>
+        </div>
+    </div>
    
     
     @include('../modals/nuevoPresupuestoModal')

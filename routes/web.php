@@ -510,5 +510,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Obtener viejo inventario
     Route::get('obtener-inventario-pasado/{id}', 'CMS\BudgetController@obtenerInventario')->name('obtenerInventario');
+
+    Route::get('obtener-inventario-danados/{id}', function($id){
+        $budget = Budget::findOrFail($id);
+
+        $inventario = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
+        $paquetes = BudgetPack::with('inventories')->orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
+        
+        $inventarios = [$inventario, $paquetes];
+
+        return $inventarios;
+    });
+
+    Route::post('registrar-faltante', 'CMS\MissingController@store');
+
+    Route::get('proximos', 'CMS\InventoryController@proximos')->name('proximos');
 });
 
