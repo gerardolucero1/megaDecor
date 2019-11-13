@@ -244,6 +244,9 @@
                                         <li>
                                             <a href="{{ route('grupo.index') }}">Grupos</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('inventario.danados') }}">Dañados</a>
+                                        </li>
                                     </ul>
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                                     

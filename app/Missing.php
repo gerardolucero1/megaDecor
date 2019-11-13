@@ -13,10 +13,14 @@ class Missing extends Model
         'saliente',
         'faltante',
         'total',
+        'reportado',
+        'aprobado',
+        'informe',
+        'imagen',
     ];
 
     public function inventory()
     {
-        return $this->blongsTo(Inventory::class, 'inventory_id');
+        return $this->belongsTo(Inventory::class, 'inventory_id');
     }
 }

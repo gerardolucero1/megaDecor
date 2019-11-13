@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Missing;
+use App\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MissingController extends Controller
 {
@@ -36,24 +38,42 @@ class MissingController extends Controller
      */
     public function store(Request $request)
     {
+
         foreach($request[0] as $item){
+            $producto = Inventory::where('servicio', 'like', $item['servicio'])->first();
+            
+
             $faltante = new Missing();
-            $faltante->inventory_id = $item['id'];
+            if (!is_null($producto)) {
+                $faltante->inventory_id = $producto->id; 
+            }
+            
             $faltante->servicio = $item['servicio'];
             $faltante->saliente = $item['cantidad'];
             $faltante->faltante = $item['faltante'];
-            $faltante->total = $item['cantidad'] - $item['faltante'];
+            $faltante->danados = $item['danado'];
+            $faltante->total = ($item['cantidad'] - $item['faltante']);
+            $faltante->descripcion = $item['descripcion'];
+            $faltante->aprobado = false;
             $faltante->save();
         }
 
         foreach($request[1] as $item){
             foreach($item['inventories'] as $element){
+                $producto = Inventory::where('servicio', 'like', $element['servicio'])->first();
+
                 $faltante = new Missing();
-                $faltante->inventory_id = $element['id'];
+                if (!is_null($producto)) {
+                    $faltante->inventory_id = $producto->id; 
+                }
+
                 $faltante->servicio = $element['servicio'];
                 $faltante->saliente = $element['cantidad'];
                 $faltante->faltante = $element['faltante'];
-                $faltante->total = $element['cantidad'] - $element['faltante'];
+                $faltante->danados = $element['danado'];
+                $faltante->total = ($element['cantidad'] - $element['faltante']);
+                $faltante->descripcion = $element['descripcion'];
+                $faltante->aprobado = false;
                 $faltante->save();
             }
         }
@@ -92,7 +112,26 @@ class MissingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $registro = Missing::find($id);
+        $registro->informe = $request->reporte;
+        $registro->reportado = true;
+        $registro->vendedor = Auth::user()->name;
+        $registro->save();
+
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $registro->fill(['imagen' => asset($url.$path)])->save();
+        }
+
+        return redirect()->route('inventario.danados');
     }
 
     /**

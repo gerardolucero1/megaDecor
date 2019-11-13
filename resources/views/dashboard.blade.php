@@ -67,7 +67,7 @@
                             @if ($usuario != 2)
                             @if ($usuario != 6)
                         <div class="col-6 col-xl-3">
-                                    <a class="block block-link-pop text-right bg-corporate" href="javascript:void(0)">
+                            <a class="block block-link-pop text-right bg-corporate" href="{{ route('danados.aprobar') }}">
                                         <div class="block-content block-content-full clearfix border-black-op-b border-3x">
                                             <div class="float-left mt-10 d-none d-sm-block">
                                                 <i class="si si-fire fa-3x text-corporate-light"></i>

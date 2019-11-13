@@ -239,4 +239,10 @@ class InventoryController extends Controller
 
         return view('eventosProximos', compact('contratos'));
     }
+
+    public function buscarProximos(Request $request){
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $request->fecha)->get();
+
+        return view('eventosProximos', compact('contratos'));
+    }
 }

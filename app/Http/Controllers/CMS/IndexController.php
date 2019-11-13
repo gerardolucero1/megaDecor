@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Task;
+use App\User;
 use stdClass;
 use App\Budget;
-use App\User;
 use App\Client;
+use App\Missing;
 use App\Inventory;
 use App\Telephone;
-use App\Permission;
 use Carbon\Carbon;
+use App\Permission;
 use App\MoralPerson;
 use App\CashRegister;
 use App\PhysicalPerson;
@@ -960,5 +961,15 @@ public function archivarUsuario($id){
     public function historialCortes(){
         $cortes = CashRegister::orderBy('id', 'DESC')->where('estatus', false)->get();
         return view('cortesCaja', compact('cortes'));
+    }
+
+    public function danados(){
+        $productos = Missing::orderBy('id', 'DESC')->where('danados', '>', 0)->get();
+        return view('danados', compact('productos'));
+    }
+
+    public function aprobarDanados(){
+        $productos = Missing::orderBy('id', 'DESC')->where('reportado', true)->where('aprobado', false)->get();
+        return view('aprobarDanados', compact('productos'));
     }
 }
