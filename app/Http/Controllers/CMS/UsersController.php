@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\User;
+use App\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,7 +37,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $usuario = User::orderBy('id', 'DESC')->first();
+
+        // Pendiente
+        // $permisos = new Permission();
+        // $permisos->user_id = $usuario->id;
+        // $permisos->save();
+
+        return redirect()->route('usuario.permisos', $usuario->id);
     }
 
     /**

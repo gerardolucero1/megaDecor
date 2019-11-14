@@ -17,9 +17,9 @@
                         <h3 class="block-title" style="color:green">Usuarios Activos</h3>
                     </div>
                     <div class="col-md-5 text-right">    
-                        <a href="{{ route('users.create') }}" class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#agregarUsuario">
                             <i class="fa fa-user-plus"></i> <i>Nuevo Usario</i> 
-                        </a>
+                        </button>
                         <button onclick="VerArchivados()" class="btn btn-secondary">
                             <i class="fa fa-user-times"></i> <i>Usuarios Archivados</i> 
                         </button>
@@ -125,7 +125,7 @@
                 <span aria-hidden="true">&times;</span>
                 </div>
             </div>
-            <div class="modal-body">
+            {{--  <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4"> 
                         <label for="">Nombre</label><br>
@@ -204,13 +204,51 @@
                                             <label for="" style="padding-left: 30px"><input type="checkbox"> Enviar por correo</label>
                                         </div>
                 
+            </div>  --}}
+        
             </div>
-            
-            <div class="modal-footer">
-                <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
-                <div  class="btn btn-primary" >Agregar Usuario</div>
+        </div>
+    </div>
+
+    <!-- Modal agregar usuario -->
+    <div class="modal fade" id="agregarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Nuevo usuario</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <div class="modal-body">
+                <form action="{{ route('user.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Nombre</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Email</label>
+                            <input type="text" name="email" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Contraseña</label>
+                            <input type="text" name="password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
+          </div>
         </div>
     </div>
                

@@ -9,6 +9,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Cantidad saliente</th>
                             <th scope="col">Faltante</th>
+                            <th scope="col">Dañados</th>
                             <th scope="col">Notas</th>
                         </tr>
                     </thead>
@@ -21,6 +22,9 @@
                             <td>{{ item.cantidad }}</td>
                             <td>
                                 <input type="text" v-model="item.faltante" class="form-comtrol">
+                            </td>
+                            <td>
+                                <input type="text" v-model="item.danado" class="form-comtrol">
                             </td>
                             <td>
                                 <textarea v-model="item.descripcion"></textarea>
@@ -41,6 +45,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Cantidad saliente</th>
                             <th scope="col">Faltante</th>
+                            <th scope="col">Dañados</th>
                             <th scope="col">Notas</th>
                         </tr>
                     </thead>
@@ -53,6 +58,9 @@
                             <td>{{ element.cantidad }}</td>
                             <td>
                                 <input type="text" v-model="element.faltante" class="form-comtrol">
+                            </td>
+                            <td>
+                                <input type="text" v-model="element.danado" class="form-comtrol">
                             </td>
                             <td>
                                 <textarea v-model="element.descripcion"></textarea>
@@ -104,6 +112,13 @@ export default {
                     value: 0,
                 })
 
+                Object.defineProperty(element, 'danado', {
+                    enumerable: true,
+                    configurable: true,
+                    writable: true,
+                    value: 0,
+                })
+
                 Object.defineProperty(element, 'descripcion', {
                     enumerable: true,
                     configurable: true,
@@ -115,6 +130,13 @@ export default {
             this.inventario[1].forEach((element) => {
                 element.inventories.forEach((item) => {
                     Object.defineProperty(item, 'faltante', {
+                        enumerable: true,
+                        configurable: true,
+                        writable: true,
+                        value: 0,
+                    })
+
+                    Object.defineProperty(item, 'danado', {
                         enumerable: true,
                         configurable: true,
                         writable: true,

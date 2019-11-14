@@ -14,10 +14,20 @@
 @section('content')
     <section class="container">
         <div class="content" id="PresupuestosActivos">
+            <div class="row">
+                <div class="col-md-3">
+                    <form action="{{ route('buscarProximos') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <input name="fecha" class="form-control" type="date">
+                        <button type="submit" class="btn btn-block btn-info mt-2">Buscar</button>
+                    </form>
+                </div>
+            </div>
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
                     <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Presupuestos Activos</h3>
+                        <h3 class="block-title" style="color:green">Eventos proximos</h3>
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">

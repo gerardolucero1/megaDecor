@@ -3,7 +3,9 @@
 use App\User;
 use App\Budget;
 use App\Client;
+use App\Missing;
 use App\Payment;
+use App\Register;
 use App\Inventory;
 use App\Telephone;
 use Carbon\Carbon;
@@ -383,8 +385,31 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){
         $inventario = Inventory::find($id);
 
+        if($inventario->cantidad > $request->cantidad){
+            $registro = new Register();
+            $registro->tipo = 'salida';
+            $registro->producto = $inventario->id;
+            $registro->cantidad = $inventario->cantidad - $request->cantidad;
+            $registro->user_id = Auth::user()->id;
+            $registro->save();
+
+            $inventario->exhibicion = $inventario->exhibicion + $registro->cantidad;
+            $inventario->save();
+        }else{
+            $registro = new Register();
+            $registro->tipo = 'entrada';
+            $registro->producto = $inventario->id;
+            $registro->cantidad = $request->cantidad - $inventario->cantidad;
+            $registro->user_id = Auth::user()->id;
+            $registro->save();
+
+            $inventario->exhibicion = $inventario->exhibicion - $registro->cantidad;
+            $inventario->save();
+        }
+
         $inventario->cantidad = $request->cantidad;
         $inventario->save();
+
         return;
     });
 
@@ -530,7 +555,22 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::post('registrar-faltante', 'CMS\MissingController@store');
+    Route::put('registrar-faltante/{id}', 'CMS\MissingController@update')->name('missing.update');
 
     Route::get('proximos', 'CMS\InventoryController@proximos')->name('proximos');
+    Route::post('buscar-proximos', 'CMS\InventoryController@buscarProximos')->name('buscarProximos');
+
+    Route::get('inventario-danados/', 'CMS\IndexController@danados')->name('inventario.danados');
+    Route::get('aprobar-danados', 'CMS\IndexController@aprobarDanados')->name('danados.aprobar');
+    Route::put('aprobar-danados/{id}', function($id){
+        $producto = Missing::findOrFail($id);
+        $producto->aprobado = true;
+        $producto->save();
+
+        $productos = Missing::orderBy('id', 'DESC')->where('reportado', true)->where('aprobado', false)->get();
+        return view('aprobarDanados', compact('productos'));
+    })->name('aprobar');
+
+    Route::post('user/create', 'CMS\UsersController@store')->name('user.store');
 });
 

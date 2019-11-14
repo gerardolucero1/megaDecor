@@ -252,6 +252,10 @@ class InventoryController extends Controller
         $pdf = PDF::loadView('pdf.transferencias', compact('presupuesto'));
 
         return $pdf->stream();
+    }
+    public function buscarProximos(Request $request){
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $request->fecha)->get();
 
+        return view('eventosProximos', compact('contratos'));
     }
 }
