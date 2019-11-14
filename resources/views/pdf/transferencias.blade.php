@@ -6,41 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+@php
+    $date = Carbon\Carbon::now();
+@endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%;">
-                <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:20px"> Transferencias bodega</span></p>
+        <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:17px"> Transferencias bodega-exhibicion</span></p>
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td>
                                 <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
                             </td>
                         <td style="text-align: right">
-                                <span style="font-weight: bold">Folio de contrato:</span> <span>NM106 </span><br>
-                            <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">Miércoles, 16 octubre 2019  </span><br>
-                            <span  style="font-style: italic; font-size: 14px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">Valeria Lopez Batista  </span><br>
+                            <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de impresión: </span> <span style="font-style: italic; font-size: 14px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
                             </td>
                         </tr>
-                       
-                        </table>
-                        <div style="width: 100%; height: 40px"></div>
-                        <table style="width: 100%; font-size: 13px"> 
-                            <tr>
-                                <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
-                                <td style="padding:4px; background:#E8E8E8; text-align: center">Folio de contrato</td>
-                                <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
-                                <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
-                            </tr>
-                            <tr style="text-align: center">
-                                <td>Pago de contrato</td>
-                                <td>NM106</td>
-                                <td>EFECTIVO</td>
-                                <td>$250.00</td>
-                            </tr>
                         </table>
                         <div style="width: 100%; height: 0px; border-bottom:solid"></div>
-                        <p style="text-align: right; font-weight: bold; padding-right:20px">TOTAL: $250.00</p>
-                        <p style="font-style: italic; font-size: 12px">*Saldo Pendiente $0.00</p>
-                        
+
+                        <div>
+<table style="width: 100%; margin-top:15px; text-align:center;">
+    <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+        <th>Tipo</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th colspan="2">Antes del traspaso</th>
+        <th colspan="2">Despues del traspaso</th>
+    </tr>
+    <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+            <th style="background: white"></th>
+            <th style="background: white"></th>
+            <th style="background: white"></th>
+            <th>Bodega</th>
+            <th>Exhibición</th>
+            <th>Bodega</th>
+            <th>Exhibición</th>
+        </tr>
+   
+    @foreach ($transferencias as $transferencia)
+    @php
+        $producto = App\Inventory::where('id', $transferencia->producto)->first();
+    @endphp
+
+    <tr style="border-bottom:solid; font-size:11px;">
+    <td>@if($transferencia->tipo=='salida')  bodega a exhibición
+    @else De exhibición a bodega @endif</td>
+    <td>{{$producto->servicio}} </td>
+    <td>{{$transferencia->cantidad}}</td>
+    <td>@if($transferencia->tipo=='salida'){{$producto->cantidad + $transferencia->cantidad}}@else
+        {{$producto->cantidad - $transferencia->cantidad}}@endif</td>
+    <td>@if($transferencia->tipo=='salida'){{$producto->exhibicion - $transferencia->cantidad}}@else
+            {{$producto->exhibicion + $transferencia->cantidad}}@endif</td>
+    <td>{{$producto->cantidad}}</td>
+    <td>{{$producto->exhibicion}}</td>
+    </tr>    
+    @endforeach
+</table>
+                        </div>
     
                 </div>
 </body>

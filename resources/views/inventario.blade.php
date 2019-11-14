@@ -80,13 +80,12 @@
                                 @csrf 
                             <input type="hidden" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
-                        </form>   
-                        <a target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
-                                <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i>
-                            </a>   
+                        </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                         @if($usuario != 2)
+                        <a class="btn btn-info" target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
+                                    <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i> Transferencias del dia
+                         </a>  
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
@@ -96,7 +95,7 @@
                         <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
                         </a> 
-                        @endif         
+                       
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -243,7 +242,7 @@
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){
-            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let nuevaCantidad = prompt('Ingresa la cantidad que quedara en bodega, si ingresas una cantidad menor a la actual, el sobrante pasara automaticamente a exhibicion, si ingresas una cantidad mayor, la diferencia se descontara a exhibición: ');
             let URL = 'editar-cantidad-inventario/' + id;
 
             let data = 'cantidad-' + id;
@@ -259,8 +258,8 @@
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
-                 console.log('Cantidad actualizada');
                 td.innerHTML = nuevaCantidad;
+                location.reload();
              }).catch((error) => {
                  console.log(error.data);
              })

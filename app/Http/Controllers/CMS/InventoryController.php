@@ -242,15 +242,10 @@ class InventoryController extends Controller
 
     public function pdfTransferencias(){        
 
-        $presupuesto = Budget::orderBy('id', 'DESC')->first();
-
-
+        $transferencias = Register::orderBy('id', 'DESC')->where('tipo', 'salida')->orWhere('tipo', 'entrada')->get();
         //$demo = collect($otroArray);
-
         $pdf = App::make('dompdf');
-
-        $pdf = PDF::loadView('pdf.transferencias', compact('presupuesto'));
-
+        $pdf = PDF::loadView('pdf.transferencias', compact('transferencias'));
         return $pdf->stream();
     }
     public function buscarProximos(Request $request){
