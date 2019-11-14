@@ -170,12 +170,12 @@
                                                     </div>
                                                     <div class="row pt-10 pb-30 text-center">
                                                         <div class="col-6 border-r">
-                                                            <div class="font-size-h3 font-w600">${{ number_format($ingresoActual,2)}} <span @if( $ingresoActual > $ventasAnoPasado)
+                                                            <div class="font-size-h3 font-w600">${{ number_format($ingresoActual,2) }} <span @if( $ingresoActual > $ventasAnoPasado)
                                                                     style="color:green"
                                                                     @else
                                                                     style="color:orange"
                                                                     @endif><span style="font-size:14px">{{ round($porcentajeActualDinero , 1) }}%<span></div>
-                                                                    <div class="font-size-sm font-w600 text-uppercase text-muted">${{$diferenciaDinero}}</span><br>Ingresos {{ $mes }} {{ $anio }}</div>
+                                                                    <div class="font-size-sm font-w600 text-uppercase text-muted">${{number_format($diferenciaDinero,2)}}</span><br>Ingresos {{ $mes }} {{ $anio }}</div>
                                                         </div>
                                                         <div class="col-6">
                                                             <div class="font-size-h3 font-w600">${{ number_format($ventasAnoPasado,2) }} </div>

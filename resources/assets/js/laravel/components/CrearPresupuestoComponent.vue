@@ -2306,6 +2306,9 @@ padding: 0;
             agregarProducto(producto){
                 this.limpiar = true;
                 this.inventarioLocal = this.inventarioLocal.reverse();
+                if(producto.precioVenta==null){
+                producto.precioVenta=0;}
+                
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,
@@ -2318,7 +2321,7 @@ padding: 0;
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,

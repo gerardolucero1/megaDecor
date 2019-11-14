@@ -4,14 +4,15 @@ namespace App\Http\Controllers\CMS;
 
 use App\User;
 use stdClass;
-use Carbon\Carbon;
 use App\Budget;
 use App\Client;
 use App\Family;
 use App\Inventory;
 use App\Telephone;
+use Carbon\Carbon;
 use App\BudgetPack;
 use App\Celebrated;
+use App\Commission;
 use App\MoralPerson;
 use App\BudgetVersion;
 use App\PhysicalPerson;
@@ -780,6 +781,25 @@ class BudgetController extends Controller
     public function obtenerPaquetes($id){
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
         return BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+    }
+
+    public function obtenerTotalComision($id){
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        $BudgetInventory = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $Budget->version)->get();
+        $budgetPack = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->get();
+        $comision = Commission::orderBy('id', 'DESC')->first();
+        $totalComisionable = 0;
+        $arregloComisiones=[];
+        $totalComision=0;
+        if($Budget->total > $comision->minimoVentaComision){
+        foreach($BudgetInventory as $element){
+            $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+        }
+        $totalComision=$comision->comisionContrato;
+    }
+        $arregloComisiones=[$totalComisionable, $totalComision, $comision->minimoVentaComision];
+  
+        return $arregloComisiones;
     }
 
     public function obtenerElementosPaquetes($id){

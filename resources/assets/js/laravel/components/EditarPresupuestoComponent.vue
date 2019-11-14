@@ -2230,7 +2230,7 @@ padding: 0;
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,

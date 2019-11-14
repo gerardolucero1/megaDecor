@@ -326,13 +326,10 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Especial</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Ahorro</th>
-
-
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -345,7 +342,9 @@
                                     </div>
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
-                                <td>{{ producto.servicio }}</td>
+                                <td>{{ producto.servicio }}<br>
+                                   ${{ producto.precioVenta}}
+                                </td>
                                 <td data-name="cantidad">
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -415,6 +414,10 @@
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA">TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                    
+                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  {{TotalComision[0] | currency}}</p>
+                                    <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
+                                    <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
                                    
                                 </div>
                             </div>
@@ -446,7 +449,7 @@
 
                 <div v-if="pagos.length != 0 && 
                 usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
-                    <div class="col-md-12">
+                    
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
                             <ul>
@@ -454,12 +457,18 @@
                                     <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
-                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: ${{ saldoPendiente*1.16 }}</label>
+                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: {{ saldoPendiente | currency }}</label>
                             <label v-else>Saldo pendiente: ${{ saldoPendiente }}</label>
                             <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
-                    </div>
+
+                        <!--Comisiones-->
+                        <div class="col-md-6">
+                            <p>Total Comisionable: </p>
+                        </div>
+
+                   
                 </div>
 
                 <div v-if="usuarioActual.id!=2" class="row">
@@ -596,6 +605,7 @@
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
+                TotalComision:'',
                 clienteSeleccionado: {
                     id: '',
                     nombre: '',
@@ -782,6 +792,7 @@
         created(){
             this.obtenerUltimoPresupuesto();
             this.obtenerUsuarios();
+            this.obtenerComision();
             //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
             this.obtenerInventario();
@@ -988,7 +999,17 @@
                     console.log(error.data)
                 })
             },
-
+            obtenerComision(){
+                    let path = window.location.pathname.split('/');
+                    let id = path[3];
+                    let URL = '/obtener-comision-contrato/' + id
+                    axios.get(URL).then((response) => {
+                    this.TotalComision = response.data
+                    
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
             obtenerVersionPresupuesto(direccion){
                 let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
                 console.log(posicion);

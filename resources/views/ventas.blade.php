@@ -33,37 +33,71 @@
                                 <th>NOMBRE DEL CLIENTE</th>
                                 <th>FECHA DEL EVENTO</th>
                                 <th>IMPORTE</th>
+                                <th>IMPORTE COMISIONABLE</th>
                                 <th>VENDEDOR</th>
-                                <th>COMISION POR VENTA</th>
+                                <th>COMISION TOTAL</th>
                                 <th>OPCIONES</th>
                             </tr>
                         </thead>
                         <tbody>                    
+                            
                             @foreach($contratos as $contrato)
+
+                            @php
+                            $totalComisionable = 0;
+                            $arregloComisiones=[];
+                            $totalComision=0;
+                            $Budget = App\Budget::orderBy('id', 'DESC')->where('id', $contrato->id)->first();
+                            $BudgetInventory = App\BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $contrato->id)->where('version', $contrato->version)->get();
+                            $budgetPack = App\BudgetPack::orderBy('id', 'DESC')->where('budget_id', $contrato->id)->get();
+                            $comision = App\Commission::orderBy('id', 'DESC')->first();
+                                if($contrato->total > $comision->minimoVentaComision){
+                                    foreach($BudgetInventory as $element){
+                                     $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+                                }
+                                    $totalComision=($totalComisionable)*($comision->comisionContrato/100);
+                            }
+                               
+                            @endphp
+
                                 <tr role="row" class="odd">
-                                    <td class="text-center sorting_1">{{ $contrato->folio}}</td>
+                                    <td class="text-center sorting_1">{{$contrato->id.' --- '.$contrato->folio}}</td>
                                     @php
                                         $cliente = App\Client::where('id', $contrato->client_id)->first();
                                         if($cliente->tipoPersona == 'FISICA'){
                                             $persona = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                            $nombre= $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
                                         }else{
                                             $persona = App\MoralPerson::where('client_id', $cliente->id)->first();
+                                            $nombre =  $persona->nombre;
                                         }
                                     @endphp
-                                    <td class="">{{ $persona->nombre}}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $contrato->fechaEvento }}</td>
-                                    <td class="d-none d-sm-table-cell">${{ $contrato->total}}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $contrato->user->name }}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $contrato->comision }}</td>
+                                    <td class="">{{ $nombre}}</td>
+                                    @php
+                                        $fechaEvento = Carbon\Carbon::parse($contrato->fechaEvento)->locale('es');
+                                    @endphp
+                                    <td class="d-none d-sm-table-cell">{{ $fechaEvento->translatedFormat(' l j F Y') }}</td>
+                                    @php
+                                        if($contrato->opcionIVA==1){
+                                            $total = $contrato->total*1.16;
+                                        }else{
+                                            $total = $contrato->total;
+                                        }
+                                    @endphp     
+
+                                    <td class="d-none d-sm-table-cell">${{$total}}<br>@if($contrato->opcionIVA==1)<span style="color:green">IVA Incluido</span>@endif</td>
+                                    <td class="d-none d-sm-table-cell">${{ $totalComisionable-$comision->minimoVentaComision }}</td>
+                                    <td class="d-none d-sm-table-cell">vendedor</td>
+                                    <td class="d-none d-sm-table-cell">${{ ($totalComisionable-$comision->minimoVentaComision)*($comision->comisionContrato/100) }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('ventas.show', $contrato->client_id) }}" 
+                                        <a href="{{ route('ver.presupuesto', $contrato->id) }}" 
                                             target="_blank"
                                             type="button" 
                                             class="btn btn-sm btn-secondary js-tooltip-enabled" 
                                             data-toggle="tooltip" title="Ver Lista de eventos" 
                                             data-original-title="View Customer"
                                             >
-                                            <i class="fa fa-list-ul"></i>
+                                            <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
                                 </tr>

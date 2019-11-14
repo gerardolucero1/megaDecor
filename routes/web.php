@@ -511,6 +511,9 @@ Route::group(['middleware' => ['auth']], function () {
     //Obtener viejo inventario
     Route::get('obtener-inventario-pasado/{id}', 'CMS\BudgetController@obtenerInventario')->name('obtenerInventario');
 
+    //Obtener comision de contrato
+    Route::get('obtener-comision-contrato/{id}', 'CMS\BudgetController@obtenerTotalComision')->name('obtenerComisiones');
+
     Route::get('obtener-inventario-danados/{id}', function($id){
         $budget = Budget::findOrFail($id);
 

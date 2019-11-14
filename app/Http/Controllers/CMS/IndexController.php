@@ -405,14 +405,16 @@ public function archivarUsuario($id){
             //calculamos total ventas del año pasado
             $ventasAnoPasado=0;
             $ventasAnoActual=0;
+            //obtenemos ventas año pasado
             foreach($presupuestosAnoPasado as $anoPasado){
-                $ventasAnoPasado=$ventasAnoPasado+($anoPasado->total);
+                $ventasAnoPasado= $ventasAnoPasado+$anoPasado->total;
             }
+            //obtenemos ventas año actual
             foreach($presupuestosAnoActual as $anoActual){
                 $ventasAnoActual=$ventasAnoActual+$anoActual->total;
             }
                
-            if($ventasAnoPasado !== 0){
+            if($ventasAnoPasado != 0){
             
                 $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
                 $diferenciaDinero = $ventasAnoActual-$ventasAnoPasado;
@@ -422,8 +424,7 @@ public function archivarUsuario($id){
                 $diferenciaDinero = 0;
             }
           
-            $ventasAnoPasado=number_format($ventasAnoPasado);
-            $ventasAnoActual=number_format($ventasAnoActual);
+            
 
             //Obtenemos datos para tabla comparativa de comisiones
             $Vendedores = User::orderBy('id', 'DESC')->get();
@@ -940,7 +941,8 @@ public function archivarUsuario($id){
     //Ventas
 
     public function ventas(){
-        $contratos = Budget::orderBy('id', 'DESC')->get();
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
+       
         return view('ventas', compact('contratos'));
     }
 
