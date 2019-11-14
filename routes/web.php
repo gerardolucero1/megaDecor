@@ -106,7 +106,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
     Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
     Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
-        // API Presupuestos
+        
+    //Imprimir transferencias de inventario
+    Route::get('/imprimir-transferencias', 'CMS\InventoryController@pdfTransferencias')->name('imprimir.transferencias');
+    
+    // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');
         Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
         Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');

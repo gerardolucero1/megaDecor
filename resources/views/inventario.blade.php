@@ -69,6 +69,9 @@
                             </form>
                         </div>
                     </div>
+                    @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
@@ -77,12 +80,12 @@
                                 @csrf 
                             <input type="hidden" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
-                        </form>    
+                        </form>   
+                        <a target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
+                                <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i>
+                            </a>   
                     </div>
                     <div class="col-md-9 text-right">
-                            @php
-                            $usuario = Auth::user()->id;    
-                        @endphp 
                          @if($usuario != 2)
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia

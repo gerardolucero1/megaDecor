@@ -239,4 +239,19 @@ class InventoryController extends Controller
 
         return view('eventosProximos', compact('contratos'));
     }
+
+    public function pdfTransferencias(){        
+
+        $presupuesto = Budget::orderBy('id', 'DESC')->first();
+
+
+        //$demo = collect($otroArray);
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.transferencias', compact('presupuesto'));
+
+        return $pdf->stream();
+
+    }
 }
