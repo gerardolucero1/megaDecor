@@ -340,6 +340,13 @@
                                     <div class="nuevo" v-if="producto.nuevo">
                                         <span class="badge badge-pill badge-danger">Nuevo</span>
                                     </div>
+                                    <div class="nuevo" v-if="producto.existe>0">
+                                        <span class="badge badge-pill badge-success">Aumento {{producto.existe}}</span>
+                                    </div>
+                                    <div class="nuevo" v-if="producto.existe<0">
+                                        <span class="badge badge-pill badge-warning">Reducción {{producto.existe}}</span>
+                                    </div>
+                                    
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}<br>
@@ -415,7 +422,7 @@
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     
-                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  {{TotalComision[0] | currency}}</p>
+                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] - TotalComision[2] | currency}}</span><span v-else>$0.00</span></p>
                                     <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
                                     <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
                                    
@@ -463,10 +470,8 @@
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
 
-                        <!--Comisiones-->
-                        <div class="col-md-6">
-                            <p>Total Comisionable: </p>
-                        </div>
+                       
+                       
 
                    
                 </div>
@@ -1327,7 +1332,18 @@
                             if(this.inventarioPasado[0].some((item) => {
                                 return item.servicio == element.servicio
                             })){
-                                console.log('Existe')
+                                let found = this.inventarioPasado[0].find((item) => {
+                                    return item.servicio == element.servicio
+                                })
+
+                                    let valorexiste = element.cantidad - found.cantidad;
+                                Object.defineProperty(element, 'existe', {
+                                    enumerable: true,
+                                    configurable: true,
+                                    writable: true,
+                                    value: valorexiste,
+                                })
+
                             }else{
                                 let found = this.inventarioLocal.find((item) => {
                                     return item.servicio == element.servicio

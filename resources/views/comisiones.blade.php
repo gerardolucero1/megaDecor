@@ -3,28 +3,31 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 @endsection
 @section('content')
-
+@php
+        
+        $usuario = Auth::user()->id; 
+        $permisos = App\Permission::where('user_id', $usuario)->first();   
+    @endphp
     <section class="container">
 
         <div class="row">
-                    <div class="col-md-6"><a href="javascript:void(0)" class="block"><div class="block-content block-content-full"><div class="text-right"><i class="si si-wallet fa-2x text-body-bg-dark"></i></div> <div class="row pt-10 pb-30 text-center"><div class="col-6 border-r"><div class="font-size-h3 font-w600">4</div> <div class="font-size-sm font-w600 text-uppercase text-muted"><span style="color: green;">200%</span><br>
-                        Ventas Septiembre 2019</div></div> <div class="col-6"><div class="font-size-h3 font-w600">2</div> <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas Septiembre 2018</div></div></div></div></a></div>
-
-                        <div class="col-md-6"><a href="javascript:void(0)" class="block"><div class="block-content block-content-full"><div class="text-right"><i class="si si-wallet fa-2x text-body-bg-dark"></i></div> <div class="row pt-10 pb-30 text-center"><div class="col-6 border-r"><div class="font-size-h3 font-w600">$879 </div> <div class="font-size-sm font-w600 text-uppercase text-muted"><span style="color: orange;">90.2%</span><br>Ingresos Septiembre 2019</div></div> <div class="col-6"><div class="font-size-h3 font-w600">$974 </div> <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ingresos Septiembre 2018</div></div></div></div></a></div>
-                        <div class="col-6 col-lg-4  col-xl-4">
-                                <a  class="block block-link-shadow text-right" href="javascript:void(0)">
-                                    <div class="block-content block-content-full clearfix">
-                                        <div class="float-left mt-10 d-none d-sm-block">
-                                            <i class="fa fa-star fa-3x text-body-bg-dark"></i>
+                       
+                        @if($permisos->dashboardVendedorMes==1)
+                            <div class="col-6 col-lg-4  col-xl-4">
+                                    <a  class="block block-link-shadow text-right" href="javascript:void(0)">
+                                        <div class="block-content block-content-full clearfix">
+                                            <div class="float-left mt-10 d-none d-sm-block">
+                                                <i style="color:#ECE025" class="fa fa-star fa-3x "></i>
+                                            </div>
+                                            <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
+                                            <div class="font-size-sm font-w600 text-uppercase text-muted">
+                                                @if(!is_null($ArrayEmpleadoDelMes))
+                                                    {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
+                                                    @endif</div>
                                         </div>
-                                        <div class="font-size-h3 font-w600 js-count-to-enabled" data-toggle="countTo" data-speed="1000" data-to="15">Empleado del mes</div>
-                                        <div class="font-size-sm font-w600 text-uppercase text-muted">
-                                            @if(!is_null($ArrayEmpleadoDelMes))
-                                                {{ $ArrayEmpleadoDelMes->name }}@else sin empleado del mes
-                                                @endif</div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                                @endif
            
         </div>
     
@@ -45,9 +48,9 @@
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuesto">
                                                 <i class="si si-printer"></i> <i>Imprimir Reporte</i> 
                                             </button>
-                                    <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                                    <a href="" class="btn btn-secondary">
                                                 <i class="fa fa-calendar-minus-o"></i> <i>Comisiones por evento</i> 
-                                            </button>
+                                            </a>
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -55,10 +58,10 @@
                             <thead>
                                 <tr role="row">
                                     <th>Vendedor</th>
-                                    <th># Ventas</th>
-                                    <th>Mes Actual</th>
-                                    <th>Total Ventas</th>
-                                    <th>Comisión</th>
+                                    <th># Ventas del mes</th>
+                                    <th>Total Vendido</th>
+                                    <th>Total Comisionable</th>
+                                    <th>Total Comisión</th>
                                     <th>Opciones</th>
                                 </tr>
                                 </tr>
@@ -72,91 +75,53 @@
                                     $fecha = Carbon::parse($date);
                                     $fecha->format("F"); // Inglés.
                                     $mes = $fecha->formatLocalized('%B');// mes en idioma español
+                                    $totalComisiones=0;
                                  @endphp    
-                                @foreach($CompleteUsers as $usuario)
-                                <tr role="row" class="odd">
-                                <td class="text-center sorting_1">{{ $usuario->name}}</td>
-                                    <td class="">{{ $usuario->ventas}}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $mes }}</td>
-                                    <td class="d-none d-sm-table-cell">${{ $usuario->totalventas}}</td>
-                                    <td class="d-none d-sm-table-cell">$
-                                        @php
-                                         echo number_format((intval($usuario->totalventas))*50)
-                                        @endphp
-                                         </td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="modal" data-target="#contratos{{ $usuario->id }}">
-                                            <i class="fa fa-list-ul"></i>
-                                        </button>
-
-                                        <!-- Modal -->
-                                    <div class="modal fade" id="contratos{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Contratos del usuario {{ $usuario->name }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">Fecha Evento</th>
-                                                                <th scope="col">Cliente</th>
-                                                                <th scope="col">Total</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @php
-                                                                $user = App\User::where('id', $usuario->id)->first();
-                                                            @endphp
-                                                            @foreach ($user->budgets as $budget)
-                                                                <tr>
-                                                                    <th scope="row">{{ $budget->id }}</th>
-                                                                    <td>{{ $budget->fechaEvento }}</td>
-                                                                    @php
-                                                                        $cliente = App\Client::where('id', $budget->client_id)->first();
-
-                                                                        if($cliente->tipoPersona == "FISICA"){
-                                                                            $clienteFisico = App\PhysicalPerson::where('client_id', $budget->client_id)->first();
-                                                                            $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
-                                                                        
-                                                                        }else{
-                                                                            $clienteMoral = App\MoralPerson::where('client_id', $budget->client_id)->first();
-                                                                            $clienteNombre = $clienteMoral->nombre;
-                                                                        }
-                                                                    @endphp
-                                                                    <td>{{$clienteNombre}}</td>
-                                                                    @php
-                                                                        if($budget->opcionIVA){
-                                                                            $total = $budget->total * 0.16;
-                                                                        }else{
-                                                                            $total = $budget->total;
-                                                                        }
-                                                                    @endphp
-                                                                    <td>{{ $total }}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                    
-                                @endforeach
-                            
-                            </tbody>
+                                
+                                @foreach ($Vendedores as $vendedor)
+                                            @php
+                                                $totalVentas=0;
+                                                $numeroVentas=0;
+                                                $totalComisionable=0;
+                                                $totalComision=0;
+                                                $generalesComisiones = App\Commission::orderBy('id', 'ASC')->first();
+                                                $ContratosDelMes = App\Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereMonth('fechaEvento', $date)->where('vendedor_id', $vendedor->id)->get();
+                                                //Obtenemos total de la ventas del mes
+                                                foreach($ContratosDelMes as $contrato){
+                                                    $totalVentas=$totalVentas+$contrato->total;
+                                                    $numeroVentas++;
+                                                
+                                            if($contrato->total>=$generalesComisiones->minimoVentaComision){
+                                                $inventarioContrato = App\BudgetInventory::where('budget_id', $contrato->id)->where('version', $contrato->version)->get();
+                                                //Obtenemos total comisiobanle
+                                                foreach($inventarioContrato as $servicio){
+                                                    $totalComisionable=$totalComisionable+(($servicio->cantidad*$servicio->precioEspecial)-($servicio->precioVenta*$servicio->cantidad));
+                                                }
+                                                $totalComisionable=$totalComisionable-$generalesComisiones->minimoVentaComision;
+                                                $totalComision=$totalComisionable*($generalesComisiones->comisionContrato/100);   
+                                            
+                                            }
+                                        }
+                                            @endphp
+                                            <tr>
+                                                <td>{{$vendedor->name}}</td>
+                                                <td>{{$numeroVentas}}</td>
+                                                <td>${{number_format($totalVentas,2)}}</td>
+                                                <td>${{number_format($totalComisionable,2)}}</td>
+                                                <td>${{number_format($totalComision,2)}}</td>
+                                                @php
+                                                    $totalComisiones=$totalComisiones+$totalComision;
+                                                @endphp
+                                            </tr>
+                                             @endforeach
+                                             <tr>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                                 <td></td>
+                                             <td style="background: cornsilk; color: crimson; font-weight: bold">TOTAL: ${{number_format($totalComisiones,2)}}</td>
+                                             </tr>
+                                        </tbody>
                      </table>
                             </div>
                         </div>

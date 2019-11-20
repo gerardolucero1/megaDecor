@@ -98,7 +98,7 @@
                                     </span>
                                 </td>@endif
                                 @if($permisos->contratosFecha==1)
-                                @if (is_null($budget->pendienteFecha))
+                                @if ($budget->pendienteFecha!=1)
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
                                     @endphp
@@ -225,7 +225,7 @@
                                 <tr role="row" class="odd">
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
-                                    @if (is_null($budgetArchivados->pendienteFecha))
+                                    @if ($budgetArchivados->pendienteFecha!=1)
                                     @php
                                         $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                     @endphp
@@ -318,7 +318,7 @@
                                                         @endif
                                                     </span>
                                         </td>
-                                        @if (is_null($budgetArchivados->pendienteFecha))
+                                        @if ($budgetArchivados->pendienteFecha!=1)
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                             @endphp

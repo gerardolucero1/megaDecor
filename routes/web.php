@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/obtener-usuarios', function(){
-        return User::orderBy('id', 'DESC')->get();
+        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->get();
     });
     
     // Rutas del CMS
@@ -546,8 +546,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('obtener-inventario-danados/{id}', function($id){
         $budget = Budget::findOrFail($id);
 
-        $inventario = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
-        $paquetes = BudgetPack::with('inventories')->orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
+        $inventario = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
+        $paquetes = BudgetPack::with('inventories')->orderBy('id', 'DESC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
         
         $inventarios = [$inventario, $paquetes];
 
