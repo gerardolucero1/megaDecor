@@ -14,11 +14,13 @@
         <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:17px"> Transferencias bodega-exhibicion</span></p>
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
-                            <td>
+                            <td style="width: 30%">
                                 <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
                             </td>
-                        <td style="text-align: right">
-                            <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de impresión: </span> <span style="font-style: italic; font-size: 14px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
+                        <td style="text-align: right; width: 70%">
+                                <span style="font-style: italic; font-size: 15px;  font-weight: bold">Fecha de Movimientos: </span> <span style="font-style: italic; font-size: 14px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
+                                <span style="font-style: italic; font-size: 15px;  font-weight: bold">Familia: </span> <span style="font-style: italic; font-size: 14px">{{$familia}}  </span><br>
+                            <span style="font-style: italic; font-size: 13px;  font-weight: bold">Fecha de impresión: </span> <span style="font-style: italic; font-size: 12px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
                             </td>
                         </tr>
                         </table>
@@ -27,6 +29,7 @@
                         <div>
 <table style="width: 100%; margin-top:15px; text-align:center;">
     <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+        <th>Imagen</th>
         <th>Tipo</th>
         <th>Producto</th>
         <th>Cantidad</th>
@@ -34,6 +37,7 @@
         <th colspan="2">Despues del traspaso</th>
     </tr>
     <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+            <th style="background: white"></th>
             <th style="background: white"></th>
             <th style="background: white"></th>
             <th style="background: white"></th>
@@ -46,9 +50,11 @@
     @foreach ($transferencias as $transferencia)
     @php
         $producto = App\Inventory::where('id', $transferencia->producto)->first();
-    @endphp
 
+    @endphp
+@if($producto->familia==$_GET['familia'])
     <tr style="border-bottom:solid; font-size:11px;">
+    <td><img src="{{$producto->imagen}}" alt="" style="width: 40px"></td>
     <td>@if($transferencia->tipo=='salida')  bodega a exhibición
     @else De exhibición a bodega @endif</td>
     <td>{{$producto->servicio}} </td>
@@ -60,10 +66,57 @@
     <td>{{$producto->cantidad}}</td>
     <td>{{$producto->exhibicion}}</td>
     </tr>    
+    @endif
     @endforeach
+    
+</table>
+
+
+<p style="width: 100%; text-align:center; margin-top:30px; font-weight: bold" for="">Altas y bajas de inventario</p>
+<div style="width: 100%; height: 0px; border-bottom:solid"></div>
+<table style="width: 100%; text-align:center">
+    <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+        <th>Imagen</th>
+        <th>Tipo</th>
+        <th>Producto</th>
+        <th>Antes</th>
+        <th>Cantidad</th>
+        <th>Despues</th>
+    </tr>
+    @foreach ($altasbajas as $accion)
+    @php
+        $producto = App\Inventory::where('id', $accion->producto)->first();
+    @endphp
+    @if($producto->familia==$_GET['familia'])
+    <tr style="font-size:12px">
+    <td><img src="{{$producto->imagen}}" alt="" style="width: 40px"></td>
+    <td>{{$accion->tipo}}</td>
+            <td>{{$producto->servicio}}</td>
+            <td>@if($accion->tipo=='alta'){{$producto->cantidad-$accion->cantidad}}@else{{$producto->cantidad+$accion->cantidad}}@endif</td>
+            <td>@if($accion->tipo=='alta')<span style="color:green">+ </span>@else <span style="color:red">- </span>@endif{{$accion->cantidad}}</td>
+            <td>{{$producto->cantidad}}</td>
+        </tr>
+        @endif
+    @endforeach
+   
+</table>
+
+<table style="width: 100%; text-align:center; margin-top:60px">
+    <tr>
+        <td>__________________________________<br>Firma Responsable de bodega</td>
+        <td>__________________________________<br>Firma Administrador</td>
+    </tr>
+    
 </table>
                         </div>
     
                 </div>
+
+    <script type="text/php">
+    if ( isset($pdf) ) {
+        $font = "helvetica";
+        $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+    }
+    </script> 
 </body>
 </html>

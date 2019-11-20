@@ -35,6 +35,20 @@
                                 use App\Family;
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
+                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank">
+                                    @csrf
+                                    <div class="row" style="padding:20px;">
+                                    <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
+                                                <option value="">Todas las familias</option>
+                                                @foreach($familias as $familia)    
+                                                    <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                                @endforeach
+                                    </select>
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" class="form-control">
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" class="form-control">
+                                     <button class="btn btn-info">Obtener Transferencias</button>
+                                    </div>
+                                 </form>
                             <form action="{{ route('inventario.filtro') }}" method="POST">
                                 @method('POST')
                                 @csrf   
@@ -48,13 +62,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display: none">
                                     <div class="form-group">
                                         <label for="">Editado Desde:</label>
                                         <input type="date" name="fecha_1" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display: none">
                                     <div class="form-group">
                                             <label for="">Editado Hasta:</label>
                                         <input type="date" name="fecha_2" class="form-control">
@@ -83,7 +97,7 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                        <a class="btn btn-info" target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
+                        <a style="display:none" class="btn btn-info" target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
                                     <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i> Transferencias del dia
                          </a>  
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">

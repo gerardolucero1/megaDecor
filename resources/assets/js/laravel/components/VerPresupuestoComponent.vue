@@ -83,7 +83,8 @@
         </div>
 
         <div class="container-version" v-if="presupuesto.length != 0" style="margin-left: 400px;">
-            Edicion echa por: {{ presupuesto.quienEdito }}
+            Edición hecha por: {{ presupuesto.quienEdito }}<br>
+            <span style="font-size:10px; font-style:italic">{{presupuesto.updated_at}}</span>
         </div>
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
@@ -121,7 +122,7 @@
         <div class="row">
             <div class="col-md-12 verPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-5 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -129,10 +130,12 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-right info">
+                    <div class="col-md-7 text-right info">
                         <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <div> <p style=" text-align:right; "><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
+                            <div> 
+                                 <p style="text-align:right; font-size:23px; width:100%; padding-right:15px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
+                                 </div>
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
                             </div>

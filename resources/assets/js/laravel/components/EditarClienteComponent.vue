@@ -134,6 +134,7 @@
                         <th scope="col">TIPO</th>
                         <th scope="col">NUMERO</th>
                         <th scope="col">EXT</th>
+                        <th scope="col">DEPARTAMENTO</th>
                         <th scope="col" class="text-center">OPCIONES</th>
                     </tr>
                 </thead>
@@ -144,6 +145,7 @@
                         <td>{{ telefono.tipo }}</td>
                         <td>{{ telefono.numero }}</td>
                         <td>{{ telefono.ext }}</td>
+                        <td>{{ telefono.departamento }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-info text-center" v-on:click.prevent="editarTelefono(telefono)">Editar</button>
                             <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(telefono.id)">Eliminar</button>
@@ -158,7 +160,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -200,7 +202,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="ModalCenterTitle">Editar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -222,7 +224,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Nombre del usuario</label>
+                            <label for="">Nombre del contacto</label>
                             <input type="text" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
@@ -234,7 +236,7 @@
                             <input type="text" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Email del usuario</label>
+                            <label for="">Email del contacto</label>
                             <input type="text" v-model="telefono.email">
                         </div>
                         <div class="col-md-2" v-if="telefono.tipo == 'OFICINA'">
@@ -256,7 +258,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="crearModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="crearModalCenterTitle">Agregar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -271,14 +273,18 @@
                                 <option value="OFICINA">Oficina</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Numero de telefono</label>
                             <input type="text" v-model="nuevoTelefono.numero">
+                        </div>
+                        <div class="col-md-2" v-if="nuevoTelefono.tipo == 'OFICINA'">
+                            <label for="">Extension</label>
+                            <input type="text" v-model="nuevoTelefono.ext">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Nombre del usuario</label>
+                            <label for="">Nombre de contacto</label>
                             <input type="text" v-model="nuevoTelefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
@@ -290,13 +296,14 @@
                             <input type="text" v-model="nuevoTelefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Email del usuario</label>
+                            <label for="">Email de contacto</label>
                             <input type="text" v-model="nuevoTelefono.email">
                         </div>
-                        <div class="col-md-2" v-if="nuevoTelefono.tipo == 'OFICINA'">
-                            <label for="">Extension</label>
-                            <input type="text" v-model="nuevoTelefono.ext">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                            <label for="">Departamento</label>
+                            <input type="text" v-model="nuevoTelefono.departamento">
                         </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
