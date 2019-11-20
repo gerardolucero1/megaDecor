@@ -222,7 +222,7 @@ padding: 0;
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 <label>
                                     <input type="radio" name="email" v-model="presupuesto.emailEnvio" :value="telefono.email"> 
-                                    {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                    {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
                                 </label>
                             </p>
                         </div>

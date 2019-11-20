@@ -226,13 +226,10 @@
                                     <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
                                 </p>
                             <p>{{ clienteSeleccionado.email }}</p>
-                                <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p>
-                            <!-- <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                <label>
-                                    <input type="radio" name="email" @change="emailSeleccionado = telefono.email"> 
-                                    {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
-                                </label>
-                            </p> -->
+                                <!-- <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p> -->
+                            <p class="emailEnvio" v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index" v-if="telefono.email == presupuesto.emailEnvio">
+                                {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-6 text-right mt-4" v-if="clienteSeleccionado">
@@ -807,6 +804,10 @@
             
         },
         computed:{
+            emailEnvio: function(){
+                return
+            },
+
             mostrarFechaEvento: function(){
                 let fecha = this.presupuesto.fechaEvento;
                 moment.locale('es'); 

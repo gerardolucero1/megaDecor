@@ -358,6 +358,12 @@ Route::group(['middleware' => ['auth']], function () {
                 $presupuesto->creditoCliente=$cliente->tipoCredito;
             }
          }
+
+        if(is_null($email)){
+           $email = $presupuesto->emailCliente;
+        }
+
+        dd($email);
     
         Mail::to($email, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
