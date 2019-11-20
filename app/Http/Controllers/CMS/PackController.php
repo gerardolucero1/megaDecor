@@ -153,7 +153,7 @@ class PackController extends Controller
             $authorizedPackInventory->save();
         }
 
-        return redirect()->route('pack.index');
+        return redirect()->route('paquetes');
     }
 
     public function rechazarPaquete($id){

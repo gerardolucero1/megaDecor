@@ -72,6 +72,11 @@
         position: absolute;
         font-size: 14px;
     }
+
+    .emailEnvio{
+        background-color: #D0EFCF;
+        padding: 10px;
+    }
 </style>
 
 <template>
@@ -224,12 +229,13 @@
                                     <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
                                 </p>
                             <p>{{ clienteSeleccionado.email }}</p>
-                            <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
+                                <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p>
+                            <!-- <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
                                 <label>
                                     <input type="radio" name="email" @change="emailSeleccionado = telefono.email"> 
                                     {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
                                 </label>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                     <div class="col-md-6 text-right mt-4" v-if="clienteSeleccionado">

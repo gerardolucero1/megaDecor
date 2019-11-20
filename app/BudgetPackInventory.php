@@ -18,6 +18,7 @@ class BudgetPackInventory extends Model
         'precioEspecial',
         'proveedor',
         'externo',
+        'guardarInventario'
     ];
 
     // public function budget()

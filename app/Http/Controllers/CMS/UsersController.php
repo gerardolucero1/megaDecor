@@ -47,9 +47,9 @@ class UsersController extends Controller
         $usuario = User::orderBy('id', 'DESC')->first();
         
         // Pendiente
-         $permisos = new Permission();
-         $permisos->user_id = $usuario->id;
-         $permisos->save();
+        $permisos = new Permission();
+        $permisos->user_id = $usuario->id;
+        $permisos->save();
 
         return redirect()->route('usuario.permisos', $usuario->id);
     }

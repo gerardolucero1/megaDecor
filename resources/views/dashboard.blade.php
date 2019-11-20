@@ -79,7 +79,10 @@
                                             <div class="float-left mt-10 d-none d-sm-block">
                                                 <i class="si si-fire fa-3x text-corporate-light"></i>
                                             </div>
-                                            <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
+                                            @php
+                                                $reportes = App\Missing::orderBy('id', 'DESC')->where('reportado', true)->where('aprobado', false)->get();
+                                            @endphp
+                                            <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">{{ count($reportes) }}</div>
                                             <div class="font-size-sm font-w600 text-uppercase text-white-op">ELEMENTOS DAÑADOS</div>
                                         </div>
                                     </a>
@@ -87,12 +90,40 @@
                             @endif
                             @if($permisos->dashboardCreditosAtrasados==1)
                         <div class="col-6 col-xl-3">
-                                        <a class="block block-link-pop text-right bg-elegance" href="javascript:void(0)">
+                                    <a class="block block-link-pop text-right bg-elegance" href="{{ route('creditosAtrasados') }}">
                                             <div class="block-content block-content-full clearfix border-black-op-b border-3x">
                                                 <div class="float-left mt-10 d-none d-sm-block">
                                                     <i class="si si-envelope-letter fa-3x text-elegance-light"></i>
                                                 </div>
-                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">0</div>
+                                                @php
+                                                    $date = Carbon\Carbon::now();
+                                                    $fechaActual = $date->format('Y-m-d');
+                                                    $contador = 0;
+
+                                                    $creditos = App\Budget::orderBy('id', 'DESC')->where('pagado', null)->get();
+                                                    foreach ($creditos as $credito) {
+                                                        $cliente = App\Client::findOrFail($credito->client_id);
+                                                        if($cliente->tipoPersona == 'FISICA'){
+                                                            $persona = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                            $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                                                            $fechaFormato = date('Y-m-d',$fechaEvento);
+                                                            
+                                                            if($fechaFormato < $fechaActual){
+                                                                $contador++;
+                                                            }
+                                                            
+                                                        }else{
+                                                            $persona = App\MoralPerson::where('client_id', $cliente->id)->first();
+                                                            $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                                                            $fechaFormato = date('Y-m-d',$fechaEvento);
+                                                            
+                                                            if($fechaFormato < $fechaActual){
+                                                                $contador++;
+                                                            }
+                                                        }
+                                                    }
+                                                @endphp
+                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">{{ $contador }}</div>
                                                 <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                             </div>
                                         </a>

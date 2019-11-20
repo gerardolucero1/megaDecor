@@ -20,6 +20,7 @@ class BudgetInventory extends Model
         'notas',
         'proveedor',
         'externo',
+        'guardarInventario',
     ];
 
     public function budget()
