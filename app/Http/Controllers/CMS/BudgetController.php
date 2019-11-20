@@ -136,6 +136,7 @@ class BudgetController extends Controller
         $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
+        $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -191,6 +192,8 @@ class BudgetController extends Controller
                 $producto->externo = $item['externo'];
                 $producto->proveedor = $item['proveedor'];
                 if($item['externo']){
+                    $producto->guardarInventario = $item['autorizado'];
+
                     //Otra Imagen
                     if($item['imagen']){
 
@@ -260,6 +263,7 @@ class BudgetController extends Controller
                         $producto->externo = $objeto['externo'];
                         $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){
+                            $producto->guardarInventario = $objeto['autorizado'];
                             //Otra Imagen
                             if($objeto['imagen']){
         
@@ -832,6 +836,7 @@ class BudgetController extends Controller
         $oldVersion->opcionImagen = $version->opcionImagen;
         $oldVersion->opcionDescuento = $version->opcionDescuento;
         $oldVersion->opcionIVA = $version->opcionIVA;
+        $oldVersion->emailEnvio = $version->emailEnvio;
         
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
@@ -894,6 +899,7 @@ class BudgetController extends Controller
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
+        $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];

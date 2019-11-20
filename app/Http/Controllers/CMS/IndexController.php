@@ -11,10 +11,14 @@ use App\Missing;
 use App\Inventory;
 use App\Telephone;
 use Carbon\Carbon;
+use App\BudgetPack;
 use App\Permission;
 use App\MoralPerson;
 use App\CashRegister;
+use App\AuthorizedPack;
 use App\PhysicalPerson;
+use App\BudgetInventory;
+use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
@@ -275,8 +279,13 @@ public function archivarUsuario($id){
      public function inventario(){
 
         $Inventario = Inventory::orderBy('id', 'DESC')->get();
+        $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
+        $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
+        
+        $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
+        //dd($inventarioAuth);
 
-        return view('inventario', compact('Inventario'));
+        return view('inventario', compact('Inventario', 'inventarioAuth'));
     }
 
     public function comisiones(){
@@ -971,5 +980,43 @@ public function archivarUsuario($id){
     public function aprobarDanados(){
         $productos = Missing::orderBy('id', 'DESC')->where('reportado', true)->where('aprobado', false)->get();
         return view('aprobarDanados', compact('productos'));
+    }
+
+    public function paquetes(){
+        $paquetes = BudgetPack::orderBy('id', 'DESC')->where('guardarPaquete', true)->get();
+        $paquetesAuth = AuthorizedPack::orderBy('id', 'DESC')->get();
+        return view('paquetes', compact('paquetes', 'paquetesAuth'));
+    }
+
+    public function creditosAtrasados(){
+        $date = Carbon::now();
+        $fechaActual = $date->format('Y-m-d');
+        $contratos = [];
+
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->get();
+        foreach ($creditos as $credito) {
+            $cliente = Client::findOrFail($credito->client_id);
+            if($cliente->tipoPersona == 'FISICA'){
+                $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+                $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                $fechaFormato = date('Y-m-d',$fechaEvento);
+                
+                if($fechaFormato < $fechaActual){
+                    array_push($contratos, $credito);
+                }
+                
+            }else{
+                $persona = MoralPerson::where('client_id', $cliente->id)->first();
+                $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                $fechaFormato = date('Y-m-d',$fechaEvento);
+                
+                if($fechaFormato < $fechaActual){
+                    array_push($contratos, $credito);
+                }
+            }
+        }
+
+        //dd($contratos);
+        return view('creditosAtrasados', compact('contratos'));
     }
 }

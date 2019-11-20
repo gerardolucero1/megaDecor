@@ -112,7 +112,41 @@
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>                    
+                            <tbody>
+                                @php
+                                    //dd($inventarioAuth);
+                                @endphp
+                                @if (isset($inventarioAuth))
+                                @if (!is_null($inventarioAuth))
+                                @foreach ($inventarioAuth as $inventario)
+                                <tr role="row" class="odd">
+                                    <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario['imagen']}}"></td>
+                                    <td class="">{{ $inventario['servicio'] }}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>{{ $inventario['precioUnitario'] }}</td>
+                                    <td>{{ $inventario['proveedor'] }}</td>
+                                    <td>Sin familia</td>
+                                    <td class="d-flex" style="box-sizing: content-box;">
+                                        @if (array_key_exists('budget_id', $inventario))
+                                            <button>1</button>
+                                        @else
+                                            <button>2</button>
+                                        @endif
+                                        <form action="{{ route('aprobarProducto', $inventario['id']) }}" method="POST">
+                                            @method('POST')
+                                            @csrf
+                                            
+                                            <button type="submit" class="btn btn-secondary btn-sm">
+                                                <i class="fa fa-ceck"></i>
+                                            </button>
+                                        </form>  
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endif 
+                                @endif
+                                                   
                                 @if (!is_null($Inventario))
                                     @foreach ($Inventario as $inventario)                      
                             <tr role="row" class="odd">

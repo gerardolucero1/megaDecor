@@ -221,7 +221,10 @@ padding: 0;
                             </p>
                             <p>{{ clienteSeleccionado.email }}</p>
                             <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                <label>
+                                    <input type="radio" name="email" @change="presupuesto.emailEnvio = telefono.email"> 
+                                    {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
+                                </label>
                             </p>
                         </div>
                     </div>
@@ -1297,6 +1300,7 @@ padding: 0;
                 usuarios: [],
 
                 presupuesto:{
+                    emailSeleccionado: '',
                     folio: '',
                     vendedor_id: '',
                     client_id: '',

@@ -272,6 +272,10 @@ Route::group(['middleware' => ['auth']], function () {
         $presupuesto->enviado = 1;
         $presupuesto->save();
 
+        if(empty($email)){
+            $email = $presupuesto->emailEnvio;
+        }
+
         $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
         $presupuesto->vendedor = $Vendedor->name;
         $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
@@ -509,10 +513,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('registrar-alta', 'CMS\RegisterController');
 
     //Ruta paquetes
-    Route::get('paquetes', 'CMS\PackController@index')->name('pack.index');
+    // Route::get('paquetes', 'CMS\PackController@index')->name('pack.index');
     Route::get('editar-paquete/{id}', 'CMS\PackController@edit')->name('editar.paquete');
-    Route::post('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobar.paquete');
-    Route::delete('rechazar-paquete/{id}', 'CMS\PackController@rechazarPaquete')->name('rechazar.paquete');
+    // Route::post('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobar.paquete');
+    // Route::delete('rechazar-paquete/{id}', 'CMS\PackController@rechazarPaquete')->name('rechazar.paquete');
     Route::put('actualizar-paquete/{id}', 'CMS\PackController@update')->name('update.paquete');
 
     //Rutas usurios
@@ -555,5 +559,21 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('aprobar');
 
     Route::post('user/create', 'CMS\UsersController@store')->name('user.store');
+
+    Route::get('paquetes', 'CMS\IndexController@paquetes')->name('paquetes');
+    Route::put('cancelar-paquete/{id}', function($id){
+        $paquete = BudgetPack::findOrFail($id);
+        $paquete->guardarPaquete = false;
+        $paquete->save();
+        return back();
+
+    })->name('cancelarPaquete');
+    Route::put('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobarPaquete');
+
+    Route::post('aprobar-producto/{id}', function($id){
+        
+    })->name('aprobarProducto');
+
+    Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
 });
 

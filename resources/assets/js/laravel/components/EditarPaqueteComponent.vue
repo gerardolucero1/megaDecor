@@ -261,7 +261,11 @@ export default {
             let URL = '/actualizar-paquete/' + this.paquete.id
 
             axios.put(URL, this.paquete).then((response) => {
-                console.log('Paquete guardado')
+                Swal.fire(
+                    'Paquete guardado',
+                    'El paquete ha sido editado',
+                    'success'
+                )
             }).catch((error) => {
                 console.log(error.data)
             })
