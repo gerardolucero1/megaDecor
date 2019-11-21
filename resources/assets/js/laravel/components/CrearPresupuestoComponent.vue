@@ -428,7 +428,9 @@ padding: 0;
                                 <td style="width:120px;">
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
-                                <td>{{ producto.servicio }}</td>
+                                <td>{{ producto.servicio }}<br>
+                                <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta}}</span></td>
                                 <td>
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -2129,6 +2131,7 @@ padding: 0;
                 document.getElementById('file-image-externo').value = '';
                 
                 this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
+                $('#agregarElemento').modal('hide');
             },
             // Bus para comunicar controladores
             busEvent() {

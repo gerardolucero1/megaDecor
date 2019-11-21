@@ -18,7 +18,12 @@
                                 <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
                             </td>
                         <td style="text-align: right; width: 70%">
-                                <span style="font-style: italic; font-size: 15px;  font-weight: bold">Fecha de Movimientos: </span> <span style="font-style: italic; font-size: 14px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
+                            @php
+                                $fecha1=$_GET['fecha_1'];
+                                $fecha2=$_GET['fecha_2'];
+
+                            @endphp
+                                <span style="font-style: italic; font-size: 15px;  font-weight: bold">Fechas de Movimientos: </span> <span style="font-style: italic; font-size: 14px">{{$fecha1}} a {{$fecha2}} </span><br>
                                 <span style="font-style: italic; font-size: 15px;  font-weight: bold">Familia: </span> <span style="font-style: italic; font-size: 14px">{{$familia}}  </span><br>
                             <span style="font-style: italic; font-size: 13px;  font-weight: bold">Fecha de impresión: </span> <span style="font-style: italic; font-size: 12px">{{$date->translatedFormat(' l j F Y')}}  </span><br>
                             </td>

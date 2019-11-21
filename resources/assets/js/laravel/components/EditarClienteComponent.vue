@@ -217,9 +217,13 @@
                                 <option value="OFICINA">Oficina</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Numero de telefono</label>
                             <input type="text" v-model="telefono.numero">
+                        </div>
+                        <div class="col-md-2" v-if="telefono.tipo == 'OFICINA'">
+                            <label for="">Extension</label>
+                            <input type="text" v-model="telefono.ext">
                         </div>
                     </div>
                     <div class="row">
@@ -239,10 +243,11 @@
                             <label for="">Email del contacto</label>
                             <input type="text" v-model="telefono.email">
                         </div>
-                        <div class="col-md-2" v-if="telefono.tipo == 'OFICINA'">
-                            <label for="">Extension</label>
-                            <input type="text" v-model="telefono.ext">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                            <label for="">Departamento</label>
+                            <input type="text" v-model="telefono.departamento">
                         </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">

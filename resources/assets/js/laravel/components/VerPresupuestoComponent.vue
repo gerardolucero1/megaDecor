@@ -359,7 +359,8 @@
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
                                 <td>{{ producto.servicio }}<br>
-                                   ${{ producto.precioVenta}}
+                                   <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta|currency}}</span>
                                 </td>
                                 <td data-name="cantidad">
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">

@@ -120,10 +120,8 @@
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
-                                    @if($usuario != 2)
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
-                                    @endif
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
