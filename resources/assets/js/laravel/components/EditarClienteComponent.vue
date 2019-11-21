@@ -418,6 +418,7 @@
                         'success'
                     )
                     this.obtenerTelefonos();
+                    $('#editarTelefono').modal('hide');
                 }).catch((error) => {
                     console.log('Error al actualizar telefono: ', error.data);
                 })
@@ -437,6 +438,15 @@
                         'success'
                     )
                     this.obtenerTelefonos();
+                    $('#crearTelefono').modal('hide');
+                    this.nuevoTelefono.nombre='';
+                    this.nuevoTelefono.apelldioPaterno='';
+                    this.nuevoTelefono.apellidoMaterno='';
+                    this.nuevoTelefono.email='';
+                    this.nuevoTelefono.departamento='';
+                    this.nuevoTelefono.tipo='CELULAR';
+                    this.nuevoTelefono.numero='';
+                    this.nuevoTelefono.ext='';
                 }).catch((error) => {
                     console.log('Error al crear telefono: ', error.data);
                 })

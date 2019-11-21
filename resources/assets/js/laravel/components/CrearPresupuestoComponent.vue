@@ -526,7 +526,7 @@ padding: 0;
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
-                        <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
+                        <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
@@ -936,15 +936,18 @@ padding: 0;
                 <div class="modal-body">
                     <label>Hora de entrega de mobiliario</label><br>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
+                        <label for=""><input type="checkbox" v-model="facturacion.entregaEnBodega"> Cliente entrega mobiliario en bodega</label>
+                        </div>
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
                             <label for="hora-1">Desde</label>
                             <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
                             <label for="hora-2">Hasta</label>
                             <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option value="OTRO">Otra</option>
@@ -954,15 +957,15 @@ padding: 0;
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
                             <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
                             <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option value="OTRO">Otra</option>
@@ -2457,7 +2460,7 @@ padding: 0;
                    console.log(error.response);
                     if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
-                        window.open('http://mmdec.herokuapp.com/login',"ventana1","width=350,height=350,scrollbars=NO");
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
                      Swal.fire(
                             'Error!',
@@ -2472,14 +2475,15 @@ padding: 0;
             // Guardar como contrato
             guardarContrato(){
                 
-                if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
+                if(isNaN(parseInt(this.facturacion.fechaRecoleccion)) && !this.facturacion.entregaEnBodega){
+                    alert(this.facturacion.entregaEnBodega);
                     Swal.fire(
                             'Hora de recolección',
                             'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente',
                             'error'
                         );
                 }else{
-                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega))){
+                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega)) && this.facturacion.entregaEnBodega!=true){
                     Swal.fire(
                             'Hora de entrega',
                             'Especifica un rango de hora de entrega de mobiliario y selecciona una opcion de entrega preferente',
@@ -2570,7 +2574,7 @@ padding: 0;
                    console.log(error.response);
                     if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
-                        window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
                      Swal.fire(
                             'Error!',
@@ -2585,8 +2589,19 @@ padding: 0;
             }
            
             },
+    ModalGuardarContrato(){
+        if(this.festejados.length == 0){
+                    Swal.fire(
+                            'Festejados',
+                            'Agrega almenos un festejado para continuar',
+                            'error'
+                        );
+                         
+                    }else{
+    $('#guardarContrato').modal('show');
+                    }
 
-
+    },
             imprimirPDF(){
                 if(!this.imprimir){
                     Swal.fire(

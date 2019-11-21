@@ -2310,11 +2310,16 @@ padding: 0;
                     }       
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Algo salio mal!',
-                        'Verifica que completaste todos los campos correctamente antes de continuar',
-                        'error'
-                    );
+                    if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             },
             // Guardar como contrato
@@ -2348,11 +2353,16 @@ padding: 0;
                     }       
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Algo salio mal!',
-                        'Verifica que completaste todos los campos correctamente antes de continuar',
-                        'error'
-                    );
+                   if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             },
             obtenerPresupuesto(){

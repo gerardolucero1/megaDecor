@@ -153,6 +153,7 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
         }
         $presupuesto->version = $request->presupuesto['version'];
         $presupuesto->comision = $request->presupuesto['comision'];
