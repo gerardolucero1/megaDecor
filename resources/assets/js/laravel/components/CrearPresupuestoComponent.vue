@@ -935,19 +935,21 @@ padding: 0;
                 </div>
                 <div class="modal-body">
                     <label>Hora de entrega de mobiliario</label><br>
+                    <div class="col-md-12">
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.lugarEvento=='BODEGA'">Recolección en bodega</label>
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.pendienteLugar">Pendiente Lugar de entrega</label>
+                    </div>
                     <div class="row">
-                        <div class="col-md-12">
-                        <label for=""><input type="checkbox" v-model="facturacion.entregaEnBodega"> Cliente entrega mobiliario en bodega</label>
-                        </div>
-                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
+                        
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-1">Desde</label>
                             <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
-                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Hasta</label>
                             <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
-                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option value="OTRO">Otra</option>
@@ -957,6 +959,9 @@ padding: 0;
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
+                        <br>
+                        <div class="col-md-12">
+                        <label>Fecha y Hora de retorno de mobiliario</label><br></div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
                             <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
@@ -974,6 +979,9 @@ padding: 0;
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                        <label for=""><input type="checkbox" v-model="facturacion.entregaEnBodega"> Cliente entrega mobiliario en bodega</label>
                         </div>
                         <div class="col-md-6 mt-4">
                             <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
@@ -1311,7 +1319,7 @@ padding: 0;
                 usuarios: [],
 
                 presupuesto:{
-                    emailSeleccionado: '',
+                    emailEnvio: '',
                     folio: '',
                     vendedor_id: '',
                     client_id: '',
@@ -2474,9 +2482,9 @@ padding: 0;
             },
             // Guardar como contrato
             guardarContrato(){
-                
-                if(isNaN(parseInt(this.facturacion.fechaRecoleccion)) && !this.facturacion.entregaEnBodega){
-                    alert(this.facturacion.entregaEnBodega);
+                if(!this.facturacion.entregaEnBodega){
+                if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
+                   
                     Swal.fire(
                             'Hora de recolección',
                             'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente',
@@ -2586,6 +2594,73 @@ padding: 0;
             }
         }
     }
+            }}else{
+
+                this.presupuesto.tipo = 'CONTRATO';
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+
+                
+
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
+                let URL = '/presupuestos/create';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                    'facturacion': this.facturacion,
+                }).then((response) => {
+                    this.imprimir = true;
+                    
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'El salon de eventos ya esta ocupado para esta fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Contrato creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
+                         guardarPresupuesto();
+                    }   
+                    
+                }).catch((error) => {
+                   console.log(error.response);
+                    if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
+                });
+
+
             }
            
             },

@@ -869,6 +869,7 @@ class BudgetController extends Controller
         $oldVersion->numeroFacturacion = $version->numeroFacturacion;
         $oldVersion->coloniaFacturacion = $version->coloniaFacturacion;
         $oldVersion->emailFacturacion = $version->emailFacturacion;
+        $oldVersion->entregaEnBodega = $version->entregaEnBodega;
         
         $oldVersion->impresion = $version->impresion;
         $oldVersion->budget_id = $version->id;
@@ -921,6 +922,8 @@ class BudgetController extends Controller
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
         $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        
+        
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -936,6 +939,7 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
 
             if($request->presupuesto['impresionBodega'] == 1){
                 $presupuesto->impresionBodega = 2;
