@@ -252,7 +252,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
           @else
           <p style="font-size: 16px; font-weight: bold; text-align: left">
              
-            {{ $item->grupo }}
+            
            
           </p>
           <p style="font-size: 12px; font-weight: normal; text-align: justify">
@@ -275,10 +275,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         @endforeach
       </td>
     </tr>
-    <tr style="text-align: center">
-        <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
-        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
-      </tr>
+
   </table>
           @endif
 </table>
@@ -342,7 +339,12 @@ NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO MET
                         ** LOZA ENTREGADA SUCIA TIENE UN COSTO DE .50 POR PIEZA .<br>
                         ** LOZA QUEBRADA, ASTILLADA O EN CASO DE FALTANTE, TIENE COSTO DE REPOSICIÓN Y SE AVISA AL RECOGER O SI EL CLIENTE LO LLEVA A BODEGA . </span><br></p>
 
-
+<table>
+    <tr style="text-align: center">
+        <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
+        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
+      </tr>
+</table>
       
 
    
