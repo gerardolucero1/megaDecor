@@ -239,6 +239,49 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 **SERVICIOS QUE SE RECOGEN EN BODEGA SERAN DEVUELTOS AL SIGUIENTE DIA HABIL ANTES DE LAS 2:00 PM, EN CASO CONTRARIO, CORRE OTRO DIA DE RENTA DE LOS SERVICIOS.
 **SERVICIOS RECOGIDOS EN BODEGA ES INDISPENSABLE DEJAR CREDENCIAL OFICIAL VIGENTE  Y SE ENTREGA AL MOMENTO DE HACER LA DEVOLUACIÓN EN BODEGA.
               </span><br></p>
+<br>
+
+              <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                Mantelería<br>
+                <span style="font-weight: bold">Requerimentos: </span><br>
+                <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                    -Deposito de 500 pesos por evento es requerido en efectivo.</span><br>
+                <span style="font-weight: bold">Observaciones: </span><br>
+                <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                    MANTELERIA, CUBRE SILLAS, CUBRE MANTELES. MOÑOS. ETC "LA RENTA DE MANTELERIA ES POR 1 DIA 
+** SE ENTREGARA A LAS 12:00 PM DEL SIGUIENTE DIA EN CASO DE QUE EL CLIENTE HAYA RECOGIDO EN BODEGA. <br>
+**MANTELERIA DAÑADA TENDRA UN COSTO DE REPOSICION Y MEGA DECOR ENTREGA  EL DAÑADO AL CLIENTE<br>
+**MANTELERIA CON MANCHAS QUE NO SE PUEDAN QUITAR <br>
+ SE NOTIFICA AL CLIENTE Y CORRERA CON COSTO DE REPOSICION EN CASO DE QUE NO SE PUEDA QUITAR.<br>  MEGA MUNDO NOTIFICARA X TELEFONO EN UN LAPSO DE 48 HORAS mAximo. 
+**SE PEDIRA A LA PERSONA DEL LUGAR QUE FIRME LA HOJA CORRESPONDIENTE EN CASO DE ALGUN FALTANTE O DAÑO .<br> EL CUAL EL CLIENTE DE ESTE CONTRATO SERA RESPONSABLE DEL PAGO DE REPOSICION. EL CUAL DEBERA SER PAGADO A NO MAS DE 48 HORAS DESPUES DE LA FIRMA DEL CONTRATO DEL EVENTO. 
+** Al momento de la entrega en nuestras oficinas, eS RESPONSABILIDAD DEL cliente  revisar que fue entregada en buenas condiciones. de no ser asi ahi mismo pedira la sustitución de los mismos. De no ser asI se da por entendido que la entrega esta correcta en cantidad y no dañada.
+                  </span><br></p>
+
+                  <br>
+                  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                    CARPAS<br>
+                    <span style="font-weight: bold">Requerimentos: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        AL MOMENTO DE LA ENTREGA FAVOR DE CHECAR SI LE LLEGO BIEN EL PRODUCTO (BUENA PRESENTACIÓN,TAMAÑO,CALIDAD Y TEMPERATURA) SI NO LE LLEGO ADECUADAMENTE FAVOR DE REPORTARLO A MEGA MUNDO 4.23.41.34 ANTES DE QUE SE VALLA EL REPARTIDOR. NUNCA AL FINAL DEL EVENTO.<br>
+                        TEMPERATURA DE LA COMIDA. EN CASO DE HABER PEDIDO COMIDA CALIENTE. ESTA SE ENTREGARA ASÍ: SIN EMBARGO MEGA MUNDO NO SE HACE RESPONSABLE SI LA COMIDA NO SIRVE A LOS INVITADOS INMEDIATAMENTE Y ESTA SE ENFRÍA.<br>
+                         ADICIONAL EN CASO DE CONTRATACIÓN DE FUENTES. ESTE SERVICIO VA INCLUIDA UN ANFITRIONA QUE ESTARÁ AL PENDIENTE QUE SIEMPRE ESTE LIMPIO EL ÁREA DE LAS FUENTES.</span><br>
+                    <span style="font-weight: bold">Observaciones: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        ME MUNDO NO SE HACE RESPONSABLE POR DAÑOS AL DOMICILIO O A INVITADOS. <br>
+EN CASO DE AIRES FUERTES O EVENTOS METEREOLÓGICOS QUE SUCEDAN DURANTE EL EVENTO EL CLIENTE ES RESPONSABLE DE LA REPARACIÓN O REPOSICIÓN DE LOS MISMOS A MEGA MUNDO.<br>
+LAS CARPAS SE ENTREGAN EN PERFECTAS CONDICIONES. INSTALADOS CON ESTACAS O CON BOLSAS DE ARENA. EL CLIENTE CHECA Y ACEPTA AL MOMENTO DE SER INSTALADAS LAS CARPAS. EN CASO DE QUE EL CLIENTE O EL RESPONSABLE NO SE ENCUENTRE EN EL DOMICILIO DEBERÁ DEJAR A UN ENCARGADO PARA LA ACEPTACIÓN DE LA BUENA INSTALACIÓN. UNA VEZ RETIRADO DE LAS INSTALACIONES DEL CLIENTE YA ES RESPONSABILIDAD DEL CLIENTE.<br>
+DURANTE EL EVENTO Y HAGA QUE SE DERRAME EL CHAMOY. LA MAQUINA SE APAGARA PARA QUE EL PRODUCTO DEL CHAMOY NO SE DERRAME.
+NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO METEOROLÓGICO. </span><br></p>
+
+<br>
+                  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                    PLAQUE<br>
+                    
+                    <span style="font-weight: bold">Observaciones: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        **EL CLIENTE CONTABILIZA JUNTO AL PROVEEDOR DE SERVICIOS LA CANTIDAD RECIBIDA. EN CASO DE SOLO RECIBIRLA EL CLIENTE SE RESPONSABILIZA DE LA CANTIDAD RECIBIDA.<br>
+                        ** LOZA ENTREGADA SUCIA TIENE UN COSTO DE .50 POR PIEZA .<br>
+                        ** LOZA QUEBRADA, ASTILLADA O EN CASO DE FALTANTE, TIENE COSTO DE REPOSICIÓN Y SE AVISA AL RECOGER O SI EL CLIENTE LO LLEVA A BODEGA . </span><br></p>
              
         </td>  
     </tr>
