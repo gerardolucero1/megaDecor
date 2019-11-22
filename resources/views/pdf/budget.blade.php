@@ -248,9 +248,18 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
               Servicios
           </p>
           @php
-              $testigo='nada';
+              $testigo=0;
           @endphp
         @foreach ($demo as $item)
+      
+        @php
+        if($item->grupo=='Manteleria'){
+            $testigo=1;
+        }
+        @endphp
+    
+
+    @if($testigo!=1 && $item->grupo!='Manteleria')
           @php
               $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
               
@@ -277,6 +286,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
           @php
               $testigo=$grupo['informacion'];
           @endphp
+
+@endif
         @endforeach
       </td>
     </tr>
