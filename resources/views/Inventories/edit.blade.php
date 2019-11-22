@@ -45,7 +45,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Registros de altas y bajas</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Registros de altas, bajas y transferencias entre bodega y exhibición</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -70,14 +70,14 @@
                                     <tbody>
                                         @foreach ($registros as $registro)
                                             <tr>
-                                                <td>{{ $registro->tipo }}</td>
+                                                <td>@if($registro->tipo=='baja')<i style="color:red" class="fa fa-arrow-down"></i>@else @if($registro->tipo=='alta') <i style="color:green" class="fa fa-arrow-up"></i>@else <i style="color:orange" class="fa fa-arrow-left"></i> @endif @endif @if($registro->tipo=='salida') Bodega-Exhibicion @else @if($registro->tipo=='entrada')Exhibición-Bodega @else {{$registro->tipo}} @endif  @endif</td>
                                                 <td>{{ $registro->cantidad }}</td>
                                                 <td>{{ $registro->motivo }}</td>
                                                 <td>{{ $registro->user->name }}</td>
                                                 <td>{{ $registro->fechaCompra }}</td>
                                                 <td>{{ $registro->created_at }}</td>
                                                 <td>{{ $registro->proveedor }}</td>
-                                                <td>{{ $registro->precio }}</td>
+                                                <td>${{ $registro->precio }}</td>
                                                 <td>{{ $registro->factura }}</td>
                                             </tr>
                                         @endforeach

@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 
+
 class IndexController extends Controller
 {
     public function clientes(){
@@ -1113,20 +1114,62 @@ public function archivarUsuario($id){
             $cliente = Client::findOrFail($credito->client_id);
             if($cliente->tipoPersona == 'FISICA'){
                 $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+                $vendedor = User::where('id', $credito->vendedor_id)->first();
                 $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
                 $fechaFormato = date('Y-m-d',$fechaEvento);
+
                 
+
                 if($fechaFormato < $fechaActual){
-                    array_push($contratos, $credito);
+                    $contrato = new stdClass();
+                    $contrato->id = $credito->id;
+                    $contrato->fechaLimite = $fechaFormato;
+                    $contrato->fechaEvento = $credito->fechaEvento;
+                    $contrato->folio = $credito->folio;
+                    $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                    $contrato->vendedor = $vendedor->name;
+                    $contrato->total = $credito->total;
+                    $contrato->pagado = $credito->pagado;
+                    $contrato->pendienteFecha = $credito->pendienteFecha;
+                    $contrato->client_id = $credito->client_id;
+                    $contrato->user = $credito->user;
+                    $contrato->version = $credito->version;
+                    $contrato->impresion = $credito->impresion;
+                    $contrato->impresionBodega = $credito->impresionBodega;
+                    $contrato->enviado = $credito->enviado;
+                    $contrato->updated_at = $credito->updated_at;
+                    $contrato->opcionIVA = $credito->opcionIVA;
+           
+                    array_push($contratos, $contrato);
                 }
                 
             }else{
                 $persona = MoralPerson::where('client_id', $cliente->id)->first();
                 $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
                 $fechaFormato = date('Y-m-d',$fechaEvento);
-                
+                $vendedor = User::where('id', $credito->vendedor_id)->first();
+
                 if($fechaFormato < $fechaActual){
-                    array_push($contratos, $credito);
+                    $contrato = new stdClass();
+                    $contrato->id = $credito->id;
+                    $contrato->fechaLimite = $fechaFormato;
+                    $contrato->fechaEvento = $credito->fechaEvento;
+                    $contrato->folio = $credito->folio;
+                    $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                    $contrato->vendedor = $vendedor->name;
+                    $contrato->total = $credito->total;
+                    $contrato->pagado = $credito->pagado;
+                    $contrato->pendienteFecha = $credito->pendienteFecha;
+                    $contrato->client_id = $credito->client_id;
+                    $contrato->user = $credito->user;
+                    $contrato->version = $credito->version;
+                    $contrato->impresion = $credito->impresion;
+                    $contrato->impresionBodega = $credito->impresionBodega;
+                    $contrato->updated_at = $credito->updated_at;
+                    $contrato->enviado = $credito->enviado;
+                    $contrato->opcionIVA = $credito->opcionIVA;
+                  
+                    array_push($contratos, $contrato);
                 }
             }
         }

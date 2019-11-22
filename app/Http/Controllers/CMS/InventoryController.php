@@ -113,7 +113,7 @@ class InventoryController extends Controller
         $inventory = Inventory::find($id);
         $familias=Family::orderBy('nombre', 'ASC')->get();
         $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
-        
+       
         return view('Inventories.edit', compact('inventory', 'familias', 'registros'));
     }
 

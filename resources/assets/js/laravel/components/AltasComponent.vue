@@ -273,7 +273,25 @@ export default {
             axios.post(URL, this.alta).then((response) => {
                 console.log('Alta registrada');
                 $('#asignarAlta').modal('hide');
-                
+
+                    this.presupuestoSeleccionado.id='';
+                    this.tipo='';
+                    this.usuario.id='';
+                    this.producto.id='';
+                    this.producto.cantidad='';
+                this.cantidad = '',
+                this.proveedor = '',
+                this.fechaCompra = '',
+                this.fechaIngreso = '',
+                this.precio = '',
+                this.factura = '',
+                this.producto = '',
+                this.user_id = '',
+                this.budget_id = '',
+                this.cantidad = '',
+                this.motivo = '',
+                this.tipo = '',
+
                 this.cantidadBodega.innerHTML = this.nuevaCantidad;
             }).catch((error) => {
                 console.log(error.data);
