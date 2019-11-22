@@ -112,8 +112,107 @@
                        
                     </div>
                 </div>
+                <div style="padding:15px; padding-top:30px;" class="mb-4">
+                    <table  style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
+                        <thead>
+                            <tr role="row">
+                                <th>Imagen</th>
+                                <th>Servicio</th>
+                                <th>Total bodega</th>
+                                <th>Total exhibición</th>
+                                <th>Precio Unitario</th>
+                                <th>Proveedor</th>
+                                <th>Familia</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                //dd($inventarioAuth);
+                            @endphp
+                            @if (isset($inventarioAuth))
+                                @if (!is_null($inventarioAuth))
+                                    @foreach ($inventarioAuth as $inventario)
+                                        <tr role="row" class="odd">
+                                            <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario['imagen']}}"></td>
+                                            <td class="">{{ $inventario['servicio'] }}</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>{{ $inventario['precioUnitario'] }}</td>
+                                            <td>{{ $inventario['proveedor'] }}</td>
+                                            <td>Sin familia</td>
+                                            <td class="d-flex" style="box-sizing: content-box;">
+                                                @if (array_key_exists('budget_id', $inventario))
+                                                    <button onclick="event.preventDefault();
+                                                        Swal.fire({
+                                                            title: '¿Estas seguro?',
+                                                            text: 'Se aprobara este producto',
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Eliminar'
+                                                            }).then((result) => {
+                                                            if (result.value) {
+                                                                document.getElementById('aprobar-producto-{{ $inventario['id'] }}').submit();
+                                                                Swal.fire(
+                                                                'Aprobado!',
+                                                                'El producto ha sido aprobado',
+                                                                'success'
+                                                                )
+                                                            }
+                                                        });
+                                                    "
+                                                    type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Aprobar producto" data-original-title="Delete Client">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                @else
+                                                    <button onclick="event.preventDefault();
+                                                        Swal.fire({
+                                                            title: '¿Estas seguro?',
+                                                            text: 'Se aprobara este producto',
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Eliminar'
+                                                            }).then((result) => {
+                                                            if (result.value) {
+                                                                document.getElementById('aprobar-paquete-{{ $inventario['id'] }}').submit();
+                                                                Swal.fire(
+                                                                'Aprobado!',
+                                                                'El producto ha sido aprobado',
+                                                                'success'
+                                                                )
+                                                            }
+                                                        });
+                                                    "
+                                                    type="submit" class="btn btn-sm btn-info" data-toggle="tooltip" title="Aprobar producto" data-original-title="Delete Client">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                @endif
+                                                <form id="aprobar-producto-{{ $inventario['id'] }}" action="{{ route('aprobarProducto', $inventario['id']) }}" method="POST">
+                                                    @method('POST')
+                                                    @csrf
+                                                    
+                                                </form>  
+
+                                                <form id="aprobar-paquete-{{ $inventario['id'] }}" action="{{ route('aprobarProductoPaquete', $inventario['id']) }}" method="POST">
+                                                    @method('POST')
+                                                    @csrf
+
+                                                </form>  
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif 
+                            @endif    
+                        </tbody>
+                    </table>
+                </div>
                     <div style="padding:15px; padding-top:30px;">
-                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                    
+                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
@@ -126,41 +225,7 @@
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @php
-                                    //dd($inventarioAuth);
-                                @endphp
-                                @if (isset($inventarioAuth))
-                                @if (!is_null($inventarioAuth))
-                                @foreach ($inventarioAuth as $inventario)
-                                <tr role="row" class="odd">
-                                    <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario['imagen']}}"></td>
-                                    <td class="">{{ $inventario['servicio'] }}</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>{{ $inventario['precioUnitario'] }}</td>
-                                    <td>{{ $inventario['proveedor'] }}</td>
-                                    <td>Sin familia</td>
-                                    <td class="d-flex" style="box-sizing: content-box;">
-                                        @if (array_key_exists('budget_id', $inventario))
-                                            <button>1</button>
-                                        @else
-                                            <button>2</button>
-                                        @endif
-                                        <form action="{{ route('aprobarProducto', $inventario['id']) }}" method="POST">
-                                            @method('POST')
-                                            @csrf
-                                            
-                                            <button type="submit" class="btn btn-secondary btn-sm">
-                                                <i class="fa fa-ceck"></i>
-                                            </button>
-                                        </form>  
-                                    </td>
-                                </tr>
-                                @endforeach
-                            @endif 
-                                @endif
-                                                   
+                            <tbody>                    
                                 @if (!is_null($Inventario))
                                     @foreach ($Inventario as $inventario)                      
                             <tr role="row" class="odd">

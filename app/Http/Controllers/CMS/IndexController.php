@@ -267,8 +267,11 @@ public function archivarUsuario($id){
     }
 
     public function usuariosPermisos($id){
-        $Usuario = User::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        $Usuario = User::findOrFail($id);
         $Permisos = Permission::where('user_id', $Usuario->id)->first();
+
+        //dd($Permisos);
 
         return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
     }
