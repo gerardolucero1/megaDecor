@@ -230,4 +230,18 @@ class ClientController extends Controller
     public function crearTelefono(Request $request){
         $telefono = Telephone::create($request->all());
     }
+
+    public function destroy($id){
+        $cliente = Client::findOrFail($id);
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::where('client_id', $id)->first();
+        }else{
+            $persona = MoralPerson::where('client_id', $id)->first();
+        }
+
+        $persona->delete();
+        $cliente->delete();
+
+        return back()->with('info', 'Cliente eliminado con exito');
+    }
 }

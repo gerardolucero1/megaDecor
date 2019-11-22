@@ -160,6 +160,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
+    Route::delete('/clientes/delete/{id}', 'CMS\ClientController@destroy')->name('cliente.delete');
 
         // API de clientes
         Route::get('/obtener-cliente-editar/{id}', 'CMS\ClientController@obtenerCliente');
@@ -581,5 +582,12 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('aprobarProducto');
 
     Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
+
+    //Proveedores
+    Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');
+    Route::post('proveedores', 'CMS\IndexController@agregarProveedor')->name('proveedores.store');
+    Route::get('proveedores/edit/{id}', 'CMS\IndexController@editarProveedor')->name('proveedores.edit');
+    Route::put('proveedores/update/{id}', 'CMS\IndexController@actualizarProveedor')->name('proveedores.update');
+    Route::delete('proveedores/{id}', 'CMS\IndexController@borrarProveedor')->name('proveedores.delete');
 });
 
