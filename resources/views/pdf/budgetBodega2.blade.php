@@ -56,7 +56,7 @@
     {{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif<br>
     <span style="margin-right:20px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span><br>  <span style=" font-size: 13px; font-weight: bold"> @if($presupuesto->lugarEvento!='BODEGA')<span style="padding-lef:20px">Entrega de Mobiliario:</span><span style="font-weight: normal"> @if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif @endif</span>
   </span></td>
-<td colspan="2"><span>Recolección de Mobiliario: <br><span style="font-weight: normal">@if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif</span>
+<td colspan="2"><span>Recolección de Mobiliario: <br><span style="font-weight: normal">@if($presupuesto->entregaEnBodega==1) Cliente entrega a bodega @else @if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif @endif</span><br>
   <span style="font-weight: normal">
     Telefonos de contacto:<br>
     @foreach($Telefonos as $telefono)
@@ -267,7 +267,7 @@
 </tr>
 <tr>
 <td colspan="2">@if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif</td>
-<td colspan="2">@if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif</td>
+<td colspan="2">@if($presupuesto->entregaEnBodega==1) Cliente Entrega a bodega @else @if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif @endif</td>
 </tr>
 <tr>
 <td><span style="font-weight: bold">Requiere Montaje:</span> <span>{{$presupuesto->requiereMontaje}}</span></td>

@@ -39,11 +39,11 @@ class CommissionController extends Controller
 
         //Comprobamos que ningun campo este vacio
         $request->validate([
-            'porcentajeCrecimientoVentas' => 'required|integer',
-            'porcentajeCrecimientoUtilidad' => 'required|integer',
+            'porcentajeCrecimientoVentas' => 'required',
+            'porcentajeCrecimientoUtilidad' => 'required',
             'bonoObjetivoVentas' => 'required|integer',
             'bonoObjetivoNoVentas' => 'required|integer',
-            'comisionContrato' => 'required|integer',
+            'comisionContrato' => 'required',
             'bonoVendedorMes' => 'required|integer',
             'minimoVentaComision' => 'required|integer',
         ]);

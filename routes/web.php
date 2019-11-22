@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/obtener-usuarios', function(){
-        return User::orderBy('id', 'DESC')->get();
+        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->get();
     });
     
     // Rutas del CMS
@@ -108,7 +108,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
     Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
     Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
-        // API Presupuestos
+        
+    //Imprimir transferencias de inventario
+    Route::get('/imprimir-transferencias', 'CMS\InventoryController@pdfTransferencias')->name('imprimir.transferencias');
+    
+    // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');
         Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
         Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');
@@ -140,6 +144,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
     Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
     Route::get('/obtener-paquetes-version/{id}', 'CMS\BudgetController@obtenerPaquetesVersion');
+
+
+    //Permisos
+    Route::get('/obtener-permisos', 'CMS\IndexController@obtenerPermisos');
 
     //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
     Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
@@ -266,6 +274,7 @@ Route::group(['middleware' => ['auth']], function () {
         $URL = explode('&', $URL);
         $email = $URL[1];
         
+        
         $idArray = explode('/', $URL[0]);
         $id = $idArray[2];
 
@@ -307,7 +316,7 @@ Route::group(['middleware' => ['auth']], function () {
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
          ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
          ->get();
  
          $clientes_fisicos = DB::table('clients')
@@ -364,7 +373,7 @@ Route::group(['middleware' => ['auth']], function () {
            $email = $presupuesto->emailCliente;
         }
 
-        dd($email);
+        //dd($email);
     
         Mail::to($email, 'Presupuesto MegaMundo')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos, $Paquetes, $arregloEmentos));
@@ -537,11 +546,14 @@ Route::group(['middleware' => ['auth']], function () {
     //Obtener viejo inventario
     Route::get('obtener-inventario-pasado/{id}', 'CMS\BudgetController@obtenerInventario')->name('obtenerInventario');
 
+    //Obtener comision de contrato
+    Route::get('obtener-comision-contrato/{id}', 'CMS\BudgetController@obtenerTotalComision')->name('obtenerComisiones');
+
     Route::get('obtener-inventario-danados/{id}', function($id){
         $budget = Budget::findOrFail($id);
 
-        $inventario = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
-        $paquetes = BudgetPack::with('inventories')->orderBy('id', 'DESC')->where('budget_id', $budget->id)->get();
+        $inventario = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
+        $paquetes = BudgetPack::with('inventories')->orderBy('id', 'DESC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
         
         $inventarios = [$inventario, $paquetes];
 

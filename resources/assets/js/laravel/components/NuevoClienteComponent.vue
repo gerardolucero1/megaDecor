@@ -103,7 +103,7 @@
                     
                     
 
-                    <h4>Telefonos de contacto</h4>
+                    <h4>Teléfonos de contacto</h4>
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
@@ -648,7 +648,14 @@ function emailCopy(){
                 }
 
 
-                
+                this.telefono.numero="";
+                this.telefono.nombre="";
+                this.telefono.apellidoPaterno="";
+                this.telefono.apellidoMaterno="";
+                this.telefono.ext="";
+                this.telefono.email="";
+                this.telefono.tipo="CELULAR";
+                this.telefono.departamento="";
                 
                 
             },
@@ -708,6 +715,7 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
+                            this.telefonos = [];
                             
                 }).catch((error) => {
                     console.log(error);

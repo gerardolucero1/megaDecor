@@ -88,14 +88,15 @@
         </div>
 
         <div class="container-version" v-if="presupuesto.length != 0" style="margin-left: 400px;">
-            Edicion echa por: {{ presupuesto.quienEdito }}
+            Edición hecha por: {{ presupuesto.quienEdito }}<br>
+            <span style="font-size:10px; font-style:italic">{{presupuesto.updated_at}}</span>
         </div>
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
-                <p><span style="font-weight:bold">Recolección: </span>POR LA {{presupuesto.recoleccionPreferente}}</p>
+                <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recoleccoón en bodega</span></p>
+                <p><span style="font-weight:bold">Recolección: </span><span v-if="presupuesto.entregaEnBodega!=1 && presupuesto.recoleccionPreferente!='OTRO'">POR LA {{presupuesto.recoleccionPreferente}}</span><span v-if="presupuesto.entregaEnBodega==1">Cliente entrega en bodega</span><span v-if="presupuesto.recoleccionPreferente=='OTRO' && presupuesto.entregaEnBodega!=1">{{presupuesto.fechaRecoleccion}} {{presupuesto.horaRecoleccion}}</span></p>
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
@@ -126,7 +127,7 @@
         <div class="row">
             <div class="col-md-12 verPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-5 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -134,10 +135,12 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-right info">
+                    <div class="col-md-7 text-right info">
                         <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <div> <p style=" text-align:right"><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
+                            <div> 
+                                 <p style="text-align:right; font-size:23px; width:100%; padding-right:15px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
+                                 </div>
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
                             </div>
@@ -329,13 +332,10 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Especial</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Ahorro</th>
-
-
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -346,9 +346,19 @@
                                     <div class="nuevo" v-if="producto.nuevo">
                                         <span class="badge badge-pill badge-danger">Nuevo</span>
                                     </div>
+                                    <div class="nuevo" v-if="producto.existe>0">
+                                        <span class="badge badge-pill badge-success">Aumento {{producto.existe}}</span>
+                                    </div>
+                                    <div class="nuevo" v-if="producto.existe<0">
+                                        <span class="badge badge-pill badge-warning">Reducción {{producto.existe}}</span>
+                                    </div>
+                                    
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
-                                <td>{{ producto.servicio }}</td>
+                                <td>{{ producto.servicio }}<br>
+                                   <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta|currency}}</span>
+                                </td>
                                 <td data-name="cantidad">
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -418,6 +428,10 @@
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA">TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                    
+                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] - TotalComision[2] | currency}}</span><span v-else>$0.00</span></p>
+                                    <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
+                                    <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
                                    
                                 </div>
                             </div>
@@ -449,7 +463,7 @@
 
                 <div v-if="pagos.length != 0 && 
                 usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
-                    <div class="col-md-12">
+                    
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
                             <ul>
@@ -457,12 +471,16 @@
                                     <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
-                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: ${{ saldoPendiente*1.16 }}</label>
+                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: {{ saldoPendiente | currency }}</label>
                             <label v-else>Saldo pendiente: ${{ saldoPendiente }}</label>
                             <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
-                    </div>
+
+                       
+                       
+
+                   
                 </div>
 
                 <div v-if="usuarioActual.id!=2" class="row">
@@ -599,6 +617,7 @@
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
+                TotalComision:'',
                 clienteSeleccionado: {
                     id: '',
                     nombre: '',
@@ -785,6 +804,7 @@
         created(){
             this.obtenerUltimoPresupuesto();
             this.obtenerUsuarios();
+            this.obtenerComision();
             //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
             this.obtenerInventario();
@@ -995,7 +1015,17 @@
                     console.log(error.data)
                 })
             },
-
+            obtenerComision(){
+                    let path = window.location.pathname.split('/');
+                    let id = path[3];
+                    let URL = '/obtener-comision-contrato/' + id
+                    axios.get(URL).then((response) => {
+                    this.TotalComision = response.data
+                    
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
             obtenerVersionPresupuesto(direccion){
                 let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
                 console.log(posicion);
@@ -1313,7 +1343,18 @@
                             if(this.inventarioPasado[0].some((item) => {
                                 return item.servicio == element.servicio
                             })){
-                                console.log('Existe')
+                                let found = this.inventarioPasado[0].find((item) => {
+                                    return item.servicio == element.servicio
+                                })
+
+                                    let valorexiste = element.cantidad - found.cantidad;
+                                Object.defineProperty(element, 'existe', {
+                                    enumerable: true,
+                                    configurable: true,
+                                    writable: true,
+                                    value: valorexiste,
+                                })
+
                             }else{
                                 let found = this.inventarioLocal.find((item) => {
                                     return item.servicio == element.servicio
@@ -1644,9 +1685,9 @@
                         obtenerUltimoPresupuesto();
                 }).catch((error) => {
                     Swal.fire(
-                            'Error!',
-                            'Algo salio mal',
-                            'error'
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
                         ); 
                 })
             }

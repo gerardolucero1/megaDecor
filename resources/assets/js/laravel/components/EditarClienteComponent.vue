@@ -25,23 +25,23 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" v-model="cliente.emailFacturacion">
+                    <input type="email" placeholder="Email" v-model="cliente.email">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Telefono</label>
-                    <input type="email" placeholder="number" v-model="cliente.telefono">
+                    <input type="text" placeholder="number" v-model="cliente.telefono">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Direccion</label>
-                    <input type="email" placeholder="text" v-model="cliente.direccionEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.direccionEmpresa">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Colonia</label>
-                    <input type="email" placeholder="text" v-model="cliente.coloniaEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.coloniaEmpresa">
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Numero</label>
-                    <input type="email" placeholder="text" v-model="cliente.numeroEmpresa">
+                    <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-md-4 mt-4">
                     <label>Telefono de la empresa</label>
-                <input type="email" name="" id="" placeholder="Telefono" v-model="cliente.telefono">
+                <input type="text" name="" id="" placeholder="Telefono" v-model="cliente.telefono">
             </div>
                 <div class="col-md-4 mt-4">
                     <label>Numero de la empresa</label>
@@ -100,7 +100,7 @@
                 </select>
             </div>
             <div class="col-md-7 mt-4">
-                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.email">
+                <input type="email" name="" id="emailDF" placeholder="Email" v-model="cliente.emailFacturacion">
             </div>
             <div class="col-md-5">
                 <label >Dias de credito</label>
@@ -134,6 +134,7 @@
                         <th scope="col">TIPO</th>
                         <th scope="col">NUMERO</th>
                         <th scope="col">EXT</th>
+                        <th scope="col">DEPARTAMENTO</th>
                         <th scope="col" class="text-center">OPCIONES</th>
                     </tr>
                 </thead>
@@ -144,6 +145,7 @@
                         <td>{{ telefono.tipo }}</td>
                         <td>{{ telefono.numero }}</td>
                         <td>{{ telefono.ext }}</td>
+                        <td>{{ telefono.departamento }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-info text-center" v-on:click.prevent="editarTelefono(telefono)">Editar</button>
                             <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(telefono.id)">Eliminar</button>
@@ -158,7 +160,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -200,7 +202,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="ModalCenterTitle">Editar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -215,14 +217,18 @@
                                 <option value="OFICINA">Oficina</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Numero de telefono</label>
                             <input type="text" v-model="telefono.numero">
+                        </div>
+                        <div class="col-md-2" v-if="telefono.tipo == 'OFICINA'">
+                            <label for="">Extension</label>
+                            <input type="text" v-model="telefono.ext">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Nombre del usuario</label>
+                            <label for="">Nombre del contacto</label>
                             <input type="text" v-model="telefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
@@ -234,13 +240,14 @@
                             <input type="text" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Email del usuario</label>
+                            <label for="">Email del contacto</label>
                             <input type="text" v-model="telefono.email">
                         </div>
-                        <div class="col-md-2" v-if="telefono.tipo == 'OFICINA'">
-                            <label for="">Extension</label>
-                            <input type="text" v-model="telefono.ext">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                            <label for="">Departamento</label>
+                            <input type="text" v-model="telefono.departamento">
                         </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -256,7 +263,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="crearModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="crearModalCenterTitle">Agregar Teléfono</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -271,14 +278,18 @@
                                 <option value="OFICINA">Oficina</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Numero de telefono</label>
                             <input type="text" v-model="nuevoTelefono.numero">
+                        </div>
+                        <div class="col-md-2" v-if="nuevoTelefono.tipo == 'OFICINA'">
+                            <label for="">Extension</label>
+                            <input type="text" v-model="nuevoTelefono.ext">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Nombre del usuario</label>
+                            <label for="">Nombre de contacto</label>
                             <input type="text" v-model="nuevoTelefono.nombre">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
@@ -290,13 +301,14 @@
                             <input type="text" v-model="nuevoTelefono.apellidoMaterno">
                         </div>
                         <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
-                            <label for="">Email del usuario</label>
+                            <label for="">Email de contacto</label>
                             <input type="text" v-model="nuevoTelefono.email">
                         </div>
-                        <div class="col-md-2" v-if="nuevoTelefono.tipo == 'OFICINA'">
-                            <label for="">Extension</label>
-                            <input type="text" v-model="nuevoTelefono.ext">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                            <label for="">Departamento</label>
+                            <input type="text" v-model="nuevoTelefono.departamento">
                         </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -406,6 +418,7 @@
                         'success'
                     )
                     this.obtenerTelefonos();
+                    $('#editarTelefono').modal('hide');
                 }).catch((error) => {
                     console.log('Error al actualizar telefono: ', error.data);
                 })
@@ -425,6 +438,15 @@
                         'success'
                     )
                     this.obtenerTelefonos();
+                    $('#crearTelefono').modal('hide');
+                    this.nuevoTelefono.nombre='';
+                    this.nuevoTelefono.apelldioPaterno='';
+                    this.nuevoTelefono.apellidoMaterno='';
+                    this.nuevoTelefono.email='';
+                    this.nuevoTelefono.departamento='';
+                    this.nuevoTelefono.tipo='CELULAR';
+                    this.nuevoTelefono.numero='';
+                    this.nuevoTelefono.ext='';
                 }).catch((error) => {
                     console.log('Error al crear telefono: ', error.data);
                 })

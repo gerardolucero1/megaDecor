@@ -25,7 +25,9 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+
 
 class IndexController extends Controller
 {
@@ -38,7 +40,7 @@ class IndexController extends Controller
         ->get();
         $clientes_fisicos = DB::table('clients')
         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at')
+        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at')
         ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -56,7 +58,18 @@ class IndexController extends Controller
             $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
                         $CompleteClient = new stdClass();
                         $CompleteClient->id = $cliente->id;
+                        
+                        $tipoCliente = Client::where('id', $cliente->id)->first();
+                        //dd($tipoCliente->tipoPersona);
+
+                        if($tipoCliente->tipoPersona=='MORAL'){
                         $CompleteClient->nombre = $cliente->nombre;
+                        }else{
+                        $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+                        }
+                    
+
+                    
                         $CompleteClient->email = $cliente->email;
                         $CompleteClient->created_at = $createdAt;
                         $CompleteClient->presupuestos = $Presupuestos;
@@ -259,6 +272,12 @@ public function archivarUsuario($id){
 
         return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
     }
+    //Permisos
+    public function obtenerPermisos(){
+        $usuario = Auth::user()->id; 
+        $permisos = Permission::where('user_id', $usuario)->first();
+        return $permisos;
+    }
 
     public function editarPermisos(Request $request, $id){
         //dd($request);
@@ -337,17 +356,29 @@ public function archivarUsuario($id){
             array_push($CompleteUsers,$CompleteUser); 
     }
 
+
+    // Nueva Version Comisiones---------------------------------------->
+    $date = Carbon::now();
+    $ContratosDelMes = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereMonth('fechaEvento', $date)->get();
+    
+    $Vendedores = User::orderBy('id', 'DESC')->where('tipo', '!=','BODEGA')->where('tipo', '!=','CONTABILIDAD')->get();
+    
+    foreach($Vendedores  as $vendedor){
+        
+    }
+
+
     //Obtenemos totales de venta de los vendedores
     
 
    
        
-        return view('comisiones', compact( 'ArrayEmpleadoDelMes', 'CompleteUsers'));
+        return view('comisiones', compact( 'ArrayEmpleadoDelMes', 'CompleteUsers', 'Vendedores'));
    
     }
     //Vista dasboard
     public function dashboard(){
-        $fecha_actual= date('Y-m-d',time());
+         $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
         $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->get();
         //Presupuestos del dia actual
@@ -393,14 +424,16 @@ public function archivarUsuario($id){
             //calculamos total ventas del año pasado
             $ventasAnoPasado=0;
             $ventasAnoActual=0;
+            //obtenemos ventas año pasado
             foreach($presupuestosAnoPasado as $anoPasado){
-                $ventasAnoPasado=$ventasAnoPasado+($anoPasado->total);
+                $ventasAnoPasado= $ventasAnoPasado+$anoPasado->total;
             }
+            //obtenemos ventas año actual
             foreach($presupuestosAnoActual as $anoActual){
                 $ventasAnoActual=$ventasAnoActual+$anoActual->total;
             }
                
-            if($ventasAnoPasado !== 0){
+            if($ventasAnoPasado != 0){
             
                 $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
                 $diferenciaDinero = $ventasAnoActual-$ventasAnoPasado;
@@ -410,8 +443,88 @@ public function archivarUsuario($id){
                 $diferenciaDinero = 0;
             }
           
-            $ventasAnoPasado=number_format($ventasAnoPasado);
-            $ventasAnoActual=number_format($ventasAnoActual);
+            
+
+            //Obtenemos datos para tabla comparativa de comisiones
+            $Vendedores = User::orderBy('id', 'DESC')->get();
+
+            $ElementosVendedores=[];
+            foreach($Vendedores as $Vendedor){
+                $idVendedor=$Vendedor->id;
+                $ElementoVendedor = new stdClass();
+                $ElementoVendedor->name = $Vendedor->name;
+
+                $fecha_mes_actual= date('Y-m',strtotime($fecha_actual."- 0 days"));
+                $PresupuestosVendedor = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('vendedor_id', $idVendedor)->where('fechaEvento', 'like' , $fecha_mes_actual.'%')->get();
+                $ElementoVendedor->ventas = count($PresupuestosVendedor);
+                $ElementoVendedor->cantidadVenta=0;
+                foreach($PresupuestosVendedor as $PresupuestoVendedor){
+                        $ElementoVendedor->cantidadVenta = $ElementoVendedor->cantidadVenta+$PresupuestoVendedor->total;
+                    }
+
+                if($ElementoVendedor->ventas>0){
+                array_push($ElementosVendedores,$ElementoVendedor); }
+            }
+            arsort($ElementosVendedores);
+
+
+        $tasks = Task::orderBy('id', 'DESC')->get();
+        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
+        
+        $ventas=0;
+        if(count($EmpleadoDelMes) != 0){
+            foreach ($EmpleadoDelMes as $EmpleadoMes) {
+                if(($EmpleadoMes->ventas_count) > $ventas){
+                    $ventas = $EmpleadoMes->ventas_count;
+                    $vendedorMes=$EmpleadoMes->vendedor_id;
+                }
+            }
+    
+        $ArrayEmpleadoDelMes = User::orderBy('id', 'DESC')->where('id', $vendedorMes)->first();
+    
+        }else{
+            $ArrayEmpleadoDelMes=null;
+        }
+
+
+        //Comparacion ventas actuales con años pasados
+            //Obtenemos contratos del año pasado pero del mes acutal
+            $fecha_ano_pasado= date('Y-m',strtotime($fecha_actual."- 365 days"));
+            $presupuestosAnoPasado = Budget::orderBy('id', 'DESC')->where('fechaEvento', 'like' , $fecha_ano_pasado.'%')->where('tipo', 'CONTRATO')->get();
+            //Obtenemos los contratos de el año y mes actual
+            $fecha_mes_actual= date('Y-m',strtotime($fecha_actual."- 0 days"));
+            $presupuestosAnoActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', 'like' , $fecha_mes_actual.'%')->where('tipo', 'CONTRATO')->get();
+
+            if(count($presupuestosAnoActual) !== 0 && count($presupuestosAnoPasado) !== 0){
+                $porcentajeActual= (100/count($presupuestosAnoPasado)) * count($presupuestosAnoActual);
+            }else{
+                $porcentajeActual = 0;
+            }
+            
+            
+            //calculamos total ventas del año pasado
+            $ventasAnoPasado=0;
+            $ventasAnoActual=0;
+            //obtenemos ventas año pasado
+            foreach($presupuestosAnoPasado as $anoPasado){
+                $ventasAnoPasado= $ventasAnoPasado+$anoPasado->total;
+            }
+            //obtenemos ventas año actual
+            foreach($presupuestosAnoActual as $anoActual){
+                $ventasAnoActual=$ventasAnoActual+$anoActual->total;
+            }
+               
+            if($ventasAnoPasado != 0){
+            
+                $porcentajeActualDinero = (100/$ventasAnoPasado) * $ventasAnoActual;
+                $diferenciaDinero = $ventasAnoActual-$ventasAnoPasado;
+             
+            }else{
+                $porcentajeActualDinero = 0;
+                $diferenciaDinero = 0;
+            }
+          
+            
 
             //Obtenemos datos para tabla comparativa de comisiones
             $Vendedores = User::orderBy('id', 'DESC')->get();
@@ -686,7 +799,7 @@ public function archivarUsuario($id){
         $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('facturaSolicitada', '>','0')->where('archivado', '0')->get();
 
         $fechaHoy = Carbon::yesterday();
-        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
+        $presupuestosHistorial = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<', $fechaHoy)->get();
         $Presupuestos=[];
       
         //Obtenemos clientes morales y fisicos
@@ -703,7 +816,7 @@ public function archivarUsuario($id){
         $clientes = $clientes_morales->merge($clientes_fisicos);
 
         foreach($budgets as $budget){
-            if($budget->fechaEvento >= $fechaHoy || $budget->fechaEvento == null){
+            
                 $Presupuesto   = new stdClass();
                 $Presupuesto->id = $budget->id;
                 $Presupuesto->folio = $budget->folio;
@@ -747,7 +860,7 @@ public function archivarUsuario($id){
         }
 
          array_push($Presupuestos,$Presupuesto);
-        }
+        
         }
 
 
@@ -928,7 +1041,9 @@ public function archivarUsuario($id){
     //Ventas
 
     public function ventas(){
-        $contratos = Budget::orderBy('id', 'DESC')->get();
+        $date = Carbon::now();
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereMonth('fechaEvento', $date)->get();
+       
         return view('ventas', compact('contratos'));
     }
 
@@ -936,12 +1051,12 @@ public function archivarUsuario($id){
         $fecha = strtotime($request->fecha);
         $mes = date("n", $fecha);
         $ano = date("Y", $fecha);
-        $contratos = Budget::orderBy('id', 'DESC')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->get();
+        $contratos = Budget::orderBy('id', 'DESC')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->where('tipo', 'CONTRATO')->get();
         return view('ventas', compact('contratos'));
     }
 
     public function ventasPDF(){
-        $contratos = Budget::orderBy('id', 'DESC')->get();
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
         
         $pdf = App::make('dompdf');
 

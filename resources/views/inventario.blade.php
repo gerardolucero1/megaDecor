@@ -35,6 +35,20 @@
                                 use App\Family;
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
+                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank">
+                                    @csrf
+                                    <div class="row" style="padding:20px;">
+                                    <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
+                                                <option value="">Todas las familias</option>
+                                                @foreach($familias as $familia)    
+                                                    <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                                @endforeach
+                                    </select>
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" class="form-control">
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" class="form-control">
+                                     <button class="btn btn-info">Obtener Transferencias</button>
+                                    </div>
+                                 </form>
                             <form action="{{ route('inventario.filtro') }}" method="POST">
                                 @method('POST')
                                 @csrf   
@@ -48,13 +62,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display: none">
                                     <div class="form-group">
                                         <label for="">Editado Desde:</label>
                                         <input type="date" name="fecha_1" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="display: none">
                                     <div class="form-group">
                                             <label for="">Editado Hasta:</label>
                                         <input type="date" name="fecha_2" class="form-control">
@@ -69,6 +83,9 @@
                             </form>
                         </div>
                     </div>
+                    @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
@@ -80,10 +97,9 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                            @php
-                            $usuario = Auth::user()->id;    
-                        @endphp 
-                         @if($usuario != 2)
+                        <a style="display:none" class="btn btn-info" target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
+                                    <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i> Transferencias del dia
+                         </a>  
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
@@ -93,7 +109,7 @@
                         <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
                         </a> 
-                        @endif         
+                       
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
@@ -104,10 +120,8 @@
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
-                                    @if($usuario != 2)
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
-                                    @endif
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -274,7 +288,7 @@
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){
-            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let nuevaCantidad = prompt('Ingresa la cantidad que quedara en bodega, si ingresas una cantidad menor a la actual, el sobrante pasara automaticamente a exhibicion, si ingresas una cantidad mayor, la diferencia se descontara a exhibición: ');
             let URL = 'editar-cantidad-inventario/' + id;
 
             let data = 'cantidad-' + id;
@@ -290,8 +304,8 @@
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
-                 console.log('Cantidad actualizada');
                 td.innerHTML = nuevaCantidad;
+                location.reload();
              }).catch((error) => {
                  console.log(error.data);
              })

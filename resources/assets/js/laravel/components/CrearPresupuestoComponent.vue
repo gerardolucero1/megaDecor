@@ -93,9 +93,15 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
+                            
+                                
                             </div>
+                            
                             <div class="col-md-8">
-                                <select name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                <select v-if="permisos.creacionEditarVendedor==1" name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                </select>
+                                <select v-else name="vendedor" id="" v-model="presupuesto.vendedor_id" disabled>
                                     <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
                                 </select>
                             </div>
@@ -144,7 +150,7 @@ padding: 0;
                                         {{ item.nombre }}
                                     </option>
                                 </select>
-                                 <p style="" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                 <p v-if="permisos.creacionAdministrarCategorias==1" style="" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div class="row mt-4">
                                     <div class="col-md-10">
@@ -211,7 +217,7 @@ padding: 0;
                                 -->
                             </div>
                             <div class="col-md-5">
-                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
+                                <div v-if="permisos.creacionNuevoCliente==1" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</div>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado.length != 0" class="info" style="padding-top:15px;">
@@ -273,19 +279,19 @@ padding: 0;
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
 
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Nombre del lugar" v-model="presupuesto.nombreLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-10 mt-4">
                         <input required type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-2 mt-4">
                         <input required type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-4 mt-4">
                         <input required type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
+                    <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar==false" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
@@ -422,7 +428,9 @@ padding: 0;
                                 <td style="width:120px;">
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                 </td>
-                                <td>{{ producto.servicio }}</td>
+                                <td>{{ producto.servicio }}<br>
+                                <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta}}</span></td>
                                 <td>
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -518,8 +526,8 @@ padding: 0;
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                         <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
-                        <div class="btn btn-primary" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</div>
-                        <div class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
+                        <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
+                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
@@ -927,16 +935,21 @@ padding: 0;
                 </div>
                 <div class="modal-body">
                     <label>Hora de entrega de mobiliario</label><br>
+                    <div class="col-md-12">
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.lugarEvento=='BODEGA'">Recolección en bodega</label>
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.pendienteLugar">Pendiente Lugar de entrega</label>
+                    </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-1">Desde</label>
                             <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Hasta</label>
                             <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option value="OTRO">Otra</option>
@@ -946,15 +959,18 @@ padding: 0;
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <br>
+                        <div class="col-md-12">
+                        <label>Fecha y Hora de retorno de mobiliario</label><br></div>
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
                             <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
                             <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option value="OTRO">Otra</option>
@@ -963,6 +979,9 @@ padding: 0;
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                        <label for=""><input type="checkbox" v-model="facturacion.entregaEnBodega"> Cliente entrega mobiliario en bodega</label>
                         </div>
                         <div class="col-md-6 mt-4">
                             <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
@@ -1300,7 +1319,7 @@ padding: 0;
                 usuarios: [],
 
                 presupuesto:{
-                    emailSeleccionado: '',
+                    emailEnvio: '',
                     folio: '',
                     vendedor_id: '',
                     client_id: '',
@@ -1438,6 +1457,8 @@ padding: 0;
 
                 //Datos facturacion
                 requiereFactura: false,
+                     //Permisos
+                permisos:'',
                 facturacion: {
                     //Tiempos
                     horaInicio: '',
@@ -1447,6 +1468,9 @@ padding: 0;
                     horaRecoleccion: '',
                     recoleccionPreferente: '',
                     notasFacturacion: '',
+
+               
+                    
 
                     //Datos
                     nombreFacturacion: '',
@@ -1468,6 +1492,7 @@ padding: 0;
             this.obtenerUsuarios();
             //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
+            this.obtenerPermisos();
             this.obtenerInventario();
             this.obtenerUsuario();
             this.obtenerUsuarios();
@@ -2023,7 +2048,8 @@ padding: 0;
                 this.clienteSeleccionado.id = cliente.id;
                 if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
-              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
+              }else{
+                this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
                 this.clienteSeleccionado.email = cliente.email;
                 this.clienteSeleccionado.rfc = cliente.rfcFacturacion;
                 this.clienteSeleccionado.tipo = cliente.tipoPersona;
@@ -2116,6 +2142,7 @@ padding: 0;
                 document.getElementById('file-image-externo').value = '';
                 
                 this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
+                $('#agregarElemento').modal('hide');
             },
             // Bus para comunicar controladores
             busEvent() {
@@ -2297,6 +2324,9 @@ padding: 0;
             agregarProducto(producto){
                 this.limpiar = true;
                 this.inventarioLocal = this.inventarioLocal.reverse();
+                if(producto.precioVenta==null){
+                producto.precioVenta=0;}
+                
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,
@@ -2309,7 +2339,7 @@ padding: 0;
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
@@ -2327,7 +2357,12 @@ padding: 0;
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
-                    console.log(this.clientes);
+                })
+            },
+            obtenerPermisos(){
+                let URL = '/obtener-permisos';
+                axios.get(URL).then((response) => {
+                    this.permisos = response.data;
                 })
             },
             agregarFestejado(){
@@ -2433,7 +2468,7 @@ padding: 0;
                    console.log(error.response);
                     if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
-                        window.open('http://mmdec.herokuapp.com/login',"ventana1","width=350,height=350,scrollbars=NO");
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
                      Swal.fire(
                             'Error!',
@@ -2447,15 +2482,16 @@ padding: 0;
             },
             // Guardar como contrato
             guardarContrato(){
-                
+                if(!this.facturacion.entregaEnBodega){
                 if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
+                   
                     Swal.fire(
                             'Hora de recolección',
                             'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente',
                             'error'
                         );
                 }else{
-                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega))){
+                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega)) && this.facturacion.entregaEnBodega!=true){
                     Swal.fire(
                             'Hora de entrega',
                             'Especifica un rango de hora de entrega de mobiliario y selecciona una opcion de entrega preferente',
@@ -2546,7 +2582,7 @@ padding: 0;
                    console.log(error.response);
                     if(error.response.data.message=='Unauthenticated.'){
                         error.message='';
-                        window.open('http://localhost:8000/login',"ventana1","width=350,height=350,scrollbars=NO");
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
                      Swal.fire(
                             'Error!',
@@ -2558,11 +2594,89 @@ padding: 0;
             }
         }
     }
+            }}else{
+
+                this.presupuesto.tipo = 'CONTRATO';
+                if(this.presupuesto.tipoEvento == 'INTERNO'){
+                    this.presupuesto.tipoServicio = ''
+                }
+
+                
+
+                if(this.presupuesto.tipoComision == 0){
+                    this.presupuesto.comision = this.presupuesto.comision
+                }else{
+                    this.presupuesto.comision = this.presupuesto.tipoComision
+                }
+
+                if(this.presupuesto.total <= this.configuraciones.minimoVentaComision){
+                    this.presupuesto.comision = 0;
+                }
+
+                let URL = '/presupuestos/create';
+                axios.post(URL, {
+                    'presupuesto': this.presupuesto,
+                    'festejados': this.festejados,
+                    'inventario': this.inventarioLocal,
+                    'facturacion': this.facturacion,
+                }).then((response) => {
+                    this.imprimir = true;
+                    
+                    if(response.data == 1){
+                        Swal.fire(
+                            'Error!',
+                            'El salon de eventos ya esta ocupado para esta fecha',
+                            'error'
+                        );
+                    }else{
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Contrato creado",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();
+                            }else{
+                                location.reload();
+                            }
+                        })
+                         guardarPresupuesto();
+                    }   
+                    
+                }).catch((error) => {
+                   console.log(error.response);
+                    if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
+                });
+
+
             }
            
             },
+    ModalGuardarContrato(){
+        if(this.festejados.length == 0){
+                    Swal.fire(
+                            'Festejados',
+                            'Agrega almenos un festejado para continuar',
+                            'error'
+                        );
+                         
+                    }else{
+    $('#guardarContrato').modal('show');
+                    }
 
-
+    },
             imprimirPDF(){
                 if(!this.imprimir){
                     Swal.fire(

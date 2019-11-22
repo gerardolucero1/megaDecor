@@ -40,11 +40,12 @@ class UsersController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->tipo = $request->tipo;
         $user->password = bcrypt($request->password);
         $user->save();
 
         $usuario = User::orderBy('id', 'DESC')->first();
-
+        
         // Pendiente
         $permisos = new Permission();
         $permisos->user_id = $usuario->id;

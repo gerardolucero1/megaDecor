@@ -4,14 +4,15 @@ namespace App\Http\Controllers\CMS;
 
 use App\User;
 use stdClass;
-use Carbon\Carbon;
 use App\Budget;
 use App\Client;
 use App\Family;
 use App\Inventory;
 use App\Telephone;
+use Carbon\Carbon;
 use App\BudgetPack;
 use App\Celebrated;
+use App\Commission;
 use App\MoralPerson;
 use App\BudgetVersion;
 use App\PhysicalPerson;
@@ -58,7 +59,7 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
+            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.email as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
@@ -152,6 +153,7 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
         }
         $presupuesto->version = $request->presupuesto['version'];
         $presupuesto->comision = $request->presupuesto['comision'];
@@ -786,6 +788,25 @@ class BudgetController extends Controller
         return BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
     }
 
+    public function obtenerTotalComision($id){
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        $BudgetInventory = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $Budget->version)->get();
+        $budgetPack = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->get();
+        $comision = Commission::orderBy('id', 'DESC')->first();
+        $totalComisionable = 0;
+        $arregloComisiones=[];
+        $totalComision=0;
+        if($Budget->total > $comision->minimoVentaComision){
+        foreach($BudgetInventory as $element){
+            $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+        }
+        $totalComision=$comision->comisionContrato;
+    }
+        $arregloComisiones=[$totalComisionable, $totalComision, $comision->minimoVentaComision];
+  
+        return $arregloComisiones;
+    }
+
     public function obtenerElementosPaquetes($id){
         return BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $id)->get();
     }
@@ -848,6 +869,7 @@ class BudgetController extends Controller
         $oldVersion->numeroFacturacion = $version->numeroFacturacion;
         $oldVersion->coloniaFacturacion = $version->coloniaFacturacion;
         $oldVersion->emailFacturacion = $version->emailFacturacion;
+        $oldVersion->entregaEnBodega = $version->entregaEnBodega;
         
         $oldVersion->impresion = $version->impresion;
         $oldVersion->budget_id = $version->id;
@@ -900,6 +922,8 @@ class BudgetController extends Controller
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
         $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        
+        
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -915,6 +939,7 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
 
             if($request->presupuesto['impresionBodega'] == 1){
                 $presupuesto->impresionBodega = 2;

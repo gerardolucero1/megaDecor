@@ -11,7 +11,11 @@
         use Carbon\Carbon;
         use App\User;
         use App\Budget;
+        use App\Client;
+        use App\MoralPerson;
+        use App\PhysicalPerson;
         $date = Carbon::now();
+        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
@@ -32,6 +36,10 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
+        $numContratosHoy=0;
+        $egresosDolaresExtraordinarios=0;
+        
+        $numContratosHoy=count($contratosHoy);
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
@@ -52,6 +60,7 @@
     if($pago->metodo=='EFECTIVO' && $pago->tipo=='EGRESO'){
         $precorte = $precorte - $pago->cantidad + $pago->resto;
     }
+   
     @endphp
     @endforeach
     <table style="width: 100%; font-family: Helvetica;" >
@@ -59,37 +68,31 @@
         <td colspan="1">
             <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }}</span></td>
+    <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
+        <span style="font-weight: bold">Horario de corte: </span> <span> {{ $horaApertura }} a {{ $horaCierre }}</span><br>
+        <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span></td>
     </tr>
    
     </table>
     <table style="width: 100%" style="padding-top: 20px;">
-        <tr>
-            <td colspan="2">
-                    <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
-                    <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span>
-            </td>
-        </tr>
+       
         <tr>
             <td>
             <span style="font-weight: bold">Fecha de corte: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
+            <span>Contratos hoy: {{$numContratosHoy}}</span><br>
+            <p><span style="font-weight: bold">Efectivo al abrir caja (cierre dia anterior): </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
+            
             </td>
-            <td>  <span style="font-weight: bold">Horario de corte: </span> <span> {{ $horaApertura }} a {{ $horaCierre }}</span></td>
+            <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ $registro->cantidadCierre}}<br>
+                <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
+                @if($precorte!=$registro->cantidadCierre)
+             <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}</span>
+             @else  
+             <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
+             @endif</p> </td>
         </tr>
-        <tr>
-            <td>
-                <p><span style="font-weight: bold">Efectivo al abrir caja (cierre dia anterior): </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
-            </td>
-            <td>
-                <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ $registro->cantidadCierre}}<br>
-                   <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
-                   @if($precorte!=$registro->cantidadCierre)
-                <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}</span>
-                @else  
-                <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
-                @endif</p>
-            </td>
-            </tr>
+        
          
     </table>
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
@@ -98,6 +101,7 @@
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
         <td style="text-align: center; padding: 4px;">Monto</td>
     </tr>
@@ -105,9 +109,18 @@
     @if($pago->method=="EFECTIVO")
     @php
         $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $cliente = Client::where('id', $contrato->client_id)->first();
+        if($cliente->tipoPersona == 'MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
     @endphp
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}</td>
     @php
@@ -130,6 +143,7 @@
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Ultimos 4 numeros de tarjeta</td>
         <td style="text-align: center; padding: 4px;">Banco</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -139,9 +153,18 @@
     @if($pago->method=="TARJETA")
     @php
         $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $cliente = Client::where('id', $contrato->client_id)->first();
+        if($cliente->tipoPersona == 'MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
     @endphp
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->bank}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -166,6 +189,7 @@
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Referencia</td>
         <td style="text-align: center; padding: 4px;">Banco</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -175,9 +199,18 @@
     @if($pago->method=="TRANSFERENCIA")
     @php
         $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $cliente = Client::where('id', $contrato->client_id)->first();
+        if($cliente->tipoPersona == 'MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
     @endphp
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->bank}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -197,6 +230,7 @@
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Numero de cheque</td>
         <td style="text-align: center; padding: 4px;">Banco</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -206,9 +240,18 @@
     @if($pago->method=="CHEQUE")
     @php
         $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $cliente = Client::where('id', $contrato->client_id)->first();
+        if($cliente->tipoPersona == 'MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
     @endphp
     <tr style="border: solid; border-color:black">
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->bank}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -233,6 +276,7 @@
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
+        <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
         <td style="text-align: center; padding: 4px;">Monto</td>
@@ -240,10 +284,19 @@
     @foreach ($pagos as $pago)
     @if($pago->method=="DOLAR")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
-    @endphp
-    <tr style="border: solid; border-color:black">
-    <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+    $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    $cliente = Client::where('id', $contrato->client_id)->first();
+    if($cliente->tipoPersona == 'MORAL'){
+        $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+        $nombreCliente = $datosCliente->nombre;
+    }else{
+        $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+        $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+    }
+@endphp
+<tr style="border: solid; border-color:black">
+<td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
+<td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}Dlls</td>
@@ -298,7 +351,7 @@
             <p style="text-align: right; font-weight: bold;">Total ingresos extraordinarios en efectivo: ${{number_format($ingresosExtraordinarios,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en cheques: ${{number_format($ingresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($ingresosExtraordinariosTarjeta,2)}}</p>
-            <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinarios,2)}}</p>
+            <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinariosDolar,2)}}</p>
  
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             <label for="" style="font-weight: bold; margin-bottom: 10px; padding-top:50px">Egresos extraordinarios</label>
@@ -339,14 +392,14 @@
                     <p style="text-align: right; font-weight: bold;">Total egresos en efectivo: ${{number_format($egresosExtraordinarios,2)}}</p>
                     <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en cheques: ${{number_format($egresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($egresosExtraordinariosTarjeta,2)}}</p>
-            <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($egresosExtraordinarios,2)}}</p>
+            <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($egresosDolaresExtraordinarios,2)}}</p>
                     
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             
             @php
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
-            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{number_format($totalEfectivoEnCaja,2)}}</p>
+            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{$precorte}}</p>
             <p style="font-size: 15px; font-weight: bold; text-align: center; padding-top:30px">___________________________<br>Firma de responsable</p>
    
 <script type="text/php">

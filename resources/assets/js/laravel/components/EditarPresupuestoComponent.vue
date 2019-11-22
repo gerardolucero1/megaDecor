@@ -82,7 +82,7 @@ padding: 0;
         <div class="row mt-4">
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
-                    <div class="col-md-7 text-left">
+                    <div class="col-md-5 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -90,9 +90,11 @@ padding: 0;
 
                         </div>
                     </div>
-                    <div class="col-md-5 text-right info">
+                    <div class="col-md-7 text-right info">
                         <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
-                        <div class="row"> <p style="float:right"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p></div>
+                        <div class="row">
+                            <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
+                        </div>
                         <div class="row">
 
                             <div class="col-md-4 text-right">
@@ -521,7 +523,7 @@ padding: 0;
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
-                         <button class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                         <button style="display:none" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                         <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
                     </div>
@@ -925,34 +927,42 @@ padding: 0;
                 </div>
                 <div class="modal-body">
                     <label>Hora de entrega de mobiliario</label><br>
+                    <div class="col-md-12">
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.lugarEvento=='BODEGA'">Recolección en bodega</label>
+                    <label style="font-weight:bold; color:blue" for="" v-if="presupuesto.pendienteLugar">Pendiente Lugar de entrega</label>
+                    </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-1">Desde</label>
                             <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Hasta</label>
                             <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
-                        <div class="col-md-4">
+                        <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
-                                <option value="OTRO">Otro</option>
+                                <option value="OTRO">Otra</option>
                                 <option value="MAÑANA">Por la mañana</option>
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <br>
+                        <div class="col-md-12" style="padding-top:15px">
+                        <label>Fecha y Hora de retorno de mobiliario</label></div>
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
                             <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
                             <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
-                        <div class="col-md-4" style="padding-top:20px">
+                        <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option value="OTRO">Otra</option>
@@ -961,6 +971,9 @@ padding: 0;
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                        <label for=""><input type="checkbox" v-model="facturacion.entregaEnBodega"> Cliente entrega mobiliario en bodega</label>
                         </div>
                         <div class="col-md-6 mt-4">
                             <input id="requireFactura" type="checkbox" name="requireFactura" v-model="requiereFactura">
@@ -1387,6 +1400,9 @@ padding: 0;
                 let fecha = this.presupuesto.fechaEvento;
                 moment.locale('es'); 
                 let date = moment(fecha).format('LLLL');
+                if(date == 'Invalid date'){
+                    date = 'pendiente';
+                }
 
                 return date;
             },
@@ -2233,7 +2249,7 @@ padding: 0;
                     'paquete': '',
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
-                    'precioVenta': '',
+                    'precioVenta': producto.precioVenta,
                     'proveedor': '',
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
@@ -2305,11 +2321,16 @@ padding: 0;
                     }       
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Algo salio mal!',
-                        'Verifica que completaste todos los campos correctamente antes de continuar',
-                        'error'
-                    );
+                    if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             },
             // Guardar como contrato
@@ -2343,11 +2364,16 @@ padding: 0;
                     }       
                 }).catch((error) => {
                     console.log(error.data);
-                    Swal.fire(
-                        'Algo salio mal!',
-                        'Verifica que completaste todos los campos correctamente antes de continuar',
-                        'error'
-                    );
+                   if(error.response.data.message=='Unauthenticated.'){
+                        error.message='';
+                        window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
+                    }else{
+                     Swal.fire(
+                            'Error!',
+                            'Verifica que agregaste un cliente o categoria a tu presupuesto',
+                            'error'
+                        );
+                        }
                 });
             },
             obtenerPresupuesto(){
