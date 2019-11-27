@@ -322,7 +322,9 @@
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                             @endphp
-                                            <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                            <td class=""><span style="display:none">{{$fechaEvento}}</span>
+                                                <br>
+                                                {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif

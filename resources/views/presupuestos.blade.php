@@ -218,10 +218,11 @@
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
                                     @if ($budgetArchivados->pendienteFecha!=1)
-                                        @php
-                                            $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
-                                        @endphp
-                                        <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                    @php
+                                    $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
+                                @endphp
+                                <td class="">
+                                    <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
                                         <td class="">Pendiente</td>
                                     @endif
@@ -304,7 +305,9 @@
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                             @endphp
-                                            <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                            <td class=""><span style="display:none">{{$fechaEvento}}</span>
+                                                <br>
+                                                {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif
