@@ -93,7 +93,7 @@ padding: 0;
                     <div class="col-md-7 text-right info">
                         <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
+                            <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> <span v-if="presupuesto.pendienteHora">Pendiente</span><span v-else>{{ mostrarFechaEvento }}</span></p>
                         </div>
                         <div class="row">
 
@@ -129,12 +129,12 @@ padding: 0;
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio">
+                                <input type="time" class="form-control timepicker" v-model="presupuesto.horaEventoInicio">
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin">
+                                <input type="time" class="form-control timepicker" v-model="presupuesto.horaEventoFin">
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -492,7 +492,7 @@ padding: 0;
                             <div class="col-md-4 mt-4">
                                 <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5> 
                                 
-                               <h3><span style="font-style:italic; font-size:13px; font-weight:normal">Notas de contrato: $0.00</span></h3>
+                               <h3><span style="font-style:italic; font-size:13px; font-weight:normal; display:none">Notas de contrato: $0.00</span></h3>
 
                                 <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
@@ -502,11 +502,11 @@ padding: 0;
                                     <H5 v-if="presupuesto.opcionIVA==true">TOTAL + IVA: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></H5>
                                     <H5 v-else>TOTAL: <span>{{ (calcularSubtotal) | currency }}</span></H5>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
-                                    <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green">Saldo a favor: $<span>0.00</span></p>
+                                    <p v-if="presupuesto.tipo == 'CONTRATO'" style="color:green; display:none">Saldo a favor: $<span>0.00</span></p>
                                    
 
                                     <button v-if="presupuesto.tipo == 'NONE'" class="btn btn-sm btn-primary" @click="mostrarIVA()"><i class="si si-pencil"></i> Editar iva</button>
-                                    <button  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
+                                    <button style="display:none"  class="btn btn-sm btn-danger d-block" @click="reduccionDeContrato()">Notas de contrato</button>
                                 
                                 </div>
                             </div>
@@ -523,9 +523,10 @@ padding: 0;
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
-                         <button style="display:none" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                         <button style="" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar por correo</button>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                         <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
+                        
                     </div>
                 </div>
                 
@@ -1340,6 +1341,7 @@ padding: 0;
 
                 //Datos facturacion
                 requiereFactura: false,
+                emailSeleccionado: '',
                 facturacion: {
                     //Tiempos
                     horaInicio: '',
@@ -2612,7 +2614,7 @@ padding: 0;
                 }
             },
             enviarCorreoCliente(){
-                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id + '&' + this.emailSeleccionado;
 
                 axios.get(URL).then((response) => {
                     Swal.fire(
@@ -2624,6 +2626,7 @@ padding: 0;
                     console.log(error.data);
                 })
             },
+            
         }
     }
 </script>

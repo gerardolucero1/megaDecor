@@ -843,7 +843,7 @@ public function archivarUsuario($id){
                 }
                 $Presupuesto->impresionBodega = $budget->impresionBodega;
                 $Presupuesto->updated_at = $budget->updated_at;
-            
+            dd($Presupuesto);
          
          
 
@@ -885,6 +885,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
+         $PresupuestoArchivados->pagado = $budgetArchivados->pagado;
          $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
