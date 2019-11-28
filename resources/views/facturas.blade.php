@@ -197,7 +197,7 @@
                                        
                                 </td>
                                 @php
-                                    $total=number_format($fechaSolicitud->translatedFormat(' l j F Y'));
+                                    $total=number_format($budgetArchivado->total,2);
                                 @endphp
                                 <td  class="d-none d-sm-table-cell">
                                     @if($usuario != 2)
