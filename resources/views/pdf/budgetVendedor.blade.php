@@ -93,31 +93,31 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   <td><span> {{$presupuesto->categoria}}, {{$presupuesto->tipoEvento}} {{$presupuesto->tipoServicio}}</span></td>
   <td><span style="font-weight: bold">Tono:</span> {{$presupuesto->colorEvento}}</td>
 </tr>
-<tr style=" font-size: 14px;">
+<tr style=" font-size: 12px;">
 <td colspan="3"></td>
 <td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}</td>
 </tr>
 
-<tr style=" font-size: 14px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
+<tr style=" font-size: 12px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
 </tr>
-<tr style=" font-size: 14px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
+<tr style=" font-size: 12px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
 </tr>
 </table>
 <table style="width: 100%; margin-top: 10px">
   <tr style="padding: 4px; color:white; background:#9E9E9E; text-align: center;">
     @if($presupuesto->opcionImagen==1)  
-    <td style="font-size: 13px; padding: 4px;">Imagen</td>
+    <td style="font-size: 11px; padding: 4px;">Imagen</td>
     @endif
-    <td style="font-size: 13px; padding: 4px;">Servicio</td>
-    <td style="font-size: 13px; padding: 4px;">Cantidad</td>
+    <td style="font-size: 11px; padding: 4px;">Servicio</td>
+    <td style="font-size: 11px; padding: 4px;">Cantidad</td>
     @if($presupuesto->opcionPrecioUnitario==1) 
-    <td style="font-size: 13px; padding: 4px;">Precio Unitario</td>
+    <td style="font-size: 11px; padding: 4px;">Precio Unitario</td>
     @endif
     @if($presupuesto->opcionPrecio==1)
-    <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
-    <td style="font-size: 13px; padding: 4px;">Total Con Descuento</td>
+    <td style="font-size: 11px; padding: 4px;">Precio Especial</td>
+    <td style="font-size: 11px; padding: 4px;">Total Con Descuento</td>
     @endif
-    <td style="font-size: 13px; padding: 4px;">Notas</td>
+    <td style="font-size: 11px; padding: 4px;">Notas</td>
   </tr>
   @php
       $descuento=0;
@@ -130,7 +130,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       $c++;
       $familias[$c]=$elemento->familia;
   @endphp
-    <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
+    <tr style="margin-top: 2px; background: #F3F3F3; font-size:11px">
         @if($presupuesto->opcionImagen==1)  
     <td><img src="{{$elemento->imagen}}" width="60px" alt=""></td>
         @endif
@@ -149,7 +149,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
-    <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
+    <tr style="margin-top: 2px; background: #FFF8CD; font-size:11px">
     <td style="padding: 5px; text-align:center; font-weight: bold">Paquete:</td>
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
@@ -163,7 +163,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
     </tr>
     @if($presupuesto->opcionDescripcionPaquete==1)
-    <tr style="text-align: center; font-size: 12px;">
+    <tr style="text-align: center; font-size: 11px;">
         <td style="border-left:solid; border-left-width: 1px;">Imagen</td>
         <td colspan="3" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
@@ -171,7 +171,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
-    <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
+    <tr style="margin-top: 2px; background: #FFFCE9; font-size:11px; border:solid;">
         <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
         <td colspan="3" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
           <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
@@ -213,50 +213,11 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
    
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
       </tr>
-      <tr style="font-style: italic; text-align: left; font-size: 12px;">
-          @if($presupuesto->tipo=='PRESUPUESTO')
-        <td>
-            *PRECIOS MAS IVA *Sujetos a disponibilidad hasta el dia de la contratación. ***DESCUENTOS COMPRANDO TODO EL PAQUETE*** EL DESCUENTO FINAL SE VERA REFLEJADO HASTA CONCRETAR LO SOLICITADO POR EL CLIENTE. *** PARA APROBACION SE REQUIERE FIRMA DEL CLIENTE. EN CASO DE EMPRESAS ES REQUISITO FIRMA Y SELLO ; UNA VEZ AUTORIZADA NO HAY CANCELACIONES NI DEVOLUCION DE DINERO ******** ***50% DE ANTICIPO. TODO SERVICIO TIENE QUE SER LIQUIDADO AL 100% 1 DIA HABIL ANTES DEL EVENTO EN CASO DE NO TENER CREDITO*** 2.5 % INTERES MENSUAL X ATRASO DE CREDITO. ***Sillas, mesa, manteleria no incluye instalación,favor de solicitarla. Loza sin lavar tiene costo $.50 c/u extra. **PRESUPUESTO VALIDO 7 DIAS Hábiles A partir de la fecha de envio. Precios cambio sin previo aviso. **APLICAN RESTRICCIONES EVENTO EXTERNOS SE SOLICITA UN DEPOSITO EN GARANTIA DEPENDIENDO DE LOS SERCICIOS SOLICITADOS ***SUBIR O BAJAR ESCALERAS O AREAS LEJANAS, LLEVA COSTO ADICIONAL. LOS SERVICIOS SALIENDO DE BODEGA NO HAY CANCELACIÓN*** LA ENTREGA O RECOLECCIÓN (SERAEN DIAS HABILES) Y DENTRO DEL HORARIO DE 9:00 AM-5PM, FUERA DE ESTOS HORARIOS Y DIAS LLEVARA CARGO EXTRA***EN AL RECIBIR EL EQUIPO SE DA POR ENTENDIDO QUE TODO SE ENCUENTRA BIEN AL MOMENTO DE FIRMAR DE RECIBIDO*** NO INCLUYE INSTALACIÓN SILLAS Y MESAS. *** EL CLIENTE QUE PASE A RECOGER EN BODEGA DEBERA DEJAR UNA IDENTIFICACION OFICIAL VIGENTE Y LA ENTREGA ES AL SIGUIENTE DIA HABIL ANTES DE LAS 12:00 PM PAGOS CON TARJETA O TRASFERENCIA SON MAS IVA.
-          </td>
-          @endif
-      </tr>
+     
       @if($presupuesto->tipo=='CONTRATO')
      <table style="width: 100%;">
     <tr>
    
-    </tr>
-    <tr>
-      <td colspan="2">
-          <p style="font-size: 16px; font-weight: bold; text-align: left">
-              Servicios
-          </p>
-          @php
-              $testigo='nada';
-          @endphp
-        @foreach ($demo as $item)
-          @php
-              $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
-              
-          @endphp
-          @if($testigo==$grupo['informacion'])
-          @else
-          <p style="font-size: 16px; font-weight: bold; text-align: left">
-             
-            {{ $item->grupo }}
-           
-          </p>
-          <p style="font-size: 12px; font-weight: normal; text-align: justify">
-            <b>Requisitos:</b><br>
-            {{ $grupo['informacion'] }}<br><br>
-           <b> Observaciones:</b><br>
-            {{ $grupo['observaciones'] }}<br>
-          </p>
-          @endif
-          @php
-              $testigo=$grupo['informacion'];
-          @endphp
-        @endforeach
-      </td>
     </tr>
    
   </table>
