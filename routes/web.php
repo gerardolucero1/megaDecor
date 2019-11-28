@@ -6,6 +6,7 @@ use App\Client;
 use App\Missing;
 use App\Payment;
 use App\Register;
+use App\Supplier;
 use App\Inventory;
 use App\Telephone;
 use Carbon\Carbon;
@@ -168,6 +169,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
+    Route::delete('/clientes/delete/{id}', 'CMS\ClientController@destroy')->name('cliente.delete');
 
         // API de clientes
         Route::get('/obtener-cliente-editar/{id}', 'CMS\ClientController@obtenerCliente');
@@ -588,10 +590,41 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('cancelarPaquete');
     Route::put('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobarPaquete');
 
-    Route::post('aprobar-producto/{id}', function($id){
-        
-    })->name('aprobarProducto');
-
     Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
+
+    //Proveedores
+    Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');
+    Route::post('proveedores', 'CMS\IndexController@agregarProveedor')->name('proveedores.store');
+    Route::get('proveedores/edit/{id}', 'CMS\IndexController@editarProveedor')->name('proveedores.edit');
+    Route::put('proveedores/update/{id}', 'CMS\IndexController@actualizarProveedor')->name('proveedores.update');
+    Route::delete('proveedores/{id}', 'CMS\IndexController@borrarProveedor')->name('proveedores.delete');
+
+        Route::get('obtener-proveedores', function(){
+            $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+            return $proveedores;
+        });
+    Route::post('aprobar-producto/{id}', 'CMS\InventoryController@aprobarProducto')->name('aprobarProducto');
+    Route::post('aprobar-producto-paquete/{id}', 'CMS\InventoryController@aprobarProductoPaquete')->name('aprobarProductoPaquete');
+
+    Route::get('obtener-otros-provedores', function(){
+        $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'PRIVADO')->get();
+        return $proveedores;
+    });
+
+    Route::post('agregar-otros-provedores', function(Request $request){
+        $proveedores = new Supplier();
+        $proveedores->nombre = $request->nombre;
+        $proveedores->tipo = 'PRIVADO';
+        $proveedores->save();
+
+        return;
+    });
+
+    Route::delete('eliminar-otros-provedores/{id}', function($id){
+        $proveedores = Supplier::findOrFail($id);
+        $proveedores->delete();
+
+        return;
+    });
 });
 

@@ -24,6 +24,7 @@
                                 <option value="ELEKTRA">Elektra</option>
                                 <option value="WALMART">Walmart</option>
                             </select>
+                            <p style="font-size: 11px;" data-toggle="modal" data-target="#addProveedor">Añadir nuevo proveedor</p>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -123,6 +124,56 @@
                 <button type="button" @click="registrarAlta()" class="btn btn-primary">Guardar alta</button>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addProveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document" style="border: 2px solid black;">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar proveedor</h5>
+                    <button type="button" class="close" onClick="$('#addProveedor').modal('hide')">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Nombre del proveedor</label>
+                                <input type="text" class="form-control" v-model="proveedor">
+                            </div>
+                            <div class="form-group">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in proveedores" :key="index">
+                                            <th scope="row">{{ item.id }}</th>
+                                            <td>{{ item.nombre }}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-danger" @click="eliminarProveedores(item)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#addProveedor').modal('hide')">Close</button>
+                    <button type="button" class="btn btn-primary" @click="agregarProveedores()">Agregar proveedor</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -137,6 +188,8 @@ export default {
     },
     data(){
         return{
+            proveedores: '',
+            proveedor: '',
             producto: '',
             tipo: '',
             alta: {
@@ -185,6 +238,7 @@ export default {
 
     created(){
         this.obtenerPresupuestos();
+        this.obtenerProveedores();
 
         //Buscadores
         this.$on('presupuestosResults', presupuestosResults => {
@@ -221,6 +275,38 @@ export default {
     },
 
     methods: {
+        async obtenerProveedores(){
+            try {
+                let URL = '/obtener-otros-proveedores'
+
+                const response = await axios.get(URL)
+                this.proveedores = response.data
+            } catch (e) {
+                console.log(e.data)
+            }
+        },
+        async agregarProveedores(){
+            try {
+                let URL = '/agregar-otros-proveedores'
+
+                const response = await axios.post(URL, {
+                    'proveedor': this.proveedor,
+                })
+                this.obtenerProveedores()
+            } catch (e) {
+                console.log(e.data)
+            }
+        },
+        async eliminarProveedores(item){
+            try {
+                let URL = '/eliminar-otros-proveedores/' + item.id
+
+                const response = await axios.delete(URL)
+                this.obtenerProveedores()
+            } catch (e) {
+                console.log(e.data)
+            }
+        },
         obtenerPresupuestos: function(){
             let URL = 'caja/obtener-presupuestos';
 

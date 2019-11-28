@@ -4,6 +4,7 @@
     @php
         
         $usuario = Auth::user()->id; 
+        
         $permisos = App\Permission::where('user_id', $usuario)->first();   
     @endphp
 

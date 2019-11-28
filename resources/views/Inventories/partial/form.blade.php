@@ -61,7 +61,16 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('proveedor1', 'Proveedor 1') }}
-                    {{ Form::text('proveedor1', null, ['class' => 'form-control', 'id' => 'proveedor1']) }}  
+                    <select name="proveedor1" id="" class="form-control">
+                        @if (isset($inventory))
+                            <option value="{{ $inventory->proveedor1 }}">{{ $inventory->proveedor1 }}</option>
+                        @endif
+                            @foreach ($proveedores as $proveedor)
+                                <option value="{{ $proveedor->nombre }}">{{ $proveedor->nombre }}</option>
+                            @endforeach
+                        
+                    </select>
+                    {{-- {{ Form::text('proveedor1', null, ['class' => 'form-control', 'id' => 'proveedor1']) }}   --}}
                 </div>
             </div>
         </div>
@@ -70,7 +79,16 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('proveedor2', 'Proveedor 2') }}
-                    {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}  
+                    <select name="proveedor2" id="" class="form-control">
+                        @if (isset($inventory))
+                            <option value="{{ $inventory->proveedor2 }}">{{ $inventory->proveedor2 }}</option>
+                        @endif
+                            @foreach ($proveedores as $proveedor)
+                                <option value="{{ $proveedor->nombre }}">{{ $proveedor->nombre }}</option>
+                            @endforeach
+                        
+                    </select>
+                    {{-- {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}   --}}
                 </div>
             </div>
         </div>

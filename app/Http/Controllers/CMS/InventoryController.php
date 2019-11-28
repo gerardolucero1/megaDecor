@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\CMS;
 
+use App\Budget;
 use App\Family;
 use App\Register;
+use App\Supplier;
 use App\Inventory;
-use App\Budget;
 use Carbon\Carbon;
+use App\BudgetInventory;
+use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -37,8 +40,9 @@ class InventoryController extends Controller
     {
 
         $familias=Family::orderBy('nombre', 'ASC')->get();
+        $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
         
-        return view('Inventories.create', compact('familias'));
+        return view('Inventories.create', compact('familias', 'proveedores'));
     }
 
     /**
@@ -113,8 +117,9 @@ class InventoryController extends Controller
         $inventory = Inventory::find($id);
         $familias=Family::orderBy('nombre', 'ASC')->get();
         $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
-       
-        return view('Inventories.edit', compact('inventory', 'familias', 'registros'));
+        $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+        
+        return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores'));
     }
 
     /**
@@ -256,5 +261,47 @@ class InventoryController extends Controller
         $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $request->fecha)->get();
 
         return view('eventosProximos', compact('contratos'));
+    }
+
+    public function aprobarProducto($id){
+        $producto = BudgetInventory::findOrFail($id);
+        $producto->guardarInventario = false;
+        $producto->save();
+
+        $inventario = new Inventory();
+        $inventario->servicio = $producto->servicio;
+        $inventario->imagen = $producto->imagen;
+        $inventario->precioUnitario = $producto->precioUnitario;
+        $inventario->precioVenta = $producto->precioVenta;
+        $inventario->tipoCambio = 'MXN';
+        $inventario->proveedor1 = 'MegaMundo';
+        $inventario->proveedor2 = 'MegaMundo';
+        $inventario->exhibicion = 0;
+        $inventario->cantidad = 0;
+        $inventario->disponible = 0;
+        $inventario->save();
+
+        return redirect()->route('inventario');
+    }
+
+    public function aprobarProductoPaquete($id){
+        $producto = BudgetPackInventory::findOrFail($id);
+        $producto->guardarInventario = false;
+        $producto->save();
+
+        $inventario = new Inventory();
+        $inventario->servicio = $producto->servicio;
+        $inventario->imagen = $producto->imagen;
+        $inventario->precioUnitario = $producto->precioUnitario;
+        $inventario->precioVenta = $producto->precioVenta;
+        $inventario->tipoCambio = 'MXN';
+        $inventario->proveedor1 = 'MegaMundo';
+        $inventario->proveedor2 = 'MegaMundo';
+        $inventario->exhibicion = 0;
+        $inventario->cantidad = 0;
+        $inventario->disponible = 0;
+        $inventario->save();
+
+        return redirect()->route('inventario');
     }
 }

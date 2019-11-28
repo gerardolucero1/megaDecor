@@ -466,9 +466,7 @@
                                                     <div v-if="movimiento.motivo == 'Proveedor'">
                                                         <label for="">Proveedores</label>
                                                         <select class="form-control" name="" id="" v-model="movimiento.responsable">
-                                                            <option value="ELEKTRA">Elektra</option>
-                                                            <option value="WALMART">Walmart</option>
-                                                            <option value="OXXO">Oxxo</option>
+                                                            <option v-for="(item, index) in proveedores" :key="index" :value="item.nombre">{{ item.nombre }}</option>
                                                         </select>
                                                     </div>
                                                     
@@ -1087,6 +1085,7 @@ export default {
             pagosPasados: [],
             pagosTotalesActuales: [],
             arrayDatos: [],
+            proveedores: '',
         }
     },
     created(){
@@ -1095,6 +1094,7 @@ export default {
         this.obtenerCategorias();
         this.obtenerPagosPasados();
         this.obtenerResponsable();
+        this.obtenerProveedores();
 
         //Buscadores
         this.$on('presupuestosResults', presupuestosResults => {
@@ -1371,6 +1371,17 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             }
     },
     methods: {
+        async obtenerProveedores(){
+            try {
+                let URL = '/obtener-proveedores'
+
+                const response = await axios.get(URL)
+                this.proveedores = response.data
+            } catch (e) {
+                console.log(e.data)
+            }
+        },
+
         cancelarContrato: function(){
             let URL = '/cancelar-contrato/' + this.presupuestoSeleccionado.id
 

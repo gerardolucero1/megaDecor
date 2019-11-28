@@ -273,6 +273,7 @@
                                         </li>
 
                                     </ul>
+                                    <a class="nav-menu" href="{{ route('proveedores.index') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Proveedores</span></a>
                                     @if($permisos->usuarios==1)
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                                     @endif

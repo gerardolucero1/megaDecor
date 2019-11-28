@@ -6,6 +6,8 @@ use App\Task;
 use App\User;
 use stdClass;
 use App\Budget;
+use App\Supplier;
+use App\SupplierTelephone;
 use App\Client;
 use App\Missing;
 use App\Inventory;
@@ -52,14 +54,9 @@ class IndexController extends Controller
             $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
 
             //Obtenemos numero de presupuestos del cliente
-            $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get();
-            if(!is_null($Presupuestos)){
-                $tamanoPresupuestos=count($Presupuestos);
-            }else{
-                $tamanoPresupuestos=0;
-            }
-            
-                        $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
+            $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get()->toArray();
+
+            $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
                         $CompleteClient = new stdClass();
                         $CompleteClient->id = $cliente->id;
                         
@@ -76,7 +73,7 @@ class IndexController extends Controller
                     
                         $CompleteClient->email = $cliente->email;
                         $CompleteClient->created_at = $createdAt;
-                        $CompleteClient->presupuestos = $tamanoPresupuestos;
+                        $CompleteClient->presupuestos = $Presupuestos;
                         if(!is_null($telefono)){
                         $CompleteClient->telefono = $telefono->numero;}
                         else{
@@ -271,8 +268,11 @@ public function archivarUsuario($id){
     }
 
     public function usuariosPermisos($id){
-        $Usuario = User::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        $Usuario = User::findOrFail($id);
         $Permisos = Permission::where('user_id', $Usuario->id)->first();
+
+        //dd($Permisos);
 
         return view('usuariosPermisos', compact('Usuario' , 'Permisos'));
     }
@@ -1177,5 +1177,67 @@ public function archivarUsuario($id){
 
         //dd($contratos);
         return view('creditosAtrasados', compact('contratos'));
+    }
+
+    public function proveedores(){
+        $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+        return view('proveedores.index', compact('proveedores'));
+    }
+
+    public function agregarProveedor(Request $request){
+        $proveedor =  new Supplier();
+        $proveedor->nombre = $request->proveedor['nombre'];
+        $proveedor->direccion = $request->proveedor['direccion'];
+        $proveedor->tipo = $request->proveedor['tipo'];
+        $proveedor->save();
+
+        $proveedor = Supplier::orderBy('id', 'DESC')->first();
+
+        foreach($request->telefonos as $numero){
+
+            $telefono = new SupplierTelephone();
+            $telefono->proveedor_id = $proveedor->id;
+            $telefono->nombre = $numero['nombre'];
+            $telefono->numero = $numero['telefono'];
+            $telefono->correo = $numero['correo'];
+            $telefono->save();
+        }
+        return;
+    }
+
+    public function editarProveedor($id){
+        $proveedor = Supplier::with('telefonos')->findOrFail($id);
+        
+        return view('proveedores.edit', compact('proveedor'));
+    }
+
+    public function actualizarProveedor(Request $request, $id){
+        //dd($request->proveedor['telefonos']);
+        $proveedor = Supplier::findOrFail($id);
+        $proveedor->nombre = $request->proveedor['nombre'];
+        $proveedor->direccion = $request->proveedor['direccion'];
+        $proveedor->tipo = $request->proveedor['tipo'];
+        $proveedor->save();
+        
+        DB::table('supplier_telephones')->where('proveedor_id', $id)->delete();
+
+        foreach($request->proveedor['telefonos'] as $numero){
+
+            $telefono = new SupplierTelephone();
+            $telefono->proveedor_id = $proveedor->id;
+            $telefono->nombre = $numero['nombre'];
+            $telefono->numero = $numero['numero'];
+            $telefono->correo = $numero['correo'];
+            $telefono->save();
+        }
+
+        return;
+    }
+
+    public function borrarProveedor($id){
+        $proveedor = Supplier::findOrFail($id);
+        $proveedor->delete();
+
+        return back()->with('info', 'Proveedor eliminado con exito');
     }
 }
