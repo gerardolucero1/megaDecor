@@ -23,6 +23,7 @@
                             <button class="btn btn-info" onclick="permisosAdministrador()">Administrador</button>
                             <button class="btn btn-info" onclick="permisosGerencia()">Gerencia</button>
                             <button class="btn btn-info" onclick="permisosVentas()">Ventas</button>
+                            <button class="btn btn-info" onclick="permisosRecepcionista()">Recepcionista</button>
                             <button class="btn btn-info" onclick="permisosBodega()">Bodega</button>
                             <button class="btn btn-info" onclick="permisosContabilidad()">Contabilidad</button>
                     <form action="{{route('editar.permisos', $Permisos->id)}}" method="post">
@@ -144,6 +145,16 @@
                                     <input id="I88" style="margin-left: 20px" type="checkbox" name="inventarioPrecioUnitario" value="1" @if($Permisos->inventarioPrecioUnitario==1) checked @endif>-Ver Precio Unitario</label><br>
                                     <input id="I89" style="margin-left: 20px" type="checkbox" name="inventarioProveedor" value="1" @if($Permisos->inventarioProveedor==1) checked @endif>-Ver Proveedor</label><br>
                                     <input id="I90" style="margin-left: 20px" type="checkbox" name="inventarioFamilia" value="1" @if($Permisos->inventarioFamilia==1) checked @endif>-Ver Familia</label><br>
+
+                                   
+                                    <input id="I91" style="margin-left: 20px" type="checkbox" name="inventarioPaquetes" value="1" @if($Permisos->inventarioPaquetes==1) checked @endif>-Ver Paquetes</label><br>
+                                    <input id="I92" style="margin-left: 20px" type="checkbox" name="inventarioProximos" value="1" @if($Permisos->inventarioProximos==1) checked @endif>-Ver Proximos</label><br>
+                                    <input id="I93" style="margin-left: 20px" type="checkbox" name="inventarioDanados" value="1" @if($Permisos->inventarioDanados==1) checked @endif>-Ver Dañados</label><br>
+                                    <input id="I95" style="margin-left: 20px" type="checkbox" name="inventarioImpresionTransferencias" value="1" @if($Permisos->inventarioImpresionTransferencias==1) checked @endif>-Impresión reporte transferencias</label><br>
+                            </div>
+                            <div class="col-md-3">
+                                    <input id="I94" style="margin-left: 20px" type="checkbox" name="Proveedores" value="1" @if($Permisos->Proveedores==1) checked @endif>-Ver Proveedores</label><br>
+                                    
                             </div>
                         </div>
                             <label for="">
@@ -276,6 +287,97 @@
             document.getElementById('I15').checked=1;
             document.getElementById('I16').checked=1;
             document.getElementById('I17').checked=1;
+            document.getElementById('I18').checked=1;
+            document.getElementById('I19').checked=1;
+            document.getElementById('I20').checked=1;
+            document.getElementById('I21').checked=1;
+            document.getElementById('I22').checked=1;
+            document.getElementById('I23').checked=1;
+            document.getElementById('I24').checked=1;
+            document.getElementById('I25').checked=1;
+            document.getElementById('I26').checked=1;
+            document.getElementById('I27').checked=1;
+            document.getElementById('I28').checked=1;
+            document.getElementById('I29').checked=1;
+            document.getElementById('I30').checked=1;
+            document.getElementById('I31').checked=1;
+            document.getElementById('I32').checked=1;
+            document.getElementById('I33').checked=1;
+            document.getElementById('I34').checked=1;
+            document.getElementById('I35').checked=1;
+            document.getElementById('I36').checked=1;
+            document.getElementById('I37').checked=0;
+            document.getElementById('I38').checked=1;
+            document.getElementById('I39').checked=1;
+            document.getElementById('I40').checked=1;
+            document.getElementById('I41').checked=1;
+            document.getElementById('I42').checked=1;
+            document.getElementById('I43').checked=1;
+            document.getElementById('I44').checked=1;
+            document.getElementById('I45').checked=1;
+            document.getElementById('I46').checked=1;
+            document.getElementById('I47').checked=1;
+            document.getElementById('I48').checked=1;
+            document.getElementById('I49').checked=1;
+            document.getElementById('I50').checked=1;
+            document.getElementById('I51').checked=1;
+            document.getElementById('I52').checked=1;
+            document.getElementById('I53').checked=1;
+            document.getElementById('I54').checked=1;
+            document.getElementById('I55').checked=0;
+            document.getElementById('I56').checked=1;
+            document.getElementById('I57').checked=1;
+            document.getElementById('I58').checked=1;
+            document.getElementById('I59').checked=1;
+            document.getElementById('I60').checked=1;
+            document.getElementById('I61').checked=1;
+            document.getElementById('I62').checked=1;
+            document.getElementById('I63').checked=1;
+            document.getElementById('I64').checked=1;
+            document.getElementById('I65').checked=1;
+            document.getElementById('I66').checked=1;
+            document.getElementById('I67').checked=1;
+            document.getElementById('I68').checked=1;
+            document.getElementById('I69').checked=0;
+            document.getElementById('I70').checked=0;
+            document.getElementById('I71').checked=0;
+            document.getElementById('I72').checked=0;
+            document.getElementById('I73').checked=0;
+            document.getElementById('I74').checked=0;
+            document.getElementById('I75').checked=0;
+            document.getElementById('I76').checked=1;
+            document.getElementById('I77').checked=0;
+            document.getElementById('I78').checked=0;
+            document.getElementById('I79').checked=0;
+            document.getElementById('I80').checked=0;
+            document.getElementById('I81').checked=0;
+            document.getElementById('I82').checked=0;
+            document.getElementById('I83').checked=0;
+            document.getElementById('I84').checked=0;
+            document.getElementById('I85').checked=0;
+            document.getElementById('I86').checked=1;
+            document.getElementById('I87').checked=1;
+            document.getElementById('I88').checked=1;
+            document.getElementById('I89').checked=0;
+            document.getElementById('I90').checked=1;
+        }
+        function permisosRecepcionista(){
+            document.getElementById('I2').checked=1;
+            document.getElementById('I3').checked=1;
+            document.getElementById('I4').checked=1;
+            document.getElementById('I5').checked=0;
+            document.getElementById('I6').checked=0;
+            document.getElementById('I7').checked=1;
+            document.getElementById('I8').checked=1;
+            document.getElementById('I9').checked=1;
+            document.getElementById('I10').checked=0;
+            document.getElementById('I11').checked=0;
+            document.getElementById('I12').checked=0;
+            document.getElementById('I13').checked=0;
+            document.getElementById('I14').checked=1;
+            document.getElementById('I15').checked=1;
+            document.getElementById('I16').checked=0;
+            document.getElementById('I17').checked=0;
             document.getElementById('I18').checked=1;
             document.getElementById('I19').checked=1;
             document.getElementById('I20').checked=1;

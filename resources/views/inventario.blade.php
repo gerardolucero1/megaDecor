@@ -9,7 +9,10 @@
 @endsection
 @section('content')
 
-
+@php
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
     <section class="container">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
@@ -35,6 +38,7 @@
                                 use App\Family;
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
+                            @if($permisos->inventarioImpresionTransferencias==1)
                              <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank">
                                     @csrf
                                     <div class="row" style="padding:20px;">
@@ -49,6 +53,7 @@
                                      <button class="btn btn-info">Obtener Transferencias</button>
                                     </div>
                                  </form>
+                                 @endif
                             <form action="{{ route('inventario.filtro') }}" method="POST">
                                 @method('POST')
                                 @csrf   
@@ -81,6 +86,7 @@
                                 </div>
                             </div>
                             </form>
+                           
                         </div>
                     </div>
                     @php
@@ -92,23 +98,22 @@
                         <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf 
-                            <input type="hidden" name="familia" id="inputfamilia" value="">
+                            <input type="text" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                        <a style="display:none" class="btn btn-info" target="_blank" href="{{route('imprimir.transferencias', $usuario)}}">
-                                    <i class="si si-printer" style="margin-right:8px;"  data-toggle="tooltip"  title="Imprimir Transferencias de hoy"></i> Transferencias del dia
-                         </a>  
+                         @if($permisos->inventarioAgregarFamilia==1)
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
+                        @endif
+                        @if($permisos->inventarioAgregarProducto==1)
                         <a class="btn btn-primary" href="{{ route('inventory.create') }}">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
                         </a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
-                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
-                        </a> 
+                        @endif
+                        
                        
                     </div>
                 </div>
@@ -349,7 +354,9 @@
             // })
         }
         function seleccionarFamilia(){
+            
            NombreFamilia = document.getElementById('familia').value;
+           alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){

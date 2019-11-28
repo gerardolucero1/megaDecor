@@ -62,15 +62,20 @@
                             <thead>
                                 <tr role="row">
                                         @if($permisos->clientesId==1)
-                                    <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>@endif
+                                    <th class="text-center sorting_asc"  rowspan="1" colspan="1"></th>
+                                    @endif
                                     @if($permisos->clientesNombre==1)
-                                    <th class="sorting" rowspan="1" colspan="1">Nombre</th>@endif
+                                    <th class="sorting" rowspan="1" colspan="1">Nombre</th>
+                                    @endif
                                     @if($permisos->clientesFechaRegistro==1)
-                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>@endif
+                                    <th class="d-none d-sm-table-cell sorting"  rowspan="1" colspan="1">Fecha Registro</th>
+                                    @endif
                                     @if($permisos->clientesNumeroTelefono==1)
-                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>@endif
+                                    <th class="d-none d-sm-table-cell sorting" rowspan="1" colspan="1">Numero Telefonico</th>
+                                    @endif
                                     @if($permisos->clientesCorreoElectronico==1)
-                                    <th rowspan="1" colspan="1">Correo Electrónico</th>@endif
+                                    <th rowspan="1" colspan="1">Correo Electrónico</th>
+                                    @endif
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Contratos</th>
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
@@ -80,14 +85,15 @@
                                     @foreach ($CompleteClients as $cliente)                     
                                 <tr role="row" class="odd">
                                         @if($permisos->clientesId==1)
-                                <td class="text-center sorting_1">{{$cliente->id}}</td>@endif
+                                <td class="text-center sorting_1">{{$cliente->id}}</td>
+                                @endif
                                 @if($permisos->clientesNombre==1)
                                     <td class="font-w600">{{$cliente->nombre}} 
                                         @if(array_key_exists('apellidoPaterno', $cliente))
                                         {{$cliente->apellidoPaterno}}
                                         @endif
 
-                                        </td>
+                                        </td>@endif
                                     <td class="d-none d-sm-table-cell">{{$cliente->created_at}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->telefono}}</td>
                                     <td class="d-none d-sm-table-cell">{{$cliente->email}}</td>
@@ -117,6 +123,7 @@
                                         <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-sm btn-primary " data-toggle="tooltip" title="Editar Cliente"  data-original-title="View Customer">
                                             <i class="fa fa-pencil"></i>
                                         </a>
+                                        @endif
                                         <button onclick="event.preventDefault();
                                                         Swal.fire({
                                                             title: '¿Estas seguro?',

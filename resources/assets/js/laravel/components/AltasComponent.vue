@@ -114,7 +114,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Fecha de baja del sistema</label>
-                            <input type="date" class="form-control" v-model="alta.fechaCompra">
+                            <input style="display:none" type="date" class="form-control" v-model="alta.fechaCompra">
                         </div>
                     </div>
                 </div>

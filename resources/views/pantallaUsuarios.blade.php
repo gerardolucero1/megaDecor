@@ -111,7 +111,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="">Contraseña</label>
-                            <input type="text" name="password" class="form-control" required>
+                            <input oninput="confirmarPassword()" type="password" name="password" id="password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Confirmar Contraseña</label>
+                            <input oninput="confirmarPassword()" type="password" name="passwordConfirmacion" id="passwordConfirmacion" class="form-control" required>
+                            <p style="color: red; font-style: italic; text-align:center; display:none" id="mensajeError" >*Las Contraseñas no coinciden</p>
                         </div>
                     </div>
                     <div class="row">
@@ -127,8 +134,8 @@
                         </div>
                     </div>
                     <div class="modal-footer mt-3">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Crear</button>
+                        <button type="submit" class="btn btn-primary" id="btnSave">Crear Usuario</button>
                     </div>
                 </form>
             </div>
@@ -193,6 +200,18 @@ function VerArchivados(){
 function VerActivos(){
     document.getElementById('ClientesArchivados').style.display="none";
     document.getElementById('ClientesActivos').style.display="block";
+}
+
+function confirmarPassword(){
+    let pass1 = document.getElementById('password').value;
+    let pass2 = document.getElementById('passwordConfirmacion').value;
+    if(pass1==pass2){
+    document.getElementById('mensajeError').style.display="none";
+    document.getElementById('btnSave').style.display="block";
+    }else{
+    document.getElementById('mensajeError').style.display="block";
+    document.getElementById('btnSave').style.display="none";
+        }
 }
 </script>
 

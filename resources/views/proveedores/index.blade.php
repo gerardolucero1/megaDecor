@@ -38,7 +38,7 @@
         <div class="content" id="PresupuestosActivos">
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title" style="color:green">Eventos proximos</h3>
+                    <h3 class="block-title" style="color:green">Proveedores</h3>
                     <div class="block-options">
                         <proveedores-component></proveedores-component>
                     </div>
@@ -62,7 +62,6 @@
                                         <td>{{ $proveedor->direccion }}</td>
                                         <td>{{ count($proveedor->telefonos) }}</td>
                                         <td class="text-center">
-                                            <button class="btn btn-info btn-sm">Ver</button>
                                             <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-primary btn-sm">Editar</a>
                                             <button onclick="event.preventDefault();
                                                         Swal.fire({

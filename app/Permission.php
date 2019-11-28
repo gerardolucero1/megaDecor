@@ -100,6 +100,11 @@ class Permission extends Model
         'usuariosEditar',
         'usuariosActivarDesactivar',
         'usuariosPermisos',
+        'inventarioPaquetes',
+        'inventarioProximos',
+        'inventarioDanados',
+        'Proveedores',
+        'inventarioImpresionTransferencias',
     ];
     public function permisssions()
     {

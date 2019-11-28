@@ -249,10 +249,12 @@
                                       @endif 
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <ul>
-                                            @if($permisos->inventarioInventario==1)
+                                        @if($permisos->inventarioPaquetes==1)
                                         <li>
                                             <a href="{{ route('paquetes') }}">Paquetes</a>
                                         </li>
+                                        @endif
+                                        @if($permisos->inventarioProximos==1)
                                         <li>
                                             <a href="{{ route('proximos') }}">Proximos</a>
                                         </li>
@@ -273,7 +275,9 @@
                                         </li>
 
                                     </ul>
+                                    @if($permisos->Proveedores==1)
                                     <a class="nav-menu" href="{{ route('proveedores.index') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Proveedores</span></a>
+                                    @endif
                                     @if($permisos->usuarios==1)
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
                                     @endif
