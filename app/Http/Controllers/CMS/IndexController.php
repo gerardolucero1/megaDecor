@@ -886,6 +886,7 @@ public function archivarUsuario($id){
          $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
          $PresupuestoArchivados->total = $budgetArchivados->total;
          $PresupuestoArchivados->pagado = $budgetArchivados->pagado;
+         $PresupuestoArchivados->facturaSolicitada = $budgetArchivados->facturaSolicitada;
          $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
          if($budgetArchivados->opcionIVA==1){
             $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
