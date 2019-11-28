@@ -843,7 +843,7 @@ public function archivarUsuario($id){
                 }
                 $Presupuesto->impresionBodega = $budget->impresionBodega;
                 $Presupuesto->updated_at = $budget->updated_at;
-            dd($Presupuesto);
+       
          
          
 

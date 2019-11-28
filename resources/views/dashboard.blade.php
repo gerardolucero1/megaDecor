@@ -244,7 +244,7 @@
                                         @endif
                                         <button onclick="soloTareas()" class="btn btn-success" style="background:#F2E06E">Tareas</button>
 
-                                        <button onclick="soloContratos()" class="btn btn-info" style="background:#91DFEB">Eventos</button>
+                                        <button onclick="soloContratos()" class="btn btn-info" style="background:#91DFEB">Contratos</button>
                                         @if ($usuario != 2 || $usuario != 6)
                                         <button onclick="soloPresupuestos()" class="btn btn-info" style="background:#ECABF9">Presupuestos</button>
                                         @endif
