@@ -62,6 +62,7 @@
                 <div class="form-material">
                     {{ Form::label('proveedor1', 'Proveedor 1') }}
                     <select name="proveedor1" id="" class="form-control">
+                        <option value="NA">Selecciona un proveedor</option>
                         @if (isset($inventory))
                             <option value="{{ $inventory->proveedor1 }}">{{ $inventory->proveedor1 }}</option>
                         @endif
@@ -80,6 +81,7 @@
                 <div class="form-material">
                     {{ Form::label('proveedor2', 'Proveedor 2') }}
                     <select name="proveedor2" id="" class="form-control">
+                            <option value="NA">Selecciona un proveedor</option>
                         @if (isset($inventory))
                             <option value="{{ $inventory->proveedor2 }}">{{ $inventory->proveedor2 }}</option>
                         @endif

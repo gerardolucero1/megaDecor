@@ -11,7 +11,7 @@
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%;">
-        <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:17px"> Transferencias bodega-exhibicion</span></p>
+        <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:17px"> Movimientos Bodega - Exhibición</span></p>
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td style="width: 30%">

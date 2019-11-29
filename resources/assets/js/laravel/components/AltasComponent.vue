@@ -20,10 +20,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Proveedor</label>
-                            <select name="" id="" v-model="alta.proveedor" class="form-control">
-                                <option value="ELEKTRA">Elektra</option>
-                                <option value="WALMART">Walmart</option>
-                            </select>
+                                <input type="text" v-model="alta.proveedor" class="form-control">
                             <p style="font-size: 11px;" data-toggle="modal" data-target="#addProveedor">Añadir nuevo proveedor</p>
                         </div>
                     </div>

@@ -40,6 +40,7 @@
                             @endphp
                             @if($permisos->inventarioImpresionTransferencias==1)
                              <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank">
+                                <label for="">Movimientos Bodega - Exhibición</label>
                                     @csrf
                                     <div class="row" style="padding:20px;">
                                     <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
@@ -98,7 +99,7 @@
                         <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf 
-                            <input type="text" name="familia" id="inputfamilia" value="">
+                            <input type="hidden" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
                         </form>    
                     </div>
