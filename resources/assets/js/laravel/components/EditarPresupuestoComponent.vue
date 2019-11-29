@@ -287,7 +287,7 @@ padding: 0;
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
+                        <input type="text" style="background:#FFFDC8; border:none; padding:2px;" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -524,6 +524,7 @@ padding: 0;
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
                          <button style="" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar por correo</button>
+                         <a target="_blank" class="btn btn-primary" style="width:100%; margin-top:15px;" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                         <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
                         
@@ -2360,9 +2361,10 @@ padding: 0;
                     }else{
                         Swal.fire(
                             'Creado!',
-                            'El presupuesto se creo correctamente',
+                            'El contrato se creo correctamente',
                             'success'
                         );
+                        $('#guardarContrato').modal('hide');
                     }       
                 }).catch((error) => {
                     console.log(error.data);

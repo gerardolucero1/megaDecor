@@ -1218,6 +1218,7 @@ public function archivarUsuario($id){
         $proveedor->nombre = $request->proveedor['nombre'];
         $proveedor->direccion = $request->proveedor['direccion'];
         $proveedor->tipo = $request->proveedor['tipo'];
+        $proveedor->publico = $request->proveedor['publico'];
         $proveedor->save();
         
         DB::table('supplier_telephones')->where('proveedor_id', $id)->delete();

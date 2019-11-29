@@ -395,6 +395,8 @@ Route::group(['middleware' => ['auth']], function () {
         if($inventario->cantidad > $request->cantidad){
             $registro = new Register();
             $registro->tipo = 'salida';
+            $registro->antes = $inventario->cantidad;
+            $registro->antesExhibicion = $inventario->exhibicion;
             $registro->producto = $inventario->id;
             $registro->cantidad = $inventario->cantidad - $request->cantidad;
             $registro->user_id = Auth::user()->id;
@@ -405,6 +407,8 @@ Route::group(['middleware' => ['auth']], function () {
         }else{
             $registro = new Register();
             $registro->tipo = 'entrada';
+            $registro->antes = $inventario->cantidad;
+            $registro->antesExhibicion = $inventario->exhibicion;
             $registro->producto = $inventario->id;
             $registro->cantidad = $request->cantidad - $inventario->cantidad;
             $registro->user_id = Auth::user()->id;

@@ -15,6 +15,9 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control" id="edireccion" name="direccion" v-model="proveedor.direccion">
                         </div>
+                        <div class="col-12" style="padding-top:15px">
+                            <label for=""><input type="checkbox" v-model="proveedor.publico"> Mostrar este proveedor a vendedores</label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -123,7 +126,7 @@ export default {
             this.telefono = {nombre: '', numero: '', correo: ''}
         },
         borrarTelefono(index){
-            this.proveedor.splicetelefonos.splice(index, 1)
+            this.proveedor.telefonos.splice(index, 1)
         },
         editarTelefono(item, index){
             this.edicion = true
@@ -133,7 +136,7 @@ export default {
         },
         async registrarProveedor(){
             for(const prop in this.proveedor){
-                if(this.proveedor[prop].length == 0){
+               /* if(this.proveedor[prop].length == 0){
                     console.log('vacio')
                     Swal.fire(
                         'Datos faltantes!',
@@ -141,7 +144,7 @@ export default {
                         'warning'
                     )
                     return
-                }
+                } */
             }
 
             if(this.proveedor.telefonos.length == 0){

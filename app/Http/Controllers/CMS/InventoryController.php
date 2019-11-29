@@ -86,6 +86,9 @@ class InventoryController extends Controller
         
         $registro = new Register();
         $registro->tipo = 'alta';
+        $registro->antes = 0;
+        $registro->antesExhibicion = 0;
+        $registro->cantidad = $producto->cantidad;
         $registro->producto = $producto->id;
         $registro->user_id = Auth::user()->id;
         $registro->save();

@@ -110,7 +110,7 @@
             
             
         </div>
-        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas (solo visible para vendedores):</span> {{ presupuesto.notasPresupuesto }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
         <div class="row">
@@ -282,8 +282,8 @@
                     <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-12 mt-4">
-                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
+                    <div class="col-md-12 mt-4">
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Observaciones Lugar: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -490,7 +490,7 @@
                     </div>
                     <div class="col-md-8">
                         <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
-                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir Ficha Tecnica</a>
+                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
                         <button v-if="presupuesto.facturaSolicitada!=true" class="btn btn-primary" @click="solicitarFactura()"><i class="fa fa-check"></i> Solicitar Factura</button>
                         <span v-if="presupuesto.facturaSolicitada" style="color:green"> <i class="fa fa-check"></i>Factura Solicitada</span>
                     </div>

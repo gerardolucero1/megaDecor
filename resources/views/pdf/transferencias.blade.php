@@ -64,12 +64,10 @@
     @else De exhibición a bodega @endif</td>
     <td>{{$producto->servicio}} </td>
     <td>{{$transferencia->cantidad}}</td>
-    <td>@if($transferencia->tipo=='salida'){{$producto->cantidad + $transferencia->cantidad}}@else
-        {{$producto->cantidad - $transferencia->cantidad}}@endif</td>
-    <td>@if($transferencia->tipo=='salida'){{$producto->exhibicion - $transferencia->cantidad}}@else
-            {{$producto->exhibicion + $transferencia->cantidad}}@endif</td>
-    <td>{{$producto->cantidad}}</td>
-    <td>{{$producto->exhibicion}}</td>
+    <td>{{$transferencia->antes}}</td>
+    <td>{{$transferencia->antesExhibicion}}</td>
+    <td>@if($transferencia->tipo=="salida"){{$transferencia->antes-$transferencia->cantidad}}@else{{$transferencia->antes+$transferencia->cantidad}}@endif</td>
+    <td>@if($transferencia->tipo=="salida"){{$transferencia->antesExhibicion+$transferencia->cantidad}}@else{{$transferencia->antesExhibicion-$transferencia->cantidad}}@endif</td>
     </tr>    
     @endif
     @endforeach
@@ -92,14 +90,14 @@
     @php
         $producto = App\Inventory::where('id', $accion->producto)->first();
     @endphp
-    @if($producto->familia==$_GET['familia'])
+    @if($producto->familia==$_GET['familia'] || $_GET['familia']=='all')
     <tr style="font-size:12px">
     <td><img src="{{$producto->imagen}}" alt="" style="width: 40px"></td>
     <td>{{$accion->tipo}}</td>
             <td>{{$producto->servicio}}</td>
-            <td>@if($accion->tipo=='alta'){{$producto->cantidad-$accion->cantidad}}@else{{$producto->cantidad+$accion->cantidad}}@endif</td>
-            <td>@if($accion->tipo=='alta')<span style="color:green">+ </span>@else <span style="color:red">- </span>@endif{{$accion->cantidad}}</td>
-            <td>{{$producto->cantidad}}</td>
+            <td>{{$accion->antes}}</td>
+            <td>@if($accion->tipo=='alta')<span style="color:green">+ </span>@else <span style="color:red"> - </span>@endif{{$accion->cantidad}}</td>
+            <td>@if($accion->tipo=='alta'){{$accion->antes + $accion->cantidad}}@else{{$accion->antes - $accion->cantidad}}@endif</td>
         </tr>
         @endif
     @endforeach

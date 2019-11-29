@@ -10,6 +10,7 @@
 @section('content')
 
 @php
+            $date = Carbon\Carbon::now();
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
@@ -39,21 +40,26 @@
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
                             @if($permisos->inventarioImpresionTransferencias==1)
-                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank">
-                                <label for="">Movimientos Bodega - Exhibición</label>
+                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank" name="f1" id="f1">
+                                
                                     @csrf
                                     <div class="row" style="padding:20px;">
+                                <div class="col-12">
+                                    <label for="">Movimientos Bodega - Exhibición</label>
+                                </div>
                                     <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
-                                                <option value="">Todas las familias</option>
+                                                <option value="all">Todas las familias</option>
                                                 @foreach($familias as $familia)    
                                                     <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                                                 @endforeach
                                     </select>
-                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" class="form-control">
-                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" class="form-control">
-                                     <button class="btn btn-info">Obtener Transferencias</button>
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="f1d1" class="form-control" >
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
+                                     <button class="btn btn-info">Obtener Transferencias</button><br>
+                                     
                                     </div>
                                  </form>
+                                
                                  @endif
                             <form action="{{ route('inventario.filtro') }}" method="POST">
                                 @method('POST')
@@ -118,8 +124,8 @@
                        
                     </div>
                 </div>
-                <div style="padding:15px; padding-top:30px;" class="mb-4">
-                    <table  style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
+                <div style="padding:15px; padding-top:30px; display:none" class="mb-4">
+                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                         <thead>
                             <tr role="row">
                                 <th>Imagen</th>
@@ -249,7 +255,7 @@
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
-                                    <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                     <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
@@ -334,7 +340,7 @@
             }
         })
         function archivarPresupuesto(){
-            alert(id);
+    
             // Swal.fire({
             //     title: 'Are you sure?',
             //     text: "You won't be able to revert this!",
@@ -357,7 +363,6 @@
         function seleccionarFamilia(){
             
            NombreFamilia = document.getElementById('familia').value;
-           alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){
@@ -434,14 +439,8 @@
                             
         })
     }
-    function presupuestosArchivados(){
-        document.getElementById('presupuestosArchivados').style.display="block";
-        document.getElementById('PresupuestosActivos').style.display="none";
-    }
-    function PresupuestosActivos(){
-        document.getElementById('presupuestosArchivados').style.display="none";
-        document.getElementById('PresupuestosActivos').style.display="block";
-    }
+   
+   
     </script>
 
 @endsection

@@ -44,6 +44,7 @@
                             <tbody>
                                 @foreach($contratos as $contrato)
                                     @foreach($contrato->inventories as $inventario)
+                                    @if($inventario->version == $contrato->version)
                                         <tr>
                                             <td>
                                                 <img src="{{ $inventario->imagen }}" width="100px">
@@ -53,9 +54,11 @@
                                             <td>{{ $inventario->budget->folio }}</td>
                                             <td>{{ $inventario->budget->client->nombreCliente }}</td>
                                         </tr>
+                                        @endif
                                     @endforeach
                                     @foreach($contrato->budgetPacks as $pack)
                                         @foreach($pack->inventories as $inventario)
+                                        @if($inventario->version == $contrato->version)
                                             <tr>
                                                 <td>
                                                     <img src="{{ $inventario->imagen }}" width="100px">
@@ -65,6 +68,7 @@
                                                 <td>{{ $contrato->folio }}</td>
                                                 <td>{{ $contrato->client->nombreCliente }}</td>
                                             </tr>
+                                            @endif
                                         @endforeach
                                     @endforeach
                                 @endforeach

@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label for="">Proveedor</label>
                                 <input type="text" v-model="alta.proveedor" class="form-control">
-                            <p style="font-size: 11px;" data-toggle="modal" data-target="#addProveedor">Añadir nuevo proveedor</p>
+                            <p style="font-size: 11px; display:none" data-toggle="modal" data-target="#addProveedor">Añadir nuevo proveedor</p>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -118,7 +118,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" @click="registrarAlta()" class="btn btn-primary">Guardar alta</button>
+                <button type="button" @click="registrarAlta()" class="btn btn-primary">Guardar Baja</button>
             </div>
         </div>
 
@@ -356,6 +356,11 @@ export default {
             axios.post(URL, this.alta).then((response) => {
                 console.log('Alta registrada');
                 $('#asignarAlta').modal('hide');
+                Swal.fire(
+                            'Actualizado!',
+                            'El movimiento de tu producto se registro con exito',
+                            'success'
+                        );    
 
                     this.presupuestoSeleccionado.id='';
                     this.tipo='';
@@ -376,6 +381,8 @@ export default {
                 this.tipo = '',
 
                 this.cantidadBodega.innerHTML = this.nuevaCantidad;
+
+                 
             }).catch((error) => {
                 console.log(error.data);
             })

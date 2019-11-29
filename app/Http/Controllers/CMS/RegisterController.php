@@ -37,9 +37,16 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $registro = Register::create($request->all());
 
         $producto = Inventory::findOrFAil($request->producto);
+
+        
+        $registro = Register::create($request->all());
+        $registro->antes = $producto->cantidad;
+        $registro->antesExhibicion = $producto->exhibicion;
+        $registro->save();
+
+      
         if($request->tipo == 'alta'){
             $producto->cantidad = ($producto->cantidad + $request->cantidad);
             $producto->save();

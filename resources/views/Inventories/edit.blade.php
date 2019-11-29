@@ -46,7 +46,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <P style="position:absolute; right: 100px; font-size:22px; font-weight: bold;">KARDEX</P>
-                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $inventory->imagen }}</h5>
+                        <img style="width: 50px; margin-right: 20px" src="{{ $inventory->imagen }}">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $inventory->servicio }}</h5>
+                        
                         
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -63,7 +65,7 @@
                                             <th scope="col">Motivo</th>
                                             <th scope="col">Usuario</th>
                                             <th scope="col">Fecha Compra</th>
-                                            <th scope="col">Fecha Ingreso</th>
+                                            <th scope="col">Fecha de Captura</th>
                                             <th scope="col">Proveedor</th>
                                             <th scope="col">Precio</th>
                                             <th scope="col">Factura</th>

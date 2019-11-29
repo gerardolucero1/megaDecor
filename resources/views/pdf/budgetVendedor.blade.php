@@ -100,8 +100,12 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 
 <tr style=" font-size: 12px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
 </tr>
-<tr style=" font-size: 12px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
+<tr style=" font-size: 12px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas (visibles para cliente): {{$presupuesto->observacionesLugar}}</span></td>
 </tr>
+<tr>
+    <td>Notas (solo visibles para vendedores):</td>
+  <td>{{$presupuesto->notasPresupuesto}}</td>
+    <td></td></tr>
 </table>
 <table style="width: 100%; margin-top: 10px">
   <tr style="padding: 4px; color:white; background:#9E9E9E; text-align: center;">
@@ -178,7 +182,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
           
           
         <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
-        </tr> 
+        </tr>
         @endif
         
     @endforeach
@@ -187,6 +191,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 
     @endif
 </table>
+
 @php
   if($presupuesto->opcionIVA==1){
      $iva=($presupuesto->total*.16);

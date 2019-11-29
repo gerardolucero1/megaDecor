@@ -295,7 +295,7 @@ padding: 0;
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
+                        <input type="text" name="" id=""  style="background:#FFFDC8; border:none;  padding:2px;" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
                     </div>
 
                     <div class="col-md-2 mt-4">
