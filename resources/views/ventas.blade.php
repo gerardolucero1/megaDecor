@@ -175,7 +175,14 @@
                                             ->whereMonth('fechaEvento', $contador)
                                             ->get();
                                     @endphp
-                                    <th>{{ count($contratosDelMes) }}</th>
+                                    <th>
+                                        @php
+                                        $totaldelmes=0;
+                                            foreach($contratosDelMes as $contratoDelMes){
+                                                $totaldelmes=$totaldelmes+$contratoDelMes->total;
+                                            }
+                                        @endphp
+                                        {{ $totaldelmes }}</th>
                                     @php
 
                                         $fechaPasada = $fechaHoy->subYears(1);
