@@ -45,9 +45,9 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <P style="position:absolute; right: 20px; font-size:22px; font-weight: bold">KARDEX</P>
+                        <P style="position:absolute; right: 100px; font-size:22px; font-weight: bold;">KARDEX</P>
                         <h5 class="modal-title" id="exampleModalCenterTitle">{{ $inventory->imagen }}</h5>
-                        <img src="{{ $inventory->img }}" alt="" width="30px">
+                        
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
