@@ -204,7 +204,7 @@
                                              if($contratoDelMesPasado->opcionIVA==1){
                                              $totaldelmesPasado=$totaldelmesPasado+($contratoDelMesPasado->total*1.16);}
                                              else{
-                                                 $totaldelmesPasado=$totaldelmes+($contratoDelMesPasado->total);
+                                                 $totaldelmesPasado=$totaldelmesPasado+($contratoDelMesPasado->total);
                                              }
                                          }
                                      @endphp
