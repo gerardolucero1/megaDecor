@@ -180,7 +180,7 @@
                                         $totaldelmes=0;
                                             foreach($contratosDelMes as $contratoDelMes){
                                                 if($contratoDelMes->opcionIVA==1){
-                                                $totaldelmes=$totaldelmes+($contratoDelMes->total*1.16);}
+                                                $totaldelmes=$totaldelmes+($contratoDelMes->total);}
                                                 else{
                                                     $totaldelmes=$totaldelmes+($contratoDelMes->total);
                                                 }
@@ -202,7 +202,7 @@
                                      $totaldelmesPasado=0;
                                          foreach($contratosDelMesPasados as $contratoDelMesPasado){
                                              if($contratoDelMesPasado->opcionIVA==1){
-                                             $totaldelmesPasado=$totaldelmesPasado+($contratoDelMesPasado->total*1.16);}
+                                             $totaldelmesPasado=$totaldelmesPasado+($contratoDelMesPasado->total);}
                                              else{
                                                  $totaldelmesPasado=$totaldelmesPasado+($contratoDelMesPasado->total);
                                              }
