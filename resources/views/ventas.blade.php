@@ -209,10 +209,10 @@
                                          }
                                      @endphp
                                     <th>${{ number_format($totaldelmesPasado,2) }}</th>
-                                    <th>{{ $totaldelmes - $totaldelmesPasado }}</th>
+                                    <th>${{ number_format($totaldelmes - $totaldelmesPasado,2) }}</th>
                                     @php
                                         if(count($contratosDelMesPasados) != 0){
-                                            $numero = count($contratosDelMes)/count($contratosDelMesPasados);
+                                            $numero = $totaldelmes / $totaldelmesPasado;
                                             $porcentaje = round($numero*100);
                                         }else if(count($contratosDelMesPasados) == 0 && count($contratosDelMes) == 0){
                                             $porcentaje = 0;
