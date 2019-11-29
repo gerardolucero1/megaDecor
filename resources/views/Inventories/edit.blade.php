@@ -29,7 +29,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Estas editando el producto: {{ $inventory->servicio }}</h3>
                     <div class="block-options">
-                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#registros">Ver registros</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#registros">KARDEX</button>
                     </div>
                 </div>
                 <div class="block-content">
@@ -45,7 +45,9 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Registros de altas, bajas y transferencias entre bodega y exhibición</h5>
+                        <P style="position:absolute; right: 20px; font-size:22px; font-weight: bold">KARDEX</P>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $inventory->imagen }}</h5>
+                        <img src="{{ $inventory->img }}" alt="" width="30px">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
