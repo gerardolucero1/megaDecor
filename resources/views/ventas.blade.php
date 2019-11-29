@@ -204,12 +204,12 @@
                                              if($contratoDelMesPasado->opcionIVA==1){
                                              $totaldelmesPasado=$totaldelmesPasado+($contratoDelMes->total*1.16);}
                                              else{
-                                                 $totaldelmes=$totaldelmes+($contratoDelMesPasado->total);
+                                                 $totaldelmesPasado=$totaldelmes+($contratoDelMesPasado->total);
                                              }
                                          }
                                      @endphp
-                                    <th>{{ count($contratosDelMesPasados) }}</th>
-                                    <th>{{ count($contratosDelMes) - count($contratosDelMesPasados) }}</th>
+                                    <th>${{ number_format($totaldelmesPasado,2) }}</th>
+                                    <th>{{ $totaldelmes - $totaldelmesPasado }}</th>
                                     @php
                                         if(count($contratosDelMesPasados) != 0){
                                             $numero = count($contratosDelMes)/count($contratosDelMesPasados);
