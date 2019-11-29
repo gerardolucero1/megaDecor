@@ -57,7 +57,7 @@
         $producto = App\Inventory::where('id', $transferencia->producto)->first();
 
     @endphp
-@if($producto->familia==$_GET['familia'])
+@if($producto->familia==$_GET['familia'] || $_GET['familia']=='all')
     <tr style="border-bottom:solid; font-size:11px;">
     <td><img src="{{$producto->imagen}}" alt="" style="width: 40px"></td>
     <td>@if($transferencia->tipo=='salida')  bodega a exhibición
