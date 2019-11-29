@@ -179,10 +179,14 @@
                                         @php
                                         $totaldelmes=0;
                                             foreach($contratosDelMes as $contratoDelMes){
-                                                $totaldelmes=$totaldelmes+$contratoDelMes->total;
+                                                if($contratoDelMes->opcionIVA==1){
+                                                $totaldelmes=$totaldelmes+($contratoDelMes->total*1.16);}
+                                                else{
+                                                    $totaldelmes=$totaldelmes+($contratoDelMes->total);
+                                                }
                                             }
                                         @endphp
-                                        {{ $totaldelmes }}</th>
+                                        ${{ number_format($totaldelmes,2) }}</th>
                                     @php
 
                                         $fechaPasada = $fechaHoy->subYears(1);
@@ -194,6 +198,16 @@
                                             ->whereMonth('fechaEvento', $contador)
                                             ->get();
                                     @endphp
+                                     @php
+                                     $totaldelmesPasado=0;
+                                         foreach($contratosDelMesPasados as $contratoDelMesPasado){
+                                             if($contratoDelMesPasado->opcionIVA==1){
+                                             $totaldelmesPasado=$totaldelmesPasado+($contratoDelMes->total*1.16);}
+                                             else{
+                                                 $totaldelmes=$totaldelmes+($contratoDelMesPasado->total);
+                                             }
+                                         }
+                                     @endphp
                                     <th>{{ count($contratosDelMesPasados) }}</th>
                                     <th>{{ count($contratosDelMes) - count($contratosDelMesPasados) }}</th>
                                     @php
