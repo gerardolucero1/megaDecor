@@ -406,6 +406,7 @@
                                             <div class="col-md-12">
                                                 <label for="" style="font-size:15px; padding:10px">Pagos realizados al contrato: {{presupuestoSeleccionado.folio}}</label>
                                                 <div class="registrosPagos" v-for="(item, index) in presupuestoSeleccionado.payments" :key="index">
+                                                    
                                                     <div class="row" style="padding:10px">
                                                         <div class="col-md-12">
                                                             <span v-if="item.method != 'DOLAR'">Abono: {{ item.amount | currency}}</span><span v-else>{{ item.amount | currency}} $USD - {{ (item.amount * item.reference) | currency }}</span> - <span>{{ item.method }}</span><br>
@@ -421,11 +422,8 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <p><strong>Fecha y hora de pago: </strong><span> {{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</span></p>
-                                                            
+                                                            <a :href="'recibo-pago/pdf/' + item.id" style="color:blue"><i class="si si-printer"></i> Imprimir Recibo</a>                                                     
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div class="row">
                                                     </div>
                                                 </div>
                                             </div>
