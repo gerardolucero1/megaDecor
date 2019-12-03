@@ -1173,7 +1173,7 @@ public function archivarUsuario($id){
                   
                     array_push($contratos, $contrato);
                 }
-                dd($contratos);
+                
             }
         }
 
