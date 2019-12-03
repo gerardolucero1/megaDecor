@@ -258,19 +258,19 @@ padding: 0;
                 <h4 v-else>Recolección en bodega</h4>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Recolección en bodega</label>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
