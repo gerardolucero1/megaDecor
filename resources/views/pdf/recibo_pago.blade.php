@@ -8,7 +8,7 @@
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%;">
-                <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:20px"> Recibo de pago</span></p>
+                <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:20px">Recibo de dinero</span></p>
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td>
@@ -18,12 +18,13 @@
                                 <span style="font-weight: bold">Folio de contrato:</span> <span>{{$Budget->folio}} </span><br>
                                 <span style="font-weight: bold">Folio de pago:</span> <span># {{$Pago->id}} </span><br>
                             <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">{{$Pago->created_at}}  </span><br>
-                            <span  style="font-style: italic; font-size: 14px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">Valeria Lopez Batista  </span><br>
+                            <span  style="font-style: italic; font-size: 14px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">{{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}} </span><br>
                             </td>
                         </tr>
                        
                         </table>
                         <div style="width: 100%; height: 40px"></div>
+                        <label for="">Fecha del evento</label>
                         <table style="width: 100%; font-size: 13px"> 
                             <tr>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>

@@ -1302,7 +1302,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 let suma = 0;
                 this.presupuestoSeleccionado.payments.forEach((element) => {
                     if(element.method != 'DOLAR'){
-                        suma += element.amount;
+                        suma += parseFloat(element.amount);
                     }else{
                         suma += (element.amount * element.reference);
                     }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\CMS;
 
 use App\Budget;
 use App\Payment;
+use App\Client;
+use App\MoralPerson;
+use App\PhysicalPerson;
 use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
@@ -195,11 +198,20 @@ class CashRegisterController extends Controller
         $date = Carbon::now();
         $Pago = Payment::orderBy('id', 'DESC')->where('id', $id)->first();
         $Budget = Budget::orderBy('id', 'DESC')->where('id', $Pago->budget_id)->first();
-        $cliente = Client::orderBy('id', 'DESC')->where('id', $Budge);
-      
+        $cliente = Client::orderBy('id', 'DESC')->where('id', $Budget->client_id)->first();
+        
+
+        if($cliente->tipoPersona=='FISICA'){
+            $cliente = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }else{
+            $cliente = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }
+        
+        
+
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.recibo_pago', compact('Pago', 'Budget'));
+        $pdf = PDF::loadView('pdf.recibo_pago', compact('Pago', 'Budget', 'cliente'));
 
         return $pdf->stream();
     }

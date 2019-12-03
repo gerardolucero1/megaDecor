@@ -552,6 +552,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestosHistorial').DataTable({
+        "order": [[ 1, "desc" ]],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 100,
         "language": {
