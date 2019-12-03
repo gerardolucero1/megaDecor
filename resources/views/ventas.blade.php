@@ -60,7 +60,7 @@
                                     foreach($BudgetInventory as $element){
                                      $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
                                 }
-                                    $totalComision= 0;//($totalComisionable)*($comision->comisionContrato/100);
+                                    $totalComision= ($totalComisionable)*($comision->comisionContrato/100);
                             }
                                
                             @endphp
