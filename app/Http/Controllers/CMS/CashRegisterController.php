@@ -193,11 +193,13 @@ class CashRegisterController extends Controller
 
     public function pdfReciboDePago($id){
         $date = Carbon::now();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('id', $id)->get();
+        $Pago = Payment::orderBy('id', 'DESC')->where('id', $id)->first();
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $Pago->budget_id)->first();
+        $cliente = Client::orderBy('id', 'DESC')->where('id', $Budge);
       
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.recibo_pago', compact('otrosPagos'));
+        $pdf = PDF::loadView('pdf.recibo_pago', compact('Pago', 'Budget'));
 
         return $pdf->stream();
     }

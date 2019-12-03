@@ -15,8 +15,9 @@
                                 <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
                             </td>
                         <td style="text-align: right">
-                                <span style="font-weight: bold">Folio de contrato:</span> <span>NM106 </span><br>
-                            <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">Miércoles, 16 octubre 2019  </span><br>
+                                <span style="font-weight: bold">Folio de contrato:</span> <span>{{$Budget->folio}} </span><br>
+                                <span style="font-weight: bold">Folio de pago:</span> <span># {{$Pago->id}} </span><br>
+                            <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">{{$Pago->created_at}}  </span><br>
                             <span  style="font-style: italic; font-size: 14px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">Valeria Lopez Batista  </span><br>
                             </td>
                         </tr>
