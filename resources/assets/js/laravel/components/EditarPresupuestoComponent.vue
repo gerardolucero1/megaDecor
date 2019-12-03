@@ -267,6 +267,10 @@ padding: 0;
                         <label for="lugarOtro">Otra</label>
                     </div>
                     <div class="col-md-4">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
+                        <label for="lugarOtro">Recolección en bodega</label>
+                    </div>
+                    <div class="col-md-4">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
