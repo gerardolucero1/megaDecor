@@ -1144,6 +1144,7 @@ public function archivarUsuario($id){
         $proveedor =  new Supplier();
         $proveedor->nombre = $request->proveedor['nombre'];
         $proveedor->direccion = $request->proveedor['direccion'];
+        $proveedor->descripcion = $request->proveedor['descripcion'];
         $proveedor->tipo = $request->proveedor['tipo'];
         $proveedor->save();
 
@@ -1156,6 +1157,8 @@ public function archivarUsuario($id){
             $telefono->nombre = $numero['nombre'];
             $telefono->numero = $numero['telefono'];
             $telefono->correo = $numero['correo'];
+            $telefono->tipo = $numero['tipo'];
+            $telefono->ext = $numero['ext'];
             $telefono->save();
         }
         return;
@@ -1172,6 +1175,7 @@ public function archivarUsuario($id){
         $proveedor = Supplier::findOrFail($id);
         $proveedor->nombre = $request->proveedor['nombre'];
         $proveedor->direccion = $request->proveedor['direccion'];
+        $proveedor->descripcion = $request->proveedor['descripcion'];
         $proveedor->tipo = $request->proveedor['tipo'];
         $proveedor->save();
         
@@ -1184,6 +1188,8 @@ public function archivarUsuario($id){
             $telefono->nombre = $numero['nombre'];
             $telefono->numero = $numero['numero'];
             $telefono->correo = $numero['correo'];
+            $telefono->tipo = $numero['tipo'];
+            $telefono->ext = $numero['ext'];
             $telefono->save();
         }
 
