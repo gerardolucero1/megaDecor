@@ -58,9 +58,9 @@
                             $budgetPack = App\BudgetPack::orderBy('id', 'DESC')->where('budget_id', $contrato->id)->get();
                                 if($contrato->total > $comision->minimoVentaComision){
                                     foreach($BudgetInventory as $element){
-                                     $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+                                     $totalComisionable = 0;//$totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
                                 }
-                                    $totalComision=($totalComisionable)*($comision->comisionContrato/100);
+                                    $totalComision= 0;//($totalComisionable)*($comision->comisionContrato/100);
                             }
                                
                             @endphp
