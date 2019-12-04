@@ -27,11 +27,11 @@
                                 <tr role="row">
                                     <th>#Folio</th>
                                 <th>Fecha Evento</th>
-                                <th>Fecha Limite</th>
+                                <th>Fecha Limite de pago</th>
                                 <th>Dias de credito</th>
                                 <th>Cliente</th>
-                                <th>Vendedor</th>
                                 <th>Total</th>
+                                <th>Saldo Pendiente</th>
                                 <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -69,25 +69,28 @@
                                         }
                                     @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
-                                            
-                                            
-                                            </td>
-                                                @php
-                                                    if($budgetArchivados->opcionIVA == 1){
-                                                        $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
-                                                    }else{
-                                                        $total = $budgetArchivados->total;
-                                                    }
-                                                    $total=number_format($total,2);
-                                                @endphp
-                                            <td>
-                                                ${{$total}}
-                                                @if ($budgetArchivados->opcionIVA == 1)
-                                                    <br>
-                                                    <span style="font-size: 10px; color: green;">IVA</span>
-                                                @endif
-                                            </td>
+                                            @php
+                                            if($budgetArchivados->opcionIVA == 1){
+                                                $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
+                                            }else{
+                                                $total = $budgetArchivados->total;
+                                            }
+                                            $total=number_format($total,2);
+                                            //saldo pendiente
+                                            $pagosContrato = App\Payment::where('budget_id', $budgetArchivados->id)->get();
+                                            $sumaPagos=0;
+                                            foreach($pagosContrato as $pagoContrato){
+                                                $sumaPagos=$sumaPagos+$pagoContrato->amount;
+                                            }
+                                        @endphp
+                                    <td>
+                                        ${{$total}}
+                                        @if ($budgetArchivados->opcionIVA == 1)
+                                            <br>
+                                            <span style="font-size: 10px; color: green;">IVA</span>
+                                        @endif
+                                    </td>
+                                            <td class="d-none d-sm-table-cell">{{$sumaPagos}}</td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
