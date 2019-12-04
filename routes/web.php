@@ -493,6 +493,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('contabilidad/pdf/{id}', 'CMS\CashRegisterController@pdf')->name('contabilidad.pdf');
+    Route::get('precorte/pdf/{id}', 'CMS\CashRegisterController@precorte')->name('precorte.pdf');
 
     Route::get('recibo-pago/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePago')->name('recibo-pago.pdf');
 

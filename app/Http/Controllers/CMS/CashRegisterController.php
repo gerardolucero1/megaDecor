@@ -194,6 +194,26 @@ class CashRegisterController extends Controller
         return $pdf->stream();
     }
 
+    public function precorte($id){
+        $registro = CashRegister::findOrFail($id);
+
+        $date = Carbon::now();
+        $fechaCorte = $registro->created_at;
+        $date=$date->format('Y-m-d');
+        $fechaCorte = $fechaCorte->format('Y-m-d');
+        $fechaApertura = Carbon::parse($registro->created_at);
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
+        
+
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.precorte', compact('registro', 'pagos', 'otrosPagos'));
+
+        return $pdf->stream();
+    }
+
     public function pdfReciboDePago($id){
         $date = Carbon::now();
         $Pago = Payment::orderBy('id', 'DESC')->where('id', $id)->first();

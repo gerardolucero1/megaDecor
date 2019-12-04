@@ -50,7 +50,7 @@
                                     <th>Nombre</th>
                                     <th>Direccion</th>
                                     <th>Descripcion</th>
-                                    <th class="d-none d-sm-table-cell">Telefonos</th>
+                                    <th class="d-none d-sm-table-cell">Telefono General</th>
                                     <th class="d-none d-sm-table-cell">Opciones</th>
                                 </tr>
                             </thead>
@@ -62,7 +62,7 @@
                                         </td>
                                         <td>{{ $proveedor->direccion }}</td>
                                         <td>{{ $proveedor->descripcion }}</td>
-                                        <td>{{ count($proveedor->telefonos) }}</td>
+                                        <td>{{ $proveedor->telefonoGeneral }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-primary btn-sm">Editar</a>
                                             <button onclick="event.preventDefault();

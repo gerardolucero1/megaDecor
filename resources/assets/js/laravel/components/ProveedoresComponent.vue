@@ -30,6 +30,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-12" for="example-text-input">Teléfono General</label>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" id="edireccion" name="direccion" v-model="proveedor.telefonoGeneral">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-12" for="example-text-input">Descripcion de proveedor</label>
                                     <div class="col-md-12">
                                         <textarea class="form-control" name="descripcion" id="" cols="30" rows="4" v-model="proveedor.descripcion"></textarea>
@@ -125,7 +131,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="registrarProveedor()">Save changes</button>
+                    <button type="button" class="btn btn-primary" @click="registrarProveedor()">Guardar Proveedor</button>
                 </div>
                 </div>
             </div>
@@ -142,6 +148,7 @@ export default {
                 direccion: '',
                 tipo: 'NORMAL',
                 descripcion: '',
+                telefonoGeneral: '',
             },
             telefono: {
                 nombre: '',

@@ -1191,6 +1191,7 @@ public function archivarUsuario($id){
         $proveedor->nombre = $request->proveedor['nombre'];
         $proveedor->direccion = $request->proveedor['direccion'];
         $proveedor->descripcion = $request->proveedor['descripcion'];
+        $proveedor->telefonoGeneral = $request->proveedor['telefonoGeneral'];
         $proveedor->tipo = $request->proveedor['tipo'];
         $proveedor->save();
 

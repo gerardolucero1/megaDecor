@@ -846,6 +846,9 @@
                                 <div class="col-md-12">
                                     <button class="btn btn-sm btn-info btn-block" @click="obtenerDetalles()">Ver detalles</button>
                                 </div>
+                                <div class="col-md-12" style="padding-top:10px">
+                                    <a target="_blank" :href="'precorte/pdf/'+ sesionActual.id" class="btn btn-sm btn-info btn-block">Imprimir Precorte</a>
+                                </div>
                             </div>
                         </div>
                     </div>
