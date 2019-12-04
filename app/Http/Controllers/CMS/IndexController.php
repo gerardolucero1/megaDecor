@@ -1111,7 +1111,7 @@ public function archivarUsuario($id){
         $fechaActual = $date->format('Y-m-d');
         $contratos = [];
 
-        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->get();
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->get();
         foreach ($creditos as $credito) {
             $cliente = Client::findOrFail($credito->client_id);
             if($cliente->tipoPersona == 'FISICA'){
