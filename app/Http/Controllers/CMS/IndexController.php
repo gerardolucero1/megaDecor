@@ -1111,7 +1111,7 @@ public function archivarUsuario($id){
         $fechaActual = $date->format('Y-m-d');
         $contratos = [];
 
-        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('fechaEvento', '<>', '')->get();
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', '')->get();
         foreach ($creditos as $credito) {
             if(!is_null($credito->fechaEvento)){
 
