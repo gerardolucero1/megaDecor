@@ -74,17 +74,11 @@
                                                 $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
                                             }else{
                                                 $total = $budgetArchivados->total;
+                                                
                                             }
                                             $total=number_format($total,2);
                                             //saldo pendiente
-                                            $pagosContrato = App\Payment::where('budget_id', $budgetArchivados->id)->get();
-                                            $sumaPagos=0;
-                                            if(!is_null($pagosContrato)){
-                                            foreach($pagosContrato as $pagoContrato){
-                                                $sumaPagos=$sumaPagos+$pagoContrato->amount;
-                                            }
-                                        }
-                                            $saldoPendiente = $total-$sumaPagos;
+                                            
                                         @endphp
                                     <td>
                                         ${{$total}}
@@ -93,7 +87,11 @@
                                             <span style="font-size: 10px; color: green;">IVA</span>
                                         @endif
                                     </td>
-                                            <td class="d-none d-sm-table-cell">{{$saldoPendiente}}</td>
+                                    @if($budgetArchivados->opcionIVA == 1)
+                                    <td class="d-none d-sm-table-cell">{{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
+                                    @else  
+                                    <td class="d-none d-sm-table-cell">{{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
+                                    @endif
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">

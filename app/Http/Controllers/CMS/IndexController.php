@@ -15,6 +15,7 @@ use App\Telephone;
 use Carbon\Carbon;
 use App\BudgetPack;
 use App\Permission;
+use App\Payment;
 use App\MoralPerson;
 use App\CashRegister;
 use App\AuthorizedPack;
@@ -1121,10 +1122,15 @@ public function archivarUsuario($id){
                 $vendedor = User::where('id', $credito->vendedor_id)->first();
                 $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
                 $fechaFormato = date('Y-m-d',$fechaEvento);
-
+                $pagos = Payment::where('budget_id', $credito->id)->get();
                 
+                $saldoPendiente = 0;
+                foreach($pagos as $pago){
+                    $saldoPendiente = $saldoPendiente + $pago->amount;
+                }
 
                 if($fechaFormato < $fechaActual){
+
                     $contrato = new stdClass();
                     $contrato->id = $credito->id;
                     $contrato->fechaLimite = $fechaFormato;
@@ -1144,6 +1150,7 @@ public function archivarUsuario($id){
                     $contrato->enviado = $credito->enviado;
                     $contrato->updated_at = $credito->updated_at;
                     $contrato->opcionIVA = $credito->opcionIVA;
+                    $contrato->saldoPendiente = $saldoPendiente;
            
                     array_push($contratos, $contrato);
                 }
