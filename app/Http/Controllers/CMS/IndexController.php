@@ -1181,6 +1181,7 @@ public function archivarUsuario($id){
                     $contrato->updated_at = $credito->updated_at;
                     $contrato->enviado = $credito->enviado;
                     $contrato->opcionIVA = $credito->opcionIVA;
+                    $contrato->saldoPendiente = $saldoPendiente;
                   
                     array_push($contratos, $contrato);
                 }
