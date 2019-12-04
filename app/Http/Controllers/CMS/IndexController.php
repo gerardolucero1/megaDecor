@@ -1128,6 +1128,7 @@ public function archivarUsuario($id){
                     $contrato = new stdClass();
                     $contrato->id = $credito->id;
                     $contrato->fechaLimite = $fechaFormato;
+                    $contrato->diasCredito = $persona->diasCredito;
                     $contrato->fechaEvento = $credito->fechaEvento;
                     $contrato->folio = $credito->folio;
                     $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
@@ -1157,6 +1158,7 @@ public function archivarUsuario($id){
                     $contrato = new stdClass();
                     $contrato->id = $credito->id;
                     $contrato->fechaLimite = $fechaFormato;
+                    $contrato->diasCredito = $persona->diasCredito;
                     $contrato->fechaEvento = $credito->fechaEvento;
                     $contrato->folio = $credito->folio;
                     $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;

@@ -28,7 +28,7 @@
                                     <th>#Folio</th>
                                 <th>Fecha Evento</th>
                                 <th>Fecha Limite</th>
-                                <th>Dias de atraso</th>
+                                <th>Dias de credito</th>
                                 <th>Cliente</th>
                                 <th>Vendedor</th>
                                 <th>Total</th>
@@ -52,9 +52,9 @@
                                              
                                             @endphp
                                             <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                            <td class="d-none d-sm-table-cell">{{$fechaLimite->translatedFormat(' l j F Y')}}}}<br>
+                                            <td class="d-none d-sm-table-cell">{{$fechaLimite->translatedFormat(' l j F Y')}}<br>
                                        
-                                                    <td>dias atraso</td>
+                                            <td>{{$budgetArchivados->diasCredito}}</td>
                                         @php
                                         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
