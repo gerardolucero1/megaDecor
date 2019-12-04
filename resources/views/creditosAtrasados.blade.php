@@ -82,6 +82,7 @@
                                             foreach($pagosContrato as $pagoContrato){
                                                 $sumaPagos=$sumaPagos+$pagoContrato->amount;
                                             }
+                                            $saldoPendiente = $total-$sumaPagos;
                                         @endphp
                                     <td>
                                         ${{$total}}
@@ -90,7 +91,7 @@
                                             <span style="font-size: 10px; color: green;">IVA</span>
                                         @endif
                                     </td>
-                                            <td class="d-none d-sm-table-cell">{{$sumaPagos}}</td>
+                                            <td class="d-none d-sm-table-cell">{{$saldoPendiente}}</td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
