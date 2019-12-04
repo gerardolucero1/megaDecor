@@ -88,9 +88,9 @@
                                         @endif
                                     </td>
                                     @if($budgetArchivados->opcionIVA == 1)
-                                    <td class="d-none d-sm-table-cell">{{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
+                                    <td class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
                                     @else  
-                                    <td class="d-none d-sm-table-cell">{{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
+                                    <td class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
                                     @endif
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                
