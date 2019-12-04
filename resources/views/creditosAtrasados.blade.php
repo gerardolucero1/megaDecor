@@ -79,9 +79,11 @@
                                             //saldo pendiente
                                             $pagosContrato = App\Payment::where('budget_id', $budgetArchivados->id)->get();
                                             $sumaPagos=0;
+                                            if(!is_null($pagosContrato)){
                                             foreach($pagosContrato as $pagoContrato){
                                                 $sumaPagos=$sumaPagos+$pagoContrato->amount;
                                             }
+                                        }
                                             $saldoPendiente = $total-$sumaPagos;
                                         @endphp
                                     <td>
