@@ -13,7 +13,7 @@
 
 @section('content')
     <section class="container">
-        <div class="content" id="PresupuestosActivos">
+        <div class="content" id="PresupuestosHistorial">
             
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
-                        <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                        <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>#Folio</th>
@@ -51,7 +51,7 @@
                                                 $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
                                              
                                             @endphp
-                                            <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                            <td class=""><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                             <td class="d-none d-sm-table-cell">{{$fechaLimite->translatedFormat(' l j F Y')}}<br>
                                        
                                             <td>{{$budgetArchivados->diasCredito}}</td>

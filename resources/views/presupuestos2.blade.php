@@ -209,9 +209,9 @@
                                     <th>#Folio</th>
                                     <th>Fecha Evento</th>
                                     <th>Cliente</th>
-                                    <th>Lugar</th>
                                     <th>Vendedor</th>
                                     <th>Version</th>
+                                    <th>Opciones</th>
                                      <th>Última Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
