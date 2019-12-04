@@ -52,7 +52,7 @@
                                              
                                             @endphp
                                             <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->fechaLimite}}<br>
+                                            <td class="d-none d-sm-table-cell">{{$fechaLimite->translatedFormat(' l j F Y')}}}}<br>
                                        
                                                     <td>dias atraso</td>
                                         @php
