@@ -513,8 +513,30 @@ Route::group(['middleware' => ['auth']], function () {
         $fechaHoy = $date->format('Y-m-d');
         $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
         $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $pagosA=[];
+        foreach($pagos as $pago){
+            $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+            $cliente = Client::orderBy('id', 'DESC')->where('id', $contrato->client_id)->first();
+            
+            if($cliente->tipoPersona=='FISICA'){
+                $cliente = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+                $nombreCliente = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;
+            }else{
+                $cliente = MoralPerson::where('client_id', $cliente->id)->first();
+                $nombreCliente = $cliente->nombre;
+            }
+            $datosPago = new stdClass();
+            $datosPago->cliente = $nombreCliente;
+            $datosPago->folio = $contrato->folio;
+            $datosPago->amount = $pago->amount;
+            $datosPago->method = $pago->method;
+            $datosPago->reference = $pago->reference;
+            $datosPago->budget_id = $pago->budget_id;
+            $datosPago->bank = $pago->bank;
+            array_push($pagosA, $datosPago);
+        }
 
-        $arrayDatos = [$pagos, $otrosPagos];
+        $arrayDatos = [$pagosA, $otrosPagos];
 
         return $arrayDatos;
     });

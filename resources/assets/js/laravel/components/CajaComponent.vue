@@ -870,7 +870,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in pagosTotalesActuales[0]" :key="index">
-                                        <td>{{ item.contrato }}</td>
+                                        <td>{{ item.folio }}<br><span style="font-style:italic; font-size:12px;">{{ item.cliente }}</span></td>
                                         <td>
                                             <span v-if="item.banco">{{ item.banco }}</span>
                                             <span v-else>--</span>
@@ -1078,6 +1078,8 @@ export default {
                 amount: '',
                 reference: '',
                 bank: '',
+                folio:'',
+                cliente:'',
             },
             otrosPagos: [],
             pagoEditado: '',
@@ -1412,6 +1414,9 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                         referencia: element.reference,
                         contrato: element.budget_id,
                         banco: element.bank,
+                        cliente: element.cliente,
+                        folio: element.folio,
+
                     }
                     let pago2 = JSON.parse(JSON.stringify(pago));
                     pagos.push(pago2);
