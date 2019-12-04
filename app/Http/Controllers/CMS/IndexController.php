@@ -1113,6 +1113,8 @@ public function archivarUsuario($id){
 
         $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->get();
         foreach ($creditos as $credito) {
+            if(!is_null($credito->fechaEvento)){
+
             $cliente = Client::findOrFail($credito->client_id);
             if($cliente->tipoPersona == 'FISICA'){
                 $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
@@ -1176,10 +1178,11 @@ public function archivarUsuario($id){
                 
             }
         }
+    }
 
         //dd($contratos);
         return view('creditosAtrasados', compact('contratos'));
-    }
+}
 
     public function proveedores(){
         $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
