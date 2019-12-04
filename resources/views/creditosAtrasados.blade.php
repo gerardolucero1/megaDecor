@@ -45,7 +45,7 @@
                                                         @endif
                                                     </span>
                                         </td>
-                                        @if (is_null($budgetArchivados->pendienteFecha))
+                                        
                                             @php
                                                 $fechaEvento = Carbon\Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                                 $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
@@ -53,9 +53,7 @@
                                             @endphp
                                             <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->fechaLimite}}<br>
-                                        @else
-                                            <td class="">d</td>
-                                        @endif
+                                       
                                                     <td>dias atraso</td>
                                         @php
                                         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
