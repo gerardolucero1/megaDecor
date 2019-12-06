@@ -63,6 +63,17 @@
    
     @endphp
     @endforeach
+    @foreach ($otrosPagos as $pago)
+    @php
+    if($pago->tipo=="INGRESO"){
+    if($pago->metodo=="EFECTIVO"){
+$ingresosExtraordinarios += $pago->cantidad;}
+}else{
+    if($pago->metodo=="EFECTIVO"){
+            $egresosExtraordinarios += $pago->cantidad - $pago->resto;}
+}
+@endphp
+    @endforeach
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
@@ -81,7 +92,7 @@
             <td>
             <span style="font-weight: bold">Fecha de corte: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
             <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-            <p><span style="font-weight: bold">Efectivo al abrir caja (cierre dia anterior): </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
+            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
             
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ $registro->cantidadCierre}}<br>
@@ -95,6 +106,28 @@
         
          
     </table>
+<!-- nueva tabla resumen corte -->
+    <table style="width: 100%; text-align:center">
+            <tr>
+            <th>Fondo</th>
+            <th>Contratos</th>
+            <th>Entradas</th>
+            <th>Salidas</th>
+            <th>Saldo</th>
+            <th>Diferencia</th>
+        </tr>
+        <tr>
+            <td>${{ number_format($registro->cantidadApertura,2)}}</td>
+            <td>${{ number_format($registro->cantidadCierre,2)}}</td>
+            <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
+            <td>${{ number_format($egresosExtraordinarios,2)}}</td>
+            <td></td>
+            <td></td>
+    
+        </tr>
+        </table>
+<!-- nueva tabla resumen corte -->
+
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>
     <label for="" style="font-style:italic">Efectivo</label>
@@ -326,6 +359,9 @@
                 <td style="text-align: center; padding: 4px;">Entregado a</td>
                 <td style="text-align: center; padding: 4px;">Monto</td>
             </tr>
+            @php
+            $ingresosExtraordinarios=0;
+            @endphp
             @foreach ($otrosPagos as $pago)
             @if($pago->tipo=="INGRESO")
             <tr style="border: solid; border-color:black">
@@ -364,6 +400,9 @@
                         <td style="text-align: center; padding: 4px;">Devolución</td>
                         <td style="text-align: center; padding: 4px;">Monto sin devolición</td>
                     </tr>
+                    @php
+                        $egresosExtraordinarios =0;
+                    @endphp
                     @foreach ($otrosPagos as $pago)
                    @if($pago->tipo=="EGRESO")
                     <tr style="border: solid; border-color:black">

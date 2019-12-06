@@ -29,6 +29,7 @@
                                 <th>Fecha Evento</th>
                                 <th>Fecha Limite de pago</th>
                                 <th>Dias de credito</th>
+                                <th>Dias de atraso</th>
                                 <th>Cliente</th>
                                 <th>Total</th>
                                 <th>Saldo Pendiente</th>
@@ -52,9 +53,10 @@
                                              
                                             @endphp
                                             <td class=""><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                            <td class="d-none d-sm-table-cell">{{$fechaLimite->translatedFormat(' l j F Y')}}<br>
+                                            <td class="d-none d-sm-table-cell"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@endif<br>
                                        
                                             <td>{{$budgetArchivados->diasCredito}}</td>
+                                            <td>Dias atraso</td>
                                         @php
                                         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 

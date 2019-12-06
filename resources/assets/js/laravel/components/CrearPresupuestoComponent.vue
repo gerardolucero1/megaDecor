@@ -503,7 +503,7 @@ padding: 0;
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5 style="color:grey">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
-                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
+                                <input style="display:none" type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
@@ -957,6 +957,7 @@ padding: 0;
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
+                                <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                             </select>
                         </div>
                         <br>
@@ -978,6 +979,7 @@ padding: 0;
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
+                                <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                             </select>
                         </div>
                         <div class="col-md-12">

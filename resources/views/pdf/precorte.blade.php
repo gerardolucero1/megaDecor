@@ -81,7 +81,7 @@
             <td>
             <span style="font-weight: bold">Fecha de apertura: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
             <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-            <p><span style="font-weight: bold">Efectivo al abrir caja (cierre dia anterior): </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
+            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
             
             </td>
             <td> <p style="border:solid; border-color:red; padding: 8px;"><span style="font-weight: bold">Precorte calculado por el sistema: </span> ${{number_format($precorte,2)}}<br><br>

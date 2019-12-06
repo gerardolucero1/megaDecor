@@ -18,7 +18,7 @@
                             <div class="col-md-7">
                                 <h4>Datos del proveedor</h4>
                                 <div class="form-group row">
-                                    <label class="col-12" for="example-text-input">Nombre de Proveedor</label>
+                                    <label class="col-12" for="example-text-input">NOMBRE DE LA EMPRESA O PROVEEDOR</label>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" id="nombre" name="nombre" v-model="proveedor.nombre">
                                     </div>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-12" for="example-text-input">Nombre de contacto</label>
+                                    <label class="col-12" for="example-text-input">CONTACTO</label>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" name="nombre" v-model="telefono.nombre">
                                     </div>
