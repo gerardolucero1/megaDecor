@@ -74,6 +74,12 @@ $ingresosExtraordinarios += $pago->cantidad;}
 }
 @endphp
     @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        @endphp
+    @endforeach
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
@@ -118,7 +124,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         </tr>
         <tr>
             <td>${{ number_format($registro->cantidadApertura,2)}}</td>
-            <td>${{ number_format($precorte,2)}}</td>
+            <td>${{ number_format($ingresosContratos,2)}}</td>
             <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
             <td>${{ number_format($egresosExtraordinarios,2)}}</td>
             <td>${{$registro->cantidadApertura+$precorte+$ingresosExtraordinarios-$egresosExtraordinarios}}</td>
