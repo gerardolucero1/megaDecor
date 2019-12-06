@@ -127,7 +127,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <td>${{ number_format($ingresosContratos,2)}}</td>
             <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
             <td>${{ number_format($egresosExtraordinarios,2)}}</td>
-            <td>${{$registro->cantidadApertura+$precorte+$ingresosExtraordinarios-$egresosExtraordinarios}}</td>
+            <td>${{$registro->cantidadApertura+$ingresosContratos+$ingresosExtraordinarios-$egresosExtraordinarios}}</td>
             <td></td>
     
         </tr>
