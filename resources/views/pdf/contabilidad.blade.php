@@ -133,6 +133,23 @@ $ingresosExtraordinarios += $pago->cantidad;}
         </tr>
         </table>
 <!-- nueva tabla resumen corte -->
+@php
+    $ingresosExtraordinarios=0;
+        $egresosExtraordinarios=0;
+        $ingresosExtraordinariosTarjeta=0;
+        $ingresosExtraordinariosCheque=0;
+        $ingresosExtraordinariosDolar=0;
+        $egresosExtraordinariosTarjeta=0;
+        $egresosExtraordinariosCheque=0;
+        $egresosExtraordinariosDolar=0;
+        $ingresosContratos=0;
+        $ingresosContratosTarjeta=0;
+        $ingresosContratosCheque=0;
+        $ingresosContratosDolar=0;
+        $ingresosContratosTransferencia=0;
+        $numContratosHoy=0;
+        $egresosDolaresExtraordinarios=0;
+@endphp
 
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>

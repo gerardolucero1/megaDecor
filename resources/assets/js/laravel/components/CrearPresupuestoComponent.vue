@@ -839,7 +839,7 @@ padding: 0;
                                             <td>{{ contrato.total }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <a :href="'/presupuestos/ver/' + contrato.id" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                    <a target="_blank" :href="'/presupuestos/ver/' + contrato.id" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                 </div>
@@ -903,7 +903,7 @@ padding: 0;
                                             <td>{{ presupuesto.total }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    <a :href="'/presupuestos/ver/' + presupuesto.id"  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
+                                                    <a target="_blank" :href="'/presupuestos/ver/' + presupuesto.id"  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                 </div>
@@ -1470,6 +1470,7 @@ padding: 0;
                     horaRecoleccion: '',
                     recoleccionPreferente: '',
                     notasFacturacion: '',
+                    entregaEnBodega:'',
 
                
                     
@@ -2493,13 +2494,8 @@ padding: 0;
                             'error'
                         );
                 }else{
-                if(isNaN(parseInt(this.facturacion.horaInicio)) && isNaN(parseInt(this.facturacion.horaFin)) && isNaN(parseInt(this.facturacion.horaEntrega)) && this.facturacion.entregaEnBodega!=true){
-                    Swal.fire(
-                            'Hora de entrega',
-                            'Especifica un rango de hora de entrega de mobiliario y selecciona una opcion de entrega preferente',
-                            'error'
-                        );
-                }else{
+                   
+               
                 if(this.inventarioLocal.length == 0){
                     Swal.fire(
                             'Elementos',
@@ -2586,6 +2582,7 @@ padding: 0;
                         error.message='';
                         window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
+                        alrt(error.response.data.message);
                      Swal.fire(
                             'Error!',
                             'Verifica que agregaste un cliente o categoria a tu presupuesto',
@@ -2595,7 +2592,7 @@ padding: 0;
                 });
             }
         }
-    }
+    
             }}else{
 
                 this.presupuesto.tipo = 'CONTRATO';

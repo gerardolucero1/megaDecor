@@ -255,9 +255,11 @@
                                     @endphp
                                 <td>${{$total}}</td>
                                     <td class="d-flex" style="box-sizing: content-box;">
+                                        @if($permisos->contratosEditar==1)
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
                                             <i class="fa fa-pencil"></i>
                                         </button>
+                                        @endif
                                         <button disabled style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="View Customer">
                                             <i class="fa fa-eye"></i> 
                                         </button> 
@@ -373,9 +375,11 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
+                                                @if($permisos->contratosEditar==1)
                                                 <a  target="_blank"  href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
+                                                @endif
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>

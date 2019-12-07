@@ -63,6 +63,24 @@
    
     @endphp
     @endforeach
+    @foreach ($otrosPagos as $pago)
+    @php
+    if($pago->tipo=="INGRESO"){
+    if($pago->metodo=="EFECTIVO"){
+$ingresosExtraordinarios += $pago->cantidad;}
+}else{
+    if($pago->metodo=="EFECTIVO"){
+            $egresosExtraordinarios += $pago->cantidad - $pago->resto;}
+}
+@endphp
+    @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="EFECTIVO"){
+        $ingresosContratos += $pago->amount;}
+        @endphp
+    @endforeach
+    
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
@@ -90,6 +108,32 @@
         
          
     </table>
+
+    <!-- nueva tabla resumen corte -->
+    <table style="width: 100%; text-align:center">
+        <tr>
+        <th>Fondo</th>
+        <th>Contratos</th>
+        <th>Entradas</th>
+        <th>Salidas</th>
+        <th>Saldo</th>
+        <th>Diferencia</th>
+    </tr>
+    <tr>
+        <td>${{ number_format($registro->cantidadApertura,2)}}</td>
+        <td>${{ number_format($ingresosContratos,2)}}</td>
+        <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
+        <td>${{ number_format($egresosExtraordinarios,2)}}</td>
+        <td>${{$registro->cantidadApertura+$ingresosContratos+$ingresosExtraordinarios-$egresosExtraordinarios}}</td>
+        <td></td>
+
+    </tr>
+    </table>
+<!-- nueva tabla resumen corte -->
+
+
+
+
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>
     <label for="" style="font-style:italic">Efectivo</label>
