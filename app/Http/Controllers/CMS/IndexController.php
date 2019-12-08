@@ -1160,7 +1160,12 @@ public function archivarUsuario($id){
                 $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
                 $fechaFormato = date('Y-m-d',$fechaEvento);
                 $vendedor = User::where('id', $credito->vendedor_id)->first();
+                $pagos = Payment::where('budget_id', $credito->id)->get();
 
+                $saldoPendiente = 0;
+                foreach($pagos as $pago){
+                    $saldoPendiente = $saldoPendiente + $pago->amount;
+                }
                 if($fechaFormato < $fechaActual){
                     $contrato = new stdClass();
                     $contrato->id = $credito->id;
