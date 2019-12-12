@@ -165,14 +165,16 @@
                     <div class="col-md-4  row">
                                 <h4>Horario del evento</h4>
                                 <p style="width:100%" v-if="presupuesto.pendienteHora">Horario Pendiente</p>
-                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
+                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
+                                <label for="">{{presupuesto.inicioAmPm}}</label>
                             </div>
                            
-                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
+                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoFin" readonly>
+                                <label for="">{{presupuesto.finAmPm}}</label>
                             </div>
                              
                             </div>

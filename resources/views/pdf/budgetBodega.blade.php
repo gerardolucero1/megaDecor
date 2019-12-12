@@ -42,7 +42,7 @@
 <td colspan="4"><span style="font-weight: bold">Dirección de entrega: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} {{$presupuesto->inicioAmPm}}  - {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}}@else Horario Pendiente @endif</td>
 <td colspan="2">
   @if($presupuesto->lugarEvento!='BODEGA')
     {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}

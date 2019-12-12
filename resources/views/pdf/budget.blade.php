@@ -81,15 +81,15 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     use Carbon\Carbon;    
     $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
     $horaI = strtotime($presupuesto->horaEventoInicio);
-    $horaI = date("g:i a", $horaI);
+    $horaI = date("g:i", $horaI);
 
     $horaF = strtotime($presupuesto->horaEventoFin);
-    $horaF = date("g:i a", $horaF);
+    $horaF = date("g:i", $horaF);
     
    
 @endphp
 
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}} - {{$horaF}}@else Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}}{{$presupuesto->inicioAmPm}} - {{$horaF}}{{$presupuesto->finAmPm}}@else Pendiente @endif</td>
   <td><span> {{$presupuesto->categoria}}, {{$presupuesto->tipoEvento}} {{$presupuesto->tipoServicio}}</span></td>
   <td><span style="font-weight: bold">Tono:</span> {{$presupuesto->colorEvento}}</td>
 </tr>

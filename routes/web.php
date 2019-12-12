@@ -449,6 +449,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('caja', 'CMS\CashRegisterController');
     Route::get('caja', 'CMS\CashRegisterController@index')->name('caja.index');
     Route::get('caja/obtener-presupuestos', 'CMS\CashRegisterController@obtenerPresupuestos')->name('caja.obtenerPresupuestos');
+    Route::get('caja/obtener-ultimopago', 'CMS\CashRegisterController@obtenerUltimoPago')->name('caja.obtenerUltimoPago');
     Route::post('caja', 'CMS\CashRegisterController@store')->name('caja.store');
     Route::put('caja/{id}', 'CMS\CashRegisterController@update')->name('caja.update');
     Route::get('caja/corte', 'CMS\CashRegisterController@corte')->name('pagos.corte');

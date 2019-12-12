@@ -138,6 +138,8 @@ class BudgetController extends Controller
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        $presupuesto->inicioAmPm         = $request->presupuesto['inicioAmPm'];
+        $presupuesto->finAmPm         = $request->presupuesto['finAmPm'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -858,6 +860,8 @@ class BudgetController extends Controller
         $oldVersion->opcionDescuento = $version->opcionDescuento;
         $oldVersion->opcionIVA = $version->opcionIVA;
         $oldVersion->emailEnvio = $version->emailEnvio;
+        $oldVersion->inicioAmPm = $version->inicioAmPm;
+        $oldVersion->finAmPm = $version->finAmPm;
         
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
@@ -922,6 +926,9 @@ class BudgetController extends Controller
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
         $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        $presupuesto->inicioAmPm         = $request->presupuesto['inicioAmPm'];
+        $presupuesto->finAmPm         = $request->presupuesto['finAmPm'];
+        
         
         
 

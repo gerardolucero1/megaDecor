@@ -130,11 +130,15 @@ padding: 0;
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
                                 <input required type="time" v-model="presupuesto.horaEventoInicio" id="inicioEvento">
+                                -AM <input type="radio" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                -PM <input type="radio" value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
                                 <input required type="time" v-model="presupuesto.horaEventoFin" id="finEvento">
+                                -AM <input type="radio" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                -PM <input type="radio" value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -1343,6 +1347,10 @@ padding: 0;
                     coloniaLugar: '',
                     CPLugar: '',
                     observacionesLugar: '',
+
+                    //am-pm
+                    inicioAmPm:'',
+                    finAmPm:'',
 
                     //Informacion del Evento
                     numeroInvitados: '',

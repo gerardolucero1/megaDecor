@@ -44,6 +44,10 @@ class Budget extends Model
         'pagado',
         'facturaSolicitada',
 
+        //AmPm
+        'inicioAmPm',
+        'finAmPm',
+
         //Datos facturacion
         'horaInicio',
         'horaFin',

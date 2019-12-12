@@ -1082,6 +1082,7 @@ export default {
                 cliente:'',
             },
             otrosPagos: [],
+            ultimoPago:'',
             pagoEditado: '',
             editarCambio: 0,
             pagosCorte: '',
@@ -1708,6 +1709,27 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             })
         },
 
+        obtenerUltimoPago: function(){
+            let URL = 'caja/obtener-ultimopago';
+
+            axios.get(URL).then((response) => {
+                
+                this.ultimoPago = response.data;
+                
+                //window.open("https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id, "Recibo de pago", "width=300, height=200");
+                var myParameters = window.location.search;// Get the parameters from the current page
+
+                var URL = "https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id+myParameters;
+
+                var W = window.open(URL);
+
+                W.window.print(); 
+
+            }).catch((error) => {
+                console.log(error.data);
+            })
+        },
+
         habilitarCaja: function(){
             if(this.sesion.estatus && (this.sesion.user_id == this.usuario.id)){
                 this.obtenerSesionActual()
@@ -1832,7 +1854,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             
             this.pago.budget_id = this.presupuestoSeleccionado.id;
             axios.post(URL, this.pago).then((response) => {
-                alert('Pago registrado');
+                
 
                 if(parseFloat(this.pago.amount).toFixed(2) == (numero.toFixed(2))){
                     let URL = 'pagar-contrato/' + this.presupuestoSeleccionado.id;
@@ -1846,7 +1868,10 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.pago.reference='';
                 this.pago.bank='';
                 
+                this.obtenerPagosPasados()
                 this.obtenerPresupuestos();
+                this.obtenerUltimoPago();
+                alert('Pago registrado');
                 
             }).catch((error) => {
                 console.log(error.data)
