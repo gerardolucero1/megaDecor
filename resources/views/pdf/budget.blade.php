@@ -49,6 +49,9 @@
       $terceros=substr($telefono->numero, 8,2);
     @endphp
   {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span></p>
+  <span style="font-style:normal">Cuente bancaria para FACTURACIÓN:<BR>
+    AFIRME: 176109351<BR>
+  TRANSFERENCIA: 062150001761093515</span>
 </td>
 <td>
   @php
@@ -98,9 +101,15 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}</td>
 </tr>
 
-<tr style=" font-size: 14px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
+<tr style=" font-size: 14px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span>
+  @if($presupuesto->entregaEnBodega==1)
+  Recolección en Bodega, Periferico de la Juventud #7501 Segundo Piso <span style="font-style:italic">Subiendo al hotel sheraton</span>
+  En un horario de 9:30 Am a 5:30 Pm
+  @endif
+</td>
 </tr>
-<tr style=" font-size: 14px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
+<tr style=" font-size: 14px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span>
+</td>
 </tr>
 </table>
 <table style="width: 100%; margin-top: 10px">

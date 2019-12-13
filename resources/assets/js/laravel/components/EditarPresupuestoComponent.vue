@@ -959,6 +959,7 @@ padding: 0;
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
+                                <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                             </select>
                         </div>
                         <br>
@@ -980,6 +981,7 @@ padding: 0;
                                 <option value="TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="NOCHE">Por la noche</option>
+                                <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                             </select>
                         </div>
                         <div class="col-md-12">
