@@ -22,6 +22,7 @@
                         <input name="fecha" class="form-control" type="date">
                         <button type="submit" class="btn btn-block btn-info mt-2">Buscar</button>
                     </form>
+                    <button class="btn btn-block btn-info mt-2" onclick="window.print()">Imprimir</button>
                 </div>
             </div>
             <div class="block" id="divLista">
@@ -37,6 +38,7 @@
                                     <th>Foto</th>
                                     <th>Servicio</th>
                                     <th class="d-none d-sm-table-cell">Cantidad</th>
+                                    <th class="d-none d-sm-table-cell">Notas</th>
                                     <th class="d-none d-sm-table-cell">Contrato</th>
                                     <th class="d-none d-sm-table-cell">Cliente</th>
                                 </tr>
@@ -44,30 +46,37 @@
                             <tbody>
                                 @foreach($contratos as $contrato)
                                     @foreach($contrato->inventories as $inventario)
+                                    @if($inventario->id!=1022)
                                     @if($inventario->version == $contrato->version)
                                         <tr>
                                             <td>
-                                                <img src="{{ $inventario->imagen }}" width="100px">
+                                                <img src="{{ $inventario->imagen }}" width="80px">
                                             </td>
                                             <td>{{ $inventario->servicio }}</td>
                                             <td>{{ $inventario->cantidad }}</td>
+                                            <td>{{ $inventario->notas }}</td>
                                             <td>{{ $inventario->budget->folio }}</td>
                                             <td>{{ $inventario->budget->client->nombreCliente }}</td>
                                         </tr>
                                         @endif
+                                        @endif
                                     @endforeach
+                                   
                                     @foreach($contrato->budgetPacks as $pack)
                                         @foreach($pack->inventories as $inventario)
+                                        @if($inventario->id!=1022)
                                         @if($inventario->version == $contrato->version)
                                             <tr>
                                                 <td>
-                                                    <img src="{{ $inventario->imagen }}" width="100px">
+                                                    <img src="{{ $inventario->imagen }}" width="80px">
                                                 </td>
                                                 <td>{{ $inventario->servicio }}</td>
                                                 <td>{{ $inventario->cantidad }}</td>
+                                                <td>{{ $inventario->notas }}</td>
                                                 <td>{{ $contrato->folio }}</td>
                                                 <td>{{ $contrato->client->nombreCliente }}</td>
                                             </tr>
+                                            @endif
                                             @endif
                                         @endforeach
                                     @endforeach

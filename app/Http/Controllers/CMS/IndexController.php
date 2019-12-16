@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use App\BudgetPack;
 use App\Permission;
 use App\Payment;
+use App\OtherPayments;
 use App\MoralPerson;
 use App\CashRegister;
 use App\AuthorizedPack;
@@ -1043,6 +1044,12 @@ public function archivarUsuario($id){
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
 
         return view('presupuesto', compact('presupuesto'));
+    }
+
+    public function ticketSalida($id){
+        $salida = OtherPayments::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        return view('ticketSalida', compact('salida'));
     }
 
     //Ventas

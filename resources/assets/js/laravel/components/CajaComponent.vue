@@ -599,7 +599,7 @@
                                                         <div class="col-md-12">
                                                             <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
                                                             <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearHora }}</p>
-                                                            <p style="position:absolute; z-index:2; bottom:-23px"><a target="_blank" :href="'/recibo-pago/pdf/' + item.id"><i class="fa fa-print"></i></a></p>
+                                                            <p style="position:absolute; z-index:2; bottom:-23px"><a target="_blank" :href="'/ticket-salida/' + item.id"><i class="fa fa-print"></i></a></p>
                                                         </div>
                                                         
                                                     </div>

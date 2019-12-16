@@ -595,6 +595,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('proximos', 'CMS\InventoryController@proximos')->name('proximos');
     Route::post('buscar-proximos', 'CMS\InventoryController@buscarProximos')->name('buscarProximos');
 
+
+    Route::get('ticket-salida/{id}', 'CMS\IndexController@ticketSalida')->name('ticketSalida');
+
     Route::get('inventario-danados/', 'CMS\IndexController@danados')->name('inventario.danados');
     Route::get('aprobar-danados', 'CMS\IndexController@aprobarDanados')->name('danados.aprobar');
     Route::put('aprobar-danados/{id}', function($id){
