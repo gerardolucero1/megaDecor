@@ -1719,7 +1719,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 //window.open("https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id, "Recibo de pago", "width=300, height=200");
                 var myParameters = window.location.search;// Get the parameters from the current page
 
-                var URL = "https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id+myParameters;
+                var URL = "https://mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id+myParameters;
 
                 var W = window.open(URL);
 
