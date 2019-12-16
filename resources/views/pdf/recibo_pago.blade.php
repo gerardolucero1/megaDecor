@@ -409,7 +409,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                         <div style="width: 100%; height: 0px; border-bottom:solid"></div>
                         @php
                             $totalPagosAnteriores=0;
-                            if($Budget->opcionIva){
+                            if($Budget->opcionIVA){
                             $BudgetTotal=$Budget->total*1.16;}else{
                                 $BudgetTotal=$Budget->total;
                             }
