@@ -968,7 +968,7 @@ padding: 0;
                         <label>Fecha y Hora de retorno de mobiliario</label></div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
-                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
+                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-if="facturacion.recoleccionPreferente=='OTRO'" v-model="facturacion.fechaRecoleccion">
                         </div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
@@ -1591,7 +1591,7 @@ padding: 0;
 
             modificarHoraRecoleccion(){
                 if(this.facturacion.recoleccionPreferente != 'OTRO'){
-                    this.facturacion.fechaRecoleccion = '1995-08-23';
+                    this.facturacion.fechaRecoleccion = '2019-12-18';
                     this.facturacion.horaRecoleccion = '00:00';
 
                     document.getElementById('recoleccionFecha').setAttribute('disabled', '');
