@@ -101,8 +101,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}</td>
 </tr>
 
-<tr style=" font-size: 14px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span>
-  @if($presupuesto->entregaEnBodega==1)
+<tr style=" font-size: 14px;">
+  <td colspan="4"><span style="font-weight: bold">Lugar: </span>
+  @if($presupuesto->lugarEvento=='BODEGA')
   Recolección en Bodega, Periferico de la Juventud #7501 Segundo Piso <span style="font-style:italic">Subiendo al hotel sheraton</span>
   En un horario de 9:30 Am a 5:30 Pm
   @endif

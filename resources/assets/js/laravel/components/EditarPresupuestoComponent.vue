@@ -955,11 +955,12 @@ padding: 0;
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option value="OTRO">Otra</option>
-                                <option value="MAÑANA">Por la mañana</option>
-                                <option value="TARDE">Por la tarde</option>
+                                <option value="LA MAÑANA">Por la mañana</option>
+                                <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
-                                <option value="NOCHE">Por la noche</option>
+                                <option value="LA NOCHE">Por la noche</option>
                                 <option value="PENDIENTE">Pendiente por confirmar cliente</option>
+                                <option value="SIEMPRE">Siempre hay alguien</option>
                             </select>
                         </div>
                         <br>
@@ -977,11 +978,12 @@ padding: 0;
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option value="OTRO">Otra</option>
-                                <option value="MAÑANA">Por la mañana</option>
-                                <option value="TARDE">Por la tarde</option>
+                                <option value="LA MAÑANA">Por la mañana</option>
+                                <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
-                                <option value="NOCHE">Por la noche</option>
+                                <option value="LA NOCHE">Por la noche</option>
                                 <option value="PENDIENTE">Pendiente por confirmar cliente</option>
+                                <option value="SIEMPRE">Siempre hay alguien</option>
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -992,7 +994,7 @@ padding: 0;
                             <label form="requireFactura">Factura</label>
                         </div>
                         <div class="col-md-12" style="padding-top:20px">
-                            <label form="notasFactura">Notas de contrato</label>
+                            <label form="notasFactura">Notas de facturación</label>
                             <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
                         </div>
                         
