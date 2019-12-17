@@ -257,9 +257,9 @@
                                         <button onclick="soloPresupuestos()" class="btn btn-info" style="background:#ECABF9">Presupuestos</button>
                                         @endif
 
-                                <div id='calendar' style="position:absolute; z-index:4;  @if ($usuario == 2 && $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
-                                <div id='calendar2' style="position:absolute; z-index:1; @if ($usuario == 2 && $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
-                                <div id='calendar3' style="position:absolute; z-index:2; background:white; @if ($usuario == 2 && $usuario==6) display:none; @endif padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar' style="position:absolute; z-index:4;  @if ($usuario == 2 || $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar2' style="position:absolute; z-index:1; @if ($usuario == 2 || $usuario==6) display:none; @endif background:white; padding:15px; margin-left:-20px; width:100%"></div>
+                                <div id='calendar3' style="position:absolute; z-index:2; background:white; @if ($usuario == 2 || $usuario==6) display:none; @endif padding:15px; margin-left:-20px; width:100%"></div>
                                 <div id='calendar4' style="position:absolute; z-index:3; background:white; padding:15px; margin-left:-20px; width:100%"></div>
                                     </div>
                                 </div>
