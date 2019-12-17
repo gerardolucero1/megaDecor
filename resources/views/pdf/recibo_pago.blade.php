@@ -373,7 +373,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                           </p>
                        
                         <div style="width: 100%; height: 0px"></div>
-                        <label for="">Abonos Anteriores</label>
+                        <label for="" style="font-size: 10px; font-style: italic">Abonos Anteriores</label>
                         <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
                             <tr>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
@@ -391,7 +391,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                             @endforeach
                         </table>
 
-                        <label for="">Abono actual</label>
+                        <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
                         <table style="width: 100%; font-size: 13px"> 
                             <tr>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
@@ -434,7 +434,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
 <!--Segundo Recibo de pago-->
 
                 
-                <div style="width: 100%;">
+                <div style="width: 100%; border-top: solid; border-top-style: dotted; border-top-width: 1px;">
                     <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:16px">Recibo de dinero</span></p>
                     <table style="width: 100%; font-family: Helvetica;">
                             <tr>
@@ -460,7 +460,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                               </p>
                            
                             <div style="width: 100%; height: 0px"></div>
-                            <label for="">Abonos Anteriores</label>
+                            <label for="" style="font-size: 10px; font-style: italic">Abonos Anteriores</label>
                             <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
                                 <tr>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
@@ -478,7 +478,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 @endforeach
                             </table>
     
-                            <label for="">Abono actual</label>
+                            <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
                             <table style="width: 100%; font-size: 13px"> 
                                 <tr>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
@@ -515,7 +515,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
     
                                 <p style="text-align: center; font-size: 11px; font-style: italic">El saldo real se mostrará al final de su evento en el corte mostrado por el salón, ya que el monto puede variar por modificaciones en servicios solicitados por parte del cliente despues de eeste recibo</p>
-                                <table style="width: 100%">
+                                <table style="width: 100%; margin-top: -10px">
                                     <tr>
                                         <td><p style="text-align: center">______________________________<br>Firma del Encargado</p></td>
                                         <td><p style="text-align: center">______________________________<br>Firma del Cliente</p></td>
