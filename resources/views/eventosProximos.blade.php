@@ -46,13 +46,13 @@
                             <tbody>
                                 @foreach($contratos as $contrato)
                                     @foreach($contrato->inventories as $inventario)
-                                    @if($inventario->id!=1022)
+                                    @if($inventario->servicio!='FLETE DIVERSO')
                                     @if($inventario->version == $contrato->version)
                                         <tr>
                                             <td>
                                                 <img src="{{ $inventario->imagen }}" width="80px">
                                             </td>
-                                            <td>{{$inventario->id}} {{ $inventario->servicio }}</td>
+                                            <td>{{ $inventario->servicio }}</td>
                                             <td>{{ $inventario->cantidad }}</td>
                                             <td>{{ $inventario->notas }}</td>
                                             <td>{{ $inventario->budget->folio }}</td>
@@ -64,7 +64,7 @@
                                    
                                     @foreach($contrato->budgetPacks as $pack)
                                         @foreach($pack->inventories as $inventario)
-                                        @if($inventario->id!=1022)
+                                        @if($inventario->servicio!='FLETE DIVERSO')
                                         @if($inventario->version == $contrato->version)
                                             <tr>
                                                 <td>
