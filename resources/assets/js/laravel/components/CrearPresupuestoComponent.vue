@@ -131,14 +131,14 @@ padding: 0;
                                 <label>Inicio del evento</label><br>
                                 <input required type="time" v-model="presupuesto.horaEventoInicio" id="inicioEvento">
                                 -AM <input type="radio" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
-                                -PM <input type="radio" value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                -PM <input type="radio" required value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
                                 <input required type="time" v-model="presupuesto.horaEventoFin" id="finEvento">
                                 -AM <input type="radio" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
-                                -PM <input type="radio" value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                -PM <input type="radio" required value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -159,7 +159,7 @@ padding: 0;
                                 <div class="row mt-4">
                                     <div class="col-md-10">
                                         <label v-if="presupuesto.pendienteFecha" for="">Fecha del evento pendiente</label>
-                                        <input v-if="presupuesto.pendienteFecha==false" type="date" v-model="presupuesto.fechaEvento">
+                                        <input v-if="presupuesto.pendienteFecha==false" type="date" required v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>

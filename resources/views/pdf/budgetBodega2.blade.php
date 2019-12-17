@@ -53,8 +53,8 @@
   </tr>
 <tr style="font-weight: bold; font-size: 14px; padding-top:10px">
 <td colspan="2"><span>Fecha y Hora del evento: </span><br><span style="font-weight: normal">
-    {{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}}{{$presupuesto->inicioAmPm}}- {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}} @else Horario Pendiente @endif<br>
-    <span style="margin-right:20px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span><br>  <span style=" font-size: 13px; font-weight: bold"> @if($presupuesto->lugarEvento!='BODEGA')<span style="padding-lef:20px">Entrega de Mobiliario:</span><span style="font-weight: normal"> @if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif @endif</span>
+    {{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}}{{$presupuesto->inicioAmPm}}- {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}} @else HORARIO DEL EVENTO PENDIENTE @endif<br>
+    <span style="margin-right:20px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span><br> 
   </span></td>
 <td colspan="2"><span>Recolección de Mobiliario: <br><span style="font-weight: normal">@if($presupuesto->entregaEnBodega==1) Cliente entrega a bodega @else @if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif @endif</span><br>
   <span style="font-weight: normal">
@@ -244,7 +244,7 @@
 <td colspan="4"><span style="font-weight: bold">Dirección de entrega: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else HORARIO DEL EVENTO PENDIENTE @endif</td>
 <td colspan="2">
   @if($presupuesto->lugarEvento!='BODEGA')
     {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}

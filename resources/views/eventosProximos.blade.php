@@ -52,7 +52,7 @@
                                             <td>
                                                 <img src="{{ $inventario->imagen }}" width="80px">
                                             </td>
-                                            <td>{{ $inventario->servicio }}</td>
+                                            <td>{{$inventario->id}} -{{ $inventario->servicio }}</td>
                                             <td>{{ $inventario->cantidad }}</td>
                                             <td>{{ $inventario->notas }}</td>
                                             <td>{{ $inventario->budget->folio }}</td>
