@@ -44,6 +44,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $servicioAnt='';
+                                @endphp
                                 @foreach($contratos as $contrato)
                                     @foreach($contrato->inventories as $inventario)
                                     @if($inventario->servicio!='FLETE DIVERSO')
@@ -58,6 +61,23 @@
                                             <td>{{ $inventario->budget->folio }}</td>
                                             <td>{{ $inventario->budget->client->nombreCliente }}</td>
                                         </tr>
+                                        @foreach ($cantidadesTotales as $totales)
+                                    @if($totales->servicio==$inventario->servicio)
+                                    @if($servicioAnt==$totales->servicio)@else
+                                    <tr>
+                                        <td>TOTAL:</td>
+                                        <td>{{$totales->servicio}}</td>
+                                        <td>{{$totales->total}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    @endif
+                                    @endif
+                                    @endforeach
+                                        @php
+                                        $servicioAnt=$inventario->servicio;
+                                    @endphp
                                         @endif
                                         @endif
                                     @endforeach
