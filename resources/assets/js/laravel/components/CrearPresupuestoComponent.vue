@@ -507,7 +507,7 @@ padding: 0;
                             </div>
                             <div class="col-md-4 mt-4">
                                 <h5 style="color:grey">Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
-                                <input style="display:none" type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
+                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
@@ -970,7 +970,7 @@ padding: 0;
                         <label>Fecha y Hora de retorno de mobiliario</label><br></div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
-                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-if="facturacion.recoleccionPreferente=='OTRO'" v-model="facturacion.fechaRecoleccion">
+                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
@@ -2528,9 +2528,10 @@ padding: 0;
                 }
 
                 if(this.requiereFactura){
-                    for (const prop in this.facturacion) {
+                    /*for (const prop in this.facturacion) {
                         
                         if(this.facturacion[prop] == ''){
+                            alert(this.facturacion[prop]);
                             Swal.fire(
                                 'Error',
                                 'Verifica que completaste todos los campos correctamente antes de continuar',
@@ -2540,7 +2541,7 @@ padding: 0;
                         }
                         
                         
-                    }
+                    }*/
                 }
 
                 if(this.presupuesto.tipoComision == 0){
