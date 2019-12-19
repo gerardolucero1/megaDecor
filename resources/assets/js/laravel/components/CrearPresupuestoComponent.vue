@@ -401,7 +401,7 @@ padding: 0;
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
                                     <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
-                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> En Bodega: {{ producto.cantidad }}</p>
+                                    <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> En Bodega: {{ producto.cantidad }} <span>Exhibición: {{producto.exhibicion}}</span></p>
                                 </div>
                                 <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
                                 
@@ -429,12 +429,14 @@ padding: 0;
                         </thead>
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <td style="width:120px;">
+                                <td style="width:120px; position:relative;">
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
+                                    <div style="position:absolute; font-size:10px; background:green; color:white; width:100%; border-radius:5px; top:0; text-align:center">Aun Disponible: {{producto.disponible}}</div>
                                 </td>
                                 <td>{{ producto.servicio }}<br>
                                 <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
-                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta}}</span></td>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta}}</span><br>
+                                </td>
                                 <td>
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:change="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -1439,7 +1441,7 @@ padding: 0;
                 ahorroActualizado: '',
                 precioFinalActualizado: '',
                 notasActualizadas: '--',
-
+                cantidad_disponible:'',
                 //Paquetes
                 paquete: {
                     servicio: '',
@@ -2335,7 +2337,14 @@ padding: 0;
             
             },
             agregarProducto(producto){
-                this.limpiar = true;
+
+                let URL = '/obtener-disponibles';
+                axios.post(URL, {id:producto.servicio, fecha:this.presupuesto.fechaEvento}).then((response) => {
+                    this.cantidad_disponible = response.data;
+                    
+
+
+                    this.limpiar = true;
                 this.inventarioLocal = this.inventarioLocal.reverse();
                 if(producto.precioVenta==null){
                 producto.precioVenta=0;}
@@ -2350,6 +2359,7 @@ padding: 0;
                     'ahorro': '0',
                     'notas': '-',
                     'paquete': '',
+                    'disponible': this.cantidad_disponible,
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
                     'precioVenta': producto.precioVenta,
@@ -2357,6 +2367,10 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+
+                })
+
+                
 
                 this.inventarioLocal = this.inventarioLocal.reverse();
                 

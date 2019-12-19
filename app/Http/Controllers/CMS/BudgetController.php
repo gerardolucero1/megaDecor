@@ -672,6 +672,32 @@ class BudgetController extends Controller
 
     }
 
+
+    public function obtenerDisponibles(Request $request){
+        $data = json_decode(file_get_contents('php://input'), true);
+        if($data['fecha']!=''){
+        $budgets = Budget::whereDate('fechaEvento', $data['fecha'])->get();
+
+        $producto = Inventory::orderBy('id', 'ASC')->where('servicio', $data['id'])->first();
+        $disponible=$producto->cantidad+$producto->exhibicion;
+
+    //segunda opcion
+    foreach($budgets as $budget){
+        $elementos = BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
+        foreach($elementos as $elemento){
+            if($elemento->servicio==$data['id']){
+                $disponible=$disponible-$elemento->cantidad;
+            }
+        }
+    }
+
+        
+        }else{
+            $disponible='Sin información de fecha';
+        }
+        return $disponible;
+    }
+
     public function pdfBodegaCliente($id){        
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();

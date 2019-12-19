@@ -598,6 +598,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('ticket-salida/{id}', 'CMS\IndexController@ticketSalida')->name('ticketSalida');
 
+    Route::post('obtener-disponibles', 'CMS\BudgetController@obtenerDisponibles')->name('obtenerDisponibles');
+
     Route::get('inventario-danados/', 'CMS\IndexController@danados')->name('inventario.danados');
     Route::get('aprobar-danados', 'CMS\IndexController@aprobarDanados')->name('danados.aprobar');
     Route::put('aprobar-danados/{id}', function($id){
