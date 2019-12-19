@@ -245,8 +245,47 @@ class InventoryController extends Controller
         $fechaHoy = $date->format('Y-m-d');
 
         $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $date)->get();
+        $elementos=[];
+        
+        foreach($contratos as $contrato){
+            $elementosContrato = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $contrato->id)->where('version', $contrato->version)->get();
+            foreach($elementosContrato as $elementoContrato){
+            $elemento = new stdClass();
+            $elemento->servicio = $elementoContrato->servicio;
+            $elemento->cantidad = $elementoContrato->cantidad;
+            $elemento->contrato = $contrato->folio;
+            array_push($elementos,$elemento);
+            }
+            
+        }
+        $totales=[];
+        $cantidadesTotales=[];
+        //dd($elementos);
+        foreach($elementos as $elemento){
+            if(in_array($elemento->servicio, $totales)){
+                
+            }else{
+               array_push($totales,$elemento->servicio);
+            }
+        }
 
-        return view('eventosProximos', compact('contratos'));
+        foreach($totales as $total){
+            $producto = new stdClass();
+            $producto->total=0;
+            foreach($elementos as $elemento){
+                if($total==$elemento->servicio){
+               $producto->servicio = $elemento->servicio;
+               $producto->total = $producto->total + $elemento->cantidad;
+                }
+                
+            }
+            array_push($cantidadesTotales,$producto);
+        }
+        //dd($cantidadesTotales);
+
+        
+
+        return view('eventosProximos', compact('contratos', 'cantidadesTotales'));
     }
 
     public function pdfTransferencias(){        
