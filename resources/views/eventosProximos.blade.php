@@ -46,6 +46,7 @@
                             <tbody>
                                 @php
                                     $servicioAnt='';
+                                    $banderas=[];
                                 @endphp
                                 @foreach($contratos as $contrato)
                                     @foreach($contrato->inventories as $inventario)
@@ -63,15 +64,18 @@
                                         </tr>
                                         @foreach ($cantidadesTotales as $totales)
                                     @if($totales->servicio==$inventario->servicio)
-                                    @if($servicioAnt==$totales->servicio)@else
-                                    <tr>
+                                    @if(in_array($totales->servicio, $banderas))@else
+                                    <tr style="background: #FFD5C8">
                                         <td>TOTAL:</td>
-                                        <td>{{$totales->servicio}}</td>
+                                        <td>{{$totales->servicio}}<span style="opacity: 0">z</span></td>
                                         <td>{{$totales->total}}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
+                                    @php
+                                        array_push($banderas,$totales->servicio);
+                                    @endphp
                                     @endif
                                     @endif
                                     @endforeach
