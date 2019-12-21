@@ -92,13 +92,13 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
    
 @endphp
 
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}}{{$presupuesto->inicioAmPm}} - {{$horaF}}{{$presupuesto->finAmPm}}@else Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}}{{$presupuesto->inicioAmPm}} - {{$horaF}}{{$presupuesto->finAmPm}}@else Pendiente @endif<br><span style="font-weight: bold">Requiere Montaje:</span> <span>{{$presupuesto->requiereMontaje}}</span></td>
   <td><span> {{$presupuesto->categoria}}, {{$presupuesto->tipoEvento}} {{$presupuesto->tipoServicio}}</span></td>
   <td><span style="font-weight: bold">Tono:</span> {{$presupuesto->colorEvento}}</td>
 </tr>
 <tr style=" font-size: 14px;">
 <td colspan="3"></td>
-<td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}</td>
+<td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}<br></td>
 </tr>
 
 <tr style=" font-size: 14px;">
