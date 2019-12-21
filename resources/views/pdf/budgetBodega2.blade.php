@@ -43,7 +43,7 @@
     <td colspan="4">
         <span style="font-weight: bold">Dirección de entrega: </span><br>
         <span>@if($presupuesto->lugarEvento!='BODEGA')
-            {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
+         <span style="background: #FFF9C8"> {{$presupuesto->nombreLugar}}</span><br> {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
           @else<span>*RECOLECCIÓN EN BODEGA</span>
           @endif</span><br><br>
           <span style="font-style: italic; font-weight:bold">Notas lugar de entrega:</span>
@@ -247,7 +247,7 @@
 <td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else HORARIO DEL EVENTO PENDIENTE @endif</td>
 <td colspan="2">
   @if($presupuesto->lugarEvento!='BODEGA')
-    {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
+  <span style="background: #FFF9C8"> {{$presupuesto->nombreLugar}}</span><br>{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
   @else
   <span>*RECOLECCIÓN EN BODEGA</span>
   @endif
