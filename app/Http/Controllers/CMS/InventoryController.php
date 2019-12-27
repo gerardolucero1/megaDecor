@@ -293,19 +293,19 @@ class InventoryController extends Controller
         $fecha2 = $_GET['fecha_2'];
         $familia = $_GET['familia'];
         
-        $transferencias = Register::orderBy('id', 'DESC')->where('tipo', 'salida')->whereDate('created_at','>=', $fecha1)->whereDate('created_at','<=', $fecha2)->orWhere('tipo', 'entrada')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->get();
-        $altasbajas = Register::orderBy('id', 'DESC')->where('tipo', 'alta')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->orWhere('tipo', 'baja')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->get();
+        $transferencias = Register::orderBy('id', 'ASC')->where('tipo', 'salida')->whereDate('created_at','>=', $fecha1)->whereDate('created_at','<=', $fecha2)->orWhere('tipo', 'entrada')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->get();
+        $altasbajas = Register::orderBy('id', 'ASC')->where('tipo', 'alta')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->orWhere('tipo', 'baja')->whereDate('updated_at','>=', $fecha1)->whereDate('updated_at','<=', $fecha2)->get();
         //$demo = collect($otroArray);
         $pdf = App::make('dompdf');
         $pdf = PDF::loadView('pdf.transferencias', compact('transferencias' , 'altasbajas', 'familia'));
         return $pdf->stream();
     }
     public function buscarProximos(Request $request){
-        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $request->fecha)->get();
+        $contratos = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento', '=', $request->fecha)->get();
         $elementos=[];
         
         foreach($contratos as $contrato){
-            $elementosContrato = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $contrato->id)->where('version', $contrato->version)->get();
+            $elementosContrato = BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $contrato->id)->where('version', $contrato->version)->get();
             foreach($elementosContrato as $elementoContrato){
             $elemento = new stdClass();
             $elemento->servicio = $elementoContrato->servicio;

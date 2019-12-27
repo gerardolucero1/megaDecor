@@ -301,10 +301,10 @@
                                 <th>#Folio</th>
                                 <th>Fecha Evento</th>
                                 <th>Cliente</th>
-                                <th>Lugar</th>
                                 <th>Vendedor</th>
                                 <th>Version</th>
                                 <th>Última Modificación</th>
+                                <th>Recolección</th>
                                 <th>Total</th>
                                 <th>Opciones</th>
                             </tr>
@@ -356,8 +356,8 @@
                                                 <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
                                                 <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                             </td>
-                                            <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
-                                                @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
+                                            <td class="d-none d-sm-table-cell">@if($budgetArchivados->entregaEnBodega)Cliente Entrega en bodega @else Recolección requerida @endif<br>
+                                               
                                             </td>
                                                 @php
                                                     if($budgetArchivados->opcionIVA == 1){

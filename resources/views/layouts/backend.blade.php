@@ -474,7 +474,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestosArchivados').DataTable({
-        "order": [[ 1, "asc" ]],
+        "order": [[ 1, "desc" ]],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
         "pageLength": 100,
         "language": {

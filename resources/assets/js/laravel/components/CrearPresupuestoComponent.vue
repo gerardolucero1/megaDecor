@@ -2419,6 +2419,10 @@ padding: 0;
 
             // Guardar como presupuesto
             guardarPresupuesto(){
+                if(this.presupuesto.pendienteFecha!=true && this.presupuesto.fechaEvento==null ){
+                    alert('selecciona una fecha o marcala como pendiente para continuar');
+                }
+
                 if(this.inventarioLocal.length == 0){
                     Swal.fire(
                             'Elementos',
