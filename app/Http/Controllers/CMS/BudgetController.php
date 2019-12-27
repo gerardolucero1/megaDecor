@@ -698,6 +698,17 @@ class BudgetController extends Controller
         return $disponible;
     }
 
+    public function pdfRecolecciones(){        
+        $fecha1 = $_GET['fecha_1'];
+        $fecha2 = $_GET['fecha_2'];
+        
+        $presupuestos = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        //dd($presupuestos);
+        $pdf = App::make('dompdf');
+        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos'));
+        return $pdf->stream();
+    }
+
     public function pdfBodegaCliente($id){        
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();

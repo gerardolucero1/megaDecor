@@ -209,7 +209,7 @@
                            
                                     <button onclick="PresupuestosActivos()" class="btn btn-success">
                                                 <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
-                                            </button>
+                                    </button>
                                     <button onclick="PresupuestosHistorial()" class="btn btn-info">
                                                 <i  class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
                                             </button>
@@ -308,6 +308,21 @@
 
         <!--Vista historial -->
         <div class="content" id="PresupuestosHistorial" style="display: none">
+
+                <form action="{{route('imprimir.recolecciones')}}" method="GET" target="_blank" name="f1" id="f1">
+                                
+                        @csrf
+                        <div class="row" style="padding:20px;">
+                    <div class="col-12">
+                        <label for="">Recolecciones</label>
+                    </div>
+                        <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="fecha1" class="form-control" >
+                        <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
+                         <button class="btn btn-info">Obtener Recolecciones</button><br>
+                         
+                        </div>
+                     </form>
+
             <div class="block">
                 <div class="block-header block-header-default">
                     <div class="col-md-3">
@@ -461,7 +476,7 @@
     </div>
    
     
-    @include('../modals/nuevoPresupuestoModal')
+    @include('../modals/nuevoContratoModal')
     @include('../modals/categoriaEventoModal')
     @include('../modals/nuevoProductoModal')
     @include('../modals/nuevoClienteModal')

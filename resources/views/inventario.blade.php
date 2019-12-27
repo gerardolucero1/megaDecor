@@ -244,7 +244,7 @@
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
-                                <td class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarExhibicion({{ $inventario->id }})" @endif>{{ $inventario->exhibicion }}</td>
+                                <td class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp

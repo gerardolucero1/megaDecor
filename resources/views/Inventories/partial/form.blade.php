@@ -65,6 +65,7 @@
                         <option value="NA">Selecciona un proveedor</option>
                         @if (isset($inventory))
                             <option value="{{ $inventory->proveedor1 }}">{{ $inventory->proveedor1 }}</option>
+                            <option value="Otro">Otro</option>
                         @endif
                             @foreach ($proveedores as $proveedor)
                                 <option value="{{ $proveedor->nombre }}">{{ $proveedor->nombre }}</option>
@@ -80,16 +81,7 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('proveedor2', 'Proveedor 2') }}
-                    <select name="proveedor2" id="" class="form-control">
-                            <option value="NA">Selecciona un proveedor</option>
-                        @if (isset($inventory))
-                            <option value="{{ $inventory->proveedor2 }}">{{ $inventory->proveedor2 }}</option>
-                        @endif
-                            @foreach ($proveedores as $proveedor)
-                                <option value="{{ $proveedor->nombre }}">{{ $proveedor->nombre }}</option>
-                            @endforeach
-                        
-                    </select>
+                    <input type="text" name="proveedor2" id="" class="form-control">
                     {{-- {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}   --}}
                 </div>
             </div>
@@ -138,7 +130,27 @@
                 </div>
             </div>
     </div>
-
+    
+        @if(strpos($_SERVER['REQUEST_URI'], 'edit'))
+        @else
+    <div class="col-md-8">
+        <div class="form-group row">
+            <div class="col-md-6">
+                <div class="form-material">
+                    {{ Form::label('fechaCompra', 'Fecha de compra') }}
+                    {{ Form::date('fechaCompra', null, ['class' => 'form-control', 'id' => 'fechaCompra']) }}  
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-material">
+                    {{ Form::label('factura', 'Numero de factura') }}
+                    {{ Form::text('factura', null, ['class' => 'form-control', 'id' => 'factura']) }}  
+                </div>
+            </div>
+        </div>
+        
+    </div>
+@endif
     <div class="row">
         <div class="col-md-12" style="padding: 10px">
             <button type="submit" class="btn btn-sm btn-info" style="margin-left: 10px">Guardar</button>

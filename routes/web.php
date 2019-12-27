@@ -112,6 +112,7 @@ Route::group(['middleware' => ['auth']], function () {
         
     //Imprimir transferencias de inventario
     Route::get('/imprimir-transferencias', 'CMS\InventoryController@pdfTransferencias')->name('imprimir.transferencias');
+    Route::get('/imprimir-recolecciones', 'CMS\BudgetController@pdfRecolecciones')->name('imprimir.recolecciones');
     
     // API Presupuestos
         Route::get('/usuarios', 'CMS\BudgetController@usuarios');

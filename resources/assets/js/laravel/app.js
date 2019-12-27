@@ -49,6 +49,7 @@ Vue.component('task-list-component', require('./components/TaskListComponent.vue
 Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
+Vue.component('crear-contrato-component', require('./components/CrearContratoComponent.vue').default);
 Vue.component('settings-master-component', require('./components/SettingsMasterComponent.vue').default);
 Vue.component('editar-presupuesto-component', require('./components/EditarPresupuestoComponent.vue').default);
 Vue.component('ver-presupuesto-component', require('./components/VerPresupuestoComponent.vue').default);

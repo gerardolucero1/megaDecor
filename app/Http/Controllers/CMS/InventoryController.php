@@ -88,6 +88,10 @@ class InventoryController extends Controller
         $registro = new Register();
         $registro->tipo = 'alta';
         $registro->antes = 0;
+        $registro->proveedor = $producto->proveedor1;
+        $registro->precio = $producto->precioVenta;
+        $registro->fechaCompra = $request->fechaCompra;
+        $registro->factura = $request->factura;
         $registro->antesExhibicion = 0;
         $registro->cantidad = $producto->cantidad;
         $registro->producto = $producto->id;
