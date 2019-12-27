@@ -2419,8 +2419,13 @@ padding: 0;
 
             // Guardar como presupuesto
             guardarPresupuesto(){
-                if(this.presupuesto.pendienteFecha!=true && this.presupuesto.fechaEvento==null ){
+                if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
+                    return;
+                }
+                if(this.presupuesto.pendienteHora=="" && this.presupuesto.inicioAmPm=="" && this.presupuesto.finAmPm=="" ){
+                    alert('selecciona una hora o marcala como pendiente para continuar');
+                    return
                 }
 
                 if(this.inventarioLocal.length == 0){
@@ -2518,6 +2523,7 @@ padding: 0;
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
                 }
+                
 
                 if(!this.facturacion.entregaEnBodega){
                 if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
@@ -2701,6 +2707,11 @@ padding: 0;
     ModalGuardarContrato(){
         if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
+                    return
+                }
+                
+                if(this.presupuesto.pendienteHora=="" && this.presupuesto.inicioAmPm=="" && this.presupuesto.finAmPm=="" ){
+                    alert('selecciona una hora o marcala como pendiente para continuar');
                     return
                 }
         if(this.festejados.length == 0){
