@@ -2513,6 +2513,12 @@ padding: 0;
             },
             // Guardar como contrato
             guardarContrato(){
+                
+                if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
+                    alert('selecciona una fecha o marcala como pendiente para continuar');
+                    return
+                }
+
                 if(!this.facturacion.entregaEnBodega){
                 if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
                    
@@ -2693,6 +2699,10 @@ padding: 0;
            
             },
     ModalGuardarContrato(){
+        if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
+                    alert('selecciona una fecha o marcala como pendiente para continuar');
+                    return
+                }
         if(this.festejados.length == 0){
                     Swal.fire(
                             'Festejados',
