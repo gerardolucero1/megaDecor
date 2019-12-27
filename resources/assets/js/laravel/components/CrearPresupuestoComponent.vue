@@ -998,7 +998,7 @@ padding: 0;
                             <label form="requireFactura">Factura</label>
                         </div>
                         <div class="col-md-12" style="padding-top:20px">
-                            <label form="notasFactura">Notas de contrato</label>
+                            <label form="notasFactura">Notas de Facturación</label>
                             <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
                         </div>
                         

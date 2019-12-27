@@ -152,8 +152,25 @@
                                     @if ($budget->IVA)
                                     <br>
                                         <span style="font-size: 10px; color: green;">IVA incluido</span>
-                                    @endif
-                                   
+                                    @endif<br>
+                                    Saldo: 
+                                    @php
+                                        $abono=0;
+                                        $pagos = App\Payment::where('budget_id', $budget->id)->get();
+                                        $saldoPendiente = $budget->total;
+                                    
+                                        if(count($pagos)>0){
+                                        foreach ($pagos as $pago) {
+                                            $abono = $abono + $pago->amount;
+                                        }
+                                        if($budget->IVA==1){
+                                            $saldoPendiente = ($budget->total*1.16)-$abono;
+                                                }else{
+                                            $saldoPendiente = $budget->total-$abono;
+                                                }
+                                    }
+                                    @endphp
+                                    ${{number_format($saldoPendiente,2)}}
                                 </td>
                               
                             @endif
@@ -253,7 +270,22 @@
                                     @php
                                         $total=number_format($budgetArchivados->total,2);
                                     @endphp
-                                <td>${{$total}}</td>
+                                <td>${{$total}}<br>
+                                    Saldo: 
+                                    @php
+                                        $abono=0;
+                                        $pagos = App\Payment::where('budget_id', $budgetArchivados->id)->get();
+                                        $saldoPendiente = $budgetArchivados->total;
+                                    
+                                        if(count($pagos)>0){
+                                        foreach ($pagos as $pago) {
+                                            $abono = $abono + $pago->amount;
+                                        }
+                                        $saldoPendiente = $budgetArchivados->total-$abono;
+                                    }
+                                    @endphp
+                                    ${{number_format($saldoPendiente,2)}}
+                                </td>
                                     <td class="d-flex" style="box-sizing: content-box;">
                                         @if($permisos->contratosEditar==1)
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
@@ -372,7 +404,25 @@
                                                 @if ($budgetArchivados->opcionIVA == 1)
                                                     <br>
                                                     <span style="font-size: 10px; color: green;">IVA</span>
-                                                @endif
+                                                @endif<br>
+                                                Saldo: 
+                                                @php
+                                                    $abono=0;
+                                                    $pagos = App\Payment::where('budget_id', $budgetArchivados->id)->get();
+                                                    $saldoPendiente = $budgetArchivados->total;
+                                                
+                                                    if(count($pagos)>0){
+                                                    foreach ($pagos as $pago) {
+                                                        $abono = $abono + $pago->amount;
+                                                    }
+                                                    if($budgetArchivados->opcionIVA==1){
+                                                    $saldoPendiente = ($budgetArchivados->total*1.16)-$abono;
+                                                    }else{
+                                                    $saldoPendiente = $budgetArchivados->total-$abono;
+                                                    }
+                                                }
+                                                @endphp
+                                                ${{number_format($saldoPendiente,2)}}
                                             </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                 @if($permisos->contratosEditar==1)

@@ -105,7 +105,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   <td colspan="4"><span style="font-weight: bold">Lugar: </span>
   @if($presupuesto->lugarEvento=='BODEGA')
   Recolección en Bodega, Periferico de la Juventud #7501 Segundo Piso <span style="font-style:italic">Subiendo al hotel sheraton</span>
-  En un horario de 9:30 Am a 5:30 Pm
+  En un horario de 9:30 Am a 5:30 Pm. La devolución de la mercancia, es al siguiente dia habil, antes de las 12:00 Pm en la misma dirección, en caso omiso se cobrara un día mas de renta.
   @endif
 </td>
 </tr>
@@ -307,7 +307,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
               </span><br></p>
 <br>
 
-              <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+            <!--  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
                 Mantelería<br>
                 <span style="font-weight: bold">Requerimentos: </span><br>
                 <span style="font-size: 12px; font-weight: normal; text-align: justify">
@@ -321,10 +321,10 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
  SE NOTIFICA AL CLIENTE Y CORRERA CON COSTO DE REPOSICION EN CASO DE QUE NO SE PUEDA QUITAR.<br>  MEGA MUNDO NOTIFICARA X TELEFONO EN UN LAPSO DE 48 HORAS mAximo. 
 **SE PEDIRA A LA PERSONA DEL LUGAR QUE FIRME LA HOJA CORRESPONDIENTE EN CASO DE ALGUN FALTANTE O DAÑO .<br> EL CUAL EL CLIENTE DE ESTE CONTRATO SERA RESPONSABLE DEL PAGO DE REPOSICION. EL CUAL DEBERA SER PAGADO A NO MAS DE 48 HORAS DESPUES DE LA FIRMA DEL CONTRATO DEL EVENTO. 
 ** Al momento de la entrega en nuestras oficinas, eS RESPONSABILIDAD DEL cliente  revisar que fue entregada en buenas condiciones. de no ser asi ahi mismo pedira la sustitución de los mismos. De no ser asI se da por entendido que la entrega esta correcta en cantidad y no dañada.
-                  </span><br></p>
+                  </span><br></p> -->
 
                   <br>
-                  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+             <!--     <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
                     CARPAS<br>
                     <span style="font-weight: bold">Requerimentos: </span><br>
                     <span style="font-size: 12px; font-weight: normal; text-align: justify">
@@ -337,10 +337,10 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 EN CASO DE AIRES FUERTES O EVENTOS METEREOLÓGICOS QUE SUCEDAN DURANTE EL EVENTO EL CLIENTE ES RESPONSABLE DE LA REPARACIÓN O REPOSICIÓN DE LOS MISMOS A MEGA MUNDO.<br>
 LAS CARPAS SE ENTREGAN EN PERFECTAS CONDICIONES. INSTALADOS CON ESTACAS O CON BOLSAS DE ARENA. EL CLIENTE CHECA Y ACEPTA AL MOMENTO DE SER INSTALADAS LAS CARPAS. EN CASO DE QUE EL CLIENTE O EL RESPONSABLE NO SE ENCUENTRE EN EL DOMICILIO DEBERÁ DEJAR A UN ENCARGADO PARA LA ACEPTACIÓN DE LA BUENA INSTALACIÓN. UNA VEZ RETIRADO DE LAS INSTALACIONES DEL CLIENTE YA ES RESPONSABILIDAD DEL CLIENTE.<br>
 DURANTE EL EVENTO Y HAGA QUE SE DERRAME EL CHAMOY. LA MAQUINA SE APAGARA PARA QUE EL PRODUCTO DEL CHAMOY NO SE DERRAME.
-NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO METEOROLÓGICO. </span><br></p>
+NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO METEOROLÓGICO. </span><br></p> -->
 
 <br>
-                  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+             <!--     <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
                     PLAQUE<br>
                     
                     <span style="font-weight: bold">Observaciones: </span><br>
@@ -348,7 +348,7 @@ NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO MET
                         **EL CLIENTE CONTABILIZA JUNTO AL PROVEEDOR DE SERVICIOS LA CANTIDAD RECIBIDA. EN CASO DE SOLO RECIBIRLA EL CLIENTE SE RESPONSABILIZA DE LA CANTIDAD RECIBIDA.<br>
                         ** LOZA ENTREGADA SUCIA TIENE UN COSTO DE .50 POR PIEZA .<br>
                         ** LOZA QUEBRADA, ASTILLADA O EN CASO DE FALTANTE, TIENE COSTO DE REPOSICIÓN Y SE AVISA AL RECOGER O SI EL CLIENTE LO LLEVA A BODEGA . </span><br></p>
-
+                    -->
                         <br>
                   <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
                     Mobiliario y equipo<br>
