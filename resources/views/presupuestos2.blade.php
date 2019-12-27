@@ -163,11 +163,7 @@
                                         foreach ($pagos as $pago) {
                                             $abono = $abono + $pago->amount;
                                         }
-                                        if($budget->IVA==1){
-                                            $saldoPendiente = ($budget->total*1.16)-$abono;
-                                                }else{
-                                            $saldoPendiente = $budget->total-$abono;
-                                                }
+                                        $saldoPendiente = $budget->total-$abono;
                                     }
                                     @endphp
                                     ${{number_format($saldoPendiente,2)}}
