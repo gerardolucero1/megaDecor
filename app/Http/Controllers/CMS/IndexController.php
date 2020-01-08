@@ -1103,6 +1103,12 @@ public function archivarUsuario($id){
         return view('danados', compact('productos'));
     }
 
+    public function hacerInventario(){
+        
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('archivar', false)->orWhere('archivar', null)->get();
+        return view('hacerInventario', compact('Inventario'));
+    }
+
     public function aprobarDanados(){
         $productos = Missing::orderBy('id', 'DESC')->where('reportado', true)->where('aprobado', false)->get();
         return view('aprobarDanados', compact('productos'));

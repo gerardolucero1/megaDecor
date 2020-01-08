@@ -273,6 +273,9 @@
                                         <li>
                                             <a href="{{ route('inventario.danados') }}">Dañados</a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('inventario.hacerinventario') }}">Hacer Inventario</a>
+                                        </li>
 
                                     </ul>
                                     @if($permisos->Proveedores==1)

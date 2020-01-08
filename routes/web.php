@@ -602,6 +602,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('obtener-disponibles', 'CMS\BudgetController@obtenerDisponibles')->name('obtenerDisponibles');
 
     Route::get('inventario-danados/', 'CMS\IndexController@danados')->name('inventario.danados');
+    Route::get('hacer-inventario/', 'CMS\IndexController@hacerInventario')->name('inventario.hacerinventario');
     Route::get('aprobar-danados', 'CMS\IndexController@aprobarDanados')->name('danados.aprobar');
     Route::put('aprobar-danados/{id}', function($id){
         $producto = Missing::findOrFail($id);

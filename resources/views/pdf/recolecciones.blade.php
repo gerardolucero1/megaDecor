@@ -14,7 +14,7 @@
         <table style="width: 100%">
             <tr style="text-align:center">
                 <th>Folio</th>
-                <th>Cliente</th>
+                <th>Fecha Evento</th>
                 <th>Vendedor</th>
                 <th>Versión</th>
                 <th>Recolección</th>

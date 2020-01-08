@@ -218,7 +218,7 @@
         <tr>
           <td style="width: 30%">
               <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
-             <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->updated_at}}<br>@if($presupuesto->pagado!=1)
+             <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación de contrato: </span> {{$presupuesto->created_at}}<br><span style="font-style: italic">Fecha de creación de presupuesto: </span> {{$presupuesto->updated_at}}<br>@if($presupuesto->pagado!=1)
               <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
                 @endif</p>
           </td>
