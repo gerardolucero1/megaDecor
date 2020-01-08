@@ -59,8 +59,8 @@
                                 if($contrato->total > $comision->minimoVentaComision){
                                     
                                     foreach($BudgetInventory as $element){
-                                        dd($element);
-                                     $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+                                        
+                                     $totalComisionable = $totalComisionable + (floatval($element->cantidad)*floatval($element->precioEspecial)) - (floatval($element->cantidad)*floatval($element->precioVenta));
                                 }
                                     $totalComision= ($totalComisionable)*($comision->comisionContrato/100);
                             }
