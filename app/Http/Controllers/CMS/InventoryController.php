@@ -207,8 +207,12 @@ class InventoryController extends Controller
     }
 
     public function pdf(Request $request){        
-
+        
+        if(!is_null($request->familia)){
         $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }else{
+        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
+        }
         
 
 

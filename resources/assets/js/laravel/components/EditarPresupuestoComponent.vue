@@ -75,6 +75,7 @@ padding: 0;
     <section class="container" v-if="unlock" style="background:white;">
         <div class="container-version" style="margin-top:-35px">
     Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+    <br><span v-if="editado==1">Editado</span><span v-else>Sin Cambios</span>
         </div>
         <div class="row">
             
@@ -129,19 +130,19 @@ padding: 0;
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
-                                <input type="time" class="form-control timepicker" v-model="presupuesto.horaEventoInicio">
-                                -AM <input type="radio" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
-                                -PM <input type="radio" value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                <input v-on:change="editadoFuntion()" type="time" class="form-control timepicker" v-model="presupuesto.horaEventoInicio">
+                                -AM <input v-on:change="editadoFuntion()" type="radio" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                -PM <input v-on:change="editadoFuntion()" type="radio" value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
-                                <input type="time" class="form-control timepicker" v-model="presupuesto.horaEventoFin">
-                                -AM <input type="radio" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
-                                -PM <input type="radio" value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                <input v-on:change="editadoFuntion()" type="time" class="form-control timepicker" v-model="presupuesto.horaEventoFin">
+                                -AM <input v-on:change="editadoFuntion()" type="radio" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                -PM <input v-on:change="editadoFuntion()" type="radio" value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
-                             <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
+                             <input type="checkbox" v-on:change="editadoFuntion()" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
                             Pendiende</label>
                             </div>
                     <div class="col-md-4">
@@ -280,22 +281,22 @@ padding: 0;
                     </div>
           
                     <div class="col-md-10 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
-                        <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar">
+                        <input type="text" v-on:change="editadoFuntion()" placeholder="Nombre" v-model="presupuesto.nombreLugar">
                     </div>
                     <div class="col-md-4 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
-                        <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar">
+                        <input type="text" v-on:change="editadoFuntion()" placeholder="Direccion" v-model="presupuesto.direccionLugar">
                     </div>
                     <div class="col-md-2 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
-                        <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar">
+                        <input type="text" v-on:change="editadoFuntion()" placeholder="Numero" v-model="presupuesto.numeroLugar">
                     </div>
                     <div class="col-md-4 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
-                        <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
+                        <input type="text" v-on:change="editadoFuntion()" placeholder="Colonia" v-model="presupuesto.coloniaLugar">
                     </div>
                     <div class="col-md-2 mt-4" v-if="presupuesto.lugarEvento!='BODEGA'">
-                        <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar">
+                        <input type="text" v-on:change="editadoFuntion()" placeholder="C.P" v-model="presupuesto.CPLugar">
                     </div>
                     <div class="col-md-12 mt-4">
-                        <input type="text" style="background:#FFFDC8; border:none; padding:2px;" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
+                        <input type="text" v-on:change="editadoFuntion()" style="background:#FFFDC8; border:none; padding:2px;" name="" id="" placeholder="Observaciones" v-model="presupuesto.observacionesLugar">
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -530,7 +531,8 @@ padding: 0;
 
                 <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button><br><br>
+                        <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
+                        <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
                          <button style="" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar por correo</button>
                          <a target="_blank" class="btn btn-primary" style="width:100%; margin-top:15px;" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
@@ -945,11 +947,11 @@ padding: 0;
                         
                         <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-1">Desde</label>
-                            <input type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
+                            <input v-on:change="editadoFuntion()" type="time" id="hora-1" class="form-control" v-model="facturacion.horaInicio">
                         </div>
                         <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Hasta</label>
-                            <input type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
+                            <input v-on:change="editadoFuntion()" type="time" id="hora-2" class="form-control" v-model="facturacion.horaFin">
                         </div>
                         <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
@@ -968,11 +970,11 @@ padding: 0;
                         <label>Fecha y Hora de retorno de mobiliario</label></div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
-                            <input id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-if="facturacion.recoleccionPreferente=='OTRO'" v-model="facturacion.fechaRecoleccion">
+                            <input v-on:change="editadoFuntion()" id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-if="facturacion.recoleccionPreferente=='OTRO'" v-model="facturacion.fechaRecoleccion">
                         </div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
-                            <input id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
+                            <input  v-on:change="editadoFuntion()" id="recoleccionHora" type="time" name="recoleccionHora" class="form-control" v-model="facturacion.horaRecoleccion">
                         </div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
@@ -995,30 +997,30 @@ padding: 0;
                         </div>
                         <div class="col-md-12" style="padding-top:20px">
                             <label form="notasFactura">Notas de facturación</label>
-                            <textarea id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
+                            <textarea v-on:change="editadoFuntion()" id="notasFactura" class="form-control" width="100%" v-model="facturacion.notasFacturacion"></textarea>
                         </div>
                         
                         <div class="col-md-12 mt-4">
                             <label>Datos de facturación</label>
-                            <input class="form-control" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="Nombre" v-model="facturacion.nombreFacturacion">
                         </div>
                         <div class="col-md-5 mt-4">
-                            <input class="form-control" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="Direccion" v-model="facturacion.direccionFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
-                            <input class="form-control" type="text" placeholder="Numero" v-model="facturacion.numeroFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="Numero" v-model="facturacion.numeroFacturacion">
                         </div>
                         <div class="col-md-5 mt-4">
-                            <input class="form-control" type="text" placeholder="Colonia" v-model="facturacion.coloniaFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="Colonia" v-model="facturacion.coloniaFacturacion">
                         </div>
                         <div class="col-md-6 mt-4">
-                            <input class="form-control" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="email" placeholder="Email" v-model="facturacion.emailFacturacion">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
-                            <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
+                            <input class="form-control" v-on:change="editadoFuntion()" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
                         </div>
                         <div class="col-md-4">
                             <select>
@@ -1033,7 +1035,8 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" @click="guardarContrato()">Guardar</button>
+                    <button type="button" class="btn btn-primary" v-if="editado==1" @click="guardarContrato()">Guardar</button>
+                    <label for="" v-if="editado==0">No hay cambios que guardar</label>
                 </div>
                 </div>
             </div>
@@ -1305,6 +1308,7 @@ padding: 0;
                 
                 inventarioLocal: [],
                 festejados: [],
+                editado:0,
 
                 notasAnterior:'',
 
@@ -1586,7 +1590,7 @@ padding: 0;
                     document.getElementById('hora-1').removeAttribute('disabled');
                     document.getElementById('hora-2').removeAttribute('disabled'); 
                 }
-                
+                this.editado=1;
             },
 
             modificarHoraRecoleccion(){
@@ -1600,6 +1604,7 @@ padding: 0;
                     document.getElementById('recoleccionFecha').removeAttribute('disabled');
                     document.getElementById('recoleccionHora').removeAttribute('disabled'); 
                 }
+                this.editado=1;
             },
             /*
             obtenerCategorias(){
@@ -2035,7 +2040,7 @@ padding: 0;
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
-                    
+                    this.editado=1;
                     
                 }else{
                     if(this.inventarioLocal.some((element) => {
@@ -2068,6 +2073,7 @@ padding: 0;
                         });
                         this.inventarioLocal = this.inventarioLocal.reverse();
                     }
+                    this.editado=1;
                     
                 }
 
@@ -2084,6 +2090,7 @@ padding: 0;
                 // Eliminar
                 eliminarProductoLocal(index){
                     this.inventarioLocal.splice(index, 1);
+                    this.editado=1;
                 },
 
                 //precioEspecial
@@ -2097,7 +2104,7 @@ padding: 0;
                         this.key = key[12];
                     }
                     this.indice = index;
-                    
+                    this.editado=1;
                 },
 
                 // Cantidad
@@ -2105,17 +2112,17 @@ padding: 0;
                     //console.log(key);
                     this.indice = index;
                     this.key = key[3];
-                    console.log(index);
-                    console.log(this.key);
-                       
+                    //console.log(index);
+                    //console.log(this.key);
+                       this.editado=1;
                 },
                 editarPrecioUnitario(index, key){
                     //console.log(key);
                     this.indice = index;
                     this.key = key[4];
-                    console.log(index);
-                    console.log(this.key);
-                       
+                    //console.log(index);
+                    //console.log(this.key);
+                       this.editado=1;
                 },
 
                 updatePrecioEspecial(index){
@@ -2129,6 +2136,7 @@ padding: 0;
                     this.precioEspecialActualizado = '';
                     this.key = '';
                     this.indice = '1000000000';
+                    this.editado=1;
                 },
 
                 updateCantidad(index){
@@ -2143,6 +2151,7 @@ padding: 0;
                     this.key = '';
                     this.indice = '100000000';
                     this.calcularSubtotal();
+                    this.editado=1;
                 },
                  updatePrecioUnitario(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -2158,13 +2167,15 @@ padding: 0;
                     this.key = '';
                     this.indice = '100000000';
                     this.calcularSubtotal();
+                    this.editado=1;
                 },
                 //Ahorro
                 editarAhorro(index, key){
                     this.indice = index;
                     this.key = key[6]; 
-                    console.log(index);
-                    console.log(this.key);  
+                    //console.log(index);
+                    //console.log(this.key); 
+                    this.editado=1; 
                 },
                 updateAhorro(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -2182,6 +2193,7 @@ padding: 0;
                         this.ahorroActualizado = '';
                         this.key = '';
                         this.indice = '100000000';
+                        this.editado=1;
                     }
                     
                 },
@@ -2190,8 +2202,9 @@ padding: 0;
                 editarPrecioFinal(index, key){
                     this.indice = index;
                     this.key = key[5];
-                    console.log(index);
-                    console.log(this.key);  
+                    //console.log(index);
+                    //console.log(this.key);  
+                    this.editado=1;
                 },
                 updatePrecioFinal(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -2211,6 +2224,7 @@ padding: 0;
                         this.precioFinalActualizado = '';
                         this.key = '';
                         this.indice = '100000000';
+                        this.editado=1;
                     }
                     
                 },
@@ -2220,8 +2234,9 @@ padding: 0;
                     this.notasActualizadas= notas;
                     this.indice = index; 
                     this.key = key[7];
-                    console.log(index);
-                    console.log(this.key); 
+                    //console.log(index);
+                    //console.log(this.key); 
+                    this.editado=1;
                 },
                 updateNotas(index){
                     let producto = this.inventarioLocal.find(function(element, indice){
@@ -2234,6 +2249,7 @@ padding: 0;
                         this.notasActualizadas = '';
                         this.key = '';
                         this.indice = '100000000';
+                        this.editado=1;
                     
                 },
 
@@ -2277,6 +2293,7 @@ padding: 0;
                     this.limpiar = false;
                 }, 1000);
                 console.log(this.inventarioLocal);
+                this.editado=1;
                 
             },
             obtenerClientes(){
@@ -2290,9 +2307,11 @@ padding: 0;
             agregarFestejado(){
                 this.festejados.push({'nombre': this.festejado.nombre, 'edad': this.festejado.edad});
                 //this.festejados.push({'nombre': this.festejado.nombre, 'edad': this.festejado.edad});
+                this.editado=1;
             },
             eliminarFestejado(index){
                 this.festejados.splice(index, 1);
+                this.editado=1;
             },
 
             // Guardar como presupuesto
@@ -2348,6 +2367,7 @@ padding: 0;
                         );
                         }
                 });
+                this.editado=0;
             },
             // Guardar como contrato
             guardarContrato(){
@@ -2392,6 +2412,7 @@ padding: 0;
                         );
                         }
                 });
+                this.editado=0;
             },
             obtenerPresupuesto(){
                 let data = window.location.pathname.split('/');
@@ -2641,6 +2662,11 @@ padding: 0;
                     console.log(error.data);
                 })
             },
+
+            editadoFuntion(){
+                
+                this.editado=1;
+            }
             
         }
     }

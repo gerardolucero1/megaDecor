@@ -67,7 +67,7 @@
                                 <div class="row" style="padding: 10px">
                                 <div class="col-md-3">
                                         <label for="">Familias:</label>
-                                    <select name="familia" class="form-control" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
+                                    <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         <option value="">Todas las familias</option>
                                         @foreach($familias as $familia)    
                                             <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
@@ -105,8 +105,8 @@
                         <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf 
-                            <input type="hidden" name="familia" id="inputfamilia" value="">
-                        <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
+                            <input type="text" name="familia" id="inputfamilia" value="">
+                        <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
@@ -362,7 +362,9 @@
         }
         function seleccionarFamilia(){
             
-           NombreFamilia = document.getElementById('familia').value;
+           NombreFamilia = document.getElementById('familia2').value;
+           
+           alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){

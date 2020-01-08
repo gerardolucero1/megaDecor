@@ -12,21 +12,23 @@
 
 
 </table>
-<table border="1" style="border-width: 1px;">
+<table style="border-width: 1px; width:100%">
     <tr style="">
        <th style="padding: 4px;">Servicio</th>
        <th style="padding: 4px;">Bodega</th>
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Familia</th>
-       <th>Check</th>
+       <th style="padding: 4px;">Bodega</th>
+       <th style="padding: 4px;">Exhibición</th>
     </tr>
     @foreach ($Inventario as $item)
-<tr style="">
-<td style="padding: 4px;">{{$item->servicio}}</td>
-<td style="padding: 4px;">{{$item->cantidad}}</td>
-<td style="padding: 4px;">{{$item->exhibicion}}</td>
-<td style="padding: 4px;">{{$item->familia}}</td>
-<td></td>
+<tr style="font-size:12px;">
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->cantidad}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->exhibicion}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->familia}}</td>
+<td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
+<td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
 
 </tr>
 @endforeach
