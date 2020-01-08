@@ -12,6 +12,12 @@
 
 
 </table>
+@php
+use Carbon\Carbon;
+    $date = Carbon::now();
+        $fechaHoy = $date->format('Y-m-d');
+@endphp
+<p>Inventario Impreso {{$fechaHoy}}</p>
 <table style="border-width: 1px; width:100%">
     <tr style="">
        <th style="padding: 4px;">Servicio</th>
@@ -34,6 +40,12 @@
 @endforeach
 </table>
 
+<table style="width: 100%; margin-top: 20px">
+  <tr style="text-align: center">
+    <td>_____________________________<br>Firma conformidad responsable de bodega</td>
+    <td>_____________________________<br>Firma conformidad Ivonne Arroyos</td>
+  </tr>
+</table>
 
       
 
