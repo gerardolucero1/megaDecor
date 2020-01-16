@@ -105,7 +105,7 @@
                         <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf 
-                            <input type="text" name="familia" id="inputfamilia" value="">
+                            <input type="hidden" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
                         </form>    
                     </div>
@@ -364,7 +364,7 @@
             
            NombreFamilia = document.getElementById('familia2').value;
            
-           alert(NombreFamilia);
+           //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){

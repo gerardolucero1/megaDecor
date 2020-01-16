@@ -741,25 +741,27 @@ padding: 0;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
+                                        <label class="col-12" for="example-text-input">Proveedor</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
+                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Costo Unitario</label>
+                                        <label class="col-12" for="example-text-input">Costo Unitario Proveedor</label>
                                         <div class="col-md-12">
                                             <input type="text" class="form-control" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Proveedor</label>
+                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="productoExterno.proveedor">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="productoExterno.precioUnitario">
                                         </div>
-                                    </div>
+                                    </div> 
+
+                                    
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
@@ -970,7 +972,7 @@ padding: 0;
                         <label>Fecha y Hora de retorno de mobiliario</label></div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Fecha de recoleccion</label>
-                            <input v-on:change="editadoFuntion()" id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-if="facturacion.recoleccionPreferente=='OTRO'" v-model="facturacion.fechaRecoleccion">
+                            <input v-on:change="editadoFuntion()" id="recoleccionFecha" type="date" name="recoleccionFecha" class="form-control" v-model="facturacion.fechaRecoleccion">
                         </div>
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label form="fecha-hora">Hora de recoleccion</label>
@@ -979,7 +981,7 @@ padding: 0;
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
-                                <option value="OTRO">Otra</option>
+                                <option value="OTRO" selected>Otra</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -2041,7 +2043,7 @@ padding: 0;
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
                     this.editado=1;
-                    
+                    $('#agregarElemento').modal('hide');
                 }else{
                     if(this.inventarioLocal.some((element) => {
                         return element.servicio == this.productoExterno.servicio
@@ -2071,6 +2073,7 @@ padding: 0;
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
                         });
+                        $('#agregarElemento').modal('hide');
                         this.inventarioLocal = this.inventarioLocal.reverse();
                     }
                     this.editado=1;

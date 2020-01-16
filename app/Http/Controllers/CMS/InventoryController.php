@@ -214,11 +214,12 @@ class InventoryController extends Controller
         $Inventario = Inventory::orderBy('familia', 'DESC')->get();
         }
         
+        $familia = $request->familia;
 
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario'));
+        $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
 
         return $pdf->stream();
 

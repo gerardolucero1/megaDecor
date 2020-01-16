@@ -38,10 +38,12 @@
         <th>Tipo</th>
         <th>Producto</th>
         <th>Cantidad</th>
+        <th>Fecha</th>
         <th colspan="2">Antes del traspaso</th>
         <th colspan="2">Despues del traspaso</th>
     </tr>
     <tr style=" background:blanchedalmond; padding:6px; font-size:12px">
+            <th style="background: white"></th>
             <th style="background: white"></th>
             <th style="background: white"></th>
             <th style="background: white"></th>
@@ -64,6 +66,7 @@
     @else De exhibición a bodega @endif</td>
     <td>{{$producto->servicio}} </td>
     <td>{{$transferencia->cantidad}}</td>
+    <td>{{$transferencia->created_at}}</td>
     <td>{{$transferencia->antes}}</td>
     <td>{{$transferencia->antesExhibicion}}</td>
     <td>@if($transferencia->tipo=="salida"){{$transferencia->antes-$transferencia->cantidad}}@else{{$transferencia->antes+$transferencia->cantidad}}@endif</td>
@@ -82,6 +85,7 @@
         <th>Imagen</th>
         <th>Tipo</th>
         <th>Producto</th>
+        <th>Fecha</th>
         <th>Antes</th>
         <th>Cantidad</th>
         <th>Despues</th>
@@ -95,6 +99,7 @@
     <td><img src="{{$producto->imagen}}" alt="" style="width: 40px"></td>
     <td>{{$accion->tipo}}</td>
             <td>{{$producto->servicio}}</td>
+            <td>{{$producto->created_at}}</td>
             <td>{{$accion->antes}}</td>
             <td>@if($accion->tipo=='alta')<span style="color:green">+ </span>@else <span style="color:red"> - </span>@endif{{$accion->cantidad}}</td>
             <td>@if($accion->tipo=='alta'){{$accion->antes + $accion->cantidad}}@else{{$accion->antes - $accion->cantidad}}@endif</td>

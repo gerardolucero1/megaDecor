@@ -345,8 +345,7 @@
                                 <th>Fecha Evento</th>
                                 <th>Cliente</th>
                                 <th>Vendedor</th>
-                                <th>Version</th>
-                                <th>Última Modificación</th>
+                                <th>Et.</th>
                                 <th>Recolección</th>
                                 <th>Total</th>
                                 <th>Opciones</th>
@@ -388,12 +387,6 @@
                                     @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->user->name}}</td>
-                                            <td class="d-none d-sm-table-cell text-center">
-                                                @if($budgetArchivados->version>1)
-                                                    <i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>
-                                                @endif
-                                                {{$budgetArchivados->version}}
-                                            </td>
                                             <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
                                                 <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                                 <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
@@ -416,7 +409,6 @@
                                                     <br>
                                                     <span style="font-size: 10px; color: green;">IVA</span>
                                                 @endif<br>
-                                                Saldo: 
                                                 @php
                                                     $abono=0;
                                                     $pagos = App\Payment::where('budget_id', $budgetArchivados->id)->get();
@@ -433,7 +425,10 @@
                                                     }
                                                 }
                                                 @endphp
+                                                <span style="color:red">
+                                                Saldo: 
                                                 ${{number_format($saldoPendiente,2)}}
+                                                </span>
                                             </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                 @if($permisos->contratosEditar==1)
