@@ -40,7 +40,7 @@
         <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento </H3></td>
   </tr>
   <tr>
-    <td colspan="4">
+    <td colspan="2">
         <span style="font-weight: bold">Dirección de entrega: </span><br>
         <span>@if($presupuesto->lugarEvento!='BODEGA')
          <span style="background: #FFF9C8"> {{$presupuesto->nombreLugar}}</span><br> {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
@@ -50,23 +50,27 @@
           <span style="font-style: italic"> {{$presupuesto->observacionesLugar}}</span>
           <div style="width: 100%; border-bottom:solid; border-bottom-style: dotted; border-bottom-width: 1px; margin-top: 5px"></div>
     </td>
+    <td colspan="2">
+      <span style=" font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span><br> 
+    </span><br>
+    <span style="font-weight: normal">
+      Telefonos de contacto:<br>
+      @foreach($Telefonos as $telefono)
+      @php
+        $lada=substr($telefono->numero, 0,3);
+        $primerosnumero=substr($telefono->numero, 3,3);
+        $segundos=substr($telefono->numero, 6,2);
+        $terceros=substr($telefono->numero, 8,2);
+      @endphp
+    {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span>
+    </td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px; padding-top:10px">
 <td colspan="2"><span>Fecha y Hora del evento: </span><br><span style="font-weight: normal">
     {{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}}{{$presupuesto->inicioAmPm}}- {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}} @else HORARIO DEL EVENTO PENDIENTE @endif<br>
-    <span style="margin-right:20px; font-size: 14px; font-weight: bold">Requiere Montaje: <span style="font-weight: normal">{{$presupuesto->requiereMontaje}}</span></span><br> 
-  </span></td>
+   </td>
 <td colspan="2"><span>Recolección de Mobiliario: <br><span style="font-weight: normal">@if($presupuesto->entregaEnBodega==1) Cliente entrega a bodega @else @if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif @endif</span><br>
-  <span style="font-weight: normal">
-    Telefonos de contacto:<br>
-    @foreach($Telefonos as $telefono)
-    @php
-      $lada=substr($telefono->numero, 0,3);
-      $primerosnumero=substr($telefono->numero, 3,3);
-      $segundos=substr($telefono->numero, 6,2);
-      $terceros=substr($telefono->numero, 8,2);
-    @endphp
-  {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span></td> 
+ </td> 
 </tr>
 <tr style=" font-size: 14px;">
 <td colspan="2"></td>
