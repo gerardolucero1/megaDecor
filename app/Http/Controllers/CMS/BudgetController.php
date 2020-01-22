@@ -985,7 +985,10 @@ class BudgetController extends Controller
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
             $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
-            $presupuesto->pagado         = false;
+
+            if($version->total!=$presupuesto->total){
+            $presupuesto->pagado                    = false;}
+
 
             if($request->presupuesto['impresionBodega'] == 1){
                 $presupuesto->impresionBodega = 2;
