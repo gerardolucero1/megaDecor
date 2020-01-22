@@ -63,7 +63,7 @@
         $terceros=substr($telefono->numero, 8,2);
       @endphp
     {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span><br>
-    <span>Entrega Preferente: @if($presupuesto->horaEntrega!='OTRO'){{$presupuesto->horaEntrega}}@else {{$presupuesto->horaInicio}} - {{$presupuesto->horaFin}}@endif</span>
+    <span style="font-weight:bold">Entrega Preferente: </span><span>@if($presupuesto->horaEntrega!='OTRO'){{$presupuesto->horaEntrega}}@else {{$presupuesto->horaInicio}} - {{$presupuesto->horaFin}}@endif</span>
     </td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px; padding-top:10px">
@@ -254,11 +254,11 @@
         <H3 style="line-height: 15px; font-size: 18px">Datos Generales Del Evento</H3></td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px;">
-<td colspan="2"><span>Fecha y Hora del evento: </span></td>
+<td colspan="2"><span>Horario del evento: </span></td>
 <td colspan="4"><span style="font-weight: bold">Dirección de entrega: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else HORARIO DEL EVENTO PENDIENTE @endif</td>
+<td colspan="2">@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else HORARIO DEL EVENTO PENDIENTE @endif</td>
 <td colspan="2">
   @if($presupuesto->lugarEvento!='BODEGA')
   <span style="background: #FFF9C8"> {{$presupuesto->nombreLugar}}</span><br>{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
