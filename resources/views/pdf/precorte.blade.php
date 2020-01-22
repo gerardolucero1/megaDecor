@@ -136,6 +136,12 @@ $ingresosExtraordinarios += $pago->cantidad;}
 
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>
+
+    <!-- Inicia pagos en efectivo -->
+    @if($ingresosContratos>0)
+    @php
+        $ingresosContratos=0;
+    @endphp
     <label for="" style="font-style:italic">Efectivo</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
@@ -177,7 +183,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold;">Total pagos en efectivo a contratos: ${{number_format($ingresosContratos,2)}}</p>
+    @endif
+    <!-- Finaliza tabla pagos en efectivo -->
 
+    <!-- Inicia pagos con tarjeta -->
+    @if($ingresosContratosTarjeta>0)
+    @php
+       $ingresosContratosTarjeta=0; 
+    @endphp
     <label for="" style="font-style:italic">Tarjeta</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
@@ -223,7 +236,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con tarjeta: ${{number_format($ingresosContratosTarjeta,2)}}</p>
+    @endif
+    <!-- Termina pagos con tarjeta -->
 
+    <!-- Inicia pagos con transferencia -->
+    @if($ingresosContratosTransferencia>0)
+    @php
+        $ingresosContratosTransferencia=0;
+    @endphp
     <label for="" style="font-style:italic">Transferencia</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
@@ -264,7 +284,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con transferencia: ${{number_format($ingresosContratosTransferencia,2)}}</p>
+    @endif
+    <!-- Termina pagos con transferencia -->
 
+    <!-- Inicia pagos con cheques -->
+@if($ingresosContratosCheque>0)
+@php
+   $ingresosContratosCheque=0; 
+@endphp
     <label for="" style="font-style:italic">Cheques</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
@@ -310,7 +337,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en cheques: ${{number_format($ingresosContratosCheque,2)}}</p>
+    @endif
+    <!-- Termina pagos con cheques -->
 
+    <!-- Inicia pagos con dolares -->
+    @if($ingresosContratosDolar>0)
+    @php
+       $ingresosContratosDolar=0; 
+    @endphp
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
@@ -354,7 +388,17 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
             <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}Dlls</p>
+            @endif
+    <!-- Termina pagos con dolares -->
    
+    <!-- Inicia ingresos extraordinarios -->
+    @if(($ingresosExtraordinarios+$ingresosExtraordinariosCheque+$ingresosExtraordinariosDolar+$ingresosExtraordinariosTarjeta)>0)
+    @php
+        $ingresosExtraordinarios=0;
+        $ingresosExtraordinariosCheque=0;
+        $ingresosExtraordinariosDolar=0;
+        $ingresosExtraordinariosTarjeta=0;
+    @endphp
 <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Ingresos Extraordinarios</label>
     <table style="width: 100%; font-size: 13px;">
@@ -391,7 +435,18 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en cheques: ${{number_format($ingresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($ingresosExtraordinariosTarjeta,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinariosDolar,2)}}</p>
+
+            @endif
+            <!--Finaliza tabla ingresos extraordinarios -->
  
+            <!-- Inicia egresos extraordinarios -->
+@if(($egresosExtraordinarios+$egresosExtraordinariosCheque+$egresosExtraordinariosDolar+$egresosExtraordinariosTarjeta)>0)
+@php
+    $egresosExtraordinarios=0;
+    $egresosExtraordinariosCheque=0;
+    $egresosExtraordinariosDolar=0;
+    $egresosExtraordinariosTarjeta=0;
+@endphp
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             <label for="" style="font-weight: bold; margin-bottom: 10px; padding-top:50px">Egresos extraordinarios</label>
             <table style="width: 100%; font-size: 13px;">
@@ -432,14 +487,16 @@ $ingresosExtraordinarios += $pago->cantidad;}
                     <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en cheques: ${{number_format($egresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($egresosExtraordinariosTarjeta,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($egresosDolaresExtraordinarios,2)}}</p>
+            @endif
+            <!--Finaliza tabla egresos extraordinarios-->
                     
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             
             @php
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
-            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{$precorte}}</p>
-            <p style="font-size: 15px; font-weight: bold; text-align: center; padding-top:30px">___________________________<br>Firma de responsable</p>
+            <p style="font-size: 15px; font-weight: bold">Efectivo en caja (calculado por el sistema): ${{number_format($precorte,2)}}</p>
+                <p style="font-size: 15px; font-weight: bold; text-align: center; padding-top:30px">___________________________<br>Firma {{$cajero->name}}</p>
    
 <script type="text/php">
         if ( isset($pdf) ) {
