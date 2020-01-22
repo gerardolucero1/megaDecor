@@ -104,7 +104,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 </tr>
 <tr>
     <td>Notas (solo visibles para vendedores):</td>
-  <td>{{$presupuesto->notasPresupuesto}}</td>
+    <td>{{$presupuesto->notasPresupuesto}}</td>
     <td></td></tr>
 </table>
 <table style="width: 100%; margin-top: 10px">
@@ -191,6 +191,32 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 
     @endif
 </table>
+<table style="width: 100%">
+  @if($presupuesto->tipo == "CONTRATO")
+    <tr>
+      <td colspan="3">Pagos y saldo pendiente</td>
+    </tr>
+    <tr style="background:#9E9E9E; text-align: center; font-size:13px">
+      <td>Fecha de pago</td>
+      <td>Metodo de pago</td>
+      <td>Monto</td>
+    </tr>
+    @php
+        $pagos = App\Payment::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->get();
+        $abono = 0;
+    @endphp
+    @foreach ($pagos as $pago)
+    <tr style="text-align:center; font-size:13px">
+    <td>{{$pago->created_at}}</td>
+      <td>{{$pago->method}}</td>
+      <td>${{number_format($pago->amount,2)}}</td>
+    </tr>
+    @php
+        $abono=$abono+$pago->amount;
+    @endphp
+    @endforeach
+    @endif
+</table>
 
 @php
   if($presupuesto->opcionIVA==1){
@@ -217,6 +243,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @endphp
    
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
+      </tr>
+      <tr>
+      <td style="font-size: 12px">saldo pendiente: ${{number_format($presupuesto->total-$abono,2)}}</td>
       </tr>
      
       @if($presupuesto->tipo=='CONTRATO')

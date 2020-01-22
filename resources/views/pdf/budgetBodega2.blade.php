@@ -62,7 +62,8 @@
         $segundos=substr($telefono->numero, 6,2);
         $terceros=substr($telefono->numero, 8,2);
       @endphp
-    {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span>
+    {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span><br>
+    <span>Entrega Preferente: @if($presupuesto->horaEntrega!='OTRO'){{$presupuesto->horaEntrega}}@else {{$presupuesto->horaInicio}} - {{$presupuesto->horaFin}}@endif</span>
     </td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px; padding-top:10px">
@@ -97,6 +98,15 @@
         </p>
         </td>
       </tr>
+      @if($presupuesto->lugarEvento=='BODEGA')
+      <tr>
+        <td style="font-weight: bold">DEJAR IDENTIFICACIÓN VIGENTE INDISPENSABLE*<br>
+        <span style="font-size: 10px">Marcar tipo de identificación y registrar numero</span><br>
+          <span style="background: cornsilk; margin-left: 10px; font-weight: normal; font-style: italic"> INE </span><span style="background: cornsilk; margin-left: 10px; font-weight: normal; font-style: italic">Licencia</span>
+          <span style="background: cornsilk; margin-left: 10px; font-weight: normal; font-style: italic">Otra</span><span style="margin-left: 10px;"> No.:_________________________</span>
+      </td>
+      </tr>
+      @endif
 </table>
 
 <table style="width: 100%; margin-top: 10px">

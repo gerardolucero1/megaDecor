@@ -968,6 +968,7 @@ class BudgetController extends Controller
         
         
         
+        
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -984,6 +985,7 @@ class BudgetController extends Controller
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
             $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
+            $presupuesto->pagado         = false;
 
             if($request->presupuesto['impresionBodega'] == 1){
                 $presupuesto->impresionBodega = 2;

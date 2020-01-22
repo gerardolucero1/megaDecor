@@ -102,10 +102,7 @@
         
                         <div class="form-group">
                             <label for="">Motivo</label>
-                            <select name="" id="" v-model="alta.motivo" class="form-control">
-                                <option value="QUEBRADO">Quebrado</option>
-                                <option value="PREDEFINIDO">Predefinido</option>
-                            </select>
+                            <input type="text" v-model="alta.motivo" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">

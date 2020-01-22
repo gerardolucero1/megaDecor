@@ -116,7 +116,7 @@
         <section class="container pb-3">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
-                    <button @click="registrarProveedor()" class="btn btn-block btn-sm btn-success">Editar</button>
+                    <button @click="registrarProveedor()" class="btn btn-block btn-sm btn-success">Guardar</button>
                 </div>
             </div>
         </section>
