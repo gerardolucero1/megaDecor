@@ -26,8 +26,10 @@
                                 <tr role="row">
                                     <th>Foto</th>
                                     <th>Servicio</th>
+                                    <th>Familia</th>
                                     <th class="d-none d-sm-table-cell">Cantidad anterior</th>
                                     <th class="d-none d-sm-table-cell">Cantidad actual Bodega</th>
+                                    <th class="d-none d-sm-table-cell">Cantidad anterior exhibicion</th>
                                     <th class="d-none d-sm-table-cell">Cantidad actual Exhibición</th>
                                     <th class="d-none d-sm-table-cell">Opciones</th>
                                 </tr>
@@ -39,8 +41,10 @@
                                             <img src="{{ $producto->imagen }}" alt="" width="100px">
                                         </td>
                                         <td>{{ $producto->servicio }}</td>
-                                        <td>{{ $producto->cantidad + $producto->exhibicion }}</td>
+                                        <td>{{ $producto->familia }}</td>
+                                        <td>{{ $producto->cantidad}}</td>
                                         <td><input style="width: 100%; background:white; border:solid; border-width: 1px;" value="{{$producto->cantidad}}"></td>
+                                        <td>{{ $producto->cantidad + $producto->exhibicion }}</td>
                                         <td><input style="width: 100%; background:white; border:solid; border-width: 1px;" value="{{$producto->exhibicion}}"></td>
                                         @if ($producto->reportado)
                                             <td>
@@ -48,6 +52,7 @@
                                             </td>
                                         @else
                                             <td>
+                                                <input type="checkbox">
                                                 <button style="margin-right:4px;" class="btn btn-sm btn-success" data-toggle="tooltip" title="Guardar" data-original-title="Aprobar dañados">
                                                     <i class="fa fa-check"></i>
                                                 </button>
