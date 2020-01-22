@@ -15,20 +15,19 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td>
-                                <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
+                                <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 150px">
                             </td>
                         <td style="text-align: right">
                                 <span style="font-weight: bold; font-size: 14px">Folio de contrato:</span> <span>{{$Budget->folio}} </span><br>
                                 <span style="font-weight: bold; font-size: 14px">#Recibo:</span> <span> {{$Pago->id}} </span><br>
                             <span style="font-style: italic; font-size: 14px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">{{$Pago->created_at}}  </span><br>
-                            <span  style="font-style: italic; font-size: 14px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">{{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span><br>
                             <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha del evento: </span><span>{{$fechaEvento->translatedFormat(' l j F Y')}}<span>
 
                             </td>
                         </tr>
                        
                         </table>
-                    <p style="text-align: center; margin-top: 0px"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
+                    <p style="text-align: center; margin-top: 0px; font-size:12px"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
                         <span style="text-align: center; line-height: 16px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( @php
                             $numero=$Pago->amount;
                                 function unidad($numuero){
@@ -427,7 +426,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                             <br>Su abono: ${{number_format($Pago->amount,2)}}
                             <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
 
-                            <p style="text-align: center">_____________________________________<br>Firma del Encargado</p>
+                            <p style="text-align: center; width: 50%; margin-top:-40px">_____________________________________<br>Firma del Encargado</p>
                 </div>
 
 
@@ -445,14 +444,13 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                     <span style="font-weight: bold; font-size: 12px">Folio de contrato:</span> <span>{{$Budget->folio}} </span><br>
                                     <span style="font-weight: bold; font-size: 12px">#Recibo:</span> <span> {{$Pago->id}} </span><br>
                                 <span style="font-style: italic; font-size: 12px;  font-weight: bold">Fecha de pago: </span> <span style="font-style: italic; font-size: 14px">{{$Pago->created_at}}  </span><br>
-                                <span  style="font-style: italic; font-size: 12px; font-weight: bold">Cliente: </span> <span style="font-style: italic; font-size: 14px">{{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span><br>
                                 <span  style="font-style: italic; font-size: 12px; font-weight: bold">Fecha del evento: </span><span>{{$fechaEvento->translatedFormat(' l j F Y')}}<span>
     
                                 </td>
                             </tr>
                            
                             </table>
-                        <p style="text-align: center; font-size: 12px;"><span style="font-weight: bold"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
+                        <p style="text-align: center; font-size: 12px;"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
                             <span style="text-align: center; line-height: 13px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( @php        
         echo convertir($numero);
         
@@ -514,7 +512,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 <br>Su abono: ${{number_format($Pago->amount,2)}}
                                 <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
     
-                                <p style="text-align: center; font-size: 11px; font-style: italic">El saldo real se mostrará al final de su evento en el corte mostrado por el salón, ya que el monto puede variar por modificaciones en servicios solicitados por parte del cliente despues de eeste recibo</p>
+                                <p style="text-align: center; font-size: 11px; font-style: italic">El Monto final del evento puede variar por modificaciones en aumento de servicios solicitados por parte del cliente despues de este recibo</p>
                                 <table style="width: 100%; margin-top: -10px">
                                     <tr>
                                         <td><p style="text-align: center">______________________________<br>Firma del Encargado</p></td>

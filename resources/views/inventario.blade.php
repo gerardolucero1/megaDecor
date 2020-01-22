@@ -261,7 +261,7 @@
                                     <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
                                             <i class="fa fa-remove"></i> 
                                         </button>
                                     </form>
