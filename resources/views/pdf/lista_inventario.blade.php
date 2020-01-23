@@ -20,7 +20,8 @@ use Carbon\Carbon;
 <p>Inventario Impreso {{$fechaHoy}}</p>
 <table style="border-width: 1px; width:100%">
     <tr style="">
-       <th style="padding: 4px;">Servicio</th>
+      <th style="padding:4px">Imagen</th> 
+      <th style="padding: 4px;">Servicio</th>
        <th style="padding: 4px;">Bodega</th>
        <th style="padding: 4px;">Bodega</th>
        <th style="padding: 4px;">Exhibición</th>
@@ -28,6 +29,7 @@ use Carbon\Carbon;
     </tr>
     @foreach ($Inventario as $item)
 <tr style="font-size:12px;">
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$item->cantidad}}</td>
 <td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
