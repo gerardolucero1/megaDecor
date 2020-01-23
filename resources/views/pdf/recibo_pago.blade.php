@@ -423,6 +423,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                             $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
                         @endphp
                         <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
+                            <br>Pagos anteriores: ${{number_format($totalPagosAnteriores)}}
                             <br>Su abono: ${{number_format($Pago->amount,2)}}
                             <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
 
@@ -451,9 +452,10 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                            
                             </table>
                         <p style="text-align: center; font-size: 12px;"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
-                            <span style="text-align: center; line-height: 13px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( @php        
+                            <span style="text-align: center; line-height: 13px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( 
+                                @php        
         echo convertir($numero);
-        
+        $abonosAnteriores=0;
                                 @endphp)</span>
                               </p>
                            
@@ -473,6 +475,9 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                     <td>{{$pago->method}}</td>
                                 <td>${{number_format($pago->amount,2)}}</td>
                                 </tr>
+                                @php
+                                    $abonosAnteriores=$abonosAnteriores+$pago->amount;
+                                @endphp
                                 @endforeach
                             </table>
     
@@ -509,6 +514,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
                             @endphp
                             <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
+                                <br>Pagos anteriores: ${{number_format($totalPagosAnteriores)}}
                                 <br>Su abono: ${{number_format($Pago->amount,2)}}
                                 <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
     
