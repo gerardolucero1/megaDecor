@@ -7,6 +7,9 @@
   <title>@if($presupuesto->tipo=='PRESUPUESTO') Presupuesto @else Contrato @endif</title>
 </head>
 <body style="font-family: Helvetica; ">
+  @php
+      $abono = 0;
+  @endphp
 <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
   <tr>
     @if($presupuesto->tipoEvento == 'Externo' && $presupuesto->tipoServicio == 'Formal')
@@ -203,7 +206,6 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     </tr>
     @php
         $pagos = App\Payment::orderBy('id', 'ASC')->where('budget_id', $presupuesto->id)->get();
-        $abono = 0;
     @endphp
     @foreach ($pagos as $pago)
     <tr style="text-align:center; font-size:13px">
