@@ -67,7 +67,6 @@
                                             <th scope="col">Despues en bodega</th>
                                             <th scope="col">Antes en exhibicion</th>
                                             <th scope="col">Despues en exhibicion</th>
-                                            <th scope="col">Usuario</th>
                                             <th scope="col">Fecha Compra</th>
                                             <th scope="col">Fecha de Captura</th>
                                             <th scope="col">Proveedor</th>
@@ -85,7 +84,6 @@
                                                 <td>@if($registro->motivo=="baja"){{ $registro->user->antes-$registro->user->cantidad }}@else{{ $registro->user->antes+$registro->user->cantidad }}@endif</td>
                                                 <td>{{ $registro->antesExhibicion }}</td>
                                                 <td>@if($registro->motivo=="alta"){{ $registro->user->antesExhibicion+$registro->user->cantidad }}@else{{ $registro->user->antesExhibicion-$registro->user->cantidad }}@endif</td>
-                                                <td>{{ $registro->user->name }}</td>
                                                 <td>{{ $registro->fechaCompra }}</td>
                                                 <td>{{ $registro->created_at }}</td>
                                                 <td>{{ $registro->proveedor }}</td>
