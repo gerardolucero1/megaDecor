@@ -8,6 +8,7 @@
 </head>
 @php
 $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
+$cajero = Illuminate\Support\Facades\Auth::user()->name;
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%; margin-top;-20px">
@@ -372,6 +373,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                           </p>
                        
                         <div style="width: 100%; height: 0px"></div>
+                        @if(intval(count($Pagos))>0)
                         <label for="" style="font-size: 10px; font-style: italic">Abonos Anteriores</label>
                         <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
                             <tr>
@@ -389,6 +391,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                             </tr>
                             @endforeach
                         </table>
+                        @endif
 
                         <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
                         <table style="width: 100%; font-size: 13px"> 
@@ -422,12 +425,15 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                         @php
                             $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
                         @endphp
-                        <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
-                            <br>Pagos anteriores: ${{number_format($totalPagosAnteriores)}}
+                        <p style="text-align: right; font-weight: bold; padding-right:20px">
+                        <span>Total del evento: @if($Budget->opcionIVA){{number_format($Budget->total*1.16,2)}}@else {{number_format($Budget->total,2)}}@endif</span>
+                            <br><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
+                            <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
                             <br>Su abono: ${{number_format($Pago->amount,2)}}
                             <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
 
-                            <p style="text-align: center; width: 50%; margin-top:-40px">_____________________________________<br>Firma del Encargado</p>
+                            <p style="text-align: center; width: 50%; margin-top:-100px"><span style="font-size:11px;">El Monto final del evento puede variar por modificaciones en aumento de servicios solicitados por parte del cliente despues de este recibo</span>
+                            <br><br>_____________________________________<br>Firma {{$cajero}}</p>
                 </div>
 
 
@@ -460,6 +466,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                               </p>
                            
                             <div style="width: 100%; height: 0px"></div>
+                            @if(intval(count($Pagos))>0)
                             <label for="" style="font-size: 10px; font-style: italic">Abonos Anteriores</label>
                             <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
                                 <tr>
@@ -480,6 +487,7 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 @endphp
                                 @endforeach
                             </table>
+                            @endif
     
                             <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
                             <table style="width: 100%; font-size: 13px"> 
@@ -514,15 +522,15 @@ $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
                                 $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
                             @endphp
                             <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
-                                <br>Pagos anteriores: ${{number_format($totalPagosAnteriores)}}
+                                <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
                                 <br>Su abono: ${{number_format($Pago->amount,2)}}
                                 <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
     
                                 <p style="text-align: center; font-size: 11px; font-style: italic">El Monto final del evento puede variar por modificaciones en aumento de servicios solicitados por parte del cliente despues de este recibo</p>
                                 <table style="width: 100%; margin-top: -10px">
                                     <tr>
-                                        <td><p style="text-align: center">______________________________<br>Firma del Encargado</p></td>
-                                        <td><p style="text-align: center">______________________________<br>Firma del Cliente</p></td>
+                                    <td><p style="text-align: center">______________________________<br>Firma {{$cajero }}</p></td>
+                                        <td><p style="text-align: center">______________________________<br>Firma {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</p></td>
                                     </tr>
                                 </table>
                                 
