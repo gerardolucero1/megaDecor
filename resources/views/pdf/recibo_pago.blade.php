@@ -427,7 +427,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                         @endphp
                         <p style="text-align: right; font-weight: bold; padding-right:20px">
                         <span>Total del evento: @if($Budget->opcionIVA){{number_format($Budget->total*1.16,2)}}@else {{number_format($Budget->total,2)}}@endif</span>
-                            <br><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
+                            <br><span style="font-weight: normal"> Saldo Anterior: ${{number_format($BudgetTotal-$totalPagosAnteriores,2)}}</span>
                             <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
                             <br>Su abono: ${{number_format($Pago->amount,2)}}
                             <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
@@ -521,7 +521,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                             @php
                                 $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
                             @endphp
-                            <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($Budget->total-$totalPagosAnteriores,2)}}</span>
+                            <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($BudgetTotal-$totalPagosAnteriores,2)}}</span>
                                 <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
                                 <br>Su abono: ${{number_format($Pago->amount,2)}}
                                 <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
