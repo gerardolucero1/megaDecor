@@ -958,13 +958,16 @@ padding: 0;
                         <div v-if="presupuesto.lugarEvento!='BODEGA' && presupuesto.pendienteLugar!=true" class="col-md-4">
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
-                                <option value="OTRO">Otra</option>
+                                <option selected value="OTRO">Otra</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="LA NOCHE">Por la noche</option>
                                 <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
+                                <option value="UN DIA ANTES">Un Dia Antes</option>
+                                <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                
                             </select>
                         </div>
                         <br>
@@ -981,13 +984,16 @@ padding: 0;
                         <div v-if="facturacion.entregaEnBodega!=true" class="col-md-4" style="padding-top:20px">
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
-                                <option value="OTRO">Otra</option>
+                                <option selected value="OTRO">Otra</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
                                 <option value="LA NOCHE">Por la noche</option>
                                 <option value="PENDIENTE">Pendiente por confirmar cliente</option>
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
+                                <option value="UN DIA ANTES">Un Dia Antes</option>
+                                <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                                                
                             </select>
                         </div>
                         <div class="col-md-12">
