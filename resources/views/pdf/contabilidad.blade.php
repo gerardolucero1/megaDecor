@@ -242,7 +242,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
 
 
     <!-- Inicia pagos con transferencia -->
-    @if($ingresosContratosTransferencia>0)
+   
     @php
         $ingresosContratosTransferencia=0;
     @endphp
@@ -286,7 +286,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con transferencia: ${{number_format($ingresosContratosTransferencia,2)}}</p>
-    @endif
+    
     <!-- Termina pagos con transferencia -->
 
 
