@@ -411,7 +411,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                         <div style="width: 100%; height: 0px; border-bottom:solid"></div>
                         @php
                             $totalPagosAnteriores=0;
-                            if($Budget->opcionIVA){
+                            if($Budget->opcionIVA==true){
                             $BudgetTotal=$Budget->total*1.16;}else{
                                 $BudgetTotal=$Budget->total;
                             }

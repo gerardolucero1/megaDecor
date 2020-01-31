@@ -234,6 +234,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         $subtotal=$presupuesto->total;
         $total=$subtotal + $iva;
         $total=number_format($total,2);
+
+        
     @endphp
       @if($presupuesto->opcionDescuento==1)
       Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
@@ -247,7 +249,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
       </tr>
       <tr>
-      <td style="font-size: 12px">saldo pendiente: ${{number_format($presupuesto->total-$abono,2)}}</td>
+      <td style="font-size: 12px">saldo pendiente: ${{number_format($presupuesto->total+$iva-$abono,2)}}</td>
       </tr>
      
       @if($presupuesto->tipo=='CONTRATO')
