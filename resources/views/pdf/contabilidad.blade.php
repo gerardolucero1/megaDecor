@@ -86,6 +86,18 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTransferencia += $pago->amount;}
         @endphp
     @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="CHEQUE"){
+            $ingresosContratosCheques += $pago->amount;}
+        @endphp
+    @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="TARJETA"){
+            $ingresosContratosTarjeta += $pago->amount;}
+        @endphp
+    @endforeach
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
