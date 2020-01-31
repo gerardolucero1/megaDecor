@@ -80,6 +80,12 @@ $ingresosExtraordinarios += $pago->cantidad;}
         $ingresosContratos += $pago->amount;}
         @endphp
     @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="TRANSFERENCIA"){
+            $ingresosContratosTransferencia += $pago->amount;}
+        @endphp
+    @endforeach
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
@@ -242,7 +248,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
 
 
     <!-- Inicia pagos con transferencia -->
-   
+    @if($ingresosContratosTransferencia>0)
     @php
         $ingresosContratosTransferencia=0;
     @endphp
@@ -286,7 +292,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endforeach
     </table>
     <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato con transferencia: ${{number_format($ingresosContratosTransferencia,2)}}</p>
-    
+    @endif
     <!-- Termina pagos con transferencia -->
 
 
