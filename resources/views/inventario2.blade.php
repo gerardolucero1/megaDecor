@@ -124,9 +124,11 @@
                                 <td>{{$inventario->cantidad}}
                                     <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                     <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
-                                <td id="exhibicionAnterior-{{ $inventario->id }}">{{$inventario->exhibicion}}</td>
-                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
+                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{ $inventario->cantidad }}</td>
+                                <td id="exhibicionAnterior-{{ $inventario->id }}">{{$inventario->exhibicion}}
+                                    <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
@@ -261,15 +263,17 @@
         }
 
 
-        function RegistrarActualizado(id){
-            //alert(id);
+        function RegistrarActualizado(id, cantidad){
+            //alert(cantidad);
             let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
             let URL = 'registrar-cantidad-actualizada/' + id;
 
             let data = 'cantidad-' + id;
-            let etiqueta = 'aumentoBodega-' + id;
+            let aumento = 'aumentoBodega-' + id;
+            let disminucion = 'disminucionBodega-' + id;
             let td = document.getElementById(data);
-            let et = document.getElementById(etiqueta);
+            let up = document.getElementById(aumento);
+            let down = document.getElementById(disminucion);
 
            
             
@@ -280,14 +284,19 @@
             if(isNaN(nuevaCantidad)){
                 alert('Ingresa un valor valido');
             }else{
-                console.log(td);
-                console.log(et);
-
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
                 td.innerHTML = nuevaCantidad;
-                et.style.display="inline";
+                
+                if(nuevaCantidad>=cantidad){
+                up.style.display="inline";
+                down.style.display="none";
+                }else{
+                up.style.display="none";
+                down.style.display="inline";  
+                } 
+               
                 //location.reload();
              }).catch((error) => {
                  console.log(error.data);
@@ -295,6 +304,47 @@
             }
 
             
+        }
+
+        function RegistrarExhibicionActualizado(id, cantidad)
+            //alert(cantidad);
+            let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
+            let URL = 'registrar-cantidad-actualizada/' + id;
+
+            let data = 'Exhibicion-' + id;
+            let aumento = 'aumentoExhibicion-' + id;
+            let disminucion = 'disminucionExhibicion-' + id;
+            let td = document.getElementById(data);
+            let up = document.getElementById(aumento);
+            let down = document.getElementById(disminucion);
+
+           
+            
+            
+
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+                td.innerHTML = nuevaCantidad;
+                
+                if(nuevaCantidad>=cantidad){
+                up.style.display="inline";
+                down.style.display="none";
+                }else{
+                up.style.display="none";
+                down.style.display="inline";  
+                } 
+               
+                //location.reload();
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+            }   
         }
 
         function finalizarInventarioFisico(){
