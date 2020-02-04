@@ -274,7 +274,7 @@
                                             <a href="{{ route('inventario.danados') }}">Dañados</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('inventario.hacerinventario') }}">Hacer Inventario</a>
+                                            <a href="{{ route('inventario2') }}">Hacer Inventario</a>
                                         </li>
 
                                     </ul>

@@ -39,29 +39,7 @@
                                 use App\Family;
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
-                            @if($permisos->inventarioImpresionTransferencias==1)
-                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank" name="f1" id="f1">
-                                
-                                    @csrf
-                                    <div class="row" style="padding:20px;">
-                                <div class="col-12">
-                                    <label for="">Movimientos Bodega - Exhibición</label>
-                                </div>
-                                    <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
-                                                <option value="all">Todas las familias</option>
-                                                @foreach($familias as $familia)    
-                                                    <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                                                @endforeach
-                                    </select>
-                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="f1d1" class="form-control" >
-                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
-                                     <button class="btn btn-info">Obtener Transferencias</button><br>
-                                     
-                                    </div>
-                                 </form>
-                                
-                                 @endif
-                            <form action="{{ route('inventario.filtro') }}" method="POST">
+                            <form action="{{ route('inventario.filtro2') }}" method="POST">
                                 @method('POST')
                                 @csrf   
                                 <div class="row" style="padding: 10px">
@@ -99,6 +77,8 @@
                     @php
                             $usuario = Auth::user()->id;    
                         @endphp 
+
+                        
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
@@ -111,20 +91,14 @@
                     </div>
                     <div class="col-md-9 text-right">
                          @if($permisos->inventarioAgregarFamilia==1)
-                        <a href="{{ route('familia.index') }}" class="btn btn-primary">
-                            Agregar Familia
-                        </a>
-                        @endif
-                        @if($permisos->inventarioAgregarProducto==1)
-                        <a class="btn btn-primary" href="{{ route('inventory.create') }}">
-                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
-                        </a>
+                        <button onclick="finalizarInventarioFisico()" class="btn btn-danger">
+                            Finalizar Inventario
+                        </button>
                         @endif
                         
                        
                     </div>
                 </div>
-                
                     <div style="padding:15px; padding-top:30px;">
                     
                      <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
@@ -132,11 +106,11 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Total bodega</th>
-                                    <th>Total exhibición</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Proveedor</th>
                                     <th>Familia</th>
+                                    <th>Actual en bodega</th>
+                                    <th>Conteo Fisico Bodega</th>
+                                    <th>Total exhibición</th>
+                                    <th>Conteo Fisico exhibición</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -146,34 +120,23 @@
                             <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
-                                <td class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
+                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                                <td>{{$inventario->cantidad}}
+                                    <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
+                                <td id="exhibicionAnterior-{{ $inventario->id }}">{{$inventario->exhibicion}}</td>
+                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                  @if($usuario != 2)
-                                <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 @endif
-                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
-                                    <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
-                                            <i class="fa fa-remove"></i> 
+                                        <button type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
+                                            <i class="fa fa-check"></i> 
                                         </button>
-                                    </form>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-up"></i>
-                                    </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
-                                    </button>
                                     @else
                                         SIN PERMISOS
                                     @endif
@@ -295,6 +258,52 @@
             }
 
             
+        }
+
+
+        function RegistrarActualizado(id){
+            //alert(id);
+            let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
+            let URL = 'registrar-cantidad-actualizada/' + id;
+
+            let data = 'cantidad-' + id;
+            let etiqueta = 'aumentoBodega-' + id;
+            let td = document.getElementById(data);
+            let et = document.getElementById(etiqueta);
+
+           
+            
+            
+
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+                console.log(td);
+                console.log(et);
+
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+                td.innerHTML = nuevaCantidad;
+                et.style.display="inline";
+                //location.reload();
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+            }
+
+            
+        }
+
+        function finalizarInventarioFisico(){
+            var opcion = confirm("Al aceptar finalizar el inventario fisico se remplazaran las cantidades actuales en el inventario con las nuevas especificadas");
+    if (opcion == true) {
+        mensaje = "Inventario Fisico Actualizado";
+	} else {
+	    mensaje = "Inventario Fisico Cancelado";
+	}
         }
 
         function editarExhibicion(id){

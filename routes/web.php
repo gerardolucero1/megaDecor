@@ -102,6 +102,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
+    Route::get('/inventario2', 'CMS\IndexController@inventario2')->name('inventario2');
+    Route::post('/inventario2', 'CMS\InventoryController@inventarioFiltro2')->name('inventario.filtro2');
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
 
     //Imprimir budget
@@ -421,6 +423,16 @@ Route::group(['middleware' => ['auth']], function () {
 
         $inventario->cantidad = $request->cantidad;
         $inventario->save();
+
+        return;
+    });
+
+
+    Route::put('registrar-cantidad-actualizada/{id}', function(Request $request, $id){
+       
+        dd('20-30');
+
+        
 
         return;
     });
