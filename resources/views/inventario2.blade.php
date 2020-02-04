@@ -140,9 +140,6 @@
                                 @endif
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
-                                        <button type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
-                                            <i class="fa fa-check"></i> 
-                                        </button>
                                     @else
                                         SIN PERMISOS
                                     @endif
@@ -158,12 +155,12 @@
                                     <td class="">{{ $inventario->servicio }}</td>
                                     <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                     <td>{{$inventario->cantidad}}
-                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                     <td>{{$inventario->exhibicion}}
-                                        <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                        <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
                                     @php
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
