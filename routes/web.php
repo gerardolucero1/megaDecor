@@ -485,31 +485,6 @@ Route::group(['middleware' => ['auth']], function () {
         return;
     });
 
-    Route::put('confirmar-cantidades/{id}', function($id){
-        //dd($id);
-
-        $servicio = PhysicalInventory::where('idProducto', $id)->get();
-        $servicioID = PhysicalInventory::where('idProducto', $id)->first();
-        $servicioInventario = Inventory::where('id', $id)->first();
-        
-        if(count($servicio)==0){
-        $registro = new PhysicalInventory();
-        $registro->idProducto = $id;
-        $registro->antesBodega = $servicioInventario->cantidad;
-        $registro->antesExhibicion = $servicioInventario->exhibicion;
-        $registro->fisicoBodega = $servicioInventario->cantidad;
-        $registro->fisicoExhibicion = $servicioInventario->exhibicion;
-        $registro->diferencia = true;
-        $registro->save();
-        }else{
-            $inventory = PhysicalInventory::find($servicioID->id);
-            $inventory->fisicoExhibicion = $cantidad;
-            $inventory->save();
-        }
-
-        return;
-    });
-
     Route::put('solicitar-factura/{id}', function($id){
         $budget = Budget::find($id);
 
