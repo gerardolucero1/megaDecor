@@ -89,7 +89,7 @@
                                 @endif
                                 @if($permisos->clientesNombre==1)
                                     <td class="font-w600">{{$cliente->nombre}} 
-                                        @if(array_key_exists('apellidoPaterno', $cliente))
+                                        @if(property_exists($cliente, 'apellidoPaterno'))
                                         {{$cliente->apellidoPaterno}}
                                         @endif
 
