@@ -20,6 +20,7 @@ use App\OtherPayments;
 use App\Mail\CorteCaja;
 use App\PhysicalPerson;
 use App\BudgetInventory;
+use App\PhysicalInventory;
 use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use App\Mail\NuevoPresupuesto;
@@ -102,6 +103,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
+    Route::get('/inventario2', 'CMS\IndexController@inventario2')->name('inventario2');
+    Route::post('/inventario2', 'CMS\InventoryController@inventarioFiltro2')->name('inventario.filtro2');
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
 
     //Imprimir budget
@@ -421,6 +424,63 @@ Route::group(['middleware' => ['auth']], function () {
 
         $inventario->cantidad = $request->cantidad;
         $inventario->save();
+
+        return;
+    });
+
+
+    Route::put('registrar-cantidad-actualizada/{id}', function(Request $request, $id){
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $cantidad = $data['cantidad'];
+
+
+        $servicio = PhysicalInventory::where('idProducto', $id)->get();
+        $servicioID = PhysicalInventory::where('idProducto', $id)->first();
+        $servicioInventario = Inventory::where('id', $id)->first();
+        
+        if(count($servicio)==0){
+        $registro = new PhysicalInventory();
+        $registro->idProducto = $id;
+        $registro->antesBodega = $servicioInventario->cantidad;
+        $registro->antesExhibicion = $servicioInventario->exhibicion;
+        $registro->fisicoBodega = $cantidad;
+        $registro->fisicoExhibicion = $servicioInventario->exhibicion;
+        $registro->diferencia = true;
+        $registro->save();
+        }else{
+            $inventory = PhysicalInventory::find($servicioID->id);
+            $inventory->fisicoBodega = $cantidad;
+            $inventory->save();
+        }
+
+        return;
+    });
+
+    Route::put('registrar-cantidad-actualizada2/{id}', function(Request $request, $id){
+        
+        $data = json_decode(file_get_contents('php://input'), true);
+        $cantidad = $data['cantidad'];
+
+
+        $servicio = PhysicalInventory::where('idProducto', $id)->get();
+        $servicioID = PhysicalInventory::where('idProducto', $id)->first();
+        $servicioInventario = Inventory::where('id', $id)->first();
+        
+        if(count($servicio)==0){
+        $registro = new PhysicalInventory();
+        $registro->idProducto = $id;
+        $registro->antesBodega = $servicioInventario->cantidad;
+        $registro->antesExhibicion = $cantidad;
+        $registro->fisicoBodega = $servicioInventario->cantidad;
+        $registro->fisicoExhibicion = $servicioInventario->exhibicion;
+        $registro->diferencia = true;
+        $registro->save();
+        }else{
+            $inventory = PhysicalInventory::find($servicioID->id);
+            $inventory->fisicoExhibicion = $cantidad;
+            $inventory->save();
+        }
 
         return;
     });

@@ -310,6 +310,18 @@ public function archivarUsuario($id){
         return view('inventario', compact('Inventario', 'inventarioAuth'));
     }
 
+    public function inventario2(){
+
+        $Inventario = Inventory::orderBy('id', 'DESC')->get();
+        $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
+        $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
+        
+        $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
+        //dd($inventarioAuth);
+
+        return view('inventario2', compact('Inventario', 'inventarioAuth'));
+    }
+
     public function comisiones(){
         $fecha_actual= date('Y-m-d',time());
         //Empleado del mes
