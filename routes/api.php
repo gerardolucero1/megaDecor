@@ -24,6 +24,7 @@ Route::get('inventariott', function(){
         
        // $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
         //dd($inventarioAuth);
+
     return datatables()
     ->eloquent(App\Inventory::query())
     ->addColumn('btn', 'actions')
