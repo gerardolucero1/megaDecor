@@ -1,0 +1,1 @@
+<img src="{{$imagen}}" style="width: 70px" alt="">

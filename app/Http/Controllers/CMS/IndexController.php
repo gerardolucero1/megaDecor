@@ -310,6 +310,13 @@ public function archivarUsuario($id){
         return view('inventario', compact('Inventario', 'inventarioAuth'));
     }
 
+
+    //Pantalla inventario pruebas
+    public function inventariotest(){
+        
+        return view('inventariotest');
+    }
+
     public function inventario2(){
 
         $Inventario = Inventory::orderBy('id', 'DESC')->get();

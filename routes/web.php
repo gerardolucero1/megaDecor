@@ -45,6 +45,8 @@ Route::view('/', 'landing');
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
+
+ 
     Route::match(['get', 'post'], '/dashboard', function(){
         return view('dashboard');
     });
@@ -103,6 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/comisiones', 'CMS\IndexController@comisiones')->name('comisiones');
 
     Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
+    Route::get('/inventariotest', 'CMS\IndexController@inventariotest')->name('inventariotest');
     Route::get('/inventario2', 'CMS\IndexController@inventario2')->name('inventario2');
     Route::post('/inventario2', 'CMS\InventoryController@inventarioFiltro2')->name('inventario.filtro2');
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
