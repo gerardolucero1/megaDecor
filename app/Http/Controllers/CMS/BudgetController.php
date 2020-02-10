@@ -971,7 +971,12 @@ class BudgetController extends Controller
         
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
-            $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
+            if(!is_null($request->facturacion['horaInicio'])){
+                $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
+            }else{
+                $presupuesto->horaInicio = '0';
+            }
+            
             $presupuesto->horaFin                   = $request->facturacion['horaFin'];
             $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
             $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
