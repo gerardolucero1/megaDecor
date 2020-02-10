@@ -81,13 +81,16 @@
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
                                 </tr>
                             </thead>
-                            <tbody>                    
+                            <tbody>                   
                                     @foreach ($CompleteClients as $cliente)                     
                                 <tr role="row" class="odd">
                                         @if($permisos->clientesId==1)
                                 <td class="text-center sorting_1">{{$cliente->id}}</td>
                                 @endif
                                 @if($permisos->clientesNombre==1)
+                                   {{--  @php
+                                        dd($cliente)
+                                    @endphp --}}
                                     <td class="font-w600">{{$cliente->nombre}} 
                                         @if(property_exists($cliente, 'apellidoPaterno'))
                                         {{$cliente->apellidoPaterno}}
