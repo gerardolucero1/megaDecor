@@ -258,7 +258,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
               $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
               
           @endphp
-          @if($testigo==$grupo['informacion'])
+          @if($testigo==$grupo->informacion)
           @else
           <p style="font-size: 16px; font-weight: bold; text-align: left">
              
