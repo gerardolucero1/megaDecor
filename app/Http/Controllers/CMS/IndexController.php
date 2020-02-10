@@ -299,7 +299,13 @@ public function archivarUsuario($id){
     
      //Pantalla inventario
      public function inventario(){
+        return view('inventario');
+    }
 
+
+    //Pantalla inventario pruebas
+    public function inventariotest(){
+        
         $Inventario = Inventory::orderBy('id', 'DESC')->get();
         $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
         $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
@@ -307,14 +313,7 @@ public function archivarUsuario($id){
         $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
         //dd($inventarioAuth);
 
-        return view('inventario', compact('Inventario', 'inventarioAuth'));
-    }
-
-
-    //Pantalla inventario pruebas
-    public function inventariotest(){
-        
-        return view('inventariotest');
+        return view('inventariotest', compact('Inventario', 'inventarioAuth'));
     }
 
     public function inventario2(){

@@ -15,7 +15,22 @@
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
     <section class="container">
-    
+        <div class="row">
+            <div id="divCalendario" style="display:none" class="col-md-12">
+                
+                    <div class="block">
+
+                        <div class="block-content block-content-full text-right">
+                                <button style="margin-bottom: 15px;" class="btn btn-primary" onclick="vista_lista()">
+                                        <i class="fa fa-list"></i> <i>Vista Lista</i> 
+                                    </button>
+                    <div id='calendar'></div>
+                        </div>
+                    </div>
+                </div>
+        
+       
+    </div>
         <div class="content" id="PresupuestosActivos">
                 <div class="block" id="divLista">
                     <div class="row">
@@ -112,7 +127,7 @@
                 
                     <div style="padding:15px; padding-top:30px;">
                     
-                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
+                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
@@ -125,7 +140,51 @@
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
+                            <tbody>                    
+                                @if (!is_null($Inventario))
+                                    @foreach ($Inventario as $inventario)                      
+                            <tr role="row" class="odd">
+                            <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                                <td class="">{{ $inventario->servicio }}</td>
+                                <td class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
+                                <td class="td-ex" id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2)  @endif>{{ $inventario->exhibicion }}</td>
+                                @php
+                                    $precioUnitario=number_format($inventario->precioUnitario,2);
+                                @endphp
+                                 @if($usuario != 2)
+                                <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
+                                <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
+                                @endif
+                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                                <td class="d-flex" style="box-sizing: content-box;">
+                                    @if (Auth::user()->id == 17 )
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
+                                            <i class="fa fa-remove"></i> 
+                                        </button>
+                                    </form>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-up"></i>
+                                    </button>
+                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
+                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
+                                    </button>
+                                    @else
+                                        SIN PERMISOS
+                                    @endif
+                                    
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                       
                             
+                            </tbody>
                      </table>
                             </div>
                         </div>
@@ -171,27 +230,6 @@
 @endsection
 
 @section("scripts")
-<script>
-$(document).ready( function () {
-    $('#TablaInventario').DataTable({ 
-        "serverSide" : true,
-        "ajax" : "{{ url('api/inventariott')}}",
-        "columns": [
-            {data: 'img'},
-            {data: 'servicio'},
-            {data: 'cantidad'},
-            {data: 'exhibicion'},
-            {data: 'precioVenta'},
-            {data: 'proveedor1'},
-            {data: 'familia'},
-            {data: 'btn'},
-        ],
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "pageLength": 50,
-        
-    });
-} ); 
-</script>
     <script>
         $(function(){
             let archivar = document.getElementsByClassName('archivar');
@@ -278,8 +316,14 @@ $(document).ready( function () {
              })
         }
 
-       
-    
+        function vista_calendario(){
+            document.getElementById('divCalendario').style.display="block";
+            document.getElementById('divLista').style.display="none";
+        }
+    function vista_lista(){
+        document.getElementById('divCalendario').style.display="none";
+        document.getElementById('divLista').style.display="block";
+    }
     function archivarCliente(){
         Swal.fire({
             title: '¿Estas seguro de archivar este presupuesto?',
