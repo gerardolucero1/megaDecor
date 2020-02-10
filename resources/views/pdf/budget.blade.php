@@ -253,33 +253,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         @endphp
     
 
-    @if($testigo!=1 && $item->grupo!='Manteleria')
-          @php
-              $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
-              dd($grupo);
-          @endphp
-          @if($testigo==$grupo->['informacion'])
-          @else
-          <p style="font-size: 16px; font-weight: bold; text-align: left">
-             
-            
-           
-          </p>
-          <p style="font-size: 12px; font-weight: normal; text-align: justify">
-            @if($grupo['informacion']!='--')
-            <b>Requisitos:</b><br>
-            
-            {{ $grupo['informacion'] }}<br><br>
-            @endif
-            @if($grupo['observaciones']!='--')
-           <b> Observaciones:</b><br>
-            {{ $grupo['observaciones'] }}<br>
-            @endif
-          </p>
-          @endif
-          @php
-              $testigo=$grupo['informacion'];
-          @endphp
+   
 
 @endif
         @endforeach
