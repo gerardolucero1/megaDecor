@@ -253,9 +253,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         @endphp
     
 
-   
-
-@endif
+    
         @endforeach
       </td>
     </tr>
