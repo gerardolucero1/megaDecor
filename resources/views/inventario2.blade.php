@@ -187,7 +187,7 @@
                                     @endif
                                     <td class="d-flex" style="box-sizing: content-box;">
                                         @if (Auth::user()->id == 17 )
-                                            <button style="display: none" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
+                                            <button onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
                                                 <i class="fa fa-check"></i> 
                                             </button>
                                         @else
