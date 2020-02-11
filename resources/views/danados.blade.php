@@ -36,7 +36,7 @@
                                 @foreach ($productos as $producto)
                                     <tr>
                                         <td>
-                                            <img src="{{ $producto->inventory->imagen }}" alt="" width="100px">
+                                            <img src="{{ $producto->imagen }}" alt="" width="100px">
                                         </td>
                                         <td>{{ $producto->servicio }}</td>
                                         <td>{{ $producto->danados }}</td>
@@ -48,7 +48,7 @@
                                             </td>
                                         @else
                                             <td>
-                                                <button style="margin-right:4px;" class="btn btn-sm btn-success" data-toggle="tooltip" title="Aprobar dañados" data-original-title="Aprobar dañados">
+                                                <button style="margin-right:4px;"  class="btn btn-sm btn-success" data-toggle="tooltip" title="Aprobar dañados" data-original-title="Aprobar dañados">
                                                     <i class="fa fa-check"></i>
                                                 </button>
                                                 <button data-item="{{ $producto->id }}" style="margin-right:4px;" class="btn-modal btn btn-sm btn-success" data-toggle="modal" data-target="#reporte">

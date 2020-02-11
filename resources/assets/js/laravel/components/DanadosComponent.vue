@@ -72,7 +72,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" @click="guardarRegistro">Guardar cambios</button>
+            <button type="button" class="btn btn-primary" @click="guardarRegistro()">Guardar cambios</button>
         </div>
     </section>
 </template>
@@ -82,6 +82,7 @@ export default {
     data(){
         return{
             inventario: [],
+            id:'',
         }
     },
     mounted(){
@@ -91,8 +92,9 @@ export default {
         if(ArrayButtons.length != 0){
             for (var i = 0; i < ArrayButtons.length; i++) {
                 ArrayButtons[i].addEventListener('click', (e) => {
-                    let id = e.target.dataset.id
-                    let URL = '/obtener-inventario-danados/' + id
+                    let id = e.target.dataset.id;
+                    this.id= e.target.dataset.id;
+                    let URL = '/obtener-inventario-danados/' + id;
 
                     axios.get(URL).then((response) => {
                         this.inventario = response.data
@@ -154,11 +156,32 @@ export default {
         },
 
         guardarRegistro: function(){
-            let URL = '/registrar-faltante'
-
-            axios.post(URL, this.inventario).then((response) => {
-                alert('Baja registrada')
-            })
+//alert(this.id);
+           let URL = '/registrar-faltante';
+                axios.post(URL, {
+                    'inventario': this.inventario,
+                    'recordid': this.id,
+                }).then((response) => {
+                   
+                        Swal.fire({
+                        title: 'Exito',
+                        text: "Rgistro completo",
+                        type: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.value) {
+                                //location.reload();
+                            }else{
+                                //location.reload();
+                            }
+                        })
+                        
+                }).catch((error) => {
+                   console.log(error.response);
+                   
+                });
         }
     }
 }

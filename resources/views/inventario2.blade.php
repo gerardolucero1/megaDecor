@@ -43,6 +43,24 @@
                                 @method('POST')
                                 @csrf   
                                 <div class="row" style="padding: 10px">
+                                    @php
+                                        $familia='-';
+                                        $ban =0;
+                                    @endphp
+                                        @foreach ($Inventario as $inventario)
+                                        @php
+                                        if($ban>2){
+                                            if($inventario->familia == $familia || $inventario->familia =='-'){
+                                            $familia = $inventario->familia;
+                                            }else{
+                                                $ban++;
+                                                $familia = "Todas Las Familias";
+                                            }   
+                                        }
+                                        @endphp
+                                        @endforeach
+                                <p style="width: 100%; padding:15px; font-weight:bold; padding-bottom: 0">Familia Actual: {{$familia}}</p>
+                             
                                 <div class="col-md-3">
                                         <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">

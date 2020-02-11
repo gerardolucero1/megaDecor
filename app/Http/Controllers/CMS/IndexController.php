@@ -1117,7 +1117,8 @@ public function archivarUsuario($id){
     }
 
     public function danados(){
-        $productos = Missing::orderBy('id', 'DESC')->where('danados', '>', 0)->get();
+        $productos = Missing::orderBy('id', 'DESC')->where('danados', '>', 0)->orwhere('faltante', '>', 0)->get();
+        
         return view('danados', compact('productos'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CMS;
 
 use App\Missing;
 use App\Inventory;
+use App\BudgetInventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,31 @@ class MissingController extends Controller
     public function store(Request $request)
     {
 
-        foreach($request[0] as $item){
+        
+        $data = json_decode(file_get_contents('php://input'), true);
+   
+        foreach($data['inventario'] as $item){
+            foreach($item as $itm){
+               // dd($itm);
+                $retorno = new Missing();
+                $retorno->budget_id = $data['recordid'];
+                $retorno->inventory_id = $itm['id'];
+                $retorno->servicio = $itm['servicio'];
+                $retorno->saliente = $itm['cantidad'];
+                $retorno->faltante = $itm['faltante'];
+                $retorno->danados = $itm['danado'];
+                $retorno->imagen = $itm['imagen'];
+                $retorno->descripcion = $itm['descripcion'];
+                $retorno->aprobado = 0;
+                $retorno->save();
+            } 
+            
+
+        }
+        
+          
+       
+       /* foreach($request[0] as $item){
             $producto = Inventory::where('servicio', 'like', $item['servicio'])->first();
             
 
@@ -76,7 +101,7 @@ class MissingController extends Controller
                 $faltante->aprobado = false;
                 $faltante->save();
             }
-        }
+        }*/
 
         return;
     }
