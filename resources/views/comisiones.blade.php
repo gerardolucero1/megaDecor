@@ -97,7 +97,7 @@
                                                 foreach($inventarioContrato as $servicio){
                                                     $totalComisionable=$totalComisionable+(($servicio->cantidad*$servicio->precioEspecial)-($servicio->precioVenta*$servicio->cantidad));
                                                 }
-                                                $totalComisionable=$totalComisionable-$generalesComisiones->minimoVentaComision;
+                                                $totalComisionable=$totalComisionable;
                                                 $totalComision=$totalComisionable*($generalesComisiones->comisionContrato/100);   
                                             
                                             }

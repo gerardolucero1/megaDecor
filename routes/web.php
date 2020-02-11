@@ -188,6 +188,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 //Imprimir familia
     Route::post('/imprimir-familia', 'CMS\InventoryController@pdf')->name('imprimir.familia');
+    Route::post('/imprimir-familia-inventario-fisico', 'CMS\InventoryController@pdfFamiliaInventarioFisico')->name('imprimir.familiaInventarioFisico');
 
     //Configuraciones
     Route::get('/configuraciones', 'CMS\CommissionController@index');

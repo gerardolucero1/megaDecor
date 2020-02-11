@@ -225,6 +225,26 @@ class InventoryController extends Controller
 
     }
 
+
+    public function pdfFamiliaInventarioFisico(Request $request){        
+        
+        if(!is_null($request->familia)){
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }else{
+        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
+        }
+        
+        $familia = $request->familia;
+
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+
+        return $pdf->stream();
+
+    }
+
     public function inventarioFiltro(Request $request){
     
         if($request->familia && ($request->fecha_1 == null && $request->fecha_2 == null)){

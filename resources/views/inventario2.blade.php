@@ -108,12 +108,12 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                         @if($permisos->inventarioAgregarFamilia==1)
-                        <button onclick="finalizarInventarioFisico()" class="btn btn-danger">
-                            Finalizar Inventario
-                        </button>
-                        @endif
-                        
+                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" >
+                                @method('POST')
+                                @csrf 
+                            <input type="hidden" name="familia" id="inputfamilia2" value="">
+                        <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>    
+                        </form>   
                        
                     </div>
                 </div>
@@ -286,6 +286,7 @@
            
            //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
+        document.getElementById('inputfamilia2').value=NombreFamilia;
         }
         function editarCantidad(id){
             let nuevaCantidad = prompt('Ingresa la cantidad que quedara en bodega, si ingresas una cantidad menor a la actual, el sobrante pasara automaticamente a exhibicion, si ingresas una cantidad mayor, la diferencia se descontara a exhibición: ');

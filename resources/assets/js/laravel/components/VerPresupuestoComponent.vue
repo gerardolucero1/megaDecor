@@ -434,7 +434,7 @@
                                     <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     
-                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] - TotalComision[2] | currency}}</span><span v-else>$0.00</span></p>
+                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>
                                     <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
                                     <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
                                    

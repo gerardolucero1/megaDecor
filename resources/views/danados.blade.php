@@ -26,7 +26,9 @@
                                 <tr role="row">
                                     <th>Foto</th>
                                     <th>Servicio</th>
-                                    <th class="d-none d-sm-table-cell">Cantidad</th>
+                                    <th>Contrato</th>
+                                    <th class="d-none d-sm-table-cell">Dañados</th>
+                                    <th class="d-none d-sm-table-cell">Faltante</th>
                                     <th class="d-none d-sm-table-cell">Descripcion</th>
                                     <th class="d-none d-sm-table-cell">Vendedor</th>
                                     <th class="d-none d-sm-table-cell">Opciones</th>
@@ -34,12 +36,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($productos as $producto)
+                                @php
+                                    $presupuesto = App\Budget::where('id', $producto->budget_id)->first();
+                                @endphp
                                     <tr>
                                         <td>
                                             <img src="{{ $producto->imagen }}" alt="" width="100px">
                                         </td>
                                         <td>{{ $producto->servicio }}</td>
+                                        <td>{{ $presupuesto->folio}}</td>
                                         <td>{{ $producto->danados }}</td>
+                                        <td>{{ $producto->faltantes }}</td>
                                         <td>{{ $producto->descripcion }}</td>
                                         <td>{{ Auth::user()->name }}</td>
                                         @if ($producto->reportado)
