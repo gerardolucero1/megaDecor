@@ -186,13 +186,11 @@
                                      @if($usuario != 2)
                                     @endif
                                     <td class="d-flex" style="box-sizing: content-box;">
-                                        @if (Auth::user()->id == 17 )
-                                            <button onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
+                                      
+                                            <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
                                                 <i class="fa fa-check"></i> 
                                             </button>
-                                        @else
-                                            SIN PERMISOS
-                                        @endif
+                                        
                                         <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                     </td>
                                 </tr>
@@ -358,6 +356,62 @@
 
             
         }
+        
+        function RegistrarActualizado2(id, cantidad){
+            //alert(cantidad);
+            let nuevaCantidad = cantidad;
+            let URL = 'registrar-cantidad-actualizada/' + id;
+
+            let data = 'cantidad-' + id;
+            let aumento = 'aumentoBodega-' + id;
+            let disminucion = 'disminucionBodega-' + id;
+            let td = document.getElementById(data);
+            let up = document.getElementById(aumento);
+            let down = document.getElementById(disminucion);
+
+           
+            
+            
+
+            parseInt(nuevaCantidad);
+
+            if(isNaN(nuevaCantidad)){
+                alert('Ingresa un valor valido');
+            }else{
+             axios.put(URL, {
+                 'cantidad':  nuevaCantidad,
+             }).then((response) => {
+
+                Swal.fire({
+            title: 'Registro Exitoso',
+            text: "El elemento se actualizo correctamente",
+            type: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            
+            
+        })
+
+                td.innerHTML = nuevaCantidad;
+                
+                if(nuevaCantidad>=cantidad){
+                up.style.display="inline";
+                down.style.display="none";
+                }else{
+                up.style.display="none";
+                down.style.display="inline";  
+                } 
+               
+                //location.reload();
+             }).catch((error) => {
+                 console.log(error.data);
+             })
+            }
+
+            
+        }
+
 
         function RegistrarExhibicionActualizado(id, cantidad){
             let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
