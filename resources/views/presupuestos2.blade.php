@@ -439,9 +439,18 @@
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
+                                                @php
+                                                    $budgetID = App\Budget::where('id', $budgetArchivados->id)->first();
+                                                @endphp
+                                                @if($budgetID->recolectado!=1)
                                                 <button data-id="{{ $budgetArchivados->id }}" style="margin-right:4px;" class="btn btn-sm btn-primary danados" data-toggle="modal" data-target="#productosDanados">
                                                     <i data-id="{{ $budgetArchivados->id }}" class="fa fa-chain-broken"></i> 
                                                 </button>
+                                                @else
+                                                <i class="fa fa-check" style="color: green" data-toggle="tooltip" title="Recolectado"></i> 
+                                                @endif
+                                                
+
                                             </td>
                                         </tr>
                                     @endforeach

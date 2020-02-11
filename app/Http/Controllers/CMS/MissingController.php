@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CMS;
 use App\Missing;
 use App\Inventory;
 use App\BudgetInventory;
+use App\Budget;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +59,12 @@ class MissingController extends Controller
                 $retorno->aprobado = 0;
                 $retorno->save();
             } 
-            
+
+            $id=$data['recordid'];
+            $contrato = Budget::where('id', $id)->first();
+           
+            $contrato->recolectado=1;
+            $contrato->save();
 
         }
         
