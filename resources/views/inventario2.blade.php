@@ -157,10 +157,9 @@
                                  @if($usuario != 2)
                                 @endif
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                    @if (Auth::user()->id == 17 )
-                                    @else
-                                        SIN PERMISOS
-                                    @endif
+                                        <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
+                                                <i class="fa fa-check"></i> 
+                                            </button>
                                     
                                 </td>
                             </tr>
@@ -183,13 +182,10 @@
                                     @php
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
                                     @endphp
-                                     @if($usuario != 2)
-                                    @endif
+                                    
                                     <td class="d-flex" style="box-sizing: content-box;">
                                       
-                                            <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
-                                                <i class="fa fa-check"></i> 
-                                            </button>
+                                            
                                         
                                         <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                     </td>
