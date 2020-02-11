@@ -969,23 +969,23 @@ class BudgetController extends Controller
         
         
         
-        dd($request->presupuesto['tipo']);
+       
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             
-            $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
-            $presupuesto->horaFin                   = $request->facturacion['horaFin'];
-            $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
-            $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
-            $presupuesto->horaRecoleccion           = $request->facturacion['horaRecoleccion'];
-            $presupuesto->recoleccionPreferente     = $request->facturacion['recoleccionPreferente'];
-            $presupuesto->notasFacturacion          = $request->facturacion['notasFacturacion'];
-            $presupuesto->nombreFacturacion         = $request->facturacion['nombreFacturacion'];
-            $presupuesto->direccionFacturacion      = $request->facturacion['direccionFacturacion'];
-            $presupuesto->numeroFacturacion         = $request->facturacion['numeroFacturacion'];
-            $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
-            $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
-            $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
-            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
+            $presupuesto->horaInicio                = $request->presupuesto['horaInicio'];
+            $presupuesto->horaFin                   = $request->presupuesto['horaFin'];
+            $presupuesto->horaEntrega               = $request->presupuesto['horaEntrega'];
+            $presupuesto->fechaRecoleccion          = $request->presupuesto['fechaRecoleccion'];
+            $presupuesto->horaRecoleccion           = $request->presupuesto['horaRecoleccion'];
+            $presupuesto->recoleccionPreferente     = $request->presupuesto['recoleccionPreferente'];
+            $presupuesto->notasFacturacion          = $request->presupuesto['notasFacturacion'];
+            $presupuesto->nombreFacturacion         = $request->presupuesto['nombreFacturacion'];
+            $presupuesto->direccionFacturacion      = $request->presupuesto['direccionFacturacion'];
+            $presupuesto->numeroFacturacion         = $request->presupuesto['numeroFacturacion'];
+            $presupuesto->coloniaFacturacion        = $request->presupuesto['coloniaFacturacion'];
+            $presupuesto->emailFacturacion          = $request->presupuesto['emailFacturacion'];
+            $presupuesto->rfcFacturacion            = $request->presupuesto['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->presupuesto['entregaEnBodega'];
 
             if($version->total!=$presupuesto->total){
             $presupuesto->pagado                    = false;}
