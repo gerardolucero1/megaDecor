@@ -46,7 +46,7 @@
                                         <td>{{ $producto->servicio }}</td>
                                         <td>{{ $presupuesto->folio}}</td>
                                         <td>{{ $producto->danados }}</td>
-                                        <td>{{ $producto->faltantes }}</td>
+                                        <td>{{ $producto->faltante }}</td>
                                         <td>{{ $producto->descripcion }}</td>
                                         <td>{{ Auth::user()->name }}</td>
                                         @if ($producto->reportado)
