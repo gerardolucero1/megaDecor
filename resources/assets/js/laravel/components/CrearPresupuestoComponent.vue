@@ -2446,11 +2446,11 @@ padding: 0;
                     
 
 
-                    this.limpiar = true;
-                this.inventarioLocal = this.inventarioLocal.reverse();
+                this.limpiar = true;
+                
                 if(producto.precioVenta==null){
                 producto.precioVenta=0;}
-                
+                this.inventarioLocal = this.inventarioLocal.reverse();
                 this.inventarioLocal.push({
                     'externo': false,
                     'imagen': producto.imagen,
@@ -2469,12 +2469,12 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
-
+                    this.inventarioLocal = this.inventarioLocal.reverse();
                 })
 
                 
 
-                this.inventarioLocal = this.inventarioLocal.reverse();
+                
                 
                 setTimeout(() => {
                     this.limpiar = false;

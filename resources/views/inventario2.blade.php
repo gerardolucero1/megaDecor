@@ -127,8 +127,10 @@
                                     <th>Familia</th>
                                     <th>Actual en bodega</th>
                                     <th>Conteo Fisico Bodega</th>
+                                    <th>Diferencia Bodega</th>
                                     <th>Actual exhibición</th>
                                     <th>Conteo Fisico exhibición</th>
+                                    <th>Diferencia Exhibición</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -147,19 +149,23 @@
                                     <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                     <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                                 <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
+                                <td style=" background: #FFFEDD"></td>
                                 <td>{{$inventario->exhibicion}}
                                     <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                     <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                                 <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif></td>
+                                <td style=" background: #FFFEDD"></td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                  @if($usuario != 2)
                                 @endif
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                        <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" data-original-title="Confirmar Elemento">
+                                        <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
                                                 <i class="fa fa-check"></i> 
                                             </button>
+
+                                        <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
                                     
                                 </td>
                             </tr>
@@ -175,10 +181,12 @@
                                         <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
                                         <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
+                                    <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                     <td>{{$inventario->exhibicion}}
                                         <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
                                         <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
+                                    <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesExhibicion}}</td>
                                     @php
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
                                     @endphp
@@ -321,6 +329,10 @@
             let td = document.getElementById(data);
             let up = document.getElementById(aumento);
             let down = document.getElementById(disminucion);
+            let btncheck = 'btn-check-'+id;
+            let labelcheck = 'label-check-'+id;
+            document.getElementById(btncheck).style.display="none";
+            document.getElementById(labelcheck).style.display="inline";
 
            
             
@@ -357,6 +369,10 @@
             //alert(cantidad);
             let nuevaCantidad = cantidad;
             let URL = 'registrar-cantidad-actualizada/' + id;
+            let btncheck = 'btn-check-'+id;
+            let labelcheck = 'label-check-'+id;
+            document.getElementById(btncheck).style.display="none";
+            document.getElementById(labelcheck).style.display="inline";
 
             let data = 'cantidad-' + id;
             let aumento = 'aumentoBodega-' + id;
@@ -422,6 +438,11 @@
             let td = document.getElementById(data);
             let up = document.getElementById(aumento);
             let down = document.getElementById(disminucion);
+            let btncheck = 'btn-check-'+id;
+            let labelcheck = 'label-check-'+id;
+            document.getElementById(btncheck).style.display="none";
+            document.getElementById(labelcheck).style.display="inline";
+           
             
 
             parseInt(nuevaCantidad);

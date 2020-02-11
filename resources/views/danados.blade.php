@@ -44,7 +44,7 @@
                                             <img src="{{ $producto->imagen }}" alt="" width="100px">
                                         </td>
                                         <td>{{ $producto->servicio }}</td>
-                                        <td>{{ $presupuesto->folio}}</td>
+                                        <td><a target="_blank" href="{{ route('ver.presupuesto', $producto->budget_id) }}">{{ $presupuesto->folio}}</a></td>
                                         <td>{{ $producto->danados }}</td>
                                         <td>{{ $producto->faltante }}</td>
                                         <td>{{ $producto->descripcion }}</td>

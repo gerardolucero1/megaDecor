@@ -39,10 +39,10 @@ use Carbon\Carbon;
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesBodega}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
-<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega-$registro->antesBodega}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD; @if(($registro->fisicoBodega-$registro->antesBodega)<0) color:red @endif">{{$registro->fisicoBodega-$registro->antesBodega}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesExhibicion}}</td>
 <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
-<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoExhibicion-$registro->antesExhibicion}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD; @if(($registro->fisicoExhibicion-$registro->antesExhibicion)<0) color:red @endif">{{$registro->fisicoExhibicion-$registro->antesExhibicion}}</td>
   @endif
 
 

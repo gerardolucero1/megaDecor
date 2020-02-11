@@ -129,16 +129,16 @@ padding: 0;
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
-                                <input required type="time" v-model="presupuesto.horaEventoInicio" id="inicioEvento">
-                                -AM <input type="radio" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
-                                -PM <input type="radio" required value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                <input required type="time" v-if="presupuesto.pendienteHora==false" v-model="presupuesto.horaEventoInicio" id="inicioEvento">
+                                <span v-if="presupuesto.pendienteHora==false">-AM</span> <input type="radio" v-if="presupuesto.pendienteHora==false" required value="AM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
+                                <span v-if="presupuesto.pendienteHora==false">-PM</span> <input type="radio" v-if="presupuesto.pendienteHora==false" required value="PM" name="inicioAmPm" v-model="presupuesto.inicioAmPm"> 
                             </div>
                            
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
-                                <input required type="time" v-model="presupuesto.horaEventoFin" id="finEvento">
-                                -AM <input type="radio" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
-                                -PM <input type="radio" required value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                <input v-if="presupuesto.pendienteHora==false" required type="time" v-model="presupuesto.horaEventoFin" id="finEvento">
+                                <span v-if="presupuesto.pendienteHora==false">-AM</span> <input type="radio" v-if="presupuesto.pendienteHora==false" required value="AM" name="finAmPm" v-model="presupuesto.finAmPm"> 
+                                <span v-if="presupuesto.pendienteHora==false">-PM</span> <input type="radio" v-if="presupuesto.pendienteHora==false" required value="PM" name="finAmPm" v-model="presupuesto.finAmPm"> 
                             </div>
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
@@ -477,6 +477,7 @@ padding: 0;
                                     -->
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
+                                    <div v-if="producto.externo" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -531,7 +532,7 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                        <button style="display:none" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                        <!-- <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>-->
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
@@ -751,7 +752,7 @@ padding: 0;
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Costo Unitario Proveedor</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio venta" v-model="productoExterno.precioVenta">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Costo Proveedor" v-model="productoExterno.precioVenta">
                                         </div>
                                     </div>
 
@@ -800,6 +801,90 @@ padding: 0;
                 </div>
             </div>
         </div>
+
+        <!-- Editar producto externo -->
+        <div v-if="editarElementoExt != null" class="modal fade" id="editarElementoExterno" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Agregar elementos</h5>
+                    <div  class="close" onClick="$('#editarElementoExterno').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row">
+                                <!-- Primer columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Servicio</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Servicio" v-model="editarElementoExt.servicio">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Proveedor</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="proveedor" placeholder="Proveedor" v-model="editarElementoExt.proveedor">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Costo Unitario Proveedor</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Costo Proveedor" v-model="editarElementoExt.precioVenta">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-12" for="example-text-input">Precio unitario publico</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="example-text-input" placeholder="Precio unitario" v-model="editarElementoExt.precioUnitario">
+                                        </div>
+                                    </div> 
+                                </div>
+                                <!-- Segunda columna -->
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-12">Imagen</label>
+                                        <div class="col-12">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input js-custom-file-input-enabled" id="file-image-externo" name="example-file-input-custom" data-toggle="custom-file-input" @change="obtenerImagen">
+                                                <label class="custom-file-label" for="example-file-input-custom" style="overflow-x: hidden;"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <figure>
+                                            <img :src="imagen" width="100%" alt="Thumbnail">
+                                        </figure>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <div class="custom-file">
+                                                <input type="checkbox" name="autorizado" id="" v-model="editarElementoExt.autorizado">
+                                            Guardar en inventario
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div  class="btn btn-secondary" onClick="$('#editarElementoExterno').modal('hide')">Cerrar</div>
+                    <div  class="btn btn-primary" onClick="$('#editarElementoExterno').modal('hide')">Guardar</div>
+                </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal ver contratos -->
         <div class="modal fade" id="verContratos" tabindex="-1" role="dialog" aria-labelledby="verContratos" aria-hidden="true">
@@ -967,7 +1052,6 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
-                                
                             </select>
                         </div>
                         <br>
@@ -993,7 +1077,6 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
-                                                                
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -1506,6 +1589,9 @@ padding: 0;
 
                 nombreCategoria: '',
                 categorias: [],
+
+                editarElementoExt: null,
+                editarElementoExtIndex: null,
             }
         },
         created(){
@@ -1714,6 +1800,16 @@ padding: 0;
             },
         },
         methods:{
+            editarProductoExterno(paquete, index){
+                this.editarElementoExt = paquete
+                this.editarElementoIndex = index
+                $('#editarElementoExterno').modal('show')
+            },
+
+            agregarProductoExternoEditado(){
+                this.inventarioLocal.splice(this.editarElementoIndex, 1, editarElementoExt)
+            },
+
             modificarHoraEntrega(){
                 if(this.facturacion.horaEntrega != 'OTRO'){
                     this.facturacion.horaInicio = '00:00';
@@ -2162,7 +2258,7 @@ padding: 0;
 
                 document.getElementById('file-image-externo').value = '';
                 
-                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': ''};
+                this.productoExterno = {'externo': true, 'imagen': '', 'servicio': '', 'precioUnitario': '', 'paquete': '', 'precioVenta': '', 'proveedor': '', 'autorizado': false};
                 $('#agregarElemento').modal('hide');
             },
             // Bus para comunicar controladores
