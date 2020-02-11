@@ -181,7 +181,7 @@ $(document).ready( function () {
             {data: 'servicio'},
             {data: 'cantidad'},
             {data: 'exhibicion'},
-            {data: 'precioVenta'},
+            {data: 'precioUnitario'},
             {data: 'proveedor1'},
             {data: 'familia'},
             {data: 'btn'},
