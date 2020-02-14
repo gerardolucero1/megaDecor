@@ -38,12 +38,18 @@
                                 @foreach ($productos as $producto)
                                 @php
                                     $presupuesto = App\Budget::where('id', $producto->budget_id)->first();
+                                    $fechaEmision = Carbon\Carbon::now();
+                                    $fechaExpiracion = Carbon\Carbon::parse($producto->created_at);
+
+                                        $diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
                                 @endphp
                                     <tr>
                                         <td>
                                             <img src="{{ $producto->imagen }}" alt="" width="100px">
                                         </td>
-                                        <td>{{ $producto->servicio }}</td>
+                                        <td>{{ $producto->servicio }}<br>
+                                        <span style="font-style: italic; font-size: 11px;">Días Reportado: {{$diasDiferencia}}</span>
+                                        </td>
                                         <td><a target="_blank" href="{{ route('ver.presupuesto', $producto->budget_id) }}">{{ $presupuesto->folio}}</a></td>
                                         <td>{{ $producto->danados }}</td>
                                         <td>{{ $producto->faltante }}</td>
