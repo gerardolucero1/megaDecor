@@ -208,7 +208,7 @@ class BudgetController extends Controller
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }else{
-                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }
@@ -218,7 +218,7 @@ class BudgetController extends Controller
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }else{
-                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }
@@ -276,7 +276,7 @@ class BudgetController extends Controller
                                 \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
                                 $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
                             }else{
-                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                         }else{
@@ -284,7 +284,7 @@ class BudgetController extends Controller
                                 $producto->imagen = $objeto['imagen'];
                                 $producto->save();
                             }else{
-                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                             
