@@ -149,12 +149,12 @@
                                     <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                     <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                                 <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
-                                <td style=" background: #FFFEDD"></td>
+                                <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
                                 <td>{{$inventario->exhibicion}}
                                     <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                     <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif></td>
-                                <td style=" background: #FFFEDD"></td>
+                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
+                                <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
@@ -178,7 +178,7 @@
                                     <td class="">{{ $inventario->servicio }}</td>
                                     <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                     <td>{{$inventario->cantidad}}
-                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
                                         <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                     <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
@@ -334,8 +334,8 @@
             document.getElementById(btncheck).style.display="none";
             document.getElementById(labelcheck).style.display="inline";
 
-           
-            
+            let dif1 = 'dif1-' + id
+            let tdDif1 = document.getElementById(dif1);
             
 
             parseInt(nuevaCantidad);
@@ -346,6 +346,8 @@
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
+                console.log(nuevaCantidad)
+                tdDif1.innerHTML = (cantidad - nuevaCantidad);
                 td.innerHTML = nuevaCantidad;
                 
                 if(nuevaCantidad>=cantidad){
@@ -426,6 +428,7 @@
 
 
         function RegistrarExhibicionActualizado(id, cantidad){
+
             let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
 
 
@@ -443,9 +446,13 @@
             document.getElementById(btncheck).style.display="none";
             document.getElementById(labelcheck).style.display="inline";
            
-            
+            let dif2 = 'dif2-' + id
+            let tdDif2 = document.getElementById(dif2);
 
             parseInt(nuevaCantidad);
+
+
+
 
             if(isNaN(nuevaCantidad)){
                 alert('Ingresa un valor valido');
@@ -453,6 +460,7 @@
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
+                tdDif2.innerHTML = (cantidad - nuevaCantidad);
                 td.innerHTML = nuevaCantidad;
                 if(nuevaCantidad>=cantidad){
                 up.style.display="inline";
