@@ -23,6 +23,7 @@ use App\AuthorizedPack;
 use App\PhysicalPerson;
 use App\BudgetInventory;
 use App\BudgetPackInventory;
+use App\PhysicalInventory;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
@@ -326,6 +327,13 @@ public function archivarUsuario($id){
         //dd($inventarioAuth);
 
         return view('inventario2', compact('Inventario', 'inventarioAuth'));
+    }
+
+    public function registrarDif(Request $request, $id){
+        $producto = PhysicalInventory::where('idProducto', $id)->first();
+
+        $producto->diferencia = !$producto->diferencia;
+        $producto->save();
     }
 
     public function comisiones(){

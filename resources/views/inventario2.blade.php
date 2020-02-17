@@ -188,8 +188,13 @@
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                     <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                     <td>{{$inventario->exhibicion}}
+                                         @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
+                                            <span style="color: blue; font-weight: bold;">=</span>
+                                        @else
                                         <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
+                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                        @endif
+                                        </td>
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
                                     <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesExhibicion}}</td>
                                     @php
@@ -199,7 +204,7 @@
                                     <td class="d-flex" style="box-sizing: content-box;">
                                       
                                             
-                                        
+                                        <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
                                         <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                     </td>
                                 </tr>
@@ -266,6 +271,7 @@
                 }
             }
         })
+
         function archivarPresupuesto(){
     
             // Swal.fire({
@@ -480,6 +486,19 @@
                  console.log(error.data);
              })
             }   
+        }
+
+        function cambiarDiferencia(id){
+            console.log(id)
+            let URL = 'registrar-diferencia/' + id
+
+            axios.put(URL, {
+                data: '',
+            }).then((response) => {
+                console.log('actualizado')
+            })
+
+            
         }
 
         function finalizarInventarioFisico(){

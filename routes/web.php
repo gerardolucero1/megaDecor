@@ -725,5 +725,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         return;
     });
+
+    Route::put('registrar-diferencia/{id}', 'CMS\IndexController@registrarDif');
 });
 
