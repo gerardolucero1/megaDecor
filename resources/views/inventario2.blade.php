@@ -178,8 +178,13 @@
                                     <td class="">{{ $inventario->servicio }}</td>
                                     <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                     <td>{{$inventario->cantidad}}
-                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span></td>
+                                        @if($inventario->cantidad == $servicioDatos->fisicoBodega)
+                                            <span style="color: blue; font-weight: bold;">=</span>
+                                        @else
+                                            <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                        @endif
+                                        </td>
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                     <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                     <td>{{$inventario->exhibicion}}
