@@ -84,10 +84,10 @@ padding: 0;
             <div class="col-md-12 registroPresupuesto">
                 <div class="row">
                     <div class="col-md-5 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-if="presupuesto.tipoEvento == 'INTERNO' || presupuesto.tipoServicio == 'INFANTIL'" class="img-fluid logo-presupuesto" style="background-image: url('http://partnergrammer.com/img/megamundoinfantil.jpg'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
+                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://partnergrammer.com/img/megamundodecor.jpeg'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
                     </div>

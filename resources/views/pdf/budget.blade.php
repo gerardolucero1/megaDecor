@@ -11,11 +11,11 @@
   <tr>
     @if($presupuesto->tipoEvento == 'Externo' && $presupuesto->tipoServicio == 'Formal')
     <td style="padding-right:100px;">
-        <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
+        <img src="http://partnergrammer.com/img/megamundodecor.jpeg" style="width:200px">
     </td>
     @else
     <td style="padding-right:100px;">
-        <img src="http://megamundodecor.com/images/mega-mundo.png" style="width:180px">
+        <img src="http://partnergrammer.com/img/megamundoinfantil.jpg" style="width:180px">
     </td>
     @endif
    
