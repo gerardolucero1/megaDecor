@@ -190,9 +190,10 @@
                                     <td>{{$inventario->exhibicion}}
                                          @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
                                             <span style="color: blue; font-weight: bold;">=</span>
-                                        @else
-                                        <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)>=0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->exhibicion)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                        @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
+                                            <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
+                                        @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
+                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
                                         @endif
                                         </td>
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
@@ -454,15 +455,15 @@
             let down = document.getElementById(disminucion);
             let btncheck = 'btn-check-'+id;
             let labelcheck = 'label-check-'+id;
-            document.getElementById(btncheck).style.display="none";
-            document.getElementById(labelcheck).style.display="inline";
+            console.log(td)
+            
            
             let dif2 = 'dif2-' + id
             let tdDif2 = document.getElementById(dif2);
 
             parseInt(nuevaCantidad);
 
-
+td.innerHTML = nuevaCantidad;
 
 
             if(isNaN(nuevaCantidad)){
@@ -472,6 +473,7 @@
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
                 tdDif2.innerHTML = (cantidad - nuevaCantidad);
+
                 td.innerHTML = nuevaCantidad;
                 if(nuevaCantidad>=cantidad){
                 up.style.display="inline";

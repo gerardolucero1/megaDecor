@@ -475,9 +475,9 @@ Route::group(['middleware' => ['auth']], function () {
         $registro = new PhysicalInventory();
         $registro->idProducto = $id;
         $registro->antesBodega = $servicioInventario->cantidad;
-        $registro->antesExhibicion = $cantidad;
+        $registro->antesExhibicion = $servicioInventario->exhibicion;
         $registro->fisicoBodega = $servicioInventario->cantidad;
-        $registro->fisicoExhibicion = $servicioInventario->exhibicion;
+        $registro->fisicoExhibicion = $cantidad;
         $registro->diferencia = true;
         $registro->save();
         }else{
