@@ -438,7 +438,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosExtraordinarios=0;
             @endphp
             @foreach ($otrosPagos as $pago)
-            @if($pago->tipo=="INGRESO")
+           @if($pago->tipo=='INGRESO')
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
@@ -456,7 +456,29 @@ $ingresosExtraordinarios += $pago->cantidad;}
         $ingresosExtraordinariosDolar += $pago->cantidad;}
     @endphp
             </tr>
+            @php
+            if($pago->metodo=='EFECTIVO')
+            $sumatoriaIngreso += $pago->cantidad;
+            
+            if($pago->metodo=='CHEQUE')
+            $sumatoriaIngresoCheque += $pago->cantidad;
+            
+            if($pago->metodo=='DOLARES')
+            $sumatoriaIngresoDolares += $pago->cantidad;
+            @endphp
             @endif
+       
+            </table>
+           
+            <tr style="border: solid; border-color:black">
+            <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
+            <td style="text-align: center; padding: 3px; @if($pago->tipo=='EGRESO') background:#F7C2C2; @else background:#D0F7C2; @endif">${{$pago->cantidad}}</td>
+            <td style="text-align: center; padding: 3px;">@if($pago->resto!='')${{$pago->resto}}@else--@endif</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
+            <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
+            </tr>
             @endforeach
             </table>
             <p style="text-align: right; font-weight: bold;">Total ingresos extraordinarios en efectivo: ${{number_format($ingresosExtraordinarios,2)}}</p>

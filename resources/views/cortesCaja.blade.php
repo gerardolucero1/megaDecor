@@ -38,11 +38,14 @@
                                     {{ $corte->user->name }}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">
-                                   $ {{ $corte->cantidadCierre}}
+                                   $ {{ $corte->cantidadRealCierre}}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell text-center">
                                     <div class="btn-group">
-                                        <a target="_blank" href="{{ route('contabilidad.pdf', $corte->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Print">
+                                        <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Show">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <a href="{{ route('contabilidad.pdf', $corte->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Print">
                                             <i class="fa fa-print"></i>
                                         </a>
                                     </div>
