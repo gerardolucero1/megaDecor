@@ -27,7 +27,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Exhibición</th>
     </tr>
-    @foreach ($Inventario as $item)
+    @foreach($Inventario as $item)
 <tr style="font-size:12px;">
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
