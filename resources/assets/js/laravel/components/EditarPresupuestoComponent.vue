@@ -1612,6 +1612,11 @@ padding: 0;
                     ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
                 
                 return finalNum;
+            },
+
+            filtrarFecha(date){
+                moment.locale('es');
+                moment(date).format('LLLL');
             }
         },
         watch: {
