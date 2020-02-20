@@ -15,7 +15,7 @@ class BudgetCategoryController extends Controller
      */
     public function index()
     {
-        $categorias = BudgetCategory::orderBy('id', 'DESC')->get();
+        $categorias = BudgetCategory::orderBy('nombre', 'ASC')->get();
         return $categorias;
     }
 

@@ -9,8 +9,10 @@ use App\Client;
 use App\Family;
 use App\Inventory;
 use App\Telephone;
+use Carbon\Carbon;
 use App\BudgetPack;
 use App\Celebrated;
+use App\Commission;
 use App\MoralPerson;
 use App\BudgetVersion;
 use App\PhysicalPerson;
@@ -57,12 +59,12 @@ class BudgetController extends Controller
 
         $clientes_morales = DB::table('clients')
             ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-            ->select('clients.id','moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
+            ->select('clients.id', 'clients.tipoPersona', 'moral_people.diasCredito', 'moral_people.telefono', 'moral_people.nombre', 'moral_people.email as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.rfcFacturacion')
             ->get();
 
         $clientes_fisicos = DB::table('clients')
             ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-            ->select( 'clients.id', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.rfcFacturacion')
+            ->select( 'clients.id', 'clients.tipoPersona', 'physical_people.diasCredito', 'physical_people.telefono', 'physical_people.nombre', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.rfcFacturacion')
             ->get();
         
         $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -74,7 +76,8 @@ class BudgetController extends Controller
     
         if($request->presupuesto['tipoEvento'] == 'INTERNO'){
             $fecha = $request->presupuesto['fechaEvento'];
-            $evento = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha)->first();
+            $evento = Budget::orderBy('id', 'DESC')->where('tipoEvento', 'INTERNO')->where('fechaEvento', $fecha)->first();
+
             if(!is_null($evento)){
                 return 1;
             }
@@ -134,6 +137,9 @@ class BudgetController extends Controller
         $presupuesto->opcionDescuento        = $request->presupuesto['opcionDescuento'];
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
+        $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        $presupuesto->inicioAmPm         = $request->presupuesto['inicioAmPm'];
+        $presupuesto->finAmPm         = $request->presupuesto['finAmPm'];
 
         if($request->presupuesto['tipo'] == 'CONTRATO'){
             $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
@@ -149,11 +155,13 @@ class BudgetController extends Controller
             $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
             $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
             $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->facturacion['entregaEnBodega'];
         }
         $presupuesto->version = $request->presupuesto['version'];
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->notasPresupuesto = $request->presupuesto['notasPresupuesto'];
+        $presupuesto->quienEdito = Auth::user()->name;
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
@@ -188,6 +196,8 @@ class BudgetController extends Controller
                 $producto->externo = $item['externo'];
                 $producto->proveedor = $item['proveedor'];
                 if($item['externo']){
+                    $producto->guardarInventario = $item['autorizado'];
+
                     //Otra Imagen
                     if($item['imagen']){
 
@@ -198,7 +208,7 @@ class BudgetController extends Controller
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }else{
-                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }
@@ -208,7 +218,7 @@ class BudgetController extends Controller
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }else{
-                        $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                        $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                         $producto->version = $ultimoPresupuesto->version;
                         $producto->save();
                     }
@@ -257,6 +267,7 @@ class BudgetController extends Controller
                         $producto->externo = $objeto['externo'];
                         $producto->proveedor = $objeto['proveedor'];
                         if($objeto['externo']){
+                            $producto->guardarInventario = $objeto['autorizado'];
                             //Otra Imagen
                             if($objeto['imagen']){
         
@@ -265,7 +276,7 @@ class BudgetController extends Controller
                                 \Image::make($objeto['imagen'])->save(public_path('paquete/').$name);
                                 $producto->fill(['imagen' => asset('paquete/'.$name)])->save();
                             }else{
-                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                         }else{
@@ -273,7 +284,7 @@ class BudgetController extends Controller
                                 $producto->imagen = $objeto['imagen'];
                                 $producto->save();
                             }else{
-                                $producto->imagen = 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png';
+                                $producto->imagen = 'http://dubsism.files.wordpress.com/2017/12/image-not-found.png';
                                 $producto->save();
                             }
                             
@@ -426,6 +437,142 @@ class BudgetController extends Controller
 
     }
 
+    public function pdfVentas($id){        
+
+        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        $Vendedor = User::orderBy('id', 'DESC')->where('id', $presupuesto->vendedor_id)->first();
+        $presupuesto->vendedor = $Vendedor->name;
+        $Telefonos = Telephone::orderBy('id', 'DESC')->where('client_id', $presupuesto->client_id)->get();
+       
+        //Obtenemos los elementos que pertenecen al inventario
+        $Elementos= BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
+        //Obtenemos los paquetes
+        $Paquetes= BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+
+        $arregloFamilias = [];
+
+        foreach($Elementos as $item){
+            
+            $element = Inventory::where('servicio', $item->servicio)->first();
+            if(is_null($element)){
+                array_push($arregloFamilias, 'General');
+            }else{
+            array_push($arregloFamilias, $element->familia);}
+        }
+
+        foreach($Paquetes as $paquete){
+            $elements = BudgetPackInventory::where('budget_pack_id', $paquete->id)->get();
+            foreach($elements as $element){
+                $producto = Inventory::where('servicio', $element->servicio)->first();
+                if(is_null($producto)){
+                    array_push($arregloFamilias, 'General');
+                }else{
+                array_push($arregloFamilias, $producto->familia);}
+           
+            }
+        }
+
+        $familias = array_unique($arregloFamilias);
+
+        $arregloEmentos=[];
+        foreach($Paquetes as $paquete){
+            $Elementos_paquete= BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $paquete->id)->get();
+            foreach($Elementos_paquete as $Elemento_paquete){
+                $arregloElemento   = new stdClass();
+                $arregloElemento->imagen = $Elemento_paquete->imagen;
+                $arregloElemento->servicio = $Elemento_paquete->servicio;
+                $arregloElemento->cantidad = $Elemento_paquete->cantidad;
+                $arregloElemento->notas = $Elemento_paquete->notas;
+                $arregloElemento->budget_pack_id = $Elemento_paquete->budget_pack_id;
+                array_push($arregloEmentos,$arregloElemento);
+            }
+           
+        }
+       // dd($Elemento_paquete);
+
+         //Obtenemos clientes morales y fisicos
+         $clientes_morales = DB::table('clients')
+         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.diasCredito')
+         ->get();
+ 
+         $clientes_fisicos = DB::table('clients')
+         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito', 'physical_people.diasCredito')
+         ->get();
+         
+         $clientes = $clientes_morales->merge($clientes_fisicos);
+
+         //formato de minusculas
+         $presupuesto->tipoEvento=ucfirst(strtolower($presupuesto->tipoEvento));
+         $presupuesto->tipoServicio=ucfirst(strtolower($presupuesto->tipoServicio));
+
+         //Definimos la categoria del evento
+         switch($presupuesto->categoriaEvento){
+            case 1:
+            $presupuesto->categoria="XV años";
+            break;
+            case 2:
+            $presupuesto->categoria="Aniversario";
+            break;
+            case 3:
+            $presupuesto->categoria="Cumpleaños";
+            break;
+            case 4:
+            $presupuesto->categoria="Graduación";
+            break;
+            case 5:
+            $presupuesto->categoria="Cena de Gala";
+            break;
+            case 6:
+            $presupuesto->categoria="Otro";
+            break;
+
+        }
+        
+        //Obtener datos generales del cliente
+         foreach($clientes as $cliente){
+             if($presupuesto->client_id == $cliente->id){
+                 if($cliente->apellidoPaterno==$cliente->nombre){
+                $presupuesto->cliente=$cliente->nombre;
+                $presupuesto->diasCredito=$cliente->diasCredito;
+                $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->creditoCliente=$cliente->tipoCredito;
+                 }else{
+                $presupuesto->cliente=$cliente->nombre." ".$cliente->apellidoPaterno." ".$cliente->apellidoMaterno;}
+                $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->diasCredito=$cliente->diasCredito;
+                $presupuesto->creditoCliente=$cliente->tipoCredito;
+            }
+         }
+
+        $otroArray = [];
+        foreach($familias as $familia){
+            $item = Family::where('nombre', $familia)->first();
+            if(is_null($item)){}else{
+            array_push($otroArray, $item);}
+        }
+
+        $demo = collect($otroArray);
+
+        //dd($demo);
+
+        
+
+
+
+        //dd($demo);
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.budgetVendedor', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos', 'demo'));
+
+        return $pdf->stream();
+
+    }
+
     public function pdfBodega($id){        
 
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
@@ -523,6 +670,43 @@ class BudgetController extends Controller
 
         return $pdf->stream();
 
+    }
+
+
+    public function obtenerDisponibles(Request $request){
+        $data = json_decode(file_get_contents('php://input'), true);
+        if($data['fecha']!=''){
+        $budgets = Budget::whereDate('fechaEvento', $data['fecha'])->get();
+
+        $producto = Inventory::orderBy('id', 'ASC')->where('servicio', $data['id'])->first();
+        $disponible=$producto->cantidad+$producto->exhibicion;
+
+    //segunda opcion
+    foreach($budgets as $budget){
+        $elementos = BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
+        foreach($elementos as $elemento){
+            if($elemento->servicio==$data['id']){
+                $disponible=$disponible-$elemento->cantidad;
+            }
+        }
+    }
+
+        
+        }else{
+            $disponible='Sin información de fecha';
+        }
+        return $disponible;
+    }
+
+    public function pdfRecolecciones(){        
+        $fecha1 = $_GET['fecha_1'];
+        $fecha2 = $_GET['fecha_2'];
+        
+        $presupuestos = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        //dd($presupuestos);
+        $pdf = App::make('dompdf');
+        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos'));
+        return $pdf->stream();
     }
 
     public function pdfBodegaCliente($id){        
@@ -625,7 +809,7 @@ class BudgetController extends Controller
     }
 
     public function obtenerPresupuesto($id){
-        return Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        return Budget::with('client')->orderBy('id', 'DESC')->where('id', $id)->first();
     }
 
     public function obtenerFestejados($id){
@@ -641,6 +825,25 @@ class BudgetController extends Controller
     public function obtenerPaquetes($id){
         $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
         return BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+    }
+
+    public function obtenerTotalComision($id){
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+        $BudgetInventory = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $Budget->version)->get();
+        $budgetPack = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->get();
+        $comision = Commission::orderBy('id', 'DESC')->first();
+        $totalComisionable = 0;
+        $arregloComisiones=[];
+        $totalComision=0;
+        if($Budget->total > $comision->minimoVentaComision){
+        foreach($BudgetInventory as $element){
+            $totalComisionable = $totalComisionable + ($element->cantidad*$element->precioEspecial) - ($element->cantidad*$element->precioVenta);
+        }
+        $totalComision=$comision->comisionContrato;
+    }
+        $arregloComisiones=[$totalComisionable, $totalComision, $comision->minimoVentaComision];
+  
+        return $arregloComisiones;
     }
 
     public function obtenerElementosPaquetes($id){
@@ -693,6 +896,9 @@ class BudgetController extends Controller
         $oldVersion->opcionImagen = $version->opcionImagen;
         $oldVersion->opcionDescuento = $version->opcionDescuento;
         $oldVersion->opcionIVA = $version->opcionIVA;
+        $oldVersion->emailEnvio = $version->emailEnvio;
+        $oldVersion->inicioAmPm = $version->inicioAmPm;
+        $oldVersion->finAmPm = $version->finAmPm;
         
         $oldVersion->horaInicio = $version->horaInicio;
         $oldVersion->horaFin = $version->horaFin;
@@ -704,6 +910,7 @@ class BudgetController extends Controller
         $oldVersion->numeroFacturacion = $version->numeroFacturacion;
         $oldVersion->coloniaFacturacion = $version->coloniaFacturacion;
         $oldVersion->emailFacturacion = $version->emailFacturacion;
+        $oldVersion->entregaEnBodega = $version->entregaEnBodega;
         
         $oldVersion->impresion = $version->impresion;
         $oldVersion->budget_id = $version->id;
@@ -711,7 +918,7 @@ class BudgetController extends Controller
         $oldVersion->comision = $version->comision;
         $oldVersion->total = $version->total;
         $oldVersion->notasPresupuesto = $version->notasPresupuesto;
-        $oldVersion->quienEdito = Auth::user()->name;
+        $oldVersion->quienEdito = $version->quienEdito;
         $oldVersion->save();
 
         //Obtenemos el budget original
@@ -755,25 +962,44 @@ class BudgetController extends Controller
         $presupuesto->opcionIVA         = $request->presupuesto['opcionIVA'];
         $presupuesto->impresion         = $request->presupuesto['impresion'];
         $presupuesto->notasPresupuesto         = $request->presupuesto['notasPresupuesto'];
-
+        $presupuesto->emailEnvio         = $request->presupuesto['emailEnvio'];
+        $presupuesto->inicioAmPm         = $request->presupuesto['inicioAmPm'];
+        $presupuesto->finAmPm         = $request->presupuesto['finAmPm'];
+        
+        
+        
+        
+       
         if($request->presupuesto['tipo'] == 'CONTRATO'){
-            $presupuesto->horaInicio                = $request->facturacion['horaInicio'];
-            $presupuesto->horaFin                   = $request->facturacion['horaFin'];
-            $presupuesto->horaEntrega               = $request->facturacion['horaEntrega'];
-            $presupuesto->fechaRecoleccion          = $request->facturacion['fechaRecoleccion'];
-            $presupuesto->horaRecoleccion           = $request->facturacion['horaRecoleccion'];
-            $presupuesto->recoleccionPreferente     = $request->facturacion['recoleccionPreferente'];
-            $presupuesto->notasFacturacion          = $request->facturacion['notasFacturacion'];
-            $presupuesto->nombreFacturacion         = $request->facturacion['nombreFacturacion'];
-            $presupuesto->direccionFacturacion      = $request->facturacion['direccionFacturacion'];
-            $presupuesto->numeroFacturacion         = $request->facturacion['numeroFacturacion'];
-            $presupuesto->coloniaFacturacion        = $request->facturacion['coloniaFacturacion'];
-            $presupuesto->emailFacturacion          = $request->facturacion['emailFacturacion'];
-            $presupuesto->rfcFacturacion            = $request->facturacion['rfcFacturacion'];
+            
+            $presupuesto->horaInicio                = $request->presupuesto['horaInicio'];
+            $presupuesto->horaFin                   = $request->presupuesto['horaFin'];
+            $presupuesto->horaEntrega               = $request->presupuesto['horaEntrega'];
+            $presupuesto->fechaRecoleccion          = $request->presupuesto['fechaRecoleccion'];
+            $presupuesto->horaRecoleccion           = $request->presupuesto['horaRecoleccion'];
+            $presupuesto->recoleccionPreferente     = $request->presupuesto['recoleccionPreferente'];
+            $presupuesto->notasFacturacion          = $request->presupuesto['notasFacturacion'];
+            $presupuesto->nombreFacturacion         = $request->presupuesto['nombreFacturacion'];
+            $presupuesto->direccionFacturacion      = $request->presupuesto['direccionFacturacion'];
+            $presupuesto->numeroFacturacion         = $request->presupuesto['numeroFacturacion'];
+            $presupuesto->coloniaFacturacion        = $request->presupuesto['coloniaFacturacion'];
+            $presupuesto->emailFacturacion          = $request->presupuesto['emailFacturacion'];
+            $presupuesto->rfcFacturacion            = $request->presupuesto['rfcFacturacion'];
+            $presupuesto->entregaEnBodega           = $request->presupuesto['entregaEnBodega'];
+
+            if($version->total!=$presupuesto->total){
+            $presupuesto->pagado                    = false;}
+
+
+            if($request->presupuesto['impresionBodega'] == 1){
+                $presupuesto->impresionBodega = 2;
+                $presupuesto->fechaEdicion = Carbon::now();
+            }
         }
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->version = ($presupuesto->version) + 1;
+        $presupuesto->quienEdito = Auth::user()->name;
         $presupuesto->save();
 
         //Buscamos el ultimo presupuesto actualizado guardado
@@ -954,7 +1180,7 @@ class BudgetController extends Controller
     }
 
     public function obtenerVersion($id){
-        return BudgetVersion::where('id', $id)->first();
+        return BudgetVersion::with('client')->where('id', $id)->first();
     }
 
     public function obtenerFestejadosVersion($id){
@@ -989,5 +1215,27 @@ class BudgetController extends Controller
         $budget->archivado='1';
         $budget->save();
         return back();
+    }
+    public function facturaEnviada($id){
+        $budget=Budget::find($id);
+        $budget->fechaEnvioFactura= $date = Carbon::now();
+        $budget->facturaSolicitada= 2;
+        $budget->save();
+        return back();
+    }
+
+    public function obtenerInventario($id){
+        $presupuesto = Budget::where('id', $id)->first();
+
+        $version = $presupuesto->version - 1;
+
+        if($version <= 0){
+            $version = 1;
+        }
+
+        $inventarios = BudgetInventory::where('budget_id', $presupuesto->id)->where('version', $version)->get();
+        $paquetes = BudgetPack::with('inventories')->where('budget_id', $presupuesto->id)->where('version', $version)->get();
+        $inventario = [$inventarios, $paquetes];
+        return $inventario;
     }
 }

@@ -16,6 +16,7 @@ class Telephone extends Model
         'tipo',
         'numero',
         'ext',
+        'departamento',
     ];
 
     public function client()

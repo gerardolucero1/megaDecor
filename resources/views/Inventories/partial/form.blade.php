@@ -61,7 +61,18 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('proveedor1', 'Proveedor 1') }}
-                    {{ Form::text('proveedor1', null, ['class' => 'form-control', 'id' => 'proveedor1']) }}  
+                    <select name="proveedor1" id="" class="form-control">
+                        <option value="NA">Selecciona un proveedor</option>
+                        @if (isset($inventory))
+                            <option value="{{ $inventory->proveedor1 }}">{{ $inventory->proveedor1 }}</option>
+                            <option value="Otro">Otro</option>
+                        @endif
+                            @foreach ($proveedores as $proveedor)
+                                <option value="{{ $proveedor->nombre }}">{{ $proveedor->nombre }}</option>
+                            @endforeach
+                        
+                    </select>
+                    {{-- {{ Form::text('proveedor1', null, ['class' => 'form-control', 'id' => 'proveedor1']) }}   --}}
                 </div>
             </div>
         </div>
@@ -70,7 +81,8 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('proveedor2', 'Proveedor 2') }}
-                    {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}  
+                    <input type="text" name="proveedor2" id="" class="form-control">
+                    {{-- {{ Form::text('proveedor2', null, ['class' => 'form-control', 'id' => 'proveedor2']) }}   --}}
                 </div>
             </div>
         </div>
@@ -100,10 +112,14 @@
         <div class="form-group row">
                 <div class="col-md-12">
                     <label for="">Selecciona una familia</label>
-                        <select name="familia" id="selectfamilia" style="width: 100%" onchange="seleccionarFamilia()">
-                                <option value="">Selecciona una familia</option>
-                            @foreach($familias as $familia)    
-                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                        <select name="familia" id="selectfamilia" style="width: 100%" required onchange="seleccionarFamilia()">
+                            @if (isset($inventory))
+                                <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
+                            @else
+                                <option value="">Selecciona familia</option>
+                            @endif
+                            @foreach($familias as $familia)
+                                <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                             @endforeach
                             </select>
                     <div class="form-material">
@@ -114,7 +130,27 @@
                 </div>
             </div>
     </div>
-
+    
+        @if(strpos($_SERVER['REQUEST_URI'], 'edit'))
+        @else
+    <div class="col-md-8">
+        <div class="form-group row">
+            <div class="col-md-6">
+                <div class="form-material">
+                    {{ Form::label('fechaCompra', 'Fecha de compra') }}
+                    {{ Form::date('fechaCompra', null, ['class' => 'form-control', 'id' => 'fechaCompra']) }}  
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-material">
+                    {{ Form::label('factura', 'Numero de factura') }}
+                    {{ Form::text('factura', null, ['class' => 'form-control', 'id' => 'factura']) }}  
+                </div>
+            </div>
+        </div>
+        
+    </div>
+@endif
     <div class="row">
         <div class="col-md-12" style="padding: 10px">
             <button type="submit" class="btn btn-sm btn-info" style="margin-left: 10px">Guardar</button>

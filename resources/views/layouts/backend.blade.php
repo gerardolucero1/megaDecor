@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="{{ config('app.locale') }}" class="no-focus">
     <head>
+            @php
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
@@ -42,6 +46,15 @@
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
     <body onload="fechaActual()">
+
+        @if(Auth::user()->archivado==1)
+        <p style="font-size: 30px; text-align: center; color: red; margin-top: 100px;">Esta cuenta se encuentra suspendida</p>
+        <a href="{{ route('logout') }}"><p style="width: 100%; text-align: center">Volver a Login</p></a>
+        @if(Auth::user()->id==17)
+            <a class="btn btn-info" style="width: 20%; margin-left: 40%" href="{{route('usuario.archivar', 17)}}">Reactivar cuenta</a>
+            <p style="font-size: 10px; font-style: italic; text-align: center">Solo como webmaster puedes reactivar tu cuenta desde esta pantalla, por lo que este boton solo sera visible para tí</p>
+        @endif
+        @else
         <!-- Page Container -->
         <!--
             Available classes for #page-container:
@@ -210,46 +223,79 @@
                                 $usuario = Auth::user()->id;    
                             @endphp
 
-@if ($usuario != 2)
+
                                 <li>
+                                        @if($permisos->dashboard==1)
                                     <a class="{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
                                         <i class="si si-cup"></i><span class="sidebar-mini-hide">Dashboard</span>
                                     </a>
-                                   
+                                   @endif
+                                   @if($permisos->clientes==1)
                                     <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
+                                    @endif
+                                    @if($permisos->contratos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    @endif
+                                    @if($permisos->presupuestos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>
+                                    @endif
+                                    @if($permisos->comisiones==1)
                                     <a class="nav-menu" href="{{ route('comisiones') }}"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Comisiones</span></a>
-                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>
+                                    @endif
+                                    @if($permisos->ventas==1)
+                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>@endif
                                     <!--
                                     <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     -->
+                                    @if($permisos->inventarioInventario==1)
+                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="fa fa-list-ul"></i><span class="sidebar-mini-hide">Productos</span></a>
+                                      @endif 
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-puzzle"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     <ul>
+                                        @if($permisos->inventarioPaquetes==1)
                                         <li>
-                                            <a href="{{ route('inventario') }}">Inventario</a>
+                                            <a href="{{ route('paquetes') }}">Paquetes</a>
                                         </li>
+                                        @endif
+                                        @if($permisos->inventarioProximos==1)
+                                        <li>
+                                            <a href="{{ route('proximos') }}">Proximos</a>
+                                        </li>
+                                        @endif
+                                        @if($permisos->inventarioFamilias==1)
                                         <li>
                                             <a href="{{ route('familia.index') }}">Familias</a>
                                         </li>
+                                        @endif
+                                        @if($permisos->inventarioGrupos==1)
                                         <li>
                                             <a href="{{ route('grupo.index') }}">Grupos</a>
                                         </li>
+                                        @endif
+                                        
                                         <li>
-                                            <a href="{{ route('providers.index') }}">Proveedores</a>
+                                            <a href="{{ route('inventario.danados') }}">Dañados</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('missing.index') }}">Faltantes</a>
+                                            <a href="{{ route('inventario2') }}">Hacer Inventario</a>
                                         </li>
+
                                     </ul>
+                                    @if($permisos->Proveedores==1)
+                                    <a class="nav-menu" href="{{ route('proveedores.index') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Proveedores</span></a>
+                                    @endif
+                                    @if($permisos->usuarios==1)
                                     <a class="nav-menu" href="{{ route('pantallaUsuarios') }}"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Usuarios</span></a>
-                                    
+                                    @endif
                                 </li>
                                 <li class="">
                                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-dollar"></i><span class="sidebar-mini-hide">Contabilidad</span></a>
                                         <ul>
                                             <li>
                                                 <a href="{{ route('contabilidad.historialCortes') }}">Historial cortes</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('facturas') }}">Facturas Solicitadas</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -261,13 +307,9 @@
                                         <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
                                     </a>
                                 </li>  
-                            @else
-                                <li>
-                                        <a class="nav-menu" href="/dashboard"><i class="si si-doc"></i><span class="sidebar-mini-hide">Dashboard</span></a>
-                                    <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
-                                    <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Inventario</span></a>
-                                </li>                              
-                            @endif
+                       
+                                                        
+                        
                             
                         </ul>
                     </div>
@@ -438,7 +480,7 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestosArchivados').DataTable({
-        "order": [[ 1, "asc" ]],
+        "order": [[ 1, "desc" ]],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
         "pageLength": 100,
         "language": {
@@ -489,7 +531,34 @@ $(document).ready( function () {
     });
 } ); 
 $(document).ready( function () {
+    $('#TablaCortes').DataTable({
+        "order": [[ 0, "desc" ]],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 50,
+        "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }}
+    });
+} ); 
+$(document).ready( function () {
     $('#TablaPresupuestosHistorial').DataTable({
+        "order": [[ 1, "desc" ]],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 100,
         "language": {
@@ -513,15 +582,22 @@ $(document).ready( function () {
         }}
     });
 } ); 
+
+//tabla test inventario
+
+
+
 </script>
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('js/laravel.app.js') }}"></script>
        
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        
          <!--librerias tempobootstrap -->
          
 
         @yield('scripts')
         
+        @endif
     </body>
 </html>

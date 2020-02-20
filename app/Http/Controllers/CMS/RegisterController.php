@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Register;
+use App\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,7 +37,24 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+
+        $producto = Inventory::findOrFAil($request->producto);
+
+        
         $registro = Register::create($request->all());
+        $registro->antes = $producto->cantidad;
+        $registro->antesExhibicion = $producto->exhibicion;
+        $registro->save();
+
+      
+        if($request->tipo == 'alta'){
+            $producto->cantidad = ($producto->cantidad + $request->cantidad);
+            $producto->save();
+        }else{
+            $producto->cantidad = ($producto->cantidad - $request->cantidad);
+            $producto->save();
+        }
+        
         return;
     }
 

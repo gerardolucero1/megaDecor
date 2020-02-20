@@ -4,6 +4,9 @@ namespace App\Http\Controllers\CMS;
 
 use App\Budget;
 use App\Payment;
+use App\Client;
+use App\MoralPerson;
+use App\PhysicalPerson;
 use Carbon\Carbon;
 use App\CashRegister;
 use App\OtherPayments;
@@ -43,7 +46,6 @@ class CashRegisterController extends Controller
      */
     public function store(Request $request)
     {
-
         $date = Carbon::now();
         $fechaHoy = $date->toDateString();
         $horaHoy = $date->toTimeString();
@@ -70,6 +72,8 @@ class CashRegisterController extends Controller
 
         $registro->cantidadApertura = $request['cantidadApertura'];
         $registro->cantidadRealApertura = $request['cantidadRealApertura'];
+        $registro->cantidadCheques = $request['arrayDatos'][0];
+        $registro->cantidadDolares = $request['arrayDatos'][1];
         $registro->estatus = true;
 
         $registro->save();
@@ -151,6 +155,10 @@ class CashRegisterController extends Controller
         $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
         return $presupuestos;
     }
+    public function obtenerUltimoPago(){
+        $ultimoPago = Payment::orderBy('id', 'DESC')->first();
+        return $ultimoPago;
+    }
 
     public function corte(){
         $date = Carbon::now();
@@ -171,10 +179,15 @@ class CashRegisterController extends Controller
         $registro = CashRegister::findOrFail($id);
 
         $date = Carbon::now();
+        $fechaCorte = $registro->created_at;
+        $date=$date->format('Y-m-d');
+        $fechaCorte = $fechaCorte->format('Y-m-d');
+
+
         $fechaApertura = Carbon::parse($registro->created_at);
         $fechaCierre = Carbon::parse($registro->updated_at);
-        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
         
 
 
@@ -185,15 +198,57 @@ class CashRegisterController extends Controller
         return $pdf->stream();
     }
 
-    public function pdfReciboDePago($id){
+    public function precorte($id){
+        $registro = CashRegister::findOrFail($id);
+
         $date = Carbon::now();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereTime('id', $id)->get();
-      
+        $fechaCorte = $registro->created_at;
+        $date=$date->format('Y-m-d');
+        $fechaCorte = $fechaCorte->format('Y-m-d');
+        $fechaApertura = Carbon::parse($registro->created_at);
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
+        
+
+
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.recibo_pago', compact('otrosPagos'));
+        $pdf = PDF::loadView('pdf.precorte', compact('registro', 'pagos', 'otrosPagos'));
 
         return $pdf->stream();
+    }
+
+    public function pdfReciboDePago($id){
+        $date = Carbon::now();
+        $Pago = Payment::orderBy('id', 'DESC')->where('id', $id)->first();
+        $Pagos = Payment::orderBy('id', 'DESC')->where('budget_id', $Pago->budget_id)->whereTime('created_at', '<', $Pago->created_at)->orWhereDate('created_at', '<', $Pago->created_at)->where('budget_id', $Pago->budget_id)->get();
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $Pago->budget_id)->first();
+        $cliente = Client::orderBy('id', 'DESC')->where('id', $Budget->client_id)->first();
+        
+
+        if($cliente->tipoPersona=='FISICA'){
+            $cliente = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }else{
+            $cliente = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }
+        
+        
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.recibo_pago', compact('Pago', 'Budget', 'cliente', 'Pagos'));
+
+        return $pdf->stream();
+    }
+
+    public function cancelarContrato($id){
+        $budget = Budget::findOrFail($id);
+
+        $budget->cancelado = true;
+        $budget->fechaCancelacion = Carbon::now();
+
+        $budget->save();
+        return;
     }
 
 }

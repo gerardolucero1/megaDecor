@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\BudgetPack;
 use Illuminate\Database\Eloquent\Model;
 
 class BudgetPackInventory extends Model
@@ -17,10 +18,18 @@ class BudgetPackInventory extends Model
         'precioEspecial',
         'proveedor',
         'externo',
+        'guardarInventario'
     ];
 
-    public function budget()
+    // public function budget()
+    // {
+    //     return $this->belongsTo(BudgetPack::class);
+    // }
+
+    public function budgetPack()
     {
-        return $this->belongsTo(BudgetPack::class);
+        return $this->belongsTo(BudgetPack::class, 'budget_pack_id');
     }
+
+    
 }

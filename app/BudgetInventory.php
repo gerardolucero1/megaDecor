@@ -20,10 +20,11 @@ class BudgetInventory extends Model
         'notas',
         'proveedor',
         'externo',
+        'guardarInventario',
     ];
 
     public function budget()
     {
-        return $this->belongsTo(Budget::class);
+        return $this->belongsTo(Budget::class, 'budget_id');
     }
 }

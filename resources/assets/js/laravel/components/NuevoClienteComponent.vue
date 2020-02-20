@@ -103,7 +103,7 @@
                     
                     
 
-                    <h4>Telefonos de contacto</h4>
+                    <h4>Teléfonos de contacto</h4>
                     <div class="row" v-if="telefonos.length !== 0">
                         <table class="table table-striped">
                             <thead>
@@ -165,11 +165,10 @@
                             <input type="text" placeholder="Apellido Materno" v-model="telefono.apellidoMaterno">
                         </div>
                         <div class="col-md-8 mt-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input required type="text" @change="emailClick" id="emailPF" placeholder="Ejemplo" v-model="cliente.emailCliente" style="width: auto;"> @ 
-                            <input required @change="emailClick" id="emailTPF" type="text" placeholder="ejemplo.com" v-model="cliente.emailClienteTerminacion" style="width: auto;">
+                            <input type="email" placeholder="Email" v-model="telefono.email">
                         </div>
                         <div class="col-md-4 mt-4" v-if="cliente.tipoPersona == 'moral'">
-                            <input type="text"  placeholder="Departamento" v-model="telefono.dpto">
+                            <input type="text"  placeholder="Departamento" v-model="telefono.departamento">
                         </div>
                     </div>
 
@@ -282,7 +281,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onClick="$('#agregarComoSupo').modal('hide')">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
             </div>
         </div>
@@ -358,6 +356,7 @@ function emailCopy(){
                     apellidoPaterno: '',
                     apellidoMaterno: '',
                     email: '',
+                    departamento: '',
                 },
                 telefonos: [],
                 physicalTelephones: [],
@@ -407,6 +406,9 @@ function emailCopy(){
                   //  console.log(this.tipos);
                 });
             },
+    emitGlobalClickEvent() {
+      EventBus.$emit('nuevoCliente');
+    },
 
             eliminarComoSupo(item){
                 var url= '/clientes/eliminar-comoSupo/'+item.id;
@@ -642,11 +644,18 @@ function emailCopy(){
                 }
 
                 if(!existe){
-                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext});
+                    this.telefonos.push({'nombre': this.telefono.nombre, 'apellidoPaterno': this.telefono.apellidoPaterno, 'apellidoMaterno': this.telefono.apellidoMaterno, 'email': this.telefono.email, 'tipo': this.telefono.tipo , 'numero' : this.telefono.numero, 'ext': this.telefono.ext, 'departamento': this.telefono.departamento});
                 }
 
 
-                
+                this.telefono.numero="";
+                this.telefono.nombre="";
+                this.telefono.apellidoPaterno="";
+                this.telefono.apellidoMaterno="";
+                this.telefono.ext="";
+                this.telefono.email="";
+                this.telefono.tipo="CELULAR";
+                this.telefono.departamento="";
                 
                 
             },
@@ -696,6 +705,7 @@ function emailCopy(){
 
                 }).then((response) => {
                     this.cliente = {};
+                    EventBus.$emit('nuevoCliente');
                    // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Cliente Registrado con exito',
@@ -705,7 +715,8 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
-                            location.reload();
+                            this.telefonos = [];
+                            
                 }).catch((error) => {
                     console.log(error);
                 });

@@ -49,6 +49,7 @@ Vue.component('task-list-component', require('./components/TaskListComponent.vue
 Vue.component('tipo-empresa-component', require('./components/TipoEmpresaComponent.vue').default);
 Vue.component('como-supo-component', require('./components/ComoSupoComponent.vue').default);
 Vue.component('crear-presupuesto-component', require('./components/CrearPresupuestoComponent.vue').default);
+Vue.component('crear-contrato-component', require('./components/CrearContratoComponent.vue').default);
 Vue.component('settings-master-component', require('./components/SettingsMasterComponent.vue').default);
 Vue.component('editar-presupuesto-component', require('./components/EditarPresupuestoComponent.vue').default);
 Vue.component('ver-presupuesto-component', require('./components/VerPresupuestoComponent.vue').default);
@@ -56,6 +57,10 @@ Vue.component('calendario-component', require('./components/CalendarioComponent.
 Vue.component('caja-component', require('./components/CajaComponent.vue').default);
 Vue.component('contabilidad-component', require('./components/ContabilidadComponent.vue').default);
 Vue.component('altas-component', require('./components/AltasComponent.vue').default);
+Vue.component('editar-paquete-component', require('./components/EditarPaqueteComponent.vue').default);
+Vue.component('productos-danados-component', require('./components/DanadosComponent.vue').default);
+Vue.component('proveedores-component', require('./components/ProveedoresComponent.vue').default);
+Vue.component('editar-proveedor-component', require('./components/EditarProveedorComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

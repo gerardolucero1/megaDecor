@@ -20,6 +20,8 @@ class Register extends Model
         'precio',
         'producto',
         'tipo',
+        'antes',
+        'antesExhibicion',
     ];
 
     public function user()

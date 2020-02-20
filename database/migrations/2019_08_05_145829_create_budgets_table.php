@@ -42,6 +42,10 @@ class CreateBudgetsTable extends Migration
             $table->string('CPLugar')->nullable();
             $table->mediumText('observacionesLugar')->nullable();
 
+            //Am-Pm que tanto pidieron en hora de inicio y hora de fin
+            $table->string('inicioAmPm')->nullable();
+            $table->string('finAmPm')->nullable();
+
             //Informacion del evento
             $table->integer('numeroInvitados');
             $table->string('colorEvento');

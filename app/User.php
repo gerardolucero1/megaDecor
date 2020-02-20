@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'tipo',
     ];
 
     /**
@@ -36,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function permisssions()
+    {
+        return $this->hasOne(Permission::class, 'user_id');
+    }
+
+    public function budgets()
+    {
+        return $this->hasMany(Budget::class, 'vendedor_id');
+    }
 }

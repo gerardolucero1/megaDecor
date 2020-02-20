@@ -10,6 +10,10 @@
 
 @section('content')
     <section class="container">
+            @php
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
                 <div class="block">
@@ -33,34 +37,48 @@
                             $usuario = Auth::user()->id;    
                         @endphp 
                         
-                        @if($usuario != 2 || $usuario != 6)
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
-                                <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
-                            </button>
-                            <button class="btn btn-primary"  onclick="vista_calendario()">
-                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
-                            </button>
-                            <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                                <i class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
-                            </button>
-                            <button onclick="PresupuestosHistorial()" class="btn btn-info">
-                                <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
-                            </button>
-                        @endif
+                        @if($permisos->presupuestosCrearContrato==1)
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
+                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Presupuesto</i> 
+                        </button>
+                    @endif
+                    @if($permisos->presupuestosVistaCalendario==1)
+                    <button class="btn btn-primary"  onclick="vista_calendario()">
+                        <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
+                    </button>
+                @endif
+                @if($permisos->presupuestosArchivados==1)
+                <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                    <i class="fa fa-calendar-minus-o"></i> <i>presupuestos Archivados</i> 
+                </button>
+            @endif
+            @if($permisos->presupuestosHistorial==1)
+            <button onclick="PresupuestosHistorial()" class="btn btn-info">
+                <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
+            </button>
+        @endif
+
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
                      <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>Folio</th>
-                                    <th>Fecha Evento</th>
-                                    <th class="d-none d-sm-table-cell">Cliente</th>
-                                    <th class="d-none d-sm-table-cell">Vendedor</th>
-                                    <th class="d-none d-sm-table-cell">Version</th>
+                                    @if($permisos->presupuestosFolio==1)
+                                    <th>Folio</th>@endif
+                                    @if($permisos->presupuestosFecha==1)
+                                    <th>Fecha Evento</th>@endif
+                                    @if($permisos->presupuestosCliente==1)
+                                    <th class="d-none d-sm-table-cell">Cliente</th>@endif
+                                    @if($permisos->presupuestosVendedor==1)
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>@endif
+                                    @if($permisos->presupuestosVersion==1)
+                                    <th class="d-none d-sm-table-cell">Version</th>@endif
                                     <th class="d-none d-sm-table-cell">Etiquetas</th>
-                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
-                                     <th class="d-none d-sm-table-cell">Total</th>
+                                    @if($permisos->presupuestosUltimaModificacion==1)
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>@endif
+                                     @if($permisos->presupuestosTotal==1)
+                                     <th class="d-none d-sm-table-cell">Total</th>@endif
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -71,9 +89,12 @@
                             @if (count($Presupuestos) > 0)
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd">
-                                <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}</td>
+                                @if($permisos->presupuestosFolio==1)
+                                <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}}
                                 
-                                @if (!is_null($budget->fechaEvento))
+                                </td>@endif
+                                @if($permisos->presupuestosFecha==1)
+                                @if ($budget->pendienteFecha!=1)
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
                                     @endphp
@@ -84,51 +105,66 @@
                                     @else
                                     <td class="">Pendiente</td>
                                 @endif
-                                
-                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
-                                <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
+                                @endif
+                                @if($permisos->presupuestosCliente==1)
+                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>@endif
+                                @if($permisos->presupuestosVendedor==1)
+                                <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>@endif
+                                @if($permisos->presupuestosVersion==1)
                                 <td class="d-none d-sm-table-cell text-center">
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
+                                @endif
                             <td class="text-center d-none d-sm-table-cell" style="font-size:14px;">
-                                @if($usuario != 2 || $usuario != 6)
+                                    @if($permisos->presupuestosImpresionCliente==1)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                     </a>
+                                    @endif
+                                    @if($permisos->EnviarCorreo==1)
                                     <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>             
-                                @endif
-                                <a target="_blank" href="{{route('imprimir.budgetBodega', $budget->id)}}">
+                                    @endif
+                                    @if($permisos->presupuestosImprimirBodega==1)
+                                <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
                                 </a>
+                                    @endif
                             </td>
+                            @if($permisos->presupuestosUltimaModificacion==1)
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                         @if($budget->version>1)por: Ivonne Arroyos @endif
                                 </td>
+                                @endif
+                                @if($permisos->presupuestosTotal==1)
                                 @php
                                     $total=number_format($budget->total,2);
                                 @endphp
                                 <td class="d-none d-sm-table-cell">
-                                    @if($usuario != 2)
                                         ${{$total}}
-                                    @endif
                                     @if ($budget->IVA)
                                     <br>
                                         <span style="font-size: 10px; color: green;">IVA incluido</span>
                                     @endif
                                 </td>
+                                @endif
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                    @if($usuario != 2)
+                                        @if($permisos->presupuestosEditar==1)
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
+                                    @endif
+                                    @if($permisos->presupuestosFichaTecnica==1)
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
+                                    @endif
+                                    @if($permisos->presupuestosArchivar==1)
                                     <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-refresh"></i> 
                                     </a>
                                     @endif
+                                  
                                 </td>
                             </tr>
                         @endforeach
@@ -165,9 +201,9 @@
                                     <th>#Presupuesto</th>
                                     <th>Fecha Evento</th>
                                     <th>Cliente</th>
-                                    <th>Lugar</th>
                                     <th>Vendedor</th>
                                     <th>Version</th>
+                                    <th>Opciones</th>
                                      <th>Última Modificación</th>
                                      <th>Opciones</th>
                                 </tr>
@@ -181,11 +217,12 @@
                                 <tr role="row" class="odd">
                                     <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
                                     
-                                    @if (!is_null($budgetArchivados->fechaEvento))
-                                        @php
-                                            $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
-                                        @endphp
-                                        <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                    @if ($budgetArchivados->pendienteFecha!=1)
+                                    @php
+                                    $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
+                                @endphp
+                                <td class="">
+                                    <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
                                         <td class="">Pendiente</td>
                                     @endif
@@ -207,9 +244,11 @@
                                     @endphp
                                 <td>${{$total}}</td>
                                     <td class="d-flex" style="box-sizing: content-box;">
+                                        @if($permisos->presupuestosEditar==1)
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
                                             <i class="fa fa-pencil"></i>
                                         </button>
+                                        @endif
                                         <button disabled style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="View Customer">
                                             <i class="fa fa-eye"></i> 
                                         </button> 
@@ -264,11 +303,13 @@
                                 @foreach ($presupuestosHistorial as $budgetArchivados)                          
                                     <tr role="row" class="odd">
                                         <td class="text-center sorting_1">{{$budgetArchivados->folio}}</td>
-                                        @if (!is_null($budgetArchivados->fechaEvento))
+                                        @if ($budgetArchivados->pendienteFecha!=1)
                                             @php
                                                 $fechaEvento = Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                             @endphp
-                                            <td class="">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                            <td class=""><span style="display:none">{{$fechaEvento}}</span>
+                                                <br>
+                                                {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                         @else
                                             <td class="">{{$budgetArchivados->fechaEvento}}</td>
                                         @endif
@@ -296,7 +337,7 @@
                                             <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
                                                 <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                                 <i onclick="enviarCorreoCliente({{$budgetArchivados->id}})" class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>
-                                                <a target="_blank" href="{{route('imprimir.budgetBodega', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
+                                                <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                             </td>
                                             <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                                 @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
@@ -317,9 +358,11 @@
                                                 @endif
                                             </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
+                                                @if($permisos->presupuestosEditar==1)
                                                 <a href="{{ route('editar.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto es pasado" data-original-title="Editar Presupuesto">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
+                                                @endif
                                                 <a href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a> 

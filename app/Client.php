@@ -5,6 +5,7 @@ namespace App;
 use App\Telephone;
 use App\Celebrated;
 use App\MoralPerson;
+use App\BudgetVersion;
 use App\PhysicalPerson;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,11 @@ class Client extends Model
     public function budgets()
     {
         return $this->hasMany(Budget::class);
+    }
+
+    public function budgetsVersions()
+    {
+        return $this->hasMany(BudgetVersion::class);
     }
 
     public function celebrateds()

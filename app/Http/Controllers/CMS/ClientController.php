@@ -4,14 +4,14 @@ namespace App\Http\Controllers\CMS;
 
 use App\Client;
 use App\Telephone;
+use App\ComoLoSupo;
 use App\MoralPerson;
-use App\PhysicalPerson;
+use App\tipo_empresa;
 use App\AboutCategory;
 use App\MoralCategory;
-use App\tipo_empresa;
-use App\ComoLoSupo;
-use Illuminate\Support\Facades\DB;
+use App\PhysicalPerson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ClientController extends Controller
@@ -25,7 +25,6 @@ class ClientController extends Controller
     public function categorias(){
         return MoralCategory::orderBy('id', 'DESC')->get();   
     }
-
     
 
     // Esta funcion retorna todas las opciones de ¿Como nos conocio?
@@ -130,7 +129,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailCliente;
+            $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
@@ -144,7 +143,7 @@ class ClientController extends Controller
             $cliente->categoria_id = $request->categoriaCliente;
             $cliente->about_id = $request->categoriaAbout;
             $cliente->nombre = $request->nombreCliente;
-            $cliente->email = $request->emailFacturacion;
+            $cliente->email = $request->emailCliente;
             $cliente->direccionEmpresa = $request->direccionEmpresa;
             $cliente->coloniaEmpresa = $request->coloniaEmpresa;
             $cliente->numeroEmpresa = $request->numeroEmpresa;
@@ -153,7 +152,7 @@ class ClientController extends Controller
             $cliente->coloniaFacturacion = $request->coloniaFacturacion;
             $cliente->numeroFacturacion = $request->numeroFacturacion;
             $cliente->rfcFacturacion = $request->rfcFacturacion;
-            $cliente->emailFacturacion = $request->emailCliente;
+            $cliente->emailFacturacion = $request->emailFacturacion;
             $cliente->tipoCredito = $request->creditoCliente;
             $cliente->diasCredito = $request->diasCredito;
             $cliente->telefono = $request->telefonos[0]['numero'];
@@ -171,6 +170,7 @@ class ClientController extends Controller
             $telefono->tipo = $telephone['tipo'];
             $telefono->numero = $telephone['numero'];
             $telefono->ext = $telephone['ext'];
+            $telefono->departamento = $telephone['departamento'];
             $telefono->save();
 
         }
@@ -229,5 +229,19 @@ class ClientController extends Controller
 
     public function crearTelefono(Request $request){
         $telefono = Telephone::create($request->all());
+    }
+
+    public function destroy($id){
+        $cliente = Client::findOrFail($id);
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::where('client_id', $id)->first();
+        }else{
+            $persona = MoralPerson::where('client_id', $id)->first();
+        }
+
+        $persona->delete();
+        $cliente->delete();
+
+        return back()->with('info', 'Cliente eliminado con exito');
     }
 }

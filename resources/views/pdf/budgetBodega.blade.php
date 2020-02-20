@@ -15,7 +15,7 @@
     <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
         <tr>
           <td style="width: 30%">
-              <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
+              <img src="http://partnergrammer.com/img/megamundodecor.jpeg" style="width:200px">
              <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}}<br>@if($presupuesto->pagado!=1)
               <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
                 @endif</p>
@@ -42,7 +42,7 @@
 <td colspan="4"><span style="font-weight: bold">Dirección de entrega: </span></td>
 </tr>
 <tr style=" font-size: 14px;">
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} - {{$presupuesto->horaEventoFin}}@else Horario Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} {{$presupuesto->inicioAmPm}}  - {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}}@else Horario Pendiente @endif</td>
 <td colspan="2">
   @if($presupuesto->requiereMontaje!='SI')
     {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}

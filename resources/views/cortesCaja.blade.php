@@ -4,7 +4,7 @@
     <section class="container">
         <div class="row">
             <div class="block col-md-12">
-                <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaCortes" role="grid" >
                     <thead>
                         <tr role="row">
                             <th>Fecha apertura</th>
@@ -15,11 +15,18 @@
                             <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tbody>                                   
+                    <tbody>      
+                            @php
+                            use Carbon\Carbon;
+                        @endphp                            
                         @foreach ($cortes as $corte)
                             <tr role="row" class="odd">                                
                                 <td class="d-none d-sm-table-cell">
-                                    {{ $corte->fechaApertura }}
+                                        @php
+                                        $fechaCorte = Carbon::parse($corte->fechaApertura)->locale('es');
+                                    @endphp 
+                                    <span style="opacity:0">{{ $corte->fechaApertura}}</span>
+                                    {{ $fechaCorte->translatedFormat(' l j F Y') }}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">
                                     {{ $corte->horaApertura }}

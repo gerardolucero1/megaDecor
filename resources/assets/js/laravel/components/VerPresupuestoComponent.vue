@@ -67,19 +67,36 @@
         border-width:1px; 
         z-index:30
     }
+
+    .nuevo{
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .emailEnvio{
+        background-color: #D0EFCF;
+        padding: 10px;
+    }
 </style>
 
 <template>
     <section class="container block mt-3">
-        <div class="container-version">
-    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ presupuesto.version }}
+        <div class="container-version" v-if="presupuesto.length != 0">
+    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ versionesOrdenadas.length }}
+            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('pasado')" class="fa fa-chevron-left"></i>   
+            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('futuro')" class="fa fa-chevron-right"></i> 
+        </div>
+
+        <div class="container-version" v-if="presupuesto.length != 0" style="margin-left: 400px;">
+            Edición hecha por: {{ presupuesto.quienEdito }}<br>
+            <span style="font-size:10px; font-style:italic">{{presupuesto.updated_at}}</span>
         </div>
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario: </span>POR LA {{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</p>
-                <p><span style="font-weight:bold">Recolección: </span>POR LA {{presupuesto.recoleccionPreferente}}</p>
+                <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recoleccoón en bodega</span></p>
+                <p><span style="font-weight:bold">Recolección: </span><span v-if="presupuesto.entregaEnBodega!=1 && presupuesto.recoleccionPreferente!='OTRO'">{{presupuesto.recoleccionPreferente}}</span><span v-if="presupuesto.entregaEnBodega==1">Cliente entrega en bodega</span><span v-if="presupuesto.recoleccionPreferente=='OTRO' && presupuesto.entregaEnBodega!=1">{{presupuesto.fechaRecoleccion}} {{presupuesto.horaRecoleccion}}</span></p>
             </div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
@@ -90,10 +107,13 @@
                 <p><span style="font-weight:bold">RFC: </span>{{presupuesto.rfcFacturacion}}</p>
                 <p><span style="font-weight:bold">CP: </span>{{presupuesto.cp}}</p>
             </div>
+            <div class="col-md-8" style="background:#FFD5C8; border-radius:5px">
+                <p><span style="font-weight:bold">Notas de facturacion: </span> {{presupuesto.notasFacturacion}}</p>
+            </div>
             
             
         </div>
-        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas:</span> {{ presupuesto.notasPresupuesto }}</p></div>
+        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas (solo visible para vendedores):</span> {{ presupuesto.notasPresupuesto }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
                 <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
         <div class="row">
@@ -110,7 +130,7 @@
         <div class="row">
             <div class="col-md-12 verPresupuesto">
                 <div class="row">
-                    <div class="col-md-8 text-left">
+                    <div class="col-md-5 text-left">
                         <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
 
                         </div>
@@ -118,10 +138,12 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4 text-right info">
+                    <div class="col-md-7 text-right info">
                         <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <div> <p style=" text-align:right"><span style="font-weight:bold;">Fecha del evento: </span> <span v-if="mostrarFechaEvento!='Invalid date'">{{ mostrarFechaEvento }}</span><span v-else>Pendiente</span></p></div>
+                            <div> 
+                                 <p style="text-align:right; font-size:23px; width:100%; padding-right:15px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
+                                 </div>
                             <div class="col-md-12 text-right">
                                 <p>Vendedor: <span>{{ vendedor.name }}</span></p>
                             </div>
@@ -132,30 +154,30 @@
                 <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-4">
                         <h4>Informacion del evento</h4>
-                            <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento" disabled>
-                            <label for="salonMega">Salon Mega Mundo</label>
+                           
+                            <label v-if="presupuesto.tipoEvento=='INTERNO'" for="salonMega">Salon Mega Mundo</label>
                         <br>
-                        <input id="salonFuera" type="radio" name="tipoSalon" value="EXTERNO" v-model="presupuesto.tipoEvento" disabled>
-                        <label for="salonFuera">Evento Fuera</label>
+                        
+                        <label v-if="presupuesto.tipoEvento=='EXTERNO'" for="salonFuera">Evento Fuera</label>
                             <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
-                                <input id="servicioFormal" type="radio" name="tipoServicio" value="FORMAL" v-model="presupuesto.tipoServicio" disabled>
-                                <label for="servicioFormal">Servicio Formal</label>
+                                <label v-if="presupuesto.tipoServicio=='FORMAL'" for="servicioFormal">Servicio Formal</label>
                                 <br>
-                                <input id="servicioInfantil" type="radio" name="tipoServicio" value="INFANTIL" v-model="presupuesto.tipoServicio" disabled>
-                                <label for="servicioInfantil">Servicio Infantil</label>
+                                <label v-if="presupuesto.tipoServicio=='INFANTIL'" for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
                     <div class="col-md-4  row">
                                 <h4>Horario del evento</h4>
                                 <p style="width:100%" v-if="presupuesto.pendienteHora">Horario Pendiente</p>
-                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
+                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
+                                <label for="">{{presupuesto.inicioAmPm}}</label>
                             </div>
                            
-                            <div v-if="presupuesto.pendienteHora==null" class="col-md-6" style="padding-left:0">
+                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
                                 <label>Fin del evento</label><br>
                                 <input type="time" v-model="presupuesto.horaEventoFin" readonly>
+                                <label for="">{{presupuesto.finAmPm}}</label>
                             </div>
                              
                             </div>
@@ -208,9 +230,13 @@
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
+                                <p>
+                                    <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
+                                </p>
                             <p>{{ clienteSeleccionado.email }}</p>
-                            <p v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index">
-                                {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
+                                <!-- <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p> -->
+                            <p class="emailEnvio" v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index" v-if="telefono.email == presupuesto.emailEnvio">
+                                {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
                             </p>
                         </div>
                     </div>
@@ -261,8 +287,8 @@
                     <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
                         <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
                     </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-12 mt-4">
-                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Notas: </span>{{ presupuesto.observacionesLugar }}</p>
+                    <div class="col-md-12 mt-4">
+                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Observaciones Lugar: </span>{{ presupuesto.observacionesLugar }}</p>
                     </div>
 
                     <div class="col-md-2 mt-4">
@@ -311,13 +337,10 @@
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Servicio</th>
                                 <th scope="col">Cantidad</th>
-
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Especial</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
                                 <th v-if="usuarioActual.id!=2" scope="col">Ahorro</th>
-
-
                                 <th scope="col" width="252">Notas</th>
                                 <th scope="col">Acciones</th>
                             </tr>
@@ -325,9 +348,22 @@
                         <tbody>
                             <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
                                 <td>
+                                    <div class="nuevo" v-if="producto.nuevo">
+                                        <span class="badge badge-pill badge-danger">Nuevo</span>
+                                    </div>
+                                    <div class="nuevo" v-if="producto.existe>0">
+                                        <span class="badge badge-pill badge-success">Aumento {{producto.existe}}</span>
+                                    </div>
+                                    <div class="nuevo" v-if="producto.existe<0">
+                                        <span class="badge badge-pill badge-warning">Reducción {{producto.existe}}</span>
+                                    </div>
+                                    
                                     <img v-bind:src="producto.imagen" alt="" width="80px">
                                 </td>
-                                <td>{{ producto.servicio }}</td>
+                                <td>{{ producto.servicio }}<br>
+                                   <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
+                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta|currency}}</span>
+                                </td>
                                 <td data-name="cantidad">
                                     <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
                                     <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
@@ -396,6 +432,10 @@
                                    
                                     <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
+                                    
+                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>
+                                    <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
+                                    <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
                                    
                                 </div>
                             </div>
@@ -427,7 +467,7 @@
 
                 <div v-if="pagos.length != 0 && 
                 usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
-                    <div class="col-md-12">
+                    
                         <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
                                 <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
                             <ul>
@@ -435,10 +475,16 @@
                                     <span style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</span> - {{ pago.amount | currency}}<span style="font-size:10px; color:green"> - {{ pago.method }} - {{ pago.bank }}</span>
                                 </li>
                             </ul>
-                            <label>Saldo pendiente: ${{ saldoPendiente }}</label><br>
+                            <label v-if="presupuesto.opcionIVA">Saldo pendiente: {{ saldoPendiente | currency }}</label>
+                            <label v-else>Saldo pendiente: ${{ saldoPendiente }}</label>
+                            <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
-                    </div>
+
+                       
+                       
+
+                   
                 </div>
 
                 <div v-if="usuarioActual.id!=2" class="row">
@@ -446,9 +492,13 @@
                     <div class="col-md-4">
                         <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
+                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
+                        <button v-if="presupuesto.facturaSolicitada!=true" class="btn btn-primary" @click="solicitarFactura()"><i class="fa fa-check"></i> Solicitar Factura</button>
+                        <span v-if="presupuesto.facturaSolicitada" style="color:green"> <i class="fa fa-check"></i>Factura Solicitada</span>
                     </div>
+                    
                     
                     <div v-if="!original" class="col-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
@@ -531,7 +581,9 @@
                                 <td v-else>
                                     <input type="checkbox">
                                 </td>
-                                <td>{{ item.nombre }}</td>
+                                <td>
+                                    {{ item.nombre }}
+                                </td>
                                 <td>{{ item.precioUnitario | currency}}</td>
                                 <td>{{ item.precioFinal | currency}}</td>
                                 <td>{{ item.precioVenta | currency}}</td>
@@ -542,7 +594,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
                 </div>
             </div>
@@ -570,6 +621,7 @@
                 results: [],
                 resultsPaquetes: [],
                 clientResults: [],
+                TotalComision:'',
                 clienteSeleccionado: {
                     id: '',
                     nombre: '',
@@ -722,6 +774,8 @@
 
                 //Datos facturacion
                 requiereFactura: false,
+
+                emailSeleccionado: '',
                 facturacion: {
                     //Tiempos
                     horaInicio: '',
@@ -737,6 +791,7 @@
                     coloniaFacturacion: '',
                     emailFacturacion: '',
                 },
+                versionesOrdenadas: [],
 
                 demoP: '',
 
@@ -747,11 +802,13 @@
                 vendedor: '',
 
                 original: true,
+                inventarioPasado: '',
             }
         },
         created(){
             this.obtenerUltimoPresupuesto();
             this.obtenerUsuarios();
+            this.obtenerComision();
             //Obtenemos todos los clientes para el buscados
             this.obtenerClientes();
             this.obtenerInventario();
@@ -771,6 +828,10 @@
             
         },
         computed:{
+            emailEnvio: function(){
+                return
+            },
+
             mostrarFechaEvento: function(){
                 let fecha = this.presupuesto.fechaEvento;
                 moment.locale('es'); 
@@ -793,10 +854,14 @@
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += parseInt(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                    suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
                 }
+                let saldo=0;
+                if(this.presupuesto.opcionIVA){
+                   saldo  = (this.presupuesto.total*1.16) - suma;
+                }else{
+                 saldo = this.presupuesto.total - suma;}
                 
-                let saldo = this.presupuesto.total - suma;
                 return saldo;
             },
             obtenerVendedor: function(){
@@ -944,6 +1009,62 @@
             },
         },
         methods:{
+            obtenerInventarioPasado: function(){
+                let URL = '/obtener-inventario-pasado/' + this.presupuesto.id
+
+                axios.get(URL).then((response) => {
+                    this.inventarioPasado = response.data
+                    
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
+            obtenerComision(){
+                    let path = window.location.pathname.split('/');
+                    let id = path[3];
+                    let URL = '/obtener-comision-contrato/' + id
+                    axios.get(URL).then((response) => {
+                    this.TotalComision = response.data
+                    
+                }).catch((error) => {
+                    console.log(error.data)
+                })
+            },
+            obtenerVersionPresupuesto(direccion){
+                let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
+                console.log(posicion);
+                if(direccion == 'futuro'){
+                    let version = this.versionesOrdenadas[posicion + 1]
+                    if(typeof version === 'undefined'){
+                        alert('No hay mas versiones');
+                    }else{
+                        let presupuesto = this.versiones.find((element) => {
+                            return element.version == version;
+                        });
+                        if(typeof presupuesto == 'undefined'){
+                            this.obtenerPresupuesto()
+                        }else{
+                            this.obtenerVersion(presupuesto.id);
+                        }
+                    }
+                }else{
+                    let version = this.versionesOrdenadas[posicion - 1]
+
+                    if(typeof version === 'undefined'){
+                        alert('No hay mas versiones');
+                    }else{
+                        let presupuesto = this.versiones.find((element) => {
+                            return element.version == version;
+                        });
+                        if(typeof presupuesto == 'undefined'){
+                            this.obtenerPresupuesto()
+                        }else{
+                            this.obtenerVersion(presupuesto.id);
+                        }
+                    }
+                }
+            },
+
             registrarPago(){
                 let URL = '/registrar-pago';
                 
@@ -1031,7 +1152,7 @@
 
               axios.get(URL).then((response) => {
                 this.presupuesto = response.data;
-
+                this.obtenerInventarioPasado();
                 let cliente = this.clientes.find(function(element){
                   return element.id == response.data.client_id;
                 })
@@ -1218,6 +1339,49 @@
                     }); 
                 this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
 
+                console.log('Inventario pasado: ', this.inventarioPasado);
+                console.log('Inventario local: ', this.inventarioLocal);
+
+                    this.inventarioLocal.forEach((element) => {
+                        if(element.tipo == 'PRODUCTO'){
+                            if(this.inventarioPasado[0].some((item) => {
+                                return item.servicio == element.servicio
+                            })){
+                                let found = this.inventarioPasado[0].find((item) => {
+                                    return item.servicio == element.servicio
+                                })
+
+                                    let valorexiste = element.cantidad - found.cantidad;
+                                Object.defineProperty(element, 'existe', {
+                                    enumerable: true,
+                                    configurable: true,
+                                    writable: true,
+                                    value: valorexiste,
+                                })
+
+                            }else{
+                                let found = this.inventarioLocal.find((item) => {
+                                    return item.servicio == element.servicio
+                                })
+                                
+                                Object.defineProperty(found, 'nuevo', {
+                                    enumerable: true,
+                                    configurable: true,
+                                    writable: true,
+                                    value: true,
+                                })
+                            
+                            }
+                        }else if(element.tipo == 'PRODUCTO'){
+                            if(this.inventarioPasado[1].sime((item) => {
+                                return item.servicio == element.servicio
+                            })){
+                                console.log('Existe el paquete')
+                                
+                            }
+                        }
+                        
+                    })
                 }).catch((error) => {
                     console.log(error.data);
                 })
@@ -1237,7 +1401,17 @@
               let direction4 = '/obtener-versiones/' + path;
 
               axios.get(direction4).then((response) => {
-                  this.versiones = response.data;
+                    this.versiones = response.data;
+
+                    
+                    
+                
+                    this.versionesOrdenadas = [];
+                    this.versiones.forEach((element) => {
+                        this.versionesOrdenadas.push(element.version);
+                    })
+                    this.versionesOrdenadas.push(this.presupuesto.version);
+                    this.versionesOrdenadas.sort();
               })  
             },
 
@@ -1491,7 +1665,7 @@
             },
 
             enviarCorreoCliente(){
-                let URL = '/enviar-email-cliente/'  + this.presupuesto.id;
+                let URL = '/enviar-email-cliente/'  + this.presupuesto.id + '&' + this.emailSeleccionado;
 
                 axios.get(URL).then((response) => {
                     Swal.fire(
@@ -1503,6 +1677,24 @@
                     console.log(error.data);
                 })
             },
+            solicitarFactura(){
+                let URL = '/solicitar-factura/'  + this.presupuesto.id;
+
+                axios.put(URL).then((response) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
+                        ); 
+                        obtenerUltimoPresupuesto();
+                }).catch((error) => {
+                    Swal.fire(
+                            'Enviado!',
+                            'Se a solicitado la factura del contrato',
+                            'success'
+                        ); 
+                })
+            }
         },
     }
 </script>

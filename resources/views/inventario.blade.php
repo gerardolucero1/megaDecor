@@ -9,126 +9,123 @@
 @endsection
 @section('content')
 
-
+@php
+            $date = Carbon\Carbon::now();
+            $usuario = Auth::user()->id; 
+            $permisos = App\Permission::where('user_id', $usuario)->first();   
+        @endphp
     <section class="container">
-        <div class="row">
-            <div id="divCalendario" style="display:none" class="col-md-12">
-                
-                    <div class="block">
-
-                        <div class="block-content block-content-full text-right">
-                                <button style="margin-bottom: 15px;" class="btn btn-primary" onclick="vista_lista()">
-                                        <i class="fa fa-list"></i> <i>Vista Lista</i> 
-                                    </button>
-                    <div id='calendar'></div>
-                        </div>
-                    </div>
-                </div>
-        
-       
-    </div>
+    
         <div class="content" id="PresupuestosActivos">
                 <div class="block" id="divLista">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @php
+                                use App\Family;
+                                $familias=Family::orderBy('nombre', 'ASC')->get();
+                            @endphp
+                            @if($permisos->inventarioImpresionTransferencias==1)
+                             <form action="{{route('imprimir.transferencias')}}" method="GET" target="_blank" name="f1" id="f1">
+                                
+                                    @csrf
+                                    <div class="row" style="padding:20px;">
+                                <div class="col-12">
+                                    <label for="">Movimientos Bodega - Exhibición</label>
+                                </div>
+                                    <select name="familia" class="form-control col-md-3" required style="margin-right:10px" id="familia" style="width: 100%" onchange="seleccionarFamilia()">
+                                                <option value="all">Todas las familias</option>
+                                                @foreach($familias as $familia)    
+                                                    <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                                @endforeach
+                                    </select>
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="f1d1" class="form-control" >
+                                    <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
+                                     <button class="btn btn-info">Obtener Transferencias</button><br>
+                                     
+                                    </div>
+                                 </form>
+                                
+                                 @endif
+                            <form action="{{ route('inventario.filtro') }}" method="POST">
+                                @method('POST')
+                                @csrf   
+                                <div class="row" style="padding: 10px">
+                                <div class="col-md-3">
+                                        <label for="">Familias:</label>
+                                    <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
+                                        <option value="">Todas las familias</option>
+                                        @foreach($familias as $familia)    
+                                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <div class="form-group">
+                                        <label for="">Editado Desde:</label>
+                                        <input type="date" name="fecha_1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <div class="form-group">
+                                            <label for="">Editado Hasta:</label>
+                                        <input type="date" name="fecha_2" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="padding-top:30px">
+                                        <div class="form-group">
+                                    <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
+                                        </div>
+                                </div>
+                            </div>
+                            </form>
+                           
+                        </div>
+                    </div>
+                    @php
+                            $usuario = Auth::user()->id;    
+                        @endphp 
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                            @php
-                            use App\Family;
-                            $familias=Family::orderBy('nombre', 'ASC')->get();
-                            @endphp
-                        <form action="{{ route('inventario.filtro') }}" method="POST">
-                            @method('POST')
-                            @csrf
-                            <select name="familia" id="familia" style="width: 100px" onchange="seleccionarFamilia()">
-                                <option value="">Todos los elementos</option>
-                                @foreach($familias as $familia)    
-                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                            @endforeach
-                            </select>
-                            <button style="margin-left: 20px" type="submit" class="btn btn-sm btn-info">Buscar</button><br>
-                        </form>
-                            <form method="POST" action="{{route('imprimir.familia')}}" >
+                        <form method="POST" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
-                                @csrf   
-                                <input type="hidden" name="familia" id="inputfamilia" value="">
-                            <button class="btn btn-sm btn-info" type="submit">Imprimir familia</button>    
-                            </form>    
-
+                                @csrf 
+                            <input type="hidden" name="familia" id="inputfamilia" value="">
+                        <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
+                        </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                            @php
-                            $usuario = Auth::user()->id;    
-                        @endphp 
-                         @if($usuario != 2)
+                         @if($permisos->inventarioAgregarFamilia==1)
                         <a href="{{ route('familia.index') }}" class="btn btn-primary">
                             Agregar Familia
                         </a>
+                        @endif
+                        @if($permisos->inventarioAgregarProducto==1)
                         <a class="btn btn-primary" href="{{ route('inventory.create') }}">
                             <i class="fa fa-calendar-plus-o"></i> <i>Crear Elemento</i> 
                         </a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#agregarPaquete">
-                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Paquete</i> 
-                        </a> 
-                        @endif         
+                        @endif
+                        
+                       
                     </div>
                 </div>
+                
                     <div style="padding:15px; padding-top:30px;">
-                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
+                    
+                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
-                                    @if($usuario != 2)
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
-                                    @endif
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>                    
-                                @if (!is_null($Inventario))
-                                    @foreach ($Inventario as $inventario)                      
-                            <tr role="row" class="odd">
-                            <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                                <td class="">{{ $inventario->servicio }}</td>
-                                <td id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarCantidad({{ $inventario->id }})" @endif>{{ $inventario->cantidad }}</td>
-                                <td id="exhibicion-{{ $inventario->id }}"  @if($usuario != 2) onclick="editarExhibicion({{ $inventario->id }})" @endif>{{ $inventario->exhibicion }}</td>
-                                @php
-                                    $precioUnitario=number_format($inventario->precioUnitario,2);
-                                @endphp
-                                 @if($usuario != 2)
-                                <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
-                                @endif
-                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td class="d-flex" style="box-sizing: content-box;">
-                                    @if (Auth::user()->id == 17 )
-                                    <a style="margin-right:4px;" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                    <button disabled style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i class="fa fa-remove"></i> 
-                                    </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="alta" data-toggle="modal" data-target="#asignarAlta" class="altas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="alta" class="fa fa-chevron-up"></i>
-                                    </button>
-                                    <button data-id="{{ $inventario->id }}" data-tipo="baja" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
-                                        <i data-id="{{ $inventario->id }}" data-tipo="baja" class="fa fa-chevron-down"></i>
-                                    </button>
-                                    @else
-                                        SIN PERMISOS
-                                    @endif
-                                    
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                       
                             
-                            </tbody>
                      </table>
                             </div>
                         </div>
@@ -174,13 +171,69 @@
 @endsection
 
 @section("scripts")
+<script>
+$(document).ready( function () {
+    $('#TablaInventario').DataTable({ 
+        "serverSide" : true,
+        "ajax" : "{{ url('api/inventariott')}}",
+        "columns": [
+            {data: 'img'},
+            {data: 'servicio'},
+            {data: 'cantidad'},
+            {data: 'exhibicion'},
+            {data: 'precioUnitario'},
+            {data: 'proveedor1'},
+            {data: 'familia'},
+            {data: 'btn'},
+        ],
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "pageLength": 50,
+        
+    });
+} ); 
+</script>
     <script>
+        $(function(){
+            let archivar = document.getElementsByClassName('archivar');
+
+            if(archivar.length != 0){
+                for (var i = 0; i < archivar.length; i++) {
+                    archivar[i].addEventListener('click', (e) => {
+                        let id = e.target.dataset.archivar;
+                    });
+                }
+            }
+        })
+        function archivarPresupuesto(){
+    
+            // Swal.fire({
+            //     title: 'Are you sure?',
+            //     text: "You won't be able to revert this!",
+            //     type: 'warning',
+            //     showCancelButton: true,
+            //     confirmButtonColor: '#3085d6',
+            //     cancelButtonColor: '#d33',
+            //     confirmButtonText: 'Yes, delete it!'
+            //     }).then((result) => {
+            //     if (result.value) {
+            //         let URL = 'inventario/delete/' id;
+            //         Swal.fire(
+            //         'Deleted!',
+            //         'Your file has been deleted.',
+            //         'success'
+            //         )
+            //     }
+            // })
+        }
         function seleccionarFamilia(){
-           NombreFamilia = document.getElementById('familia').value;
+            
+           NombreFamilia = document.getElementById('familia2').value;
+           
+           //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         }
         function editarCantidad(id){
-            let nuevaCantidad = prompt('Ingresa la cantidad: ');
+            let nuevaCantidad = prompt('Ingresa la cantidad que quedara en bodega, si ingresas una cantidad menor a la actual, el sobrante pasara automaticamente a exhibicion, si ingresas una cantidad mayor, la diferencia se descontara a exhibición: ');
             let URL = 'editar-cantidad-inventario/' + id;
 
             let data = 'cantidad-' + id;
@@ -196,8 +249,8 @@
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
-                 console.log('Cantidad actualizada');
                 td.innerHTML = nuevaCantidad;
+                location.reload();
              }).catch((error) => {
                  console.log(error.data);
              })
@@ -225,14 +278,8 @@
              })
         }
 
-        function vista_calendario(){
-            document.getElementById('divCalendario').style.display="block";
-            document.getElementById('divLista').style.display="none";
-        }
-    function vista_lista(){
-        document.getElementById('divCalendario').style.display="none";
-        document.getElementById('divLista').style.display="block";
-    }
+       
+    
     function archivarCliente(){
         Swal.fire({
             title: '¿Estas seguro de archivar este presupuesto?',
@@ -253,14 +300,9 @@
                             
         })
     }
-    function presupuestosArchivados(){
-        document.getElementById('presupuestosArchivados').style.display="block";
-        document.getElementById('PresupuestosActivos').style.display="none";
-    }
-    function PresupuestosActivos(){
-        document.getElementById('presupuestosArchivados').style.display="none";
-        document.getElementById('PresupuestosActivos').style.display="block";
-    }
+   
+   
     </script>
 
 @endsection
+

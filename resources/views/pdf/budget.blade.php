@@ -11,11 +11,11 @@
   <tr>
     @if($presupuesto->tipoEvento == 'Externo' && $presupuesto->tipoServicio == 'Formal')
     <td style="padding-right:100px;">
-        <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
+        <img src="http://partnergrammer.com/img/megamundodecor.jpeg" style="width:200px">
     </td>
     @else
     <td style="padding-right:100px;">
-        <img src="http://megamundodecor.com/images/mega-mundo.png" style="width:180px">
+        <img src="http://partnergrammer.com/img/megamundoinfantil.jpg" style="width:180px">
     </td>
     @endif
    
@@ -25,7 +25,7 @@
       </td>
   </tr>
   <tr>
-      <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}} </td>
+      <td style="text-align: left; font-style: italic; font-size:13px">Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->updated_at}} </td>
   </tr>
   <tr style="text-align: right; font-size:13px">
     <td colspan="2" style="text-align: right">
@@ -49,6 +49,9 @@
       $terceros=substr($telefono->numero, 8,2);
     @endphp
   {{'('.$lada.')'.$primerosnumero.'-'.$segundos.'-'.$terceros}}, @endforeach</span></p>
+  <span style="font-style:normal">Cuente bancaria para FACTURACIÓN:<BR>
+    AFIRME: 176109351<BR>
+  TRANSFERENCIA: 062150001761093515</span>
 </td>
 <td>
   @php
@@ -81,26 +84,33 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     use Carbon\Carbon;    
     $fechaEvento = Carbon::parse($presupuesto->fechaEvento)->locale('es');
     $horaI = strtotime($presupuesto->horaEventoInicio);
-    $horaI = date("g:i a", $horaI);
+    $horaI = date("g:i", $horaI);
 
     $horaF = strtotime($presupuesto->horaEventoFin);
-    $horaF = date("g:i a", $horaF);
+    $horaF = date("g:i", $horaF);
     
    
 @endphp
 
-<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}} - {{$horaF}}@else Pendiente @endif</td>
+<td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$horaI}}{{$presupuesto->inicioAmPm}} - {{$horaF}}{{$presupuesto->finAmPm}}@else Pendiente @endif<br><span style="font-weight: bold">Requiere Montaje:</span> <span>{{$presupuesto->requiereMontaje}}</span></td>
   <td><span> {{$presupuesto->categoria}}, {{$presupuesto->tipoEvento}} {{$presupuesto->tipoServicio}}</span></td>
   <td><span style="font-weight: bold">Tono:</span> {{$presupuesto->colorEvento}}</td>
 </tr>
 <tr style=" font-size: 14px;">
 <td colspan="3"></td>
-<td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}</td>
+<td><span style="font-weight: bold">Tema:</span> {{$presupuesto->temaEvento}}<br></td>
 </tr>
 
-<tr style=" font-size: 14px;"><td colspan="4"><span style="font-weight: bold">Lugar: </span></td>
+<tr style=" font-size: 14px;">
+  <td colspan="4"><span style="font-weight: bold">Lugar: </span>
+  @if($presupuesto->lugarEvento=='BODEGA')
+  Recolección en Bodega, Periferico de la Juventud #7501 Segundo Piso <span style="font-style:italic">Subiendo al hotel sheraton</span>
+  En un horario de 9:30 Am a 5:30 Pm. La devolución de la mercancia, es al siguiente dia habil, antes de las 12:00 Pm en la misma dirección, en caso omiso se cobrara un día mas de renta.
+  @endif
+</td>
 </tr>
-<tr style=" font-size: 14px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span></td>
+<tr style=" font-size: 14px;"><td colspan="4">{{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}<br><span style="font-style: italic">Notas: {{$presupuesto->observacionesLugar}}</span>
+</td>
 </tr>
 </table>
 <table style="width: 100%; margin-top: 10px">
@@ -199,7 +209,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @php
         $descuentoGeneral = number_format($descuento,00);
         $subtotal=$presupuesto->total;
-        $total=intval($subtotal) + intval($iva);
+        $total=$subtotal + $iva;
         $total=number_format($total,2);
     @endphp
       @if($presupuesto->opcionDescuento==1)
@@ -224,13 +234,6 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
      <table style="width: 100%;">
     <tr>
     <td colspan="2">
-        <p style="font-style:italic; text-align: center; font-weight: lighter"> *La empresa no garantiza un horario exacto de entrega</p>
-        <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
-            Generales de contrato<br>
-            <span style="font-size: 12px; font-weight: normal; text-align: justify">
-                FENOMENOS METEOROLOGICOS EN CASO DE LLUVIA, VIENTO, APAGANONES DE LUZ POR CFE, POR NINGUN MOMENTO SE PODRA CANCELAR ESTE CONTRATO YA QUE ES ALGO AJENO A LOS SERVICIOS DE MEGA MUNDO EL CONTRATO TENDRÁ QUE SER LIQUIDADO EN SU TOTALI_ DAD. NO HABRÁ CAMBIO DE FECHA EL MERO DIA DEL EVENTO. MAL FUNCIONAMIENTO DE LA UNIDAD RENTADA: — SI LA UNIDAD RENTADA NO ESTA FUNCIONANDO ADECUADAMENTE, EL CLIENTE TENDÁ QUE REPORTARLO INMEDIATAMENTE A A MEGAMUNDO 614 4 23 41 34 PARA QUE MEGAMUNDO SOLUCIONE EL PROBLEMA LO MAS PRONTO POSIBLE Y ASI RESPONERLE EL TIEMPO PERDIDO. EN CASO DE QUE ESTE PROBLEMA NO SE REPORTE INMEDIATAMENTE, MEGA MUNDO SE DESLINDA DE CUALQUIER RESPONSABILIDAD Y DE REPOSICION DE TIEMPO. CAMBIOS DE FECHA Y CANCELACIONES DEBE SER PAGADO LOS SERVICIOS AL 100% **CAMBIOS DE FECHA SOLO 1 SEMANA ANTES Y CON COSTO ADMINISTRATIVO DE $100 (CIEN PESOS) "NO EXISTEN CANCELACIONES EN ESTE SERVICIO Y NO HAY DEVOLUCION TOTAL NI PARCIAL DEL DINERO "LOS SERVICIOS CONTRATADOS DEBEN SER PAGADOS EN SU TOTALIDAD ANTES DEL EVENTO. ACCIDENTES NO NOS HACEMOS RESPONSABLES POR ACCIDENTES DE LOS INVITADOS DE NINGUNA INDOLE. LA RESPONSABILIDAD CORRE POR QUIEN CONTRATA —PASTILLAS DE LUZ EN CASO DE QUE LAS PASTILLAS DE LUZ SE ESTEN BOTANDO, ES RESPONSABILIDAD DE QUIEN CONTRATA EL ARREGLO DE LUZ Y NO DE MEGA MUNDO. EL TIEMPO NO SE REPONDRA, MEGAMUNDO PUEDE RETIRARSE DE LA 1NSTALACION EN CASO DE QUE POR ESTE U OTRO MOTIVO NO AJENO A MEGAMUNDO , ESTE PUEDA LLEGAR A SUS OTROS EVENTOS (SERVICIOS) TARDE. —PRECIOS MAS IVA —CHEQUES DEVUELTOS TIENE UN CARGO ADICIONAL PARA EL CLIENTE DE EL 20% DEL MONTO TOTAL DEL CHEQUE. 
-              </span><br></p>
-             
         </td>  
     </tr>
     <tr>
@@ -239,42 +242,109 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
               Servicios
           </p>
           @php
-              $testigo='nada';
+              $testigo=0;
           @endphp
         @foreach ($demo as $item)
-          @php
-              $grupo = App\FamilyGroup::where('nombre', $item->grupo)->first();
-              
-          @endphp
-          @if($testigo==$grupo['informacion'])
-          @else
-          <p style="font-size: 16px; font-weight: bold; text-align: left">
-             
-            {{ $item->grupo }}
-           
-          </p>
-          <p style="font-size: 12px; font-weight: normal; text-align: justify">
-            <b>Requisitos:</b><br>
-            {{ $grupo['informacion'] }}<br><br>
-           <b> Observaciones:</b><br>
-            {{ $grupo['observaciones'] }}<br>
-          </p>
-          @endif
-          @php
-              $testigo=$grupo['informacion'];
-          @endphp
+      
+        @php
+        if($item->grupo=='Manteleria'){
+            $testigo=1;
+        }
+        @endphp
+    
+
+    
         @endforeach
       </td>
     </tr>
-    <tr style="text-align: center">
-        <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
-        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
-      </tr>
+
   </table>
           @endif
 </table>
 
+<p style="font-style:italic; text-align: center; font-weight: lighter"> *La empresa no garantiza un horario exacto de entrega</p>
+        <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+            GENERALES DE CONTRATO<br>
+            <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                **PAGOS EN EFECTIVO. EN CASO DE REALIZAR TRASFERENCIA O PAGOS CON TARJETA, SERIA MAS IVA.
+**LOS EVENTOS TIENEN QUE SER PAGADOS EN SU TOTALIDAD MINIMO 3 DIAS DEL EVENTO Y EN EL CASO DE BODAS / EVENTOS GRANDES/ XV AÑOS CON UN MINIMO DE UNA SEMANA.
+** NO HAY CANCELACION TOTAL NI PARCIAL DE CONTRATO UNA VEZ AUTORIZADO EL PRESUPUESTO Y EL CLIENTE SE COMPROMETE A LIQUIDAR EL VENTO.
+**LLEVADA Y RECOGIDA DE LOS SERVICIOS SERAN EN UN HORARIO LABORAL DE 9:00 AM A 5:00 PM. EN CASO DE SER EN UN HORARIO FUERA DEL ANTERIOR EL CLIENTE DEBERA SOLICITARLO Y CON UN COSTO ADICIONAL
+**CHEQUES DEVUELTOS, COSTO ADICIONAL DE $500 MAS EL SALDO PENDIENTE DE PAGO DEL SERVICIO
+**LOS SERVICIOS SOLICITADOS SE ENTREGAN EN LUGARES CERCANOS DENTRO DE LA DIRECCION DE ENVIO. EN CASO DE ESCALERAS, LUGARES LEJANOS O PISOS SUBSECUENTES A PLATA BAJA, TIENEN UN COSTO ADICIONAL QUE DEBERA SER PAGADO ANTES DE SU INSTALACION EN NUESTRAS OFICINAS.
+**MEGA DECOR NO SE HACE RESPONSABLE DE ACCIDENTES ANTES, DURANTES Y DESPUES DEL EVENTO.
+**EN CASO DE FENOMENOS METEOROLOGICOS, NO HAY CANCELACIONES Y EL CLIENTE SE RESPONSABILIZA POR DAÑOS AL MOBILIARIO YA QUE LOS SERVICIOS SOLICITADOS SE  ENCUENTRAN EN SU POSESIÓN.
+**SERVICIOS QUE SE RECOGEN EN BODEGA SERAN DEVUELTOS AL SIGUIENTE DIA HABIL ANTES DE LAS 2:00 PM, EN CASO CONTRARIO, CORRE OTRO DIA DE RENTA DE LOS SERVICIOS.
+**SERVICIOS RECOGIDOS EN BODEGA ES INDISPENSABLE DEJAR CREDENCIAL OFICIAL VIGENTE  Y SE ENTREGA AL MOMENTO DE HACER LA DEVOLUACIÓN EN BODEGA.
+              </span><br></p>
+<br>
 
+            <!--  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                Mantelería<br>
+                <span style="font-weight: bold">Requerimentos: </span><br>
+                <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                    -Deposito de 500 pesos por evento es requerido en efectivo.</span><br>
+                <span style="font-weight: bold">Observaciones: </span><br>
+                <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                    MANTELERIA, CUBRE SILLAS, CUBRE MANTELES. MOÑOS. ETC "LA RENTA DE MANTELERIA ES POR 1 DIA 
+** SE ENTREGARA A LAS 12:00 PM DEL SIGUIENTE DIA EN CASO DE QUE EL CLIENTE HAYA RECOGIDO EN BODEGA. <br>
+**MANTELERIA DAÑADA TENDRA UN COSTO DE REPOSICION Y MEGA DECOR ENTREGA  EL DAÑADO AL CLIENTE<br>
+**MANTELERIA CON MANCHAS QUE NO SE PUEDAN QUITAR <br>
+ SE NOTIFICA AL CLIENTE Y CORRERA CON COSTO DE REPOSICION EN CASO DE QUE NO SE PUEDA QUITAR.<br>  MEGA MUNDO NOTIFICARA X TELEFONO EN UN LAPSO DE 48 HORAS mAximo. 
+**SE PEDIRA A LA PERSONA DEL LUGAR QUE FIRME LA HOJA CORRESPONDIENTE EN CASO DE ALGUN FALTANTE O DAÑO .<br> EL CUAL EL CLIENTE DE ESTE CONTRATO SERA RESPONSABLE DEL PAGO DE REPOSICION. EL CUAL DEBERA SER PAGADO A NO MAS DE 48 HORAS DESPUES DE LA FIRMA DEL CONTRATO DEL EVENTO. 
+** Al momento de la entrega en nuestras oficinas, eS RESPONSABILIDAD DEL cliente  revisar que fue entregada en buenas condiciones. de no ser asi ahi mismo pedira la sustitución de los mismos. De no ser asI se da por entendido que la entrega esta correcta en cantidad y no dañada.
+                  </span><br></p> -->
+
+                  <br>
+             <!--     <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                    CARPAS<br>
+                    <span style="font-weight: bold">Requerimentos: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        AL MOMENTO DE LA ENTREGA FAVOR DE CHECAR SI LE LLEGO BIEN EL PRODUCTO (BUENA PRESENTACIÓN,TAMAÑO,CALIDAD Y TEMPERATURA) SI NO LE LLEGO ADECUADAMENTE FAVOR DE REPORTARLO A MEGA MUNDO 4.23.41.34 ANTES DE QUE SE VALLA EL REPARTIDOR. NUNCA AL FINAL DEL EVENTO.<br>
+                        TEMPERATURA DE LA COMIDA. EN CASO DE HABER PEDIDO COMIDA CALIENTE. ESTA SE ENTREGARA ASÍ: SIN EMBARGO MEGA MUNDO NO SE HACE RESPONSABLE SI LA COMIDA NO SIRVE A LOS INVITADOS INMEDIATAMENTE Y ESTA SE ENFRÍA.<br>
+                         ADICIONAL EN CASO DE CONTRATACIÓN DE FUENTES. ESTE SERVICIO VA INCLUIDA UN ANFITRIONA QUE ESTARÁ AL PENDIENTE QUE SIEMPRE ESTE LIMPIO EL ÁREA DE LAS FUENTES.</span><br>
+                    <span style="font-weight: bold">Observaciones: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        ME MUNDO NO SE HACE RESPONSABLE POR DAÑOS AL DOMICILIO O A INVITADOS. <br>
+EN CASO DE AIRES FUERTES O EVENTOS METEREOLÓGICOS QUE SUCEDAN DURANTE EL EVENTO EL CLIENTE ES RESPONSABLE DE LA REPARACIÓN O REPOSICIÓN DE LOS MISMOS A MEGA MUNDO.<br>
+LAS CARPAS SE ENTREGAN EN PERFECTAS CONDICIONES. INSTALADOS CON ESTACAS O CON BOLSAS DE ARENA. EL CLIENTE CHECA Y ACEPTA AL MOMENTO DE SER INSTALADAS LAS CARPAS. EN CASO DE QUE EL CLIENTE O EL RESPONSABLE NO SE ENCUENTRE EN EL DOMICILIO DEBERÁ DEJAR A UN ENCARGADO PARA LA ACEPTACIÓN DE LA BUENA INSTALACIÓN. UNA VEZ RETIRADO DE LAS INSTALACIONES DEL CLIENTE YA ES RESPONSABILIDAD DEL CLIENTE.<br>
+DURANTE EL EVENTO Y HAGA QUE SE DERRAME EL CHAMOY. LA MAQUINA SE APAGARA PARA QUE EL PRODUCTO DEL CHAMOY NO SE DERRAME.
+NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO METEOROLÓGICO. </span><br></p> -->
+
+<br>
+             <!--     <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                    PLAQUE<br>
+                    
+                    <span style="font-weight: bold">Observaciones: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        **EL CLIENTE CONTABILIZA JUNTO AL PROVEEDOR DE SERVICIOS LA CANTIDAD RECIBIDA. EN CASO DE SOLO RECIBIRLA EL CLIENTE SE RESPONSABILIZA DE LA CANTIDAD RECIBIDA.<br>
+                        ** LOZA ENTREGADA SUCIA TIENE UN COSTO DE .50 POR PIEZA .<br>
+                        ** LOZA QUEBRADA, ASTILLADA O EN CASO DE FALTANTE, TIENE COSTO DE REPOSICIÓN Y SE AVISA AL RECOGER O SI EL CLIENTE LO LLEVA A BODEGA . </span><br></p>
+                    -->
+                        <br>
+                  <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+                    Mobiliario y equipo<br>
+                    <span style="font-weight: bold">Requeisitos: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        NO SE MOVERÁN MUEBLES U OBJETOS DE LA CASA O LOCACIÓN PARA LA ENTREGA DEL MOBILIARIO.<br>
+EN CASO DE HABER ESCALERAS TENDRÁ UN COSTO EXTRA Y TENDRÁ QUE SER NOTIFICADO ANTES DE LA ENTREGA DE ESTE QUE MEGA MUNDO LO PREVERÁ CON SU GENTE ASÍ COMO EL MONTO EXTRA A COBRAR.</span><br>
+                    <span style="font-weight: bold">Observaciones: </span><br>
+                    <span style="font-size: 12px; font-weight: normal; text-align: justify">
+                        --EL MOBILIARIO ES RENTADO POR 1 DÍA ESTOS SE RECOGEN AL DÍA HÁBIL SIGUIENTE O EN CASO DE SER DOMINGO SE LE NOTIFICARÁ LA HORA DE LA RECOGIDA EN SU DOMICILIO.<br>
+EL MOBILIARIO  NO SE PUEDE MOVER A OTROS DOMICILIOS.<br>
+EL MOBILIARIO SE ENTREGA SIN INSTALACIÓN EN CASO DE REQUERIR EL SERVICIO DE INSTALACIÓN TIENE UN COSTO ADICIONAL DEPENDIENDO DE LA CANTIDAD A INSTALAR. LA COTIZACIÓN SE LA PODEMOS DAR CON TODO GUSTO.<br>
+EN CASO DE LLUVIA O NIEVE , LAS SILLAS Y MESAS DEBERÁN SER MOVIDAS POR EL CLIENTE PARA QUE NO SE DAÑE EL MOBILIARIO. <br>
+LA SALA SE DEBERÁ ENTREGAR EN PERFECTAS CONDICIONES. EN CASO DE ROTURA O MANCHAS EL ARREGLO O PREPOSICIÓN CORRERÁ POR PARTE DEL CONTRATANTE.<br>
+EL PAGO DE REPOSICIÓN DEBERÁ SER PAGADO A MAS NO TARDAR 48 HORAS DESPUÉS DEL EVENTO O AL MOMENTO DE DAR LA COTIZACIÓN POR PARTE DE MEGA MUNDO.<br>
+LA SALA SE ENTREGA EN JARDÍN CERCANO NO CONTEMPLANDO ESCALERAS. EN CASO DE HABER ESCALERAS ESTE TENDRÁ UN COSTO ADICIONAL EN CUAL DEBERÁ PAGARSE ANTES DE LLEVARSE. EN CASO DE QUE NO SE NOTIFICARA. SE PAGARA LA DIFERENCIA AL MOMENTO DE LA ENTREGA PARA PODERSE INSTALAR.<br>
+MEGA MUNDO NOTIFICARA EN EL LUGAR DEL EVENTO SI EL MOBILIARIO ESTA DAÑADO O FALTANTES CON FIRMA. </span><br></p>
+
+<table>
+    <tr style="text-align: center">
+        <td >____________________________________<br>Firma del cliente<br>{{$presupuesto->cliente}}</td>
+        <td >____________________________________<br>Mega Mundo Decor<br>{{$presupuesto->vendedor}}</td>
+      </tr>
+</table>
       
 
    

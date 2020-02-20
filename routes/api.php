@@ -16,3 +16,19 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('inventariott', function(){
+   // $Inventario = Inventory::orderBy('id', 'DESC')->get();
+       // $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
+     //   $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
+        
+       // $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
+        //dd($inventarioAuth);
+
+    return datatables()
+    ->eloquent(App\Inventory::query())
+    ->addColumn('btn', 'actions')
+    ->addColumn('img', 'images')
+    ->rawColumns(['btn', 'img'])
+    ->toJson();
+});
