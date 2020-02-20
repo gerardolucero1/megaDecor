@@ -521,8 +521,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('caja/enviar-email', function(){
         $sesion = CashRegister::orderBy('id', 'DESC')->first();
 
+
+        $registro = CashRegister::findOrFail($id);
+
+        $date = Carbon::now();
+        $fechaCorte = $registro->created_at;
+        $date=$date->format('Y-m-d');
+        $fechaCorte = $fechaCorte->format('Y-m-d');
+
+
+        $fechaApertura = Carbon::parse($registro->created_at);
+        $fechaCierre = Carbon::parse($registro->updated_at);
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
+        
+
         Mail::to('ivonnearroyosg@msn.com', 'Corte de caja')
-            ->send(new CorteCaja($sesion));
+            ->send(new CorteCaja($registro, $pagos, $otrosPagos));
     });
 
     Route::get('contabilidad/cortes', 'CMS\IndexController@historialCortes')->name('contabilidad.historialCortes');

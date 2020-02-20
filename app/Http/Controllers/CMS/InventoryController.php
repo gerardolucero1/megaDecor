@@ -126,8 +126,10 @@ class InventoryController extends Controller
         $familias=Family::orderBy('nombre', 'ASC')->get();
         $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
         $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+        $rentas = BudgetInventory::orderBy('id', 'DESC')->where('servicio', $inventory->servicio)->get();
         
-        return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores'));
+        
+        return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores', 'rentas'));
     }
 
     /**

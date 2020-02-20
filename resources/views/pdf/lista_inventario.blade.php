@@ -47,6 +47,15 @@ use Carbon\Carbon;
     <td>_____________________________<br>Firma Aaron Bodega</td>
     <td>_____________________________<br>Ivonne C. Arroyos P.</td>
   </tr>
+  <tr>
+    <td colspan="2" style="font-style: italic">Acepto que estas son las cantidades que e contado fisicamente en persona y acepto mis faltantes</td>
+  </tr>
+  <tr style="text-align: center;">
+    <td><br><br>_____________________________<br>Firma de inventario recibido por:<br>_______________________</td>
+  </tr>
+  <tr>
+    <td colspan="2"><br><span style="font-style: italic">Acepto que esta es la cantidad recibida al: ______________________</span></td>
+  </tr>
 </table>
 
       
