@@ -210,15 +210,11 @@ class InventoryController extends Controller
 
     public function pdf(Request $request){        
         
+        // dd($request->familia);
         if(!is_null($request->familia)){
-        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-        }else{
-        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
         }
-        
         $familia = $request->familia;
-
-
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
