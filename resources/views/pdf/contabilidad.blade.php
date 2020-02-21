@@ -89,7 +89,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
         @php
             if($pago->method=="CHEQUE"){
-            $ingresosContratosCheque += $pago->amount;}
+            $ingresosContratosCheques += $pago->amount;}
         @endphp
     @endforeach
     @foreach ($pagos as $pago)
@@ -101,7 +101,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
-            <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
+            <img src="http://partnergrammer.com/img/megamundodecor.jpeg" alt="" style="width: 200px">
         </td>
     <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
         <span style="font-weight: bold">Horario de corte: </span> <span> {{ $horaApertura }} a {{ $horaCierre }}</span><br>
@@ -438,7 +438,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosExtraordinarios=0;
             @endphp
             @foreach ($otrosPagos as $pago)
-           @if($pago->tipo=='INGRESO')
+            @if($pago->tipo=="INGRESO")
             <tr style="border: solid; border-color:black">
             <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
             <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
@@ -456,29 +456,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         $ingresosExtraordinariosDolar += $pago->cantidad;}
     @endphp
             </tr>
-            @php
-            if($pago->metodo=='EFECTIVO')
-            $sumatoriaIngreso += $pago->cantidad;
-            
-            if($pago->metodo=='CHEQUE')
-            $sumatoriaIngresoCheque += $pago->cantidad;
-            
-            if($pago->metodo=='DOLARES')
-            $sumatoriaIngresoDolares += $pago->cantidad;
-            @endphp
             @endif
-       
-            </table>
-           
-            <tr style="border: solid; border-color:black">
-            <td style="text-align: center; padding: 3px;">{{$pago->tipo}}</td>
-            <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
-            <td style="text-align: center; padding: 3px; @if($pago->tipo=='EGRESO') background:#F7C2C2; @else background:#D0F7C2; @endif">${{$pago->cantidad}}</td>
-            <td style="text-align: center; padding: 3px;">@if($pago->resto!='')${{$pago->resto}}@else--@endif</td>
-            <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
-            <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
-            <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>
-            </tr>
             @endforeach
             </table>
             <p style="text-align: right; font-weight: bold;">Total ingresos extraordinarios en efectivo: ${{number_format($ingresosExtraordinarios,2)}}</p>
