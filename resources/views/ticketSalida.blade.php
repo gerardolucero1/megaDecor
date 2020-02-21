@@ -46,8 +46,7 @@ th.precio {
 }
 
 .ticket {
-    width: 155px;
-    max-width: 155px;
+    width: 200px;
 }
 
 img {
@@ -60,7 +59,7 @@ img {
 @endsection
 
 @section('content')
-    <section class="container">
+    <section class="container" style="color: black;">
             <div class="ticket">
                     <img
                         src="http://megamundodecor.com/images/mega-mundo-decor.png"
