@@ -199,7 +199,6 @@
 
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
                                     <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
-
                                     @php
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
                                     @endphp
