@@ -10,6 +10,8 @@
 @section('content')
 
 @php
+
+
             $date = Carbon\Carbon::now();
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
@@ -43,7 +45,7 @@
                                 @method('POST')
                                 @csrf   
                                 <div class="row" style="padding: 10px">
-                                    @php
+                                    {{-- @php
                                         $familia='-';
                                         $ban =0;
                                     @endphp
@@ -59,13 +61,19 @@
                                         }
                                         @endphp
                                         @endforeach
-                                <p style="width: 100%; padding:15px; font-weight:bold; padding-bottom: 0">Familia Actual: {{$familia}}</p>
+                                <p style="width: 100%; padding:15px; font-weight:bold; padding-bottom: 0">Familia Actual: {{$familia}}</p> --}}
                              
                                 <div class="col-md-3">
                                         <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
-                                        <option value="">Todas las familias</option>
-                                        @foreach($familias as $familia)    
+                                        @if(isset($familiaSeleccionada))
+                                            <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>    
+                                        @else
+                                            <option value="">Todas las familias</option>
+                                        @endif
+                                        
+                                        @foreach($familias as $familia)
+                                            <option value="">Todas las familias</option> 
                                             <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                                         @endforeach
                                     </select>
@@ -101,18 +109,27 @@
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
                         <form method="POST" action="{{route('imprimir.familia')}}" >
+                                @if(isset($familiaSeleccionada))
+                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                @endif
                                 @method('POST')
                                 @csrf 
-                            <input type="hidden" name="familia" id="inputfamilia" value="">
-                        <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
+                        @if(isset($familiaSeleccionada))
+                            <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>   
+                        @endif 
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" >
+                                @if(isset($familiaSeleccionada))
+                                    <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                @endif
+
                                 @method('POST')
                                 @csrf 
-                            <input type="hidden" name="familia" id="inputfamilia2" value="">
-                        <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>    
+                        @if(isset($familiaSeleccionada))
+                            <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>
+                        @endif  
                         </form>   
                        
                     </div>
@@ -131,6 +148,7 @@
                                     <th>Actual exhibición</th>
                                     <th>Conteo Fisico exhibición</th>
                                     <th>Diferencia Exhibición</th>
+                                    <th>Total Diferencia</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -160,6 +178,9 @@
                                 @endphp
                                  @if($usuario != 2)
                                 @endif
+                                <td style="text-align:center; font-weight: bold">
+                                        {{ ($inventario->cantidad + $inventario->exhibicion) }}
+                                    </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                         <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
                                                 <i class="fa fa-check"></i> 
@@ -186,7 +207,7 @@
                                         @endif
                                         </td>
                                     <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
-                                    <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
+                                    <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                     <td>{{$inventario->exhibicion}}
                                          @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
                                             <span style="color: blue; font-weight: bold;">=</span>
@@ -196,12 +217,14 @@
                                         <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
                                         @endif
                                         </td>
-
                                     <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
-                                    <td style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
+                                    <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                     @php
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
                                     @endphp
+                                    <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
+                                        {{ ($servicioDatos->fisicoBodega + $servicioDatos->fisicoExhibicion) - ($inventario->cantidad + $inventario->exhibicion) }}
+                                    </td>
                                     
                                     <td class="d-flex" style="box-sizing: content-box;">
                                       
@@ -336,6 +359,8 @@
             let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
             let URL = 'registrar-cantidad-actualizada/' + id;
 
+            dataTotalDif = 'totalDif-' + id
+
             let data = 'cantidad-' + id;
             let aumento = 'aumentoBodega-' + id;
             let disminucion = 'disminucionBodega-' + id;
@@ -344,14 +369,22 @@
             let down = document.getElementById(disminucion);
             let btncheck = 'btn-check-'+id;
             let labelcheck = 'label-check-'+id;
-            document.getElementById(btncheck).style.display="none";
-            document.getElementById(labelcheck).style.display="inline";
+            
 
             let dif1 = 'dif1-' + id
             let tdDif1 = document.getElementById(dif1);
-            
 
+            let dif2 = 'dif2-' + id
+            let tdDif2 = document.getElementById(dif2);
+
+            let valorDif2 = parseInt(tdDif2.innerHTML)
+
+            let totalDif = document.getElementById(dataTotalDif);
+            
+    
             parseInt(nuevaCantidad);
+
+            td.innerHTML = nuevaCantidad;
 
             if(isNaN(nuevaCantidad)){
                 alert('Ingresa un valor valido');
@@ -360,8 +393,10 @@
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
                 console.log(nuevaCantidad)
-                tdDif1.innerHTML = (cantidad - nuevaCantidad);
+                tdDif1.innerHTML = (nuevaCantidad - cantidad);
                 td.innerHTML = nuevaCantidad;
+
+                totalDif.innerHTML = ((nuevaCantidad - cantidad)) + (valorDif2)
                 
                 if(nuevaCantidad>=cantidad){
                 up.style.display="inline";
@@ -444,7 +479,7 @@
 
             let nuevaCantidad = prompt('Ingresa la cantidad obtenida en el inventario fisico');
 
-
+            let dataTotalDif = 'totalDif-' + id
 
             let URL = 'registrar-cantidad-actualizada2/' + id;
 
@@ -457,8 +492,14 @@
             let btncheck = 'btn-check-'+id;
             let labelcheck = 'label-check-'+id;
             console.log(td)
+
+            let totalDif = document.getElementById(dataTotalDif);
+
+            let dif1 = 'dif1-' + id
+            let tdDif1 = document.getElementById(dif1);
             
-           
+            let valorDif1 = parseInt(tdDif1.innerHTML)
+
             let dif2 = 'dif2-' + id
             let tdDif2 = document.getElementById(dif2);
 
@@ -473,7 +514,9 @@ td.innerHTML = nuevaCantidad;
              axios.put(URL, {
                  'cantidad':  nuevaCantidad,
              }).then((response) => {
-                tdDif2.innerHTML = (cantidad - nuevaCantidad);
+                tdDif2.innerHTML = (nuevaCantidad - cantidad);
+
+                totalDif.innerHTML = ((nuevaCantidad - cantidad)) + (valorDif1)
 
                 td.innerHTML = nuevaCantidad;
                 if(nuevaCantidad>=cantidad){
