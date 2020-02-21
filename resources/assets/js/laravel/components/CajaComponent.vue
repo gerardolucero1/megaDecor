@@ -1301,7 +1301,7 @@ if(element.tipo == 'INGRESO'){
                         }                        
                         });
                         
-                        arrayDeDatos.push(suma, cheques, transferencias,dolar,tarjeta);
+                        arrayDeDatos.push(suma, cheques, transferencias,dolar, Ptarjeta);
                         return arrayDeDatos;
                     }
 
