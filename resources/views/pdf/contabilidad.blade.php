@@ -89,7 +89,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
         @php
             if($pago->method=="CHEQUE"){
-            $ingresosContratosCheques += $pago->amount;}
+            $ingresosContratosCheque += $pago->amount;}
         @endphp
     @endforeach
     @foreach ($pagos as $pago)
