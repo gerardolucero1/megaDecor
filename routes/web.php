@@ -522,7 +522,7 @@ Route::group(['middleware' => ['auth']], function () {
         $sesion = CashRegister::orderBy('id', 'DESC')->first();
 
 
-        $registro = CashRegister::findOrFail($id);
+        $registro = CashRegister::orderBy('id', 'DESC')->first();
 
         $date = Carbon::now();
         $fechaCorte = $registro->created_at;
