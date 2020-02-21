@@ -209,11 +209,16 @@ class InventoryController extends Controller
     }
 
     public function pdf(Request $request){        
-        // dd($request->familia);
+        
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }else{
+        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
         }
+        
         $familia = $request->familia;
+
+
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
@@ -223,32 +228,22 @@ class InventoryController extends Controller
     }
 
 
-    public function pdfFamiliaInventarioFisico(Request $request){   
-        // dd($request->familia);
+    public function pdfFamiliaInventarioFisico(Request $request){        
+        
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }else{
+        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
         }
+        
         $familia = $request->familia;
+
+
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
 
-        return $pdf->stream();     
-        
-        // if(!is_null($request->familia)){
-        // $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-        // }else{
-        // $Inventario = Inventory::orderBy('familia', 'DESC')->get();
-        // }
-        
-        // $familia = $request->familia;
-
-
-        // $pdf = App::make('dompdf');
-
-        // $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
-
-        // return $pdf->stream();
+        return $pdf->stream();
 
     }
 
@@ -279,31 +274,27 @@ class InventoryController extends Controller
 
 
     public function inventarioFiltro2(Request $request){
-        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-        $familiaSeleccionada = $request->familia;
-        return view('inventario2', compact('Inventario' , 'familiaSeleccionada'));
-        // $familiaSeleccionada = $request->familia;
-        // if($request->familia && ($request->fecha_1 == null && $request->fecha_2 == null)){
-        //     $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-        //     $Familia = $request->familia;
-        //     return view('inventario2', compact('Inventario' , 'Familia'));
-        // }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2)){
-        //     $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->whereDate('updated_at', '<=', $request->fecha_2)->get();
-        //     $Familia = $request->familia;
-        //     return view('inventario2', compact('Inventario' , 'Familia'));
-        // }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2 == null)){
-        //     $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->get();
-        //     $Familia = $request->familia;
-        //     return view('inventario2', compact('Inventario' , 'Familia'));
-        // }else if($request->familia && ($request->fecha_1 && $request->fecha_2 == null)){
-        //     $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->whereDate('updated_at', '>=', $request->fecha_1)->get();
-        //     $Familia = $request->familia;
-        //     return view('inventario2', compact('Inventario' , 'Familia'));
-        // }else{
-        //     $Inventario = Inventory::orderBy('id', 'DESC')->get();
+        if($request->familia && ($request->fecha_1 == null && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Familia = $request->familia;
+            return view('inventario2', compact('Inventario' , 'Familia'));
+        }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->whereDate('updated_at', '<=', $request->fecha_2)->get();
+            $Familia = $request->familia;
+            return view('inventario2', compact('Inventario' , 'Familia'));
+        }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->get();
+            $Familia = $request->familia;
+            return view('inventario2', compact('Inventario' , 'Familia'));
+        }else if($request->familia && ($request->fecha_1 && $request->fecha_2 == null)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->whereDate('updated_at', '>=', $request->fecha_1)->get();
+            $Familia = $request->familia;
+            return view('inventario2', compact('Inventario' , 'Familia'));
+        }else{
+            $Inventario = Inventory::orderBy('id', 'DESC')->get();
 
-        //     return view('inventario2', compact('Inventario'));
-        // }
+            return view('inventario2', compact('Inventario'));
+        }
     }
 
     public function proximos(){
