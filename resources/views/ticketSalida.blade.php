@@ -68,7 +68,7 @@ img {
                         <br>{{$salida->created_at}}
                         <br><span style="font-weight: bold">Responsable:</span> {{$salida->responsable}}</p>
                     <div>
-                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>{{$salida->amount}}</p>
+                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>{{$salida->cantidad}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Motivo: </span>{{$salida->motivo}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold; text-align: center">Descripción: </span>{{$salida->descripcion}}</p>
                     @if(!is_null($salida->contrato))
