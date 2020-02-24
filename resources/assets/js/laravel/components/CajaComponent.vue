@@ -381,7 +381,6 @@
                                                             <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa numero referencia de transacción" v-model="pago.reference">
                                                             <input v-if="pago.method == 'CHEQUE'" type="number" placeholder="Ingresa numero de cheque" v-model="pago.reference">
                                                             <input v-if="pago.method == 'TARJETA'" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="pago.reference">
-                                                            <input v-if="pago.method == 'CHEQUE'" type="text" placeholder="Ingresa numero de cheque" v-model="pago.reference">
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input v-if="pago.method == 'TARJETA' || pago.method == 'TRANSFERENCIA' || pago.method == 'CHEQUE'" type="text" placeholder="Banco emisor" v-model="pago.bank">
@@ -390,7 +389,7 @@
                                                             <button class="btn btn-sm btn-info btn-block" @click="registrarPago()">Registrar pago</button>
                                                         </div>
                                                     </div>
-                                                    <div v-if="totalAbonado==presupuestoSeleccionado.total" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
+                                                    <div v-if="totalAbonado==this.totalEtiqueta" class="col-md-12"><p style="color:white; background:green; padding:10px; border-radius:5px; font-style:italic; text-align:center">Contrato pagado</p></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -534,18 +533,6 @@
                                                 <div class="form-group">
                                                     <label for="">Monto</label>
                                                     <input class="form-control" type="number" v-model="movimiento.cantidad">
-
-                                                    <form id="form" method="post" action="">
-                                                        <p>
-                                                            <label for="amount">Enter amount</label>
-                                                            <div class="flex">
-                                                                <span class="currency">$</span>
-                                                                <input id="amount" name="amount" type="text" maxlength="15"/>
-                                                            </div>
-                                                       
-                                                    </form>
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -555,7 +542,6 @@
                                                 <input v-if="movimiento.metodo == 'TRANSFERENCIA'" class="form-control" type="number" placeholder="Ingresa los digitos de referencia" v-model="movimiento.referencia">
                                                 <input v-if="movimiento.metodo == 'CHEQUE'" class="form-control" type="number" placeholder="Ingresa numero de cheque" v-model="movimiento.referencia">
                                                 <input v-if="movimiento.metodo == 'TARJETA'" class="form-control" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="movimiento.referencia">
-                                                <input v-if="movimiento.metodo == 'CHEQUE'" class="form-control" type="number" placeholder="Ingresa una referencia" v-model="movimiento.referencia">
                                             </div>
                                         </div>
                                          <div class="row">
@@ -585,7 +571,6 @@
                                     <div class="block col-md-12 caja-2" style="max-height:500px; overflow:scroll">
                                         <h5 style="padding-top:15px; text-align:center;">Ingresos / Egresos desde apertura de caja</h5>
                                         <div class="row">
-
                                             <div class="col-md-12">
                                                 <!--tarjetas de ingresos y egresos-->
                                                 <div class="registrosPagos" v-for="(item, index) in otrosPagos" :key="index">
@@ -598,7 +583,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-
                                                         <div class="col-md-12">
                                                             <p>
                                                             <span v-if="item.tipo=='EGRESO'" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }}:</span>
@@ -610,16 +594,8 @@
                                                             <span v-if="item.metodo=='DOLAR'" style="font-size:10px; font-style:italic"><br><br><br>Tipo de cambio: {{ item.referencia | currency}}</span></p>
                                                             <span v-if="item.tipo=='EGRESO'">Entregado a: {{ item.responsable }}</span>
                                                         </div>
-                                                    </div> 
+                                                    </div>
                                                     <div class="row">
-                                                        <div class="col-md-12" style="padding-top:5px;">
-                                                        <p>
-                                                            <span v-if="item.tipo=='EGRESO' && item.resto>0" style="color:white; background:red; padding:3px; border-radius:7px; font-size:12px;">{{ item.tipo }} TOTAL:</span>
-                                                            <span v-if="item.resto>0" style="margin-left:15px;">{{ item.cantidad - item.resto | currency}}</span>
-                                                        </p>
-                                                    </div></div>
-                                                    <div class="row">
-
                                                         <div class="col-md-12">
                                                             <p style="line-height:16px"><strong>Notas: </strong><br><span style="font-style:italic">{{ item.descripcion }}</span></p>
                                                             <p style="font-style:italic; position:absolute; bottom:0; right:15px; padding-top:15px; margin-bottom:0; color:grey">{{ item.created_at | formatearHora }}</p>
@@ -1152,17 +1128,13 @@ export default {
             let transferencias = 0;
             let dolar = 0;
             let suma = 0;
-            let tarjeta = 0;
-
 
             if(this.pagosPasados.length != 0){
                 this.pagosPasados[0].forEach((element) => {
                     if(element.method == 'CHEQUE'){
                         cheques = cheques + parseFloat(element.amount);
-                    }else if(element.method == 'TRANSFERENCIA'){
-                        transferencias = transferencias + parseFloat(element.amount);                    
-                    }else if(element.method == 'TARJETA'){
-                        tarjeta = tarjeta + parseFloat(element.amount);
+                    }else if(element.method == 'TRANSFERENCIA' || element.method == 'TARJETA'){
+                        transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
                             dolar = dolar + (parseFloat(element.cantidad));
@@ -1180,7 +1152,7 @@ if(element.tipo == 'INGRESO'){
                             alert
                             break;
                         case 'TARJETA':
-                            tarjeta = tarjeta + parseFloat(element.cantidad);
+                            transferencias = transferencias + parseFloat(element.cantidad);
                             break;
                         case 'CHEQUE':
                             cheques = cheques + parseFloat(element.cantidad);
@@ -1200,7 +1172,7 @@ if(element.tipo == 'INGRESO'){
                             suma = suma + parseFloat(element.resto);
                             break;
                         case 'TARJETA':
-                            tarjeta = tarjeta - parseFloat(element.cantidad);
+                            transferencias = transferencias - parseFloat(element.cantidad);
                             suma = suma + parseFloat(element.resto);
                             break;
                         case 'CHEQUE':
@@ -1221,7 +1193,7 @@ if(element.tipo == 'INGRESO'){
 
                 });
 
-                pagos.push(cheques, transferencias, dolar, tarjeta);
+                pagos.push(cheques, transferencias, dolar);
                 return pagos;
             }
         },
@@ -1257,9 +1229,10 @@ if(element.tipo == 'INGRESO'){
 
                 this.pagosCorte[1].forEach((element) => {
 if(element.tipo == 'INGRESO'){
-                    switch(element.metodo){                        
+                    switch(element.metodo){
                         case 'TRANSFERENCIA':
                             transferencias = transferencias + parseFloat(element.cantidad);
+                            alert
                             break;
                         case 'TARJETA':
                             Ptarjeta = Ptarjeta + parseFloat(element.cantidad);
@@ -1268,10 +1241,10 @@ if(element.tipo == 'INGRESO'){
                             cheques = cheques + parseFloat(element.cantidad);
                             break;
                         case 'EFECTIVO':
-                             suma = suma + parseFloat(element.cantidad);                             
+                             suma = suma + parseFloat(element.cantidad);
                             break;
                         case 'DOLAR':
-                             dolar = dolar + parseFloat(element.cantidad);
+                             dolar = dolar + (parseFloat(element.cantidad));
                             break;  
                     }
 }else{
@@ -1294,24 +1267,18 @@ if(element.tipo == 'INGRESO'){
                              suma = suma + parseFloat(element.resto);
                             break;
                         case 'DOLAR':
-                             dolar = dolar - parseFloat(element.cantidad);
+                             dolar = dolar - (parseFloat(element.cantidad));
                              dolar = dolar + parseFloat(element.resto);
                             break;  
-                                            }
-                        }                        
-                        });
-                        
-                        arrayDeDatos.push(suma, cheques, transferencias, dolar, Ptarjeta);
-                        return arrayDeDatos;
                     }
 
+}
 
-
-                
+                });
                 
                 arrayDeDatos.push(suma, cheques, transferencias, dolar, Ptarjeta);
                 return arrayDeDatos;
-            
+            }
         },
         updateChequesApertura: function(){
 this.sumaPagosPasados[0]=this.chequesApertura;
