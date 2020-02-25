@@ -11,6 +11,7 @@ use App\Inventory;
 use Carbon\Carbon;
 use App\BudgetInventory;
 use App\BudgetPackInventory;
+use App\PhysicalInventory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -224,16 +225,33 @@ class InventoryController extends Controller
     }
 
 
-    public function pdfFamiliaInventarioFisico(Request $request){        
-        
+    public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
-        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-        }else{
-        $Inventario = Inventory::orderBy('familia', 'DESC')->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+
+            foreach ($Inventario as $product) {
+                $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
+                
+                $product->cantidad = $inventory->fisicoBodega;
+                $product->exhibicion = $inventory->fisicoExhibicion;
+                $product->save();
+            }
         }
-        
         $familia = $request->familia;
 
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+
+        return $pdf->stream();
+
+    }
+
+    public function pdfFamiliaInventarioFisico2(Request $request){   
+        if(!is_null($request->familia)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }
+        $familia = $request->familia;
 
         $pdf = App::make('dompdf');
 

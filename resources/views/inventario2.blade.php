@@ -67,17 +67,19 @@
                                         <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         @if(isset($familiaSeleccionada))
-                                            <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>    
+                                            
+                                            <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>
+                                            <option value="">Todas las familias</option>    
                                         @else
                                             <option value="">Todas las familias</option>
                                         @endif
                                         
                                         @foreach($familias as $familia)
-                                            <option value="">Todas las familias</option> 
                                             <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                
                                 <div class="col-md-3" style="display: none">
                                     <div class="form-group">
                                         <label for="">Editado Desde:</label>
@@ -120,7 +122,7 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" >
+                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
                                     <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 @endif
@@ -130,7 +132,21 @@
                         @if(isset($familiaSeleccionada))
                             <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>
                         @endif  
-                        </form>   
+                        </form> 
+
+                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                            @if(isset($familiaSeleccionada))
+                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            @endif
+
+                            @method('POST')
+                            @csrf 
+                    @if(isset($familiaSeleccionada))
+                        <button class="btn btn-sm btn-info" type="submit">
+                            <li class="fa fa-print"></li>
+                        </button>
+                    @endif  
+                    </form>
                        
                     </div>
                 </div>
