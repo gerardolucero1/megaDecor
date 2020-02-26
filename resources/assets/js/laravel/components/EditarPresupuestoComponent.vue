@@ -1309,7 +1309,7 @@ padding: 0;
                                                 </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</div>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar 2</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1858,6 +1858,7 @@ padding: 0;
                     },
                     //Eliminar producto de paquete
                     eliminarProductoPaquete(index){
+                        console.log(index)
                         this.paquete.inventario.splice(index, 1);
 
                         this.precioSugerido = 0;
@@ -1869,6 +1870,23 @@ padding: 0;
                             this.precioSugerido+= this.paquete.inventario[i].precioFinal;
                             this.utilidad+= parseInt(this.paquete.inventario[i].precioFinal)-(parseInt(this.paquete.inventario[i].precioVenta)*parseInt(this.paquete.inventario[i].cantidad));
                             this.costoProveedor+= parseInt(this.paquete.inventario[i].precioVenta);
+                        }
+                    },
+
+                    //Eliminar producto de paquete
+                    eliminarProductoPaqueteEdicion(index){
+                        console.log(index)
+                        this.paqueteEdicion.paquete.inventario.splice(index, 1);
+
+                        this.precioSugerido = 0;
+                        this.utilidad = 0;
+                        this.costoProveedor = 0;
+
+                        for (var i = 0; i < this.paqueteEdicion.paquete.inventario.length; i++) {
+                            
+                            this.precioSugerido+= this.paqueteEdicion.paquete.inventario[i].precioFinal;
+                            this.utilidad+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioFinal)-(parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta)*parseInt(this.paqueteEdicion.paquete.inventario[i].cantidad));
+                            this.costoProveedor+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta);
                         }
                     },
 
