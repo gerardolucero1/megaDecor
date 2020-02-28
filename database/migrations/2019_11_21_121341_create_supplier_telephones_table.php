@@ -19,6 +19,8 @@ class CreateSupplierTelephonesTable extends Migration
             $table->string('nombre')->nullable();
             $table->string('numero')->nullable();
             $table->string('correo')->nullable();
+            $table->string('tipo')->nullable();
+            $table->string('ext')->nullable();
             $table->timestamps();
 
             //Relations

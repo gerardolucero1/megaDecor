@@ -17,6 +17,8 @@ class CreateSuppliersTable extends Migration
             $table->increments('id');
             $table->string('nombre')->nullable();
             $table->string('direccion')->nullable();
+            $table->string('telefonoGeneral')->nullable();
+            $table->string('descripcion')->nullable();
             $table->enum('tipo', ['NORMAL', 'PRIVADO']);
             $table->timestamps();
         });

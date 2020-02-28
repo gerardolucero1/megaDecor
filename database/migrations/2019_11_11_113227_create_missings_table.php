@@ -19,6 +19,8 @@ class CreateMissingsTable extends Migration
             $table->string('servicio')->nullable();
             $table->integer('saliente')->nullable();
             $table->integer('faltante')->nullable();
+            $table->boolean('reportado')->nullable();
+            $table->boolean('aprobado')->nullable();
             $table->integer('total')->nullable();
             $table->timestamps();
 

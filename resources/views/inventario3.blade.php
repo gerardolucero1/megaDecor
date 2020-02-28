@@ -239,7 +239,7 @@
                                         $precioUnitario=number_format($inventario->precioUnitario,2);
                                     @endphp
                                     <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                        {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
+                                        {{ ($servicioDatos->fisicoBodega + $servicioDatos->fisicoExhibicion) - ($inventario->cantidad + $inventario->exhibicion) }}
                                     </td>
                                     
                                     <td class="d-flex" style="box-sizing: content-box;">
@@ -259,44 +259,11 @@
                             </div>
                         </div>
                 </div>
-                <!-- Vista presupuestos archivados -->
                 
-        <!-- modal paquete -->
-        <div class="modal fade modalAgregarPaquete" id="agregarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
-            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                <div class="modal-content" style="border: solid gray">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo paquete</h5>
-                    <div  class="close" onClick="$('#agregarPaquete').modal('hide')" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <div  class="btn btn-secondary" onClick="$('#agregarPaquete').modal('hide')">Close</div>
-                    <div  class="btn btn-primary" >Guardar paquete</div>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="asignarAlta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <altas-component></altas-component>
-            </div>
-            </div>
-        </div>
                 
                
     </section>
    
-    @include('modals.agregarFamilia')
 @endsection
 
 @section("scripts")
