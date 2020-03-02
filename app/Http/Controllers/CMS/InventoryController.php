@@ -71,6 +71,25 @@ class InventoryController extends Controller
         }
 
         $inventory = Inventory::create($request->all());
+        // // $inventory = new Inventory();
+        // // $inventory->cantidad = $request->cantidad;
+        // // $inventory->disponible = $request->disponible;
+        // // $inventory->servicio = $request->servicio;
+        // // $inventory->precioUnitario = $request->precioUnitario;
+        // // $inventory->autorizado = $request->autorizado;
+        // // $inventory->precioVenta = $request->precioVenta;
+        // // $inventory->tipoCambio = $request->tipoCambio;
+        // // $inventory->proveedor1 = $request->proveedor1;
+        // // $inventory->proveedor2 = $request->proveedor2;
+        // // $inventory->exhibicion = $request->exhibicion;
+        // // $inventory->familia = $request->familia;
+        // // $inventory->archivar = $request->archivar;
+        // // $inventory->noAplica = $request->noAplica;
+        // // $inventory->selectmoneda = $request->selectmoneda;
+        // // $inventory->guardarInventario = $request->guardarInventario;
+        // // $inventory->factura = $request->factura;
+        // $inventory->noAplica = true;
+        // $inventory->save();
 
         // Store in AWS S3
         if($archivo = $request->file('imagen')){
@@ -207,11 +226,24 @@ class InventoryController extends Controller
 
     }
 
+    public function noAplica($id){
+        $product = Inventory::orderBy('id', 'DESC')->where('id', $id)->first();
+        if(!is_null($product->noAplica)){
+            $product->noAplica = !$product->noAplica;
+        }else{
+            $product->noAplica = true;
+        }
+
+        $product->save();
+        return redirect()->back();
+    }
+
     public function pdf(Request $request){        
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
+        $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
         $familia = $request->familia;
         $pdf = App::make('dompdf');
 
@@ -224,7 +256,7 @@ class InventoryController extends Controller
 
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
 
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
@@ -246,7 +278,7 @@ class InventoryController extends Controller
 
     public function pdfFamiliaInventarioFisico2(Request $request){   
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
         $familia = $request->familia;
 

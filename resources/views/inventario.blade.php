@@ -204,27 +204,27 @@ $(document).ready( function () {
                 }
             }
         })
-        function archivarPresupuesto(){
+        // function archivarPresupuesto(){
     
-            // Swal.fire({
-            //     title: 'Are you sure?',
-            //     text: "You won't be able to revert this!",
-            //     type: 'warning',
-            //     showCancelButton: true,
-            //     confirmButtonColor: '#3085d6',
-            //     cancelButtonColor: '#d33',
-            //     confirmButtonText: 'Yes, delete it!'
-            //     }).then((result) => {
-            //     if (result.value) {
-            //         let URL = 'inventario/delete/' id;
-            //         Swal.fire(
-            //         'Deleted!',
-            //         'Your file has been deleted.',
-            //         'success'
-            //         )
-            //     }
-            // })
-        }
+        //     Swal.fire({
+        //         title: 'Are you sure?',
+        //         text: "You won't be able to revert this!",
+        //         type: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Yes, delete it!'
+        //         }).then((result) => {
+        //         if (result.value) {
+        //             let URL = 'inventario/delete/' id;
+        //             Swal.fire(
+        //             'Deleted!',
+        //             'Your file has been deleted.',
+        //             'success'
+        //             )
+        //         }
+        //     })
+        // }
         function seleccionarFamilia(){
             
            NombreFamilia = document.getElementById('familia2').value;

@@ -110,25 +110,36 @@
             </div>
         </div>
         <div class="form-group row">
-                <div class="col-md-12">
-                    <label for="">Selecciona una familia</label>
-                        <select name="familia" id="selectfamilia" style="width: 100%" required onchange="seleccionarFamilia()">
-                            @if (isset($inventory))
-                                <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
-                            @else
-                                <option value="">Selecciona familia</option>
-                            @endif
-                            @foreach($familias as $familia)
-                                <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                            @endforeach
-                            </select>
-                    <div class="form-material">
-                        {{ Form::label('familia', 'Familia') }}
-                        <label for="">Familia seleccionada:</label>
-                        {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
-                    </div>
+            <div class="col-md-12">
+                <label for="">Selecciona una familia</label>
+                    <select name="familia" id="selectfamilia" style="width: 100%" required onchange="seleccionarFamilia()">
+                        @if (isset($inventory))
+                            <option value="{{ $inventory->familia }}">{{ $inventory->familia }}</option>
+                        @else
+                            <option value="">Selecciona familia</option>
+                        @endif
+                        @foreach($familias as $familia)
+                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                        @endforeach
+                        </select>
+                <div class="form-material">
+                    {{ Form::label('familia', 'Familia') }}
+                    <label for="">Familia seleccionada:</label>
+                    {{ Form::text('familia', null, ['class' => 'form-control', 'id' => 'familia', 'disabled' => 'true']) }}  
                 </div>
             </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                @if(isset($inventory))
+                    <input type="checkbox" name="noAplica" id="noAplica" @if($inventory->noAplica) checked @endif>
+                @else
+                    <input type="checkbox" name="noAplica" id="noAplica">
+                @endif
+                
+                <label for="noAplica">No aplica para inventario</label>
+            </div>
+        </div>
     </div>
     
         @if(strpos($_SERVER['REQUEST_URI'], 'edit'))

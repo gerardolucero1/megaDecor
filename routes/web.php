@@ -396,6 +396,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
     Route::put('inventario/archivar/{id}', 'CMS\InventoryController@archivar')->name('inventory.archivar');
+    Route::put('inventario/no-aplica/{id}', 'CMS\InventoryController@noAplica')->name('inventory.NA');
 
 
     Route::put('editar-cantidad-inventario/{id}', function(Request $request, $id){

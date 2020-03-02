@@ -16,7 +16,7 @@
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
-    <section class="container">
+    <section class="container-fluid">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
                 

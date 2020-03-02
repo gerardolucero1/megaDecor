@@ -1,5 +1,6 @@
 <?php
 
+use App\Inventory;
 use Illuminate\Http\Request;
 
 /*
@@ -18,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('inventariott', function(){
-   // $Inventario = Inventory::orderBy('id', 'DESC')->get();
+   $inventory = App\Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
        // $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
      //   $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
         
@@ -26,7 +27,8 @@ Route::get('inventariott', function(){
         //dd($inventarioAuth);
 
     return datatables()
-    ->eloquent(App\Inventory::query())
+    ->of($inventory)
+    // ->eloquent(App\Inventory::query())
     ->addColumn('btn', 'actions')
     ->addColumn('img', 'images')
     ->rawColumns(['btn', 'img'])

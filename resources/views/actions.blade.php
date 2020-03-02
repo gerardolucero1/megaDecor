@@ -14,3 +14,10 @@
 <button data-id="{{ $id }}" data-tipo="baja" data-cantidad="cantidad-{{ $id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
 <i data-id="{{ $id }}" data-tipo="baja" data-cantidad="cantidad-{{ $id }}" class="fa fa-chevron-down"></i>
 </button>
+<form action="{{ route('inventory.NA', $id) }}" method="POST" style="display:inline">
+    @csrf
+    @method('PUT')
+    <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Estas seguro?')" @if(!$noAplica) class="btn btn-sm btn-warning archivar" @else class="btn btn-sm btn-success archivar" @endif data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
+        N/A
+    </button>
+</form>

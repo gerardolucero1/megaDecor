@@ -9,19 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
-    protected $fillable = [
-        'servicio',
-        'cantidad',
-        'imagen',
-        'precioUnitario',
-        'precioVenta',
-        'disponible',
-        'proveedor1',
-        'proveedor2',
-        'tipoCambio',
-        'exhibicion',
-        'autorizado',
-        'familia',
+    protected $guarded = [
+        'id'
     ];
 
     public function missings()
