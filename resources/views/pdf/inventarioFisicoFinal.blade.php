@@ -20,6 +20,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Antes Exhibición</th>
        <th style="padding: 4px;">Fisico Exhibición</th>
        <th style="padding: 4px;">Diferencia</th>
+       <th style="padding: 4px;">Total Diferencia</th>
     </tr>
     @foreach ($Inventario as $item)
     @php
@@ -35,6 +36,10 @@ use Carbon\Carbon;
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesExhibicion}}</td>
 <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD; @if(($registro->fisicoExhibicion-$registro->antesExhibicion)<0) color:red @endif">{{$registro->fisicoExhibicion-$registro->antesExhibicion}}</td>
+@if ($registro->diferencia)
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">{{($registro->fisicoBodega - $registro->antesBodega) + ($registro->fisicoExhibicion - $registro->antesExhibicion)}}</td>
+@endif
+
   @endif
 
 

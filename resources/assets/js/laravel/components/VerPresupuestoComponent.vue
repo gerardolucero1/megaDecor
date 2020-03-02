@@ -424,14 +424,13 @@
                             </div>
                             <div class="col-md-4 offset-md-3 mt-4">
                                 <h5>Subtotal: $<span>{{ calcularSubtotal | decimales }}</span></h5>
-                                <input v-if="presupuesto.opcionIVA" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
-                                <label v-if="presupuesto.opcionIVA" for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
+                                <input v-if="presupuesto.opcionIVA==true" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
+                                <label v-if="presupuesto.opcionIVA==true" for="iva">IVA: $<span>{{ calcularIva | decimales }}</span>
                                 </label>
 
                                 <div class="info mt-3">
                                    
-                                    <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA">TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
-                                    <p style="font-size:20px; color:orange"  v-if="presupuesto.opcionIVA!=1">TOTAL: $<span>{{ (calcularSubtotal) | decimales }}</span></p>
+                                    <p>TOTAL con IVA: $<span>{{ (calcularSubtotal + calcularIva) | decimales }}</span></p>
                                     <p>Ahorro General: $<span>{{ calcularAhorro | decimales }}</span></p>
                                     
                                     <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>

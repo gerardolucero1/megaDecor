@@ -8,7 +8,7 @@
         box-sizing: inherit;
         }
         * {
-    font-size: 12px;
+    font-size: 24px;
     font-family: 'Times New Roman';
 }
 
@@ -46,8 +46,7 @@ th.precio {
 }
 
 .ticket {
-    width: 155px;
-    max-width: 155px;
+    width: 200px;
 }
 
 img {
@@ -60,7 +59,7 @@ img {
 @endsection
 
 @section('content')
-    <section class="container">
+    <section class="container" style="color: black;">
             <div class="ticket">
                     <img
                         src="http://megamundodecor.com/images/mega-mundo-decor.png"
@@ -69,6 +68,7 @@ img {
                         <br>{{$salida->created_at}}
                         <br><span style="font-weight: bold">Responsable:</span> {{$salida->responsable}}</p>
                     <div>
+                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>{{$salida->cantidad}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Motivo: </span>{{$salida->motivo}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold; text-align: center">Descripción: </span>{{$salida->descripcion}}</p>
                     @if(!is_null($salida->contrato))

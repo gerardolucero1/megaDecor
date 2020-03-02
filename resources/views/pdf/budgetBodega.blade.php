@@ -15,7 +15,7 @@
     <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
         <tr>
           <td style="width: 30%">
-              <img src="http://partnergrammer.com/img/megamundodecor.jpeg" style="width:200px">
+              <img src="http://megamundodecor.com/images/mega-mundo-decor.png" style="width:200px">
              <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}}<br>@if($presupuesto->pagado!=1)
               <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
                 @endif</p>
@@ -44,7 +44,7 @@
 <tr style=" font-size: 14px;">
 <td colspan="2">{{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}} {{$presupuesto->inicioAmPm}}  - {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}}@else Horario Pendiente @endif</td>
 <td colspan="2">
-  @if($presupuesto->lugarEvento!='BODEGA')
+  @if($presupuesto->requiereMontaje!='SI')
     {{$presupuesto->direccionLugar}} {{$presupuesto->numeroLugar}} {{$presupuesto->coloniaLugar}}
   @else
   <span>*RECOLECCIÓN EN BODEGA</span>
@@ -60,12 +60,12 @@
     <td></td>
   </tr>
 <tr style="font-weight: bold; padding-top: 20px">
-<td colspan="2">@if($presupuesto->lugarEvento!='BODEGA')<span>Entrega de Mobiliario: </span>@else Recolección en bodega @endif</td>
+<td colspan="2">@if($presupuesto->requiereMontaje!='SI')<span>Entrega de Mobiliario: </span>@else Recolección en bodega @endif</td>
 <td colspan="2"><span>Recolección de Mobiliario: </span></td> 
 </tr>
 <tr>
 <td colspan="2">@if($presupuesto->horaEntrega!=null){{$presupuesto->horaEntrega}}@else @if($presupuesto->requiereMontaje!='SI')Por Definir @endif @endif</td>
-<td colspan="2">@if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif</td>
+<td colspan="2">@if($presupuesto->fechaRecoleccion!=null){{$presupuesto->fechaRecoleccion}}@else Por Definir @endif</td>
 </tr>
 <tr>
 <td><span style="font-weight: bold">Requiere Montaje:</span> <span>{{$presupuesto->requiereMontaje}}</span></td>
@@ -137,7 +137,7 @@
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
+        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
           <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
           
           
@@ -152,39 +152,6 @@
     @endif
 
 </table>
-
-<div style="width: 100%">
-    <p style="font-style:italic; text-align: center; font-size:11px">*Indicar con un "S", los articulos entregados correctamente y con una "X" los productos que cuenten con un problema al momento de la entrega o la recolección, firmar unicamente los espacios de entrega al momento de la entrega y firmar y completas los campos faltantes al momento de la recolección</p>
-  </div>
-
-<div></div>
-
-<table style="width: 100%; text-align:center; margin-top:50px">
-  <tr>
-    <td>_________________________________</td>
-    <td>_________________________________</td>
-  </tr>
-  <tr>
-      <td>Firma de recepción de mobiliario cliente</td>
-      <td>Firma y nombre de entrega de mobiliario Operador</td>
-    </tr>
-</table>
-
-<table style="width: 100%; text-align:center; margin-top:50px">
-    <tr>
-      <td>_________________________________</td>
-      <td>_________________________________</td>
-    </tr>
-    <tr>
-        <td>Firma de entrega de mobiliario cliente</td>
-        <td>Firma y nombre de recolección de mobiliario Operador</td>
-      </tr>
-  </table>
-
-  <label for="" style="font-weight: bold; padding-left:40px;>Comentarios:</label>
-  
-  
-
 @php
   if($presupuesto->opcionIVA==1){
      $iva=(($presupuesto->total/116) * 16);

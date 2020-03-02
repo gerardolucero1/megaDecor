@@ -27,7 +27,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Exhibición</th>
     </tr>
-    @foreach($Inventario as $item)
+    @foreach ($Inventario as $item)
 <tr style="font-size:12px;">
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
@@ -46,6 +46,15 @@ use Carbon\Carbon;
   <tr style="text-align: center">
     <td>_____________________________<br>Firma Aaron Bodega</td>
     <td>_____________________________<br>Ivonne C. Arroyos P.</td>
+  </tr>
+  <tr>
+    <td colspan="2" style="font-style: italic">Acepto que estas son las cantidades que e contado fisicamente en persona y acepto mis faltantes</td>
+  </tr>
+  <tr style="text-align: center;">
+    <td><br><br>_____________________________<br>Firma de inventario recibido por:<br>_______________________</td>
+  </tr>
+  <tr>
+    <td colspan="2"><br><span style="font-style: italic">Acepto que esta es la cantidad recibida al: ______________________</span></td>
   </tr>
 </table>
 

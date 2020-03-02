@@ -10,5 +10,11 @@ $factory->define(Client::class, function (Faker $faker) {
         }
     return [
         'clave' => $aleatoria,
+        'nombreCliente' => $faker->sentence(1),
+        'tipoPersona' => $faker->randomElement(['MORAL', 'FISICA']),
+
+        /* 
+        'tipoPersona',
+        'nombreCliente', */
     ];
 });

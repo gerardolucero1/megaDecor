@@ -143,7 +143,7 @@
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            <li class="fa fa-print"></li>
+                            Impresion <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
@@ -194,7 +194,7 @@
                                 @endphp
                                  @if($usuario != 2)
                                 @endif
-                                <td style="text-align:center; font-weight: bold">
+                                <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
                                         {{ ($inventario->cantidad + $inventario->exhibicion) }}
                                     </td>
                                 <td class="d-flex" style="box-sizing: content-box;">

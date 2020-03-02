@@ -146,8 +146,10 @@ class InventoryController extends Controller
         $familias=Family::orderBy('nombre', 'ASC')->get();
         $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
         $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+        $rentas = BudgetInventory::orderBy('id', 'DESC')->where('servicio', $inventory->servicio)->get();
         
-        return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores'));
+        
+        return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores', 'rentas'));
     }
 
     /**
@@ -239,6 +241,7 @@ class InventoryController extends Controller
     }
 
     public function pdf(Request $request){        
+        
         // dd($request->familia);
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
@@ -256,14 +259,34 @@ class InventoryController extends Controller
 
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
-
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
-                
-                $product->cantidad = $inventory->fisicoBodega;
-                $product->exhibicion = $inventory->fisicoExhibicion;
-                $product->save();
+                if(!is_null($inventory)){
+                    if($product->cantidad != $inventory->fisicoBodega){
+                        $adjustment = new Register();
+                        $adjustment->tipo = 'AJUSTE';
+                        $adjustment->motivo = 'FISICO';
+                        $adjustment->cantidad = $product->cantidad;
+                        $adjustment->producto = $product->id;
+                        $adjustment->user_id = Auth::user()->id;
+                        $adjustment->save();
+                    }
+    
+                    if($product->exhibicion != $inventory->fisicoExhibicion){
+                        $adjustment = new Register();
+                        $adjustment->tipo = 'AJUSTE';
+                        $adjustment->motivo = 'EXHIBICION';
+                        $adjustment->cantidad = $product->exhibicion;
+                        $adjustment->producto = $product->id;
+                        $adjustment->user_id = Auth::user()->id;
+                        $adjustment->save();
+                    }
+                    
+                    $product->cantidad = $inventory->fisicoBodega;
+                    $product->exhibicion = $inventory->fisicoExhibicion;
+                    $product->save();
+                }
             }
         }
         $familia = $request->familia;
