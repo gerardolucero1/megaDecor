@@ -143,7 +143,7 @@
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            <li class="fa fa-print"></li>
+                            Impresion <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
