@@ -170,86 +170,89 @@
                             </thead>
                             <tbody>                    
                                 @if (!is_null($Inventario))
-                                    @foreach ($Inventario as $inventario)    
+                                    @foreach ($Inventario as $inventario)
+                                    @if(!$inventario->noAplica) 
                                     @php
-                                        $servicio = App\PhysicalInventory::where('idProducto', $inventario->id)->get();
-                                    @endphp
-                                    @if(count($servicio)==0)
-                            <tr role="row" class="odd">
+                                    $servicio = App\PhysicalInventory::where('idProducto', $inventario->id)->get();
+                                @endphp
+                                @if(count($servicio)==0)
+                        <tr role="row" class="odd">
+                        <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                            <td class="">{{ $inventario->servicio }}</td>
+                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                            <td>{{$inventario->cantidad}}
+                                <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                            <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
+                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td>{{$inventario->exhibicion}}
+                                <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                            <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
+                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            @php
+                                $precioUnitario=number_format($inventario->precioUnitario,2);
+                            @endphp
+                             @if($usuario != 2)
+                            @endif
+                            <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
+                                    {{ ($inventario->cantidad + $inventario->exhibicion) }}
+                                </td>
+                            <td class="d-flex" style="box-sizing: content-box;">
+                                    <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
+                                            <i class="fa fa-check"></i> 
+                                        </button>
+
+                                    <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
+                                
+                            </td>
+                        </tr>
+                        @else
+                        @php
+                            $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
+                        @endphp
+                        <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td>{{$inventario->cantidad}}
-                                    <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
-                                <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                                    @if($inventario->cantidad == $servicioDatos->fisicoBodega)
+                                        <span style="color: blue; font-weight: bold;">=</span>
+                                    @else
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                    @endif
+                                    </td>
+                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
+                                <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                 <td>{{$inventario->exhibicion}}
-                                    <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
-                                <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                                     @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
+                                        <span style="color: blue; font-weight: bold;">=</span>
+                                    @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
+                                        <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
+                                    @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
+                                    <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
+                                    @endif
+                                    </td>
+                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
+                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
-                                 @if($usuario != 2)
-                                @endif
-                                <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
-                                        {{ ($inventario->cantidad + $inventario->exhibicion) }}
-                                    </td>
+                                <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
+                                    {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
+                                </td>
+                                
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                        <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
-                                                <i class="fa fa-check"></i> 
-                                            </button>
-
-                                        <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
-                                    
+                                  
+                                        
+                                    <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
+                                    <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                 </td>
                             </tr>
-                            @else
-                            @php
-                                $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
-                            @endphp
-                            <tr role="row" class="odd">
-                                <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                                    <td class="">{{ $inventario->servicio }}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                    <td>{{$inventario->cantidad}}
-                                        @if($inventario->cantidad == $servicioDatos->fisicoBodega)
-                                            <span style="color: blue; font-weight: bold;">=</span>
-                                        @else
-                                            <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
-                                        @endif
-                                        </td>
-                                    <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
-                                    <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
-                                    <td>{{$inventario->exhibicion}}
-                                         @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
-                                            <span style="color: blue; font-weight: bold;">=</span>
-                                        @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
-                                            <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
-                                        @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
-                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
-                                        @endif
-                                        </td>
-                                    <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
-                                    <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
-                                    @php
-                                        $precioUnitario=number_format($inventario->precioUnitario,2);
-                                    @endphp
-                                    <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                        {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
-                                    </td>
+                        @endif
+                                    @endif
                                     
-                                    <td class="d-flex" style="box-sizing: content-box;">
-                                      
-                                            
-                                        <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
-                                        <i style="color:green; font-size:25px" class="fa fa-check"></i>
-                                    </td>
-                                </tr>
-                            @endif
                             @endforeach
                             @endif
                        

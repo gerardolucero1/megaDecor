@@ -17,7 +17,7 @@
 <form action="{{ route('inventory.NA', $id) }}" method="POST" style="display:inline">
     @csrf
     @method('PUT')
-    <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Estas seguro?')" @if(!$noAplica) class="btn btn-sm btn-danger archivar" @else class="btn btn-sm btn-success archivar" @endif data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
+    <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Estas seguro que no aplica para inventario?')" @if(!$noAplica) class="btn btn-sm btn-danger archivar" @else class="btn btn-sm btn-success archivar" @endif data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
         N/A
     </button>
 </form>
