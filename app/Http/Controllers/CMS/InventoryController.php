@@ -263,21 +263,21 @@ class InventoryController extends Controller
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
-                    if($product->cantidad != $inventory->fisicoBodega){
+                    if($inventory->antesBodega != $inventory->fisicoBodega){
                         $adjustment = new Register();
                         $adjustment->tipo = 'AJUSTE';
-                        $adjustment->motivo = 'FISICO';
-                        $adjustment->cantidad = $product->cantidad;
+                        $adjustment->motivo = 'Inv-Fisico';
+                        $adjustment->cantidad = $inventory->fisicoBodeg;
                         $adjustment->producto = $product->id;
                         $adjustment->user_id = Auth::user()->id;
                         $adjustment->save();
                     }
     
-                    if($product->exhibicion != $inventory->fisicoExhibicion){
+                    if($inventory->antesExhibicion != $inventory->fisicoExhibicion){
                         $adjustment = new Register();
                         $adjustment->tipo = 'AJUSTE';
-                        $adjustment->motivo = 'EXHIBICION';
-                        $adjustment->cantidad = $product->exhibicion;
+                        $adjustment->motivo = 'Inv-Exhibicion';
+                        $adjustment->cantidad = $inventory->fisicoExhibicion;
                         $adjustment->producto = $product->id;
                         $adjustment->user_id = Auth::user()->id;
                         $adjustment->save();

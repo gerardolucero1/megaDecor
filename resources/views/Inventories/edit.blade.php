@@ -137,7 +137,7 @@
                                                 <td>{{ $renta->servicio}}</td>
                                                 <td>{{ $renta->cantidad }}</td>
                                                 @php
-                                                    $contrato = App\Budget::where('id', $renta->budget_id)->first();
+                                                    $contrato = App\Budget::where('id', $renta->budget_id)->where('tipo', 'CONTRATO')->first();
                                                 @endphp
                                                 <td><a target="_blank" href="{{ route('ver.presupuesto', $renta->budget_id) }}">{{ $contrato->folio }}</a></td>
                                                 <td>{{$contrato->fechaEvento}}</td>

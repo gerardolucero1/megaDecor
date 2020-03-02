@@ -14,7 +14,7 @@
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
-    <section class="container">
+    <section class="container-fluid">
     
         <div class="content" id="PresupuestosActivos">
                 <div class="block" id="divLista">
