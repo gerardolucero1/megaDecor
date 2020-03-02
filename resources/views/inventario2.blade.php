@@ -194,7 +194,7 @@
                                 @endphp
                                  @if($usuario != 2)
                                 @endif
-                                <td style="text-align:center; font-weight: bold">
+                                <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
                                         {{ ($inventario->cantidad + $inventario->exhibicion) }}
                                     </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
