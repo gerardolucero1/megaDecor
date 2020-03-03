@@ -346,7 +346,9 @@ class BudgetController extends Controller
             $family = Family::where('nombre', $familia)->first();
             if(!is_null($family)){
                 $group = FamilyGroup::where('nombre', $family->grupo)->first();
-                array_push($arregloGrupos, $group);
+                if(!is_null($group)){
+                    array_push($arregloGrupos, $group);
+                }
             }  
         }  
         

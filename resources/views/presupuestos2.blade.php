@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <section class="container">
+    <section class="container-fluid">
             @php
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
