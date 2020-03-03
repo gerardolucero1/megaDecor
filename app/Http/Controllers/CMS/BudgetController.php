@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\BudgetPack;
 use App\Celebrated;
 use App\Commission;
+use App\FamilyGroup;
 use App\MoralPerson;
 use App\BudgetVersion;
 use App\PhysicalPerson;
@@ -338,7 +339,18 @@ class BudgetController extends Controller
             }
         }
 
+        $arregloGrupos = [];
+
         $familias = array_unique($arregloFamilias);
+        foreach ($familias as $familia) {
+            $family = Family::where('nombre', $familia)->first();
+            if(!is_null($family)){
+                $group = FamilyGroup::where('nombre', $family->grupo)->first();
+                array_push($arregloGrupos, $group);
+            }  
+        }  
+        
+        $grupos = array_unique($arregloGrupos);
 
         $arregloEmentos=[];
         foreach($Paquetes as $paquete){
@@ -431,7 +443,7 @@ class BudgetController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos', 'demo'));
+        $pdf = PDF::loadView('pdf.budget', compact('presupuesto', 'Telefonos', 'Elementos', 'Paquetes', 'arregloEmentos', 'demo', 'grupos'));
 
         return $pdf->stream();
 

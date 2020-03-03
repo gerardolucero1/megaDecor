@@ -322,22 +322,21 @@ NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO MET
                         ** LOZA QUEBRADA, ASTILLADA O EN CASO DE FALTANTE, TIENE COSTO DE REPOSICIÓN Y SE AVISA AL RECOGER O SI EL CLIENTE LO LLEVA A BODEGA . </span><br></p>
                     -->
                         <br>
+                  @foreach ($grupos as $grupo)
                   <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
-                    Mobiliario y equipo<br>
-                    <span style="font-weight: bold">Requeisitos: </span><br>
+                  {{ $grupo->nombre }}<br>
+                    <span style="font-weight: bold">Requisitos: </span><br>
                     <span style="font-size: 12px; font-weight: normal; text-align: justify">
-                        NO SE MOVERÁN MUEBLES U OBJETOS DE LA CASA O LOCACIÓN PARA LA ENTREGA DEL MOBILIARIO.<br>
-EN CASO DE HABER ESCALERAS TENDRÁ UN COSTO EXTRA Y TENDRÁ QUE SER NOTIFICADO ANTES DE LA ENTREGA DE ESTE QUE MEGA MUNDO LO PREVERÁ CON SU GENTE ASÍ COMO EL MONTO EXTRA A COBRAR.</span><br>
+                      {{ $grupo->informacion }}
+                    </span><br>
                     <span style="font-weight: bold">Observaciones: </span><br>
                     <span style="font-size: 12px; font-weight: normal; text-align: justify">
-                        --EL MOBILIARIO ES RENTADO POR 1 DÍA ESTOS SE RECOGEN AL DÍA HÁBIL SIGUIENTE O EN CASO DE SER DOMINGO SE LE NOTIFICARÁ LA HORA DE LA RECOGIDA EN SU DOMICILIO.<br>
-EL MOBILIARIO  NO SE PUEDE MOVER A OTROS DOMICILIOS.<br>
-EL MOBILIARIO SE ENTREGA SIN INSTALACIÓN EN CASO DE REQUERIR EL SERVICIO DE INSTALACIÓN TIENE UN COSTO ADICIONAL DEPENDIENDO DE LA CANTIDAD A INSTALAR. LA COTIZACIÓN SE LA PODEMOS DAR CON TODO GUSTO.<br>
-EN CASO DE LLUVIA O NIEVE , LAS SILLAS Y MESAS DEBERÁN SER MOVIDAS POR EL CLIENTE PARA QUE NO SE DAÑE EL MOBILIARIO. <br>
-LA SALA SE DEBERÁ ENTREGAR EN PERFECTAS CONDICIONES. EN CASO DE ROTURA O MANCHAS EL ARREGLO O PREPOSICIÓN CORRERÁ POR PARTE DEL CONTRATANTE.<br>
-EL PAGO DE REPOSICIÓN DEBERÁ SER PAGADO A MAS NO TARDAR 48 HORAS DESPUÉS DEL EVENTO O AL MOMENTO DE DAR LA COTIZACIÓN POR PARTE DE MEGA MUNDO.<br>
-LA SALA SE ENTREGA EN JARDÍN CERCANO NO CONTEMPLANDO ESCALERAS. EN CASO DE HABER ESCALERAS ESTE TENDRÁ UN COSTO ADICIONAL EN CUAL DEBERÁ PAGARSE ANTES DE LLEVARSE. EN CASO DE QUE NO SE NOTIFICARA. SE PAGARA LA DIFERENCIA AL MOMENTO DE LA ENTREGA PARA PODERSE INSTALAR.<br>
-MEGA MUNDO NOTIFICARA EN EL LUGAR DEL EVENTO SI EL MOBILIARIO ESTA DAÑADO O FALTANTES CON FIRMA. </span><br></p>
+                      {{ $grupo->observaciones }}
+                    </span><br></p>
+                  @endforeach
+                  <div>
+                    
+                  </div>
 
 <table>
     <tr style="text-align: center">
