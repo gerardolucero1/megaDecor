@@ -316,19 +316,19 @@ class InventoryController extends Controller
     public function inventarioFiltro(Request $request){
     
         if($request->familia && ($request->fecha_1 == null && $request->fecha_2 == null)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
 
             return view('inventariotest', compact('Inventario'));
         }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->whereDate('updated_at', '<=', $request->fecha_2)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->whereDate('updated_at', '<=', $request->fecha_2)->Where('archivar', null)->orWhere('archivar', false)->get();
 
             return view('inventariotest', compact('Inventario'));
         }else if($request->familia == null && ($request->fecha_1 && $request->fecha_2 == null)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->whereDate('updated_at', '>=', $request->fecha_1)->Where('archivar', null)->orWhere('archivar', false)->get();
 
             return view('inventariotest', compact('Inventario'));
         }else if($request->familia && ($request->fecha_1 && $request->fecha_2 == null)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->whereDate('updated_at', '>=', $request->fecha_1)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->whereDate('updated_at', '>=', $request->fecha_1)->Where('archivar', null)->orWhere('archivar', false)->get();
 
             return view('inventariotest', compact('Inventario'));
         }else{
@@ -340,7 +340,7 @@ class InventoryController extends Controller
 
 
     public function inventarioFiltro2(Request $request){
-        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         $familiaSeleccionada = $request->familia;
         return view('inventario2', compact('Inventario' , 'familiaSeleccionada'));
         // $familiaSeleccionada = $request->familia;
