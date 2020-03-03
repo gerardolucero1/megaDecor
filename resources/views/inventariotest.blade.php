@@ -14,7 +14,7 @@
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
-    <section class="container">
+    <section class="container-fluid">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
                 
@@ -174,6 +174,13 @@
                                     <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
                                         <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
                                     </button>
+                                    <form action="{{ route('inventory.NA', $inventario->id) }}" method="POST" style="display:inline">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Estas seguro?')" @if(!$inventario->noAplica) class="btn btn-sm btn-danger archivar" @else class="btn btn-sm btn-success archivar" @endif data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
+                                            N/A
+                                        </button>
+                                    </form>
                                     @else
                                         SIN PERMISOS
                                     @endif
