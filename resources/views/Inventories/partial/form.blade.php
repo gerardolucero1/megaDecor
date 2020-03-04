@@ -89,7 +89,7 @@
         <div class="form-group row">
                 <div class="col-md-12">
                     <div class="form-material">
-                        <select name="selectmoneda" id="selectmoneda" onchange="seleccionarMoneda()">
+                        <select name="tipoCambio" id="selectmoneda" onchange="seleccionarMoneda()">
                             <option value="">Selecciona tipo de cambio</option>
                             <option value="MXN">MXN</option>
                             <option value="DLLS">DLLS</option>
