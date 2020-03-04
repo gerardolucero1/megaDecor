@@ -145,7 +145,7 @@
                                         @php
                                             $contrato = App\Budget::where('id', $renta->budget_id)->where('tipo', 'CONTRATO')->first();
                                         @endphp
-                                            @if (!is_null($contrato))
+                                            @if (!is_null($contrato) && ($renta->version == $contrato->version))
                                                 <tr style="font-size: 12px">
                                                     <td>{{ $renta->servicio}}</td>
                                                     <td>{{ $renta->cantidad }}</td>
