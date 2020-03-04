@@ -64,6 +64,7 @@ Vue.component('editar-paquete-component', require('./components/EditarPaqueteCom
 Vue.component('productos-danados-component', require('./components/DanadosComponent.vue').default);
 Vue.component('proveedores-component', require('./components/ProveedoresComponent.vue').default);
 Vue.component('editar-proveedor-component', require('./components/EditarProveedorComponent.vue').default);
+Vue.component('nested-component', require('./components/NestedComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

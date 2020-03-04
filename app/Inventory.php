@@ -2,9 +2,10 @@
 
 namespace App;
 
-use App\BudgetPack;
-use App\Missing;
 use App\Budget;
+use App\Nested;
+use App\Missing;
+use App\BudgetPack;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
@@ -16,6 +17,11 @@ class Inventory extends Model
     public function missings()
     {
         return $this->hasMany(Missing::class, 'inventory_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Nested::class);
     }
 
 }
