@@ -174,13 +174,15 @@
                                     <button data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" data-toggle="modal" data-target="#asignarAlta" class="bajas btn btn-sm btn-success">
                                         <i data-id="{{ $inventario->id }}" data-tipo="baja" data-cantidad="cantidad-{{ $inventario->id }}" class="fa fa-chevron-down"></i>
                                     </button>
-                                    <form action="{{ route('inventory.NA', $inventario->id) }}" method="POST" style="display:inline">
+                                    <input type="checkbox" onchange="updateStatus({{$inventario->id}}, {{$inventario->noAplica}})" value="{{$inventario->noAplica}}" name="" id="ck-{{ $inventario->id }}" @if($inventario->noAplica) checked @endif>
+                                    <label for="ck-{{ $inventario->id }}"><span style="font-size: 12px;">No aplica</span></label>
+                                    {{-- <form action="{{ route('inventory.NA', $inventario->id) }}" method="POST" style="display:inline">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Estas seguro?')" @if(!$inventario->noAplica) class="btn btn-sm btn-danger archivar" @else class="btn btn-sm btn-success archivar" @endif data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
                                             N/A
                                         </button>
-                                    </form>
+                                    </form> --}}
                                     @else
                                         SIN PERMISOS
                                     @endif
@@ -237,6 +239,33 @@
 @endsection
 
 @section("scripts")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<script>
+    function updateStatus(id){
+        let valor = null
+
+        let input = document.getElementById(`ck-${id}`)
+        if(input.value == 1){
+            valor = false
+            input.value = 0
+        }else{
+            valor = true
+            input.value = 1
+        }
+        console.log(valor)
+
+        let URL = '/inventario/update-product-na/' + id
+
+        axios.post(URL, {
+            status: valor,
+        }).then((response) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+</script>
     <script>
         $(function(){
             let archivar = document.getElementsByClassName('archivar');

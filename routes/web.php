@@ -109,6 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/inventario2', 'CMS\IndexController@inventario2')->name('inventario2');
     Route::post('/inventario2', 'CMS\InventoryController@inventarioFiltro2')->name('inventario.filtro2');
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
+    Route::post('/inventario/update-product-na/{id}', 'CMS\InventoryController@updateNA')->name('inventario.updateNA');
 
     //Imprimir budget
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');

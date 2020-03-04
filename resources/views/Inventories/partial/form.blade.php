@@ -131,12 +131,13 @@
         </div>
         <div class="form-group row">
             <div class="col-md-12">
-                @if(isset($inventory))
-                    <input type="checkbox" name="noAplica" id="noAplica" @if($inventory->noAplica) checked @endif>
+                @if (isset($inventory))
+                    @if ($inventory->noAplica)
+                        <input type="checkbox" name="noAplica" id="noAplica" value="0" checked>
+                    @endif
                 @else
-                    <input type="checkbox" name="noAplica" id="noAplica">
+                    <input type="checkbox" name="noAplica" id="noAplica" value="1">
                 @endif
-                
                 <label for="noAplica">No aplica para inventario</label>
             </div>
         </div>
