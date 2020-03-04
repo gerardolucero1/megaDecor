@@ -145,20 +145,7 @@
         @if(strpos($_SERVER['REQUEST_URI'], 'edit'))
         @else
     <div class="col-md-8">
-        <div class="form-group row">
-            <div class="col-md-6">
-                <div class="form-material">
-                    {{ Form::label('fechaCompra', 'Fecha de compra') }}
-                    {{ Form::date('fechaCompra', null, ['class' => 'form-control', 'id' => 'fechaCompra']) }}  
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-material">
-                    {{ Form::label('factura', 'Numero de factura') }}
-                    {{ Form::text('factura', null, ['class' => 'form-control', 'id' => 'factura']) }}  
-                </div>
-            </div>
-        </div>
+       
         
     </div>
 @endif
