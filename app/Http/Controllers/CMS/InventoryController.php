@@ -69,27 +69,8 @@ class InventoryController extends Controller
         {
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
-
+        
         $inventory = Inventory::create($request->all());
-        // // $inventory = new Inventory();
-        // // $inventory->cantidad = $request->cantidad;
-        // // $inventory->disponible = $request->disponible;
-        // // $inventory->servicio = $request->servicio;
-        // // $inventory->precioUnitario = $request->precioUnitario;
-        // // $inventory->autorizado = $request->autorizado;
-        // // $inventory->precioVenta = $request->precioVenta;
-        // // $inventory->tipoCambio = $request->tipoCambio;
-        // // $inventory->proveedor1 = $request->proveedor1;
-        // // $inventory->proveedor2 = $request->proveedor2;
-        // // $inventory->exhibicion = $request->exhibicion;
-        // // $inventory->familia = $request->familia;
-        // // $inventory->archivar = $request->archivar;
-        // // $inventory->noAplica = $request->noAplica;
-        // // $inventory->selectmoneda = $request->selectmoneda;
-        // // $inventory->guardarInventario = $request->guardarInventario;
-        // // $inventory->factura = $request->factura;
-        // $inventory->noAplica = true;
-        // $inventory->save();
 
         // Store in AWS S3
         if($archivo = $request->file('imagen')){
@@ -215,6 +196,15 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         
+    }
+
+    function updateNA(Request $request, $id){
+        $data = json_decode(file_get_contents("php://input"));
+        $response = !$data->status;
+        $inventory = Inventory::where('id', $id)->first();
+        $inventory->noAplica = $data->status;
+        $inventory->save();
+        return;
     }
 
     public function archivar($id){
