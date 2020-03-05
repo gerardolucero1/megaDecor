@@ -24,8 +24,8 @@ Vue.use(VueCurrencyFilter, {
 })
 
 Vue.use(VueFuse);
-Vue.config.devtools = false
-Vue.config.debug = false
+Vue.config.devtools = true
+Vue.config.debug = true
 Vue.config.silent = true
 
 import store from './store'

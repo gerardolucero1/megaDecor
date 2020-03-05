@@ -69,6 +69,10 @@ padding: 0;
         font-size: 14px;
     }
 
+    .nested{
+        background-color: antiquewhite;
+    }
+
 </style>
 
 <template>
@@ -428,7 +432,7 @@ padding: 0;
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
+                            <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index" v-bind:style="[{ 'background-color': producto.anidado ? 'antiquewhite' : '' }]">
                                 <td style="width:120px; position:relative;">
                                     <img v-bind:src="producto.imagen" alt="" width="100%">
                                     <div style="position:absolute; font-size:10px; background:green; color:white; width:100%; border-radius:5px; top:0; text-align:center">Aun Disponible: {{producto.disponible}}</div>
@@ -476,6 +480,7 @@ padding: 0;
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</div>
                                     -->
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
+                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
                                     <div v-if="producto.externo" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
                                 </td>
@@ -1150,8 +1155,8 @@ padding: 0;
         </div>
 
         <!-- Modal editar paquete -->
-        <div class="modal fade modalAgregarPaquete" id="editarPaquete" tabindex="-1" role="dialog" aria-labelledby="editarElemento" aria-hidden="true" style="overflow-y: scroll;">
-            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal fade modalAgregarPaquete" id="editarPaquete" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true" style="overflow-y: scroll;">
+            <div id="app" class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Editar paquete</h5>
@@ -1161,44 +1166,44 @@ padding: 0;
                 </div>
                 <div class="modal-body">
                     <div class="row">
+
                         <div class="col-md-10 offset-md-1">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12" style="border:solid; border-width:1px; border-radius:3px; background:#D0FAF2">
                                             <buscador-component
                                             :limpiar="limpiar"
-                                    placeholder="Buscar Productos"
+                                    placeholder="Buscar Productos Existentes"
                                     event-name="resultsPaquetes"
                                     :list="inventario"
-                                    :keys="['servicio', 'id']"
+                                    :keys="['servicio', 'id', 'familia']"
                                     
                                 ></buscador-component>
                                         </div>
                                     </div>
-                                    <!-- Resultado Busqueda -->
+                                    <!-- Resultado Busqueda paquetes-->
                                     <div class="row" v-if="resultsPaquetes.length < inventario.length">
-                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-6 resultadoInventario">
-                                              <!--Inicio Prueba-->
-                                        <a class="block block-link-shadow" v-for="producto in resultsPaquetes" :key="producto.id" v-on:click="agregarProductoPaqueteEditado(producto)">
-                                            <div class="block-content block-content-full clearfix">
-                                                <div class="float-right">
-                                                    <img class="img-avatar" src="https://i.redd.it/m2jtpv0kdff11.jpg" alt="">
-                                                </div>
-                                                <div class="float-left mt-10">
-                                                    <div class="font-w600 mb-5">{{ producto.servicio }}</div>
-                                                    <div class="font-size-sm text-muted">{{ producto.precioUnitario }}</div>
+                                        <div v-if="resultsPaquetes.length !== 0" class="col-md-12 resultadoInventario">
+                                            <div class="list-group" v-for="producto in resultsPaquetes.slice(0,20)" :key="producto.id">
+                                                <div class="row contenedor-producto" v-on:click="agregarProductoPaqueteEdicion(producto)">
+                                                    <div class="col-md-9">
+                                                        
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Servicio:</span> {{ producto.servicio }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Precio Unitario:</span> ${{ producto.precioUnitario }}</p>
+                                                        <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">Categoría:</span> {{ producto.familia }}</p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <img class="img-fluid" :src="producto.imagen" alt="">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </a>
-                                        <!--Final Prueba-->
                                         </div>
-                                        
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <div class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = true">Agregar nuevo producto</div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row">
                                 <!-- Primer columna -->
@@ -1206,32 +1211,41 @@ padding: 0;
                                     <div class="form-group row">
                                         <label class="col-12" for="example-text-input">Servicio</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paqueteEdicion.servicio">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Servicio" v-model="paqueteEdicion.servicio" style="background:#FFECA7">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-12" for="example-text-input">Total</label>
+                                    <div class="form-group row" >
+                                        <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio unitario" v-model="paqueteEdicion.precioUnitario">
+                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paqueteEdicion.precioFinal" style="background:#FFECA7">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" style="display:none">
+                                        <label class="col-12" for="example-text-input">Costo total de proveedores</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" id="example-text-input" name="example-text-input" placeholder="Costo de proveedores" v-model="paqueteEdicion.precioVenta" style="background:#FFECA7">
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Segunda columna -->
                                 <div class="col-md-6">
-                                    <h4>Precio sugerido: $<span v-text="precioSugerido"></span></h4>
-                                    <input type="checkbox" id="guardarPaquete" v-model="paqueteEdicion.paquete.guardarPaquete">
+                                    <h4>Precio sugerido: $<span v-text="precioSugeridoEdicion"></span></h4>
+                                    <h4>Utilidad: $<span v-text="utilidadEdicion"></span></h4>
+                                    <h4>Costo total proveedor: $<span v-text="costoProveedorEdicion"></span></h4>
+                                    <input type="checkbox" id="guardarPaquete" v-model="paqueteEdicion.guardarPaquete">
                                     <label for="guardarPaquete">Guardar paquete</label>
 
                                     <div class="form-group row">
                                         <label class="col-12" for="categoriaPaquete">Categoria</label>
                                         <div class="col-md-12">
-                                            <select id="categoriaPaquete" name="categoriaPaquete" v-model="paqueteEdicion.paquete.categoria">
+                                            <select id="categoriaPaquete" name="categoriaPaquete" v-model="paqueteEdicion.categoria">
+                                                <option value="Manteleria">Manteleria</option>
+                                                <option value="Toboganes">Toboganes</option>
+                                                <option value="Mobiliario">Mobiliario</option>
                                                 <option value="Floristeria">Floristeria</option>
                                                 <option value="Comida">Comida</option>
-                                                <option value="Manteleria">Manteleria</option>
-                                                <option value="Animado">Animado</option>
-                                                <option value="Mobilario">Mobiliario</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1246,22 +1260,35 @@ padding: 0;
                                                 <th scope="col">Nombre</th>
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">Precio unitario</th>
+                                                <th scope="col">Precio especial unitario</th>
+                                                <th scope="col">Total con descuento</th>
                                                 <th scope="col">Opciones</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="paquete.inventario">
+                                        <tbody v-if="paqueteEdicion.paquete">
                                             <tr v-for="(producto, index) in paqueteEdicion.paquete.inventario" v-bind:key="producto.index">
                                                 <th scope="row">
-                                                    <img :src="producto.imagen" width="100%">
+                                                    <img :src="producto.imagen" width="100px">
                                                 </th>
-                                                <td>{{ producto.nombre }}</td>
+                                                <td>{{ producto.nombre }}
+                                                     <br><span style="font-size:10px; line-height:8px;">Costo Proveedor: ${{producto.precioVenta}}</span>
+                                                </td>
+                                                
                                                 <td>
-                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:change="updateCantidadPaquete(index)">
+                                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="number" v-model="cantidadPaquete" v-on:change="updateCantidadPaqueteEdicion(index)">
                                                     <span v-else v-on:click="editarCantidadPaquete(index, Object.keys(producto))">{{ producto.cantidad }}</span>
                                                 </td>
-                                                <td>{{ producto.precioUnitario }}</td>
+                                                <td>
+                                                    <input v-if="(producto.precioUnitario == '') || (indice == index && key == 'precioUnitario')" type="number" v-model="precioUnitarioPaquete" v-on:change="updatePrecioUnitarioPaqueteEdicion(index)">
+                                                    <span v-else v-on:click="editarPrecioUnitarioPaquete(index, Object.keys(producto), producto)">{{ producto.precioUnitario }}</span>
+                                                </td>
+                                                <td>
+                                                    <input v-if="(producto.precioEspecial == '') || (indice == index && key == 'precioEspecial')" type="number" v-model="precioEspecialPaquete" v-on:change="updatePrecioEspecialPaqueteEdicion(index)">
+                                                    <span v-else v-on:click="editarPrecioEspecialPaquete(index, Object.keys(producto), producto)">{{ producto.precioEspecial }}</span>
+                                                </td>
+                                                <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaquete(index)">Eliminar</div>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar 2</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1273,8 +1300,8 @@ padding: 0;
                 </div>
                 
                 <div class="modal-footer">
-                    <div  class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Cerrar</div>
-                    <div  class="btn btn-primary" @click="guardarPaqueteEdicion()">Editar paquete</div>
+                    <div  class="btn btn-secondary" onClick="$('#editarPaquete').modal('hide')">Close</div>
+                    <div  class="btn btn-primary" onClick="$('#editarPaquete').modal('hide')">Guardar paquete</div>
                 </div>
                 </div>
             </div>
@@ -1392,6 +1419,7 @@ padding: 0;
         },
         data(){
             return{
+                nestedClass: 'nested',
                 limpiar: false,
                 viendoPaquete: [],
                 results: [],
@@ -1878,23 +1906,121 @@ padding: 0;
                     console.log(error.data);
                 })
             },
-            editarPaquete(producto, index){
-                this.paqueteEdicion.externo = producto.externo;
-                this.paqueteEdicion.imagen = producto.imagen;
-                this.paqueteEdicion.servicio = producto.servicio;
-                this.paqueteEdicion.cantidad = producto.cantidad;
-                this.paqueteEdicion.precioUnitario = producto.precioUnitario;
-                this.paqueteEdicion.precioFinal = producto.precioFinal;
-                this.paqueteEdicion.ahorro = producto.ahorro;
-                this.paqueteEdicion.notas = producto.notas;
-                this.paqueteEdicion.paquete = producto.paquete;
-                this.paqueteEdicion.tipo = producto.tipo;
-                this.paqueteEdicion.id = producto.id;
-
-                this.indicePaqueteEdicion = index;
-
+            //Edicion paquetes
+            editarPaquete: function(producto){
+                this.paqueteEdicion = producto
                 $('#editarPaquete').modal('show');
             },
+
+            updateCantidadPaqueteEdicion(index){
+                this.indice = '';
+                this.key = '';
+                this.precioSugerido = 0;
+                this.utilidad = 0;
+                this.costoProveedor = 0;
+                let producto = this.paqueteEdicion.paquete.inventario.find(function(element, indice){
+                    return (indice == index);
+                });
+
+                producto.cantidad = this.cantidadPaquete;
+                producto.precioFinal = producto.cantidad * producto.precioEspecial;
+                this.paqueteEdicion.paquete.inventario.splice(index, 1, producto);
+                this.cantidadPaquete = '';
+                this.key = '';
+                this.indice = '100000000';
+
+                this.actualizarPrecioSugeridoEdicion();
+                
+            },
+
+            updatePrecioUnitarioPaqueteEdicion(index){
+                this.indice = '';
+                this.key = '';
+                let producto = this.paqueteEdicion.paquete.inventario.find(function(element, indice){
+                    return (indice == index);
+                });
+
+                producto.precioUnitario = this.precioUnitarioPaquete;
+                producto.precioEspecial = this.precioUnitarioPaquete;
+                producto.precioFinal = producto.cantidad * producto.precioEspecial;
+                this.paqueteEdicion.paquete.inventario.splice(index, 1, producto);
+                this.precioUnitarioPaquete = '',
+                this.key = '',
+                this.indice = '100000000';
+
+                this.actualizarPrecioSugeridoEdicion();
+            },
+
+            updatePrecioEspecialPaqueteEdicion(index){
+                this.indice = '';
+                this.key = '';
+                this.precioSugerido = 0;
+                this.utilidad = 0;
+                let producto = this.paqueteEdicion.paquete.inventario.find(function(element, indice){
+                    return (indice == index);
+                });
+
+                producto.precioEspecial = this.precioEspecialPaquete;
+                producto.precioFinal = producto.cantidad * this.precioEspecialPaquete;
+                this.paqueteEdicion.paquete.inventario.splice(index, 1, producto);
+
+                this.precioEspecialPaquete = '';
+                this.key = '';
+                this.indice = '100000000';
+                this.actualizarPrecioSugeridoEdicion();
+            },
+
+            actualizarPrecioSugeridoEdicion(){
+                this.precioSugeridoEdicion=0;
+                this.utilidadEdicion=0;
+                this.costoProveedorEdicion=0;
+                for (var i = 0; i < this.paqueteEdicion.paquete.inventario.length; i++) {
+                    this.precioSugeridoEdicion+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioFinal);
+                    this.utilidadEdicion+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioFinal)-(parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta)*parseInt(this.paqueteEdicion.paquete.inventario[i].cantidad));
+                    this.costoProveedorEdicion+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta);
+                }
+                this.paqueteEdicion.paquete.precioFinal = this.precioSugeridoEdicion;
+                this.paqueteEdicion.precioFinal = this.precioSugeridoEdicion;
+            },
+
+            eliminarProductoPaqueteEdicion(index){
+                console.log(index)
+                this.paqueteEdicion.paquete.inventario.splice(index, 1);
+
+                this.precioSugerido = 0;
+                this.utilidad = 0;
+                this.costoProveedor = 0;
+
+                for (var i = 0; i < this.paqueteEdicion.paquete.inventario.length; i++) {
+                    
+                    this.precioSugerido+= this.paqueteEdicion.paquete.inventario[i].precioFinal;
+                    this.utilidad+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioFinal)-(parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta)*parseInt(this.paqueteEdicion.paquete.inventario[i].cantidad));
+                    this.costoProveedor+= parseInt(this.paqueteEdicion.paquete.inventario[i].precioVenta);
+                }
+            },
+
+            agregarProductoPaqueteEdicion(producto){
+                this.limpiar = true;
+                this.paqueteEdicion.paquete.inventario.push({
+                    'externo': false,
+                    'nombre': producto.servicio,
+                    'imagen': producto.imagen,
+                    'precioUnitario': producto.precioUnitario,
+                    'precioFinal': '0',
+                    'cantidad': '0',
+                    'id': producto.id,
+                    'precioVenta': producto.precioVenta,
+                    'proveedor': '',
+                    'precioEspecial': producto.precioUnitario,
+                    'precioAnterior': producto.precioUnitario,
+                });
+
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
+               
+            },
+
             agregarProductoPaqueteEditado(producto){
                 this.paqueteEdicion.paquete.inventario.push({
                     'externo': false,
@@ -2121,6 +2247,7 @@ padding: 0;
                         precioEspecial: this.precioSugerido,
                         precioAnterior: this.precioSugerido,
                     });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
@@ -2444,7 +2571,30 @@ padding: 0;
                 axios.post(URL, {id:producto.servicio, fecha:this.presupuesto.fechaEvento}).then((response) => {
                     this.cantidad_disponible = response.data;
                     
+                if(producto.anidado){
+                    let producto_anidado = {
+                        'externo': false,
+                        'imagen': producto.imagen,
+                        'servicio': producto.servicio,
+                        'cantidad': '1',
+                        'precioUnitario': producto.precioUnitario,
+                        'precioFinal': producto.precioUnitario,
+                        'ahorro': '0',
+                        'notas': '-',
+                        'paquete': '',
+                        'disponible': this.cantidad_disponible,
+                        'tipo': 'PRODUCTO',
+                        'id': producto.id,
+                        'precioVenta': producto.precioVenta,
+                        'proveedor': '',
+                        'precioEspecial': producto.precioUnitario,
+                        'precioAnterior': producto.precioUnitario,
+                    }
 
+                    this.obtenerNesteds(producto_anidado)
+                    this.limpiar = true;
+                    return
+                }
 
                 this.limpiar = true;
                 
@@ -2472,16 +2622,48 @@ padding: 0;
                     this.inventarioLocal = this.inventarioLocal.reverse();
                 })
 
-                
-
-                
-                
                 setTimeout(() => {
                     this.limpiar = false;
                 }, 1000);
-                console.log(this.inventarioLocal);
                 
             },
+
+            obtenerNesteds(producto){
+                this.paquete.servicio = producto.servicio
+                this.paquete.precioFinal = 0
+                this.paquete.precioVenta = 0
+                this.paquete.guardarPaquete = false
+                this.paquete.categoria = 'Anidado'
+
+
+
+                let URL = '/obtener-nesteds/' + producto.id
+
+                axios.get(URL).then((response) => {
+                    
+                    response.data.forEach((doc) => {
+                        this.paquete.inventario.push({
+                            'externo': false,
+                            'nombre': doc.servicio,
+                            'imagen': doc.imagen,
+                            'precioUnitario': doc.precioUnitario,
+                            'precioFinal': '0',
+                            'cantidad': '0',
+                            'id': doc.id,
+                            'precioVenta': doc.precioVenta,
+                            'proveedor': '',
+                            'precioEspecial': doc.precioUnitario,
+                            'precioAnterior': doc.precioUnitario,
+                        });
+                        
+                    })
+                    
+                this.guardarPaquete()
+                }).catch((error) => {
+
+                })
+            },
+
             obtenerClientes(){
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
