@@ -27,6 +27,12 @@ class CreateInventoriesTable extends Migration
             $table->string('proveedor2')->nullable();
             $table->integer('exhibicion')->nullable();
             $table->string('familia')->nullable();
+            $table->string('selectmoneda')->nullable();
+            $table->string('factura')->nullable();
+            $table->date('fechaCompra')->nullable();
+            $table->boolean('noAplica')->nullable();
+            $table->boolean('guardarInventario')->nullable();
+            $table->boolean('anidado')->nullable();
             
             $table->timestamps();
         });

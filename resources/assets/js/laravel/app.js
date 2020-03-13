@@ -24,8 +24,8 @@ Vue.use(VueCurrencyFilter, {
 })
 
 Vue.use(VueFuse);
-Vue.config.devtools = false
-Vue.config.debug = false
+Vue.config.devtools = true
+Vue.config.debug = true
 Vue.config.silent = true
 
 import store from './store'
@@ -65,6 +65,7 @@ Vue.component('productos-danados-component', require('./components/DanadosCompon
 Vue.component('proveedores-component', require('./components/ProveedoresComponent.vue').default);
 Vue.component('editar-proveedor-component', require('./components/EditarProveedorComponent.vue').default);
 Vue.component('nested-component', require('./components/NestedComponent.vue').default);
+Vue.component('bocadillos-component', require('./components/BocadillosComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

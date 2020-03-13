@@ -217,6 +217,10 @@ class InventoryController extends Controller
     function anidados(Request $request, $id){
         Nested::where('inventory_id', $id)->delete();
 
+        $inventory = Inventory::where('id', $id)->first();
+        $inventory->anidado = true;
+        $inventory->save();
+
         $data = json_decode(file_get_contents("php://input"));
         foreach ($data as $item) {
             $nested = new Nested();
