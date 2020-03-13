@@ -40,6 +40,15 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Añadir productos</h3>
+                </div>
+                <div class="block-content">
+                    <nested-component producto="{{$inventory->id}}"></nested-component>
+                </div>
+            </div>
             
             <!-- Modal -->
             <div class="modal fade" id="registros" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -133,15 +142,18 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($rentas as $renta)
-                                            <tr style="font-size: 12px">
-                                                <td>{{ $renta->servicio}}</td>
-                                                <td>{{ $renta->cantidad }}</td>
-                                                @php
-                                                    $contrato = App\Budget::where('id', $renta->budget_id)->first();
-                                                @endphp
-                                                <td><a target="_blank" href="{{ route('ver.presupuesto', $renta->budget_id) }}">{{ $contrato->folio }}</a></td>
-                                                <td>{{$contrato->fechaEvento}}</td>
-                                            </tr>
+                                        @php
+                                            $contrato = App\Budget::where('id', $renta->budget_id)->where('tipo', 'CONTRATO')->first();
+                                        @endphp
+                                            @if (!is_null($contrato) && ($renta->version == $contrato->version))
+                                                <tr style="font-size: 12px">
+                                                    <td>{{ $renta->servicio}}</td>
+                                                    <td>{{ $renta->cantidad }}</td>
+                                                    
+                                                    <td><a target="_blank" href="{{ route('ver.presupuesto', $renta->budget_id) }}">{{ $contrato->folio }}</a></td>
+                                                    <td>{{$contrato->fechaEvento}}</td>
+                                                </tr> 
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

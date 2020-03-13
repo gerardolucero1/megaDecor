@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\CMS;
 
+use stdClass;
 use App\Budget;
 use App\Family;
+use App\Nested;
 use App\Register;
-use stdClass;
 use App\Supplier;
 use App\Inventory;
 use Carbon\Carbon;
 use App\BudgetInventory;
-use App\BudgetPackInventory;
 use App\PhysicalInventory;
+use App\BudgetPackInventory;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -128,6 +129,12 @@ class InventoryController extends Controller
         $registros = Register::orderBy('id', 'DESC')->where('producto', $id)->get();
         $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
         $rentas = BudgetInventory::orderBy('id', 'DESC')->where('servicio', $inventory->servicio)->get();
+
+        $arrayBudgets = [];
+        foreach ($rentas as $renta) {
+            $budget = Budget::orderBy('id', 'DESC')->where('id', $renta->id)->where('tipo', 'CONTRATO')->first();
+            array_push($arrayBudgets, $budget);
+        }
         
         
         return view('Inventories.edit', compact('inventory', 'familias', 'registros', 'proveedores', 'rentas'));
@@ -205,6 +212,31 @@ class InventoryController extends Controller
         $inventory->noAplica = $data->status;
         $inventory->save();
         return;
+    }
+
+    function anidados(Request $request, $id){
+        Nested::where('inventory_id', $id)->delete();
+
+        $data = json_decode(file_get_contents("php://input"));
+        foreach ($data as $item) {
+            $nested = new Nested();
+            $nested->inventory_id = $id;
+            $nested->product_id = $item->id;
+            $nested->save();
+        }
+        return;
+    }
+
+    function obtenerAnidados($id){
+        $nesteds = Nested::orderBy('id', 'DESC')->where('inventory_id', $id)->get();
+
+        $inventario = [];
+        foreach ($nesteds as $item) {
+            $product = Inventory::where('id', $item->product_id)->first();
+            array_push($inventario, $product);
+        }
+
+        return $inventario;
     }
 
     public function archivar($id){
