@@ -102,11 +102,9 @@ padding: 0;
                             </div>
                             
                             <div class="col-md-8">
-                                <select v-if="permisos.creacionEditarVendedor==1" name="vendedor" id="" v-model="presupuesto.vendedor_id">
-                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
-                                </select>
-                                <select v-else name="vendedor" id="" v-model="presupuesto.vendedor_id" disabled>
-                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" :selected="usuarioActual.id">{{ usuario.name }}</option>
+                                <select required name="vendedor" id="" v-model="presupuesto.vendedor_id">
+                                    <option value="" selected>Seleccionar usuario</option>
+                                    <option v-for="usuario in usuarios" :value="usuario.id" :key="usuario.index" >{{ usuario.name }}</option>
                                 </select>
                             </div>
                         </div>
@@ -2053,10 +2051,10 @@ padding: 0;
 
                 axios.get(URL).then((response) => {
                     this.usuarioActual = response.data;
-                    this.presupuesto.vendedor_id = this.usuarioActual.id;
-                    console.log(this.usuarioActual);
+                    //this.presupuesto.vendedor_id = this.usuarioActual.id;
+                   
                 }).catch((error) => {
-                    console.log(error.data);
+                   
                 })
             },
             obtenerUsuarios(){
