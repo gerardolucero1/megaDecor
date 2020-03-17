@@ -218,7 +218,7 @@ class InventoryController extends Controller
         Nested::where('inventory_id', $id)->delete();
 
         $inventory = Inventory::where('id', $id)->first();
-        $inventory->anidado = true;
+        $inventory->anidado = 1;
         $inventory->save();
 
         $data = json_decode(file_get_contents("php://input"));
