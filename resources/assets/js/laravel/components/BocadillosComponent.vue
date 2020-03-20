@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-7">
                 <table style="width:100%; text-align:center; font-size:12px; border:solid">
-                    <tr style="color:white; background:FE6E4F">
+                    <tr style="color:white; background:#FE6E4F">
                         <th>POSTRE</th>
                         <th>BOCADILLOS POR MESA</th>
                         <th>PRECIO PAQUETE</th>
@@ -67,7 +67,7 @@
             </div>
             <div class="col-md-5">
                 <table style="width:100%; text-align:center; font-size:12px; border:solid">
-                    <tr  style="color:white; background:FE6E4F">
+                    <tr  style="color:white; background:#FE6E4F">
                         <th>CANT</th>
                         <th>TOTAL DE BOCADILLOS</th>
                         <th>PRECIO PAQUETE</th>
