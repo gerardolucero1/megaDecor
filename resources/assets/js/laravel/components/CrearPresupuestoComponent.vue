@@ -723,7 +723,7 @@ padding: 0;
             </div>
         </div>
 
-<div class="modal fade" id="bocadillosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div style="border:solid; border-color:gray" class="modal fade" id="bocadillosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
