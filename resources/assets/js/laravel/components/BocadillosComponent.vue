@@ -38,12 +38,12 @@
                         <td><input type="text" v-model="precioBolasNuez" style="text-align:center"></td>
                     </tr>
                     <tr>
-                        <td>Volovan (min 30)</td>
+                        <td>VOLOVANES DE POLLOa la crema y pizca de chipotle  (charola 30 pz)</td>
                         <td><input type="text" v-model="volovan" value="0" style="text-align:center"></td>
                         <td><input type="text" v-model="precioVolovan" style="text-align:center"></td>
                     </tr>
                     <tr>
-                        <td>BROCHETAS DE QUESO ACEITUNA Y JAMON (MIN 30)</td>
+                        <td>BROCHETAS DE MELON, QUESO Y JAMONCLLO MIN 16 PZ)</td>
                         <td><input type="text" v-model="brochetasQueso" value="0" style="text-align:center"></td>
                         <td><input type="text" v-model="precioBrochetasQueso" style="text-align:center"></td>
                     </tr>
@@ -93,14 +93,14 @@ export default {
             servilletas:0,
             platoPastelero:0,
             bolitasNuez:0,
-            precioBolasNuez:0,
+            precioBolasNuez:9,
             cantBolasNuez:0,
             volovan:0,
-            precioVolovan:0,
+            precioVolovan:360,
             cantVolovan:0,
             brochetasQueso:0,
             cantBrochetasQueso:0,
-            precioBrochetasQueso:0,
+            precioBrochetasQueso:10,
 
         }
     },

@@ -736,8 +736,8 @@ padding: 0;
                         <bocadillos-component></bocadillos-component>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Agregar paquete</button>
                     </div>
                 </div>
             </div>
