@@ -384,10 +384,10 @@ padding: 0;
                                 ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
-                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#mesaBocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
                                 </div>
                         </div>
                     </div>
@@ -722,6 +722,27 @@ padding: 0;
                 </div>
             </div>
         </div>
+
+<div class="modal fade" id="bocadillosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mesas de bocadillos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <bocadillos-component></bocadillos-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal agregar elemento -->
         <div class="modal fade" id="agregarElemento" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true">
