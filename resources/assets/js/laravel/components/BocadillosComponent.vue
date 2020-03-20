@@ -53,8 +53,12 @@
                 <tr>
                 <td>bocadillos: </td>
                 <td>$0.00 </td>
+                </tr>
+                <tr>
                 <td>Servilletas: </td>
                 <td>$0.00 </td>
+                </tr>
+                <tr>
                 <td>Platos (desechables): </td>
                 <td>$0.00 </td>
                 </tr>
