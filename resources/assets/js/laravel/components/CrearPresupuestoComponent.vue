@@ -387,6 +387,7 @@ padding: 0;
                             <div class="col-md-4">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#mesaBocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
                                 </div>
                         </div>
                     </div>
