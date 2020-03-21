@@ -270,7 +270,7 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
         }else{
         $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
         }

@@ -27,9 +27,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Exhibición</th>
     </tr>
-    @php
-        $Inventario = App\Inventory::get();
-    @endphp
+    
     @foreach ($Inventario as $item)
 
 <tr style="font-size:12px;">
