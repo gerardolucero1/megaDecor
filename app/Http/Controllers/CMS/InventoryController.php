@@ -288,7 +288,7 @@ class InventoryController extends Controller
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-            dd($Inventario);
+            
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
