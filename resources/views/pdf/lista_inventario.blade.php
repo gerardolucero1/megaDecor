@@ -31,7 +31,7 @@ use Carbon\Carbon;
         $Inventario = App\Inventory::get();
     @endphp
     @foreach ($Inventario as $item)
-    @if(!$item->noAplica) 
+
 <tr style="font-size:12px;">
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
@@ -43,7 +43,7 @@ use Carbon\Carbon;
 
 
 </tr>
-@endif
+
 @endforeach
 </table>
 
