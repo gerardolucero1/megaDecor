@@ -7,7 +7,7 @@
   <title>Presupuesto</title>
 </head>
 <body style="font-family: Helvetica; ">
-<p style="line-height: 15px; font-size: 16px; font-style: italic; font-weight: bold">Familia: </p>
+<p style="line-height: 15px; font-size: 16px; font-style: italic; font-weight: bold">Familia: {{$familia}}</p>
 <table>
 
 
@@ -27,7 +27,24 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Exhibición</th>
     </tr>
-    
+    @php
+        $Inventario = App\Inventory::get();
+    @endphp
+    @foreach ($Inventario as $item)
+    @if(!$item->noAplica) 
+<tr style="font-size:12px;">
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$item->cantidad}}</td>
+<td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$item->exhibicion}}</td>
+<td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
+
+
+
+</tr>
+@endif
+@endforeach
 </table>
 
 <table style="width: 100%; margin-top: 20px">
