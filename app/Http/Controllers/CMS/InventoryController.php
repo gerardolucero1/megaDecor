@@ -274,7 +274,7 @@ class InventoryController extends Controller
         }
         $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
         $familia = $request->familia;
-        dd($Inventario);
+        dd($familia);
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
