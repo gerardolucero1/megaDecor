@@ -235,12 +235,12 @@
                                     @endif
                                     </td>
                                 <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
-                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->exhibicion}}</td>
+                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$inventario->exhibicion}}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                    {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->exhibicion) }}
+                                    {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$inventario->exhibicion) }}
                                 </td>
                                 
                                 <td class="d-flex" style="box-sizing: content-box;">
