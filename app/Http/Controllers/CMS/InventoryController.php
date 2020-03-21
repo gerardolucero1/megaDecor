@@ -275,7 +275,7 @@ class InventoryController extends Controller
         $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
         }
         $familia = $request->familia;
-        dd($Inventario);
+        
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
@@ -288,6 +288,7 @@ class InventoryController extends Controller
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            dd($Inventario);
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
