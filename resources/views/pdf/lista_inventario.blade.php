@@ -7,7 +7,7 @@
   <title>Presupuesto</title>
 </head>
 <body style="font-family: Helvetica; ">
-<p style="line-height: 15px; font-size: 16px; font-style: italic; font-weight: bold">Familia: {{$familia}}</p>
+<p style="line-height: 15px; font-size: 16px; font-style: italic; font-weight: bold">Familia: </p>
 <table>
 
 
@@ -28,7 +28,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Exhibición</th>
     </tr>
     @foreach ($Inventario as $item)
-    @if(!$item->noAplica) 
+  
 <tr style="font-size:12px;">
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
@@ -40,7 +40,7 @@ use Carbon\Carbon;
 
 
 </tr>
-@endif
+
 @endforeach
 </table>
 

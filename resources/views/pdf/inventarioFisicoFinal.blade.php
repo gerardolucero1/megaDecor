@@ -23,7 +23,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Total Diferencia</th>
     </tr>
     @foreach ($Inventario as $item)
-   
+    @if(!$item->noAplica) 
     @php
         $registro = App\PhysicalInventory::where('idProducto', $item->id)->first();
     @endphp
@@ -45,7 +45,7 @@ use Carbon\Carbon;
 
 
 </tr>
-
+@endif
 @endforeach
 </table>
 
