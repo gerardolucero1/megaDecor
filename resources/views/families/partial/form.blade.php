@@ -13,6 +13,7 @@
         <div class="form-group row">
             <div class="col-md-12">
                 <div class="form-material">
+                <label for="">Grupo al que pertenece, define el texto que aparecera en el contrato del cliente </label>
                     <select name="grupo" id="" style="width: 100%;">
                         @foreach ($grupos as $grupo)
                             <option value="{{ $grupo->nombre }}">{{ $grupo->nombre }}</option>
