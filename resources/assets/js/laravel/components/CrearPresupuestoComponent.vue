@@ -2259,6 +2259,7 @@ padding: 0;
                         cantidad: 1,
                         precioUnitario: this.precioSugerido,
                         precioFinal: this.precioSugerido,
+                        precioAnterior: this.precioSugerido,
                         ahorro: '0',
                         notas: '',
                         paquete: paquete,
