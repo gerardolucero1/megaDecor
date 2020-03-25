@@ -2273,7 +2273,19 @@ padding: 0;
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
                         'success'
-                        ) 
+                        ) ;
+                        this.paqueteEdicion.externo = '';
+                this.paqueteEdicion.imagen = '';
+                this.paqueteEdicion.servicio = '';
+                this.paqueteEdicion.cantidad = '';
+                this.paqueteEdicion.precioUnitario = '';
+                this.paqueteEdicion.precioFinal = '';
+                this.paqueteEdicion.ahorro = '';
+                this.paqueteEdicion.notas = '';
+                this.paqueteEdicion.paquete = '';
+                this.paqueteEdicion.tipo = '';
+                this.paqueteEdicion.id = '';
+                this.indicePaqueteEdicion = '';
                 }
 
             },
