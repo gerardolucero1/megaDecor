@@ -2259,7 +2259,7 @@ padding: 0;
                         cantidad: 1,
                         precioUnitario: this.precioSugerido,
                         precioFinal: this.precioSugerido,
-                        precioAnterior: this.precioSugerido,
+                        precioAnterior: '0',
                         ahorro: '0',
                         notas: '',
                         paquete: paquete,
@@ -2605,6 +2605,7 @@ padding: 0;
                     this.cantidad_disponible = response.data;
                     
                 if(producto.anidado){
+                    this.precioSugerido = producto.precioUnitatrio;
                     let producto_anidado = {
                         'externo': false,
                         'imagen': producto.imagen,
@@ -2666,8 +2667,8 @@ padding: 0;
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioUnitario;
+                this.paquete.precioAnterior = producto.precioUnitario;
                 this.paquete.precioVenta = producto.PrecioVenta;
-                this.precioSugerido = producto.precioUnitatrio;
                 this.paquete.guardarPaquete = false;
                 this.paquete.categoria = 'Anidado';
 
