@@ -75,7 +75,6 @@ padding: 0;
                         <th scope="col">Imagen</th>
                         <th scope="col">Servicio</th>
                         <th scope="col">Cantidad</th>
-                        <th scope="col">Precio Unitario</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -87,7 +86,6 @@ padding: 0;
                         </td>
                         <td>{{ item.servicio }}</td>
                         <td>{{ item.cantidad }}</td>
-                        <td>{{ item.precioUnitario }}</td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
@@ -177,6 +175,8 @@ export default {
         guardarProductos(){
             let URL = '/inventario/anidados/' + this.producto
             axios.post(URL, this.inventarioLocal).then((response => {
+                    
+
 
             })).catch((error) => {
                 console.log(error)
