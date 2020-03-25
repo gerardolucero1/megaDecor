@@ -2240,10 +2240,6 @@ padding: 0;
             },
             guardarPaquete(){
                 let count;
-                
-                console.log(this.precioSugerido);
-                console.log(this.paquete.precioFinal);
-                console.log(this.paquete.imagen);
 
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -2255,7 +2251,7 @@ padding: 0;
                         )
                 }else{
                     let paquete = JSON.parse( JSON.stringify(this.paquete) );
-
+                    console.log(this.paquete.precioFinal);
                     this.inventarioLocal.push({
                         externo: false,
                         imagen: this.paquete.imagen,
