@@ -244,8 +244,6 @@
                                     @endif
                                     @if($permisos->ventas==1)
                                     <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Ventas</span></a>@endif
-
-                                    <a class="nav-menu" href="{{ route('index.ventas') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Cotizador</span></a>
                                     <!--
                                     <a class="nav-menu" href="{{ route('inventario') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Inventario</span></a>
                                     -->

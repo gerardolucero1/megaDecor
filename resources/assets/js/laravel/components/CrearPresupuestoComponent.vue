@@ -1586,6 +1586,7 @@ padding: 0;
                     precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
+                    imagen:'',
                     inventario: [],
                 },
                 precioSugerido: 0,
@@ -2253,7 +2254,7 @@ padding: 0;
 
                     this.inventarioLocal.push({
                         externo: false,
-                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        imagen: this.paquete.imagen,
                         servicio: this.paquete.servicio,
                         cantidad: 1,
                         precioUnitario: this.precioSugerido,
@@ -2649,11 +2650,12 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
-                this.paquete.servicio = producto.servicio
-                this.paquete.precioFinal = 0
-                this.paquete.precioVenta = 0
-                this.paquete.guardarPaquete = false
-                this.paquete.categoria = 'Anidado'
+                this.paquete.imagen = producto.imagen;
+                this.paquete.servicio = producto.servicio;
+                this.paquete.precioFinal = producto.precioVenta;
+                this.paquete.precioVenta = producto.PrecioVenta;
+                this.paquete.guardarPaquete = false;
+                this.paquete.categoria = 'Anidado';
 
 
 
