@@ -2241,6 +2241,9 @@ padding: 0;
             guardarPaquete(){
                 let count;
                 
+                console.log(this.precioSugerido);
+                console.log(this.paquete.precioUnitario);
+
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
