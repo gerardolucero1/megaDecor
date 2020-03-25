@@ -2269,18 +2269,19 @@ padding: 0;
                         precioAnterior: this.precioSugerido,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
-                    Swal.fire(
-                        'Listo!',
-                        'Paquete agregado con exito a presupuesto',
-                        'success'
-                        ) ;
-                this.paquete.externo = '';
+                    this.paquete.externo = '';
                 this.paquete.imagen = '';
                 this.paquete.servicio = '';
                 this.paquete.cantidad = '';
                 this.paquete.precioUnitario = '';
                 this.paquete.precioFinal = '';
                 this.paquete.ahorro = '';
+                    Swal.fire(
+                        'Listo!',
+                        'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) ;
+                
                 }
 
             },
