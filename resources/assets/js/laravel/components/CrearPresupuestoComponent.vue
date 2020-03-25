@@ -2269,6 +2269,7 @@ padding: 0;
                         precioAnterior: this.precioSugerido,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
+                    this.limpiar=true;
                     this.paquete.externo = '';
                 this.paquete.imagen = '';
                 this.paquete.servicio = '';
