@@ -226,6 +226,7 @@ class InventoryController extends Controller
             $nested = new Nested();
             $nested->inventory_id = $id;
             $nested->product_id = $item->id;
+            $nested->cantidad = $item->cantidad;
             $nested->save();
         }
         return;

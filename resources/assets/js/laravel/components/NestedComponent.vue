@@ -151,7 +151,8 @@ export default {
                         return (indice == index);
                     });
             producto.cantidad = this.cantidadActualizada;
-            alert(producto.servicio);
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
         },
         obtenerInventario(){
             let URL = '/obtener-inventario';
