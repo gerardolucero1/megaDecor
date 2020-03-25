@@ -2612,6 +2612,7 @@ padding: 0;
                         'cantidad': '1',
                         'precioUnitario': producto.precioUnitario,
                         'precioFinal': producto.precioUnitario,
+                        'precioAnterior':producto.precioUnitario,
                         'ahorro': '0',
                         'notas': '-',
                         'paquete': '',
@@ -2621,7 +2622,7 @@ padding: 0;
                         'precioVenta': producto.precioVenta,
                         'proveedor': '',
                         'precioEspecial': producto.precioUnitario,
-                        'precioAnterior': producto.precioUnitario,
+                        
                     }
 
                     this.obtenerNesteds(producto_anidado)
