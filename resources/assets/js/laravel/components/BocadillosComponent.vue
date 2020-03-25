@@ -104,7 +104,7 @@
                 <td>$0.00 </td>
                 </tr>
                 <tr>
-                <td style="font-weight:bold">Descuento General: </td>
+                <td style="font-weight:bold">Descuento General: $</td>
                 <td><input type="text" value="0"> </td>
                 </tr>
                 
@@ -112,34 +112,32 @@
                 </table>
             </div>
             <div class="col-md-5">
-                <table style="width:100%; text-align:center; font-size:12px; border:solid">
-                    <tr  style="color:white; background:#FE6E4F">
-                        <th>CANT</th>
-                        <th>TOTAL DE BOCADILLOS</th>
-                        <th>PRECIO PAQUETE</th>
+
+                <table class="table table-hover" style="font-size:12px">
+                <thead>
+                    <tr style="color:white; background:#FE6E4F">
+                        <th scope="col" @click="demo()">#</th>
+                        <th scope="col">CANT</th>
+                        <th scope="col">TOTAL DE BOCADILLOS</th>
+                        <th scope="col">PRECIO PAQUETE</th>
                     </tr>
-                    <tr>
-                        <td><input type="text" v-model="cantBolasNuez" style="text-align:center"></td>
-                        <td><input type="text" :value="cantBolasNuez*bolitasNuez" style="text-align:center"></td>
-                        <td><input type="text" :value="cantBolasNuez*bolitasNuez*precioBolasNuez" style="text-align:center"></td>
+                </thead>
+                <tbody v-if="inventarioLocal.length != 0">
+                    <tr v-for="(item, index) in inventarioLocal" :key="index">
+                        <th scope="row">{{ index }}</th>
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <td>
+                           <button @click="eliminarProducto(index)" style="background:red"><i class="fa fa-remove" style="color:white"></i></button> 
+                        </td>
                     </tr>
-                    <tr>
-                        <td><input type="text" v-model="cantVolovan" style="text-align:center"></td>
-                        <td><input type="text" :value="cantVolovan*volovan" style="text-align:center"></td>
-                        <td><input type="text" :value="cantVolovan*volovan*precioVolovan" style="text-align:center"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" v-model="cantBrochetasQueso" style="text-align:center"></td>
-                        <td><input type="text" :value="cantBrochetasQueso*brochetasQueso" style="text-align:center"></td>
-                        <td><input type="text" :value="cantBrochetasQueso*brochetasQueso*precioBrochetasQueso" style="text-align:center"></td>
-                    </tr>
-                    <tr style="background:orange; color:white">
-                        <td>TOTAL:</td>
-                        <td><input type="text" style="text-align:center" :value="(cantBrochetasQueso*brochetasQueso)+(cantVolovan*volovan)+(cantBolasNuez*bolitasNuez)"></td>
-                        <td><input type="text" style="text-align:center" :value="(cantBrochetasQueso*brochetasQueso*precioBrochetasQueso)+(cantVolovan*volovan*precioVolovan)+(cantBolasNuez*bolitasNuez*precioBolasNuez)"></td>
-                    </tr>
-                </table>
-            
+                </tbody>
+            </table>
+
+
             </div>
         </div>
     </section>
