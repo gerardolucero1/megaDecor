@@ -153,6 +153,7 @@ export default {
             producto.cantidad = this.cantidadActualizada;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
+            this.key= '';
         },
         obtenerInventario(){
             let URL = '/obtener-inventario';
