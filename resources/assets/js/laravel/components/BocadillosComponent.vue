@@ -65,13 +65,15 @@
                         <th scope="col">POSTRE</th>
                         <th scope="col">BOCADILLOS POR MESA</th>
                         <th scope="col">PRECIO PAQUETE</th>
+                        <th scope="col">#</th>
+                        
                     </tr>
                 </thead>
                 <tbody v-if="inventarioLocal.length != 0">
                     <tr v-for="(item, index) in inventarioLocal" :key="index">
                         <th scope="row">{{ index }}</th>
                         <td>
-                            <img :src="item.imagen" width="100px" alt="">
+                            <img :src="item.imagen" width="60px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
@@ -80,7 +82,7 @@
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         <td>
-                           <button @click="eliminarProducto(index)"><i class="fa fa-remove" style="background:red"></i></button> 
+                           <button @click="eliminarProducto(index)" style="background:red"><i class="fa fa-remove" style="color:white"></i></button> 
                         </td>
                     </tr>
                 </tbody>
