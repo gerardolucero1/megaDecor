@@ -2242,7 +2242,7 @@ padding: 0;
                 let count;
                 
                 console.log(this.precioSugerido);
-                console.log(this.paquete.precioUnitario);
+                console.log(this.paquete.precioFinal);
                 console.log(this.paquete.imagen);
 
                 if(this.inventarioLocal.some((element) => {
@@ -2261,8 +2261,8 @@ padding: 0;
                         imagen: this.paquete.imagen,
                         servicio: this.paquete.servicio,
                         cantidad: 1,
-                        precioUnitario: this.precioSugerido,
-                        precioFinal: this.precioSugerido,
+                        precioUnitario: this.paquete.precioFinal,
+                        precioFinal: this.paquete.precioFinal,
                         precioAnterior: '0',
                         ahorro: '0',
                         notas: '',
@@ -2270,8 +2270,8 @@ padding: 0;
                         tipo: 'PAQUETE',
                         id: '',
                         precioVenta: this.costoProveedor,
-                        precioEspecial: this.precioSugerido,
-                        precioAnterior: this.precioSugerido,
+                        precioEspecial: this.paquete.precioFinal,
+                        precioAnterior: this.paquete.precioFinal,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
                     
@@ -2609,8 +2609,7 @@ padding: 0;
                     this.cantidad_disponible = response.data;
                     
                 if(producto.anidado){
-                    console.log(producto.precioUnitatio);
-                    console.log(producto.servicio);
+                    
                     this.precioSugerido = producto.precioUnitatrio;
                     let producto_anidado = {
                         'externo': false,
@@ -2670,8 +2669,8 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
-                console.log(producto.servicio);
-                console.log(producto.precioUnitario);
+               
+             
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioUnitario;
@@ -2680,7 +2679,7 @@ padding: 0;
                 this.paquete.guardarPaquete = false;
                 this.paquete.categoria = 'Anidado';
 
-
+                console.log(paquete.precioAnterior);
 
                 let URL = '/obtener-nesteds/' + producto.id
 
