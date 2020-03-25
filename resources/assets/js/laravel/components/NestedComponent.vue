@@ -86,7 +86,7 @@ padding: 0;
                         </td>
                         <td>{{ item.servicio }}</td>
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ item.cantidad }}</span></td>
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
@@ -123,8 +123,8 @@ export default {
             inventario: [],
             inventarioLocal: [],
             cantidadActualizada:1,
-            indice:0,
-            key:0,
+            indice:'',
+            key:'',
         }
     },
 
