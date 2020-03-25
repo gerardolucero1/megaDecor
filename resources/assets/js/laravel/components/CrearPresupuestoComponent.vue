@@ -2270,16 +2270,14 @@ padding: 0;
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
                     
-                    this.paquete.externo = '';
+                this.paquete.externo = '';
                 this.paquete.imagen = '';
                 this.paquete.servicio = '';
                 this.paquete.cantidad = '';
                 this.paquete.precioUnitario = '';
                 this.paquete.precioFinal = '';
                 this.paquete.ahorro = '';
-                setTimeout(() => {
-                    this.limpiar = false;
-                }, 1000);
+                this.paquete.inventario= '';
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
