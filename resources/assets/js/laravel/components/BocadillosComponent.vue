@@ -59,8 +59,8 @@
 
         <table class="table table-hover">
                 <thead>
-                    <tr>
-                        <th scope="col" @click="demo()">IMAGEN</th>
+                    <tr style="color:white; background:#FE6E4F">
+                        <th scope="col" @click="demo()">#</th>
                         <th scope="col">IMAGEN</th>
                         <th scope="col">POSTRE</th>
                         <th scope="col">BOCADILLOS POR MESA</th>
@@ -77,7 +77,10 @@
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         <td>
-                           <button @click="eliminarProducto(index)">Eliminar</button> 
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <td>
+                           <button @click="eliminarProducto(index)"><i class="fa fa-remove" style="background:red"></i></button> 
                         </td>
                     </tr>
                 </tbody>
@@ -98,6 +101,11 @@
                 <td>Platos (desechables): </td>
                 <td>$0.00 </td>
                 </tr>
+                <tr>
+                <td style="font-weight:bold">Descuento General: </td>
+                <td><input type="text" value="0"> </td>
+                </tr>
+                
                     
                 </table>
             </div>
