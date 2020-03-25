@@ -241,6 +241,8 @@ class InventoryController extends Controller
             $nested = new Nested();
             $nested->servicio = $product->servicio;
             $nested->id = $product->id;
+            $nested->precioUnitario = $product->precioUnitario;
+            $nested->precioVenta = $product->precioVenta;
             $nested->imagen = $product->imagen;
             $nested->cantidad = $item->cantidad;
 
