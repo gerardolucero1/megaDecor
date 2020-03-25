@@ -2269,7 +2269,7 @@ padding: 0;
                         precioAnterior: this.precioSugerido,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
-                    this.limpiar=true;
+                    
                     this.paquete.externo = '';
                 this.paquete.imagen = '';
                 this.paquete.servicio = '';
@@ -2277,6 +2277,9 @@ padding: 0;
                 this.paquete.precioUnitario = '';
                 this.paquete.precioFinal = '';
                 this.paquete.ahorro = '';
+                setTimeout(() => {
+                    this.limpiar = false;
+                }, 1000);
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
