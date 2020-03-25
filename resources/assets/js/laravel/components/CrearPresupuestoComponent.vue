@@ -2243,6 +2243,7 @@ padding: 0;
                 
                 console.log(this.precioSugerido);
                 console.log(this.paquete.precioUnitario);
+                console.log(this.paquete.imagen);
 
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
@@ -2608,6 +2609,8 @@ padding: 0;
                     this.cantidad_disponible = response.data;
                     
                 if(producto.anidado){
+                    console.log(producto.precioUnitatio);
+                    console.log(producto.servicio);
                     this.precioSugerido = producto.precioUnitatrio;
                     let producto_anidado = {
                         'externo': false,
@@ -2616,7 +2619,7 @@ padding: 0;
                         'cantidad': '1',
                         'precioUnitario': producto.precioUnitario,
                         'precioFinal': producto.precioUnitario,
-                        'precioAnterior':producto.precioUnitario,
+                        'precioAnterior': producto.precioUnitario,
                         'ahorro': '0',
                         'notas': '-',
                         'paquete': '',
@@ -2667,6 +2670,8 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
+                console.log(producto.servicio);
+                console.log(producto.precioUnitario);
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioUnitario;
