@@ -26,29 +26,65 @@
                 </table>
             </div>
             <div class="col-md-7">
-                <table style="width:100%; text-align:center; font-size:12px; border:solid">
-                    <tr style="color:white; background:#FE6E4F">
-                        <th>POSTRE</th>
-                        <th>BOCADILLOS POR MESA</th>
-                        <th>PRECIO PAQUETE</th>
-                    </tr>
-                    
+            <div class="col-md-12">
+            <buscador-component
+                :limpiar="limpiar"
+                placeholder="Buscar Productos"
+                event-name="results"
+                :list="inventario"
+                :keys="['servicio', 'id', 'familia']"
+            ></buscador-component>
+
+            <!-- Resultado Busqueda items -->
+            <div class="row" v-if="results.length < inventario.length">
+                <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
+                    <div class="list-group" v-for="producto in results.slice(0,40)" :key="producto.id">
+                        <div class="row contenedor-producto" style="cursor:auto;" >
+                            <div class="col-md-3" >
+                                <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
+                            </div>
+                            <div class="col-md-7">
+                                <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
+                                <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
+                                <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
+                                <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> En Bodega: {{ producto.cantidad }} <span>Exhibición: {{producto.exhibicion}}</span></p>
+                            </div>
+                            <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>Bolitas de nuez (min 40)</td>
-                        <td><input type="text" v-model="bolitasNuez" value="0" style="text-align:center"></td>
-                        <td><input type="text" v-model="precioBolasNuez" style="text-align:center"></td>
+                        <th scope="col" @click="demo()">IMAGEN</th>
+                        <th scope="col">IMAGEN</th>
+                        <th scope="col">POSTRE</th>
+                        <th scope="col">BOCADILLOS POR MESA</th>
+                        <th scope="col">PRECIO PAQUETE</th>
                     </tr>
-                    <tr>
-                        <td>VOLOVANES DE POLLOa la crema y pizca de chipotle  (charola 30 pz)</td>
-                        <td><input type="text" v-model="volovan" value="0" style="text-align:center"></td>
-                        <td><input type="text" v-model="precioVolovan" style="text-align:center"></td>
+                </thead>
+                <tbody v-if="inventarioLocal.length != 0">
+                    <tr v-for="(item, index) in inventarioLocal" :key="index">
+                        <th scope="row">{{ index }}</th>
+                        <td>
+                            <img :src="item.imagen" width="100px" alt="">
+                        </td>
+                        <td>{{ item.servicio }}</td>
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <td>
+                           <button @click="eliminarProducto(index)">Eliminar</button> 
+                        </td>
                     </tr>
-                    <tr>
-                        <td>BROCHETAS DE MELON, QUESO Y JAMONCLLO MIN 16 PZ)</td>
-                        <td><input type="text" v-model="brochetasQueso" value="0" style="text-align:center"></td>
-                        <td><input type="text" v-model="precioBrochetasQueso" style="text-align:center"></td>
-                    </tr>
-                </table>
+                </tbody>
+            </table>
+
+
+                
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
@@ -100,38 +136,113 @@
 </template>
 
 <script>
+import BuscadorComponent from './BuscadorComponent.vue';
+
 export default {
-    name: 'Bocadillos',
+    name: 'Nested',
+
+    props: [
+        'producto'
+    ],
+
+    components: {
+        BuscadorComponent,
+    },
 
     data(){
         return{
-            personas:0,
-            bocadillos:0,
-            servilletas:0,
-            platoPastelero:0,
-            bolitasNuez:0,
-            precioBolasNuez:9,
-            cantBolasNuez:0,
-            volovan:0,
-            precioVolovan:360,
-            cantVolovan:0,
-            brochetasQueso:0,
-            cantBrochetasQueso:0,
-            precioBrochetasQueso:10,
+            //Buscador
+            limpiar: false,
+            results: [],
 
+            //Inventario de productos
+            inventario: [],
+            inventarioLocal: [],
+            cantidadActualizada:1,
+            indice:'',
+            key:'',
         }
     },
 
     created(){
-        
-    },
+        this.obtenerInventario()
+        this.obtenerNesteds()
 
-    computed:{
-
+        this.$on('results', results => {
+            this.results = results
+        })
     },
 
     methods: {
+        editarCantidad(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[1];
+                    console.log(index);
+                    console.log(key[1]);
+                       
+                },
+        updateCantidad(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+            producto.cantidad = this.cantidadActualizada;
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
+            this.key= '';
+        },
+        obtenerInventario(){
+            let URL = '/obtener-inventario';
 
+            axios.get(URL).then((response) => {
+                this.inventario = response.data;
+            }).catch((error) => {
+                console.log(error.data);
+            });
+        
+        },
+
+        obtenerNesteds(){
+            let URL = '/obtener-nesteds/' + this.producto
+
+            axios.get(URL).then((response) => {
+                response.data.forEach((doc) => {
+                    this.inventarioLocal.push(doc)
+                })
+            }).catch((error) => {
+
+            })
+        },
+
+        agregarProducto(producto){
+            console.log(producto)
+
+            this.limpiar = true;
+            this.inventarioLocal.push(producto);
+
+            setTimeout(() => {
+                this.limpiar = false;
+            }, 1000);
+        },
+
+        eliminarProducto(index){
+            this.inventarioLocal.splice(index, 1)
+        },
+
+        guardarProductos(){
+            let URL = '/inventario/anidados/' + this.producto
+            axios.post(URL, this.inventarioLocal).then((response => {
+                    
+                Swal.fire(
+                    'Guardado con exito!',
+                    'Se han guardado los productos del servicio con exito',
+                    'success'
+                )
+
+            })).catch((error) => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>
