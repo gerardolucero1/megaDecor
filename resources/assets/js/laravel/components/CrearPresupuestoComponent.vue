@@ -1308,7 +1308,7 @@ padding: 0;
                                                 </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar 2</div>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -2274,18 +2274,13 @@ padding: 0;
                         'Paquete agregado con exito a presupuesto',
                         'success'
                         ) ;
-                        this.paqueteEdicion.externo = '';
-                this.paqueteEdicion.imagen = '';
-                this.paqueteEdicion.servicio = '';
-                this.paqueteEdicion.cantidad = '';
-                this.paqueteEdicion.precioUnitario = '';
-                this.paqueteEdicion.precioFinal = '';
-                this.paqueteEdicion.ahorro = '';
-                this.paqueteEdicion.notas = '';
-                this.paqueteEdicion.paquete = '';
-                this.paqueteEdicion.tipo = '';
-                this.paqueteEdicion.id = '';
-                this.indicePaqueteEdicion = '';
+                this.paquete.externo = '';
+                this.paquete.imagen = '';
+                this.paquete.servicio = '';
+                this.paquete.cantidad = '';
+                this.paquete.precioUnitario = '';
+                this.paquete.precioFinal = '';
+                this.paquete.ahorro = '';
                 }
 
             },
