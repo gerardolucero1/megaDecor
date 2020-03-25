@@ -2654,6 +2654,7 @@ padding: 0;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioVenta;
                 this.paquete.precioVenta = producto.PrecioVenta;
+                this.precioSugerido = producto.precioVenta;
                 this.paquete.guardarPaquete = false;
                 this.paquete.categoria = 'Anidado';
 
