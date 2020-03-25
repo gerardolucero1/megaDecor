@@ -2660,9 +2660,9 @@ padding: 0;
             obtenerNesteds(producto){
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
-                this.paquete.precioFinal = producto.precioVenta;
+                this.paquete.precioFinal = producto.precioUnitario;
                 this.paquete.precioVenta = producto.PrecioVenta;
-                this.precioSugerido = producto.precioVenta;
+                this.precioSugerido = producto.precioUnitatrio;
                 this.paquete.guardarPaquete = false;
                 this.paquete.categoria = 'Anidado';
 
