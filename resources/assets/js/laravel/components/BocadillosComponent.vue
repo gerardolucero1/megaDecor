@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <table class="table table-hover">
+        <table class="table table-hover" style="font-size:12px">
                 <thead>
                     <tr style="color:white; background:#FE6E4F">
                         <th scope="col" @click="demo()">#</th>
