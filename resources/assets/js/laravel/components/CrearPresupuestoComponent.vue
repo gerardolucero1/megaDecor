@@ -2277,7 +2277,8 @@ padding: 0;
                 this.paquete.precioUnitario = '';
                 this.paquete.precioFinal = '';
                 this.paquete.ahorro = '';
-                this.paquete.inventario= '';
+                this.paquete.inventario= [];
+                
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
