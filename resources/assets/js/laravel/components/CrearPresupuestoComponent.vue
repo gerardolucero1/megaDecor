@@ -2240,7 +2240,7 @@ padding: 0;
             },
             guardarPaquete(){
                 let count;
-
+                
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
@@ -2251,14 +2251,14 @@ padding: 0;
                         )
                 }else{
                     let paquete = JSON.parse( JSON.stringify(this.paquete) );
-                    console.log(this.paquete.precioFinal);
+
                     this.inventarioLocal.push({
                         externo: false,
                         imagen: this.paquete.imagen,
                         servicio: this.paquete.servicio,
                         cantidad: 1,
-                        precioUnitario: this.paquete.precioFinal,
-                        precioFinal: this.paquete.precioFinal,
+                        precioUnitario: this.precioSugerido,
+                        precioFinal: this.precioSugerido,
                         precioAnterior: '0',
                         ahorro: '0',
                         notas: '',
@@ -2266,8 +2266,8 @@ padding: 0;
                         tipo: 'PAQUETE',
                         id: '',
                         precioVenta: this.costoProveedor,
-                        precioEspecial: this.paquete.precioFinal,
-                        precioAnterior: this.paquete.precioFinal,
+                        precioEspecial: this.precioSugerido,
+                        precioAnterior: this.precioSugerido,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
                     
@@ -2605,8 +2605,6 @@ padding: 0;
                     this.cantidad_disponible = response.data;
                     
                 if(producto.anidado){
-                    
-                    this.precioSugerido = producto.precioUnitatrio;
                     let producto_anidado = {
                         'externo': false,
                         'imagen': producto.imagen,
@@ -2614,7 +2612,7 @@ padding: 0;
                         'cantidad': '1',
                         'precioUnitario': producto.precioUnitario,
                         'precioFinal': producto.precioUnitario,
-                        'precioAnterior': producto.precioUnitario,
+                        'precioAnterior':producto.precioUnitario,
                         'ahorro': '0',
                         'notas': '-',
                         'paquete': '',
@@ -2665,8 +2663,6 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
-               
-             
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioUnitario;
@@ -2675,7 +2671,7 @@ padding: 0;
                 this.paquete.guardarPaquete = false;
                 this.paquete.categoria = 'Anidado';
 
-                console.log(paquete.precioAnterior);
+
 
                 let URL = '/obtener-nesteds/' + producto.id
 
