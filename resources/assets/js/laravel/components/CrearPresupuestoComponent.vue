@@ -2279,7 +2279,7 @@ padding: 0;
                 this.paquete.precioFinal = '';
                 this.paquete.ahorro = '';
                 this.paquete.inventario= [];
-                
+                $('#agregarPaquete').modal('hide');
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
