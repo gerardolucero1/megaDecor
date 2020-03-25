@@ -85,7 +85,8 @@ padding: 0;
                             <img :src="item.imagen" width="100px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
-                        <td><input v-on:change="updateCantidad(index)" v-model="cantidadActualizada"></td>
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span></span>{{ item.cantidad }}</td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
