@@ -2251,7 +2251,7 @@ padding: 0;
                         )
                 }else{
                     let paquete = JSON.parse( JSON.stringify(this.paquete) );
-
+                    
                     this.inventarioLocal.push({
                         externo: false,
                         imagen: this.paquete.imagen,
@@ -2663,6 +2663,7 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
+                this.precioSugerido = producto.precioUnitario;
                 this.paquete.imagen = producto.imagen;
                 this.paquete.servicio = producto.servicio;
                 this.paquete.precioFinal = producto.precioUnitario;
