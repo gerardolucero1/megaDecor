@@ -85,7 +85,7 @@ padding: 0;
                             <img :src="item.imagen" width="100px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
-                        <td>{{ item.cantidad }}</td>
+                        <td><input v-on:change="updateCantidad(index)" v-model="cantidadActualizada"></td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
@@ -121,6 +121,7 @@ export default {
             //Inventario de productos
             inventario: [],
             inventarioLocal: [],
+            cantidadActualizada:1,
         }
     },
 
@@ -134,6 +135,13 @@ export default {
     },
 
     methods: {
+        updateCantidad(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+            producto.cantidad = this.cantidadActualizada;
+            alert(producto.servicio);
+        },
         obtenerInventario(){
             let URL = '/obtener-inventario';
 
@@ -176,7 +184,11 @@ export default {
             let URL = '/inventario/anidados/' + this.producto
             axios.post(URL, this.inventarioLocal).then((response => {
                     
-
+                Swal.fire(
+                    'Guardado con exito!',
+                    'Se han guardado los productos del servicio con exito',
+                    'success'
+                )
 
             })).catch((error) => {
                 console.log(error)
