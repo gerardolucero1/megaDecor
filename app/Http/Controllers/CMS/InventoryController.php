@@ -238,7 +238,13 @@ class InventoryController extends Controller
         $inventario = [];
         foreach ($nesteds as $item) {
             $product = Inventory::where('id', $item->product_id)->first();
-            array_push($inventario, $product);
+            $nested = new Nested();
+            $nested->servicio = $product->servicio;
+            $nested->id = $product->id;
+            $nested->imagen = $product->imagen;
+            $nested->cantidad = $item->cantidad;
+
+            array_push($inventario, $nested);
         }
 
         return $inventario;
