@@ -328,10 +328,11 @@ class InventoryController extends Controller
             }
         }
         $familia = $request->familia;
+        $faltantes = $request->faltantes;
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia', 'faltantes'));
 
         return $pdf->stream();
 
@@ -342,10 +343,11 @@ class InventoryController extends Controller
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
         $familia = $request->familia;
+        $faltantes = $request->faltantes;
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia', 'faltantes'));
 
         return $pdf->stream();
 

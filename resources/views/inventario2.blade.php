@@ -125,6 +125,7 @@
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
                                     <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                    <input type="hidden" name="faltante" value="no">
                                 @endif
 
                                 @method('POST')
@@ -132,21 +133,39 @@
                         @if(isset($familiaSeleccionada))
                             <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>
                         @endif  
-                        </form> 
+                        </form>
+                        
+                        
 
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                <input type="hidden" name="faltante" value="no">
                             @endif
 
                             @method('POST')
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            Impresion <li class="fa fa-print"></li>
+                            Impresion (Todos) <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
+
+                    <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="si">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion (Solo Faltantes) <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
                        
                     </div>
                 </div>
@@ -246,8 +265,8 @@
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
-                                    <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
-                                    <button class="btn btn-sm btn-primary"  @if($servicioDatos->diferencia) @else disabled @endif>Faltante</button>
+                                    <input style="display:none" type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
+                                    <button class="btn btn-sm btn-primary"  @if($servicioDatos->diferencia) @else disabled @endif onclick="cambiarDiferencia({{$inventario->id}})">Faltante</button>
                                     <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                 </td>
                             </tr>
