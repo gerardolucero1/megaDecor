@@ -247,6 +247,7 @@
                                   
                                         
                                     <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
+                                    <button class="btn btn-sm btn-primary"  @if($servicioDatos->diferencia) @else disabled @endif>Faltante</button>
                                     <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                 </td>
                             </tr>
