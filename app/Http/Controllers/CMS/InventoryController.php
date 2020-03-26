@@ -329,6 +329,7 @@ class InventoryController extends Controller
         }
         $familia = $request->familia;
         $faltantes = $request->faltantes;
+        dd($faltantes);
 
         $pdf = App::make('dompdf');
 
