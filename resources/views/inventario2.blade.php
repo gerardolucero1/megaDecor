@@ -266,7 +266,7 @@
                                   
                                         
                                     <input style="display:none" type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
-                                    <button class="btn btn-sm btn-primary"  @if($servicioDatos->diferencia) @else disabled @endif onclick="cambiarDiferencia({{$inventario->id}})">Faltante</button>
+                                    <button class="btn btn-sm btn-primary" id="btnDiferencia{{$inventario->id}}"  @if($servicioDatos->diferencia) @else style="background:red" @endif onclick="cambiarDiferencia({{$inventario->id}})">Faltante</button>
                                     <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                 </td>
                             </tr>
@@ -574,6 +574,7 @@ td.innerHTML = nuevaCantidad;
         }
 
         function cambiarDiferencia(id){
+            document.getElementById('btnDiferencia'+id).style.background="red";
             console.log(id)
             let URL = 'registrar-diferencia/' + id
 
