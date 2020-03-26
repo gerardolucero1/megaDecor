@@ -9,7 +9,7 @@ use Carbon\Carbon;
     $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
 @endphp
-<p>Inventario Impreso {{$fechaHoy}}</p>
+<p>Inventario Impreso {{$fechaHoy}} {{$faltantes}}</p>
 <table style="border-width: 1px; width:100%; text-align:center">
     <tr style=" font-size: 12px">
       <th style="padding:4px">Imagen</th> 
@@ -85,9 +85,7 @@ use Carbon\Carbon;
   <tr>
     <td colspan="2"><br><span style="font-style: italic">Acepto que esta es la cantidad recibida al: ______________________</span></td>
   </tr>
-  <tr>
-    <td colspan="2" style="font-style: italic">Acepto que estas son las cantidades del inventario recibido</td>
-  </tr>
+  
   <tr style="text-align: center;">
     <td><br><br>_____________________________<br>Firma de inventario recibido por:<br>_______________________</td>
   </tr>
