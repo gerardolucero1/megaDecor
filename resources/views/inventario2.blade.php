@@ -574,7 +574,13 @@ td.innerHTML = nuevaCantidad;
         }
 
         function cambiarDiferencia(id){
-            document.getElementById('btnDiferencia'+id).style.background="red";
+           let color = document.getElementById('btnDiferencia'+id).style.background;
+            if(color=='red'){
+                document.getElementById('btnDiferencia'+id).style.background="#3f9ce8";
+            }else{
+                document.getElementById('btnDiferencia'+id).style.background="red";
+            }
+           
             console.log(id)
             let URL = 'registrar-diferencia/' + id
 
