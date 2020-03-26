@@ -328,7 +328,7 @@ class InventoryController extends Controller
             }
         }
         $familia = $request->familia;
-        $faltantes = $request->faltantes;
+        $faltantes = $request->faltante;
         dd($faltantes);
 
         $pdf = App::make('dompdf');
@@ -344,7 +344,7 @@ class InventoryController extends Controller
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
         $familia = $request->familia;
-        $faltantes = $request->faltantes;
+        $faltantes = $request->faltante;
         dd($faltantes);
 
         $pdf = App::make('dompdf');
