@@ -102,8 +102,10 @@
                         </div>
                     </div>
                     @php
-                            $usuario = Auth::user()->id;    
+                            $usuario = Auth::user()->id; 
+                            if(isset($familiaSeleccionada)){ 
                             $ultimoInventario =  App\Register::orderBy('id', 'ASC')->where('motivo', $familiaSeleccionada)->first();
+                            }
                     @endphp
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
