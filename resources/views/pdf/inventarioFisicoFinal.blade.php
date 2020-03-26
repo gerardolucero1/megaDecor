@@ -75,16 +75,16 @@ use Carbon\Carbon;
 
 <table style="width: 100%; margin-top: 20px">
   <tr style="text-align: center">
-    <td>_______________________<br>Firma Aaron Bodega</td>
+    <td>_______________________<br>Firma de inventario entregado por:<br>_______________________</td>
     <td>_______________________<br>Ivonne C. Arroyos P.</td>
+  </tr>
+  <tr>
+    <td colspan="2"><br><span style="font-style: italic">Acepto que esta es la cantidad entregada al: ______________________</span></td>
   </tr>
   <tr>
     <td colspan="2" style="font-style: italic">Acepto que estas son las cantidades que e contado fisicamente en persona y acepto mis faltantes</td>
   </tr>
  
-  <tr>
-    <td colspan="2"><br><span style="font-style: italic">Acepto que esta es la cantidad recibida al: ______________________</span></td>
-  </tr>
   
   <tr style="text-align: center;">
     <td><br><br>_____________________________<br>Firma de inventario recibido por:<br>_______________________</td>

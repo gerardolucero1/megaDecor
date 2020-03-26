@@ -297,7 +297,16 @@ class InventoryController extends Controller
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
-            
+
+            $adjustment = new Register();
+            $adjustment->tipo = 'INVENTARIO';
+            $adjustment->motivo = $request->familia;
+            $adjustment->cantidad = 0;
+            $adjustment->producto = 0;
+            $adjustment->user_id = Auth::user()->id;
+            $adjustment->save();
+
+    /*
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
@@ -326,6 +335,7 @@ class InventoryController extends Controller
                     $product->save();
                 }
             }
+            */
         }
         $familia = $request->familia;
         $faltantes = $request->faltante;

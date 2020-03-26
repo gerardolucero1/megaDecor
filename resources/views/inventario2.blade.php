@@ -67,7 +67,6 @@
                                         <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         @if(isset($familiaSeleccionada))
-                                            
                                             <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>
                                             <option value="">Todas las familias</option>    
                                         @else
@@ -104,9 +103,8 @@
                     </div>
                     @php
                             $usuario = Auth::user()->id;    
-                        @endphp 
-
-                        
+                            $ultimoInventario =  App\Register::orderBy('id', 'ASC')->where('motivo', $familiaSeleccionada)->first();
+                    @endphp
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
@@ -122,6 +120,10 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
+                        @if(isset($ultimoInventario))
+                        <p>Inventario Finalizado</p>
+                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        @else
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
                                     <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
@@ -166,6 +168,7 @@
                     </button>
                 @endif  
                 </form>
+                @endif
                        
                     </div>
                 </div>
