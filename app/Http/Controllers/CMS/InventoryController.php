@@ -329,7 +329,7 @@ class InventoryController extends Controller
         }
         $familia = $request->familia;
         $faltantes = $request->faltante;
-        dd($faltantes);
+        
 
         $pdf = App::make('dompdf');
 
@@ -345,7 +345,7 @@ class InventoryController extends Controller
         }
         $familia = $request->familia;
         $faltantes = $request->faltante;
-        dd($faltantes);
+        
 
         $pdf = App::make('dompdf');
 
