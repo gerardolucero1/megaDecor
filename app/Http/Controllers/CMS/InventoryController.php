@@ -306,7 +306,7 @@ class InventoryController extends Controller
             $adjustment->user_id = Auth::user()->id;
             $adjustment->save();
 
-    /*
+    
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
@@ -335,7 +335,7 @@ class InventoryController extends Controller
                     $product->save();
                 }
             }
-            */
+            
         }
         $familia = $request->familia;
         $faltantes = $request->faltante;

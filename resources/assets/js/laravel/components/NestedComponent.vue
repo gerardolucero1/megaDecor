@@ -182,6 +182,7 @@ export default {
             console.log(producto)
 
             this.limpiar = true;
+            producto.cantidad=1;
             this.inventarioLocal.push(producto);
 
             setTimeout(() => {
