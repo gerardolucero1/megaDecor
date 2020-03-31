@@ -14,14 +14,14 @@
                         <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Servilleta (Papel)</td>
                         <td><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero PLATO PASTELERO 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span></td>
+                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span></td>
                         <td><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
                 <table style="width:40%; margin-top:20px">
                     <tr>
                         <td>#bocadillos Restantes</td>
-                        <td><input type="text" :value="personas*bocadillos"></td>
+                        <td><input style="color:red" type="text" :value="personas*bocadillos"></td>
                     </tr>
                 </table>
             </div>
@@ -137,6 +137,11 @@
                          <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
+                    </tr>
+                    <tr style="text-align:center; color:white; background:blue; font-weight:bold">
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                     </tr>
                 </tbody>
             </table>
