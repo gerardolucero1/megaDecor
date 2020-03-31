@@ -138,7 +138,7 @@
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
-                    <tr>
+                    <tr style="color:white; background:blue;  text-align:center">
                     <td>{{calcularTotalCantidad}}</td>
                     <td></td>
                     <td></td>
@@ -192,24 +192,7 @@ export default {
         })
     },
 
-    computed:{
-        calcularTotalCantidad: function(){
-                //Arreglo javascript de objetos json
-                let json = this.inventarioLocal;
-                //convirtiendo a json
-                json = JSON.stringify(json);
-                //Convirtiendo a objeto javascript
-                let data = JSON.parse(json);
-                var suma= 0;
-                //Recorriendo el objeto
-                for(let x in data){
-                    suma += parseInt(data[x].cantidad); // Ahora que es un objeto javascript, tiene propiedades
-                }
-                
-                this.totalCantidad = suma;
-                return suma;
-            },
-    },
+    
 
 
     methods: {
