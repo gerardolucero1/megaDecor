@@ -21,7 +21,7 @@
                 <table style="width:40%; margin-top:20px">
                     <tr>
                         <td>#bocadillos Restantes</td>
-                        <td><input type="text" :value="personas*bocadillos"></td>
+                        <td><input type="text" :value="(personas*bocadillos)-totalCantidad"></td>
                     </tr>
                 </table>
             </div>
@@ -138,6 +138,12 @@
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
+                    <tr>
+                    <td>{{calcularTotalCantidad}}</td>
+                    <td></td>
+                    <td></td>
+
+                    </tr>
                 </tbody>
             </table>
 
@@ -166,6 +172,7 @@ export default {
             //Buscador
             limpiar: false,
             results: [],
+            totalCantidad: 0;
 
             //Inventario de productos
             inventario: [],
@@ -184,6 +191,26 @@ export default {
             this.results = results
         })
     },
+
+    computed:{
+        calcularTotalCantidad: function(){
+                //Arreglo javascript de objetos json
+                let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].cantidad); // Ahora que es un objeto javascript, tiene propiedades
+                }
+                
+                this.totalCantidad = suma;
+                return suma;
+            },
+    },
+
 
     methods: {
         editarCantidad(index, key){
