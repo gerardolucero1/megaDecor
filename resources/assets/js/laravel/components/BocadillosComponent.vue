@@ -10,7 +10,7 @@
                     <tr>
                         <td># Personas</td>
                         <td><input v-model="personas" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Numero de bocadillos</td>
+                        <td>Numero de bocadillos <br> {{personas*bocadillos}}</td>
                         <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Servilleta (Papel)</td>
                         <td><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
@@ -20,7 +20,7 @@
                 </table>
                 <table style="width:40%; margin-top:20px">
                     <tr>
-                        <td>#bocadillos</td>
+                        <td>#bocadillos Restantes</td>
                         <td><input type="text" :value="personas*bocadillos"></td>
                     </tr>
                 </table>
@@ -95,15 +95,19 @@
                 <td>$0.00 </td>
                 </tr>
                 <tr>
-                <td>Servilletas: </td>
+                <td>Servilletas (Papel): </td>
                 <td>$0.00 </td>
                 </tr>
                 <tr>
-                <td>Platos (desechables): </td>
+                <td>Platos: </td>
                 <td>$0.00 </td>
                 </tr>
                 <tr>
-                <td style="font-weight:bold">Descuento General: $</td>
+                <td style="font-weight:bold">Decoracion: $</td>
+                <td><input type="text" value="0"> </td>
+                </tr>
+                <tr>
+                <td style="font-weight:bold">Decoracion: $</td>
                 <td><input type="text" value="0"> </td>
                 </tr>
                 
