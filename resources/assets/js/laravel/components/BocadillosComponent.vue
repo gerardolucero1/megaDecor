@@ -12,9 +12,9 @@
                         <td><input v-model="personas" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Numero de bocadillos</td>
                         <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Servilleta</td>
+                        <td>Servilleta (Papel)</td>
                         <td><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero</td>
+                        <td>Plato Pastelero ()</td>
                         <td><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
@@ -26,7 +26,6 @@
                 </table>
             </div>
             <div class="col-md-7">
-            <div class="col-md-12">
             <buscador-component
                 :limpiar="limpiar"
                 placeholder="Buscar Productos"
@@ -34,7 +33,7 @@
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
-
+            <div class="col-md-12">
             <!-- Resultado Busqueda items -->
             <div class="row" v-if="results.length < inventario.length">
                 <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
@@ -112,7 +111,7 @@
                 </table>
             </div>
             <div class="col-md-5">
-
+                <br><br>
                 <table class="table table-hover" style="font-size:12px">
                 <thead>
                     <tr style="color:white; background:#FE6E4F">
