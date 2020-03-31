@@ -58,7 +58,7 @@
 
         <table class="table table-hover" style="font-size:12px">
                 <thead>
-                    <tr style="color:white; background:#FE6E4F">
+                    <tr style="color:white; background:blue">
                         <th scope="col" @click="demo()">#</th>
                         <th scope="col">IMAGEN</th>
                         <th scope="col">POSTRE</th>
@@ -112,9 +112,10 @@
             </div>
             <div class="col-md-5">
                 <br><br>
+
                 <table class="table table-hover" style="font-size:12px">
                 <thead>
-                    <tr style="color:white; background:#FE6E4F">
+                    <tr style="color:white; background:blue">
                         <th scope="col" @click="demo()">#</th>
                         <th scope="col">CANT</th>
                         <th scope="col">TOTAL DE BOCADILLOS</th>
