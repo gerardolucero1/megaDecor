@@ -14,7 +14,7 @@
                         <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Servilleta (Papel)</td>
                         <td><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero ()</td>
+                        <td>Plato Pastelero PLATO PASTELERO 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span></td>
                         <td><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
