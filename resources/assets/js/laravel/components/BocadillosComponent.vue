@@ -107,11 +107,7 @@
                 <td><input type="text" value="0"> </td>
                 </tr>
                 <tr>
-                <td style="font-weight:bold">Subtotal: $</td>
-                <td><input type="text" value="0"> </td>
-                </tr>
-                <tr>
-                <td style="font-weight:bold">Total: $</td>
+                <td style="font-weight:bold">Decoracion: $</td>
                 <td><input type="text" value="0"> </td>
                 </tr>
                 
