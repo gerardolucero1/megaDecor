@@ -78,8 +78,8 @@
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.precioUnitario }}</span></td>
+                        <td><input v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecio(index)" v-model="precioUnitario">
+                        <span v-else v-on:click="editarPrecio(index, Object.keys(item))">${{ item.precioUnitario }}</span></td>
                         <td>
                            <button @click="eliminarProducto(index)" style="background:red"><i class="fa fa-remove" style="color:white"></i></button> 
                         </td>
@@ -111,8 +111,7 @@
                 </table>
             </div>
             <div class="col-md-5">
-                <br><br>
-
+                <br>
                 <table class="table table-hover" style="font-size:12px">
                 <thead>
                     <tr style="color:white; background:blue">
@@ -126,13 +125,13 @@
                     <tr v-for="(item, index) in inventarioLocal" :key="index">
                         <th scope="row">{{ index }}</th>
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad * personas }}</span></td>
                         
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         
                          <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*item.precioUnitario }}</span></td>
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
                 </tbody>
