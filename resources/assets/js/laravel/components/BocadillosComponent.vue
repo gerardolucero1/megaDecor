@@ -21,7 +21,7 @@
                 <table style="width:40%; margin-top:20px">
                     <tr>
                         <td>#bocadillos Restantes</td>
-                        <td><input type="text" :value="(personas*bocadillos)-totalCantidad"></td>
+                        <td><input type="text" :value="personas*bocadillos"></td>
                     </tr>
                 </table>
             </div>
@@ -138,12 +138,6 @@
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
-                    <tr style="color:white; background:blue;  text-align:center">
-                    <td>{{calcularTotalCantidad}}</td>
-                    <td></td>
-                    <td></td>
-
-                    </tr>
                 </tbody>
             </table>
 
@@ -172,7 +166,6 @@ export default {
             //Buscador
             limpiar: false,
             results: [],
-            totalCantidad: 0;
 
             //Inventario de productos
             inventario: [],
@@ -191,9 +184,7 @@ export default {
             this.results = results
         })
     },
-
     
-
 
     methods: {
         editarCantidad(index, key){
