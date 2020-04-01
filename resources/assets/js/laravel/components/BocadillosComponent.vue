@@ -108,7 +108,7 @@
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Subtotal: $</td>
-                <td>{{calcularSubtotal}}</td>
+                <td>{{calcularSubtotal | currency}}</td>
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Total: $</td>
@@ -207,21 +207,12 @@ export default {
            return total;
         },
         calcularTotalBocadillos: function(){
-            console.log('calculando total...');
-              let json = this.inventarioLocal;
-                //convirtiendo a json
-                json = JSON.stringify(json);
-                //Convirtiendo a objeto javascript
-                let data = JSON.parse(json);
-                var suma= 0;
-                //Recorriendo el objeto
-                for(let x in data){
-                    console.log('prod: '+data[x].servicio);
-                    suma += parseInt(data[x].precioTotal); // Ahora que es un objeto javascript, tiene propiedades
-                }
+            let total=0;
+                this.inventarioLocal.forEach(function(element){
+                    total = parseInt(total + (element.cantidadTotal));
+                })
 
-                this.totalBocadillos = suma;
-                return suma;
+                return total;
             
         },
     },
