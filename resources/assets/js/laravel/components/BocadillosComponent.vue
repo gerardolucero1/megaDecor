@@ -96,11 +96,11 @@
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
-                <td>${{servilleta*precioServilleta}} </td>
+                <td>${{servilleta*precioServilleta | currency}} </td>
                 </tr>
                 <tr>
                 <td>Platos: </td>
-                <td>${{platoPastelero*precioPlatoPastelero}}</td>
+                <td>${{platoPastelero*precioPlatoPastelero | currency}}</td>
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Decoracion: $</td>
@@ -132,14 +132,14 @@
                 <tbody v-if="inventarioLocal.length != 0">
                     <tr v-for="(item, index) in inventarioLocal" :key="index" style="text-align:center">
                         <th scope="row">{{ index }}</th>
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad * personas }}</span></td>
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" disabled v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else>{{ item.cantidadTotal }}</span></td>
                         
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="totalBocadillos">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <span v-else>{{ item.cantidad }}</span></td>
                         
                          <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="precioPaquete">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
+                        <span v-else>${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
                     <tr style="text-align:center; color:white; background:blue; font-weight:bold">
@@ -205,6 +205,7 @@ export default {
            let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*precioServilleta);
            return total;
         },
+        calcular
     },
     methods: {
         editarCantidad(index, key){
@@ -224,6 +225,7 @@ export default {
                         return (indice == index);
                     });
             producto.cantidad = this.cantidadActualizada;
+            producto.cantidadTotal = this.cantidadActualizada*this.personas;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
