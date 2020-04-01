@@ -46,7 +46,6 @@
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
-                                <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> En Bodega: {{ producto.cantidad }} <span>Exhibición: {{producto.exhibicion}}</span></p>
                             </div>
                             <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
                             
@@ -107,7 +106,11 @@
                 <td><input type="text" value="0"> </td>
                 </tr>
                 <tr>
-                <td style="font-weight:bold">Decoracion: $</td>
+                <td style="font-weight:bold">Subtotal: $</td>
+                <td><input type="text" value="0"> </td>
+                </tr>
+                <tr>
+                <td style="font-weight:bold">Total: $</td>
                 <td><input type="text" value="0"> </td>
                 </tr>
                 
@@ -178,6 +181,10 @@ export default {
             cantidadActualizada:1,
             indice:'',
             key:'',
+            personas:0,
+            bocadillos:0,
+            platoPastelero:0,
+            servilleta:0,
         }
     },
 
