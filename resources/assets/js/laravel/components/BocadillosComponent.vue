@@ -92,7 +92,7 @@
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
-                <td>{{calcularTotalBocadillos | currency}} </td>
+                <td>{{calcularTotalBocadillos}} </td>
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
@@ -207,12 +207,20 @@ export default {
            return total;
         },
         calcularTotalBocadillos: function(){
-            let total=0;
-                this.inventarioLocal.forEach(function(element){
-                    total = parseInt(total + (element.cantidadTotal));
-                })
+            //Arreglo javascript de objetos json
+                let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].cantidadTotal); // Ahora que es un objeto javascript, tiene propiedades
+                }
 
-                return total;
+                this.totalBocadillos = suma;
+                return suma;
             
         },
     },
