@@ -92,7 +92,7 @@
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
-                <td>{{calcularTotalCostoBocadillos}} </td>
+                <td>{{calcularTotalCostoBocadillos | currency}} </td>
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
@@ -221,7 +221,7 @@ export default {
                 }
 
                 this.totalBocadillos = suma;
-                this.bocadillosRestantes = this.bocadillosRestantes-suma;
+                this.bocadillosRestantes = parseInt(this.bocadillosRestantes)-parseInt(suma);
                 return suma;
             
         },
