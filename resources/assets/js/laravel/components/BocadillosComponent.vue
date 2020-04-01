@@ -4,8 +4,8 @@
 
 <template>
     <section class="container">
-        <div class="row" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
-            <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
                 <table style="width:100%">
                     <tr>
                         <td># Personas</td>
@@ -24,15 +24,16 @@
                         <td><input style="color:red" type="text" :value="personas*bocadillos"></td>
                     </tr>
                 </table>
-            </div>
-            <div class="col-md-7">
-            <buscador-component
+                 <buscador-component
                 :limpiar="limpiar"
                 placeholder="Buscar Productos"
                 event-name="results"
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
+            </div>
+            <div class="col-md-7">
+           
             <div class="col-md-12">
             <!-- Resultado Busqueda items -->
             <div class="row" v-if="results.length < inventario.length">
@@ -118,7 +119,7 @@
                 </table>
             </div>
             <div class="col-md-5">
-                <br>
+                
                 <table class="table table-hover" style="font-size:12px">
                 <thead>
                     <tr style="color:white; background:blue">
@@ -142,6 +143,7 @@
                         
                     </tr>
                     <tr style="text-align:center; color:white; background:blue; font-weight:bold">
+                    <td>0</td>
                     <td>0</td>
                     <td>0</td>
                     <td>0</td>
