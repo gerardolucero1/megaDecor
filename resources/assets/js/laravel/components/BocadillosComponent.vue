@@ -220,7 +220,7 @@ export default {
 
                 this.totalBocadillos = suma;
                 return suma;
-            },
+            
         },
     },
     methods: {
