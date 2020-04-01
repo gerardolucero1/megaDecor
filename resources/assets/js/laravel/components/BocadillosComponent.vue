@@ -92,7 +92,7 @@
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
-                <td>$0.00 </td>
+                <td>${{calcularTotalBocadillos | currency}} </td>
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
@@ -139,7 +139,7 @@
                         <span v-else>{{ item.cantidad }}</span></td>
                         
                          <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="precioPaquete">
-                        <span v-else>${{ item.cantidad*personas*item.precioUnitario }}</span></td>
+                        <span v-else>${{ item.precioTotal }}</span></td>
                         
                     </tr>
                     <tr style="text-align:center; color:white; background:blue; font-weight:bold">
@@ -189,6 +189,7 @@ export default {
             precioPlatoPastelero:3,
             precioServilleta:1,
             servilleta:0,
+            totalBocadillos:0,
         }
     },
 
@@ -205,7 +206,22 @@ export default {
            let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*precioServilleta);
            return total;
         },
-        calcular
+        calcularTotalBocadillos: function(){
+              let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].precioUnitario); // Ahora que es un objeto javascript, tiene propiedades
+                }
+
+                this.totalBocadillos = suma;
+                return suma;
+            },
+        },
     },
     methods: {
         editarCantidad(index, key){
@@ -226,6 +242,7 @@ export default {
                     });
             producto.cantidad = this.cantidadActualizada;
             producto.cantidadTotal = this.cantidadActualizada*this.personas;
+            producto.precioTotal = this.precioUnitario*producto.cantidadTotal;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
