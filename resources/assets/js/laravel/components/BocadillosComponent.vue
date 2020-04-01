@@ -203,7 +203,7 @@ export default {
     },
     computed: {
         calcularSubtotal: function(){
-           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*precioServilleta);
+           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*this.precioServilleta);
            return total;
         },
         calcularTotalBocadillos: function(){
