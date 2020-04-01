@@ -201,7 +201,7 @@ export default {
             this.results = results
         })
     },
-    computes: {
+    computed: {
         calcularSubtotal: function(){
            let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*precioServilleta);
            return total;
