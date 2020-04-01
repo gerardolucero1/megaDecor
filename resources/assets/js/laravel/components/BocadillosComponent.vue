@@ -92,15 +92,15 @@
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
-                <td>${{calcularTotalBocadillos | currency}} </td>
+                <td>{{calcularTotalBocadillos | currency}} </td>
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
-                <td>${{servilleta*precioServilleta | currency}} </td>
+                <td>{{servilleta*precioServilleta | currency}} </td>
                 </tr>
                 <tr>
                 <td>Platos: </td>
-                <td>${{platoPastelero*precioPlatoPastelero | currency}}</td>
+                <td>{{platoPastelero*precioPlatoPastelero | currency}}</td>
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Decoracion: $</td>
@@ -242,7 +242,7 @@ export default {
                     });
             producto.cantidad = this.cantidadActualizada;
             producto.cantidadTotal = this.cantidadActualizada*this.personas;
-            producto.precioTotal = this.precioUnitario*producto.cantidadTotal;
+            producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
