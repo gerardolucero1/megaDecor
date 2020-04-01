@@ -207,6 +207,7 @@ export default {
            return total;
         },
         calcularTotalBocadillos: function(){
+            console.log('calculando total...');
               let json = this.inventarioLocal;
                 //convirtiendo a json
                 json = JSON.stringify(json);
@@ -215,7 +216,8 @@ export default {
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
-                    suma += parseInt(data[x].precioUnitario); // Ahora que es un objeto javascript, tiene propiedades
+                    console.log('prod: '+data[x].servicio);
+                    suma += parseInt(data[x].precioTotal); // Ahora que es un objeto javascript, tiene propiedades
                 }
 
                 this.totalBocadillos = suma;
