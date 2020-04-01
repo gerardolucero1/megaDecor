@@ -4,7 +4,7 @@
 
 <template>
     <section class="container">
-        <div class="row">
+        <div class="row" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
             <div class="col-md-12">
                 <table style="width:100%">
                     <tr>
