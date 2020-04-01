@@ -21,7 +21,7 @@
                 <table style="width:40%; margin-top:20px">
                     <tr>
                         <td>#bocadillos Restantes</td>
-                        <td><input style="color:red" type="text" :value="personas*bocadillos"></td>
+                        <td>{{bocadillosRestantes}}</td>
                     </tr>
                 </table>
                  <buscador-component
@@ -92,7 +92,7 @@
                 <table style="width:50%; font-weight:bold">
                 <tr>
                 <td>bocadillos: </td>
-                <td>{{calcularTotalBocadillos}} </td>
+                <td>{{calcularTotalCostoBocadillos}} </td>
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
@@ -144,7 +144,7 @@
                     </tr>
                     <tr style="text-align:center; color:white; background:blue; font-weight:bold">
                     <td>0</td>
-                    <td>0</td>
+                    <td>{{calcularTotalBocadillos}}</td>
                     <td>0</td>
                     <td>0</td>
                     </tr>
@@ -190,6 +190,7 @@ export default {
             precioServilleta:1,
             servilleta:0,
             totalBocadillos:0,
+            bocadillosRestantes:0,
         }
     },
 
@@ -220,6 +221,24 @@ export default {
                 }
 
                 this.totalBocadillos = suma;
+                this.bocadillosRestantes = this.bocadillosRestantes-suma;
+                return suma;
+            
+        },
+        calcularTotalCostoBocadillos: function(){
+            //Arreglo javascript de objetos json
+                let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].precioTotal); // Ahora que es un objeto javascript, tiene propiedades
+                }
+
+                this.totalBocadillos = suma;
                 return suma;
             
         },
@@ -236,6 +255,7 @@ export default {
         updatePersonas(){
             this.servilleta = this.personas;
             this.platoPastelero = this.personas;
+            this.bocadillosRestantes = this.personas*this.bocadillos;
         },
         updateCantidad(index){
             let producto = this.inventarioLocal.find(function(element, indice){
