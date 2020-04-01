@@ -9,7 +9,7 @@
                 <table style="width:100%">
                     <tr>
                         <td># Personas</td>
-                        <td><input v-model="personas" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Numero de bocadillos <br> {{personas*bocadillos}}</td>
                         <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Servilleta (Papel)</td>
@@ -96,11 +96,11 @@
                 </tr>
                 <tr>
                 <td>Servilletas (Papel): </td>
-                <td>$0.00 </td>
+                <td>${{servilleta*precioServilleta}} </td>
                 </tr>
                 <tr>
                 <td>Platos: </td>
-                <td>$0.00 </td>
+                <td>${{platoPastelero*precioPlatoPastelero}}</td>
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Decoracion: $</td>
@@ -108,7 +108,7 @@
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Subtotal: $</td>
-                <td><input type="text" value="0"> </td>
+                <td>{{calcularSubtotal}}</td>
                 </tr>
                 <tr>
                 <td style="font-weight:bold">Total: $</td>
@@ -130,15 +130,15 @@
                     </tr>
                 </thead>
                 <tbody v-if="inventarioLocal.length != 0">
-                    <tr v-for="(item, index) in inventarioLocal" :key="index">
+                    <tr v-for="(item, index) in inventarioLocal" :key="index" style="text-align:center">
                         <th scope="row">{{ index }}</th>
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad * personas }}</span></td>
                         
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="totalBocadillos">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         
-                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="precioPaquete">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">${{ item.cantidad*personas*item.precioUnitario }}</span></td>
                         
                     </tr>
@@ -186,6 +186,8 @@ export default {
             personas:0,
             bocadillos:0,
             platoPastelero:0,
+            precioPlatoPastelero:3,
+            precioServilleta:1,
             servilleta:0,
         }
     },
@@ -198,8 +200,12 @@ export default {
             this.results = results
         })
     },
-    
-
+    computes: {
+        calcularSubtotal: function(){
+           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*precioServilleta);
+           return total;
+        },
+    },
     methods: {
         editarCantidad(index, key){
                     //console.log(key);
@@ -209,6 +215,10 @@ export default {
                     console.log(key[1]);
                        
                 },
+        updatePersonas(){
+            this.servilleta = this.personas;
+            this.platoPastelero = this.personas;
+        },
         updateCantidad(index){
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
