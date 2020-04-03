@@ -124,7 +124,7 @@
                     <div class="col-md-9 text-right">
                         <button onclick="marcar()">Marcar/Desmarcar</button>
                         @if(isset($ultimoInventario))
-                        <p>Inventario Finalizado</p>
+                        <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
                         <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
                         @else
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
@@ -240,7 +240,7 @@
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td>{{$inventario->cantidad}}
+                                <td>{{$servicioDatos->antesBodega}}
                                     @if($inventario->cantidad == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
                                     @else
