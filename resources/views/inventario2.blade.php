@@ -601,7 +601,11 @@ td.innerHTML = nuevaCantidad;
 
         function marcar(){
             for (var i = 0; i < 3500; i++) {
+                try {
                 cambiarDiferencia(i);
+                }catch{
+                    
+                }
             }
         }
 
