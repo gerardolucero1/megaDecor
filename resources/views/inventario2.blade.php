@@ -122,6 +122,7 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
+                        <button onclick="marcar()">Marcar/Desmarcar</button>
                         @if(isset($ultimoInventario))
                         <p>Inventario Finalizado</p>
                         <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
@@ -596,6 +597,12 @@ td.innerHTML = nuevaCantidad;
             })
 
             
+        }
+
+        function marcar(){
+            for (var i = 0; i < 3500; i++) {
+                cambiarDiferencia(i);
+            }
         }
 
         function finalizarInventarioFisico(){
