@@ -600,11 +600,11 @@ td.innerHTML = nuevaCantidad;
         }
 
         function marcar(){
-            for (var i = 0; i < 3500; i++) {
+            for (var i = 0; i < 10500; i++) {
                 try {
                 cambiarDiferencia(i);
                 }catch{
-                    
+
                 }
             }
         }
