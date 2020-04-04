@@ -14,10 +14,10 @@ use Carbon\Carbon;
     <tr style=" font-size: 12px">
       <th style="padding:4px">Imagen</th> 
       <th style="padding: 4px;">Servicio</th>
-       <th style="padding: 4px;">Antes Bodega</th>
+    
        <th style="padding: 4px;">Fisico Bodega</th>
        <th style="padding: 4px;">Diferencia</th>
-       <th style="padding: 4px;">Antes Exhibición</th>
+       
        <th style="padding: 4px;">Fisico Exhibición</th>
        <th style="padding: 4px;">Diferencia</th>
        <th style="padding: 4px;">Total Diferencia</th>
@@ -71,9 +71,7 @@ use Carbon\Carbon;
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px "><img src="{{$item->imagen}}" width="35px"></td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 100px">{{$item->servicio}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoExhibicion}}</td>
   <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
   
