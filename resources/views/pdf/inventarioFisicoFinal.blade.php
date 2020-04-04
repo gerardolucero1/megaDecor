@@ -38,7 +38,7 @@ use Carbon\Carbon;
     @if($faltante<0)
 <tr style="font-size:11px;">
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px"><img src="{{$item->imagen}}" width="35px"></td>
-<td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 100px">{{$item->servicio}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesBodega}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD; @if(($registro->fisicoBodega-$registro->antesBodega)<0) color:red @endif">{{$registro->fisicoBodega-$registro->antesBodega}}</td>
@@ -54,8 +54,8 @@ use Carbon\Carbon;
 
 @if($item->diferencia=='TRUE')
 <tr style="font-size:11px;">
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px "><img src="{{$item->imagen}}" width="35px"></td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 100px">{{$item->servicio}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesBodega}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD; @if(($registro->fisicoBodega-$registro->antesBodega)<0) color:red @endif">{{$registro->fisicoBodega-$registro->antesBodega}}</td>
@@ -68,8 +68,8 @@ use Carbon\Carbon;
   </tr>
 @else
 <tr style="font-size:11px;">
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px "><img src="{{$item->imagen}}" width="35px"></td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 100px">{{$item->servicio}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
