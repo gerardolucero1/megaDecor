@@ -51,6 +51,8 @@ use Carbon\Carbon;
 </tr>
 @endif
 @else
+
+@if($item->diferencia=='TRUE')
 <tr style="font-size:11px;">
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
@@ -64,6 +66,22 @@ use Carbon\Carbon;
     <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">{{($registro->fisicoBodega - $registro->antesBodega) + ($registro->fisicoExhibicion - $registro->antesExhibicion)}}</td>
   @endif
   </tr>
+@else
+<tr style="font-size:11px;">
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoExhibicion}}</td>
+  <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
+  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
+  @if ($registro->diferencia)
+    <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
+  @endif
+  </tr>
+@endif
+
 
 @endif
 @endif
