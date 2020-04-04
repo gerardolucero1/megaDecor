@@ -9,7 +9,7 @@ use Carbon\Carbon;
     $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
 @endphp
-<p>Inventario Impreso {{$fechaHoy}} {{$faltantes}}</p>
+<p>Inventario Impreso {{$fechaHoy}}</p>
 <table style="border-width: 1px; width:100%; text-align:center">
     <tr style=" font-size: 12px">
       <th style="padding:4px">Imagen</th> 
@@ -37,7 +37,7 @@ use Carbon\Carbon;
     @endphp
     @if($faltante<0)
 <tr style="font-size:11px;">
-<td style="padding: 4px; border-bottom:solid; border-width: 1px; "><img src="{{$item->imagen}}" width="35px"></td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px"><img src="{{$item->imagen}}" width="35px"></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; ">{{$item->servicio}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->antesBodega}}</td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
