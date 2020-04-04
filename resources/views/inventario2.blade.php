@@ -126,6 +126,20 @@
                         @if(isset($ultimoInventario))
                         <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
                         <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                            @if(isset($familiaSeleccionada))
+                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                <input type="hidden" name="faltante" value="no">
+                            @endif
+
+                            @method('POST')
+                            @csrf 
+                    @if(isset($familiaSeleccionada))
+                        <button class="btn btn-sm btn-info" type="submit">
+                            Impresion (Todos) <li class="fa fa-print"></li>
+                        </button>
+                    @endif  
+                    </form>
                         @else
                         <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
@@ -150,11 +164,11 @@
 
                             @method('POST')
                             @csrf 
-                   
+                    @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
                             Impresion (Todos) <li class="fa fa-print"></li>
                         </button>
-                   
+                    @endif  
                     </form>
 
                     <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
