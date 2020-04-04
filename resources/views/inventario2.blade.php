@@ -150,11 +150,11 @@
 
                             @method('POST')
                             @csrf 
-                    @if(isset($familiaSeleccionada))
+                   
                         <button class="btn btn-sm btn-info" type="submit">
                             Impresion (Todos) <li class="fa fa-print"></li>
                         </button>
-                    @endif  
+                   
                     </form>
 
                     <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
