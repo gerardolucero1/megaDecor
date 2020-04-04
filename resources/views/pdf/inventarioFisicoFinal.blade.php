@@ -1,4 +1,4 @@
-<body style="font-family: Helvetica; ">
+<body style="font-family: Helvetica;">
 <p style="line-height: 15px; font-size: 16px; font-style: italic; font-weight: bold">Familia: {{$familia}}</p>
 <table>
 
@@ -16,11 +16,11 @@ use Carbon\Carbon;
       <th style="padding: 4px;">Servicio</th>
     
        <th style="padding: 4px;">Fisico Bodega</th>
-       <th style="padding: 4px;">Diferencia</th>
+       
        
        <th style="padding: 4px;">Fisico Exhibición</th>
-       <th style="padding: 4px;">Diferencia</th>
-       <th style="padding: 4px;">Total Diferencia</th>
+      
+      
     </tr>
     @foreach ($Inventario as $item)
     @if(!$item->noAplica) 
@@ -71,11 +71,9 @@ use Carbon\Carbon;
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 35px "><img src="{{$item->imagen}}" width="35px"></td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; max-width: 100px">{{$item->servicio}}</td>
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
+ 
   <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
-  <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
   
-    <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center; background:#FFFEDD;">0</td>
   
   </tr>
 @endif
