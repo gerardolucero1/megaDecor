@@ -9,7 +9,7 @@ use Carbon\Carbon;
     $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
 @endphp
-<p>Inventario Impreso {{$fechaHoy}} <span>@if($faltante<0) Backup @else Faltantes @endif</span></p>
+<p>Inventario Impreso {{$fechaHoy}} <span>@if($faltantes=='si') Faltantes @else Bakcup @endif</span></p>
 <table style="border-width: 1px; width:100%; text-align:center">
     <tr style=" font-size: 12px">
       <th style="padding:4px">Imagen</th> 
