@@ -343,13 +343,29 @@ class InventoryController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia', 'faltantes'));
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal2', compact('Inventario', 'familia', 'faltantes'));
 
         return $pdf->stream();
 
     }
 
     public function pdfFamiliaInventarioFisico2(Request $request){   
+        if(!is_null($request->familia)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
+        }
+        $familia = $request->familia;
+        $faltantes = $request->faltante;
+        
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal2', compact('Inventario', 'familia', 'faltantes'));
+
+        return $pdf->stream();
+
+    }
+
+    public function pdfFamiliaInventarioFisico3(Request $request){   
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }

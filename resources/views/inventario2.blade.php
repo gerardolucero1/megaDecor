@@ -156,7 +156,7 @@
                         
                         
 
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 <input type="hidden" name="faltante" value="no">
@@ -170,6 +170,21 @@
                         </button>
                     @endif  
                     </form>
+
+                    <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="no">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion Entrega <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
 
                     <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                         @if(isset($familiaSeleccionada))

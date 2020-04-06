@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/imprimir-familia', 'CMS\InventoryController@pdf')->name('imprimir.familia');
     Route::post('/imprimir-familia-inventario-fisico', 'CMS\InventoryController@pdfFamiliaInventarioFisico')->name('imprimir.familiaInventarioFisico');
     Route::post('/imprimir-familia-inventario-fisico2', 'CMS\InventoryController@pdfFamiliaInventarioFisico2')->name('imprimir.familiaInventarioFisico2');
+    Route::post('/imprimir-familia-inventario-fisico3', 'CMS\InventoryController@pdfFamiliaInventarioFisico3')->name('imprimir.familiaInventarioFisico3');
 
     //Configuraciones
     Route::get('/configuraciones', 'CMS\CommissionController@index');
