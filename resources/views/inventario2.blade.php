@@ -287,28 +287,28 @@
                                     @if($inventario->cantidad == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
                                     @else
-                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $servicioDatos->antesBodega) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$servicioDatos->antesBodega)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
                                     @endif
                                     </td>
                                 <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                 <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$inventario->cantidad}}</td>
-                                <td>{{$inventario->exhibicion}}
-                                     @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
+                                <td>{{$servicioDatos->antesExhibicion}}
+                                     @if($servicioDatos->antesExhibicion == $servicioDatos->fisicoExhibicion)
                                         <span style="color: blue; font-weight: bold;">=</span>
-                                    @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
+                                    @elseif($servicioDatos->fisicoExhibicion > $servicioDatos->antesExhibicion)
                                         <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
-                                    @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
+                                    @elseif($servicioDatos->fisicoExhibicion < $servicioDatos->antesExhibicion)
                                     <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
                                     @endif
                                     </td>
                                 <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
-                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$inventario->exhibicion}}</td>
+                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                    {{ ($servicioDatos->fisicoBodega-$inventario->cantidad) + ($servicioDatos->fisicoExhibicion-$inventario->exhibicion) }}
+                                    {{ ($servicioDatos->fisicoBodega-$inventario->cantidad) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
                                 
                                 <td class="d-flex" style="box-sizing: content-box;">
