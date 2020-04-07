@@ -284,7 +284,7 @@
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td>{{$servicioDatos->antesBodega}}
-                                    @if($inventario->cantidad == $servicioDatos->fisicoBodega)
+                                    @if($servicioDatos->antesBodega == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
                                     @else
                                         <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $servicioDatos->antesBodega) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
@@ -292,7 +292,7 @@
                                     @endif
                                     </td>
                                 <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
-                                <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$inventario->cantidad}}</td>
+                                <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
                                 <td>{{$servicioDatos->antesExhibicion}}
                                      @if($servicioDatos->antesExhibicion == $servicioDatos->fisicoExhibicion)
                                         <span style="color: blue; font-weight: bold;">=</span>
@@ -308,7 +308,7 @@
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                    {{ ($servicioDatos->fisicoBodega-$inventario->cantidad) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
+                                    {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
                                 
                                 <td class="d-flex" style="box-sizing: content-box;">
