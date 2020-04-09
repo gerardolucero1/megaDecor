@@ -110,7 +110,7 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form method="POST" action="{{route('imprimir.familia')}}" >
+                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
                                 @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 @endif
@@ -126,7 +126,7 @@
                         @if(isset($ultimoInventario))
                         <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
                         <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 <input type="hidden" name="faltante" value="no">
@@ -140,7 +140,7 @@
                         </button>
                     @endif  
                     </form>
-                    <form method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
                         @if(isset($familiaSeleccionada))
                             <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                             <input type="hidden" name="faltante" value="no">
@@ -155,7 +155,7 @@
                 @endif  
                 </form>
                         @else
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
                                     <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                     <input type="hidden" name="faltante" value="no">
@@ -170,7 +170,7 @@
                         
                         
 
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 <input type="hidden" name="faltante" value="no">
@@ -185,7 +185,7 @@
                     @endif  
                     </form>
 
-                    <form method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
                         @if(isset($familiaSeleccionada))
                             <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                             <input type="hidden" name="faltante" value="no">
@@ -200,7 +200,7 @@
                 @endif  
                 </form>
 
-                    <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                         @if(isset($familiaSeleccionada))
                             <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                             <input type="hidden" name="faltante" value="si">
