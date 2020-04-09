@@ -32,6 +32,18 @@
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
             </div>
+            <div class="col-md-12">
+                <table style="width:100%;">
+                    <tr style="background:blue; color:white;">
+                        <th>#</th>
+                        <th>Imagen</th>
+                        <th>Postre</th>
+                        <th>Bocadillos por mesa</th>
+                        <th>Precio Paquete</th>
+                        <th>Total de bocadillos</th>
+                    </tr>
+                </table>
+            </div>
             <div class="col-md-7">
            
             <div class="col-md-12">

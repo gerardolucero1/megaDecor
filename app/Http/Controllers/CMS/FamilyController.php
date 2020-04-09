@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Family;
+use App\Inventory;
 use App\FamilyGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -101,6 +102,13 @@ class FamilyController extends Controller
         }
 
         $familia = Family::findOrFail($id);
+        
+        $elementos = Inventory::where('familia' , $familia->nombre)->get();
+
+        foreach($elementos as $elemento){
+            $elemento->familia = $request->nombre;
+            $elemento->save();
+        }
 
         $familia->fill($request->all())->save();
 
