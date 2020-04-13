@@ -275,14 +275,22 @@
                                             Ventas del mes de
                                         </p>
                                         <p class="font-size-sm text-uppercase font-w600 text-white-op mb-0">
-                                           Noviembre 2019
+                                          Abril 2020
                                         </p>
                                     </div>
                                     <div class="block-content block-content-full">
                                         <table class="table table-borderless table-striped table-hover mb-0">
                                             <tbody>
+                                                @php
+                                                    $cont = 0;
+                                                    $ElementosVendedores->asort();
+                                                @endphp
                                                 @foreach($ElementosVendedores as $ElementoVendedor)
+                                                @php
+                                                    $cont++;
+                                                @endphp
                                                 <tr>
+                                                <td>{{$cont}}</td>
                                                     <td>
                                                         <strong>{{$ElementoVendedor->name}}</strong>
                                                     </td>

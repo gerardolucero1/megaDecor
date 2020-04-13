@@ -36,6 +36,9 @@
                             <i class="si si-wallet fa-2x text-body-bg-dark"></i>
                         </div>
                         <div class="row pt-10 pb-30 text-left">
+                            <div class="col-12" style="margin-top:-40px">
+                            <label>Desglose de movimientos</label>
+                            </div>
                             <div class="col-6  border-r">
                                 <p style="font-weight: bold;">Ingresos: </p>
                                 <ul style="font-size: 12px;">
