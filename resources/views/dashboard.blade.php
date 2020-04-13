@@ -283,7 +283,7 @@
                                             <tbody>
                                                 @php
                                                     $cont = 0;
-                                                    $ElementosVendedores->asort();
+                                                    
                                                 @endphp
                                                 @foreach($ElementosVendedores as $ElementoVendedor)
                                                 @php
