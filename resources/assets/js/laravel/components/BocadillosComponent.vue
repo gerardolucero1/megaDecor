@@ -31,36 +31,22 @@
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
-            </div>
-            <div class="col-md-12">
-                <table style="width:100%;">
-                    <tr style="background:blue; color:white;">
-                        <th>#</th>
-                        <th>Imagen</th>
-                        <th>Postre</th>
-                        <th>Bocadillos por mesa</th>
-                        <th>Precio Paquete</th>
-                        <th>Total de bocadillos</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-7">
-           
+
             <div class="col-md-12">
             <!-- Resultado Busqueda items -->
             <div class="row" v-if="results.length < inventario.length">
                 <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                     <div class="list-group" v-for="producto in results.slice(0,40)" :key="producto.id">
-                        <div class="row contenedor-producto" style="cursor:auto;" >
+                        <div v-on:click="agregarProducto(producto)" class="row contenedor-producto" style="cursor:auto;" >
                             <div class="col-md-3" >
                                 <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-9">
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
                             </div>
-                            <div  class="col-md-2" style="padding-top:15px"><i v-on:click="agregarProducto(producto)" style="color:#B2B2B2; cursor:pointer; font-size:26px" class="fa fa-plus-circle"></i></div>
+                           
                             
                         </div>
                     </div>
@@ -68,103 +54,67 @@
             </div>
         </div>
 
-        <table class="table table-hover" style="font-size:12px">
-                <thead>
-                    <tr style="color:white; background:blue">
-                        <th scope="col" @click="demo()">#</th>
-                        <th scope="col">IMAGEN</th>
-                        <th scope="col">POSTRE</th>
-                        <th scope="col">BOCADILLOS POR MESA</th>
-                        <th scope="col">PRECIO PAQUETE</th>
-                        <th scope="col">#</th>
-                        
+            </div>
+            <div class="col-md-12">
+                <table style="width:100%;">
+                   
+                   <tbody v-if="inventarioLocal.length != 0">
+                        <tr style="background:blue; color:white;">
+                        <th>#</th>
+                        <th>Imagen</th>
+                        <th>Postre</th>
+                        <th>Bocadillos x Paquete</th>
+                        <th># Paquetes</th>
+                        <th>Precio Paquete</th>
+                        <th>Total bocadillos</th>
+                        <th>Precio Total</th>
                     </tr>
-                </thead>
-                <tbody v-if="inventarioLocal.length != 0">
-                    <tr v-for="(item, index) in inventarioLocal" :key="index">
-                        <th scope="row">{{ index }}</th>
+                    <tr v-for="(item, index) in inventarioLocal" :key="index" style="border-bottom: solid; border-width: 1px;">
+                        <th scope="row"><button @click="eliminarProducto(index)" style="background:red"><i class="fa fa-remove" style="color:white"></i></button> </th>
                         <td>
                             <img :src="item.imagen" width="60px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p></td>
+
+                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadActualizada">
+                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p></td>
+
+                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="cantidadActualizada">
+                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</p></td>
                         
-                        <td><input v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecio(index)" v-model="precioUnitario">
-                        <span v-else v-on:click="editarPrecio(index, Object.keys(item))">${{ item.precioUnitario }}</span></td>
+                        
                         <td>
-                           <button @click="eliminarProducto(index)" style="background:red"><i class="fa fa-remove" style="color:white"></i></button> 
+                            <p style="width:100%; font-weight:bold; text-align:center">{{item.cantidadTotal}}</p>
                         </td>
+                        <td>
+                            <p style="width:100%; font-weight:bold; text-align:center">{{item.precioTotal | currency}}</p>
+                            <button style="font-size:8px" v-on:click="editarCalculoPrecio(index, Object.keys(item))">$ por unidad {{item.calculoPrecio}}</button>
+                           
+                        </td>
+                        
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="background:red; color:white; text-align:center">{{calcularTotalBocadillos}}</td>
+                        <td style="background:red; color:white; text-align:center">{{calcularTotalCostoBocadillos| currency}}</td>
+                    </tr>
+                    <tr></tr>
                 </tbody>
-            </table>
-
-
-                
-                <table style="width:50%; font-weight:bold">
-                <tr>
-                <td>bocadillos: </td>
-                <td>{{calcularTotalCostoBocadillos | currency}} </td>
-                </tr>
-                <tr>
-                <td>Servilletas (Papel): </td>
-                <td>{{servilleta*precioServilleta | currency}} </td>
-                </tr>
-                <tr>
-                <td>Platos: </td>
-                <td>{{platoPastelero*precioPlatoPastelero | currency}}</td>
-                </tr>
-                <tr>
-                <td style="font-weight:bold">Decoracion: $</td>
-                <td><input type="text" value="0"> </td>
-                </tr>
-                <tr>
-                <td style="font-weight:bold">Subtotal: $</td>
-                <td>{{calcularSubtotal | currency}}</td>
-                </tr>
-                <tr>
-                <td style="font-weight:bold">Total: $</td>
-                <td><input type="text" value="0"> </td>
-                </tr>
-                
-                    
                 </table>
-            </div>
-            <div class="col-md-5">
-                
-                <table class="table table-hover" style="font-size:12px">
-                <thead>
-                    <tr style="color:white; background:blue">
-                        <th scope="col" @click="demo()">#</th>
-                        <th scope="col">CANT</th>
-                        <th scope="col">TOTAL DE BOCADILLOS</th>
-                        <th scope="col">PRECIO PAQUETE</th>
-                    </tr>
-                </thead>
-                <tbody v-if="inventarioLocal.length != 0">
-                    <tr v-for="(item, index) in inventarioLocal" :key="index" style="text-align:center">
-                        <th scope="row">{{ index }}</th>
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" disabled v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <span v-else>{{ item.cantidadTotal }}</span></td>
-                        
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="totalBocadillos">
-                        <span v-else>{{ item.cantidad }}</span></td>
-                        
-                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="precioPaquete">
-                        <span v-else>${{ item.precioTotal }}</span></td>
-                        
-                    </tr>
-                    <tr style="text-align:center; color:white; background:blue; font-weight:bold">
-                    <td>0</td>
-                    <td>{{calcularTotalBocadillos}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    </tr>
-                </tbody>
-            </table>
+                <div>
+                    <p style="">Precio Bocadillos: {{calcularTotalCostoBocadillos | currency}}</p>
+                    <p style="font-weight:bold">subtotal: {{calcularSubtotal | currency}}</p>
 
-
+                </div>
             </div>
+            
         </div>
     </section>
 </template>
@@ -203,6 +153,7 @@ export default {
             servilleta:0,
             totalBocadillos:0,
             bocadillosRestantes:0,
+            totalPrecioBocadillos:0,
         }
     },
 
@@ -216,7 +167,7 @@ export default {
     },
     computed: {
         calcularSubtotal: function(){
-           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*this.precioServilleta);
+           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*this.precioServilleta)+this.totalPrecioBocadillos;
            return total;
         },
         calcularTotalBocadillos: function(){
@@ -233,7 +184,7 @@ export default {
                 }
 
                 this.totalBocadillos = suma;
-                this.bocadillosRestantes = parseInt(this.bocadillosRestantes)-parseInt(suma);
+                this.bocadillosRestantes = parseInt(this.personas*this.bocadillos)-parseInt(suma);
                 return suma;
             
         },
@@ -250,7 +201,7 @@ export default {
                     suma += parseInt(data[x].precioTotal); // Ahora que es un objeto javascript, tiene propiedades
                 }
 
-                this.totalBocadillos = suma;
+                this.totalPrecioBocadillos = suma;
                 return suma;
             
         },
@@ -261,7 +212,36 @@ export default {
                     this.indice = index;
                     this.key = key[1];
                     console.log(index);
-                    console.log(key[1]);
+                    //alert(key[1]);
+                       
+                },
+        editarPrecio(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[3];
+                    console.log(index);
+                    //alert(key[3]);     
+                },
+        editarCalculoPrecio(index, key){
+                    let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+                if(producto.calculoPrecio==2){
+                    producto.calculoPrecio=1;
+                    producto.precioTotal = producto.cantidadPaquetes*producto.precioUnitario;
+                }else{
+                    producto.calculoPrecio=2;
+                    producto.precioTotal = producto.cantidadPaquetes*producto.precioUnitario;
+                }   
+                        
+                },
+        
+        editarCantidadPaquetes(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[2];
+                    console.log(index);
+                    //alert(key[2]);
                        
                 },
         updatePersonas(){
@@ -274,8 +254,35 @@ export default {
                         return (indice == index);
                     });
             producto.cantidad = this.cantidadActualizada;
-            producto.cantidadTotal = this.cantidadActualizada*this.personas;
-            producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
+            producto.cantidadTotal = producto.cantidad*producto.cantidadPaquetes;
+            producto.precioTotal = producto.cantidad*producto.precioUnitario;
+            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
+            this.key= '';
+        },
+        updatePrecioUnitario(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+
+                    
+            producto.precioUnitario = this.cantidadActualizada;
+            producto.precioTotal = producto.cantidad*producto.precioUnitario;
+            
+            //producto.cantidadTotal = this.cantidadActualizada*this.personas;
+            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
+            this.key= '';
+        },
+        updateCantidadPaquetes(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+            producto.cantidadPaquetes = this.cantidadActualizada;
+            producto.cantidadTotal = producto.cantidad*producto.cantidadPaquetes;
+            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
@@ -307,6 +314,11 @@ export default {
             console.log(producto)
 
             this.limpiar = true;
+            producto.cantidadPaquetes = 1;
+            producto.cantidad = 1;
+            producto.precioTotal = producto.precioUnitario*1;
+            producto.cantidadTotal = 1;
+            producto.calculoPrecio = 1;
             this.inventarioLocal.push(producto);
 
             setTimeout(() => {
