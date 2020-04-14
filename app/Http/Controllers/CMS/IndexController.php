@@ -416,7 +416,7 @@ public function archivarUsuario($id){
 
         $fechaHoy = Carbon::yesterday();
         
-        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->whereDate('fechaEvento', '>=', $fechaActual)->get();
+        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('pendienteFecha', '=', TRUE)->orWhere('tipo', 'PRESUPUESTO')->WhereDate('fechaEvento', '>=', $fechaHoy)->where('pendienteFecha', '!=', TRUE)->get();
         //Presupuestos del dia actual
         $numeroPresupuestosDiaActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha_actual)->where('tipo', 'CONTRATO')->get();
         //Empleado del mes
