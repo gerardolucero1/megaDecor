@@ -60,7 +60,7 @@
                                     <div class="float-left mt-10 d-none d-sm-block">
                                         <i class="si si-bar-chart fa-3x text-primary-light"></i>
                                     </div>
-                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}">{{ count($numeroPresupuestos) }}</div>
+                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}">{{ count($numeroPresupuestos) }}-{{ count($numeroPresupuestosF) }}</div>
                                     <div class="font-size-sm font-w600 text-uppercase text-white-op">Presupuestos Activos</div>
                                 </div>
                             </a>

@@ -416,7 +416,8 @@ public function archivarUsuario($id){
 
         $fechaHoy = Carbon::yesterday();
         
-        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('pendienteFecha', '=', TRUE)->orWhere('tipo', 'PRESUPUESTO')->WhereDate('fechaEvento', '>=', $fechaHoy)->where('pendienteFecha', '!=', TRUE)->get();
+        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('pendienteFecha', '=', TRUE)->get();
+        $numeroPresupuestosF = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->whereDate('fechaEvento', '>', $fechaHoy)->get();
         //Presupuestos del dia actual
         $numeroPresupuestosDiaActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha_actual)->where('tipo', 'CONTRATO')->get();
         //Empleado del mes
@@ -505,7 +506,7 @@ public function archivarUsuario($id){
 
 
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
         
         $ventas=0;
         if(count($EmpleadoDelMes) != 0){
