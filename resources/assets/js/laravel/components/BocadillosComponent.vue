@@ -8,14 +8,10 @@
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
                 <table style="width:100%">
                     <tr>
-                        <td># Personas</td>
-                        <td><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Numero de bocadillos <br> {{personas*bocadillos}}</td>
-                        <td><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Servilleta (Papel)</td>
-                        <td><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span></td>
-                        <td><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Servilleta (Papel)<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $1</span><br><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
                 <table style="width:40%; margin-top:20px">
@@ -78,10 +74,10 @@
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p></td>
 
-                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadActualizada">
+                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadPaquetesActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p></td>
 
-                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="cantidadActualizada">
+                        <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="precioActualizado">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</p></td>
                         
                         
@@ -109,8 +105,13 @@
                 </tbody>
                 </table>
                 <div>
-                    <p style="">Precio Bocadillos: {{calcularTotalCostoBocadillos | currency}}</p>
-                    <p style="font-weight:bold">subtotal: {{calcularSubtotal | currency}}</p>
+                    <p style="margin:0; padding:0">Bocadillos: {{calcularTotalCostoBocadillos | currency}}</p>
+                    <p style="margin:0; padding:0">Servilletas: {{precioServilleta*personas | currency}}</p>
+                    <p style="margin:0; padding:0">Platos: {{precioPlatoPastelero*personas | currency}}</p>
+                    <div><label>Decoración: $</label><input v-model="decoracion"></div>
+                    <div><label>Descuento: $</label><input v-model="descuento"></div>
+                    <p style="font-weight:bold">Subtotal: {{calcularSubtotal | currency}}</p>
+                    <div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label><input v-model="totalFinal"></div>
 
                 </div>
             </div>
@@ -143,6 +144,10 @@ export default {
             inventario: [],
             inventarioLocal: [],
             cantidadActualizada:1,
+            cantidadPaquetesActualizada:1,
+            precioActualizado:1,
+            decoracion:0,
+            descuento:0,
             indice:'',
             key:'',
             personas:0,
@@ -154,6 +159,7 @@ export default {
             totalBocadillos:0,
             bocadillosRestantes:0,
             totalPrecioBocadillos:0,
+            totalFinal:0,
         }
     },
 
@@ -167,7 +173,9 @@ export default {
     },
     computed: {
         calcularSubtotal: function(){
-           let  total = (this.platoPastelero*this.precioPlatoPastelero)+(this.servilleta*this.precioServilleta)+this.totalPrecioBocadillos;
+            
+           let  total = parseInt(this.platoPastelero*this.precioPlatoPastelero)+parseInt(this.servilleta*this.precioServilleta)+parseInt(this.totalPrecioBocadillos)-parseInt(this.descuento)+parseInt(this.decoracion);
+           this.totalFinal=total;
            return total;
         },
         calcularTotalBocadillos: function(){
@@ -249,42 +257,41 @@ export default {
             this.platoPastelero = this.personas;
             this.bocadillosRestantes = this.personas*this.bocadillos;
         },
+
         updateCantidad(index){
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
             producto.cantidad = this.cantidadActualizada;
             producto.cantidadTotal = producto.cantidad*producto.cantidadPaquetes;
-            producto.precioTotal = producto.cantidad*producto.precioUnitario;
-            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
-            //alert(producto.servicio);
+            producto.precioTotal = producto.cantidadPaquetes*producto.precioUnitario;
+            
             this.cantidadActualizada = '';
             this.key= '';
         },
+
         updatePrecioUnitario(index){
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
-
                     
-            producto.precioUnitario = this.cantidadActualizada;
-            producto.precioTotal = producto.cantidad*producto.precioUnitario;
+                    
+            producto.precioUnitario = this.precioActualizado;
+            producto.precioTotal = producto.cantidadPaquetes*producto.precioUnitario;
             
-            //producto.cantidadTotal = this.cantidadActualizada*this.personas;
-            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
-            //alert(producto.servicio);
-            this.cantidadActualizada = '';
+            this.precioActualizado = '';
             this.key= '';
         },
+
         updateCantidadPaquetes(index){
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
-            producto.cantidadPaquetes = this.cantidadActualizada;
+            producto.cantidadPaquetes = this.cantidadPaquetesActualizada;
             producto.cantidadTotal = producto.cantidad*producto.cantidadPaquetes;
-            //producto.precioTotal = producto.precioUnitario*producto.cantidadTotal;
-            //alert(producto.servicio);
-            this.cantidadActualizada = '';
+            producto.precioTotal = producto.cantidadPaquetes*producto.precioUnitario;
+            
+            this.cantidadPaquetesActualizada = '';
             this.key= '';
         },
         obtenerInventario(){
