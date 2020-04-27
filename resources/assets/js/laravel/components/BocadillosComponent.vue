@@ -16,13 +16,14 @@
                 </table>
                 <table style="width:40%; margin-top:20px">
                     <tr>
-                        <td>#bocadillos Restantes</td>
-                        <td>{{bocadillosRestantes}}</td>
+                        <td>#bocadillos Restantes {{bocadillosRestantes}}</td>
+                        <td></td>
                     </tr>
                 </table>
+                <label for="">Buscadores de postres y bocadillos</label> 
                  <buscador-component
                 :limpiar="limpiar"
-                placeholder="Buscar Productos"
+                placeholder="Buscar Postres"
                 event-name="results"
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
@@ -30,7 +31,7 @@
 
             <buscador-component
                 :limpiar="limpiar"
-                placeholder="Buscar Productos"
+                placeholder="Buscar Bocadillos"
                 event-name="results"
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
@@ -42,10 +43,10 @@
                 <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                     <div class="list-group" v-for="producto in results.slice(0,40)" :key="producto.id">
                         <div v-on:click="agregarProducto(producto)" class="row contenedor-producto" style="cursor:auto;" >
-                            <div v-if="producto.familia=='Botanas'" class="col-md-3" >
+                            <div class="col-md-3" >
                                 <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
                             </div>
-                            <div v-if="producto.familia=='Botanas'" class="col-md-9">
+                            <div class="col-md-9">
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
@@ -120,6 +121,7 @@
                     <div><label>Descuento: $</label><input v-model="descuento"></div>
                     <p style="font-weight:bold">Subtotal: {{calcularSubtotal | currency}}</p>
                     <div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label><input v-model="totalFinal"></div>
+                    <div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: $</label><input v-model="totalFinalAjustado"></div>
                     <div><button class="btn btn-primary">Imprimir</button></div>
 
                 </div>
@@ -152,6 +154,7 @@ export default {
             //Inventario de productos
             inventario: [],
             inventarioLocal: [],
+            totalFinalAjustado:0,
             cantidadActualizada:1,
             cantidadPaquetesActualizada:1,
             precioActualizado:1,
@@ -305,6 +308,17 @@ export default {
         },
         obtenerInventario(){
             let URL = '/obtener-inventario';
+
+            axios.get(URL).then((response) => {
+                this.inventario = response.data;
+            }).catch((error) => {
+                console.log(error.data);
+            });
+        
+        },
+
+        obtenerInventarioBocadillos(){
+            let URL = '/obtener-inventarioBocadillos';
 
             axios.get(URL).then((response) => {
                 this.inventario = response.data;
