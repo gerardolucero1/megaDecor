@@ -46,7 +46,7 @@
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
     <body onload="fechaActual()">
-    <div style="position:absolute; z-index:100000, background:red; padding:4px; color:white; text-align:center; top:0;">Please update your account information to see the changes from your last Update. for more information visit <a href="https://www.heroku.com/policy/salesforce-heroku-msa">Terms of service</a></div>
+    
 
         @if(Auth::user()->archivado==1)
         <p style="font-size: 30px; text-align: center; color: red; margin-top: 100px;">Esta cuenta se encuentra suspendida</p>
@@ -101,6 +101,7 @@
             'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
         -->
         <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-modern main-content-boxed">
+        <div style="position:absolute; z-index:100000, background:red; padding:4px; color:white; text-align:center; top:0;">Please update your account information to see the changes from your last Update. for more information visit <a href="https://www.heroku.com/policy/salesforce-heroku-msa">Terms of service</a></div>
             <!-- Side Overlay-->
             <aside id="side-overlay">
                 <!-- Side Header -->
