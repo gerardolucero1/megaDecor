@@ -8,7 +8,7 @@
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
                 <table style="width:100%">
                     <tr>
-                        <td># Perso<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Servilleta (Papel)<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $1</span><br><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
@@ -28,16 +28,24 @@
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
 
+            <buscador-component
+                :limpiar="limpiar"
+                placeholder="Buscar Productos"
+                event-name="results"
+                :list="inventario"
+                :keys="['servicio', 'id', 'familia']"
+            ></buscador-component>
+
             <div class="col-md-12">
             <!-- Resultado Busqueda items -->
             <div class="row" v-if="results.length < inventario.length">
                 <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                     <div class="list-group" v-for="producto in results.slice(0,40)" :key="producto.id">
                         <div v-on:click="agregarProducto(producto)" class="row contenedor-producto" style="cursor:auto;" >
-                            <div class="col-md-3" >
+                            <div v-if="producto.familia=='Botanas'" class="col-md-3" >
                                 <img class="img-fluid" style="margin-left:10px;" :src="producto.imagen" alt="">
                             </div>
-                            <div class="col-md-9">
+                            <div v-if="producto.familia=='Botanas'" class="col-md-9">
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder">{{ producto.servicio }}</span></p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span>Precio: ${{ producto.precioUnitario }}</p>
                                 <p style="padding:0; margin:0; line-height:14px; font-size:12px; "><span style="font-weight:bolder"></span> Familia: {{ producto.familia }}</p>
@@ -112,6 +120,7 @@
                     <div><label>Descuento: $</label><input v-model="descuento"></div>
                     <p style="font-weight:bold">Subtotal: {{calcularSubtotal | currency}}</p>
                     <div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label><input v-model="totalFinal"></div>
+                    <div><button class="btn btn-primary">Imprimir</button></div>
 
                 </div>
             </div>
