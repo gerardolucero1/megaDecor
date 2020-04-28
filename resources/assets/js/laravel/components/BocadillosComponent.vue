@@ -114,7 +114,7 @@
                 </tbody>
                 </table>
                 <div>
-                    <table style="width:200px">
+                    <table style="width:300px">
                         <tr>
                             <td><p style="margin:0; padding:0">Bocadillos:</p></td>
                             <td>{{calcularTotalCostoBocadillos | currency}}</td>
