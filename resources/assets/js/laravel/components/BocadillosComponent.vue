@@ -115,35 +115,35 @@
                 </table>
                 <div>
                     <table style="width:300px">
-                        <tr>
+                        <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Bocadillos:</p></td>
                             <td>{{calcularTotalCostoBocadillos | currency}}</td>
                         </tr>
-                        <tr>
+                        <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Servilletas: </p></td>
                             <td>{{precioServilleta*personas | currency}}</td>
                         </tr>
-                        <tr>
+                        <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Platos:</p></td>
                             <td>{{precioPlatoPastelero*personas | currency}}</td>
                         </tr>
-                        <tr>
+                        <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Decoración: $</label></td>
                             <td><input v-model="decoracion"></td>
                         </tr>
-                        <tr>
+                        <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Descuento: $</label></td>
                             <td><input v-model="descuento"></td>
                         </tr>
-                        <tr>
-                            <td><p style="font-weight:bold">Subtotal: </p></td>
+                        <tr style="border-bottom:solid; border-weight:1px">
+                            <td><label style="font-weight:bold">Subtotal: </label></td>
                             <td>{{calcularSubtotal | currency}}</td>
                         </tr>
-                         <tr>
+                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label></div></td>
                             <td><input v-model="totalFinal"></td>
                         </tr>
-                         <tr>
+                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: $</label></div></td>
                             <td><input v-model="totalFinalAjustado"></td>
                         </tr>
