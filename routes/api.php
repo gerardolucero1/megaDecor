@@ -85,7 +85,7 @@ Route::get('clientestt', function(){
     return datatables()
     ->of($CompleteClients)
     // ->eloquent(App\Inventory::query())
-    ->addColumn('btn', 'actions')
+    ->addColumn('btn', 'actionsClientes')
     //->addColumn('img', 'images')
     //->rawColumns(['btn', 'img'])
     ->toJson();
