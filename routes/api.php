@@ -49,8 +49,8 @@ Route::get('clientestt', function(){
     $CompleteClients=[];
 
     foreach($clientes as $cliente){
-        $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
-        $tipoCliente = Client::where('id', $cliente->id)->first();
+        $telefono = App\Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        $tipoCliente = App\Client::where('id', $cliente->id)->first();
         $CompleteClient = new stdClass();
 
         $CompleteClient->id = $cliente->id;
