@@ -16,7 +16,7 @@
                                 <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 150px">
                             </td>
                         <td style="text-align: right">
-                                <span style="font-weight: bold; font-size: 14px">Folio de contrato:</span> <span>1000 </span><br>
+                                <span style="font-weight: bold; font-size: 14px">Folio de contrato:</span> <span>NM543 </span><br>
                                 <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha del evento: </span>Martes 28 Abril 2020<span><span>
 
                             </td>
@@ -28,10 +28,10 @@
                         <div style="width: 100%; height: 0px"></div>
                         
 
-                        <label for="" style="font-size: 16px;">Numero de personas: 100</label>
-                        <label for="" style="font-size: 16px;">Numero de Bocadillos: 400</label>
-                        <label for="" style="font-size: 16px;">Numero de servilletas: 100</label>
-                        <label for="" style="font-size: 16px;">Numero de platos: 100</label>
+                        <label for="" style="font-size: 16px;">Numero de personas: 100</label><br>
+                        <label for="" style="font-size: 16px;">Numero de Bocadillos: 400</label><br>
+                        <label for="" style="font-size: 16px;">Numero de servilletas: 100</label><br>
+                        <label for="" style="font-size: 16px;">Numero de platos: 100</label><br>
                         <table style="width: 100%; font-size: 13px"> 
                             <tr>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Imagen</td>
@@ -62,13 +62,23 @@
                                 <td>300</td>
                             </tr>
                             <tr>
-                            <td></td>
-                            <td style="background:red; color:white">370</td>
+                            <td colspan="2"></td>
+                            <td style="background:red; color:white; font-weight:bold; font-size:18px">50 Paquetes</td>
+                            <td style="background:red; color:white; font-weight:bold; font-size:18px">370 pzs</td>
                             </tr>
                         </table>
-                        <div style="width: 100%; height: 0px; border-bottom:solid">Subtotal: $7,820.00</div>
-                        <div style="width: 100%; height: 0px; border-bottom:solid">Descuento: $320.00</div>
-                        <div style="width: 100%; height: 0px; border-bottom:solid">Total: $7,500.00</div>
+                        <table style="font-weight:bold">
+                        <tr>
+                            <td>Subtotal: $7,820.00</td>
+                        </tr>
+                        <tr>
+                            <td>Descuento: $320.00</td>
+                        </tr>
+                        <tr>
+                            <td>Total: $7,500.00</td>
+                        </tr>
+                        </table>
+                       
                         
                       
                 </div>
