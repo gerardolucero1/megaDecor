@@ -16,7 +16,7 @@
                 </table>
                 <table style="width:40%; margin-top:20px">
                     <tr>
-                        <td>#bocadillos Restantes {{bocadillosRestantes}}</td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </table>
@@ -150,7 +150,9 @@
                     </table>
                     
  
-                    <div style="padding-top:10px"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
+                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a>
+                    <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px">#bocadillos Restantes {{bocadillosRestantes}}</div>
+                    </div>
 
                 </div>
             </div>
