@@ -90,7 +90,7 @@ class BudgetController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.mesa-bocadillos', compact('Pago'));
+        $pdf = PDF::loadView('pdf.mesa_bocadillos', compact('Pago'));
 
         return $pdf->stream();
     }
