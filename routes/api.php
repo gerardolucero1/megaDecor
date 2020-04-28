@@ -51,6 +51,8 @@ Route::get('clientestt', function(){
     foreach($clientes as $cliente){
         $telefono = App\Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
         $tipoCliente = App\Client::where('id', $cliente->id)->first();
+        $Presupuestos = App\Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->where('tpo', 'PRESUPUESTO')->get()->toArray();
+        $Contratos = App\Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->where('tpo', 'CONTRATO')->get()->toArray();
         $CompleteClient = new stdClass();
 
         $CompleteClient->id = $cliente->id;
@@ -61,8 +63,8 @@ Route::get('clientestt', function(){
         }
         $CompleteClient->created_at = $cliente->created_at;
         $CompleteClient->email = $cliente->email;
-        $CompleteClient->presupuestos = "10";
-        $CompleteClient->contratos = "5";
+        $CompleteClient->presupuestos = $Presupuestos;
+        $CompleteClient->contratos = $Contratos;
         $CompleteClient->opciones = "opciones";
         
 
