@@ -178,6 +178,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+    Route::get('/clientes2', 'CMS\IndexController@clientes2')->name('clientes2');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
     Route::delete('/clientes/delete/{id}', 'CMS\ClientController@destroy')->name('cliente.delete');
