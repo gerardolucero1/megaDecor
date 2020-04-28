@@ -41,6 +41,9 @@ class BudgetController extends Controller
     public function inventarioPostres(){
         return Inventory::orderBy('id', 'DESC')->where('familia', 'POSTRE')->get();
     }
+    public function inventarioBotanas(){
+        return Inventory::orderBy('id', 'DESC')->where('familia', 'POSTRE')->get();
+    }
 
     // Retorna todos los clientes con sus presupeustos a la vista
 

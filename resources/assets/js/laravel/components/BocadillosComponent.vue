@@ -33,7 +33,7 @@
                 :limpiar="limpiar"
                 placeholder="Buscar Bocadillos"
                 event-name="results"
-                :list="inventario"
+                :list="inventarioBotanas"
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
 
@@ -153,6 +153,7 @@ export default {
 
             //Inventario de productos
             inventario: [],
+            inventarioBotanas: [],
             inventarioLocal: [],
             totalFinalAjustado:0,
             cantidadActualizada:1,
@@ -177,6 +178,7 @@ export default {
 
     created(){
         this.obtenerInventarioPostres()
+        this.obtenerInventarioBotanas()
         this.obtenerNesteds()
 
         this.$on('results', results => {
@@ -312,6 +314,17 @@ export default {
 
             axios.get(URL).then((response) => {
                 this.inventario = response.data;
+            }).catch((error) => {
+                console.log(error.data);
+            });
+        
+        },
+
+        obtenerInventarioBotanas(){
+            let URL = '/obtener-inventario-botanas';
+
+            axios.get(URL).then((response) => {
+                this.inventarioBotanas = response.data;
             }).catch((error) => {
                 console.log(error.data);
             });
