@@ -21,7 +21,7 @@
                     </tr>
                 </table>
                 <label for="">Buscadores de postres y bocadillos</label> 
-                 <buscador-component
+            <buscador-component
                 :limpiar="limpiar"
                 placeholder="Buscar Postres"
                 event-name="results"
@@ -176,7 +176,7 @@ export default {
     },
 
     created(){
-        this.obtenerInventario()
+        this.obtenerInventarioPostres()
         this.obtenerNesteds()
 
         this.$on('results', results => {
@@ -188,6 +188,7 @@ export default {
             
            let  total = parseInt(this.platoPastelero*this.precioPlatoPastelero)+parseInt(this.servilleta*this.precioServilleta)+parseInt(this.totalPrecioBocadillos)-parseInt(this.descuento)+parseInt(this.decoracion);
            this.totalFinal=total;
+           this.totalAjustado=total;
            return total;
         },
         calcularTotalBocadillos: function(){
@@ -306,8 +307,8 @@ export default {
             this.cantidadPaquetesActualizada = '';
             this.key= '';
         },
-        obtenerInventario(){
-            let URL = '/obtener-inventario';
+        obtenerInventarioPostres(){
+            let URL = '/obtener-inventario-postres';
 
             axios.get(URL).then((response) => {
                 this.inventario = response.data;
@@ -316,6 +317,8 @@ export default {
             });
         
         },
+
+        
 
         obtenerInventarioBocadillos(){
             let URL = '/obtener-inventarioBocadillos';

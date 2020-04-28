@@ -131,6 +131,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+        Route::get('/obtener-inventario-postres', 'CMS\BudgetController@inventarioPostres');
         Route::get('/obtener-inventarioBocadillos', 'CMS\BudgetController@inventarioBocadillos');
         Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
         Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
