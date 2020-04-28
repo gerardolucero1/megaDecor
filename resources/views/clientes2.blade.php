@@ -66,6 +66,8 @@
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
+                                    <th>Proveedor</th>
+                                    <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -141,11 +143,13 @@ $(document).ready( function () {
         "serverSide" : true,
         "ajax" : "{{ url('api/clientestt')}}",
         "columns": [
-            {data: 'nombre'},
-            {data: 'email'},
-            {data: 'created_at'},
-            {data: 'presupuestos'},
-            {data: 'telefono'},
+            {data: 'img'},
+            {data: 'servicio'},
+            {data: 'cantidad'},
+            {data: 'exhibicion'},
+            {data: 'precioUnitario'},
+            {data: 'proveedor1'},
+            {data: 'familia'},
             {data: 'btn'},
         ],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
