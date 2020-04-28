@@ -128,24 +128,24 @@
                             <td>{{precioPlatoPastelero*personas | currency}}</td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
-                            <td><label>Decoración: $</label></td>
-                            <td><input v-model="decoracion"></td>
+                            <td><label>Decoración: </label></td>
+                            <td>$<input v-model="decoracion"></td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
-                            <td><label>Descuento: $</label></td>
-                            <td><input v-model="descuento"></td>
+                            <td><label>Descuento: </label></td>
+                            <td>$<input v-model="descuento"></td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label style="font-weight:bold">Subtotal: </label></td>
                             <td>{{calcularSubtotal | currency}}</td>
                         </tr>
                          <tr style="border-bottom:solid; border-weight:1px">
-                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label></div></td>
-                            <td><input v-model="totalFinal"></td>
+                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL: </label></div></td>
+                            <td>$<input v-model="totalFinal"></td>
                         </tr>
                          <tr style="border-bottom:solid; border-weight:1px">
-                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: $</label></div></td>
-                            <td><input v-model="totalFinalAjustado"></td>
+                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: </label></div></td>
+                            <td>$<input v-model="totalFinalAjustado"></td>
                         </tr>
                     </table>
                     

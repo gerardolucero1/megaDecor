@@ -3034,10 +3034,16 @@ padding: 0;
                     Swal.fire(
                             '',
                             'Mesa de dulces agregada correctamente',
-                            'Success'
+                            'success'
                         );
     },
     ModalGuardarContrato(){
+
+        if(this.presupuesto.vendedor_id==""){
+                    alert('selecciona un vendedor para continuar');
+                    return
+                }
+
         if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
