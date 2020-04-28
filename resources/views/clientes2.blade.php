@@ -61,7 +61,7 @@
                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>Nombre</th>
+                                    <th>Imagen</th>
                                     <th>Servicio</th>
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
@@ -139,7 +139,7 @@
 @section("scripts")
 <script>
 $(document).ready( function () {
-    $('#TablaClientes').DataTable({ 
+    $('#TablaInventario').DataTable({ 
         "serverSide" : true,
         "ajax" : "{{ url('api/inventariott')}}",
         "columns": [
