@@ -65,7 +65,7 @@ Route::get('clientestt', function(){
         $CompleteClient->email = $cliente->email;
         $CompleteClient->presupuestos = count($Presupuestos);
         $CompleteClient->contratos = count($Contratos);
-        $CompleteClient->opciones = "opciones";
+        
         
 
         if(!is_null($telefono)){
@@ -85,7 +85,7 @@ Route::get('clientestt', function(){
     return datatables()
     ->of($CompleteClients)
     // ->eloquent(App\Inventory::query())
-    //->addColumn('btn', 'actions')
+    ->addColumn('btn', 'actions')
     //->addColumn('img', 'images')
     //->rawColumns(['btn', 'img'])
     ->toJson();

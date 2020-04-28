@@ -150,7 +150,7 @@ $(document).ready( function () {
             {data: 'email'},
             {data: 'presupuestos'},
             {data: 'contratos'},
-            {data: 'opciones'},
+            {data: 'btn'},
         ],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "pageLength": 50,
