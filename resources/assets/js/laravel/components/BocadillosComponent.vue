@@ -150,7 +150,8 @@
                     </table>
                     
  
-                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a>
+                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir con ajuste</a>
+                    <a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir sin ajuste</a>
                     <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-50px">#bocadillos Restantes {{bocadillosRestantes}}</div>
                     </div>
 

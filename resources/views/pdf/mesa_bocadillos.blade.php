@@ -27,10 +27,18 @@
                        
                         <div style="width: 100%; height: 0px"></div>
                         
+                        <table>
+                        <tr>
+                        <td><label for="" style="font-size: 16px;">Numero de personas: 100</label></td>
+                        <td><label for="" style="font-size: 16px;">Numero de Bocadillos: 400</label><br></td>
+                        </tr>
+                        <tr></tr>
+                        </table>
 
-                        <label for="" style="font-size: 16px;">Numero de personas: 100</label><br>
-                        <label for="" style="font-size: 16px;">Numero de Bocadillos: 400</label><br>
+                        <br>
+                        
                         <label for="" style="font-size: 16px;">Numero de servilletas: 100</label><br>
+                        <label for="" style="font-size: 16px;">Numero de platos: 100</label><br>
                         <label for="" style="font-size: 16px;">Numero de platos: 100</label><br>
                         <table style="width: 100%; font-size: 13px"> 
                             <tr>
