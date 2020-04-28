@@ -588,7 +588,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('recibo-pago/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePago')->name('recibo-pago.pdf');
 
-    Route::get('mesa-bocadillos/pdf/', 'CMS\BudgetController@pdfMesaBocadillos')->name('recibo-pago.pdf');
+    Route::get('mesa-bocadillos/pdf/', 'CMS\BudgetController@pdfMesaBocadillos')->name('mesa-bocadillos.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
     Route::get('obtener-pagos-pasados', function(){
