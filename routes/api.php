@@ -49,17 +49,23 @@ Route::get('clientestt', function(){
     $CompleteClients=[];
 
     foreach($clientes as $cliente){
+        $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
         $CompleteClient = new stdClass();
 
         $CompleteClient->id = $cliente->id;
         $CompleteClient->nombre = $cliente->nombre;
-        $CompleteClient->created_at = "fecha";
-        $CompleteClient->telefono = "5555321";
-        $CompleteClient->email = "nombre@algo";
+        $CompleteClient->created_at = $cliente->created_at;
+        $CompleteClient->email = $cliente->email;
         $CompleteClient->presupuestos = "10";
         $CompleteClient->contratos = "5";
         $CompleteClient->opciones = "opciones";
+        
 
+        if(!is_null($telefono)){
+            $CompleteClient->telefono = $telefono->numero;}
+            else{
+            $CompleteClient->telefono = "--";  
+            }
         array_push($CompleteClients,$CompleteClient); 
 
     }
