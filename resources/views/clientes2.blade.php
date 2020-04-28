@@ -58,16 +58,16 @@
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
+                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>#</th>
                                     <th>Nombre</th>
-                                    <th>Fecha Registro</th>
-                                    <th>Numero Teléfono</th>
-                                    <th>Correo</th>
-                                    <th>Presupuestos</th>
-                                    <th>Contratos</th>
+                                    <th>Servicio</th>
+                                    <th>Total bodega</th>
+                                    <th>Total exhibición</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Proveedor</th>
+                                    <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
