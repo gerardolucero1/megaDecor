@@ -114,14 +114,42 @@
                 </tbody>
                 </table>
                 <div>
-                    <p style="margin:0; padding:0">Bocadillos: {{calcularTotalCostoBocadillos | currency}}</p>
-                    <p style="margin:0; padding:0">Servilletas: {{precioServilleta*personas | currency}}</p>
-                    <p style="margin:0; padding:0">Platos: {{precioPlatoPastelero*personas | currency}}</p>
-                    <div><label>Decoración: $</label><input v-model="decoracion"></div>
-                    <div><label>Descuento: $</label><input v-model="descuento"></div>
-                    <p style="font-weight:bold">Subtotal: {{calcularSubtotal | currency}}</p>
-                    <div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label><input v-model="totalFinal"></div>
-                    <div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: $</label><input v-model="totalFinalAjustado"></div>
+                    <table style="width:200px">
+                        <tr>
+                            <td><p style="margin:0; padding:0">Bocadillos:</p></td>
+                            <td>{{calcularTotalCostoBocadillos | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td><p style="margin:0; padding:0">Servilletas: </p></td>
+                            <td>{{precioServilleta*personas | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td><p style="margin:0; padding:0">Platos:</p></td>
+                            <td>{{precioPlatoPastelero*personas | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td><label>Decoración: $</label></td>
+                            <td><input v-model="decoracion"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Descuento: $</label></td>
+                            <td><input v-model="descuento"></td>
+                        </tr>
+                        <tr>
+                            <td><p style="font-weight:bold">Subtotal: </p></td>
+                            <td>{{calcularSubtotal | currency}}</td>
+                        </tr>
+                         <tr>
+                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL: $</label></div></td>
+                            <td><input v-model="totalFinal"></td>
+                        </tr>
+                         <tr>
+                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: $</label></div></td>
+                            <td><input v-model="totalFinalAjustado"></td>
+                        </tr>
+                    </table>
+                    
+ 
                     <div><button class="btn btn-primary">Imprimir</button></div>
 
                 </div>
