@@ -57,14 +57,14 @@ Route::get('clientestt', function(){
 
         $CompleteClient->id = $cliente->id;
         if($tipoCliente->tipoPersona=='MORAL'){
-            $CompleteClient->nombre = $cliente->nombre;
+        $CompleteClient->nombre = $cliente->nombre;
             }else{
-            $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+        $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
         }
         $CompleteClient->created_at = $cliente->created_at;
         $CompleteClient->email = $cliente->email;
-        $CompleteClient->presupuestos = $Presupuestos;
-        $CompleteClient->contratos = $Contratos;
+        $CompleteClient->presupuestos = count($Presupuestos);
+        $CompleteClient->contratos = count($Contratos);
         $CompleteClient->opciones = "opciones";
         
 
