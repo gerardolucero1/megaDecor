@@ -35,7 +35,7 @@ Route::get('inventariott', function(){
     ->toJson();
 });
 
-Route::get('inventariott', function(){
+Route::get('clientestt', function(){
    $inventory = App\Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
        // $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
      //   $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
