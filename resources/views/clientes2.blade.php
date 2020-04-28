@@ -61,13 +61,13 @@
                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>Imagen</th>
-                                    <th>Servicio</th>
-                                    <th>Total bodega</th>
-                                    <th>Total exhibición</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Proveedor</th>
-                                    <th>Familia</th>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha de registro</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo Electronico</th>
+                                    <th>Presupuestos</th>
+                                    <th>Contratos</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
