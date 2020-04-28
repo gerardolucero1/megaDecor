@@ -58,7 +58,7 @@
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
+                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
@@ -139,9 +139,9 @@
 @section("scripts")
 <script>
 $(document).ready( function () {
-    $('#TablaInventario').DataTable({ 
+    $('#TablaClientes').DataTable({ 
         "serverSide" : true,
-        "ajax" : "{{ url('api/inventariott')}}",
+        "ajax" : "{{ url('api/clientestt')}}",
         "columns": [
             {data: 'img'},
             {data: 'servicio'},

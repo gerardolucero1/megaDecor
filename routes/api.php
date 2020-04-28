@@ -34,3 +34,20 @@ Route::get('inventariott', function(){
     ->rawColumns(['btn', 'img'])
     ->toJson();
 });
+
+Route::get('clientestt', function(){
+    $inventory = App\Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
+        // $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
+      //   $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
+         
+        // $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
+         //dd($inventarioAuth);
+ 
+     return datatables()
+     ->of($inventory)
+     // ->eloquent(App\Inventory::query())
+     ->addColumn('btn', 'actions')
+     ->addColumn('img', 'images')
+     ->rawColumns(['btn', 'img'])
+     ->toJson();
+ });
