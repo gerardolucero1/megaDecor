@@ -121,11 +121,11 @@
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Servilletas: </p></td>
-                            <td>{{precioServilleta*personas | currency}}</td>
+                            <td>{{precioServilleta*servilleta | currency}}</td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Platos:</p></td>
-                            <td>{{precioPlatoPastelero*personas | currency}}</td>
+                            <td>{{precioPlatoPastelero*platoPastelero | currency}}</td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Decoración: </label></td>

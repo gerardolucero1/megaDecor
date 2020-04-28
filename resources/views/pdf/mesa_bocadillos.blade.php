@@ -62,9 +62,9 @@
                                 <td>300</td>
                             </tr>
                             <tr>
-                            <td colspan="2"></td>
-                            <td style="background:red; color:white; font-weight:bold; font-size:18px">50 Paquetes</td>
-                            <td style="background:red; color:white; font-weight:bold; font-size:18px">370 pzs</td>
+                            <td colspan="3"></td>
+                            <td style="background:red; color:white; font-weight:bold; font-size:14px">50 Paquetes</td>
+                            <td style="background:red; color:white; font-weight:bold; font-size:14px">370 pzs</td>
                             </tr>
                         </table>
                         <table style="font-weight:bold">
