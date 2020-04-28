@@ -737,7 +737,7 @@ padding: 0;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Agregar paquete</button>
+                        <button type="button"  class="btn btn-primary">Agregar Como paquete</button>
                     </div>
                 </div>
             </div>

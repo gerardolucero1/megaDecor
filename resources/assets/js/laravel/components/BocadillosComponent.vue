@@ -150,7 +150,7 @@
                     </table>
                     
  
-                    <div style="padding-top:10px"><a :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
+                    <div style="padding-top:10px"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
 
                 </div>
             </div>
