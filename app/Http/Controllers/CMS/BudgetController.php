@@ -82,7 +82,7 @@ class BudgetController extends Controller
 
     public function pdfMesaBocadillos(){
         
-        $Pago = Payment::orderBy('id', 'DESC')->first();
+        $Pago = 0;
         
         
         

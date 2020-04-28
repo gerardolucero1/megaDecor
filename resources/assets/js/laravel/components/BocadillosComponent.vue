@@ -6,7 +6,7 @@
     <section class="container">
         <div class="row">
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
-                <table style="width:100%">
+                <table style="width:70%">
                     <tr>
                         <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                         <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
@@ -151,7 +151,7 @@
                     
  
                     <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a>
-                    <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-250px">#bocadillos Restantes {{bocadillosRestantes}}</div>
+                    <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-50px">#bocadillos Restantes {{bocadillosRestantes}}</div>
                     </div>
 
                 </div>
