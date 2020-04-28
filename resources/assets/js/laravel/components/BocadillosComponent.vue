@@ -150,7 +150,7 @@
                     </table>
                     
  
-                    <div><a :href="'recibo-pago/pdf/'" class="btn btn-primary">Imprimir</a></div>
+                    <div><a :href="'recibo-pago/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
 
                 </div>
             </div>
