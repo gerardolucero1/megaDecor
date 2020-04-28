@@ -49,13 +49,20 @@ Route::get('clientestt', function(){
     $CompleteClients=[];
 
     foreach($clientes as $cliente){
+        $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get()->toArray();
+        $tipoCliente = Client::where('id', $cliente->id)->first();
         $CompleteClient = new stdClass();
 
-        $CompleteClient->id = "5";
-        $CompleteClient->nombre = "nombre";
-        $CompleteClient->created_at = "fecha";
-        $CompleteClient->telefono = "5555321";
-        $CompleteClient->email = "nombre@algo";
+        $CompleteClient->id = $cliente->id;
+        if($tipoCliente->tipoPersona=='MORAL'){
+        $CompleteClient->nombre = $cliente->nombre;
+            }else{
+        $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+            }
+        $CompleteClient->created_at = $cliente->created_at;
+        $CompleteClient->telefono = $cliente->created_at;
+        $CompleteClient->email = $cliente->email;
         $CompleteClient->presupuestos = "10";
         $CompleteClient->contratos = "5";
         $CompleteClient->opciones = "opciones";
