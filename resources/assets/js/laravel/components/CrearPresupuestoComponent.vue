@@ -737,7 +737,7 @@ padding: 0;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Agregar paquete</button>
+                        <button type="button" @click="MesaDulcesGuardada()" class="btn btn-primary">Agregar Como Paquete</button>
                     </div>
                 </div>
             </div>
@@ -3029,6 +3029,14 @@ padding: 0;
             }
            
             },
+
+    MesaDulcesGuardada(){
+                    Swal.fire(
+                            '',
+                            'Mesa de dulces agregada correctamente',
+                            'Success'
+                        );
+    },
     ModalGuardarContrato(){
         if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');

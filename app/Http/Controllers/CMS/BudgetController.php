@@ -80,7 +80,7 @@ class BudgetController extends Controller
         return json_encode($clientes);
     }
 
-    public function pdfMesaBocadillos($id){
+    public function pdfMesaBocadillos(){
         
         $Pago = Payment::orderBy('id', 'DESC')->first();
         

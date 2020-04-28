@@ -151,7 +151,7 @@
                     
  
                     <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a>
-                    <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px">#bocadillos Restantes {{bocadillosRestantes}}</div>
+                    <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-250px">#bocadillos Restantes {{bocadillosRestantes}}</div>
                     </div>
 
                 </div>
