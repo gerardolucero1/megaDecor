@@ -129,7 +129,7 @@
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Decoración: </label></td>
-                            <td>$<input v-model="decoracion"></td>
+                            <td>$<input v-model="decoracion"><input type="checkbox"></td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Descuento: </label></td>
