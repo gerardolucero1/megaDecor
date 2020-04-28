@@ -46,6 +46,23 @@ Route::get('clientestt', function(){
         ->get();
 
     $clientes = $clientes_morales->merge($clientes_fisicos);
+    $CompleteClients=[];
+
+    foreach($clientes as $cliente){
+        $CompleteClient = new stdClass();
+
+        $CompleteClient->id = "5";
+        $CompleteClient->nombre = "nombre";
+        $CompleteClient->created_at = "fecha";
+        $CompleteClient->telefono = "5555321";
+        $CompleteClient->email = "nombre@algo";
+        $CompleteClient->presupuestos = "10";
+        $CompleteClient->contratos = "5";
+        $CompleteClient->opciones = "opciones";
+
+        array_push($CompleteClients,$CompleteClient); 
+
+    }
        // $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
      //   $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
         
@@ -53,7 +70,7 @@ Route::get('clientestt', function(){
         //dd($inventarioAuth);
 
     return datatables()
-    ->of($clientes)
+    ->of($CompleteClients)
     // ->eloquent(App\Inventory::query())
     //->addColumn('btn', 'actions')
     //->addColumn('img', 'images')
