@@ -3032,10 +3032,10 @@ padding: 0;
 
     MesaDulcesGuardada(){
                     Swal.fire(
-                            '',
-                            'Mesa de dulces agregada correctamente',
-                            'success'
-                        );
+                        'Listo!',
+                        'Mesa de dulces agregada con exito a presupuesto',
+                        'success'
+                        ) ;
     },
     ModalGuardarContrato(){
 
