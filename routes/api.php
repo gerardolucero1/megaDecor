@@ -50,10 +50,15 @@ Route::get('clientestt', function(){
 
     foreach($clientes as $cliente){
         $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        $tipoCliente = Client::where('id', $cliente->id)->first();
         $CompleteClient = new stdClass();
 
         $CompleteClient->id = $cliente->id;
-        $CompleteClient->nombre = $cliente->nombre;
+        if($tipoCliente->tipoPersona=='MORAL'){
+            $CompleteClient->nombre = $cliente->nombre;
+            }else{
+            $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+        }
         $CompleteClient->created_at = $cliente->created_at;
         $CompleteClient->email = $cliente->email;
         $CompleteClient->presupuestos = "10";
