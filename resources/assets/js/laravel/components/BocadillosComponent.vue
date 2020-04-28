@@ -150,7 +150,7 @@
                     </table>
                     
  
-                    <div><a :href="'recibo-pago/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
+                    <div style="padding-top:10px"><a :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir</a></div>
 
                 </div>
             </div>
