@@ -271,7 +271,7 @@ export default {
         editarPrecio(index, key){
                     //console.log(key);
                     this.indice = index;
-                    this.key = key[3];
+                    this.key = key[4];
                     console.log(index);
                     //alert(key[3]);     
                 },
@@ -292,7 +292,7 @@ export default {
         editarCantidadPaquetes(index, key){
                     //console.log(key);
                     this.indice = index;
-                    this.key = key[2];
+                    this.key = key[3];
                     console.log(index);
                     //alert(key[2]);
                        
