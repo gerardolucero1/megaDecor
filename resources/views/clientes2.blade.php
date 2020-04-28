@@ -58,7 +58,7 @@
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaClientes" role="grid" >
+                    <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
@@ -66,8 +66,6 @@
                                     <th>Total bodega</th>
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
-                                    <th>Proveedor</th>
-                                    <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -139,17 +137,15 @@
 @section("scripts")
 <script>
 $(document).ready( function () {
-    $('#TablaClientes').DataTable({ 
+    $('#TablaInventario').DataTable({ 
         "serverSide" : true,
         "ajax" : "{{ url('api/clientestt')}}",
         "columns": [
-            {data: 'img'},
-            {data: 'servicio'},
-            {data: 'cantidad'},
-            {data: 'exhibicion'},
-            {data: 'precioUnitario'},
-            {data: 'proveedor1'},
-            {data: 'familia'},
+            {data: 'nombre'},
+            {data: 'email'},
+            {data: 'created_at'},
+            {data: 'presupuestos'},
+            {data: 'telefono'},
             {data: 'btn'},
         ],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
