@@ -114,6 +114,7 @@
                 </tbody>
                 </table>
                 <div>
+                    <div class="col-md-6">
                     <table style="width:300px">
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Bocadillos:</p></td>
@@ -129,7 +130,7 @@
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Decoración: </label></td>
-                            <td>$<input v-model="decoracion"><input type="checkbox"></td>
+                            <td>$<input v-model="decoracion" style="width:100px"><input type="checkbox"></td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Descuento: </label></td>
@@ -148,6 +149,11 @@
                             <td>$<input v-model="totalFinalAjustado"></td>
                         </tr>
                     </table>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Comentarios</label>
+                        <textarea ></textarea>
+                    </div>
                     
  
                     <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir con ajuste</a>
