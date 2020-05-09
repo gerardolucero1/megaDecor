@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/obtener-usuarios', function(){
-        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->get();
+        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->where('archivado', '!=', '1')->get();
     });
     
     // Rutas del CMS

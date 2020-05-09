@@ -8,10 +8,10 @@
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
                 <table style="width:70%">
                     <tr>
-                        <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"> X </td>
+                        <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"> = 200</td>
                         <td>Servilleta (Papel)<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $1</span><br><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3</span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3 <i class="fa fa-edit"></i></span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
                 <table style="width:40%; margin-top:20px">
@@ -81,10 +81,12 @@
                         </td>
                         <td>{{ item.servicio }}</td>
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
-                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p></td>
+                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p>
+                        <label><input type="checkbox">Precio por bocadillo</label></td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadPaquetesActualizada">
-                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p></td>
+                        <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p>
+                        <label><input type="checkbox">Precio Por paquete</label></td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="precioActualizado">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</p></td>
@@ -95,7 +97,7 @@
                         </td>
                         <td>
                             <p style="width:100%; font-weight:bold; text-align:center">{{item.precioTotal | currency}}</p>
-                            <button style="font-size:8px" v-on:click="editarCalculoPrecio(index, Object.keys(item))">$ por unidad {{item.calculoPrecio}}</button>
+                           
                            
                         </td>
                         
@@ -114,7 +116,8 @@
                 </tbody>
                 </table>
                 <div>
-                    <div class="col-md-6">
+                    <div class="row">
+                    <div class="col-md-4">
                     <table style="width:300px">
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><p style="margin:0; padding:0">Bocadillos:</p></td>
@@ -134,30 +137,32 @@
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label>Descuento: </label></td>
-                            <td>$<input v-model="descuento"></td>
+                            <td>$<input style="width:100px" v-model="descuento"></td>
                         </tr>
                         <tr style="border-bottom:solid; border-weight:1px">
                             <td><label style="font-weight:bold">Subtotal: </label></td>
                             <td>{{calcularSubtotal | currency}}</td>
                         </tr>
                          <tr style="border-bottom:solid; border-weight:1px">
-                            <td><div style="font-size:16px; font-weight:bold"><label>TOTAL: </label></div></td>
-                            <td>$<input v-model="totalFinal"></td>
+                            <td><div  style="font-size:16px; font-weight:bold"><label>TOTAL: </label></div></td>
+                            <td>$<input style="width:100px" v-model="totalFinal"></td>
                         </tr>
                          <tr style="border-bottom:solid; border-weight:1px">
                             <td><div style="font-size:16px; font-weight:bold"><label>TOTAL AJUSTADO: </label></div></td>
-                            <td>$<input v-model="totalFinalAjustado"></td>
+                            <td>$<input style="width:100px" v-model="totalFinalAjustado"></td>
                         </tr>
                     </table>
                     </div>
-                    <div class="col-md-6">
-                        <label for="">Comentarios</label>
-                        <textarea ></textarea>
+                    <div class="col-md-8" style="padding-top:40px">
+                        <p style="font-weight:bold">Comentarios</p>
+                        <textarea v-model="comentarios" style="width:100%"></textarea>
+                    </div>
                     </div>
                     
  
-                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir con ajuste</a>
-                    <a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer"></i>Imprimir sin ajuste</a>
+                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary" disabled><i class="si si-printer"></i> Imprimir cliente</a>
+                    <a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer" disabled></i> Imprimir interna</a>
+                    <button @click="guardarMesa1()" class="btn btn-success">Guardar</button>
                     <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-50px">#bocadillos Restantes {{bocadillosRestantes}}</div>
                     </div>
 
@@ -210,6 +215,7 @@ export default {
             bocadillosRestantes:0,
             totalPrecioBocadillos:0,
             totalFinal:0,
+            comentarios:'',
         }
     },
 
@@ -230,6 +236,8 @@ export default {
            this.totalAjustado=total;
            return total;
         },
+       
+
         calcularTotalBocadillos: function(){
             //Arreglo javascript de objetos json
                 let json = this.inventarioLocal;
@@ -278,10 +286,13 @@ export default {
         editarPrecio(index, key){
                     //console.log(key);
                     this.indice = index;
-                    this.key = key[4];
+                    this.key = key[3];
                     console.log(index);
                     //alert(key[3]);     
                 },
+        guardarMesa1(){
+            this.$emit('guardarMesa', this.totalFinalAjustado, this.inventarioLocal, this.comentarios);
+        },
         editarCalculoPrecio(index, key){
                     let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
@@ -299,7 +310,7 @@ export default {
         editarCantidadPaquetes(index, key){
                     //console.log(key);
                     this.indice = index;
-                    this.key = key[3];
+                    this.key = key[2];
                     console.log(index);
                     //alert(key[2]);
                        
