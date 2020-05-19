@@ -53,7 +53,7 @@
                                              
                                             @endphp
                                             <td class=""><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
-                                            <td class="d-none d-sm-table-cell"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@endif<br>
+                                    <td class="d-none d-sm-table-cell"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@else {{$fechaEvento->translatedFormat(' l j F Y')}}@endif<br>
                                        
                                             <td>{{$budgetArchivados->diasCredito}}</td>
                                             <td>Dias atraso</td>
