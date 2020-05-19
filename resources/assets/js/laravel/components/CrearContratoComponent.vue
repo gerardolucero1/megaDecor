@@ -536,7 +536,7 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                        <!--<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>-->
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
@@ -733,11 +733,11 @@ padding: 0;
                         </button>
                     </div>
                     <div class="modal-body">
-                        <bocadillos-component></bocadillos-component>
+                        <bocadillos-component @guardarMesa="recuperarMesaDulces"></bocadillos-component>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button"  class="btn btn-primary">Agregar Como paquete</button>
+                        <button type="button" class="btn btn-secondary" onClick="$('#bocadillosModal').modal('hide')">Cancelar</button>
+                     
                     </div>
                 </div>
             </div>
@@ -1343,22 +1343,22 @@ padding: 0;
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Cantidad Charolas</th>
+                                <th scope="col">Bocadillos Charola</th>
+                                <th scope="col">Precio Charola</th>
                                 <th scope="col">Precio Final</th>
-                                <th scope="col">Precio Venta</th>
-                                <th scope="col">Proveedor</th>
+                                <th scope="col">Total Bocadillos</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
-                                <th scope="row">{{ index }}</th>
-                                <td>{{ item.nombre }}</td>
+                            <tr v-for="(item, index) in viendoPaquete.paquete" :key="index">
+                                <td><img v-bind:src="item.imagen" alt="" width="50px"></td>
+                                <td>{{ item.servicio }}</td>
+                                <td>{{ item.cantidadPaquetes }}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
-                                <td>{{ item.proveedor }}</td>
+                                <td>${{ item.precioUnitario }}</td>
+                                <td>${{ item.precioUnitario*item.cantidadPaquetes }}</td>
+                                <td>{{ item.cantidadTotal }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -2040,6 +2040,39 @@ padding: 0;
                     this.limpiar = false;
                 }, 1000);
                
+            },
+            recuperarMesaDulces(args, invlocal, comentarios){
+                //console.log(args);
+
+                let paquete = JSON.parse( JSON.stringify(invlocal) );
+                
+                    console.log(paquete);
+                    this.inventarioLocal.push({
+                        externo: false,
+                        imagen: 'https://www.sweets.com.sv/img_decorados/ICON%20mesa%20de%20postres-01.png',
+                        servicio: 'Mesa de dulces',
+                        cantidad: 1,
+                        precioUnitario: args,
+                        precioFinal: args,
+                        precioAnterior: '0',
+                        ahorro: '0',
+                        notas: comentarios,
+                        paquete: paquete,
+                        tipo: 'PAQUETE',
+                        id: '',
+                        precioVenta: '0',
+                        precioEspecial: '0',
+                        precioAnterior: '0',
+                    });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                
+                $('#bocadillosModal').modal('hide');
+                    Swal.fire(
+                        'Listo!',
+                        'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) ;
             },
 
             agregarProductoPaqueteEditado(producto){
@@ -3029,7 +3062,21 @@ padding: 0;
             }
            
             },
+
+    MesaDulcesGuardada(){
+                    Swal.fire(
+                        'Listo!',
+                        'Mesa de dulces agregada con exito a presupuesto',
+                        'success'
+                        ) ;
+    },
     ModalGuardarContrato(){
+
+        if(this.presupuesto.vendedor_id==""){
+                    alert('selecciona un vendedor para continuar');
+                    return
+                }
+
         if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return

@@ -15,14 +15,14 @@
             $totalComisionesMes = 0;
         @endphp  
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <form action="{{ route('index.ventas') }}" method="POST">
                     @csrf
                     @method('POST')
                     <input class="print" id="fecha" name="fecha" type="month" onchange="obtenerDatos()">
                     <button class="btn btn-primary" type="submit">Consultar</button>
                 </form>
-                
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">Configurar Comisiones</button>
             </div>
         </div>
     </section>
@@ -243,6 +243,7 @@
         </div>
         <a href="{{ route('pdf.ventas') }}" target="_blank" class="btn btn-sm btn-success">Imprimir detalles de facturacion</a>
     </section>
+    @include('../modals/settingsMaster')
 @endsection
 
 @section('scripts')

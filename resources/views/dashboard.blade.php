@@ -32,11 +32,7 @@
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
                             @endif
-                            @if($permisos->dashboardConfiguraciones==1)
-                                <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
-                                        <i class="si si-settings"></i> <i>Configuraciones</i> 
-                                </button>
-                            @endif
+                            
                     </div>
                     
                     @if($permisos->dashboardAperturaCaja==1)
