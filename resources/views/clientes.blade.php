@@ -164,7 +164,7 @@
                         </div>
                 </div>
               
-                <!--Tabla archivados -->
+                <!--
                 <div class="content" id="ClientesArchivados" style="display: none">
                         <div class="block">
                             <div class="block-header block-header-default">
@@ -215,7 +215,7 @@
                              </table>
                                     </div>
                                 </div>
-                        </div>
+                        </div> Tabla archivados -->
                
     </section>
    

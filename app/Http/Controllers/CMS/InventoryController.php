@@ -226,6 +226,7 @@ class InventoryController extends Controller
             $nested = new Nested();
             $nested->inventory_id = $id;
             $nested->product_id = $item->id;
+            $nested->cantidad = $item->cantidad;
             $nested->save();
         }
         return;
@@ -237,7 +238,15 @@ class InventoryController extends Controller
         $inventario = [];
         foreach ($nesteds as $item) {
             $product = Inventory::where('id', $item->product_id)->first();
-            array_push($inventario, $product);
+            $nested = new Nested();
+            $nested->servicio = $product->servicio;
+            $nested->id = $product->id;
+            $nested->precioUnitario = $product->precioUnitario;
+            $nested->precioVenta = $product->precioVenta;
+            $nested->imagen = $product->imagen;
+            $nested->cantidad = $item->cantidad;
+
+            array_push($inventario, $nested);
         }
 
         return $inventario;
@@ -270,10 +279,12 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
-        }
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+        }else{
         $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
+        }
         $familia = $request->familia;
+        
         $pdf = App::make('dompdf');
 
         $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
@@ -286,6 +297,16 @@ class InventoryController extends Controller
     public function pdfFamiliaInventarioFisico(Request $request){   
         if(!is_null($request->familia)){
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+
+            $adjustment = new Register();
+            $adjustment->tipo = 'INVENTARIO';
+            $adjustment->motivo = $request->familia;
+            $adjustment->cantidad = 0;
+            $adjustment->producto = 0;
+            $adjustment->user_id = Auth::user()->id;
+            $adjustment->save();
+
+    
             foreach ($Inventario as $product) {
                 $inventory = PhysicalInventory::where('idProducto', $product->id)->first();
                 if(!is_null($inventory)){
@@ -314,12 +335,15 @@ class InventoryController extends Controller
                     $product->save();
                 }
             }
+            
         }
         $familia = $request->familia;
+        $faltantes = $request->faltante;
+        
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal2', compact('Inventario', 'familia', 'faltantes'));
 
         return $pdf->stream();
 
@@ -330,10 +354,28 @@ class InventoryController extends Controller
             $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
         $familia = $request->familia;
+        $faltantes = $request->faltante;
+        
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia'));
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal2', compact('Inventario', 'familia', 'faltantes'));
+
+        return $pdf->stream();
+
+    }
+
+    public function pdfFamiliaInventarioFisico3(Request $request){   
+        if(!is_null($request->familia)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
+        }
+        $familia = $request->familia;
+        $faltantes = $request->faltante;
+        
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.inventarioFisicoFinal', compact('Inventario', 'familia', 'faltantes'));
 
         return $pdf->stream();
 

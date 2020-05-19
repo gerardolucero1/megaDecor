@@ -384,9 +384,10 @@ padding: 0;
                                 ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
                                 </div>
                         </div>
                     </div>
@@ -721,6 +722,27 @@ padding: 0;
                 </div>
             </div>
         </div>
+
+<div  class="modal fade" id="bocadillosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div style="border:solid; border-color:gray" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mesas de bocadillos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <bocadillos-component @guardarMesa="recuperarMesaDulces"></bocadillos-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick="$('#bocadillosModal').modal('hide')">Cancelar</button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal agregar elemento -->
         <div class="modal fade" id="agregarElemento" tabindex="-1" role="dialog" aria-labelledby="agregarElemento" aria-hidden="true">
@@ -1286,7 +1308,7 @@ padding: 0;
                                                 </td>
                                                 <td>{{ producto.precioFinal }}</td>
                                                 <td class="text-center">
-                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar 2</div>
+                                                    <div class="btn btn-sm btn-danger" @click="eliminarProductoPaqueteEdicion(index)">Eliminar</div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1321,22 +1343,22 @@ padding: 0;
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Cantidad Charolas</th>
+                                <th scope="col">Bocadillos Charola</th>
+                                <th scope="col">Precio Charola</th>
                                 <th scope="col">Precio Final</th>
-                                <th scope="col">Precio Venta</th>
-                                <th scope="col">Proveedor</th>
+                                <th scope="col">Total Bocadillos</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
-                                <th scope="row">{{ index }}</th>
-                                <td>{{ item.nombre }}</td>
+                            <tr v-for="(item, index) in viendoPaquete.paquete" :key="index">
+                                <td><img v-bind:src="item.imagen" alt="" width="50px"></td>
+                                <td>{{ item.servicio }}</td>
+                                <td>{{ item.cantidadPaquetes }}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>{{ item.precioUnitario }}</td>
-                                <td>{{ item.precioFinal }}</td>
-                                <td>{{ item.precioVenta }}</td>
-                                <td>{{ item.proveedor }}</td>
+                                <td>${{ item.precioUnitario }}</td>
+                                <td>${{ item.precioUnitario*item.cantidadPaquetes }}</td>
+                                <td>{{ item.cantidadTotal }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1564,6 +1586,7 @@ padding: 0;
                     precioVenta: '',
                     guardarPaquete: false,
                     categoria: '',
+                    imagen:'',
                     inventario: [],
                 },
                 precioSugerido: 0,
@@ -2018,6 +2041,39 @@ padding: 0;
                 }, 1000);
                
             },
+            recuperarMesaDulces(args, invlocal, comentarios){
+                //console.log(args);
+
+                let paquete = JSON.parse( JSON.stringify(invlocal) );
+                
+                    console.log(paquete);
+                    this.inventarioLocal.push({
+                        externo: false,
+                        imagen: 'https://www.sweets.com.sv/img_decorados/ICON%20mesa%20de%20postres-01.png',
+                        servicio: 'Mesa de dulces',
+                        cantidad: 1,
+                        precioUnitario: args,
+                        precioFinal: args,
+                        precioAnterior: '0',
+                        ahorro: '0',
+                        notas: comentarios,
+                        paquete: paquete,
+                        tipo: 'PAQUETE',
+                        id: '',
+                        precioVenta: '0',
+                        precioEspecial: '0',
+                        precioAnterior: '0',
+                    });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                
+                $('#bocadillosModal').modal('hide');
+                    Swal.fire(
+                        'Listo!',
+                        'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) ;
+            },
 
             agregarProductoPaqueteEditado(producto){
                 this.paqueteEdicion.paquete.inventario.push({
@@ -2228,14 +2284,15 @@ padding: 0;
                         )
                 }else{
                     let paquete = JSON.parse( JSON.stringify(this.paquete) );
-
+                    console.log(this.precioSugerido);
                     this.inventarioLocal.push({
                         externo: false,
-                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        imagen: this.paquete.imagen,
                         servicio: this.paquete.servicio,
                         cantidad: 1,
                         precioUnitario: this.precioSugerido,
                         precioFinal: this.precioSugerido,
+                        precioAnterior: '0',
                         ahorro: '0',
                         notas: '',
                         paquete: paquete,
@@ -2246,11 +2303,22 @@ padding: 0;
                         precioAnterior: this.precioSugerido,
                     });
                     this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                this.paquete.externo = '';
+                this.paquete.imagen = '';
+                this.paquete.servicio = '';
+                this.paquete.cantidad = '';
+                this.paquete.precioUnitario = '';
+                this.paquete.precioFinal = '';
+                this.paquete.ahorro = '';
+                this.paquete.inventario= [];
+                $('#agregarPaquete').modal('hide');
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
                         'success'
-                        ) 
+                        ) ;
+                
                 }
 
             },
@@ -2577,6 +2645,7 @@ padding: 0;
                         'cantidad': '1',
                         'precioUnitario': producto.precioUnitario,
                         'precioFinal': producto.precioUnitario,
+                        'precioAnterior':producto.precioUnitario,
                         'ahorro': '0',
                         'notas': '-',
                         'paquete': '',
@@ -2586,7 +2655,7 @@ padding: 0;
                         'precioVenta': producto.precioVenta,
                         'proveedor': '',
                         'precioEspecial': producto.precioUnitario,
-                        'precioAnterior': producto.precioUnitario,
+                        
                     }
 
                     this.obtenerNesteds(producto_anidado)
@@ -2627,11 +2696,18 @@ padding: 0;
             },
 
             obtenerNesteds(producto){
-                this.paquete.servicio = producto.servicio
-                this.paquete.precioFinal = 0
-                this.paquete.precioVenta = 0
-                this.paquete.guardarPaquete = false
-                this.paquete.categoria = 'Anidado'
+
+                this.precioSugerido = producto.precioUnitario;
+                console.log(producto.precioUnitario);
+                console.log(this.precioSugerido);
+
+                this.paquete.imagen = producto.imagen;
+                this.paquete.servicio = producto.servicio;
+                this.paquete.precioFinal = producto.precioUnitario;
+                this.paquete.precioAnterior = producto.precioUnitario;
+                this.paquete.precioVenta = producto.PrecioVenta;
+                this.paquete.guardarPaquete = false;
+                this.paquete.categoria = 'Anidado';
 
 
 
@@ -2645,8 +2721,8 @@ padding: 0;
                             'nombre': doc.servicio,
                             'imagen': doc.imagen,
                             'precioUnitario': doc.precioUnitario,
-                            'precioFinal': '0',
-                            'cantidad': '0',
+                            'precioFinal': doc.precioUnitario,
+                            'cantidad': doc.cantidad,
                             'id': doc.id,
                             'precioVenta': doc.precioVenta,
                             'proveedor': '',
@@ -2986,7 +3062,21 @@ padding: 0;
             }
            
             },
+
+    MesaDulcesGuardada(){
+                    Swal.fire(
+                        'Listo!',
+                        'Mesa de dulces agregada con exito a presupuesto',
+                        'success'
+                        ) ;
+    },
     ModalGuardarContrato(){
+
+        if(this.presupuesto.vendedor_id==""){
+                    alert('selecciona un vendedor para continuar');
+                    return
+                }
+
         if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return

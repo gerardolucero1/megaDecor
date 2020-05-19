@@ -75,7 +75,6 @@ padding: 0;
                         <th scope="col">Imagen</th>
                         <th scope="col">Servicio</th>
                         <th scope="col">Cantidad</th>
-                        <th scope="col">Precio Unitario</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -86,8 +85,8 @@ padding: 0;
                             <img :src="item.imagen" width="100px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
-                        <td>{{ item.cantidad }}</td>
-                        <td>{{ item.precioUnitario }}</td>
+                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
@@ -123,6 +122,9 @@ export default {
             //Inventario de productos
             inventario: [],
             inventarioLocal: [],
+            cantidadActualizada:1,
+            indice:'',
+            key:'',
         }
     },
 
@@ -136,6 +138,23 @@ export default {
     },
 
     methods: {
+        editarCantidad(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[1];
+                    console.log(index);
+                    console.log(key[1]);
+                       
+                },
+        updateCantidad(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+            producto.cantidad = this.cantidadActualizada;
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
+            this.key= '';
+        },
         obtenerInventario(){
             let URL = '/obtener-inventario';
 
@@ -163,6 +182,7 @@ export default {
             console.log(producto)
 
             this.limpiar = true;
+            producto.cantidad=1;
             this.inventarioLocal.push(producto);
 
             setTimeout(() => {
@@ -177,6 +197,12 @@ export default {
         guardarProductos(){
             let URL = '/inventario/anidados/' + this.producto
             axios.post(URL, this.inventarioLocal).then((response => {
+                    
+                Swal.fire(
+                    'Guardado con exito!',
+                    'Se han guardado los productos del servicio con exito',
+                    'success'
+                )
 
             })).catch((error) => {
                 console.log(error)

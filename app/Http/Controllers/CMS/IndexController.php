@@ -87,6 +87,58 @@ class IndexController extends Controller
     return view('clientes',compact('CompleteClients'));    
     }
 
+    public function clientes2(){
+
+        //Obtenemos clientes
+        $clientes_morales = DB::table('clients')
+        ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
+        ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.created_at')
+        ->get();
+        $clientes_fisicos = DB::table('clients')
+        ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
+        ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at')
+        ->get();
+        
+        $clientes = $clientes_morales->merge($clientes_fisicos);
+
+        $CompleteClients=[];
+
+        foreach($clientes as $cliente){
+            
+            $tamanoPresupuestos=0;
+            $telefono = Telephone::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+
+            //Obtenemos numero de presupuestos del cliente
+            $Presupuestos = Budget::orderBy('id', 'DESC')->where('client_id', $cliente->id)->get()->toArray();
+
+            $createdAt=date('d-m-Y',(strtotime($cliente->created_at)));
+                        $CompleteClient = new stdClass();
+                        $CompleteClient->id = $cliente->id;
+                        
+                        $tipoCliente = Client::where('id', $cliente->id)->first();
+                        //dd($tipoCliente->tipoPersona);
+
+                        if($tipoCliente->tipoPersona=='MORAL'){
+                        $CompleteClient->nombre = $cliente->nombre;
+                        }else{
+                        $CompleteClient->nombre = $cliente->nombre.' '.$cliente->apellidoPaterno.' '.$cliente->apellidoMaterno;  
+                        }
+                    
+
+                    
+                        $CompleteClient->email = $cliente->email;
+                        $CompleteClient->created_at = $createdAt;
+                        $CompleteClient->presupuestos = $Presupuestos;
+                        if(!is_null($telefono)){
+                        $CompleteClient->telefono = $telefono->numero;}
+                        else{
+                            $CompleteClient->telefono = "--";  
+                        }
+                        array_push($CompleteClients,$CompleteClient);    
+        }
+    return view('clientes2',compact('CompleteClients'));    
+    }
+
    
 
    
@@ -412,7 +464,12 @@ public function archivarUsuario($id){
     public function dashboard(){
          $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
-        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', '0')->get();
+
+
+        $fechaHoy = Carbon::yesterday();
+        
+        $numeroPresupuestos = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', FALSE)->where('pendienteFecha', '=', TRUE)->get();
+        $numeroPresupuestosF = Budget::orderBy('id', 'DESC')->where('tipo', 'PRESUPUESTO')->where('archivado', FALSE)->whereDate('fechaEvento', '>', $fechaHoy)->get();
         //Presupuestos del dia actual
         $numeroPresupuestosDiaActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', $fecha_actual)->where('tipo', 'CONTRATO')->get();
         //Empleado del mes
@@ -501,7 +558,7 @@ public function archivarUsuario($id){
 
 
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
         
         $ventas=0;
         if(count($EmpleadoDelMes) != 0){

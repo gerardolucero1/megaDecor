@@ -120,14 +120,15 @@ $ingresosExtraordinarios += $pago->cantidad;}
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
                 <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
-                @if($precorte!=$registro->cantidadCierre)
+                @if($precorte > $registro->cantidadCierre)
             <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
-             @else  
+            
+            @elseif($precorte < $registro->cantidadCierre)
+            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            @else
              <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
              @endif</p> </td>
         </tr>
-        
-         
     </table>
 <!-- nueva tabla resumen corte -->
     <table style="width: 100%; text-align:center">
@@ -146,8 +147,9 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <td>${{ number_format($ingresosContratos,2)}}</td>
             <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
             <td>${{ number_format($egresosExtraordinarios,2)}}</td>
-            <td>${{ number_format($registro->cantidadCierre,2)}}</td>
+            
             <td>${{number_format($registro->cantidadApertura+$ingresosContratos+$ingresosExtraordinarios-$egresosExtraordinarios,2)}}</td>
+            <td>${{ number_format($registro->cantidadCierre,2)}}</td>
             <td>${{number_format($registro->cantidadCierre-$precorte,2)}}</td>
     
         </tr>

@@ -32,11 +32,7 @@
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
                             @endif
-                            @if($permisos->dashboardConfiguraciones==1)
-                                <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">
-                                        <i class="si si-settings"></i> <i>Configuraciones</i> 
-                                </button>
-                            @endif
+                            
                     </div>
                     
                     @if($permisos->dashboardAperturaCaja==1)
@@ -60,7 +56,7 @@
                                     <div class="float-left mt-10 d-none d-sm-block">
                                         <i class="si si-bar-chart fa-3x text-primary-light"></i>
                                     </div>
-                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}">{{ count($numeroPresupuestos) }}</div>
+                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}"><span style="font-size:10px">Fecha Pendiente: / Fechas Futuras:</span><br>{{ count($numeroPresupuestos) }} / {{ count($numeroPresupuestosF)-1 }}</div>
                                     <div class="font-size-sm font-w600 text-uppercase text-white-op">Presupuestos Activos</div>
                                 </div>
                             </a>
@@ -275,14 +271,22 @@
                                             Ventas del mes de
                                         </p>
                                         <p class="font-size-sm text-uppercase font-w600 text-white-op mb-0">
-                                           Noviembre 2019
+                                          {{$mes}} 2020
                                         </p>
                                     </div>
                                     <div class="block-content block-content-full">
                                         <table class="table table-borderless table-striped table-hover mb-0">
                                             <tbody>
+                                                @php
+                                                    $cont = 0;
+                                                    
+                                                @endphp
                                                 @foreach($ElementosVendedores as $ElementoVendedor)
+                                                @php
+                                                    $cont++;
+                                                @endphp
                                                 <tr>
+                                                <td>{{$cont}}</td>
                                                     <td>
                                                         <strong>{{$ElementoVendedor->name}}</strong>
                                                     </td>

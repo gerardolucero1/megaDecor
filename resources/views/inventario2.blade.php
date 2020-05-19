@@ -67,7 +67,6 @@
                                         <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         @if(isset($familiaSeleccionada))
-                                            
                                             <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>
                                             <option value="">Todas las familias</option>    
                                         @else
@@ -103,14 +102,15 @@
                         </div>
                     </div>
                     @php
-                            $usuario = Auth::user()->id;    
-                        @endphp 
-
-                        
+                            $usuario = Auth::user()->id; 
+                            if(isset($familiaSeleccionada)){ 
+                            $ultimoInventario =  App\Register::orderBy('id', 'ASC')->where('motivo', $familiaSeleccionada)->first();
+                            }
+                    @endphp
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form method="POST" action="{{route('imprimir.familia')}}" >
+                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
                                 @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 @endif
@@ -122,9 +122,43 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
+                        <button onclick="marcar()">Marcar/Desmarcar</button>
+                        @if(isset($ultimoInventario))
+                        <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
+                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                            @if(isset($familiaSeleccionada))
+                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                <input type="hidden" name="faltante" value="no">
+                            @endif
+
+                            @method('POST')
+                            @csrf 
+                    @if(isset($familiaSeleccionada))
+                        <button class="btn btn-sm btn-info" type="submit">
+                            Impresion (Todos) <li class="fa fa-print"></li>
+                        </button>
+                    @endif  
+                    </form>
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="no">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion Entrega <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
+                        @else
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
                                 @if(isset($familiaSeleccionada))
                                     <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                    <input type="hidden" name="faltante" value="no">
                                 @endif
 
                                 @method('POST')
@@ -132,21 +166,55 @@
                         @if(isset($familiaSeleccionada))
                             <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>
                         @endif  
-                        </form> 
+                        </form>
+                        
+                        
 
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                <input type="hidden" name="faltante" value="no">
                             @endif
 
                             @method('POST')
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            Impresion <li class="fa fa-print"></li>
+                            Impresion (Todos) <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
+
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="no">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion Entrega <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
+
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="si">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion (Solo Faltantes) <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
+                @endif
                        
                     </div>
                 </div>
@@ -215,22 +283,22 @@
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td>{{$inventario->cantidad}}
-                                    @if($inventario->cantidad == $servicioDatos->fisicoBodega)
+                                <td>{{$servicioDatos->antesBodega}}
+                                    @if($servicioDatos->antesBodega == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
                                     @else
-                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $servicioDatos->antesBodega) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$servicioDatos->antesBodega)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
                                     @endif
                                     </td>
                                 <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
                                 <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
-                                <td>{{$inventario->exhibicion}}
-                                     @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
+                                <td>{{$servicioDatos->antesExhibicion}}
+                                     @if($servicioDatos->antesExhibicion == $servicioDatos->fisicoExhibicion)
                                         <span style="color: blue; font-weight: bold;">=</span>
-                                    @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
+                                    @elseif($servicioDatos->fisicoExhibicion > $servicioDatos->antesExhibicion)
                                         <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
-                                    @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
+                                    @elseif($servicioDatos->fisicoExhibicion < $servicioDatos->antesExhibicion)
                                     <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
                                     @endif
                                     </td>
@@ -246,7 +314,8 @@
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
-                                    <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
+                                    <input style="display:none" type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
+                                    <button class="btn btn-sm btn-primary" id="btnDiferencia{{$inventario->id}}"  @if($servicioDatos->diferencia) @else style="background:red" @endif onclick="cambiarDiferencia({{$inventario->id}})">Faltante</button>
                                     <i style="color:green; font-size:25px" class="fa fa-check"></i>
                                 </td>
                             </tr>
@@ -554,6 +623,13 @@ td.innerHTML = nuevaCantidad;
         }
 
         function cambiarDiferencia(id){
+           let color = document.getElementById('btnDiferencia'+id).style.background;
+            if(color=='red'){
+                document.getElementById('btnDiferencia'+id).style.background="#3f9ce8";
+            }else{
+                document.getElementById('btnDiferencia'+id).style.background="red";
+            }
+           
             console.log(id)
             let URL = 'registrar-diferencia/' + id
 
@@ -564,6 +640,16 @@ td.innerHTML = nuevaCantidad;
             })
 
             
+        }
+
+        function marcar(){
+            for (var i = 0; i < 12500; i++) {
+                try {
+                cambiarDiferencia(i);
+                }catch{
+
+                }
+            }
         }
 
         function finalizarInventarioFisico(){

@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/obtener-usuarios', function(){
-        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->get();
+        return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->where('archivado', '!=', '1')->get();
     });
     
     // Rutas del CMS
@@ -131,6 +131,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+        Route::get('/obtener-inventario-postres', 'CMS\BudgetController@inventarioPostres');
+        Route::get('/obtener-inventario-botanas', 'CMS\BudgetController@inventarioBotanas');
+        Route::get('/obtener-inventarioBocadillos', 'CMS\BudgetController@inventarioBocadillos');
         Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
         Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
         Route::get('/obtener-festejados/{id}', 'CMS\BudgetController@obtenerFestejados');
@@ -177,6 +180,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
+    Route::get('/clientes2', 'CMS\IndexController@clientes2')->name('clientes2');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
     Route::delete('/clientes/delete/{id}', 'CMS\ClientController@destroy')->name('cliente.delete');
@@ -193,6 +197,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/imprimir-familia', 'CMS\InventoryController@pdf')->name('imprimir.familia');
     Route::post('/imprimir-familia-inventario-fisico', 'CMS\InventoryController@pdfFamiliaInventarioFisico')->name('imprimir.familiaInventarioFisico');
     Route::post('/imprimir-familia-inventario-fisico2', 'CMS\InventoryController@pdfFamiliaInventarioFisico2')->name('imprimir.familiaInventarioFisico2');
+    Route::post('/imprimir-familia-inventario-fisico3', 'CMS\InventoryController@pdfFamiliaInventarioFisico3')->name('imprimir.familiaInventarioFisico3');
 
     //Configuraciones
     Route::get('/configuraciones', 'CMS\CommissionController@index');
@@ -582,6 +587,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('precorte/pdf/{id}', 'CMS\CashRegisterController@precorte')->name('precorte.pdf');
 
     Route::get('recibo-pago/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePago')->name('recibo-pago.pdf');
+
+    Route::get('mesa-bocadillos/pdf/', 'CMS\BudgetController@pdfMesaBocadillos')->name('mesa-bocadillos.pdf');
 
     Route::resource('pagos', 'CMS\OtherPaymentsController');
     Route::get('obtener-pagos-pasados', function(){

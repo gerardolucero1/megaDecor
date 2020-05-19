@@ -27,7 +27,7 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Estas editando el producto: {{ $familia->nombre }}</h3>
+                    <h3 class="block-title">Estas editando la familia: {{ $familia->nombre }}</h3>
                 </div>
                 <div class="block-content">
                     {!! Form::model($familia, ['route' => ['familia.update', $familia->id], 'method' => 'PUT', 'files' => 'true']) !!}

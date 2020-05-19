@@ -46,7 +46,7 @@
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
     </head>
     <body onload="fechaActual()">
-
+    
         @if(Auth::user()->archivado==1)
         <p style="font-size: 30px; text-align: center; color: red; margin-top: 100px;">Esta cuenta se encuentra suspendida</p>
         <a href="{{ route('logout') }}"><p style="width: 100%; text-align: center">Volver a Login</p></a>
@@ -100,6 +100,7 @@
             'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
         -->
         <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-modern main-content-boxed">
+        
             <!-- Side Overlay-->
             <aside id="side-overlay">
                 <!-- Side Header -->
@@ -269,7 +270,7 @@
                                         @endif
                                         @if($permisos->inventarioGrupos==1)
                                         <li>
-                                            <a href="{{ route('grupo.index') }}">Grupos</a>
+                                            <a href="{{ route('grupo.index') }}">Grupos para contratos</a>
                                         </li>
                                         @endif
                                         
