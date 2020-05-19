@@ -48,15 +48,22 @@
                                         </td>
                                         
                                             @php
+                                                 
+
                                                 $fechaEvento = Carbon\Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
                                                 $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
+
+                                                $date = $budgetArchivados->fechaEvento." 11:00:00";
+                                                $datework = Carbon\Carbon::createFromDate($date);
+                                                $now = Carbon\Carbon::now();
+                                                $testdate = $datework->diffInDays($now);
                                              
                                             @endphp
                                             <td class=""><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                     <td class="d-none d-sm-table-cell"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@else {{$fechaEvento->translatedFormat(' l j F Y')}}@endif<br>
                                        
                                             <td>{{$budgetArchivados->diasCredito}}</td>
-                                            <td>Dias atraso</td>
+                                            <td>{{$testdate}}</td>
                                         @php
                                         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
