@@ -43,20 +43,21 @@
                         </button>
                     @endif
                     @if($permisos->presupuestosVistaCalendario==1)
-                    <button class="btn btn-primary"  onclick="vista_calendario()">
+                    <button style="display: none" class="btn btn-primary"  onclick="vista_calendario()">
                         <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
                     </button>
                 @endif
-                @if($permisos->presupuestosArchivados==1)
-                <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                    <i class="fa fa-calendar-minus-o"></i> <i>presupuestos Archivados</i> 
-                </button>
-            @endif
-            @if($permisos->presupuestosHistorial==1)
+                @if($permisos->presupuestosHistorial==1)
             <button onclick="PresupuestosHistorial()" class="btn btn-info">
                 <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
             </button>
         @endif
+                @if($permisos->presupuestosArchivados==1)
+                <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                    <i class="fa fa-trash"></i> <i>presupuestos Eliminados</i> 
+                </button>
+            @endif
+            
 
                     </div>
                     </div>
@@ -160,8 +161,8 @@
                                     </a> 
                                     @endif
                                     @if($permisos->presupuestosArchivar==1)
-                                    <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i class="si si-refresh"></i> 
+                                    <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar Presupuesto" data-original-title="View Customer">
+                                        <i class="si si-trash"></i> 
                                     </a>
                                     @endif
                                   
@@ -182,7 +183,7 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:indianred">Presupuestos Archivados</h3>
+                        <h3 class="block-title" style="color:indianred">Presupuestos Eliminados</h3>
                     </div>
                     <div class="col-md-9 text-right">
                            
@@ -279,7 +280,7 @@
                             <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Activos</i> 
                         </button>
                         <button onclick="presupuestosArchivados()" class="btn btn-success">
-                            <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Archivados</i> 
+                            <i  class="fa fa-calendar-minus-o"></i> <i>Presupuestos Eliminados</i> 
                         </button>
                     </div>
                 </div>

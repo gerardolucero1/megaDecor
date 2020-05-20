@@ -56,7 +56,8 @@
                                     <div class="float-left mt-10 d-none d-sm-block">
                                         <i class="si si-bar-chart fa-3x text-primary-light"></i>
                                     </div>
-                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}"><span style="font-size:10px">SIN FECHA: / FECHAS FUTURAS:</span><br>{{ count($numeroPresupuestos) }} / {{ count($numeroPresupuestosF)-1 }}</div>
+                                    <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="1" data-to="{{ count($numeroPresupuestos) }}"><span style="font-size:10px">SIN FECHA: / FECHAS FUTURAS:</span>
+                                    <br><span style="margin-right:30px">{{ count($numeroPresupuestos) }}</span> / <span style="margin-left:30px; margin-right:10px">{{ count($numeroPresupuestosF)-1 }}</span></div>
                                     <div class="font-size-sm font-w600 text-uppercase text-white-op">Presupuestos Activos</div>
                                 </div>
                             </a>
@@ -105,7 +106,7 @@
                                                     $fechaActual = $date->format('Y-m-d');
                                                     $contador = 0;
 
-                                                    $creditos = App\Budget::orderBy('id', 'DESC')->where('pagado', null)->get();
+                                                    $creditos = App\Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
                                                     foreach ($creditos as $credito) {
                                                         $cliente = App\Client::findOrFail($credito->client_id);
                                                         if($cliente->tipoPersona == 'FISICA'){
@@ -128,7 +129,8 @@
                                                         }
                                                     }
                                                 @endphp
-                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">{{ $contador }}</div>
+                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">{{ $contador }}<br>
+                                                <span style="font-size: 14px;">Total Por Cobrar: ${{number_format($adeudoTotal,2)}}</span></div>
                                                 <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                             </div>
                                         </a>

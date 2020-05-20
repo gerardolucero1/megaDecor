@@ -835,7 +835,10 @@
             mostrarFechaEvento: function(){
                 let fecha = this.presupuesto.fechaEvento;
                 moment.locale('es'); 
-                let date = moment(fecha).format('LLLL');
+                let date = moment(fecha).format('dddd, LL');
+                if(date == 'Invalid date'){
+                    date = 'pendiente';
+                } 
 
                 return date;
             },

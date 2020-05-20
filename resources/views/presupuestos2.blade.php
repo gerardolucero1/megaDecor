@@ -43,13 +43,8 @@
                             </button>
                         @endif
                         @if($permisos->contratosVistaCalendario==1)
-                            <button class="btn btn-primary"  onclick="vista_calendario()">
+                            <button style="display: none" class="btn btn-primary"  onclick="vista_calendario()">
                                 <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
-                            </button>
-                        @endif
-                        @if($permisos->contratosArchivados==1)
-                            <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                                <i class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
                             </button>
                         @endif
                         @if($permisos->contratosHistorial==1)
@@ -57,6 +52,11 @@
                                 <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
                             </button>
                         @endif
+                        @if($permisos->contratosArchivados==1)
+                        <button onclick="presupuestosArchivados()" class="btn btn-secondary">
+                            <i class="fa fa-trash"></i> <i>Contratos Eliminados</i> 
+                        </button>
+                    @endif
                    
                     </div>
                     </div>
@@ -203,7 +203,7 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:indianred">Contratos Archivados</h3>
+                        <h3 class="block-title" style="color:indianred">Contratos Eliminados</h3>
                     </div>
                     <div class="col-md-9 text-right">
                            
@@ -333,7 +333,7 @@
                             <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Activos</i> 
                         </button>
                         <button onclick="presupuestosArchivados()" class="btn btn-success">
-                            <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Archivados</i> 
+                            <i  class="fa fa-calendar-minus-o"></i> <i>Contratos Eliminados</i> 
                         </button>
                     </div>
                 </div>

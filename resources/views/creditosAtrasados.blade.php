@@ -25,7 +25,7 @@
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    <th>#Folio</th>
+                                <th>#Folio</th>
                                 <th>Fecha Evento</th>
                                 <th>Fecha Limite de pago</th>
                                 <th>Dias de credito</th>

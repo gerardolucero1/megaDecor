@@ -465,6 +465,26 @@ public function archivarUsuario($id){
          $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
 
+        //calculo adeudo total
+        $adeudoTotal = 0;
+        $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+        foreach($contratosAdeudo as $contratoAdeudo){
+            
+            $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
+            if(count($PagosContratoAdeudo)>0){
+                $sumaPagos = 0;
+                foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
+                    $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+                }
+                if($contratoAdeudo->opcionIVA){
+                $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
+                }else{
+                $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);}
+            }else{
+                $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
+            }
+        }
+         //Fincalculo adeudo total
 
         $fechaHoy = Carbon::yesterday();
         
@@ -558,7 +578,7 @@ public function archivarUsuario($id){
 
 
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal'));
         
         $ventas=0;
         if(count($EmpleadoDelMes) != 0){
