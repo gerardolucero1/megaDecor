@@ -1182,6 +1182,122 @@ public function archivarUsuario($id){
         return $pdf->stream();
     }
 
+    public function pdfCreditosAtrasados(){
+        $date = Carbon::now();
+        $fechaActual = $date->format('Y-m-d');
+        $contratos = [];
+
+         //calculo adeudo total
+         $adeudoTotal = 0;
+         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+         foreach($contratosAdeudo as $contratoAdeudo){
+             
+             $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
+             if(count($PagosContratoAdeudo)>0){
+                 $sumaPagos = 0;
+                 foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
+                     $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+                 }
+                 if($contratoAdeudo->opcionIVA){
+                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
+                 }else{
+                 $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);}
+             }else{
+                 $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
+             }
+         }
+          //Fincalculo adeudo total
+
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+        foreach ($creditos as $credito) {
+            if(!is_null($credito->fechaEvento)){
+
+            $cliente = Client::findOrFail($credito->client_id);
+            if($cliente->tipoPersona == 'FISICA'){
+                $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+                $vendedor = User::where('id', $credito->vendedor_id)->first();
+                $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                $fechaFormato = date('Y-m-d',$fechaEvento);
+                $pagos = Payment::where('budget_id', $credito->id)->get();
+                
+                $saldoPendiente = 0;
+                foreach($pagos as $pago){
+                    $saldoPendiente = $saldoPendiente + $pago->amount;
+                }
+
+                if($fechaFormato < $fechaActual){
+
+                    $contrato = new stdClass();
+                    $contrato->id = $credito->id;
+                    $contrato->fechaLimite = $fechaFormato;
+                    $contrato->diasCredito = $persona->diasCredito;
+                    $contrato->fechaEvento = $credito->fechaEvento;
+                    $contrato->folio = $credito->folio;
+                    $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                    $contrato->vendedor = $vendedor->name;
+                    $contrato->total = $credito->total;
+                    $contrato->pagado = $credito->pagado;
+                    $contrato->pendienteFecha = $credito->pendienteFecha;
+                    $contrato->client_id = $credito->client_id;
+                    $contrato->user = $credito->user;
+                    $contrato->version = $credito->version;
+                    $contrato->impresion = $credito->impresion;
+                    $contrato->impresionBodega = $credito->impresionBodega;
+                    $contrato->enviado = $credito->enviado;
+                    $contrato->updated_at = $credito->updated_at;
+                    $contrato->opcionIVA = $credito->opcionIVA;
+                    $contrato->saldoPendiente = $saldoPendiente;
+           
+                    array_push($contratos, $contrato);
+                }
+                
+            }else{
+                $persona = MoralPerson::where('client_id', $cliente->id)->first();
+                $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+                $fechaFormato = date('Y-m-d',$fechaEvento);
+                $vendedor = User::where('id', $credito->vendedor_id)->first();
+                $pagos = Payment::where('budget_id', $credito->id)->get();
+
+                $saldoPendiente = 0;
+                foreach($pagos as $pago){
+                    $saldoPendiente = $saldoPendiente + $pago->amount;
+                }
+                if($fechaFormato < $fechaActual){
+                    $contrato = new stdClass();
+                    $contrato->id = $credito->id;
+                    $contrato->fechaLimite = $fechaFormato;
+                    $contrato->diasCredito = $persona->diasCredito;
+                    $contrato->fechaEvento = $credito->fechaEvento;
+                    $contrato->folio = $credito->folio;
+                    $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                    $contrato->vendedor = $vendedor->name;
+                    $contrato->total = $credito->total;
+                    $contrato->pagado = $credito->pagado;
+                    $contrato->pendienteFecha = $credito->pendienteFecha;
+                    $contrato->client_id = $credito->client_id;
+                    $contrato->user = $credito->user;
+                    $contrato->version = $credito->version;
+                    $contrato->impresion = $credito->impresion;
+                    $contrato->impresionBodega = $credito->impresionBodega;
+                    $contrato->updated_at = $credito->updated_at;
+                    $contrato->enviado = $credito->enviado;
+                    $contrato->opcionIVA = $credito->opcionIVA;
+                    $contrato->saldoPendiente = $saldoPendiente;
+                  
+                    array_push($contratos, $contrato);
+                }
+                
+            }
+        }
+    }
+        
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.creditosPendientes', compact('contratos', 'adeudoTotal'));
+
+        return $pdf->stream();
+    }
+
     public function ventasShow($id){
         $cliente = Client::where('id', $id)->first();
 

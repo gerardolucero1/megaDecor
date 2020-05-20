@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Imprimir budget
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
+    Route::get('/creditos-atrasadospdf', 'CMS\IndexController@pdfCreditosAtrasados')->name('imprimir.creditosAtrasados');
     Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
     Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
     Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
