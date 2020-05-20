@@ -230,7 +230,7 @@
                                             color: red;
                                         @endif
                                         
-                                    ">{{ $porcentaje }}%</th>
+                                    ">{{ $porcentaje-100 }}%</th>
                                 </tr>
                                 @php
                                     $contador++;

@@ -16,6 +16,11 @@
         <div class="content" id="PresupuestosHistorial">
             
             <div class="block" id="divLista">
+                <div class="block-header block-header-default" style="background:#FCFFA9">
+                    <div class="col-md-3">
+                    <h3 class="block-title" style="color:black; font-weight: bold">Adeudo total ${{number_format($adeudoTotal,2)}}</h3>
+                    </div>
+                </div>
                 <div class="block-header block-header-default">
                     <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Eventos con pago vencido</h3>

@@ -1229,6 +1229,27 @@ public function archivarUsuario($id){
         $fechaActual = $date->format('Y-m-d');
         $contratos = [];
 
+         //calculo adeudo total
+         $adeudoTotal = 0;
+         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+         foreach($contratosAdeudo as $contratoAdeudo){
+             
+             $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
+             if(count($PagosContratoAdeudo)>0){
+                 $sumaPagos = 0;
+                 foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
+                     $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+                 }
+                 if($contratoAdeudo->opcionIVA){
+                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
+                 }else{
+                 $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);}
+             }else{
+                 $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
+             }
+         }
+          //Fincalculo adeudo total
+
         $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
         foreach ($creditos as $credito) {
             if(!is_null($credito->fechaEvento)){
@@ -1313,7 +1334,7 @@ public function archivarUsuario($id){
     }
 
         //dd($contratos);
-        return view('creditosAtrasados', compact('contratos'));
+        return view('creditosAtrasados', compact('contratos', 'adeudoTotal'));
 }
 
     public function proveedores(){
