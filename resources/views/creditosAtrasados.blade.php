@@ -106,6 +106,10 @@
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
+
+                                                <a href="{{route('presupuesto.archivar', $budgetArchivados->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar Presupuesto" data-original-title="View Customer">
+                                                    <i class="si si-trash"></i> 
+                                                </a>
                                                 
                                             </td>
                                         </tr>
