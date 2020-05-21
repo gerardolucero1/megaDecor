@@ -18,14 +18,11 @@
             <div class="block" id="divLista">
                 <div class="block-header block-header-default" style="background:#FCFFA9">
                     <div class="col-md-3">
+                        <h3 class="block-title" style="color: green; font-weight: bold">Contratos con pago vencido</h3>
                     <h3 class="block-title" style="color:black; font-weight: bold">Adeudo total ${{number_format($adeudoTotal,2)}}</h3> <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir</a>
                     </div>
                 </div>
-                <div class="block-header block-header-default">
-                    <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Eventos con pago vencido</h3>
-                    </div>
-                </div>
+                
                     <div style="padding:15px; padding-top:30px;">
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>

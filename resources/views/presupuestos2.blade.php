@@ -183,8 +183,8 @@
                                     </a> 
                                     @endif
                                     @if($permisos->contratosArchivar==1)
-                                    <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i class="si si-refresh"></i> 
+                                    <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budget->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                        <i style="color: white" class="si si-trash"></i> 
                                     </a>
                                     @endif
                                     
@@ -288,9 +288,9 @@
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                         @endif
-                                        <button disabled style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="View Customer">
+                                        <a style="margin-right:4px;" target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                             <i class="fa fa-eye"></i> 
-                                        </button> 
+                                        </a> 
                                         <a href="{{route('presupuesto.desarchivar', $budgetArchivados->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-success" data-toggle="tooltip" title="Re-activar Presupuesto" data-original-title="View Customer">
                                             <i class="si si-refresh"></i> 
                                         </a>
@@ -516,6 +516,29 @@
                             
         })
     }
+
+    function archivarPresupuesto(id){
+        //alert(id);
+        let motivo = prompt('¿Motivo de cancelación?')
+        let URL = '/budget-archivar/'  + id+'-'+motivo;
+        axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Eliminado',
+                            'El presupuesto ha sido eliminado correctamente',
+                            'success'
+                        ); 
+                        location.reload();
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                            'Error!',
+                            'A ocurrido un error al eliminar',
+                            'Danger'
+                        ); 
+                })
+
+    }
+
     function enviarCorreoCliente(id){
                 let URL = '/enviar-email-cliente/'  + id;
 

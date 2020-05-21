@@ -1247,8 +1247,11 @@ class BudgetController extends Controller
         return back();
     }
     public function archivar($id){
-        $budget=Budget::find($id);
+        $datos=explode("-", $id);
+        
+        $budget=Budget::find($datos[0]);
         $budget->archivado='1';
+        $budget->notasPresupuesto=$datos[1];
         $budget->save();
         return back();
     }
