@@ -72,7 +72,7 @@ img {
                         @php
                             $fechaSalida = Carbon\Carbon::parse($salida->created_at)->locale('es');
                         @endphp
-                        <br>{{$fechaSalida->translatedFormat(' l j F Y')}}
+                        <br>{{$fechaSalida->translatedFormat(' j F Y H:m')}}
                         <br><span style="font-weight: bold">Entrega:</span> YAKIN PENA</p>
                         <br><span style="font-weight: bold">Recibe:</span> {{$salida->responsable}}</p>
                     <div>
