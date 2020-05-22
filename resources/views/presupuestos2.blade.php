@@ -439,6 +439,11 @@
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
+                                                @if($permisos->contratosArchivar==1)
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                                    <i style="color: white" class="si si-trash"></i> 
+                                                </a>
+                                                @endif
                                                 @php
                                                     $budgetID = App\Budget::where('id', $budgetArchivados->id)->first();
                                                 @endphp
@@ -449,12 +454,6 @@
                                                 @else
                                                 <i class="fa fa-check" style="color: green" data-toggle="tooltip" title="Recolectado"></i> 
                                                 @endif
-                                                @if($permisos->contratosArchivar==1)
-                                    <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
-                                        <i style="color: white" class="si si-trash"></i> 
-                                    </a>
-                                    @endif
-                                                
 
                                             </td>
                                         </tr>
