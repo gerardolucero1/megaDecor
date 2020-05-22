@@ -66,10 +66,11 @@ img {
                         alt="Logotipo" style="padding-bottom: 15px; margin-top: 20px;">
                     <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Salida de Dinero</span>
                         <br>{{$salida->created_at}}
-                        <br><span style="font-weight: bold">Entrega:</span> YAKIN PE?A</p>
+                        <br><span style="font-weight: bold">Entrega:</span> YAKIN PENA</p>
                         <br><span style="font-weight: bold">Recibe:</span> {{$salida->responsable}}</p>
                     <div>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>${{number_format($salida->cantidad,2)}}</p>
+                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Devoluci?n: </span>${{number_format($salida->resto,2)}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Motivo: </span>{{$salida->motivo}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold; text-align: center">Descripción: </span>{{$salida->descripcion}}</p>
                     @if(!is_null($salida->contrato))
