@@ -65,9 +65,9 @@ img {
                         src="http://megamundodecor.com/images/mega-mundo-decor.png"
                         alt="Logotipo" style="padding-bottom: 15px; margin-top: 20px;">
                         @if($salida->resto>0)
-            <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Salida de Dinero {{$salida->id}}</span>
+            <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Devolución de Dinero No. {{$salida->id}}</span>
                         @else
-                        <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Devolución de Dinero {{$salida->id}}</span>
+                        <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Salida de Dinero No. {{$salida->id}}</span>
                         @endif
                         <br>{{$salida->created_at}}
                         <br><span style="font-weight: bold">Entrega:</span> YAKIN PENA</p>
