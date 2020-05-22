@@ -69,7 +69,7 @@ img {
                         <br><span style="font-weight: bold">Entrega:</span> YAKIN PE?A</p>
                         <br><span style="font-weight: bold">Recibe:</span> {{$salida->responsable}}</p>
                     <div>
-                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>?{{format_number($salida->cantidad,2)}}</p>
+                    <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Monto: </span>${{number_format($salida->cantidad,2)}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold;">Motivo: </span>{{$salida->motivo}}</p>
                     <p style="margin: 0; padding: 0"><span style="font-weight: bold; text-align: center">Descripción: </span>{{$salida->descripcion}}</p>
                     @if(!is_null($salida->contrato))
