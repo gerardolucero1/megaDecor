@@ -8,7 +8,7 @@
         box-sizing: inherit;
         }
         * {
-    font-size: 24px;
+    font-size: 22px;
     font-family: 'Times New Roman';
 }
 
