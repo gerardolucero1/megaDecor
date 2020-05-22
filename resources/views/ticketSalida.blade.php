@@ -69,7 +69,10 @@ img {
                         @else
                         <p class="centrado" style="margin: 0; padding: 0"><span style="font-weight: bold">Salida de Dinero No. {{$salida->id}}</span>
                         @endif
-                        <br>{{$salida->created_at}}
+                        @php
+                            $fechaSalida = Carbon\Carbon::parse($salida->created_at)->locale('es');
+                        @endphp
+                        <br>{{$fechaSalida}}
                         <br><span style="font-weight: bold">Entrega:</span> YAKIN PENA</p>
                         <br><span style="font-weight: bold">Recibe:</span> {{$salida->responsable}}</p>
                     <div>
