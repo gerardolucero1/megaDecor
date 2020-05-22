@@ -35,6 +35,7 @@
                                 <th>Cliente</th>
                                 <th>Total</th>
                                 <th>Saldo Pendiente</th>
+                                <th>Teléfono</th>
                                 <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -103,14 +104,20 @@
                                     @else  
                                     <td class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
                                     @endif
+                                    <td>
+                                        @php
+                                            $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
+                                            echo $telefono->numero;
+                                        @endphp
+                                    </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
                                                
                                                 <a  target="_blank"  href="{{ route('ver.presupuesto', $budgetArchivados->id) }}" style="margin-right:4px;"   class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver presupuesto" data-original-title="View Customer">
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
 
-                                                <a href="{{route('presupuesto.archivar', $budgetArchivados->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar Presupuesto" data-original-title="View Customer">
-                                                    <i class="si si-trash"></i> 
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                                    <i style="color: white" class="si si-trash"></i> 
                                                 </a>
                                                 
                                             </td>
@@ -123,6 +130,33 @@
             </div>
         </div>
     </section>
+@endsection
+@section("scripts")
+<script>
+
+function archivarPresupuesto(id){
+        //alert(id);
+        let motivo = prompt('¿Motivo de cancelación?')
+        let URL = '/budget-archivar/'  + id+'-'+motivo;
+        axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Eliminado',
+                            'El presupuesto ha sido eliminado correctamente',
+                            'success'
+                        ); 
+                        location.reload();
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                            'Error!',
+                            'A ocurrido un error al eliminar',
+                            'Danger'
+                        ); 
+                })
+
+    }
+</script>
+
 @endsection
 
 

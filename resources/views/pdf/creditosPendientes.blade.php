@@ -15,9 +15,10 @@
     <th style="width: 15%">Fecha Limite de pago</th>
     <th style="width: 10%">Días de credito</th>
     <th style="width: 10%">Días de atraso</th>
-    <th style="width: 20%">Cliente</th>
-    <th style="width: 10%">Total</th>
-    <th style="width: 10%">Saldo Pendiente</th>
+    <th style="width: 15%">Cliente</th>
+    <th style="width: 6%">Total</th>
+    <th style="width: 6%">Saldo Pendiente</th>
+    <th style="width: 13%">Tel�fono</th>
         </tr>
     </table>
 
@@ -40,7 +41,7 @@
     <td style="width: 15%"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@else {{$fechaEvento->translatedFormat(' l j F Y')}}@endif</td>
     <td style="width: 10%">{{$budgetArchivados->diasCredito}}</td>
     <td style="width: 10%">{{$testdate}} Días</td>
-    <td style="width: 20%">@php
+    <td style="width: 15%">@php
         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
         if($cliente->tipoPersona == "FISICA"){
@@ -71,10 +72,16 @@ ${{$total}}
    <span style="font-size: 10px; color: green;">IVA</span>
 @endif</td>
 @if($budgetArchivados->opcionIVA == 1)
-<td style="width: 10%" class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
+<td style="width: 6%" class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
 @else  
-<td style="width: 10%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
+<td style="width: 6%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
 @endif
+<td style="width: 13%">
+    @php
+    $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
+    echo $telefono->numero;
+@endphp
+</td>
 </tr>
 </table>
 @endforeach
@@ -88,7 +95,7 @@ ${{$total}}
 <script type="text/php">
   if ( isset($pdf) ) {
       $font = "helvetica";
-      $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
+      $pdf->page_text(520, 787, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
   }
 </script> 
    

@@ -15,6 +15,9 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
+
+        $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', 'like', $registro->fechaApertura)->get();
+        
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
@@ -515,6 +518,8 @@ $ingresosExtraordinarios += $pago->cantidad;}
                     @endif
                     @endforeach
                     </table>
+                   
+
                     <p style="text-align: right; font-weight: bold;">Total egresos en efectivo: ${{number_format($egresosExtraordinarios,2)}}</p>
                     <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en cheques: ${{number_format($egresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($egresosExtraordinariosTarjeta,2)}}</p>
@@ -524,8 +529,46 @@ $ingresosExtraordinarios += $pago->cantidad;}
             @endif
             <!--Finaliza tabla egresos extraordinarios-->
             
+            <div style="width: 100%; background: #FFFACC">
+            <p style="font-weight: bold">Contratos Cancelados:</p>
+            <table style="width: 100%; font-size:12px">
+            <tr>
+                <th>Folio</th>
+                <th>Cliente</th>
+                <th>Quien Cancela</th>
+                <th>motivo</th>
+            </tr>
+            @if(count($contratosCancelados)>0)
+            @foreach ($contratosCancelados as $item)
+                <tr>
+                <td>{{$item->folio}}</td>
+                <td>
+                    @php
+                                                $cliente = App\Client::where('id', $item->client_id)->first();
 
-
+                                                if($cliente->tipoPersona == "FISICA"){
+                                                    $clienteFisico = App\PhysicalPerson::where('client_id', $item->client_id)->first();
+                                                   echo $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                                   // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                   
+                                                }else{
+                                                    $clienteMoral = App\MoralPerson::where('client_id', $item->client_id)->first();
+                                                    echo $clienteNombre = $clienteMoral->nombre;
+                                                }
+                                            @endphp
+                </td>
+                <td>
+                    @php
+                         $vendedor = App\User::where('id', $item->vendedor_id)->first();
+                         echo $vendedor->name;
+                    @endphp
+                </td>
+                <td>{{$item->notasPresupuesto}}</td>
+                </tr>
+            @endforeach
+            @endif
+            </table>
+        </div>
 
 
             @php

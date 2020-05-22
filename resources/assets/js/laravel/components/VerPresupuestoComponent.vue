@@ -94,7 +94,7 @@
         <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
         <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
 
-            <div v-if="presupuesto.archivado==false">
+            <div v-if="presupuesto.archivado==false" class="row">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
                 <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recoleccoón en bodega</span></p>
