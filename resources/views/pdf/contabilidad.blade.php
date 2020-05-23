@@ -16,7 +16,7 @@
         use App\PhysicalPerson;
         $date = Carbon::now();
 
-        $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', 'like', $registro->fechaApertura)->get();
+       
         
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
@@ -43,6 +43,9 @@
         $egresosDolaresExtraordinarios=0;
         
         $numContratosHoy=count($contratosHoy);
+
+
+        $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', 'like', $registro->fechaApertura)->get();
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
