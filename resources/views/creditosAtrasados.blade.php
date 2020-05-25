@@ -107,7 +107,9 @@
                                     <td>
                                         @php
                                             $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
-                                            //echo $telefono->numero;
+                                            if (isset($telefono->numero)) {
+                                            echo $telefono->numero;
+                                            }
                                         @endphp
                                     </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
