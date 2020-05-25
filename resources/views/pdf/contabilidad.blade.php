@@ -18,7 +18,7 @@
 
        
         
-        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
+     
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
@@ -42,6 +42,7 @@
         $numContratosHoy=0;
         $egresosDolaresExtraordinarios=0;
         
+        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $numContratosHoy=count($contratosHoy);
 
 
