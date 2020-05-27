@@ -1,4 +1,4 @@
-@extends('layouts.backend')
+@extends('layouts.backendSimple')
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 <style>
@@ -16,7 +16,7 @@
             $usuario = Auth::user()->id; 
             $permisos = App\Permission::where('user_id', $usuario)->first();   
         @endphp
-    <section class="container">
+    <section class="container-fluid">
         <div class="row">
             <div id="divCalendario" style="display:none" class="col-md-12">
                 
@@ -41,76 +41,20 @@
                                 use App\Family;
                                 $familias=Family::orderBy('nombre', 'ASC')->get();
                             @endphp
-                            <form action="{{ route('inventario.filtro2') }}" method="POST">
-                                @method('POST')
-                                @csrf   
-                                <div class="row" style="padding: 10px">
-                                    {{-- @php
-                                        $familia='-';
-                                        $ban =0;
-                                    @endphp
-                                        @foreach ($Inventario as $inventario)
-                                        @php
-                                        if($ban>2){
-                                            if($inventario->familia == $familia || $inventario->familia =='-'){
-                                            $familia = $inventario->familia;
-                                            }else{
-                                                $ban++;
-                                                $familia = "Todas Las Familias";
-                                            }   
-                                        }
-                                        @endphp
-                                        @endforeach
-                                <p style="width: 100%; padding:15px; font-weight:bold; padding-bottom: 0">Familia Actual: {{$familia}}</p> --}}
-                             
-                                <div class="col-md-3">
-                                        <label for="">Familias:</label>
-                                    <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
-                                        @if(isset($familiaSeleccionada))
-                                            
-                                            <option value="{{$familiaSeleccionada}}">{{$familiaSeleccionada}}</option>
-                                            <option value="">Todas las familias</option>    
-                                        @else
-                                            <option value="">Todas las familias</option>
-                                        @endif
-                                        
-                                        @foreach($familias as $familia)
-                                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                
-                                <div class="col-md-3" style="display: none">
-                                    <div class="form-group">
-                                        <label for="">Editado Desde:</label>
-                                        <input type="date" name="fecha_1" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="display: none">
-                                    <div class="form-group">
-                                            <label for="">Editado Hasta:</label>
-                                        <input type="date" name="fecha_2" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="padding-top:30px">
-                                        <div class="form-group">
-                                    <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
-                                        </div>
-                                </div>
-                            </div>
-                            </form>
+                            
                            
                         </div>
                     </div>
                     @php
-                            $usuario = Auth::user()->id;    
-                        @endphp 
-
-                        
+                            $usuario = Auth::user()->id; 
+                            if(isset($familiaSeleccionada)){ 
+                            $ultimoInventario =  App\Register::orderBy('id', 'ASC')->where('motivo', $familiaSeleccionada)->first();
+                            }
+                    @endphp
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form method="POST" action="{{route('imprimir.familia')}}" >
+                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
                                 @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
                                 @endif
@@ -122,37 +66,49 @@
                         </form>    
                     </div>
                     <div class="col-md-9 text-right">
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico')}}" style="display: inline-block;">
-                                @if(isset($familiaSeleccionada))
-                                    <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
-                                @endif
-
-                                @method('POST')
-                                @csrf 
-                        @if(isset($familiaSeleccionada))
-                            <button class="btn btn-sm btn-danger" type="submit">Finalizar Inventario</button>
-                        @endif  
-                        </form> 
-
-                        <form method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
+                      
+                        @if(isset($ultimoInventario))
+                        <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
+                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                                <input type="hidden" name="faltante" value="no">
                             @endif
 
                             @method('POST')
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            <li class="fa fa-print"></li>
+                            Impresion (Todos) <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
+                    <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico3')}}" style="display: inline-block;">
+                        @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            <input type="hidden" name="faltante" value="no">
+                        @endif
+
+                        @method('POST')
+                        @csrf 
+                @if(isset($familiaSeleccionada))
+                    <button class="btn btn-sm btn-info" type="submit">
+                        Impresion Entrega <li class="fa fa-print"></li>
+                    </button>
+                @endif  
+                </form>
+                        @else
+                        
+                        
+                    
+                @endif
                        
                     </div>
                 </div>
-                    <div style="padding:15px; padding-top:30px;">
+                    <div style="padding:15px; padding-top:30px; width:100vh">
                     
-                     <table style="font-size: 11px;" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventarioFisico" role="grid" >
+                     <table class="table" role="grid" style="font-size: 11px; width: 100vh" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
@@ -165,91 +121,86 @@
                                     <th>Conteo Fisico exhibición</th>
                                     <th>Diferencia Exhibición</th>
                                     <th>Total Diferencia</th>
-                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>                    
                                 @if (!is_null($Inventario))
-                                    @foreach ($Inventario as $inventario)    
+                                    @foreach ($Inventario as $inventario)
+                                    @if(!$inventario->noAplica) 
                                     @php
-                                        $servicio = App\PhysicalInventory::where('idProducto', $inventario->id)->get();
-                                    @endphp
-                                    @if(count($servicio)==0)
-                            <tr role="row" class="odd">
+                                    $servicio = App\PhysicalInventory::where('idProducto', $inventario->id)->get();
+                                @endphp
+                                @if(count($servicio)==0)
+                        <tr role="row" class="odd">
+                        <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                            <td><p >{{ $inventario->servicio }}</p></td>
+                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                            <td>{{$inventario->cantidad}}
+                                <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                            <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
+                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td>{{$inventario->exhibicion}}
+                                <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                            <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
+                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            @php
+                                $precioUnitario=number_format($inventario->precioUnitario,2);
+                            @endphp
+                             @if($usuario != 2)
+                            @endif
+                            <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
+                                    {{ ($inventario->cantidad + $inventario->exhibicion) }}
+                                </td>
+                            <td class="d-flex" style="box-sizing: content-box;">
+                                   
+
+                                    <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
+                                
+                            </td>
+                        </tr>
+                        @else
+                        @php
+                            $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
+                        @endphp
+                        <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td>{{$inventario->cantidad}}
-                                    <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
-                                <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
-                                <td>{{$inventario->exhibicion}}
-                                    <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                    <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
-                                <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                                <td>{{$servicioDatos->antesBodega}}
+                                    @if($servicioDatos->antesBodega == $servicioDatos->fisicoBodega)
+                                        <span style="color: blue; font-weight: bold;">=</span>
+                                    @else
+                                        <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $servicioDatos->antesBodega) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
+                                    <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$servicioDatos->antesBodega)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
+                                    @endif
+                                    </td>
+                                <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
+                                <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
+                                <td>{{$servicioDatos->antesExhibicion}}
+                                     @if($servicioDatos->antesExhibicion == $servicioDatos->fisicoExhibicion)
+                                        <span style="color: blue; font-weight: bold;">=</span>
+                                    @elseif($servicioDatos->fisicoExhibicion > $servicioDatos->antesExhibicion)
+                                        <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
+                                    @elseif($servicioDatos->fisicoExhibicion < $servicioDatos->antesExhibicion)
+                                    <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
+                                    @endif
+                                    </td>
+                                <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
+                                <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 @php
                                     $precioUnitario=number_format($inventario->precioUnitario,2);
                                 @endphp
-                                 @if($usuario != 2)
-                                @endif
-                                <td style="text-align:center; font-weight: bold">
-                                        {{ ($inventario->cantidad + $inventario->exhibicion) }}
-                                    </td>
-                                <td class="d-flex" style="box-sizing: content-box;">
-                                        <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
-                                                <i class="fa fa-check"></i> 
-                                            </button>
-
-                                        <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
-                                    
+                                <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
+                                    {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
+                                
+                                
                             </tr>
-                            @else
-                            @php
-                                $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
-                            @endphp
-                            <tr role="row" class="odd">
-                                <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                                    <td class="">{{ $inventario->servicio }}</td>
-                                    <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                    <td>{{$inventario->cantidad}}
-                                        @if($inventario->cantidad == $servicioDatos->fisicoBodega)
-                                            <span style="color: blue; font-weight: bold;">=</span>
-                                        @else
-                                            <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; @if(($servicioDatos->fisicoBodega - $inventario->cantidad) >= 0) display:inline @else display:none @endif" class="fa fa-arrow-up"></span>
-                                        <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; @if(($servicioDatos->fisicoBodega-$inventario->cantidad)<=0) display:inline @else display:none @endif" class="fa fa-arrow-down"></span>
-                                        @endif
-                                        </td>
-                                    <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif>{{$servicioDatos->fisicoBodega}}</td>
-                                    <td id="dif1-{{$inventario->id}}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega}}</td>
-                                    <td>{{$inventario->exhibicion}}
-                                         @if($inventario->exhibicion == $servicioDatos->fisicoExhibicion)
-                                            <span style="color: blue; font-weight: bold;">=</span>
-                                        @elseif($servicioDatos->fisicoExhibicion > $inventario->exhibicion)
-                                            <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:inline" class="fa fa-arrow-up"></span>
-                                        @elseif($servicioDatos->fisicoExhibicion < $inventario->exhibicion)
-                                        <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:inline" class="fa fa-arrow-down"></span>
-                                        @endif
-                                        </td>
-                                    <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif>{{$servicioDatos->fisicoExhibicion}}</td>
-                                    <td id="dif2-{{ $inventario->id }}" style="text-align:center; font-weight: bold; background: #FFFEDD">{{$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
-                                    @php
-                                        $precioUnitario=number_format($inventario->precioUnitario,2);
-                                    @endphp
-                                    <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
-                                        {{ ($servicioDatos->fisicoBodega + $servicioDatos->fisicoExhibicion) - ($inventario->cantidad + $inventario->exhibicion) }}
-                                    </td>
+                        @endif
+                                    @endif
                                     
-                                    <td class="d-flex" style="box-sizing: content-box;">
-                                      
-                                            
-                                        <input type="checkbox" @if($servicioDatos->diferencia) checked @endif onchange="cambiarDiferencia({{$inventario->id}})" />
-                                        <i style="color:green; font-size:25px" class="fa fa-check"></i>
-                                    </td>
-                                </tr>
-                            @endif
                             @endforeach
                             @endif
                        
@@ -259,15 +210,20 @@
                             </div>
                         </div>
                 </div>
+                <!-- Vista presupuestos archivados -->
                 
+       
+
                 
                
     </section>
    
+    @include('modals.agregarFamilia')
 @endsection
 
 @section("scripts")
     <script>
+        window.print();
         $(function(){
             let archivar = document.getElementsByClassName('archivar');
 
@@ -518,6 +474,13 @@ td.innerHTML = nuevaCantidad;
         }
 
         function cambiarDiferencia(id){
+           let color = document.getElementById('btnDiferencia'+id).style.background;
+            if(color=='red'){
+                document.getElementById('btnDiferencia'+id).style.background="#3f9ce8";
+            }else{
+                document.getElementById('btnDiferencia'+id).style.background="red";
+            }
+           
             console.log(id)
             let URL = 'registrar-diferencia/' + id
 
@@ -528,6 +491,16 @@ td.innerHTML = nuevaCantidad;
             })
 
             
+        }
+
+        function marcar(){
+            for (var i = 0; i < 12500; i++) {
+                try {
+                cambiarDiferencia(i);
+                }catch{
+
+                }
+            }
         }
 
         function finalizarInventarioFisico(){
