@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/inventariotest', 'CMS\IndexController@inventariotest')->name('inventariotest');
     Route::get('/inventario2', 'CMS\IndexController@inventario2')->name('inventario2');
     Route::get('/inventario3/{id}', 'CMS\IndexController@inventario3')->name('inventario3');
+    Route::get('/inventario4/{id}', 'CMS\IndexController@inventario4')->name('inventario4');
     Route::post('/inventario2', 'CMS\InventoryController@inventarioFiltro2')->name('inventario.filtro2');
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
     Route::post('/inventario/update-product-na/{id}', 'CMS\InventoryController@updateNA')->name('inventario.updateNA');

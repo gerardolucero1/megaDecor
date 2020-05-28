@@ -40,7 +40,8 @@
                                             <button type="submit" onclick="return confirm('Seguro quieres eliminar esta familia')" class="btn btn-sm btn-danger">Eliminar</button>
                                         </form>
                                         <a href="{{ route('familia.edit', $familia->id) }}" class="btn btn-sm btn-info">Editar</a>
-                                        <a target="_blank" href="{{ route('inventario3', $familia->nombre) }}" class="btn btn-sm btn-info">Imprimir</a>
+                                        <a target="_blank" href="{{ route('inventario3', $familia->nombre) }}" class="btn btn-sm btn-info">Imprimir Diferencias</a>
+                                        <a target="_blank" href="{{ route('inventario4', $familia->nombre) }}" class="btn btn-sm btn-info">Imprimir Bodega</a>
                                         
                                     </td>
                                 </tr>

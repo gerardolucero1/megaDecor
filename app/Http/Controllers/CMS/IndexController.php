@@ -393,6 +393,18 @@ public function archivarUsuario($id){
 
         return view('inventario3', compact('Inventario', 'inventarioAuth'));
     }
+    public function inventario4($id){
+        
+
+        $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $id)->get();
+        $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
+        $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
+        
+        $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
+        //dd($inventarioAuth);
+
+        return view('inventario4', compact('Inventario', 'inventarioAuth'));
+    }
 
     public function registrarDif(Request $request, $id){
         $producto = PhysicalInventory::where('idProducto', $id)->first();
