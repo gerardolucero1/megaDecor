@@ -79,7 +79,9 @@ ${{$total}}
 <td style="width: 13%">
     @php
     $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
+    if(count($telefono)>0){
     echo $telefono->numero;
+    }
 @endphp
 </td>
 </tr>
