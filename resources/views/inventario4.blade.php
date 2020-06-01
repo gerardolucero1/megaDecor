@@ -110,7 +110,7 @@
                         
          
                     
-                     <table class="table" role="grid" style="font-size: 11px; width: 100vh" >
+                     <table class="table" role="grid" style="font-size: 11px; width: 80vh" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
