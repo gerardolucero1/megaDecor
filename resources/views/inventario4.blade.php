@@ -162,8 +162,8 @@
                         @endphp
                         <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                                <td class="" style="width: 150px">{{ $inventario->servicio }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                                <td class="" ><p style="width: 150px">{{ $inventario->servicio }}</p></td>
+                                <td class="d-none d-sm-table-cell"><p style="width: 150px">{{ $inventario->familia }}</p></td>
                                 <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
                                
                                 <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
