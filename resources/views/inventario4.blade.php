@@ -115,7 +115,7 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Familia</th>
+                                
                                     <th>Actual en bodega</th>
                                     <th>Actual exhibición</th>
                                     <th>Total ambas</th>
@@ -133,7 +133,6 @@
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td style="width: 20%"><p style="width: 100px">{{ $inventario->servicio }}</p></td>
-                            <td class="d-none d-sm-table-cell" style="width: 20%"><p style="width: 100px">{{ $inventario->familia }}</p></td>
                             <td style="width: 20%"><p style="width: 100px">{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                 <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span>
@@ -166,7 +165,6 @@
                         <tr role="row" class="odd">
                                 <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="" style="width: 20%"><p style="width: 150px">{{ $inventario->servicio }}</p></td>
-                                <td  class="d-none d-sm-table-cell" style="width: 20%"><p style="width: 150px">{{ $inventario->familia }}</p></td>
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
                                
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
