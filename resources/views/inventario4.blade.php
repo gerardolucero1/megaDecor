@@ -129,7 +129,7 @@
                                 @if(count($servicio)==0)
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                            <td><p >{{ $inventario->servicio }}</p></td>
+                            <td><p style="width: 150px">{{ $inventario->servicio }}</p></td>
                             <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                             <td>{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
