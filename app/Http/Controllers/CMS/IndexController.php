@@ -395,7 +395,7 @@ public function archivarUsuario($id){
     }
     public function inventario4($id){
         
-        $familiaSeleccionada = $id;
+        $familiaSelect = $id;
         $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $id)->get();
         $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
         $inventarioPack = BudgetPackInventory::where('guardarInventario', true)->get()->toArray();
@@ -403,7 +403,7 @@ public function archivarUsuario($id){
         $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
         //dd($inventarioAuth);
 
-        return view('inventario4', compact('Inventario', 'inventarioAuth'));
+        return view('inventario4', compact('Inventario', 'inventarioAuth', 'familiaSelect'));
     }
 
     public function registrarDif(Request $request, $id){
@@ -482,9 +482,14 @@ public function archivarUsuario($id){
 
    
        
-        return view('comisiones', compact( 'ArrayEmpleadoDelMes', 'CompleteUsers', 'Vendedores', 'familiaSeleccionada'));
+        return view('comisiones', compact( 'ArrayEmpleadoDelMes', 'CompleteUsers', 'Vendedores'));
    
     }
+
+
+
+
+
     //Vista dasboard
     public function dashboard(){
          $fecha_actual= date('Y-m-d',time());
