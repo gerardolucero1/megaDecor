@@ -2602,7 +2602,7 @@ padding: 0;
                 editarNotas(index, key, notas){
                     this.notasActualizadas = notas;
                     this.indice = index; 
-                    this.key = key[7];
+                    this.key = key[8];
                     console.log(index);
                     console.log(this.key); 
                 },
