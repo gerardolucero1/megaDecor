@@ -479,7 +479,9 @@ padding: 0;
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</div>
                                     -->
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
+                                    <button v-if="producto.tipo == 'PAQUETE' || producto.servicio != 'Mesa de dulces'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
+                                    <button v-if="producto.tipo == 'PAQUETE' || producto.servicio == 'Mesa de dulces'" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bocadillosModal">Editar</button>
+                                    
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
                                     <div v-if="producto.externo" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
                                 </td>
