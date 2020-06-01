@@ -106,11 +106,11 @@
                        
                     </div>
                 </div>
-                    <div style="padding:15px; padding-top:30px; width:100vh">
+                    <div style="padding:15px; padding-top:30px; width:80vh">
                         
                     <h1>Familia: {{$familiaSelect}}</h1>
                     
-                     <table class="table" role="grid" style="font-size: 11px; width: 80vh" >
+                     <table class="table" role="grid" style="font-size: 11px; width: 60vh" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
