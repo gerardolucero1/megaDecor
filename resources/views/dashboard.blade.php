@@ -106,7 +106,7 @@
                                                     $fechaActual = $date->format('Y-m-d');
                                                     $contador = 0;
 
-                                                    $creditos = App\Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+                                                    $creditos = App\Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
                                                     foreach ($creditos as $credito) {
                                                         $cliente = App\Client::findOrFail($credito->client_id);
                                                         if($cliente->tipoPersona == 'FISICA'){

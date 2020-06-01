@@ -4,14 +4,15 @@
 
 <template>
     <section class="container">
+        <div id="contenedorGeneral">
         <div class="row">
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
                 <table style="width:70%">
                     <tr>
                         <td># Personas<br><br><input v-model="personas" v-on:change="updatePersonas()" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"> X </td>
                         <td>Numero de bocadillos x persona <br><span style="font-style:italic"></span><br><input v-model="bocadillos" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"> = {{bocadillos*personas}} Pzs.</td>
-                        <td>Servilleta (Papel)<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $1</span><br><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
-                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario $3 <i class="fa fa-edit"></i></span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Servilleta (Papel)<br><span style="font-style:italic; font-size:10px;" >Precio Unitario ${{precioServilleta}} <i style="color:blue" v-on:click="updatePrecioServilleta()" class="fa fa-edit"></i></span><br><input v-model="servilleta" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
+                        <td>Plato Pastelero 7.5 pulgadas<br><span style="font-style:italic; font-size:10px;" >Precio Unitario ${{precioPlatoPastelero}} <i style="color:blue" v-on:click="updatePrecioPlato()" class="fa fa-edit"></i></span><br><input v-model="platoPastelero" style="width:100%; border:solid; border-width:1px; border-radius:5px; text-align:center; width:60px" type="text"></td>
                     </tr>
                 </table>
                 <table style="width:40%; margin-top:20px">
@@ -20,14 +21,14 @@
                         <td></td>
                     </tr>
                 </table>
-                <label for="">Buscadores de postres y bocadillos</label> 
+                <label for="">Buscadores de postres y bocadillos</label> <br>
             <buscador-component
                 :limpiar="limpiar"
                 placeholder="Buscar Postres"
                 event-name="results"
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
-            ></buscador-component>
+            ></buscador-component> <i style="color:blue; margin-left:5px; margin-right:10px" class="fa fa-eye" data-toggle="modal" data-target="#catalogoPostres"></i>
 
             <buscador-component
                 :limpiar="limpiar"
@@ -35,7 +36,7 @@
                 event-name="results"
                 :list="inventarioBotanas"
                 :keys="['servicio', 'id', 'familia']"
-            ></buscador-component>
+            ></buscador-component> <i style="color:blue; margin-left:5px; margin-right:10px" class="fa fa-eye" data-toggle="modal" data-target="#catalogoBocadillos"></i>
 
             <div class="col-md-12">
             <!-- Resultado Busqueda items -->
@@ -82,11 +83,11 @@
                         <td>{{ item.servicio }}</td>
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p>
-                        <label><input type="checkbox">Precio por bocadillo</label></td>
+                        <label><input style="display:none" type="checkbox">Precio por bocadillo</label></td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadPaquetesActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p>
-                        <label><input type="checkbox">Precio Por paquete</label></td>
+                        <label><input style="display:none" type="checkbox">Precio Por paquete</label></td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="precioActualizado">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</p></td>
@@ -160,8 +161,10 @@
                     </div>
                     
  
-                    <div style="padding-top:10px; positio: relative"><a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary" disabled><i class="si si-printer"></i> Imprimir cliente</a>
-                    <a target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer" disabled></i> Imprimir interna</a>
+                    <div style=" padding-top:10px; positio: relative">
+                    <a style="display:none" target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary" disabled><i class="si si-printer"></i> Imprimir cliente</a>
+                    <a  style="display:none" target="_blank" :href="'mesa-bocadillos/pdf/'" class="btn btn-primary"><i class="si si-printer" disabled></i> Imprimir interna</a>
+                    <button @click="printDiv('contenedorGeneral')" class="btn btn-primary"><i class="si si-printer"></i> Imprimir</button>
                     <button @click="guardarMesa1()" class="btn btn-success">Guardar</button>
                     <div style="color:red; position:absolute; z-index:10; right:30px; font-size:20px; top:-50px">#bocadillos Restantes {{bocadillosRestantes}}</div>
                     </div>
@@ -170,6 +173,88 @@
             </div>
             
         </div>
+
+        <div class="modal fade" id="catalogoBocadillos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Catalogo Bocadillos</h5>
+                    <button type="button" class="close" onClick="$('#catalogoBocadillos').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  v-for="(item, index) in inventarioBotanas" :key="index">
+                                        <td><img :src="item.imagen" style="width:70px"></td>
+                                        <td>{{item.servicio}}</td>
+                                        <td>{{item.precioUnitario | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#catalogoBocadillos').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+         <div class="modal fade" id="catalogoPostres" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Catalogo Postres</h5>
+                    <button type="button" class="close" onClick="$('#catalogoPostres').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  v-for="(item, index) in inventario" :key="index">
+                                        <td><img :src="item.imagen" style="width:70px"></td>
+                                        <td>{{item.servicio}}</td>
+                                        <td>{{item.precioUnitario | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#catalogoPostres').modal('hide')">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
     </section>
 </template>
 
@@ -315,6 +400,17 @@ export default {
                     //alert(key[2]);
                        
                 },
+
+     printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+},
         updatePersonas(){
             this.servilleta = this.personas;
             this.platoPastelero = this.personas;
@@ -366,6 +462,14 @@ export default {
                 console.log(error.data);
             });
         
+        },
+        updatePrecioPlato(){
+            let precioActualizado = prompt('Ingrear costo de plato pastelero');
+            this.precioPlatoPastelero = precioActualizado;
+        },
+        updatePrecioServilleta(){
+            let precioActualizado = prompt('Ingrear costo de Servilleta');
+            this.precioServilleta = precioActualizado;
         },
 
         obtenerInventarioBotanas(){
