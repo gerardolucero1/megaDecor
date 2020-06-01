@@ -131,13 +131,15 @@
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td><p style="width: 150px">{{ $inventario->servicio }}</p></td>
                             <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                            <td>{{$inventario->cantidad}}
+                            <td><p style="width: 100px">{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
-                           
-                            <td>{{$inventario->exhibicion}}
+                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span>
+                            </p>
+                        </td>
+                            <td><p style="width: 100px">{{$inventario->exhibicion}}
                                 <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></p>
+                            </td>
                            
                             @php
                                 $precioUnitario=number_format($inventario->precioUnitario,2);
@@ -162,9 +164,9 @@
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="" style="width: 150px">{{ $inventario->servicio }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                                <td style="text-align: center">{{$servicioDatos->antesBodega}}</td>
+                                <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
                                
-                                <td style="text-align: center">{{$servicioDatos->antesExhibicion}}</td>
+                                <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
                                
                                 
                                 
