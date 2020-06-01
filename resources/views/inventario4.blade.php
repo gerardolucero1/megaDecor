@@ -130,8 +130,8 @@
                                     $servicio = App\PhysicalInventory::where('idProducto', $inventario->id)->get();
                                 @endphp
                                 @if(count($servicio)==0)
-                        <tr role="row" class="odd">
-                        <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                        <tr role="row">
+                        <td><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td style="width: 20%"><p style="width: 100px">{{ $inventario->servicio }}</p></td>
                             <td style="width: 20%"><p style="width: 100px">{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
@@ -151,7 +151,7 @@
                             <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
                                     {{ ($inventario->cantidad + $inventario->exhibicion) }}
                                 </td>
-                            <td class="d-flex" style="box-sizing: content-box;">
+                            <td  style="box-sizing: content-box;">
                                    
 
                                     <i class="fa fa-check" style="color:green; display:none; font-size:25px" id="label-check-{{ $inventario->id }}"></i>
@@ -162,11 +162,10 @@
                         @php
                             $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
                         @endphp
-                        <tr role="row" class="odd">
-                                <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                        <tr role="row">
+                                <td class=""><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="" style="width: 20%"><p style="width: 150px">{{ $inventario->servicio }}</p></td>
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
-                               
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
                                
                                 
