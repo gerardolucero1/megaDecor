@@ -108,7 +108,7 @@
                 </div>
                     <div style="padding:15px; padding-top:30px; width:100vh">
                         
-                    <h1>{{$familiaSeleccionada}}</h1>
+         
                     
                      <table class="table" role="grid" style="font-size: 11px; width: 100vh" >
                             <thead>
