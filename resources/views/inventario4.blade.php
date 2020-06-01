@@ -107,6 +107,8 @@
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px; width:100vh">
+                        
+                    <h1>{{$familiaSeleccionada}}</h1>
                     
                      <table class="table" role="grid" style="font-size: 11px; width: 100vh" >
                             <thead>
@@ -129,14 +131,14 @@
                                 @if(count($servicio)==0)
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                            <td><p style="width: 150px">{{ $inventario->servicio }}</p></td>
-                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
-                            <td><p style="width: 100px">{{$inventario->cantidad}}
+                            <td style="width: 20%"><p style="width: 100px">{{ $inventario->servicio }}</p></td>
+                            <td class="d-none d-sm-table-cell" style="width: 20%"><p style="width: 100px">{{ $inventario->familia }}</p></td>
+                            <td style="width: 20%"><p style="width: 100px">{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                 <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span>
                             </p>
                         </td>
-                            <td><p style="width: 100px">{{$inventario->exhibicion}}
+                            <td style="width: 20%"><p style="width: 100px">{{$inventario->exhibicion}}
                                 <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                 <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></p>
                             </td>
@@ -161,12 +163,12 @@
                             $servicioDatos = App\PhysicalInventory::where('idProducto', $inventario->id)->first();
                         @endphp
                         <tr role="row" class="odd">
-                            <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
-                                <td class="" ><p style="width: 150px">{{ $inventario->servicio }}</p></td>
-                                <td class="d-none d-sm-table-cell"><p style="width: 150px">{{ $inventario->familia }}</p></td>
-                                <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
+                                <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
+                                <td class="" style="width: 20%"><p style="width: 150px">{{ $inventario->servicio }}</p></td>
+                                <td  class="d-none d-sm-table-cell" style="width: 20%"><p style="width: 150px">{{ $inventario->familia }}</p></td>
+                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
                                
-                                <td style="text-align: center"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
+                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
                                
                                 
                                 
