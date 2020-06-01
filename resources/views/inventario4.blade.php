@@ -118,6 +118,7 @@
                                     <th>Familia</th>
                                     <th>Actual en bodega</th>
                                     <th>Actual exhibición</th>
+                                    <th>Total ambas</th>
 
                                 </tr>
                             </thead>
