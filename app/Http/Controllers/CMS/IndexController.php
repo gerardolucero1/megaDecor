@@ -382,7 +382,7 @@ public function archivarUsuario($id){
     }
 
     public function inventario3($id){
-        
+        $familiaSelect = $id;
 
         $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $id)->get();
         $inventarioBudget = BudgetInventory::where('guardarInventario', true)->get()->toArray();
@@ -391,7 +391,7 @@ public function archivarUsuario($id){
         $inventarioAuth = array_merge($inventarioBudget, $inventarioPack);
         //dd($inventarioAuth);
 
-        return view('inventario3', compact('Inventario', 'inventarioAuth'));
+        return view('inventario3', compact('Inventario', 'inventarioAuth', 'familiaSelect'));
     }
     public function inventario4($id){
         

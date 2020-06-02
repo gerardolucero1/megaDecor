@@ -107,13 +107,15 @@
                     </div>
                 </div>
                     <div style="padding:15px; padding-top:30px; width:100vh">
+
+                        <h1>Familia: {{$familiaSelect}}</h1>
                     
-                     <table class="table" role="grid" style="font-size: 11px; width: 100vh" >
+                        <table class="table" role="grid" style="font-size: 11px; width: 60vh" >
                             <thead>
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Familia</th>
+                                    
                                     <th>Actual en bodega</th>
                                     <th>Conteo Fisico Bodega</th>
                                     <th>Diferencia Bodega</th>
@@ -134,7 +136,7 @@
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td><p >{{ $inventario->servicio }}</p></td>
-                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                    
                             <td>{{$inventario->cantidad}}
                                 <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
                                 <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
@@ -167,7 +169,7 @@
                         <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
+                           
                                 <td>{{$servicioDatos->antesBodega}}
                                     @if($servicioDatos->antesBodega == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
