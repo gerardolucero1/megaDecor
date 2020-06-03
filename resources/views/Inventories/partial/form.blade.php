@@ -28,6 +28,15 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <div class="col-md-12">
+                <div class="form-material">
+                    {{ Form::label('pzsPaquete', 'Cantidad Por Paquete') }}
+                    {{ Form::text('pzsPaquete', null, ['class' => 'form-control', 'id' => 'pzsPaquete']) }}  
+                </div>
+            </div>
+        </div>
+
         <div class="form-group row" style="display:none">
             <div class="col-md-12">
                 <div class="form-material">

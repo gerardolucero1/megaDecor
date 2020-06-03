@@ -180,6 +180,25 @@
                             
                             </tbody>
                      </table>
+
+                     <table style="width: 60vh; margin-top: 150px">
+                    <tr>
+                        <td style="font-weight: bold; text-align:center">
+                            Inventario Recibido por <span id="bodeguero"></span><br><br>
+                            ____________________________________________
+                        </td>
+                        <td style="font-weight: bold; text-align:center">
+                            Ivon C. Arroyos P.<br><br>
+                            ___________________________________________
+                        </td>
+                    </tr>
+                    <tr style="text-align: center">
+                        <td colspan="2">
+                            Inventario recibido: <span id="fechaImpresion"></span>
+                        </td>
+                    </tr>
+                     </table>
+
                             </div>
                         </div>
                 </div>
@@ -196,7 +215,20 @@
 
 @section("scripts")
     <script>
+imprimirPantalla()
+        function imprimirPantalla(){
+            let nombreBodeguero = prompt('Ingresa el nombre del encargado de bodega');
+            document.getElementById('bodeguero').innerHTML=nombreBodeguero;
+
+            var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            var f=new Date();
+            
+            document.getElementById('fechaImpresion').innerHTML=f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
+
         window.print();
+    }
+
+
         $(function(){
             let archivar = document.getElementsByClassName('archivar');
 
