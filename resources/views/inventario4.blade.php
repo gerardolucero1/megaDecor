@@ -165,8 +165,8 @@
                         <tr role="row">
                                 <td class=""><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="" style="width: 20%"><p style="width: 150px">{{ $inventario->servicio }}</p></td>
-                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesBodega}}</p></td>
-                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->antesExhibicion}}</p></td>
+                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->fisicoBodega}}</p></td>
+                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->fisicoExhibicion}}</p></td>
                                
                                 
                                 
