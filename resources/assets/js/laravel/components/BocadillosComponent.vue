@@ -513,7 +513,7 @@ export default {
 
             this.limpiar = true;
             producto.cantidadPaquetes = 1;
-            producto.cantidad = 1;
+            producto.cantidad = producto.pzsPaquete;
             producto.precioTotal = producto.precioUnitario*1;
             producto.cantidadTotal = 1;
             producto.calculoPrecio = 1;

@@ -35,6 +35,12 @@
   </tr>
 </table>
 <!--INFORMACION DE CLIENTE-->
+@if($presupuesto->archivado==true)
+<div style="width: 100%; background:#FCD4D4; padding:10px; border-radius:10px">
+<p style="font-weight:bold">Contrato Cancelado por: YAKIN PENA RAMIREZ</p>
+<p>{{$presupuesto->notasPresupuesto}}<p>
+</div>
+@endif
 <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px" >
 <tr>
 <td colspan="3"><p style="line-height: 14px;"><span style="font-style: italic">@if($presupuesto->tipo=='CONTRATO')Contrato @else Presupuesto @endif generado para:</span> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
