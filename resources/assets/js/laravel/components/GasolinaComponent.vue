@@ -239,7 +239,7 @@ export default {
     },
     computed: {
         calcularTotalGeneral: function(){
-            var totGral=parseInt(this.gastoHorasViaje)+parseInt(this.gastoViaticos)+parseInt(this.gastoHorasViaje)+parseInt(this.gastoCasetas)
+            var totGral=parseInt(this.gastoFlete)+parseInt(this.gastoViaticos)+parseInt(this.gastoHorasViaje)+parseInt(this.gastoCasetas)
              return totGral;
         },
         calcularHoras: function(){
