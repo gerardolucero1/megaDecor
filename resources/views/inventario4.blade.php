@@ -167,6 +167,7 @@
                                 <td class="" style="width: 20%"><p style="width: 150px">{{ $inventario->servicio }}</p></td>
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->fisicoBodega}}</p></td>
                                 <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->fisicoExhibicion}}</p></td>
+                                <td style="text-align: center" style="width: 20%"><p style="width: 100px">{{$servicioDatos->fisicoExhibicion+$servicioDatos->fisicoBodega}}</p></td>
                                
                                 
                                 
@@ -188,7 +189,7 @@
                             ____________________________________________
                         </td>
                         <td style="font-weight: bold; text-align:center">
-                            Ivon C. Arroyos P.<br><br>
+                            Ivonne del Carmen Arroyos Piñon<br><br>
                             ___________________________________________
                         </td>
                     </tr>
