@@ -65,7 +65,6 @@
                      <td>X</td>
                      <td><input style="border-color:red; text-align:center" type="text" v-if="(item.vueltas == '') || (indice == index && key == 'vueltas')" v-on:change="updateCantidadVueltas(index)" v-model="cantidadKmActualizada">
                          <label v-else v-on:click="editarCantidadVueltas(index, Object.keys(item))">{{item.vueltas}}</label></td>
-                     </td>
                      <td>=</td>
                      <td>{{item.ltsTotal}}</td>
                      <td>X</td>
@@ -240,7 +239,7 @@ export default {
     },
     computed: {
         calcularTotalGeneral: function(){
-            var totGral=this.gastoHorasViaje+this.gastoViaticos+this.gastoHorasViaje+this.gastoCasetas
+            var totGral=parseInt(this.gastoHorasViaje)+parseInt(this.gastoViaticos)+parseInt(this.gastoHorasViaje)+parseInt(this.gastoCasetas)
              return totGral;
         },
         calcularHoras: function(){
