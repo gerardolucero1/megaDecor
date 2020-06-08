@@ -11,6 +11,7 @@ use App\SupplierTelephone;
 use App\Client;
 use App\Missing;
 use App\Inventory;
+use App\Vehicle;
 use App\Telephone;
 use Carbon\Carbon;
 use App\BudgetPack;
@@ -393,6 +394,30 @@ public function archivarUsuario($id){
 
         return view('inventario3', compact('Inventario', 'inventarioAuth', 'familiaSelect'));
     }
+
+
+    //Funciones Calculadora Vehiculos
+    public function obtenerVehiculos(){
+        return Vehicle::orderBy('id', 'DESC')->get();
+    }
+
+    public function agregarVehiculo(Request $request){
+        //dd($request);
+        // Guardo un nueva categorÃ­a
+        $tipo = new Vehicle(); 
+        $tipo->nombre = $request->nombre;
+        $tipo->consumo = $request->rendimiento;
+        $tipo->combustible = "gasolina";
+        $tipo->save();
+    }
+    public function deleteVehiculo($id){
+        $tipo = Vehicle::find($id);
+        $tipo->delete();
+    }
+
+
+     //FIN Funciones Calculadora Vehiculos
+
     public function inventario4($id){
         
         $familiaSelect = $id;

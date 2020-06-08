@@ -147,6 +147,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
         Route::get('/obtener-cliente-presupuesto/{id}', 'CMS\BudgetController@obtenerClientePresupuesto');
         
+    //API calculadora Gasolina vehiculos
+    Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
+    Route::post('/vehiculos/agregarVehiculo', 'CMS\IndexController@agregarVehiculo');
+    Route::delete('/vehiculos/eliminar-vehiculo/{id}', 'CMS\IndexController@deleteVehiculo');
+
 
         //Pantalla Usuarios
         Route::get('/pantallaUsuarios', 'CMS\IndexController@pantallaUsuarios')->name('pantallaUsuarios');

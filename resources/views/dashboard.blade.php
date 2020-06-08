@@ -32,6 +32,9 @@
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
                             @endif
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#gasolinaModal">
+                                <i class="fa fa-calculator"></i> <i>Calculadora Fletes</i> 
+                            </button>
                             
                     </div>
                     
@@ -341,6 +344,7 @@
         @include('../modals/categoriaTareaModal')
         @include('../modals/tiposEmpresaModal')
         @include('../modals/comoSupoModal')
+        @include('../modals/gasolinaModal')
    
     
 @endsection
