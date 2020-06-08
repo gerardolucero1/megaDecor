@@ -83,11 +83,11 @@
                         <td>{{ item.servicio }}</td>
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</p>
-                        <label><input style="display:none" type="checkbox">Precio por bocadillo</label></td>
+                        </td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.cantidadPaquetes == '') || (indice == index && key == 'servicio')" v-on:change="updateCantidadPaquetes(index)" v-model="cantidadPaquetesActualizada">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarCantidadPaquetes(index, Object.keys(item))">{{ item.cantidadPaquetes }}</p>
-                        <label><input style="display:none" type="checkbox">Precio Por paquete</label></td>
+                        </td>
 
                         <td><input style="text-align:center; background:#FAE586; border-radius:3px; width:100%; margin-top:-15px" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecioUnitario(index)" v-model="precioActualizado">
                         <p style="text-align:center; background:#FAE586; border-radius:3px; width:100%" v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</p></td>

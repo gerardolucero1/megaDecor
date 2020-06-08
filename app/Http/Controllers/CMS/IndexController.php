@@ -1348,7 +1348,7 @@ public function archivarUsuario($id){
         
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.creditosPendientes', compact('contratos', 'adeudoTotal'));
+        $pdf = PDF::loadView('pdf.creditosPendientes', compact('contratos', 'adeudoTotal'))->setPaper('a4', 'landscape');
 
         return $pdf->stream();
     }

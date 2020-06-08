@@ -13,12 +13,13 @@
     <th style="width: 5%">#Folio</th>    
     <th style="width: 15%">Fecha Evento</th>
     <th style="width: 15%">Fecha Limite de pago</th>
-    <th style="width: 10%">Días de credito</th>
-    <th style="width: 10%">Días de atraso</th>
-    <th style="width: 15%">Cliente</th>
+    <th style="width: 7%">Días de credito</th>
+    <th style="width: 7%">Días de atraso</th>
+    <th style="width: 10%">Cliente</th>
+    <th style="width: 10%">Vendedor</th>
     <th style="width: 6%">Total</th>
     <th style="width: 6%">Saldo Pendiente</th>
-    <th style="width: 13%">Tel�fono</th>
+    <th style="width: 13%">Telefono</th>
         </tr>
     </table>
 
@@ -39,9 +40,9 @@
     <td style=" font-weight: bold; padding-top:5px; width: 5%">{{$budgetArchivados->folio}}</td>
     <td style="width: 15%"><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
     <td style="width: 15%"> @if($budgetArchivados->diasCredito>0){{$fechaLimite->translatedFormat(' l j F Y')}}@else {{$fechaEvento->translatedFormat(' l j F Y')}}@endif</td>
-    <td style="width: 10%">{{$budgetArchivados->diasCredito}}</td>
-    <td style="width: 10%">{{$testdate}} Días</td>
-    <td style="width: 15%">@php
+    <td style="width: 7%">{{$budgetArchivados->diasCredito}}</td>
+    <td style="width: 7%">{{$testdate-$budgetArchivados->diasCredito}} Días</td>
+    <td style="width: 10%">@php
         $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
 
         if($cliente->tipoPersona == "FISICA"){
@@ -54,6 +55,7 @@
             $clienteNombre = $clienteMoral->nombre;
         }
     @endphp {{$clienteNombre}}</td>
+    <td style="width: 10%">{{$budgetArchivados->vendedor}}</td>
    @php
    if($budgetArchivados->opcionIVA == 1){
        $total = $budgetArchivados->total + ($budgetArchivados->total * 0.16);
@@ -65,7 +67,7 @@
    //saldo pendiente
    
 @endphp
-<td style="width: 10%">
+<td style="width: 6%">
 ${{$total}}
 @if ($budgetArchivados->opcionIVA == 1)
    <br>

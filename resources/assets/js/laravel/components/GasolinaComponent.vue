@@ -83,11 +83,11 @@
             <label style="margin-top:40px">VIATICOS</label>
              <table style="width:60%; text-align:center">
                  <tr>
-                     <th>Presupuesto</th>
+                     <th>$ Presupuesto</th>
                      <th>X</th>
-                     <th>Comidas</th>
+                     <th>No. Comidas</th>
                      <th>X</th>
-                     <th>NO. PERSONAS</th>
+                     <th>No. Personas</th>
                      <th>=</th>
                      <th>TOTAL</th>
                  </tr>
@@ -112,7 +112,7 @@
                      <th>X</th>
                      <th>NO. PERSONAS</th>
                      <th>X</th>
-                     <th>HORA</th>
+                     <th>$ HORA</th>
                      <th>=</th>
                      <th>TOTAL</th>
                  </tr>
