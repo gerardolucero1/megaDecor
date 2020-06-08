@@ -195,7 +195,8 @@
                     </tr>
                     <tr style="text-align: center">
                         <td colspan="2">
-                            Inventario recibido: <span id="fechaImpresion"></span>
+                            Inventario recibido: <span id="fechaImpresion"></span><br>
+                            Acepto que estas son las cantidades que e contado fisicamente en persona y acepto mis faltantes
                         </td>
                     </tr>
                      </table>
