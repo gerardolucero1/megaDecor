@@ -524,21 +524,33 @@ public function archivarUsuario($id){
         $adeudoTotal = 0;
         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
         foreach($contratosAdeudo as $contratoAdeudo){
-            
+            $sumaPagos = 0;
             $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
             if(count($PagosContratoAdeudo)>0){
-                $sumaPagos = 0;
+                
                 foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
+                    
                     $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+
                 }
+
+
                 if($contratoAdeudo->opcionIVA){
+                    
                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
+                
                 }else{
-                $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);}
+                $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);
+              
+            }
+                
+
             }else{
                 $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
+                
             }
         }
+       
          //Fincalculo adeudo total
 
         $fechaHoy = Carbon::yesterday();

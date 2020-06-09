@@ -7,7 +7,9 @@
   <title> Creditos Vencidos</title>
 </head>
 <body style="font-family: Helvetica; ">
-
+@php
+    $deudaTotal=0;
+@endphp
       <table style="width: 100%; font-size:12px; text-align:center;">
         <tr style="background: cornsilk; padding:5px">
     <th style="width: 5%">#Folio</th>    
@@ -76,7 +78,11 @@ ${{$total}}
 @if($budgetArchivados->opcionIVA == 1)
 <td style="width: 6%" class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
 @else  
-<td style="width: 6%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
+<td style="width: 6%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}
+@php
+    $deudaTotal=$deudaTotal+($budgetArchivados->total-$budgetArchivados->saldoPendiente);
+@endphp
+</td>
 @endif
 <td style="width: 13%">
     @php
@@ -92,7 +98,7 @@ ${{$total}}
 
     </table>
     <div style="background: cornsilk; color:red">
-    <p style="font-size: 20px">Adeudo Total ${{number_format($adeudoTotal,2)}}</p>
+    <p style="font-size: 20px">Adeudo Total ${{number_format($deudaTotal,2)}}</p>
     </div>
 
    
