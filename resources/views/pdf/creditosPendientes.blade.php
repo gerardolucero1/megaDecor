@@ -77,6 +77,9 @@ ${{$total}}
 @endif</td>
 @if($budgetArchivados->opcionIVA == 1)
 <td style="width: 6%" class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
+@php
+    $deudaTotal=$deudaTotal+(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente);
+@endphp
 @else  
 <td style="width: 6%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}
 @php
