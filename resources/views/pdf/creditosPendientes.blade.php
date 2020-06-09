@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title> Creditos Vencidos</title>
-</head>
+
 <body style="font-family: Helvetica; ">
 @php
     $deudaTotal=0;
@@ -101,16 +94,15 @@ ${{$total}}
 
     </table>
     <div style="background: cornsilk; color:red">
-    <p style="font-size: 20px">Adeudo Total ${{number_format($deudaTotal,2)}}</p>
+    <p style="font-size: 20px; text-align:right; padding-right:13%">Adeudo Total: ${{number_format($deudaTotal,2)}}</p>
     </div>
 
    
-<script type="text/php">
-  if ( isset($pdf) ) {
-      $font = "helvetica";
-      $pdf->page_text(520, 787, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
-  }
-</script> 
+    <script type="text/php">
+        if ( isset($pdf) ) {
+            $font = "helvetica";
+            $pdf->page_text(320, 317, "P??gina: {PAGE_NUM} de {PAGE_COUNT}", $font , 5, array(0,0,0));
+        }
+        </script> 
    
 </body>
-</html>
