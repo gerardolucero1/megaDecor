@@ -149,7 +149,7 @@
         <td style="border-left:solid; border-left-width: 1px; width: 100px">Entrega</td>
         <td style="border-left:solid; border-left-width: 1px; width: 100px">Recolección</td>
         <td style="border-left:solid; border-left-width: 1px; width: 100px">Faltante<td>
-            <td style="border-left:solid; border-left-width: 1px; width: 100px">Notas<td>
+        <td style="border-left:solid; border-left-width: 1px; width: 100px"><td>
       </tr>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
