@@ -142,7 +142,7 @@
     <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
     </tr>
-    @if($presupuesto->opcionDescripcionPaquete==1)
+    @if(1==1)
     <tr style="text-align: center; font-size: 12px;">
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px; width: 100px">Cantidad</td>
