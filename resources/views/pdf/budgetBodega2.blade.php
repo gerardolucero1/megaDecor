@@ -27,6 +27,8 @@
               <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
+              <span style="font-weight: normal; font-size: 13px;">Copia Mega Mundo</span>
+              
             </p>
             </td>
         </tr>
@@ -241,6 +243,8 @@
               <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
+              <span style="font-weight: normal; font-size: 13px;">Copia Cliente</span>
+            
             </p>
             </td>
         </tr>
@@ -343,7 +347,7 @@
       <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
     <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
     </tr>
-    @if($presupuesto->opcionDescripcionPaquete==1)
+    @if(1==1)
     <tr style="text-align: center; font-size: 12px;">
         <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
         <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
