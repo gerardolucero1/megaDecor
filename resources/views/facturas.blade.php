@@ -87,7 +87,7 @@
                                 @endif
                                 @if($budget->facturaSolicitada==2)
                                 <span style="color:green"> Factura Enviada</span><br>
-                                <span>{{$budget->fechaEnvioFactura}}</span>
+                                <span></span>
                                 @endif
                                 </td>
                                 <td class="d-none d-sm-table-cell">{{$fechaEvento->translatedFormat(' l j F Y')}}<br>
@@ -190,7 +190,7 @@
                                 @endif
                                 @if($budgetArchivado->facturaSolicitada==2)
                                 <span style="color:green"> Factura Enviada</span><br>
-                                <span>{{$budgetArchivado->fechaEnvioFactura}}</span>
+                                <span></span>
                                 @endif
                                 </td>
                                 <td class="d-none d-sm-table-cell">{{$budgetArchivado->updated_at}}<br>
