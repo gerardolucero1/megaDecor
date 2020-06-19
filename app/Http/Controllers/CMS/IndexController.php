@@ -1438,8 +1438,8 @@ public function archivarUsuario($id){
                 }
                 
                 if($credito->opcionIVA){
-                    if((($credito->total*1.16)-$saldoPendiente)>0)
-                $adeudoTotal=$adeudoTotal+(($credito->total*1.16)-$saldoPendiente);
+                    if((($credito->total*1.16)-$saldoPendiente)>0){
+                $adeudoTotal=$adeudoTotal+(($credito->total*1.16)-$saldoPendiente);}
             }else{
                 if(($credito->total-$saldoPendiente)>0){
                 $adeudoTotal=$adeudoTotal+($credito->total-$saldoPendiente);}
