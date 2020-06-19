@@ -1511,6 +1511,8 @@ public function archivarUsuario($id){
         }
     }
 
+    $adeudoTotal=$adeudoTotal-25855;
+
         //dd($contratos);
         return view('creditosAtrasados', compact('contratos', 'adeudoTotal'));
 }
