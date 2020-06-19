@@ -1326,9 +1326,11 @@ public function archivarUsuario($id){
                 $pagos = Payment::where('budget_id', $credito->id)->get();
 
                 $saldoPendiente = 0;
+              
                 foreach($pagos as $pago){
                     $saldoPendiente = $saldoPendiente + $pago->amount;
                 }
+                
                 if($fechaFormato < $fechaActual){
                     $contrato = new stdClass();
                     $contrato->id = $credito->id;
@@ -1415,22 +1417,7 @@ public function archivarUsuario($id){
          //calculo adeudo total
          $adeudoTotal = 0;
          $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
-         foreach($contratosAdeudo as $contratoAdeudo){
-             
-             $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
-             if(count($PagosContratoAdeudo)>0){
-                 $sumaPagos = 0;
-                 foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
-                     $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
-                 }
-                 if($contratoAdeudo->opcionIVA){
-                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
-                 }else{
-                 $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);}
-             }else{
-                 $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
-             }
-         }
+         
           //Fincalculo adeudo total
 
         $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
@@ -1448,6 +1435,12 @@ public function archivarUsuario($id){
                 $saldoPendiente = 0;
                 foreach($pagos as $pago){
                     $saldoPendiente = $saldoPendiente + $pago->amount;
+                }
+                
+                if($credito->opcionIVA){
+                $adeudoTotal=$adeudoTotal+(($credito->total*1.16)-$saldoPendiente);
+            }else{
+                $adeudoTotal=$adeudoTotal+($credito->total-$saldoPendiente);
                 }
 
                 if($fechaFormato < $fechaActual){
