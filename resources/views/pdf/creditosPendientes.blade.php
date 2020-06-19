@@ -29,16 +29,8 @@
             $testdate = $datework->diffInDays($now);
                                              
                                             @endphp
-@if($budgetArchivados->opcionIVA == 1)
-@php
-    $deudaTotal=$deudaTotal+(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente);
-@endphp
-@else  
-@php
-    $deudaTotal=$deudaTotal+($budgetArchivados->total-$budgetArchivados->saldoPendiente);
-@endphp
-@endif
-@if($deudaTotal>0)
+
+@if($budgetArchivados->saldoPendiente>0)
 <tr >
     <td style=" font-weight: bold; padding-top:5px; width: 5%">{{$budgetArchivados->folio}}</td>
     <td style="width: 15%"><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
