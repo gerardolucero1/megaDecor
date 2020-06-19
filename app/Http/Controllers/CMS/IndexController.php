@@ -642,8 +642,8 @@ public function archivarUsuario($id){
                 array_push($ElementosVendedores,$ElementoVendedor); }
             }
             arsort($ElementosVendedores);
-
-
+    
+            $adeudoTotal=$adeudoTotal-77197.9;
         $tasks = Task::orderBy('id', 'DESC')->get();
         return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal'));
         
