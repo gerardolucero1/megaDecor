@@ -493,8 +493,13 @@
                                     </tr>
                                 </table>
                            </div>
+                           <div v-if="saldoPendiente>0">
                             <label style="background:red; color: white; border-radius:5px; padding:5px" v-if="presupuesto.opcionIVA">Saldo pendiente: {{ saldoPendiente | currency }}</label>
                             <label style="background:red; color: white; border-radius:5px; padding:5px" v-else>Saldo pendiente: {{ saldoPendiente | currency }}</label>
+                            </div>
+                            <div v-else>
+                             <label style="background:green; color: white; border-radius:5px; padding:5px">Pagado</label>   
+                            </div>
                             <br>
                             <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
                         </div>
