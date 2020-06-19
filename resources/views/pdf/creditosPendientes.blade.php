@@ -30,7 +30,7 @@
                                              
                                             @endphp
 
-@if($budgetArchivados->saldoPendiente>0)
+@if(($budgetArchivados->total-$budgetArchivados->saldoPendiente)>0)
 <tr >
     <td style=" font-weight: bold; padding-top:5px; width: 5%">{{$budgetArchivados->folio}}</td>
     <td style="width: 15%"><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
