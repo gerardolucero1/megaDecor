@@ -103,7 +103,7 @@ ${{$total}}
     <script type="text/php">
         if ( isset($pdf) ) {
             $font = "helvetica";
-            $pdf->page_text(320, 317, "P??gina: {PAGE_NUM} de {PAGE_COUNT}", $font , 5, array(0,0,0));
+            $pdf->page_text(770, 567, "Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font , 5, array(0,0,0));
         }
         </script> 
    
