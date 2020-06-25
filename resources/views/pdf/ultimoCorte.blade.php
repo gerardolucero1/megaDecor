@@ -104,6 +104,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
+    <p>Impresion Original</p>
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
