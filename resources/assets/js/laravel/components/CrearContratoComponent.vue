@@ -2273,7 +2273,10 @@ padding: 0;
             },
             guardarPaquete(){
                 let count;
-                
+                if(this.paquete.servicio != '') {}else{
+                    alert('Ingresa un nombre de paquete');
+                    return
+                }
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
