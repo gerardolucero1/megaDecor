@@ -1813,6 +1813,9 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 }).then((result) => {
                     if (result.value) {
                         this.cerrarCaja();
+                        //alert('abriendoPDF');
+                
+                
                     }
             })
         },
@@ -1838,6 +1841,10 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.enviarEmail();
                 this.mostrarAbrirCaja = true;
                 $('#cerrarCaja').modal('hide');
+                
+                var URL = "/ultimo-corte/pdf/";
+                var W = window.open(URL);
+                W.window.print(); 
             })
         },
 
