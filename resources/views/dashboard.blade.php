@@ -184,7 +184,7 @@
                                                 </div>
                                                 <div class="row pt-10 pb-30 text-center">
                                                     <div class="col-6 border-r">
-                                                    <div class="font-size-h3 font-w600">71</div>
+                                                        <div class="font-size-h3 font-w600">{{ count($presupuestosAnoActual) }}</div>
                                                         <div class="font-size-sm font-w600 text-uppercase text-muted">
                                                                 <span @if( $presupuestosAnoActual >= $presupuestosAnoPasado)
                                                                         style="color:green"
@@ -194,7 +194,7 @@
                                                                 Ventas {{ $mes }} {{ $anio }}</div>
                                                     </div>
                                                     <div class="col-6">
-                                                        <div class="font-size-h3 font-w600">{{ count($presupuestosAnoPasado) }}</div>
+                                                        <div class="font-size-h3 font-w600">71</div>
                                                     <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas {{ $mes }} {{ $anioPasado }}</div>
                                                     </div>
                                                 </div>
