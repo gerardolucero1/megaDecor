@@ -160,7 +160,7 @@
                                 $fechaFin = $end->format('Y-m-d');
                                 $ingresoActual = 0;
 
-                                $contratos = App\Budget::whereBetween('fechaEvento', array($fechaInicio, $fechaFin))->where('tipo', 'CONTRATO')->get();
+                                $contratos = App\Budget::whereBetween('fechaEvento', array($fechaInicio, $fechaFin))->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->get();
 
                                 foreach($contratos as $contrato){
                                     if($contrato->opcionIVA){
