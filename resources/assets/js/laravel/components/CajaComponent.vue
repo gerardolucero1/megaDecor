@@ -378,7 +378,7 @@
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             <input v-if="pago.method == 'DOLAR'" type="number" placeholder="Ingresa el tipo de cambio" v-model="pago.reference">
-                                                            <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa numero referencia de transacción" v-model="pago.reference">
+                                                            <input v-if="pago.method == 'TRANSFERENCIA'" type="number" placeholder="Ingresa numero referencia de transacción" v-model="pago.reference"><br>
                                                             <input v-if="pago.method == 'TRANSFERENCIA'" type="text" placeholder="Comentarios" v-model="pago.comentarios">
                                                             <input v-if="pago.method == 'CHEQUE'" type="number" placeholder="Ingresa numero de cheque" v-model="pago.reference">
                                                             <input v-if="pago.method == 'TARJETA'" type="number" placeholder="Ingresa los ultimos 4 digitos de la tarjeta" v-model="pago.reference">
@@ -1876,6 +1876,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.pago.amount='';
                 this.pago.reference='';
                 this.pago.bank='';
+                this.pago.comentarios='';
                 
                 this.obtenerPagosPasados()
                 this.obtenerPresupuestos();

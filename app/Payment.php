@@ -13,6 +13,7 @@ class Payment extends Model
         'amount',
         'reference',
         'bank',
+        'comentarios',
     ];
 
     public function budget()
