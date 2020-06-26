@@ -28,7 +28,10 @@
                     </tr>
                 </table>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" style="margin-top:-80px">
+                        <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right" value="NM">
+                        <input type="text" value="Cliente" style="border:none; font-weight:bold; font-size:18px; text-align:right"><br>
+                        <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
                         <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos <i class="fa fa-edit"></i></p>
                          <p style="color:blue: cursor:pointer" v-on:click="updatePrecioGasolina()">Precio Gasolina: {{costoGasolina | currency}} <i class="fa fa-edit"></i></p>
                     </div>
@@ -37,7 +40,7 @@
             </div>
             <div class="col-md-12">
              <table style="width:100%">
-                 <tr style="text-align:center">
+                 <tr style="text-align:center; background:#252EEE; color:white">
                      <th style="padding:3px;">Vehiculo</th>
                      <th style="padding:3px;">KM DESTINO</th>
                      <th style="padding:3px;">(/)</th>
@@ -81,8 +84,8 @@
              </table>
 
             <label style="margin-top:40px">VIATICOS</label>
-             <table style="width:60%; text-align:center">
-                 <tr>
+             <table style="width:60%; text-align:center; border:solid;">
+                 <tr style="background:#252EEE; color:white">
                      <th>$ Presupuesto</th>
                      <th>X</th>
                      <th>No. Comidas</th>
@@ -91,7 +94,7 @@
                      <th>=</th>
                      <th>TOTAL</th>
                  </tr>
-                 <tr>
+                 <tr style="border-bottom:solid">
                      <td><input style="text-align:center" v-model="presupuesto"></td>
                      <td>X</td>
                      <td><input style="text-align:center" v-model="comidas"></td>
@@ -104,8 +107,8 @@
 
 
              <label style="margin-top:40px">HORAS</label>
-             <table style="width:60%; text-align:center">
-                 <tr>
+             <table style="width:60%; text-align:center; border:solid;">
+                 <tr style="background:#252EEE; color:white">
                      <th>HORAS</th>
                      <th>X</th>
                      <th>VIAJES</th>
@@ -116,7 +119,7 @@
                      <th>=</th>
                      <th>TOTAL</th>
                  </tr>
-                 <tr>
+                 <tr style="border-bottom:solid">
                      <td><input style="text-align:center" v-model="horas"></td>
                      <td>X</td>
                      <td><input style="text-align:center" v-model="viajes"></td>
@@ -238,6 +241,11 @@ export default {
       
     },
     computed: {
+        fechaActual: function(){
+            var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            var f=new Date();
+           return (f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
+        },
         calcularTotalGeneral: function(){
             var totGral=parseInt(this.gastoFlete)+parseInt(this.gastoViaticos)+parseInt(this.gastoHorasViaje)+parseInt(this.gastoCasetas)
              return totGral;
