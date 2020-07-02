@@ -1069,6 +1069,8 @@ padding: 0;
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option selected value="OTRO">Otra</option>
+                                <option value="NO APLICA">NO APLICA</option>
+                                <option value="MISMO DIA">MISMO DIA</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -1094,6 +1096,8 @@ padding: 0;
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option selected value="OTRO">Otra</option>
+                                <option value="NO APLICA">NO APLICA</option>
+                                <option value="MISMO DIA">MISMO DIA</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>

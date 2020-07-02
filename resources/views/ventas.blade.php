@@ -20,6 +20,13 @@
                     @csrf
                     @method('POST')
                     <input class="print" id="fecha" name="fecha" type="month" onchange="obtenerDatos()">
+                    <select name="vendedor" id="vendedor">
+                        <option value="0">Todos Los vendedores</option>
+                        @foreach ($vendedores as $vendedor)
+                            <option value="{{$vendedor->id}}">{{$vendedor->name}}</option>
+                        @endforeach
+                        
+                    </select>
                     <button class="btn btn-primary" type="submit">Consultar</button>
                 </form>
                 <button class="btn btn-secondary" data-toggle="modal" data-target="#settingsMaster">Configurar Comisiones</button>
