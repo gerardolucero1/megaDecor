@@ -1426,6 +1426,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
                 this.pagosTotalesActuales[0].forEach((element) => {
                     let pago = {
+                        created_at: element.created_at,
                         cantidad: element.amount,
                         metodo: element.method,
                         referencia: element.reference,
@@ -1442,6 +1443,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.pagosTotalesActuales[1].forEach((element) => {
                     if(element.tipo == 'INGRESO'){
                         let pago = {
+                            created_at: element.created_at,
                             cantidad: element.cantidad,
                             metodo: element.metodo,
                             referencia: element.referencia,
