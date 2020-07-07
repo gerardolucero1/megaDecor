@@ -50,7 +50,7 @@
         <p v-if="mostrarAbrirCaja" style="color:red; font-style:italic">Ultima Apertura: {{sesion.fechaApertura | formatearFecha}}</p>
         <div v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario==false">
             <div >
-            <p style="font-size:20px; text-align:center; width:50%; margin-left:25%; color:white; background:orange; border-radius:10px">Caja abierta por otro usuario, Imposible abrir caja</p> 
+            <p style="font-size:20px; text-align:center; width:50%; margin-left:25%; color:white; background:orange; border-radius:10px; padding:20px; margin-top:40px">Caja abierta por otro usuario, no es posible abrir 2 cajas simultaneamente caja</p> 
             </div>
         </div>
         <div class="row" v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario">
