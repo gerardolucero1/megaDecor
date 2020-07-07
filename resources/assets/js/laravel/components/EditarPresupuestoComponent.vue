@@ -241,9 +241,9 @@ padding: 0;
                                 <span v-else>Primer Evento</span>
                             </p>
                             <p><span>{{ }}</span> eventos contratados</p>
-                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
+                            <p><span>{{  }}</span> presupuestos</p>
                                 <button v-if="1==2" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
-                                <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
+                                <button v-if="1==2" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
                     </div>
                     <div class="row">
@@ -1567,7 +1567,7 @@ padding: 0;
                 });
                 return this.clienteSeleccionadoContratos.length;
             },*/
-            /*calcularPresupuestos: function(){
+           /* calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -1583,8 +1583,8 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoPresupuestos.length;
-            }
-        },*/
+            }*/
+        },
         filters: {
             decimales: function (x, posiciones = 2) {
                 var s = x.toString()
