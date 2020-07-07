@@ -905,6 +905,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                       <th scope="col">Fecha</th>
                                        <th scope="col">Contrato</th>
                                         <th scope="col">Banco</th>
                                         <th scope="col">Metodo</th>
@@ -914,6 +915,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item, index) in pagosTotalesActuales[1]" :key="index">
+                                        <td>{{ item.created_at }}</td>
                                      <td>{{ item.contrato }}</td>
                                         <td>
                                             <span v-if="item.banco">{{ item.banco }}</span>

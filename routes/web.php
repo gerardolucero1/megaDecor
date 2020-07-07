@@ -634,6 +634,7 @@ Route::group(['middleware' => ['auth']], function () {
                 $nombreCliente = $cliente->nombre;
             }
             $datosPago = new stdClass();
+            $datosPago->created_at = $nombreCliente;
             $datosPago->cliente = $nombreCliente;
             $datosPago->folio = $contrato->folio;
             $datosPago->amount = $pago->amount;
