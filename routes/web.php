@@ -616,8 +616,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('obtener-detalles', function(){
         $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
-        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $fechaUltimoCorte = CashRegister::orderBy('id', 'DESC')->first();
+        $fechaApertura = ($fechaUltimoCorte->created_at)->fotmat('Y-m-d');
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
         $pagosA=[];
         foreach($pagos as $pago){
             $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
