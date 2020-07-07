@@ -48,7 +48,10 @@
 <template>
     <section class="container">
         <p v-if="mostrarAbrirCaja" style="color:red; font-style:italic">Ultima Apertura: {{sesion.fechaApertura | formatearFecha}}</p>
-        <div class="row" v-if="mostrarAbrirCaja">
+        <div v-if="ostrarAbrirCaja && cajaAbiertaPorOtroUsuario==false">
+            <h1>Caja abierta por otro usuario, Imposible abrir caja</h1>
+        </div>
+        <div class="row" v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario">
             <div class="col-md-4" v-if="sesion.length != 0">
                 <div class="block">
                     <div class="block-header block-header-default">
@@ -245,7 +248,11 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
+
+        
 
         <div class="row" v-else >
             <div v-if="sesionActual.length != 0" class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesionActual.user.name }} - {{ sesionActual.fechaApertura | formatearFecha}} {{ sesionActual.created_at | formatearHora}}</span></p></div>
@@ -1026,6 +1033,7 @@ export default {
         return{
             controlDetalles: false,
             mostrarAbrirCaja: true,
+            cajaAbiertaPorOtroUsuario:false,
             sesion: '',
             sesionActual: '',
             presupuestos: [],
@@ -1738,7 +1746,12 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.mostrarAbrirCaja = false;
                 this.obtenerOtrosPagos();
             }else{
+                if(this.sesion.estatus && (this.sesion.user_id == this.usuario.id)){
                 this.mostrarAbrirCaja = true;
+                this.cajaAbiertaPorOtroUsuario=true;}else{
+                 this.mostrarAbrirCaja = true
+                 this.cajaAbiertaPorOtroUsuario=false; 
+                }
             }
         },
 
@@ -1842,6 +1855,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 )
                 this.enviarEmail();
                 this.mostrarAbrirCaja = true;
+                this.cajaAbiertaPorOtroUsuario= true;
                 $('#cerrarCaja').modal('hide');
                 
                 var URL = "/ultimo-corte/pdf/";
