@@ -49,7 +49,7 @@
     <section class="container">
         <p v-if="mostrarAbrirCaja" style="color:red; font-style:italic">Ultima Apertura: {{sesion.fechaApertura | formatearFecha}}</p>
         <div v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario==false">
-            <h1>Caja abierta por otro usuario, Imposible abrir caja</h1>
+            <h1>Caja abierta por otro usuario, Imposible abrir caja</h1> 
         </div>
         <div class="row" v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario">
             <div class="col-md-4" v-if="sesion.length != 0">
