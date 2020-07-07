@@ -1567,7 +1567,7 @@ padding: 0;
                 });
                 return this.clienteSeleccionadoContratos.length;
             },*/
-            calcularPresupuestos: function(){
+            /*calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -1584,7 +1584,7 @@ padding: 0;
                 });
                 return this.clienteSeleccionadoPresupuestos.length;
             }
-        },
+        },*/
         filters: {
             decimales: function (x, posiciones = 2) {
                 var s = x.toString()
