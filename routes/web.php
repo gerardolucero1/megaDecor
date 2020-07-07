@@ -618,6 +618,7 @@ Route::group(['middleware' => ['auth']], function () {
         $fechaHoy = $date->format('Y-m-d');
         $fechaUltimoCorte = CashRegister::orderBy('id', 'DESC')->first();
         $fechaApertura = ($fechaUltimoCorte->created_at)->fotmat('Y-m-d');
+        dd($fechaApertura);
         $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
         $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
         $pagosA=[];
