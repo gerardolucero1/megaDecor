@@ -240,9 +240,9 @@ padding: 0;
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
+                            <p><span>{{ }}</span> eventos contratados</p>
                             <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                <button v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
+                                <button v-if="1==2" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</button>
                                 <button v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</button>
                         </div>
                     </div>
@@ -1550,7 +1550,7 @@ padding: 0;
                 let fecha = moment().format("DD/MM/YYYY");
                 return fecha;
             },
-            calcularContratos: function(){
+           /* calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
 
@@ -1566,7 +1566,7 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoContratos.length;
-            },
+            },*/
             calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
