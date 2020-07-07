@@ -1457,6 +1457,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                         pagos.push(pago2);
                     }else{
                         let pago = {
+                            created_at: element.created_at,
                             cantidad: element.cantidad -element.resto,
                             metodo: element.metodo,
                             referencia: element.referencia,
