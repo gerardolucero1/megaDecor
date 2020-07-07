@@ -617,7 +617,7 @@ Route::group(['middleware' => ['auth']], function () {
         $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
         $fechaUltimoCorte = CashRegister::orderBy('id', 'DESC')->first();
-        $fechaApertura = ($fechaUltimoCorte->created_at)->fotmat('Y-m-d');
+        $fechaApertura = ($fechaUltimoCorte->created_at)->format('Y-m-d');
         dd($fechaApertura);
         $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
         $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaApertura)->get();
