@@ -49,7 +49,9 @@
     <section class="container">
         <p v-if="mostrarAbrirCaja" style="color:red; font-style:italic">Ultima Apertura: {{sesion.fechaApertura | formatearFecha}}</p>
         <div v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario==false">
-            <h1>Caja abierta por otro usuario, Imposible abrir caja</h1> 
+            <div >
+            <p style="font-size:20px; text-align:center; width:50%; margin-left:25%; color:white; background:orange; border-radius:10px">Caja abierta por otro usuario, Imposible abrir caja</p> 
+            </div>
         </div>
         <div class="row" v-if="mostrarAbrirCaja && cajaAbiertaPorOtroUsuario">
             <div class="col-md-4" v-if="sesion.length != 0">
@@ -254,7 +256,7 @@
 
         
 
-        <div class="row" v-else >
+        <div class="row" v-if="mostrarAbrirCaja==false && cajaAbiertaPorOtroUsuario" >
             <div v-if="sesionActual.length != 0" class="col-md-12"><p style="border-radius:10px; padding:5px;"><span style="font-weight:bold; color:green; text-decoration:underline">*Caja Abierta</span><br> <span style="color:grey; font-style:italic">Apertura por {{ sesionActual.user.name }} - {{ sesionActual.fechaApertura | formatearFecha}} {{ sesionActual.created_at | formatearHora}}</span></p></div>
             <div class="col-md-12">
                 <ul class="nav nav-pills mb-3 ml-3" id="pills-tab" role="tablist">
