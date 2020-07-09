@@ -246,10 +246,10 @@ padding: 0;
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
-                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                <div v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
-                                <div v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
+                            <p><span>{{  }}</span> eventos contratados</p>
+                            <p><span>{{  }}</span> presupuestos</p>
+                                <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
+                                <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
                         </div>
                     </div>
                     <div class="row">
@@ -1727,7 +1727,7 @@ padding: 0;
                 
 
             },
-            calcularContratos: function(){
+          /*  calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
 
@@ -1743,8 +1743,8 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoContratos.length;
-            },
-            calcularPresupuestos: function(){
+            },*/
+           /* calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -1760,7 +1760,7 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoPresupuestos.length;
-            }
+            }*/
         },
         filters: {
             

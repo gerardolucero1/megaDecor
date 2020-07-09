@@ -1729,7 +1729,7 @@ padding: 0;
                 
 
             },
-            calcularContratos: function(){
+         /*   calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
 
@@ -1745,8 +1745,8 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoContratos.length;
-            },
-            calcularPresupuestos: function(){
+            },*/
+          /*  calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -1762,7 +1762,7 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoPresupuestos.length;
-            }
+            }*/
         },
         filters: {
             
