@@ -19,9 +19,9 @@
         <meta name="user" content="{{ Auth::user() }}">
 
         <!-- Icons -->
-        <link rel="shortcut icon" href="http://megamundodecor.com/favicon.ico">
-        <link rel="icon" sizes="192x192" type="image/png" href="http://megamundodecor.com/favicon.ico">
-        <link rel="apple-touch-icon" sizes="180x180" href="http://megamundodecor.com/favicon.ico">
+        <link rel="shortcut icon" href="http://adpro3d-os.com/megamundo/favicon.ico">
+        <link rel="icon" sizes="192x192" type="image/png" href="http://adpro3d-os.com/megamundo/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="http://adpro3d-os.com/megamundo/favicon.ico">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 
      
