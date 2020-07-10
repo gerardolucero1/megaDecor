@@ -108,7 +108,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
-            <img src="http://partnergrammer.com/img/megamundodecor.jpeg" alt="" style="width: 200px">
+            <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
     <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
         <span style="font-weight: bold">Horario de corte: </span> <span> {{ $horaApertura }} a {{ $horaCierre }}</span><br>

@@ -174,7 +174,7 @@
                             <!-- Logo -->
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
-                                    <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 100%">
+                                    <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 100%">
                                     <span class="font-size-xl text-dual-primary-dark">Mega</span><span class="font-size-xl text-primary">Mundo</span>
                                 </a>
                             </div>
