@@ -110,17 +110,18 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
-        <span style="font-weight: bold">Horario de corte: </span> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
-        <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
-        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span></td>
+    <td colspan="3">
+        <span style="font-weight: bold">Fecha y Hora del corte: </span> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
+        <span style="font-weight: bold; font-size:18px">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+        <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
     </tr>
    
     </table> 
     <table style="width: 100%" style="padding-top: 20px;">
         <tr>
             <td>
-            <span style="font-weight: bold">Fecha de corte: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} al {{ $fechaCierre->translatedFormat(' l j F Y ')}} <br>
+            <span style="font-weight: bold">Fecha de corte: </span>  <br>
             <span>Contratos hoy: {{$numContratosHoy}}</span><br>
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
             

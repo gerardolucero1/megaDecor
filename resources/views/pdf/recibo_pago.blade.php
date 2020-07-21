@@ -477,6 +477,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
                                 </tr>
                                 @foreach ($Pagos as $pago)
@@ -484,6 +485,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                     <td>Abono a contrato</td>
                                     <td>{{$pago->created_at}}</td>
                                     <td>{{$pago->method}}</td>
+                                    <td>{{$pago->reference}}</td>
                                 <td>${{number_format($pago->amount,2)}}</td>
                                 </tr>
                                 @php
@@ -499,12 +501,14 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
                                     <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
                                 </tr>
                                 <tr style="text-align: center">
                                     <td>Abono a contrato</td>
                                     <td>{{$Pago->created_at}}</td>
                                     <td>{{$Pago->method}}</td>
+                                    <td>{{$Pago->reference}}</td>
                                 <td>${{number_format($Pago->amount,2)}}</td>
                                 </tr>
                             </table>
