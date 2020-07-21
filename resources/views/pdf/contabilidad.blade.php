@@ -116,7 +116,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span></td>
     </tr>
    
-    </table>
+    </table> 
     <table style="width: 100%" style="padding-top: 20px;">
         <tr>
             <td>
