@@ -21,7 +21,7 @@
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
-        $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
+        $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
         $horaApertura = date("g:i a", strtotime($registro->horaApertura));
         $horaCierre = date("g:i a", strtotime($registro->horaCierre));
         $cajero = User::orderBy('id', 'DESC')->where('id', $registro->user_id)->first();        
