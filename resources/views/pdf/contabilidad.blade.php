@@ -104,7 +104,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
-    <p>Reimpresion</p>
+    <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
