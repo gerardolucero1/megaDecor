@@ -24,9 +24,11 @@
                                 <td class="d-none d-sm-table-cell">
                                         @php
                                         $fechaCorte = Carbon::parse($corte->fechaApertura)->locale('es');
+                                        $fechaCierre = Carbon::parse($corte->updated_at)->locale('es');
                                     @endphp 
                                     <span style="opacity:0">{{ $corte->fechaApertura}}</span>
-                                    {{ $fechaCorte->translatedFormat(' l j F Y') }}
+                                    {{ $fechaCorte->translatedFormat(' l j F Y') }} al 
+                                    {{ $fechaCierre->translatedFormat(' l j F Y') }}
                                 </td>
                                 <td style="font-size:11px;" class="d-none d-sm-table-cell">
                                     {{ $corte->horaApertura }}
