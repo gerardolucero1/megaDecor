@@ -60,14 +60,14 @@
                  <tr v-for="(item, index) in vehiculos" :key="index" style="text-align:center; border-bottom:solid; border-weight:1px;">
                      <td>{{item.nombre}}</td>
                      <td><input style="border-color:red; text-align:center" type="text" v-if="(item.cantidadKm == '') || (indice == index && key == 'kmDestino')" v-on:change="updateCantidadKm(index)" v-model="cantidadKmActualizada">
-                         <label v-else v-on:click="editarCantidadKm(index, Object.keys(item))">{{item.kmDestino}}</label></td>
+                         <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarCantidadKm(index, Object.keys(item))">{{item.kmDestino}}</label></td>
                      <td>(/)</td>
                      <td>{{item.consumo}}</td>
                      <td>=</td>
                      <td>{{item.ltsXVuelta}}</td>
                      <td>X</td>
                      <td><input style="border-color:red; text-align:center" type="text" v-if="(item.vueltas == '') || (indice == index && key == 'vueltas')" v-on:change="updateCantidadVueltas(index)" v-model="cantidadKmActualizada">
-                         <label v-else v-on:click="editarCantidadVueltas(index, Object.keys(item))">{{item.vueltas}}</label></td>
+                         <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarCantidadVueltas(index, Object.keys(item))">{{item.vueltas}}</label></td>
                      <td>=</td>
                      <td>{{item.ltsTotal}}</td>
                      <td>X</td>
@@ -294,7 +294,9 @@ export default {
             let vehiculo = this.vehiculos.find(function(element, indice){
                         return (indice == index);
                     });
-            vehiculo.kmDestino = this.cantidadKmActualizada;
+
+            if(this.cantidadKmActualizada!=''){
+            vehiculo.kmDestino = this.cantidadKmActualizada;}else{vehiculo.kmDestino=0}       
             vehiculo.ltsXVuelta = this.cantidadKmActualizada/vehiculo.consumo;
             vehiculo.ltsTotal = vehiculo.ltsXVuelta * vehiculo.vueltas;
             
@@ -317,8 +319,10 @@ export default {
             let vehiculo = this.vehiculos.find(function(element, indice){
                         return (indice == index);
                     });
-            vehiculo.vueltas = this.cantidadKmActualizada;
-            vehiculo.ltsXVuelta = this.cantidadKmActualizada/vehiculo.consumo;
+
+            if(this.cantidadKmActualizada!=''){
+            vehiculo.vueltas = this.cantidadKmActualizada;}else{vehiculo.kmDestino=0}      
+            //vehiculo.ltsXVuelta = this.cantidadKmActualizada/vehiculo.consumo;
             vehiculo.ltsTotal = vehiculo.ltsXVuelta * vehiculo.vueltas;
             
             this.cantidadKmActualizada = 0;
@@ -326,6 +330,7 @@ export default {
         },
 
         obtenerVehiculos(){
+            this.vehiculos=[];
              let URL = '/obtener-vehiculos';
 
             axios.get(URL).then((response) => {

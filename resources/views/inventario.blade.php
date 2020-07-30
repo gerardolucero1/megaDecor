@@ -124,6 +124,7 @@
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
                                     <th>Familia</th>
+                                    <th>Ultima Modif. Precio</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -188,6 +189,7 @@ $(document).ready( function () {
             {data: 'precioUnitario'},
             {data: 'proveedor1'},
             {data: 'familia'},
+            {data: 'updated_at'},
             {data: 'btn'},
         ],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
