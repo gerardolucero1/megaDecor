@@ -15,13 +15,10 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
-
-       
-        
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
-        $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
+        $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
         $horaApertura = date("g:i a", strtotime($registro->horaApertura));
         $horaCierre = date("g:i a", strtotime($registro->horaCierre));
         $cajero = User::orderBy('id', 'DESC')->where('id', $registro->user_id)->first();        
@@ -104,25 +101,24 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
-    <p>Impresion Original</p>
-    <table style="width: 100%; font-family: Helvetica;" >
+   <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-style: italic"> Cierre de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
-        <span style="font-weight: bold">Horario de corte: </span> <span> {{ $horaApertura }} a {{ $horaCierre }}</span><br>
+    <td colspan="3">
+        <span style="font-weight: bold; font-size:22px">Fecha y Hora del corte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
-        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span></td>
+        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+        <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
     </tr>
    
-    </table>
+    </table> 
     <table style="width: 100%" style="padding-top: 20px;">
         <tr>
             <td>
-            <span style="font-weight: bold">Fecha de corte: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
-            <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
+            
+            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><span>Contratos hoy: {{$numContratosHoy}}</span><br><br></p>
             
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>

@@ -15,9 +15,6 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
-
-       
-        
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
