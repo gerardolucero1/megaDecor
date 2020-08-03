@@ -104,7 +104,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-style: italic"> Precorte de caja generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
+    <td colspan="3"><span style="font-weight: bold; font-size:20px">Precorte</span><br><span style="font-style: italic"> generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
         
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
        
@@ -117,6 +117,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <td>
             <span style="font-weight: bold">Fecha de apertura: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
             <span>Contratos hoy: {{$numContratosHoy}}</span><br>
+            <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span>
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
             
             </td>

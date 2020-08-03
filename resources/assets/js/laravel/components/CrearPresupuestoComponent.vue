@@ -2421,6 +2421,7 @@ padding: 0;
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
+                            'notas':'--',
                         });
                         //this.actualizarPrecioSugerido();
                     
@@ -2453,6 +2454,7 @@ padding: 0;
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
+                            'notas':'--',
                         });
                         this.inventarioLocal = this.inventarioLocal.reverse();
                     }
