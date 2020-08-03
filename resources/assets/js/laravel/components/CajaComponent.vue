@@ -382,7 +382,8 @@
                                                             
                                                         </div>
                                                         <div class="col-md-12 mt-3">
-                                                            <input type="number" v-model="pago.amount" min='0'>
+                                                            
+                                                            <currency-input class="form-control" v-model="pago.amount" currency="USD" locale="en"/>
                                                             
                                                         </div>
                                                         <div class="col-md-12 mt-3">
@@ -542,7 +543,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="">Monto</label>
-                                                    <input class="form-control" type="number" v-model="movimiento.cantidad">
+                                                    
+                                                    <currency-input class="form-control" v-model="movimiento.cantidad" currency="USD" locale="en"/>
                                                 </div>
                                             </div>
                                         </div>

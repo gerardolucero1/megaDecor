@@ -267,6 +267,9 @@ padding: 0;
                 </div>
                 
                 <h4>Lugar del Evento</h4>
+                <br>
+                
+  
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -1138,7 +1141,8 @@ padding: 0;
                             <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
-                            <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
+                            <input class="form-control" placeholder="C.P" v-model="facturacion.codigoPostal">
+                            
                         </div>
                         <div class="col-md-4">
                             <select>
@@ -1441,6 +1445,7 @@ padding: 0;
         },
         data(){
             return{
+                currencyValue: 0,
                 nestedClass: 'nested',
                 limpiar: false,
                 viendoPaquete: [],

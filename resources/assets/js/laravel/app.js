@@ -13,7 +13,12 @@ import { Calendar, WindowScrollController } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import Vuelidate from 'vuelidate';
-import VueCurrencyFilter from 'vue-currency-filter'
+import VueCurrencyFilter from 'vue-currency-filter';
+import Vue from 'vue';
+import VueCurrencyInput from 'vue-currency-input';
+
+Vue.use(VueCurrencyInput);
+
 Vue.use(VueCurrencyFilter, {
     symbol: '$', // El símbolo, por ejemplo €
     thousandsSeparator: ',', // Separador de miles
