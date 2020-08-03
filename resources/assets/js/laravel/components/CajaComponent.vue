@@ -230,7 +230,7 @@
                     <div class="block-content">
                         <div class="form-group">
                             <label for="">Suma total de efectivo en caja</label>
-                            <input type="number" class="form-control" v-model="sumarCantidad">
+                            <currency-input class="form-control" v-model="sumarCantidad" currency="USD" locale="en"/>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
@@ -842,7 +842,7 @@
                                 <div class="block-content">
                                     <div class="form-group">
                                         <label for="">Suma total de efectivo en caja</label>
-                                        <input type="number" class="form-control" v-model="sumarCantidad">
+                                        <currency-input class="form-control" v-model="sumarCantidad" currency="USD" locale="en"/>
                                         <label style="color:green"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]==sumarCantidad" for="">La cantidad es correcta</label>
                                         <label style="color:red" v-if="pagosCorte.length != 0 && cantidadPreCorte[0]<sumarCantidad" for="">Tienes un excedente de {{ sumarCantidad - cantidadPreCorte[0] | currency}}</label>
                                         <label style="color:red"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]>sumarCantidad" for="">Tienes un faltante de {{ cantidadPreCorte[0] - sumarCantidad | currency}}</label>

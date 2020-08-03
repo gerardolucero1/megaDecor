@@ -2862,6 +2862,7 @@ padding: 0;
                         confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.value) {
+                                //la idea es abrir el ultimo presupuesto creado para continuar editando
                                 location.reload();
                             }else{
                                 location.reload();
