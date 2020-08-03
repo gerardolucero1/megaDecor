@@ -101,7 +101,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-5">
-                                <img src="http://www.unionpuebla.mx/sites/default/files/styles/galeria/public/field/image/billete-100_pesos.jpg" alt="" width="100%">
+                                <img src="https://www.cambiator.es/wp-content/uploads/Billete-de-100-pesos-mexicanos-100-MXN-reverso.jpg" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 {{sesion.cierreBillete100}}
@@ -720,7 +720,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-md-5">
-                                            <img src="http://www.unionpuebla.mx/sites/default/files/styles/galeria/public/field/image/billete-100_pesos.jpg" alt="" width="100%">
+                                            <img src="https://www.cambiator.es/wp-content/uploads/Billete-de-100-pesos-mexicanos-100-MXN-reverso.jpg" alt="" width="100%">
                                         </div>
                                         <div class="col-md-1 text-center">
                                             <i class="fa fa-arrow-right"></i>
