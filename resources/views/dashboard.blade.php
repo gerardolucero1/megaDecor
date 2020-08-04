@@ -282,6 +282,11 @@
                                     <div class="block-content block-content-full">
                                         <table class="table table-borderless table-striped table-hover mb-0">
                                             <tbody>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Ventas</th>
+                                                </tr>
                                                 @php
                                                     $cont = 0;
                                                     
