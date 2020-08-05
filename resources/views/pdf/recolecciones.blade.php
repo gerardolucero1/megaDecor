@@ -15,14 +15,20 @@
             <tr style="text-align:center">
                 <th>Folio</th>
                 <th>Fecha Evento</th>
+                <th>Hora del evento</th>
                 <th>Vendedor</th>
                 <th>Versión</th>
                 <th>Recolección</th>
+                <th>Saldo</th>
             </tr>
             @foreach ($presupuestos as $presupuesto)
             <tr style="border:solid; text-align: center">
             <td style="padding: 5px;">{{$presupuesto->folio}}</td>
-            <td>{{$presupuesto->fechaEvento}}</td>
+            @php
+                 $fechaEvento = Carbon\Carbon::parse($presupuesto->fechaEvento)->locale('es');
+            @endphp
+            <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+            <td>{{$presupuesto->horaEventoInicio}}</td>
             <td>
             @php
                 $vendedor = App\User::where('id', $presupuesto->vendedor_id)->first();
@@ -37,17 +43,35 @@
                 Recolección
                 @endif
                 </td>
+                @php
+                    $totalPagos=0;
+                        $pagos = App\Payment::where('budget_id', $presupuesto->id)->get();
+                    @endphp
+                    @foreach ($pagos as $pago)
+                        @php
+                            $totalPagos = $totalPagos+$pago->amount;
+                        @endphp
+                    @endforeach
+                    
+                <td style="width: 100px">
+                    @if ($presupuesto->opcionIVA)
+                    ${{number_format(($presupuesto->total*1.16)-$totalPagos,2)}}
+                    @else
+                    ${{number_format(($presupuesto->total)-$totalPagos,2)}}
+                    @endif
+                    
+                </td>
             </tr>
             @endforeach
             
         </table>
        <div>
 
-    <script type="text/php">
-    if ( isset($pdf) ) {
-        $font = "helvetica";
-        $pdf->page_text(520, 817, "Página: {PAGE_NUM} de {PAGE_COUNT}", $font , 6, array(0,0,0));
-    }
-    </script> 
+        <script type="text/php">
+            if ( isset($pdf) ) {
+                $font = "helvetica";
+                $pdf->page_text(770, 567, "Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font , 5, array(0,0,0));
+            }
+            </script> 
 </body>
 </html>
