@@ -286,6 +286,7 @@
                                                     <th>ID</th>
                                                     <th>Nombre</th>
                                                     <th>Ventas</th>
+                                                    <th># Ventas</th>
                                                 </tr>
                                                 @php
                                                     $cont = 0;
