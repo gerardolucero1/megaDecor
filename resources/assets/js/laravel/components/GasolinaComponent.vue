@@ -24,7 +24,7 @@
                     </tr>
                     <tr>
                         <td colspan="2"></td>
-                        <th colspan="2"><p style="font-weight:bold;">TOTAL:{{calcularTotalGeneral | currency}}</p></th>
+                        <th colspan="2"><p style="font-weight:bold; font-size:30px">TOTAL:{{calcularTotalGeneral | currency}}</p></th>
                     </tr>
                 </table>
                     </div>

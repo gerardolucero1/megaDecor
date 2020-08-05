@@ -1226,7 +1226,7 @@ public function archivarUsuario($id){
 
     public function ventas(){
         $date = Carbon::now();
-        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->whereYear('fechaEvento', $date)->whereMonth('fechaEvento', $date)->get();
+        $contratos = Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->whereYear('fechaEvento', $date)->whereMonth('fechaEvento', $date)->get();
         $vendedores = User::orderBy('id', 'DESC')->where('archivado', '0')->where('tipo', 'ADMINISTRADOR')->orWhere('tipo', 'VENTAS')->get();
        
         return view('ventas', compact('contratos', 'vendedores'));

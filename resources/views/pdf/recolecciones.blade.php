@@ -11,11 +11,13 @@
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif" style="border:solid;">
         <div style="width: 100%;">
+           <p style="font-size:30px; font-weight:bold; text-aling:right; width: 100%;">Fecha de consulta:</p>
         <table style="width: 100%">
             <tr style="text-align:center">
                 <th>Folio</th>
                 <th>Fecha Evento</th>
-                <th>Hora del evento</th>
+                <th>Hora de inicio</th>
+                <th>Cliente</th>
                 <th>Vendedor</th>
                 <th>Versión</th>
                 <th>Recolección</th>
@@ -29,6 +31,7 @@
             @endphp
             <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
             <td>{{$presupuesto->horaEventoInicio}}</td>
+            <td>Cliente</td>
             <td>
             @php
                 $vendedor = App\User::where('id', $presupuesto->vendedor_id)->first();
