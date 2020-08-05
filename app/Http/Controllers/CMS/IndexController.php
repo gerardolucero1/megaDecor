@@ -1240,9 +1240,9 @@ public function archivarUsuario($id){
         $ano = date("Y", $fecha);
 
         if($request->vendedor==0){
-        $contratos = Budget::orderBy('id', 'DESC')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->where('tipo', 'CONTRATO')->get();
+        $contratos = Budget::orderBy('id', 'DESC')->where('archivado', 'FALSE')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->where('tipo', 'CONTRATO')->get();
         }else{
-        $contratos = Budget::orderBy('id', 'DESC')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->where('tipo', 'CONTRATO')->where('vendedor_id', $vendedor)->get();  
+        $contratos = Budget::orderBy('id', 'DESC')->where('archivado', 'FALSE')->whereYear('fechaEvento', $ano)->whereMonth('fechaEvento', $mes)->where('tipo', 'CONTRATO')->where('vendedor_id', $vendedor)->get();  
         }
         return view('ventas', compact('contratos', 'vendedores'));
     }
