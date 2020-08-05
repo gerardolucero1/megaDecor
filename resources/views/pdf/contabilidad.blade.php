@@ -121,7 +121,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
                 <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-                <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios+2020+9370),2)}}</span><br></p>
+                <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios+9370),2)}}</span><br></p>
             
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
