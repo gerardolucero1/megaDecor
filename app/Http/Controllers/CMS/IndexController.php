@@ -591,7 +591,7 @@ public function archivarUsuario($id){
             $presupuestosAnoActual = Budget::orderBy('id', 'DESC')->where('fechaEvento', 'like' , $fecha_mes_actual.'%')->where('tipo', 'CONTRATO')->get();
 
             if(count($presupuestosAnoActual) !== 0 && count($presupuestosAnoPasado) !== 0){
-                $porcentajeActual= (100/count($presupuestosAnoPasado)) * count($presupuestosAnoActual);
+                $porcentajeActual= (100/71 /*count($presupuestosAnoPasado)*/) * count($presupuestosAnoActual);
             }else{
                 $porcentajeActual = 0;
             }
