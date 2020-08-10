@@ -8,10 +8,12 @@
 </head>
 @php
     $date = Carbon\Carbon::now();
+    $desde = $fechaEvento = Carbon\Carbon::parse($fecha1)->locale('es');
+    $hasta = $fechaEvento = Carbon\Carbon::parse($fecha2)->locale('es');
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif" style="border:solid;">
         <div style="width: 100%;">
-           <p style="font-size:30px; font-weight:bold; text-aling:right; width: 100%;">Fecha de consulta:</p>
+        <p style="font-size:30px; font-weight:bold; text-aling:right; width: 100%;">Fecha de consulta: {{$desde->translatedFormat(' l j F Y')}} - {{$hasta->translatedFormat(' l j F Y')}}</p>
         <table style="width: 100%">
             <tr style="text-align:center">
                 <th>Folio</th>
@@ -29,14 +31,27 @@
             @php
                  $fechaEvento = Carbon\Carbon::parse($presupuesto->fechaEvento)->locale('es');
             @endphp
-            <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+            <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}} {{$presupuesto->inicioAmPm}}</td>
             <td>{{$presupuesto->horaEventoInicio}}</td>
-            <td>Cliente</td>
+            <td>
+@php
+    $cliente = App\Client::where('id', $presupuesto->client_id)->first();
+    if($cliente->tipoPersona=='FISICA'){
+        $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+        $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+    }else{
+        $nombreCliente =  $cliente->nombreCliente;
+    }
+@endphp
+<p style="font-size: 10px">
+{{$nombreCliente}}</p>
+
+            </td>
             <td>
             @php
                 $vendedor = App\User::where('id', $presupuesto->vendedor_id)->first();
             @endphp
-            {{$vendedor->name}}
+           <p style="font-size: 10px"> {{$vendedor->name}}</p>
             </td>
             <td>{{$presupuesto->version}}</td>
             <td>
@@ -56,7 +71,7 @@
                         @endphp
                     @endforeach
                     
-                <td style="width: 100px">
+                <td>
                     @if ($presupuesto->opcionIVA)
                     ${{number_format(($presupuesto->total*1.16)-$totalPagos,2)}}
                     @else
