@@ -31,8 +31,8 @@
             @php
                  $fechaEvento = Carbon\Carbon::parse($presupuesto->fechaEvento)->locale('es');
             @endphp
-            <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}} {{$presupuesto->inicioAmPm}}</td>
-            <td>{{$presupuesto->horaEventoInicio}}</td>
+            <td style="width: 150px">{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+            <td>{{$presupuesto->horaEventoInicio}} {{$presupuesto->inicioAmPm}}</td>
             <td>
 @php
     $cliente = App\Client::where('id', $presupuesto->client_id)->first();
