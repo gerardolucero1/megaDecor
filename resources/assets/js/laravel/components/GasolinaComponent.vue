@@ -1,9 +1,13 @@
 <style>
-
+@media print{
+  .oculto-impresion, .oculto-impresion *{
+    display: none !important;
+  }
+}
 </style>
 
 <template>
-    <section class="container">
+    <section class="container" id="contenedorGeneral2">
         <div id="contenedorGeneral">
         <div class="row">
             <div class="col-md-12" style="border-bottom:solid; padding-bottom:15px; border-color:gray; margin-bottom:10px">
@@ -23,8 +27,8 @@
                         <td style="width:100px; padding-left:20px">{{gastoCasetas | currency}}</td>
                     </tr>
                     <tr>
-                        <td colspan="2"></td>
-                        <th colspan="2"><p style="font-weight:bold; font-size:30px">TOTAL:{{calcularTotalGeneral | currency}}</p></th>
+                        <td colspan="1"></td>
+                        <th colspan="3"><p style="font-weight:bold; font-size:30px">TOTAL:{{calcularTotalGeneral | currency}}</p></th>
                     </tr>
                 </table>
                     </div>
@@ -34,6 +38,7 @@
                         <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
                         <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos <i class="fa fa-edit"></i></p>
                          <p style="color:blue: cursor:pointer" v-on:click="updatePrecioGasolina()">Precio Gasolina: {{costoGasolina | currency}} <i class="fa fa-edit"></i></p>
+                         <button class="btn btn-primary oculto-impresion" v-on:click="printDiv(contenedorGeneral2)"><i class="fa fa-print"></i> Imprimir</button>
                     </div>
                 </div>
 
@@ -78,7 +83,7 @@
 
                  <tr>
                      <td colspan="10"></td>
-                     <td colspan="2" style="text-align;right">TOTAL:</td>
+                     <td colspan="2" style="text-align:right">TOTAL:</td>
                      <td colspan="2">{{calcularTotalFlete | currency}}</td>
                  </tr>
              </table>
@@ -133,8 +138,38 @@
              </table>
 
              <label style="margin-top:40px">Casetas</label>
-             <input type="text" style="border:solid" placeholder="" v-model="gastoCasetas">
+             <input type="text" style="border:solid; display:none;" placeholder="" v-model="gastoCasetas">
               
+
+ <p style="background:orange; color:white; padding:4px; width:60%">Tomar en cuenta numero de ejes al consultar el costo de la caseta</p>
+ <button v-on:click="obtenerCasetas()" class="btn btn-info oculto-impresion">Agregar Caseta</button>
+               <table style="width:60%">
+                 <tr style="text-align:center; background:#252EEE; color:white">
+                     <th style="padding:3px;">Caseta</th>
+                     <th style="padding:3px;">Costo</th>
+                     <th style="padding:3px;">Vueltas</th>
+                     <th style="padding:3px;">Total</th>
+                 </tr>
+
+               
+
+                 <tr v-for="(item, index) in casetas" :key="index">
+                     <td style="text-align:center"><input style="border-color:red; text-align:center" type="text" v-if="(item.name == '') || (indice == index && key == 'name')" v-on:change="updateNameCaseta(index)" v-model="cantidadCostoCasetaActualizada">
+                          <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarNameCaseta(index, Object.keys(item))">{{item.name}}</label></td>
+                     <td style="text-align:center"><input style="border-color:red; text-align:center" type="text" v-if="(item.costo == '') || (indice == index && key == 'costo')" v-on:change="updateCostoCaseta(index)" v-model="cantidadCostoCasetaActualizada">
+                         <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarCostoCaseta(index, Object.keys(item))">{{item.costo}}</label></td>
+                     <td style="text-align:center"><input style="border-color:red; text-align:center" type="text" v-if="(item.vueltas == '') || (indice == index && key == 'vueltas')" v-on:change="updateVueltasCaseta(index)" v-model="cantidadCostoCasetaActualizada">
+                         <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarVueltasCaseta(index, Object.keys(item))">{{item.vueltas}}</label></td>
+                     <td style="text-align:center">{{item.vueltas*item.costo | currency}}</td>
+                    
+                 </tr>
+                 <tr style="padding-top:6px">
+                     <td colspan="3" style="text-align:right">TOTAL:</td>
+                     <td style="font-size:15px; font-weight:bold">{{calcularTotalCasetas | currency}}</td>
+                     </tr>
+
+                
+             </table>
             </div>
             
         </div>
@@ -183,6 +218,9 @@
                                 </tr>
                             </tbody>
                         </table>
+
+
+                        
                     </div>
                 </div>
             </div>
@@ -217,7 +255,9 @@ export default {
            gastoHorasViaje:0,
            gastoCasetas:0,
            vehiculos:[],
+           casetas:[],
            cantidadKmActualizada:0,
+           cantidadCostoCasetaActualizada:0,
            key:'',
            indice:'',
            costoGasolina:16.5,
@@ -238,6 +278,7 @@ export default {
 
     created(){
         this.obtenerVehiculos();
+        this.obtenerCasetas();
       
     },
     computed: {
@@ -277,6 +318,22 @@ export default {
                 this.gastoFlete = suma;
                 return suma;
              },
+        calcularTotalCasetas: function(){
+            //Arreglo javascript de objetos json
+                let json = this.casetas;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].costo)*parseInt(data[x].vueltas); // Ahora que es un objeto javascript, tiene propiedades
+                }
+                //alert(suma);
+                this.gastoCasetas = suma;
+                return suma;
+             },
         },
     methods: {
 
@@ -301,6 +358,73 @@ export default {
             vehiculo.ltsTotal = vehiculo.ltsXVuelta * vehiculo.vueltas;
             
             this.cantidadKmActualizada = 0;
+            this.key= '';
+        },
+
+
+        editarCostoCaseta(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    
+                    this.key = key[2];
+                    
+                    console.log(index);
+                    //alert(key[2]);
+                       
+                },
+        updateCostoCaseta(index){
+            let caseta = this.casetas.find(function(element, indice){
+                        return (indice == index);
+                    });
+
+           if(this.cantidadCostoCasetaActualizada!=''){
+            caseta.costo = this.cantidadCostoCasetaActualizada;}else{caseta.costo=0}       
+            
+            this.cantidadCostoCasetaActualizada = 0;
+            this.key= '';
+        },
+
+        editarNameCaseta(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    
+                    this.key = key[0];
+                    
+                    console.log(index);
+                    //alert(key[1]);
+                       
+                },
+        updateNameCaseta(index){
+            let caseta = this.casetas.find(function(element, indice){
+                        return (indice == index);
+                    });
+
+           if(this.cantidadCostoCasetaActualizada!=''){
+            caseta.name = this.cantidadCostoCasetaActualizada;}else{caseta.name='caseta'}       
+            
+            this.cantidadCostoCasetaActualizada = 0;
+            this.key= '';
+        },
+
+        editarVueltasCaseta(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    
+                    this.key = key[1];
+                    
+                    console.log(index);
+                    //alert(key[1]);
+                       
+                },
+        updateVueltasCaseta(index){
+            let caseta = this.casetas.find(function(element, indice){
+                        return (indice == index);
+                    });
+
+           if(this.cantidadCostoCasetaActualizada!=''){
+            caseta.vueltas = this.cantidadCostoCasetaActualizada;}else{caseta.vueltas=0}       
+            
+            this.cantidadCostoCasetaActualizada = 0;
             this.key= '';
         },
         
@@ -347,6 +471,14 @@ export default {
                 console.log(error.data);
             });
         },
+
+        obtenerCasetas(){
+            this.casetas.push({
+                            'name': 'nueva caseta',
+                            'vueltas':2,
+                            'costo':1,
+                        });
+        },
         agregarVehiculo(){
                 let URL = '/vehiculos/agregarVehiculo';
 
@@ -375,6 +507,23 @@ export default {
             let precioActualizado = prompt('Ingrear costo de Gasolina');
             this.costoGasolina = precioActualizado;
         },
+
+         imprimir(){
+  
+  window.print();
+  
+},
+
+ printDiv(contenedorGeneral2) {
+     var contenido= document.getElementById('contenedorGeneral2').innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
 
     }
 }
