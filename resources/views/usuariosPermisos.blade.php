@@ -78,7 +78,7 @@
                                     <input id="I39" style="margin-left: 20px" type="checkbox" name="contratosTotal" value="1" @if($Permisos->contratosTotal==1) checked @endif>-Ver Total</label><br>
                                     <input id="I40" style="margin-left: 20px" type="checkbox" name="contratosEditar" value="1" @if($Permisos->contratosEditar==1) checked @endif>-Editar Contrato</label><br>
                                     <input id="I41" style="margin-left: 20px" type="checkbox" name="contratosFichaTecnica" value="1" @if($Permisos->contratosFichaTecnica==1) checked @endif>-Ficha Tecnica</label><br>
-                                    <input id="I42" style="margin-left: 20px" type="checkbox" name="contratosArchivar" value="1" @if($Permisos->contratosArchivar==1) checked @endif>-Archivar Contrato</label><br>
+                                    <input id="I42" style="margin-left: 20px" type="checkbox" name="contratosArchivar" value="1" @if($Permisos->contratosArchivar==1) checked @endif>-Cancelar Contrato</label><br>
                                     <input id="I43" style="margin-left: 20px" type="checkbox" name="contratosCrearContrato" value="1" @if($Permisos->contratosCrearContrato==1) checked @endif>-Crear Contrato</label><br>
                                     <input id="I44" style="margin-left: 20px" type="checkbox" name="contratosVistaCalendario" value="1" @if($Permisos->contratosVistaCalendario==1) checked @endif>-Vista Calendario</label><br>
                                     <input id="I45" style="margin-left: 20px" type="checkbox" name="contratosArchivados" value="1" @if($Permisos->contratosArchivados==1) checked @endif>-Contratos Archivados</label><br>
@@ -99,7 +99,7 @@
                                     <input id="I57" style="margin-left: 20px" type="checkbox" name="presupuestosTotal" value="1" @if($Permisos->presupuestosTotal==1) checked @endif>-Ver Total</label><br>
                                     <input id="I58" style="margin-left: 20px" type="checkbox" name="presupuestosEditar" value="1" @if($Permisos->presupuestosEditar==1) checked @endif>-Editar Contrato</label><br>
                                     <input id="I59" style="margin-left: 20px" type="checkbox" name="presupuestosFichaTecnica" value="1" @if($Permisos->presupuestosFichaTecnica==1) checked @endif>-Ficha Tecnica</label><br>
-                                    <input id="I60" style="margin-left: 20px" type="checkbox" name="presupuestosArchivar" value="1" @if($Permisos->presupuestosArchivar==1) checked @endif>-Archivar Contrato</label><br>
+                                    <input id="I60" style="margin-left: 20px" type="checkbox" name="presupuestosArchivar" value="1" @if($Permisos->presupuestosArchivar==1) checked @endif>-Cancelar Contrato</label><br>
                                     <input id="I61" style="margin-left: 20px" type="checkbox" name="presupuestosCrearContrato" value="1" @if($Permisos->presupuestosCrearContrato==1) checked @endif>-Crear Contrato</label><br>
                                     <input id="I62" style="margin-left: 20px" type="checkbox" name="presupuestosVistaCalendario" value="1" @if($Permisos->presupuestosVistaCalendario==1) checked @endif>-Vista Calendario</label><br>
                                     <input id="I63" style="margin-left: 20px" type="checkbox" name="presupuestosArchivados" value="1" @if($Permisos->presupuestosArchivados==1) checked @endif>-Contratos Archivados</label><br>

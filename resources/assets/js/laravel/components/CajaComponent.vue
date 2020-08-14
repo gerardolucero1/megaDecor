@@ -433,7 +433,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <p><strong>Fecha y hora de pago: </strong><span> {{ item.created_at | formatearFecha }} {{ item.created_at | formatearHora }}</span></p>
-                                                            <a target="_blank" :href="'recibo-pago/pdf/' + item.id" style="color:blue"><i class="si si-printer"></i> Reimprimir Recibo</a>                                                     
+                                                            <a target="_blank" :href="'recibo-pagor/pdf/' + item.id" style="color:blue"><i class="si si-printer"></i> Reimprimir Recibo</a>                                                     
                                                         </div>
                                                     </div>
                                                 </div>

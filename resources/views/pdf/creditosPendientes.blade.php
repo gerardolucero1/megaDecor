@@ -3,6 +3,7 @@
 @php
     $deudaTotal=0;
 @endphp
+<p style="width: 100%; font-size:35px; font-weight:bold">Cuentas por cobrar</p>
       <table style="width: 100%; font-size:12px; text-align:center;">
         <tr style="background: cornsilk; padding:5px">
     <th style="width: 5%">#Folio</th>    

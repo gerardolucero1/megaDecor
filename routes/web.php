@@ -597,6 +597,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('precorte/pdf/{id}', 'CMS\CashRegisterController@precorte')->name('precorte.pdf');
 
     Route::get('recibo-pago/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePago')->name('recibo-pago.pdf');
+    Route::get('recibo-pagor/pdf/{id}', 'CMS\CashRegisterController@pdfReciboDePagor')->name('recibo-pagor.pdf');
 
     Route::get('ultimo-corte/pdf/', 'CMS\CashRegisterController@ultimoCorte')->name('ultimo-corte.pdf');
 

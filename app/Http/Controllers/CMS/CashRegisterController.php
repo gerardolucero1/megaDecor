@@ -243,6 +243,29 @@ class CashRegisterController extends Controller
         return $pdf->stream();
     }
 
+    public function pdfReciboDePagor($id){
+        $date = Carbon::now();
+        $Pago = Payment::orderBy('id', 'DESC')->where('id', $id)->first();
+        $Pagos = Payment::orderBy('id', 'DESC')->where('budget_id', $Pago->budget_id)->whereTime('created_at', '<', $Pago->created_at)->orWhereDate('created_at', '<', $Pago->created_at)->where('budget_id', $Pago->budget_id)->get();
+        $Budget = Budget::orderBy('id', 'DESC')->where('id', $Pago->budget_id)->first();
+        $cliente = Client::orderBy('id', 'DESC')->where('id', $Budget->client_id)->first();
+        
+
+        if($cliente->tipoPersona=='FISICA'){
+            $cliente = PhysicalPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }else{
+            $cliente = MoralPerson::orderBy('id', 'DESC')->where('client_id', $cliente->id)->first();
+        }
+        
+        
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.recibo_pago_reimpresion', compact('Pago', 'Budget', 'cliente', 'Pagos'));
+
+        return $pdf->stream();
+    }
+
     public function ultimoCorte(){
 
         $registro = CashRegister::orderBy('id', 'DESC')->first();
