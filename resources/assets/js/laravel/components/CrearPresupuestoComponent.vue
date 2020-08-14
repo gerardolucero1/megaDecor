@@ -2863,9 +2863,12 @@ padding: 0;
                         }).then((result) => {
                             if (result.value) {
                                 //la idea es abrir el ultimo presupuesto creado para continuar editando
-                                location.reload();
+
+                                this.abrirUltimoPresupuesto();
+                              location.reload();
                             }else{
-                                location.reload();
+                               this.abrirUltimoPresupuesto();
+                               location.reload();
                             }
                         })
                       
@@ -2887,6 +2890,30 @@ padding: 0;
             } } 
             
             },
+            
+            //Obtiene y abre el ultimo presupuesto creado para que al confirmar que se guardo se abra y podamos seguir editando
+            abrirUltimoPresupuesto: function(){
+            let URL = 'obtener-ultimo-presupuesto';
+
+            axios.get(URL).then((response) => {
+                
+                this.ultimoPago = response.data;
+                
+                //window.open("https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id, "Recibo de pago", "width=300, height=200");
+                var myParameters = window.location.search;// Get the parameters from the current page
+
+                var URL = "https://mmdec.herokuapp.com/presupuesto/edit/"+response.data.id+myParameters;
+
+                var W = window.open(URL);
+
+                W.window.print(); 
+
+            }).catch((error) => {
+                console.log(error.data);
+            })
+        },
+
+
             // Guardar como contrato
             guardarContrato(){
                 
