@@ -172,6 +172,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Efectivo</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -191,6 +192,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -221,6 +223,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Tarjeta</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Ultimos 4 numeros de tarjeta</td>
@@ -242,6 +245,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -275,6 +279,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Transferencia</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Referencia</td>
@@ -296,6 +301,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -326,6 +332,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Cheques</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Numero de cheque</td>
@@ -347,6 +354,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -380,6 +388,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No.</td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
@@ -400,6 +409,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     }
 @endphp
 <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
