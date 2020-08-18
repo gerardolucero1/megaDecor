@@ -246,10 +246,10 @@ padding: 0;
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
-                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                                <div v-if="calcularContratos" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
-                                <div v-if="calcularPresupuestos" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
+                            <p><span>{{  }}</span> eventos contratados</p>
+                            <p><span>{{  }}</span> presupuestos</p>
+                                <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
+                                <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
                         </div>
                     </div>
                     <div class="row">
@@ -267,6 +267,9 @@ padding: 0;
                 </div>
                 
                 <h4>Lugar del Evento</h4>
+                <br>
+                
+  
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -388,6 +391,7 @@ padding: 0;
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fleteModal"><span class="fa fa-plus-circle"></span> Flete</div>
                                 </div>
                         </div>
                     </div>
@@ -479,7 +483,9 @@ padding: 0;
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</div>
                                     -->
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
+                                    <button v-if="producto.tipo == 'PAQUETE' && producto.servicio != 'Mesa de dulces'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
+                                    <button v-if="producto.tipo == 'PAQUETE' && producto.servicio == 'Mesa de dulces'" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bocadillosModal">Editar</button>
+                                    
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
                                     <div v-if="producto.externo" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
                                 </td>
@@ -536,7 +542,7 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                        <!--<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>-->
+                        <!--  <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> -->
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
@@ -737,6 +743,27 @@ padding: 0;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onClick="$('#bocadillosModal').modal('hide')">Cancelar</button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div  class="modal fade" id="fleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div style="border:solid; border-color:gray" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cacluladora Flete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <gasolina-component></gasolina-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick="$('#fleteModal').modal('hide')">Cancelar</button>
                      
                     </div>
                 </div>
@@ -1069,8 +1096,6 @@ padding: 0;
                             <label for="hora-2">Entrega preferente</label>
                             <select name="horaEntrega" id="" class="form-control" v-model="facturacion.horaEntrega" @change="modificarHoraEntrega()">
                                 <option selected value="OTRO">Otra</option>
-                                <option value="NO APLICA">NO APLICA</option>
-                                <option value="MISMO DIA">MISMO DIA</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -1096,8 +1121,6 @@ padding: 0;
                             <label for="hora-2">Recolección preferente</label>
                             <select id="" class="form-control" v-model="facturacion.recoleccionPreferente" @change="modificarHoraRecoleccion()">
                                 <option selected value="OTRO">Otra</option>
-                                <option value="NO APLICA">NO APLICA</option>
-                                <option value="MISMO DIA">MISMO DIA</option>
                                 <option value="LA MAÑANA">Por la mañana</option>
                                 <option value="LA TARDE">Por la tarde</option>
                                 <option value="MEDIO DIA">A medio dia</option>
@@ -1140,7 +1163,8 @@ padding: 0;
                             <input class="form-control" type="text" placeholder="RFC" v-model="facturacion.rfcFacturacion">
                         </div>
                         <div class="col-md-2 mt-4">
-                            <input class="form-control" type="text" placeholder="C.P" v-model="facturacion.codigoPostal">
+                            <input class="form-control" placeholder="C.P" v-model="facturacion.codigoPostal">
+                            
                         </div>
                         <div class="col-md-4">
                             <select>
@@ -1443,6 +1467,7 @@ padding: 0;
         },
         data(){
             return{
+                currencyValue: 0,
                 nestedClass: 'nested',
                 limpiar: false,
                 viendoPaquete: [],
@@ -1729,7 +1754,7 @@ padding: 0;
                 
 
             },
-         /*   calcularContratos: function(){
+          /*  calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
 
@@ -1746,7 +1771,7 @@ padding: 0;
                 });
                 return this.clienteSeleccionadoContratos.length;
             },*/
-          /*  calcularPresupuestos: function(){
+           /* calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -2418,6 +2443,7 @@ padding: 0;
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
+                            'notas':'--',
                         });
                         //this.actualizarPrecioSugerido();
                     
@@ -2450,6 +2476,7 @@ padding: 0;
                             'autorizado': this.productoExterno.autorizado,
                             'precioEspecial': this.productoExterno.precioUnitario,
                             'precioAnterior' : this.productoExterno.precioUnitario,
+                            'notas':'--',
                         });
                         this.inventarioLocal = this.inventarioLocal.reverse();
                     }
@@ -2609,7 +2636,7 @@ padding: 0;
                 editarNotas(index, key, notas){
                     this.notasActualizadas = notas;
                     this.indice = index; 
-                    this.key = key[7];
+                    this.key = key[8];
                     console.log(index);
                     console.log(this.key); 
                 },
@@ -2857,9 +2884,13 @@ padding: 0;
                         confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.value) {
-                                location.reload();
+                                //la idea es abrir el ultimo presupuesto creado para continuar editando
+
+                                this.abrirUltimoPresupuesto();
+                              location.reload();
                             }else{
-                                location.reload();
+                               this.abrirUltimoPresupuesto();
+                               location.reload();
                             }
                         })
                       
@@ -2881,6 +2912,30 @@ padding: 0;
             } } 
             
             },
+            
+            //Obtiene y abre el ultimo presupuesto creado para que al confirmar que se guardo se abra y podamos seguir editando
+            abrirUltimoPresupuesto: function(){
+            let URL = 'obtener-ultimo-presupuesto';
+
+            axios.get(URL).then((response) => {
+                
+                this.ultimoPago = response.data;
+                
+                //window.open("https://www.mmdec.herokuapp.com/recibo-pago/pdf/"+this.ultimoPago.id, "Recibo de pago", "width=300, height=200");
+                var myParameters = window.location.search;// Get the parameters from the current page
+
+                var URL = "https://mmdec.herokuapp.com/presupuesto/edit/"+response.data.id+myParameters;
+
+                var W = window.open(URL);
+
+                W.window.print(); 
+
+            }).catch((error) => {
+                console.log(error.data);
+            })
+        },
+
+
             // Guardar como contrato
             guardarContrato(){
                 

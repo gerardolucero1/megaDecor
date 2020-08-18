@@ -738,7 +738,7 @@ class BudgetController extends Controller
         $fecha1 = $_GET['fecha_1'];
         $fecha2 = $_GET['fecha_2'];
         
-        $presupuestos = Budget::orderBy('id', 'ASC')->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
 
         //dd($presupuestos);
         $pdf = App::make('dompdf');

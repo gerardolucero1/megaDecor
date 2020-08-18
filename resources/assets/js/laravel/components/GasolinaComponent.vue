@@ -33,7 +33,7 @@
                 </table>
                     </div>
                     <div class="col-md-4" style="margin-top:-80px">
-                        <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right" value="NM">
+                        <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right;" value="NM">
                         <input type="text" value="Cliente" style="border:none; font-weight:bold; font-size:18px; text-align:right"><br>
                         <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
                         <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos <i class="fa fa-edit"></i></p>
