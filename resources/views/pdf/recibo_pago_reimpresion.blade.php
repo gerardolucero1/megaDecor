@@ -444,7 +444,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
 
 <!--Segundo Recibo de pago-->
 
-                
+                <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
                 <div style="width: 100%; border-top: solid; border-top-style: dotted; border-top-width: 1px;">
                     <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:16px">Recibo de dinero</span></p>
                     <table style="width: 100%; font-family: Helvetica;">
