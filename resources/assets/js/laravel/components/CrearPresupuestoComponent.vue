@@ -2615,6 +2615,9 @@ padding: 0;
                     this.notasActualizadas = notas;
                     this.indice = index; 
                     this.key = key[8];
+                    if(this.key=='paquete'){
+                        this.key="notas";
+                    }
                     console.log(index);
                     console.log(this.key); 
                 },
