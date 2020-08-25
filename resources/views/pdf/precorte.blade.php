@@ -18,7 +18,7 @@
         $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
-        $fechaCierre = Carbon::parse($registro->fechaCierre)->locale('es');
+        $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
         $horaApertura = date("g:i a", strtotime($registro->horaApertura));
         $horaCierre = date("g:i a", strtotime($registro->horaCierre));
         $cajero = User::orderBy('id', 'DESC')->where('id', $registro->user_id)->first();        
@@ -40,6 +40,9 @@
         $egresosDolaresExtraordinarios=0;
         
         $numContratosHoy=count($contratosHoy);
+
+
+        $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', $registro->fechaApertura)->get();
     @endphp
     <!--Calculo de total -->
     @foreach ($pagos as $pago)
@@ -89,7 +92,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
         @php
             if($pago->method=="CHEQUE"){
-            $ingresosContratosCheques += $pago->amount;}
+            $ingresosContratosCheque += $pago->amount;}
         @endphp
     @endforeach
     @foreach ($pagos as $pago)
@@ -98,61 +101,66 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
-    
+    <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
-    <td colspan="3"><span style="font-weight: bold; font-size:20px">Precorte</span><br><span style="font-style: italic"> generado: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span><br>
-        
+    <td colspan="3">
+        <span style="font-weight: bold; font-size:22px">Fecha y Hora del corte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
-       
+        <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
+        <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
     </tr>
    
-    </table>
+    </table> 
     <table style="width: 100%" style="padding-top: 20px;">
-       
         <tr>
             <td>
-            <span style="font-weight: bold">Fecha de apertura: </span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} <br>
-            <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-            <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span>
-            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br><br><br></p>
+            
+            <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
+                <span>Contratos hoy: {{$numContratosHoy}}</span><br>
+                <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
             
             </td>
-            <td> <p style="border:solid; border-color:red; padding: 8px;"><span style="font-weight: bold">Precorte calculado por el sistema: </span> ${{number_format($precorte,2)}}<br><br>
-               </p> </td>
+            <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
+                <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
+                @if($precorte > $registro->cantidadCierre)
+            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            
+            @elseif($precorte < $registro->cantidadCierre)
+            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            @else
+             <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
+             @endif</p> </td>
         </tr>
-        
-         
-    </table>
-
-    <!-- nueva tabla resumen corte -->
-    <table style="width: 100%; text-align:center">
-        <tr>
-        <th>Fondo</th>
-        <th>Contratos</th>
-        <th>Entradas</th>
-        <th>Salidas</th>
-        <th>Saldo</th>
-        <th>Diferencia</th>
-    </tr>
-    <tr>
-        <td>${{ number_format($registro->cantidadApertura,2)}}</td>
-        <td>${{ number_format($ingresosContratos,2)}}</td>
-        <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
-        <td>${{ number_format($egresosExtraordinarios,2)}}</td>
-        <td>${{number_format($registro->cantidadApertura+$ingresosContratos+$ingresosExtraordinarios-$egresosExtraordinarios,2)}}</td>
-        <td></td>
-
-    </tr>
     </table>
 <!-- nueva tabla resumen corte -->
-
-
-
-
+    <table style="width: 100%; text-align:center">
+            <tr>
+            <th>Fondo</th>
+            <th>Contratos</th>
+            <th>Entradas</th>
+            <th>Salidas</th>
+            <th>Saldo Sistema</th>
+            <th>Saldo Usuario</th>
+            <th>Diferencia</th>
+            
+        </tr>
+        <tr>
+            <td>${{ number_format($registro->cantidadApertura,2)}}</td>
+            <td>${{ number_format($ingresosContratos,2)}}</td>
+            <td>${{ number_format($ingresosExtraordinarios,2)}}</td>
+            <td>${{ number_format($egresosExtraordinarios,2)}}</td>
+            
+            <td>${{number_format($registro->cantidadApertura+$ingresosContratos+$ingresosExtraordinarios-$egresosExtraordinarios,2)}}</td>
+            <td>${{ number_format($registro->cantidadCierre,2)}}</td>
+            <td>${{number_format($registro->cantidadCierre-$precorte,2)}}</td>
+    
+        </tr>
+        </table>
+<!-- nueva tabla resumen corte -->
     <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
     <label for="" style="font-weight: bold; margin-bottom: 10px">Pagos a contratos</label><br>
 
@@ -164,6 +172,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Efectivo</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -183,6 +192,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -205,14 +215,15 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endif
     <!-- Finaliza tabla pagos en efectivo -->
 
-    <!-- Inicia pagos con tarjeta -->
-    @if($ingresosContratosTarjeta>0)
-    @php
-       $ingresosContratosTarjeta=0; 
-    @endphp
+      <!-- Inicia pagos con tarjeta -->
+      @if($ingresosContratosTarjeta>0)
+      @php
+         $ingresosContratosTarjeta=0; 
+      @endphp
     <label for="" style="font-style:italic">Tarjeta</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Ultimos 4 numeros de tarjeta</td>
@@ -234,6 +245,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -258,6 +270,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endif
     <!-- Termina pagos con tarjeta -->
 
+
     <!-- Inicia pagos con transferencia -->
     @if($ingresosContratosTransferencia>0)
     @php
@@ -266,6 +279,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Transferencia</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Referencia</td>
@@ -287,6 +301,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -306,7 +321,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endif
     <!-- Termina pagos con transferencia -->
 
-    <!-- Inicia pagos con cheques -->
+
+
+
+<!-- Inicia pagos con cheques -->
 @if($ingresosContratosCheque>0)
 @php
    $ingresosContratosCheque=0; 
@@ -314,6 +332,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Cheques</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Numero de cheque</td>
@@ -335,6 +354,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -359,6 +379,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endif
     <!-- Termina pagos con cheques -->
 
+
     <!-- Inicia pagos con dolares -->
     @if($ingresosContratosDolar>0)
     @php
@@ -367,6 +388,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No.</td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
@@ -387,6 +409,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     }
 @endphp
 <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -410,6 +433,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             @endif
     <!-- Termina pagos con dolares -->
    
+
     <!-- Inicia ingresos extraordinarios -->
     @if(($ingresosExtraordinarios+$ingresosExtraordinariosCheque+$ingresosExtraordinariosDolar+$ingresosExtraordinariosTarjeta)>0)
     @php
@@ -428,6 +452,9 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 <td style="text-align: center; padding: 4px;">Entregado a</td>
                 <td style="text-align: center; padding: 4px;">Monto</td>
             </tr>
+            @php
+            $ingresosExtraordinarios=0;
+            @endphp
             @foreach ($otrosPagos as $pago)
             @if($pago->tipo=="INGRESO")
             <tr style="border: solid; border-color:black">
@@ -454,11 +481,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en cheques: ${{number_format($ingresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($ingresosExtraordinariosTarjeta,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px">Total ingresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($ingresosExtraordinariosDolar,2)}}</p>
-
             @endif
             <!--Finaliza tabla ingresos extraordinarios -->
- 
-            <!-- Inicia egresos extraordinarios -->
+
+<!-- Inicia egresos extraordinarios -->
 @if(($egresosExtraordinarios+$egresosExtraordinariosCheque+$egresosExtraordinariosDolar+$egresosExtraordinariosTarjeta)>0)
 @php
     $egresosExtraordinarios=0;
@@ -477,6 +503,9 @@ $ingresosExtraordinarios += $pago->cantidad;}
                         <td style="text-align: center; padding: 4px;">Devolución</td>
                         <td style="text-align: center; padding: 4px;">Monto sin devolición</td>
                     </tr>
+                    @php
+                        $egresosExtraordinarios =0;
+                    @endphp
                     @foreach ($otrosPagos as $pago)
                    @if($pago->tipo=="EGRESO")
                     <tr style="border: solid; border-color:black">
@@ -502,15 +531,59 @@ $ingresosExtraordinarios += $pago->cantidad;}
                     @endif
                     @endforeach
                     </table>
+                   
+
                     <p style="text-align: right; font-weight: bold;">Total egresos en efectivo: ${{number_format($egresosExtraordinarios,2)}}</p>
                     <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en cheques: ${{number_format($egresosExtraordinariosCheque,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en electronico (Transferencia / tarjeta): ${{number_format($egresosExtraordinariosTarjeta,2)}}</p>
             <p style="text-align: right; font-weight: normal; font-size:13px;">Total engresos extraordinarios en Dolares (cantidad en dolares): ${{number_format($egresosDolaresExtraordinarios,2)}}</p>
-            @endif
-            <!--Finaliza tabla egresos extraordinarios-->
                     
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
+            @endif
+            <!--Finaliza tabla egresos extraordinarios-->
             
+            <div style="width: 100%; background: #FFFACC">
+            <p style="font-weight: bold">Contratos Cancelados:</p>
+            <table style="width: 100%; font-size:12px">
+            <tr>
+                <th>Folio</th>
+                <th>Cliente</th>
+                <th>Quien Cancela</th>
+                <th>motivo</th>
+            </tr>
+            @if(count($contratosCancelados)>0)
+            @foreach ($contratosCancelados as $item)
+                <tr>
+                <td>{{$item->folio}}</td>
+                <td>
+                    @php
+                                                $cliente = App\Client::where('id', $item->client_id)->first();
+
+                                                if($cliente->tipoPersona == "FISICA"){
+                                                    $clienteFisico = App\PhysicalPerson::where('client_id', $item->client_id)->first();
+                                                   echo $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                                   // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                                   
+                                                }else{
+                                                    $clienteMoral = App\MoralPerson::where('client_id', $item->client_id)->first();
+                                                    echo $clienteNombre = $clienteMoral->nombre;
+                                                }
+                                            @endphp
+                </td>
+                <td>
+                    @php
+                         $vendedor = App\User::where('id', $item->vendedor_id)->first();
+                         echo $vendedor->name;
+                    @endphp
+                </td>
+                <td>{{$item->notasPresupuesto}}</td>
+                </tr>
+            @endforeach
+            @endif
+            </table>
+        </div>
+
+
             @php
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
