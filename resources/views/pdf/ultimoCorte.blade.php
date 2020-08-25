@@ -108,7 +108,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
     <td colspan="3">
-        <span style="font-weight: bold; font-size:22px">Precorte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
+        <span style="font-weight: bold; font-size:22px">Fecha del Corte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
