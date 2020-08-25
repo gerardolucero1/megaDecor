@@ -101,14 +101,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
-    <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
+    <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">precorte</p>
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
     <td colspan="3">
-        <span style="font-weight: bold; font-size:22px">Fecha y Hora del corte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
+        <span style="font-weight: bold; font-size:22px">Precorte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
