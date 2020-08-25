@@ -205,11 +205,16 @@ class CashRegisterController extends Controller
 
         $date = Carbon::now();
         $fechaCorte = $registro->created_at;
+        $fechaCorteCierre = $registro->updated_at;
         $date=$date->format('Y-m-d');
         $fechaCorte = $fechaCorte->format('Y-m-d');
+        $fechaCorteCierre = $fechaCorteCierre->format('Y-m-d');
+
+
         $fechaApertura = Carbon::parse($registro->created_at);
-        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->get();
+        $fechaCierre = Carbon::parse($registro->updated_at);
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaCorte)->whereDate('created_at', '<=', $fechaCorteCierre)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', '>=', $fechaCorte)->whereDate('created_at', '<=', $fechaCorteCierre)->get();
         
 
 

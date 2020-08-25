@@ -1104,6 +1104,7 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                <option value="NO APLICA">No Aplica</option>
                             </select>
                         </div>
                         <br>
@@ -1129,6 +1130,7 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                <option value="NO APLICA">No Aplica</option>
                             </select>
                         </div>
                         <div class="col-md-12">
