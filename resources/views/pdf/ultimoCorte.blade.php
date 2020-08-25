@@ -101,13 +101,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
             $ingresosContratosTarjeta += $pago->amount;}
         @endphp
     @endforeach
+  
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
             <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
     <td colspan="3">
-        <span style="font-weight: bold; font-size:22px">Fecha y Hora del corte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
+        <span style="font-weight: bold; font-size:22px">Precorte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
         <span style="font-weight: bold">Cajero que abre: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-weight: bold">Cajero que cierra: </span><span style="font-size:13">{{ $cajero->name }}</span><br>
         <span style="font-style: italic"> Cierre de caja Impreso: {{ $fechaHoy->translatedFormat(' l j F Y') }} </span></td>
@@ -171,6 +172,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Efectivo</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
@@ -190,6 +192,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -220,6 +223,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Tarjeta</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Ultimos 4 numeros de tarjeta</td>
@@ -241,6 +245,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -274,6 +279,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Transferencia</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Referencia</td>
@@ -295,6 +301,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -325,6 +332,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Cheques</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No. </td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Numero de cheque</td>
@@ -346,6 +354,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
+        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -379,6 +388,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
     <tr style="background: #F9E7A8">
+        <td style="text-align: center; padding: 4px;">Recibo No.</td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
         <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
@@ -399,6 +409,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     }
 @endphp
 <tr style="border: solid; border-color:black">
+    <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
