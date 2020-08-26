@@ -181,7 +181,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="EFECTIVO")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -234,7 +234,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="TARJETA")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -290,7 +290,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="TRANSFERENCIA")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -343,7 +343,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="CHEQUE")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -398,7 +398,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="DOLAR")
     @php
-    $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
+    $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
     $cliente = Client::where('id', $contrato->client_id)->first();
     if($cliente->tipoPersona == 'MORAL'){
         $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
