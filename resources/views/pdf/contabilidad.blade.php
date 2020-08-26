@@ -543,6 +543,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <!--Finaliza tabla egresos extraordinarios-->
             
             <div style="width: 100%; background: #FFFACC">
+                @if(count($contratosCancelados)>0)
             <p style="font-weight: bold">Contratos Cancelados:</p>
             <table style="width: 100%; font-size:12px">
             <tr>
@@ -551,7 +552,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 <th>Quien Cancela</th>
                 <th>motivo</th>
             </tr>
-            @if(count($contratosCancelados)>0)
+            
             @foreach ($contratosCancelados as $item)
                 <tr>
                 <td>{{$item->folio}}</td>
@@ -579,8 +580,9 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 <td>{{$item->notasPresupuesto}}</td>
                 </tr>
             @endforeach
-            @endif
+            
             </table>
+            @endif
         </div>
 
 
