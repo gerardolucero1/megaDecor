@@ -181,7 +181,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="EFECTIVO")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -192,7 +192,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
-        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
+        <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
@@ -234,7 +234,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="TARJETA")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -245,7 +245,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
-        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>    
+        <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>    
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -290,7 +290,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="TRANSFERENCIA")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -301,7 +301,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
-        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
+        <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -343,7 +343,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="CHEQUE")
     @php
-        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
+        $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
         $cliente = Client::where('id', $contrato->client_id)->first();
         if($cliente->tipoPersona == 'MORAL'){
             $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -354,7 +354,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
         }
     @endphp
     <tr style="border: solid; border-color:black">
-        <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
+        <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>
     <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
     <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">@if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
@@ -398,7 +398,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @foreach ($pagos as $pago)
     @if($pago->method=="DOLAR")
     @php
-    $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->id)->first();
+    $contrato = Budget::orderBy('id', 'DESC')->where('id', $pago->budget_id)->first();
     $cliente = Client::where('id', $contrato->client_id)->first();
     if($cliente->tipoPersona == 'MORAL'){
         $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
@@ -409,7 +409,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     }
 @endphp
 <tr style="border: solid; border-color:black">
-    <td style="text-align: center; padding: 3px;">{{$contrato->id}}</td>
+    <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
