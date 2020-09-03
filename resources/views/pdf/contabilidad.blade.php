@@ -36,7 +36,8 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
-        $numContratosHoy=0;
+        $contratosHoy=App\Budget::where('created_at', $fechaApertura)->get();
+        $numContratosHoy=count($contratosHoy);
         $egresosDolaresExtraordinarios=0;
         
         $numContratosHoy=count($contratosHoy);

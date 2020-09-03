@@ -584,8 +584,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('contabilidad/pagos', function(){
         $date = Carbon::now();
         $fechaHoy = $date->format('Y-m-d');
-        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
-        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaHoy)->get();
+        $pagos = Payment::with('budget')->orderBy('id', 'DESC')->where('method', 'EFECTIVO')->whereDate('created_at', $fechaHoy)->get();
+        $otrosPagos = OtherPayments::orderBy('id', 'DESC')->where('metodo', 'EFECTIVO')->whereDate('created_at', $fechaHoy)->get();
         $sesion = CashRegister::orderBy('id', 'DESC')->first();
 
         $arrayDatos = [$pagos, $otrosPagos, $sesion];

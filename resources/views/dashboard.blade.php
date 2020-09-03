@@ -186,10 +186,10 @@
                                                     <div class="col-6 border-r">
                                                         <div class="font-size-h3 font-w600">{{ count($presupuestosAnoActual) }}</div>
                                                         <div class="font-size-sm font-w600 text-uppercase text-muted">
-                                                                <span @if( $presupuestosAnoActual >= $presupuestosAnoPasado)
+                                                                <span @if( $porcentajeActual > 100)
                                                                         style="color:green"
                                                                         @else
-                                                                        style="color:orange"
+                                                                        style="color:red"
                                                                         @endif>{{ round($porcentajeActual , 1) }}%</span><br>
                                                                 Ventas {{ $mes }} {{ $anio }}</div>
                                                     </div>
@@ -304,7 +304,7 @@
                                                     <td class="text-center" style="width: 40px;">
                                                         <strong class="text-success">{{$ElementoVendedor->ventas}}</strong>
                                                     </td>
-                                                    <td><strong class="text-success">${{$ElementoVendedor->cantidadVenta}}</strong></td>
+                                                    <td><strong class="text-success">${{format_number($ElementoVendedor->cantidadVenta,2)}}</strong></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
