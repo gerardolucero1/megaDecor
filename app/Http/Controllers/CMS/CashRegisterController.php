@@ -168,8 +168,8 @@ class CashRegisterController extends Controller
 
         $registro = CashRegister::orderBy('id', 'DESC')->where('estatus', true)->first();
         $fechaApertura = $registro->created_at->format('Y-m-d');
-        $pagos = Payment::whereDate('created_at', $fechaApertura)->get();
-        $otrosPagos = OtherPayments::whereDate('created_at', $fechaApertura)->get();
+        $pagos = Payment::whereDate('created_at', '>=' ,$fechaApertura)->get();
+        $otrosPagos = OtherPayments::whereDate('created_at', '>=' ,$fechaApertura)->get();
 
         $registros = [$pagos, $otrosPagos];
 
