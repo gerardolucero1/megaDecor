@@ -121,18 +121,18 @@ $ingresosExtraordinarios += $pago->cantidad;}
             
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
                 <span>Contratos hoy: {{$numContratosHoy}}</span><br>
-                <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
+                <span>Total Ingresos del corte: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
             
             </td>
-            <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
+            <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($precorte,2)}}<br>
                 <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
                 @if($precorte > $registro->cantidadCierre)
-            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            <span style="color:red; font-style: italic; font-size: 13px"><br><span style="color:red; font-size: 16px">Precorte: ${{number_format((-1*$registro->cantidadCierre-$precorte),2)}}</span></span>
             
             @elseif($precorte < $registro->cantidadCierre)
-            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            <span style="color:red; font-style: italic; font-size: 13px"><br><span style="color:red; font-size: 16px">Precorte: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             @else
-             <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
+             <span style="color:green; font-style: italic; font-size: 13px"></span>
              @endif</p> </td>
         </tr>
     </table>
@@ -541,7 +541,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <div style="width: 100%; border-top:solid; border-width: 1px; margin-bottom: 10px; height: 10px"></div>
             @endif
             <!--Finaliza tabla egresos extraordinarios-->
-            
+            @if(count($contratosCancelados)>0)
             <div style="width: 100%; background: #FFFACC">
             <p style="font-weight: bold">Contratos Cancelados:</p>
             <table style="width: 100%; font-size:12px">
@@ -551,7 +551,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 <th>Quien Cancela</th>
                 <th>motivo</th>
             </tr>
-            @if(count($contratosCancelados)>0)
+            
             @foreach ($contratosCancelados as $item)
                 <tr>
                 <td>{{$item->folio}}</td>
@@ -579,9 +579,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 <td>{{$item->notasPresupuesto}}</td>
                 </tr>
             @endforeach
-            @endif
+            
             </table>
         </div>
+        @endif
 
 
             @php
