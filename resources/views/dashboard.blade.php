@@ -304,7 +304,7 @@
                                                     <td class="text-center" style="width: 40px;">
                                                         <strong class="text-success">{{$ElementoVendedor->ventas}}</strong>
                                                     </td>
-                                                    <td><strong class="text-success">${{format_number($ElementoVendedor->cantidadVenta,2)}}</strong></td>
+                                                    <td><strong class="text-success">${{number_format($ElementoVendedor->cantidadVenta,2)}}</strong></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
