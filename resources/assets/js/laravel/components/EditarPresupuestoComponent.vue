@@ -94,7 +94,7 @@ padding: 0;
                     <div class="col-md-7 text-right info">
                         <p style="font-size:25px; font-weight:bold">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
                         <div class="row">
-                            <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> <span v-if="presupuesto.pendienteHora">Pendiente</span><span v-else>{{ mostrarFechaEvento }}</span></p>
+                            <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> <span v-if="presupuesto.pendienteFecha">Pendiente</span><span >{{ mostrarFechaEvento }}</span></p>
                         </div>
                         <div class="row">
 
