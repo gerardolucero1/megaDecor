@@ -3114,6 +3114,11 @@ padding: 0;
                         ) ;
     },
     ModalGuardarContrato(){
+      
+        if(this.clienteSeleccionado.id == ""){
+            alert('selecciona un cliente para continuar');
+                    return
+        }
 
         if(this.presupuesto.vendedor_id==""){
                     alert('selecciona un vendedor para continuar');
