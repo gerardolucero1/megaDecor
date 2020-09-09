@@ -483,7 +483,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 </tr>
                                 @foreach ($Pagos as $pago)
                                 <tr style="text-align: center">
-                                    <td>Abono a contrato</td>
+                                    <td>Abono a Cta.</td>
                                     <td>{{$pago->created_at}}</td>
                                     <td>{{$pago->method}}</td>
                                     <td>{{$pago->reference}}</td>
