@@ -1641,7 +1641,7 @@ public function archivarUsuario($id){
         $gallery = Gallery::orderBy('id', 'DESC')->first();
 
         return redirect()->route('gallery.create')
-            ->with('info', 'Galería creada con exito');
+            ->with('info', 'Galeria creada con exito');
 
     }
 }
