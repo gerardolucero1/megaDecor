@@ -1629,8 +1629,8 @@ public function archivarUsuario($id){
     public function uploadPhotos($id, Request $request)
     {
         //$Photo = Photo::create($request->all());
-        if($archivo = $request->file('imagen')){
-
+        
+        $archivo = $request->file('file');
             $md5Name = md5_file($archivo->getRealPath());
             $guessExtension = $archivo->guessExtension();
             $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
@@ -1638,13 +1638,12 @@ public function archivarUsuario($id){
             $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
 
             $photo->fill(['imagen' => asset($url.$path)])->save();
-
-
-        $projectImage = new Photo();
-        $projectImage->gallery_id = $id;
-        $projectImage->imagen = $url.$path;
-        $projectImage->save();
-        }
+      
+        
+        $Photo = new Photo();
+        $Photo->gallery_id = $id;
+        $Photo->imagen = $url.$path;
+        $Photo->save();
     }
 
 
