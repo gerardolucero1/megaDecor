@@ -33,12 +33,12 @@
                                     <th class="d-none d-sm-table-cell">Fotos</th>
                                     <th>Opciones</th>
                                 </tr>
+                                @foreach ($imagenes as $imagen)
                                 <tr>
-                                    @foreach ($imagenes as $imagen)
                                 <td><img style="width: 80px" src="{{ $imagen->imagen}}"></td>
                                 <td>{{$imagen->created_at}}</td>
-                                    @endforeach
                                 </tr>
+                                @endforeach
                             </thead>
                             <tbody>
                                
