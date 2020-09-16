@@ -747,6 +747,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('gallery/update/{id}', 'CMS\IndexController@updateGaleria')->name('gallery.update');
     Route::get('gallery/imagenes/{id}', 'CMS\IndexController@imagesGaleria')->name('gallery.images');
     Route::post('/proyecto/{id}/imagenes', 'CMS\IndexController@uploadPhotos');
+    Route::delete('photo/{id}', 'CMS\IndexController@borrarPhoto')->name('photo.delete');
     
     //Proveedores
     Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');

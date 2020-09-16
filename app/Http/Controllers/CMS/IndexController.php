@@ -1724,4 +1724,10 @@ public function archivarUsuario($id){
             ->with('info', 'Galeria actualizada con exito');
 
     }
+    public function borrarPhoto($id){
+        $photo = Photo::findOrFail($id);
+        $photo->delete();
+
+        return back()->with('info', 'Foto eliminado con exito');
+    }
 }

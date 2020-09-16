@@ -30,13 +30,17 @@
                                 <tr role="row">
                                     <th>Foto Principal</th>
                                     <th class="d-none d-sm-table-cell">Categoría</th>
-                                    <th class="d-none d-sm-table-cell">Fotos</th>
                                     <th>Opciones</th>
                                 </tr>
                                 @foreach ($imagenes as $imagen)
                                 <tr>
                                 <td><img style="width: 80px" src="{{ $imagen->imagen}}"></td>
                                 <td>{{$imagen->created_at}}</td>
+                                <td><form id="delete-photo-{{ $imagen->id }}" action="{{ route('photo.delete', $imagen->id) }}" method="POST" class="d-inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </td>
                                 </tr>
                                 @endforeach
                             </thead>
@@ -57,7 +61,7 @@
 
 Dropzone.options.myAwesomeDropzone = {
     paramName: "file", // Las imágenes se van a usar bajo este nombre de parámetro
-    maxFilesize: 40 // Tamaño máximo en MB
+    maxFilesize: 50 // Tamaño máximo en MB
 };
 </script>
 
