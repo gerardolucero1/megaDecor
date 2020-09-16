@@ -1599,8 +1599,9 @@ public function archivarUsuario($id){
 
     public function paginaweb(){
 
-        $algo=0;
-        return view('paginaweb.admin', compact('algo'));
+        $galerias=Gallery::all();
+        return view('paginaweb.admin', compact('galerias'));
+        
     }
 
     public function createGallery()

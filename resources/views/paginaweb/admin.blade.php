@@ -29,14 +29,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                               @foreach ($galerias as $galeria)
+                                   
                                
                                     <tr>
-                                        <td></td>
+                                    <td>{{$galeria->name}}</td>
                                         <td></td>
                                         <td></td>  
                                         <td><button class="btn btn-info">Ver</button></td>  
                                     </tr>
-                            
+                                    @endforeach
                             </tbody>
                         </table>
                     </div>
