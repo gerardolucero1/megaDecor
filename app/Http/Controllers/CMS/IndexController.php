@@ -10,6 +10,7 @@ use App\Supplier;
 use App\SupplierTelephone;
 use App\Client;
 use App\Gallery;
+use App\Photo;
 use App\Missing;
 use App\Inventory;
 use App\Vehicle;
@@ -1615,6 +1616,35 @@ public function archivarUsuario($id){
         $galeria = Gallery::findOrFail($id);
 
         return view('paginaweb.edit', compact('galeria'));
+    }
+
+    public function imagesGaleria($id)
+    {
+        $galeria = Gallery::findOrFail($id);
+        $imagenes = Photo::where('gallery_id', $id)->get();
+
+        return view('paginaweb.imagenes', compact('imagenes', 'galeria'));
+    }
+
+    public function uploadPhotos($id, Request $request)
+    {
+        //$Photo = Photo::create($request->all());
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $photo->fill(['imagen' => asset($url.$path)])->save();
+
+
+        $projectImage = new Photo();
+        $projectImage->gallery_id = $id;
+        $projectImage->imagen = $url.$path;
+        $projectImage->save();
+        }
     }
 
 

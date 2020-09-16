@@ -744,7 +744,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('gallerycreate', 'CMS\IndexController@createGallery')->name('gallery.create');
     Route::post('gallery/store', 'CMS\IndexController@storeGallery')->name('gallery.store');
     Route::get('gallery/edit/{id}', 'CMS\IndexController@editarGaleria')->name('gallery.edit');
-    Route::put('gallery/edit/{id}', 'CMS\IndexController@updateGaleria')->name('gallery.update');
+    Route::put('gallery/update/{id}', 'CMS\IndexController@updateGaleria')->name('gallery.update');
+    Route::get('gallery/imagenes/{id}', 'CMS\IndexController@imagesGaleria')->name('gallery.images');
+    Route::post('/proyecto/{id}/imagenes', 'CMS\IndexController@uploadPhotos');
     
     //Proveedores
     Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');

@@ -10,13 +10,19 @@
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
                     <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Galería Categorías</h3>
+                    <h3 class="block-title" style="color:green">Galería {{$galeria->name}}</h3>
                     </div>
                     <div class="col-md-9 text-right">
-                        <a href="{{ route('gallery.create') }}" class="btn btn-primary">
-                            <i class="fa fa-calendar-plus-o"></i> <i>Crear Categoria</i> 
-                        </a>
+                        
                     </div>
+                </div>
+
+                <div class="">
+                    <form action="{{ asset('/proyecto/'.$galeria->id.'/imagenes') }}"
+                    class="dropzone"
+                    id="my-awesome-dropzone">
+                    {{ csrf_field() }}
+              </form>
                 </div>
                     <div style="padding:15px; padding-top:30px;">
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
@@ -29,17 +35,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               @foreach ($galerias as $galeria)
-                                   
                                
-                                    <tr>
-                                    <td><img style="width: 80px" src="{{ $galeria->imagen}}"></td>
-                                        <td>{{$galeria->name}}</td>
-                                        <td></td>  
-                                        <td><a href="{{ route('gallery.edit', $galeria->id) }}" class="btn btn-info">Editar</a>
-                                            <a href="{{ route('gallery.images', $galeria->id) }}" class="btn btn-info">Imagenes</a></td>  
-                                    </tr>
-                                    @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -52,6 +48,11 @@
 @endsection
 @section("scripts")
 <script>
+
+Dropzone.options.myAwesomeDropzone = {
+    paramName: "file", // Las imágenes se van a usar bajo este nombre de parámetro
+    maxFilesize: 40 // Tamaño máximo en MB
+};
 </script>
 
 @endsection
