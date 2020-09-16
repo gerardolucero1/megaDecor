@@ -2779,7 +2779,7 @@ padding: 0;
                 axios.get(URL).then((response) => {
                     Swal.fire(
                             'Enviado!',
-                            'El presupuesto ha sido enviado por correo',
+                            'El Correo se envio correctamente',
                             'success'
                         ); 
                 }).catch((error) => {
