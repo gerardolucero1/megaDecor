@@ -33,8 +33,8 @@
                                    
                                
                                     <tr>
-                                    <td>{{$galeria->name}}</td>
-                                        <td></td>
+                                    <td><img style="width: 80px" src="{{ $galeria->imagen}}"></td>
+                                        <td>{{$galeria->name}}</td>
                                         <td></td>  
                                         <td><button class="btn btn-info">Ver</button></td>  
                                     </tr>
