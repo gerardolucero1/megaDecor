@@ -36,7 +36,7 @@
                                     <td><img style="width: 80px" src="{{ $galeria->imagen}}"></td>
                                         <td>{{$galeria->name}}</td>
                                         <td></td>  
-                                        <td><button class="btn btn-info">Ver</button></td>  
+                                        <td><a href="{{ route('gallery.edit', $galeria->id) }}" class="btn btn-info">Editar</a></td>  
                                     </tr>
                                     @endforeach
                             </tbody>

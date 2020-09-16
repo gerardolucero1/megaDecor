@@ -1601,13 +1601,20 @@ public function archivarUsuario($id){
 
         $galerias=Gallery::all();
         return view('paginaweb.admin', compact('galerias'));
-        
+
     }
 
     public function createGallery()
     {
                 
         return view('paginaweb.create');
+    }
+
+    public function editarGaleria($id)
+    {
+        $galeria = Gallery::findOrFail($id);
+
+        return view('paginaweb.edit', compact('galeria'));
     }
 
 
@@ -1643,6 +1650,49 @@ public function archivarUsuario($id){
 
         return redirect()->route('gallery.create')
             ->with('info', 'Galeria creada con exito');
+
+    }
+
+    public function updateGaleria(Request $request, $id)
+    {
+        //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        $v = \Validator::make($request->all(), [
+            'name' => 'required',
+            'imagen' => 'required',
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        $gallery = Gallery::find($id);
+        $gallery->fill($request->all())->save();
+
+        //Imagen
+        /*
+        if($request->file('imagen')){
+            $image = $request->file('imagen');
+            $image->move('images', $image->getClientOriginalName());
+            $inventory->imagen = time().$image->getClientOriginalName();
+            $inventory->save();
+
+        }*/
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $gallery->fill(['imagen' => asset($url.$path)])->save();
+        }
+
+        return redirect()->route('gallery.edit', $gallery->id)
+            ->with('info', 'Galeria actualizada con exito');
 
     }
 }

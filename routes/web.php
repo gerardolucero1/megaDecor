@@ -743,6 +743,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('paginaweb', 'CMS\IndexController@paginaweb')->name('administrador.paginaweb');
     Route::get('gallerycreate', 'CMS\IndexController@createGallery')->name('gallery.create');
     Route::post('gallery/store', 'CMS\IndexController@storeGallery')->name('gallery.store');
+    Route::get('gallery/edit/{id}', 'CMS\IndexController@editarGaleria')->name('gallery.edit');
+    Route::put('gallery/edit/{id}', 'CMS\IndexController@updateGaleria')->name('gallery.update');
     
     //Proveedores
     Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');
