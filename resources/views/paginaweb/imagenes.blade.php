@@ -32,19 +32,44 @@
                                     <th class="d-none d-sm-table-cell">Categoría</th>
                                     <th>Opciones</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 @foreach ($imagenes as $imagen)
                                 <tr>
                                 <td><img style="width: 80px" src="{{ $imagen->imagen}}"></td>
                                 <td>{{$imagen->created_at}}</td>
-                                <td><form id="delete-photo-{{ $imagen->id }}" action="{{ route('photo.delete', $imagen->id) }}" method="POST" class="d-inline-block">
+                                <td>
+                                    <button onclick="event.preventDefault();
+                                                        Swal.fire({
+                                                            title: '¿Estas seguro?',
+                                                            text: '¡No podras revertir esto!',
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Eliminar'
+                                                            }).then((result) => {
+                                                            if (result.value) {
+                                                                document.getElementById('delete-photo-{{ $imagen->id }}').submit();
+                                                                Swal.fire(
+                                                                '¡Eliminada!',
+                                                                'La Imagen ha sido eliminado',
+                                                                'success'
+                                                                )
+                                                            }
+                                                        });
+                                                    "
+                                                    type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar foto" data-original-title="Eliminar foto">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                    <form id="delete-photo-{{ $imagen->id }}" action="{{ route('photo.delete', $imagen->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                 </form>
                             </td>
                                 </tr>
                                 @endforeach
-                            </thead>
-                            <tbody>
+                            
                                
                             </tbody>
                         </table>
