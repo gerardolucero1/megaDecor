@@ -380,6 +380,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Banco</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
                             </tr>
@@ -388,11 +389,13 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td>Abono a contrato</td>
                                 <td>{{$pago->created_at}}</td>
                                 <td>{{$pago->method}}</td>
+                                <td>{{$pago->bank}}</td>
                                 <td>{{$pago->reference}}</td>
                             <td>${{number_format($pago->amount,2)}}</td>
                             </tr>
                             @endforeach
                         </table>
+                        <p>Comentarios: <span style="font-style: italic">{{$pago->comentarios}}</span></p>
                         @endif
 
                         <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
@@ -401,6 +404,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Banco</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
                                 <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
                             </tr>
@@ -408,10 +412,12 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td>Abono a contrato</td>
                                 <td>{{$Pago->created_at}}</td>
                                 <td>{{$Pago->method}}</td>
+                                <td>{{$Pago->bank}}</td>
                                 <td>{{$Pago->reference}}</td>
                             <td>${{number_format($Pago->amount,2)}}</td>
                             </tr>
                         </table>
+                        <p>Comentarios: <span style="font-style: italic">{{$Pago->comentarios}}</span></p>
                         <div style="width: 100%; height: 0px; border-bottom:solid"></div>
                         @php
                             $totalPagosAnteriores=0;
