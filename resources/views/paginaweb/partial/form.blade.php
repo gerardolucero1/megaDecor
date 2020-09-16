@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="form-material">
                     {{ Form::label('name', 'nombre') }}
-                    {{ Form::text('name', ['class' => 'form-control', 'id' => 'name']) }}  
+                    {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}  
                 </div>
             </div>
         </div>
