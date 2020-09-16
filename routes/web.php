@@ -739,6 +739,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
 
+    //Pagina web
+    Route::get('paginaweb', 'CMS\IndexController@paginaweb')->name('administrador.paginaweb');
+    Route::get('gallerycreate', 'CMS\IndexController@createGallery')->name('gallery.create');
+    Route::post('gallery/store', 'CMS\IndexController@storeGallery')->name('gallery.store');
+    
     //Proveedores
     Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');
     Route::post('proveedores', 'CMS\IndexController@agregarProveedor')->name('proveedores.store');

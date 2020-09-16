@@ -9,6 +9,7 @@ use App\Budget;
 use App\Supplier;
 use App\SupplierTelephone;
 use App\Client;
+use App\Gallery;
 use App\Missing;
 use App\Inventory;
 use App\Vehicle;
@@ -1593,5 +1594,54 @@ public function archivarUsuario($id){
         $proveedor->delete();
 
         return back()->with('info', 'Proveedor eliminado con exito');
+    }
+
+
+    public function paginaweb(){
+
+        $algo=0;
+        return view('paginaweb.admin', compact('algo'));
+    }
+
+    public function createGallery()
+    {
+                
+        return view('paginaweb.create');
+    }
+
+
+    public function storeGallery(Request $request)
+    {
+        //dd($request->all());
+         //Comprobamos que el slug no se repita pero ignoramos el slug propio
+         $v = \Validator::make($request->all(), [
+            'name' => 'required',
+            'imagen' => 'required',
+        ]);
+            
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+        
+        $gallery = Gallery::create($request->all());
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $gallery->fill(['imagen' => asset($url.$path)])->save();
+        }
+
+        $gallery = Gallery::orderBy('id', 'DESC')->first();
+
+        return redirect()->route('gallery.create')
+            ->with('info', 'Galería creada con exito');
+
     }
 }

@@ -304,10 +304,16 @@
                                     <span class="sidebar-mini-visible">PF</span><span class="sidebar-mini-hidden">Ayuda</span>
                                 </li>
                                 <li>
+                                    <a href="{{ route('administrador.paginaweb') }}">
+                                        <i class="si si-globe"></i><span class="sidebar-mini-hide">Administrador Pagina Web</span>
+                                    </a>
+                                </li>  
+                                <li>
                                     <a href="/">
                                         <i class="si si-question"></i><span class="sidebar-mini-hide">Preguntas Frecuentes</span>
                                     </a>
                                 </li>  
+                                
                        
                                                         
                         
