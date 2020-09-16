@@ -1730,4 +1730,14 @@ public function archivarUsuario($id){
 
         return back()->with('info', 'Foto eliminado con exito');
     }
+
+    public function landing(){
+        $galerias = Gallery::all();
+        return view('landing', compact('galerias'));
+    }
+    public function gallery($id){
+        $gallery = Gallery::where('id',$id)->first();
+        $imagenes = Photo::where('gallery_id', $id)->get();
+        return view('gallery', compact('imagenes', 'gallery'));
+    }
 }

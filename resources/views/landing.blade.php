@@ -134,7 +134,16 @@
 
 
       <div class="row">
-       
+       @foreach ($galerias as $galeria)
+
+       <div class="col-md-4 container-ig-item">
+        <a href="{{ route('ver.galeria', $galeria->id) }}"><div class="sombra-ig-item">
+        <p class="title-item-gallery">{{$galeria->name}}</p>
+        </div></a>
+      <img class="item-img" src="{{$galeria->imagen}}" alt="">
+      </div>
+           
+       @endforeach
         
         <div class="col-md-4 container-ig-item">
           <a href="gallery.html"><div class="sombra-ig-item">

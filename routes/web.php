@@ -41,7 +41,13 @@ use Illuminate\Support\Facades\Mail;
 */
 
 // Example Routes
-Route::view('/', 'landing');
+//Route::view('/', 'landing');
+Route::get('/', 'CMS\IndexController@landing')->name('homepage');
+Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeria');
+
+
+
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
