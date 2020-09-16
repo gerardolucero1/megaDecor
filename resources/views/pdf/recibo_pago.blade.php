@@ -495,7 +495,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 @endphp
                                 @endforeach
                             </table>
-                            <p>Comentarios: <span style="font-style: italic">{{$Pago->comentarios}}</span></p>
+                            <p>Comentarios: <span style="font-style: italic">{{$pago->comentarios}}</span></p>
                             @endif
     
                             <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
@@ -512,7 +512,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                     <td>Abono a contrato</td>
                                     <td>{{$Pago->created_at}}</td>
                                     <td>{{$Pago->method}}</td>
-                                    <td>{{$pago->bank}}</td>
+                                    <td>{{$Pago->bank}}</td>
                                     <td>{{$Pago->reference}}</td>
                                 <td>${{number_format($Pago->amount,2)}}</td>
                                 </tr>
