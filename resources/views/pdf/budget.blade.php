@@ -20,7 +20,7 @@
     @endif
    
     <td colspan="3" style="text-align: right">
-      <p><span style="font-weight: bolder">@if($presupuesto->tipo=='PRESUPUESTO') Presupuesto @else Contrato @endif</span></p>
+      <p><span style="font-weight: bolder; font-size:24px">@if($presupuesto->tipo=='PRESUPUESTO') Presupuesto @else Contrato @endif</span></p>
       <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span></p>
       <p><span style="font-weight: bolder">Vendedor:</span> <span style="font-weight:normal">{{$presupuesto->vendedor}}</span></p>
       </td>
@@ -44,7 +44,7 @@
 @endif
 <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px" >
 <tr>
-<td colspan="3"><p style="line-height: 14px;"><span style="font-style: italic">@if($presupuesto->tipo=='CONTRATO')Contrato @else Presupuesto @endif generado para:</span> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
+<td colspan="3"><p style="line-height: 14px;"> <span style="font-weight: bold">{{$presupuesto->cliente}}</span>
   <br><br><span>{{$presupuesto->emailCliente}}</span>
   
 <br><br><span>Teléfonos: 
@@ -270,7 +270,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 </table>
 
 <p style="font-style:italic; text-align: center; font-weight: lighter"> *La empresa no garantiza un horario exacto de entrega</p>
-        <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
+       
+@if($presupuesto->tipo=='PRESUPUESTO')  @else 
+<p style="font-size: 16px; font-weight: bold; text-align: left"><br>
             GENERALES DE CONTRATO<br>
             <span style="font-size: 12px; font-weight: normal; text-align: justify">
                 **PAGOS EN EFECTIVO. EN CASO DE REALIZAR TRASFERENCIA O PAGOS CON TARJETA, SERIA MAS IVA.
@@ -317,7 +319,7 @@ EN CASO DE AIRES FUERTES O EVENTOS METEREOLÓGICOS QUE SUCEDAN DURANTE EL EVENTO
 LAS CARPAS SE ENTREGAN EN PERFECTAS CONDICIONES. INSTALADOS CON ESTACAS O CON BOLSAS DE ARENA. EL CLIENTE CHECA Y ACEPTA AL MOMENTO DE SER INSTALADAS LAS CARPAS. EN CASO DE QUE EL CLIENTE O EL RESPONSABLE NO SE ENCUENTRE EN EL DOMICILIO DEBERÁ DEJAR A UN ENCARGADO PARA LA ACEPTACIÓN DE LA BUENA INSTALACIÓN. UNA VEZ RETIRADO DE LAS INSTALACIONES DEL CLIENTE YA ES RESPONSABILIDAD DEL CLIENTE.<br>
 DURANTE EL EVENTO Y HAGA QUE SE DERRAME EL CHAMOY. LA MAQUINA SE APAGARA PARA QUE EL PRODUCTO DEL CHAMOY NO SE DERRAME.
 NO HAY DEVOLUCIÓN NI DESCUENTO POR ESTE SUCESO O ALGÚN OTRO ACONTECIMIENTO METEOROLÓGICO. </span><br></p> -->
-@if($presupuesto->tipo=='PRESUPUESTO')  @else 
+
 <br>
              <!--     <p style="font-size: 16px; font-weight: bold; text-align: left"><br>
                     PLAQUE<br>
