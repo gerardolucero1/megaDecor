@@ -5,9 +5,9 @@
 @section('content')
 
     <section class="container">
-                <a href="paginaweb"><button class="btn btn-info active">Galería</button></a>
+                <a href="paginaweb"><button class="btn btn-info">Galería</button></a>
                 <a href=""><button class="btn btn-info">Texto</button></a>
-                <a href=""><button class="btn btn-info">Testimonios</button></a>
+                <a href=""><button class="btn btn-info  active">Testimonios</button></a>
             <div class="content" id="PresupuestosActivos">
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
