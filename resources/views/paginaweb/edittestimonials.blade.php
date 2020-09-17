@@ -27,13 +27,13 @@
         <div class="col-md-12">
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Estas editando el la galeria: {{ $galeria->servicio }}</h3>
+                    <h3 class="block-title">Estas editando el testimonio de: {{ $testimonios->name }}</h3>
                     <div class="block-options">
                         
                     </div>
                 </div>
                 <div class="block-content">
-                    {!! Form::model($galeria, ['route' => ['gallery.update', $galeria->id], 'method' => 'PUT', 'files' => 'true']) !!}
+                    {!! Form::model($testimonios, ['route' => ['gallery.update', $testimonios->id], 'method' => 'PUT', 'files' => 'true']) !!}
             
                         @include('paginaweb.partial.form')
                     {!! Form::close() !!}
