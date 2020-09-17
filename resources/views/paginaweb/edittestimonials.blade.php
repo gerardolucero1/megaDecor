@@ -33,9 +33,9 @@
                     </div>
                 </div>
                 <div class="block-content">
-                    {!! Form::model($testimonios, ['route' => ['gallery.update', $testimonios->id], 'method' => 'PUT', 'files' => 'true']) !!}
+                    {!! Form::model($testimonios, ['route' => ['testimonial.update', $testimonios->id], 'method' => 'PUT', 'files' => 'true']) !!}
             
-                        @include('paginaweb.partial.form')
+                        @include('paginaweb.partial.formtestimonials')
                     {!! Form::close() !!}
                 </div>
             </div>
