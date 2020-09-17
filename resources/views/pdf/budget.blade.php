@@ -20,6 +20,7 @@
     @endif
    
     <td colspan="3" style="text-align: right">
+      <p><span style="font-weight: bolder">@if($presupuesto->tipo=='PRESUPUESTO') Presupuesto @else Contrato @endif</span></p>
       <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span></p>
       <p><span style="font-weight: bolder">Vendedor:</span> <span style="font-weight:normal">{{$presupuesto->vendedor}}</span></p>
       </td>
