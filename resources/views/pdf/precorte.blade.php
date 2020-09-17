@@ -15,7 +15,7 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
-        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
+        $contratosHoy = Budget::where('tipo', 'CONTRATO')->whereDate('created_at', '>', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
@@ -120,7 +120,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <td>
             
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
-                <span>Contratos hoy: {{$numContratosHoy}}</span><br>
+                <span>Contratos nuevos: {{$numContratosHoy}}</span><br>
                 <span>Total Ingresos del corte: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
             
             </td>

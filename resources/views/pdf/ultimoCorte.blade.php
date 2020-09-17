@@ -120,7 +120,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <td>
             
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
-                <span>Contratos hoy: {{$numContratosHoy}}</span><br>
+                <span>Contratos nuevos: {{$numContratosHoy}}</span><br>
                 <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
             
             </td>
