@@ -1747,7 +1747,7 @@ public function archivarUsuario($id){
     public function editarTestimonio($id)
     {
         $testimonios = Testimonials::findOrFail($id);
-        return view('paginaweb.edittestimonial', compact('testimonios'));
+        return view('paginaweb.edittestimonials', compact('testimonios'));
     }
     public function storeTestimonial(Request $request)
     {
