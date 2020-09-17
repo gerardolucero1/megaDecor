@@ -1724,7 +1724,7 @@ public function archivarUsuario($id){
     }
 
     public function landing(){
-        $testimonios = Testimonial::all();
+        $testimonios = Testimonials::all();
         $galerias = Gallery::all();
         return view('landing', compact('galerias', 'testimonios'));
     }
