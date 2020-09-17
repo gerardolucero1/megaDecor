@@ -181,26 +181,25 @@
             <h2>Testimonios</h2>
           </div>
         </div>
+        @foreach ($testimonios as $testimonio)
         <div class="carousel-item">
-          <div class="carousel-caption d-md-block"> <img src="img/quote-icon.png" alt="">
-            <p>Mega Decor...  Siempre feliz y satisfecha por la calidad, servicio y excelente gusto para que mis eventos queden al 100!!! Siempre me sacas de todos mis apuros aunque sea a ultimo momento, me encanta tu tención y dedicación... una vez más gracias, quedo todo super lindo y rico</p>
+          <div class="carousel-caption d-md-block"> <img src="{{$testimonio->imagen}}" alt="">
+          <p>{{$testimonio->testimonial}}</p>
           </div>
         </div>
-        <div class="carousel-item active">
-          <div class="carousel-caption d-md-block"> <img src="img/quote-icon.png" alt="">
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="carousel-caption d-md-block"> <img src="img/quote-icon.png" alt="">
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p>
-          </div>
-        </div>
+        @endforeach
+       
       </div>
       <ol class="carousel-indicators">
-        <li data-target="#my-carousel" data-slide-to="0" > <img src="img/about-me-img1.png" alt=""> <span>Ana Sandoval</span> </li>
-        <li class="active" data-target="#my-carousel" data-slide-to="1" aria-current="location"> <img src="img/about-me-img2.png" alt=""> <span>Sherrie Rose</span> </li>
-        <li data-target="#my-carousel" data-slide-to="2"> <img src="img/about-me-img3.png" alt=""> <span>Sherrie Rose</span> </li>
+        @php
+            $cont=0;
+        @endphp
+        @foreach ($testimonios as $testimonio)
+      <li class="@if($cont==0) active @endif" data-target="#my-carousel" data-slide-to="{{$cont}}" > <img src="img/about-me-img1.png" alt=""> <span>{{$testimonio->name}}</span> </li>
+        @endforeach
+        @php
+        $cont=$cont+1; 
+     @endphp
       </ol>
     </div>
   </div>
