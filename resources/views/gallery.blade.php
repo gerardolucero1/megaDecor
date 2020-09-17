@@ -1,12 +1,32 @@
 @extends('layouts.simple2')
 
 @section('content')
+<style>
+  .btn-whatsapp{
+    position: fixed; 
+    z-index:100; 
+    bottom: 30px; 
+    right: 30px; 
+    width: 60px; 
+    transition: .2s;
+  }
+  .btn-whatsapp:hover{
+    position: fixed; 
+    z-index:100; 
+    bottom: 25px; 
+    right: 25px; 
+    width: 70px; 
+    transition: .2s; 
+    cursor: pointer;
+  }
+</style>
+<a target="_blank" href="https://api.whatsapp.com/send?phone=526391061558"><img src="https://stagewp.sharethis.com/wp-content/uploads/2017/05/WhatsApp.png" class="btn-whatsapp" alt=""></a>
 <nav class="navbar navbar-expand-md  fixed-top maine-menu">
   <div class="container">
     <button class="navbar-toggler ml-auto" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"> <span class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span> </button>
     <div id="my-nav" class="collapse navbar-collapse">
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item"> <a class="nav-link" href="index2.html" style="color:black">Inicio</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="{{ route('homepage') }}" style="color:black">Inicio</a> </li>
         <li class="nav-item"> <a class="nav-link" href="index2.html#about" tabindex="-1" aria-disabled="true" style="color:black">Nosotros</a></li>
         <li class="nav-item"> <a class="nav-link" href="index2.html#activity" tabindex="-1" aria-disabled="true" style="color:black">Servicios</a></li>
         <li class="nav-item active"> <a class="nav-link" href="index2.html#portfolio" tabindex="-1" aria-disabled="true">Galería</a></li>
@@ -61,7 +81,7 @@
 <div class="container-fluid recent fh5co-portfolio" id="portfolio" style="background:none">
   <div class="container">
   <h2>{{$gallery->name}}</h2>
-    <p style="font-style: italic;">Visita Nuestra sala de exhibición y conoce todos nuestros modelos <a href="">Agenda una cita</a></p>
+    <p style="font-style: italic;">Visita Nuestra sala de exhibición y conoce todos nuestros modelos <a target="_blank" href="https://api.whatsapp.com/send?phone=526391061558">Agenda una cita</a></p>
 
 
     <div class="row">

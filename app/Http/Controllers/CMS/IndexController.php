@@ -7,6 +7,7 @@ use App\User;
 use stdClass;
 use App\Budget;
 use App\Supplier;
+use App\Testimonials;
 use App\SupplierTelephone;
 use App\Client;
 use App\Gallery;
@@ -1698,15 +1699,6 @@ public function archivarUsuario($id){
         $gallery = Gallery::find($id);
         $gallery->fill($request->all())->save();
 
-        //Imagen
-        /*
-        if($request->file('imagen')){
-            $image = $request->file('imagen');
-            $image->move('images', $image->getClientOriginalName());
-            $inventory->imagen = time().$image->getClientOriginalName();
-            $inventory->save();
-
-        }*/
 
         // Store in AWS S3
         if($archivo = $request->file('imagen')){
@@ -1739,5 +1731,90 @@ public function archivarUsuario($id){
         $gallery = Gallery::where('id',$id)->first();
         $imagenes = Photo::where('gallery_id', $id)->get();
         return view('gallery', compact('imagenes', 'gallery'));
+    }
+
+    //Testimonios
+    public function testimonios(){
+
+        $testimonios=Testimonials::all();
+        return view('paginaweb.admintestimonios', compact('testimonios'));
+    }
+    public function createTestimonial()
+    {      
+        return view('paginaweb.createtestimonials');
+    }
+
+    public function editarTestimonio($id)
+    {
+        $testimonios = Testimonials::findOrFail($id);
+        return view('paginaweb.edittestimonial', compact('testimonios'));
+    }
+    public function storeTestimonial(Request $request)
+    {
+        //dd($request->all());
+         //Comprobamos que el slug no se repita pero ignoramos el slug propio
+         $v = \Validator::make($request->all(), [
+            'name' => 'required',
+            'imagen' => 'required',
+        ]);
+            
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+        
+        $testimonial = Testimonials::create($request->all());
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $testimonial->fill(['imagen' => asset($url.$path)])->save();
+        }
+
+        $testimonial = Testimonials::orderBy('id', 'DESC')->first();
+
+        return redirect()->route('testimonial.create')
+            ->with('info', 'Testimonio creado con exito');
+
+    }
+
+    public function updateTestimonio(Request $request, $id)
+    {
+        //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        $v = \Validator::make($request->all(), [
+            'name' => 'required',
+            'imagen' => 'required',
+        ]);
+ 
+        if ($v->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        $testimonial = Testimonials::find($id);
+        $testimonial->fill($request->all())->save();
+
+
+        // Store in AWS S3
+        if($archivo = $request->file('imagen')){
+
+            $md5Name = md5_file($archivo->getRealPath());
+            $guessExtension = $archivo->guessExtension();
+            $path = $archivo->storeAs('mmDecor', $md5Name.'.'.$guessExtension  ,'s3');
+
+            $url = 'https://mm-decor.s3.us-east-2.amazonaws.com/';
+
+            $testimonial->fill(['imagen' => asset($url.$path)])->save();
+        }
+
+        return redirect()->route('testimonial.edit', $testimonial->id)
+            ->with('info', 'Testimonio actualizado con exito');
+
     }
 }

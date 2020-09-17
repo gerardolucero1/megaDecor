@@ -1,6 +1,26 @@
 @extends('layouts.simple2')
 
 @section('content')
+<style>
+  .btn-whatsapp{
+    position: fixed; 
+    z-index:100; 
+    bottom: 30px; 
+    right: 30px; 
+    width: 60px; 
+    transition: .2s;
+  }
+  .btn-whatsapp:hover{
+    position: fixed; 
+    z-index:100; 
+    bottom: 25px; 
+    right: 25px; 
+    width: 70px; 
+    transition: .2s; 
+    cursor: pointer;
+  }
+</style>
+<a target="_blank" href="https://api.whatsapp.com/send?phone=526391061558"><img src="https://stagewp.sharethis.com/wp-content/uploads/2017/05/WhatsApp.png" class="btn-whatsapp" alt=""></a>
     <nav class="navbar navbar-expand-md  fixed-top maine-menu">
     <div class="container">
       <button class="navbar-toggler ml-auto" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"> <span class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span> </button>
@@ -53,7 +73,7 @@
     </div>
   </div>
 
-  <div class="container-fluid fh5co-recent-work" style="background: url('https://cdn.hipwallpaper.com/i/71/2/YImypJ.jpg');">
+  <div class="container-fluid fh5co-recent-work" style="background: url('https://cdn.hipwallpaper.com/i/98/47/YsN0Q6.jpg'); background-size:100% auto">
     <div class="container contact-pop">
       <div class="row">
         <div class="col-md-6  pr-0">
@@ -67,13 +87,13 @@
             <h4>Planeación de Eventos</h4>
             <hr />
             <p>Sed do eiusmod tempor incididunt ut labore et dolo magna aliqua. Ut enim ad minim veniam, quis nostd exercitation ullamco laboris nisi ut aliquip ex ea mo consequat. Duis aute irure dolor in reprehenderit in ullamco.</p>
-            <a href="#" class="btn">CONTACT</a> </div>
+            <a href="https://api.whatsapp.com/send?phone=526391061558" target="_blank" class="btn">CONTACT</a> </div>
           </div>
         </div>
       </div>
       <div class="container recent" id="activity">
         <div class="row">
-          <h2>Nuestros Servicios</h2>
+          <h2 style="color:black">Nuestros Servicios</h2>
           <div class="owl-carousel owl-carousel2 owl-theme">
             <div>
               <div class="card"> <img class="card-img" src="img/recent-img1.jpg" alt="">
@@ -145,53 +165,6 @@
            
        @endforeach
         
-        <div class="col-md-4 container-ig-item">
-          <a href="gallery.html"><div class="sombra-ig-item">
-            <p class="title-item-gallery">Decoración</p>
-          </div></a>
-          <img class="item-img" src="img/decoracion1.png" alt="">
-        </div>
-
-        <div class="col-md-4 container-ig-item">
-          <div class="sombra-ig-item">
-            <p class="title-item-gallery">Regalos</p>
-          </div>
-          <img class="item-img" src="img/regalos1.jpg" alt="">
-        </div>
-
-        <div class="col-md-4 container-ig-item">
-          <div class="sombra-ig-item">
-            <p class="title-item-gallery">Floristería</p>
-          </div>
-          <img class="item-img" src="img/floristeria1.jpg" alt="">
-        </div>
-
-        <div class="col-md-4 container-ig-item">
-          <div class="sombra-ig-item">
-            <p class="title-item-gallery">Catering</p>
-          </div>
-          <img class="item-img" src="img/catering1.jpg" alt="">
-        </div>
-
-        <div class="col-md-4 container-ig-item">
-          <div class="sombra-ig-item">
-            <p class="title-item-gallery">XV Años</p>
-          </div>
-          <img class="item-img" src="img/quinceanera1.jpg" alt="">
-        </div>
-
-        <div class="col-md-4 container-ig-item">
-          <div class="sombra-ig-item">
-            <p class="title-item-gallery">Mobiliario</p>
-          </div>
-          <img class="item-img" src="img/mobiliario1.jpg" alt="">
-        </div>
-
-       
-
-
-      
-        
       </div>
     </div>
   </div>
@@ -243,7 +216,7 @@
               </div>
             </div>
             <p class="text-justify"> “Mega Mundo Decor te ofrece un servicio integral para eventos como: primera comunión, bautizos, quince años, fiestas temáticas para adultos, servicios empresariales, inauguraciones , decoración de agencias de autos, decoración de empresas y más.</p>
-            <div class="clearfix"> <a href="#" class="btn btn-primary mt-2 float-right">Follow</a> </div>
+            <div class="clearfix"> <a href="https://www.facebook.com/MegaMundoDecor/" class="btn btn-primary mt-2 float-right">Seguir</a> </div>
           </div>
         </div>
         <div class="col-lg-6 feed-caro">
@@ -267,7 +240,7 @@
         <ul class="nav mx-auto">
           <li class="nav-item"> <a class="nav-link" href="https://www.facebook.com/MegaMundoDecor/"><img src="img/facebook.png" alt=""></a> </li>
 
-          <li class="nav-item"> <a class="nav-link" href="https://www.instagram.com/MegaMundoDecor/"><img src="img/facebook.png" alt=""></a> </li>
+          <li class="nav-item"> <a class="nav-link" href="https://www.instagram.com/MegaMundoDecor/"><img style="width: 58%" src="https://image.flaticon.com/icons/png/512/87/87390.png" alt=""></a> </li>
           
         </ul>
       </div>
@@ -290,7 +263,7 @@
       </div>
     </div>
     <div class="copy pt-4 pb-4">
-      <p><a href="https://freehtml5.co/" target="_blank"> &copy; 2020</a>  &nbsp;  |  &nbsp; <a href="https://freehtml5.co/" target="_blank">Megamundo Decor</a> &nbsp; | &nbsp;  All rights reserved</p>
+      <p><a href="https://freehtml5.co/" target="_blank"> &copy; 2020</a>  &nbsp;  |  &nbsp; <a href="https://freehtml5.co/" target="_blank">Megamundo Decor</a> &nbsp; | &nbsp;  Derechos Reservados | &nbsp;<a href="login">Acceder al Sistema</a></p>
     </div>
   </footer>
     <!-- END Hero -->

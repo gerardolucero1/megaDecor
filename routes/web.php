@@ -754,6 +754,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('gallery/imagenes/{id}', 'CMS\IndexController@imagesGaleria')->name('gallery.images');
     Route::post('/proyecto/{id}/imagenes', 'CMS\IndexController@uploadPhotos');
     Route::delete('photo/{id}', 'CMS\IndexController@borrarPhoto')->name('photo.delete');
+
+    //testimonios
+    Route::get('testimonials', 'CMS\IndexController@testimonios')->name('testimonials.admin');
+    Route::get('testimonialcreate', 'CMS\IndexController@createTestimonial')->name('testimonial.create');
+    Route::post('testimonial/store', 'CMS\IndexController@storeTestimonial')->name('testimonial.store');
+    Route::get('testimonial/edit/{id}', 'CMS\IndexController@editarTestimonio')->name('testimonial.edit');
+    Route::put('testimonial/update/{id}', 'CMS\IndexController@updateTestimonio')->name('testimonial.update');
     
     //Proveedores
     Route::get('proveedores', 'CMS\IndexController@proveedores')->name('proveedores.index');
