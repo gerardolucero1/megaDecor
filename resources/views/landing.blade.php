@@ -195,11 +195,12 @@
             $cont=0;
         @endphp
         @foreach ($testimonios as $testimonio)
-      <li class="@if($cont==0) active @endif" data-target="#my-carousel" data-slide-to="{{$cont}}" > <img src="img/about-me-img1.png" alt=""> <span>{{$testimonio->name}}</span> </li>
-        @endforeach
-        @php
+      <li class="@if($cont==0) active @endif" data-target="#my-carousel" data-slide-to="{{$cont}}" > <img src="{{$testimonio->imagen}}" alt=""> <span>{{$testimonio->name}}</span> </li>
+      @php
         $cont=$cont+1; 
-     @endphp
+     @endphp  
+      @endforeach
+        
       </ol>
     </div>
   </div>
