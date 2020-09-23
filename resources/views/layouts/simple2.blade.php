@@ -31,6 +31,7 @@
     }
     .container-ig-item{
      overflow: hidden;
+     height: 300px;
      width: 100%;
      margin-bottom: 20px;
     }
