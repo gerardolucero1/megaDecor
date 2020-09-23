@@ -144,6 +144,8 @@ padding: 0;
                              <label for="pendienteHora" style="padding-top:10px">
                              <input type="checkbox" v-on:change="editadoFuntion()" name="1" id="pendienteHora" v-model="presupuesto.pendienteHora">
                             Pendiende</label>
+                            
+
                             </div>
                     <div class="col-md-4">
                         
@@ -156,7 +158,7 @@ padding: 0;
                                 <div class="row mt-4">
                                     <div class="col-md-10">
                                         <label v-if="presupuesto.pendienteFecha" for="">Fecha Pendiente</label>
-                                        <input v-if="presupuesto.pendienteFecha==false" type="date" v-model="presupuesto.fechaEvento">
+                                        <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -164,7 +166,11 @@ padding: 0;
                                     
                                 </div>
                                 <input  type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
-                                <label for="pendienteFecha">Pendiende</label>
+                                <label for="pendienteFecha">Pendiende</label><br>
+                                
+                                
+                                <button class="btn btn-info" data-toggle="modal" data-target="#subirNube"><i class="fa fa-cloud"></i> Cambio Fecha</button>
+                         
 
                             </div>
                         </div>
@@ -1330,6 +1336,35 @@ padding: 0;
             </div>
         </div>
 
+          <!-- Modal subir a la nube -->
+        <div class="modal fade" id="subirNube" tabindex="-1" role="dialog" aria-labelledby="verContratos" aria-hidden="true">
+            <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="border: solid gray">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Enviar Contrato a la nube</h5>
+                    <button type="button" class="close" onClick="$('#subirNube').modal('hide')" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group">
+                        <label for="">Nueva Fecha (dejar en blanco para dejar fecha pendiente)</label><br>
+                        <input v-model="nube.newDate" class="form-control" type="date">
+                        </div>
+                        <div class="form-group">
+                        <label>Motivo</label>
+                        <textarea class="form-control" v-model="nube.motivo" id="" cols="30" rows="5"></textarea>
+                        </div>
+                <button @click="enviarANube()" class="btn btn-info">Confirmar</button>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="$('#subirNube').modal('hide')">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
@@ -1348,6 +1383,10 @@ padding: 0;
         },
         data(){
             return{
+                nube:{
+                    motivo:null,
+                    newDate:null
+                },
                 unlock: false,
                 limpiar: false,
                 viendoPaquete: [],
@@ -2790,7 +2829,45 @@ padding: 0;
             editadoFuntion(){
                 
                 this.editado=1;
-            }
+            },
+
+            enviarANube(){
+                let URL = '/nube/create';
+                //alert('funciona');
+                
+                axios.post(URL, {
+                    'budget_id': this.presupuesto.id,
+                    'motivo':this.nube.motivo,
+                    'fechaAnterior':this.presupuesto.fechaEvento,
+                    'categoriaAnterior':this.presupuesto.categoria,
+                    'fechaNueva':this.nube.newDate,
+
+                }).then((response) => {
+        
+                  
+                   // console.log(this.cliente);
+                    Swal.fire({
+                                title: 'Operación Completa',
+                                text: "",
+                                type: 'success',
+                                showCancelButton: false,
+                                cancelButtonColor: '#d33',
+                                
+                            })
+                var myParameters = window.location.search;// Get the parameters from the current page
+
+                var URL = "/cambio-fecha/"
+
+                var W = window.open(URL);
+
+                W.window.print(); 
+                         
+                            
+                }).catch((error) => {
+                    console.log(error);
+                });
+               
+            },
             
         }
     }

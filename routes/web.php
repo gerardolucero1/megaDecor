@@ -194,6 +194,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-pagos/{id}', 'CMS\PaymentController@index')->name('payment.index');
     Route::post('/registrar-pago', 'CMS\PaymentController@store')->name('payment.store');
 
+    //Nube
+    Route::post('/nube/create', 'CMS\BudgetController@nube')->name('nube.store');
+    Route::get('cambio-fecha/', 'CMS\BudgetController@pdfCambioFecha')->name('cambio-fecha.pdf');
+    Route::get('/presupuestos-nube', 'CMS\IndexController@presupuestosNube')->name('presupuestos-nube');
+    
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/clientes2', 'CMS\IndexController@clientes2')->name('clientes2');

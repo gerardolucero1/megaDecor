@@ -238,6 +238,7 @@
                                     @endif
                                     @if($permisos->contratos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
+                                    <a class="nav-menu" href="{{ route('presupuestos-nube') }}"><i class="fa fa-cloud"></i><span class="sidebar-mini-hide">Contratos en nube</span></a>
                                     @endif
                                     @if($permisos->presupuestos==1)
                                     <a class="nav-menu" href="{{ route('presupuestos') }}"><i class="fa fa-edit"></i><span class="sidebar-mini-hide">Presupuestos</span></a>

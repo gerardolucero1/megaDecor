@@ -7,6 +7,7 @@ use stdClass;
 use App\Budget;
 use App\Client;
 use App\Family;
+use App\Cloud;
 use App\Inventory;
 use App\Telephone;
 use Carbon\Carbon;
@@ -1277,5 +1278,56 @@ class BudgetController extends Controller
         $paquetes = BudgetPack::with('inventories')->where('budget_id', $presupuesto->id)->where('version', $version)->get();
         $inventario = [$inventarios, $paquetes];
         return $inventario;
+    }
+    public function nube(Request $request)
+    {
+
+        $testimonial = Cloud::create($request->all());
+
+        if($request->fechaNueva==null){
+        $budget=Budget::find($request->budget_id);
+        $budget->categoriaEvento = 'nube';
+        $budget->fechaEvento = null;
+        $budget->pendienteFecha = true;
+        $budget->save();
+        }else{
+        $budget=Budget::find($request->budget_id);
+        $budget->fechaEvento = $request->fechaNueva;
+        $budget->pendienteFecha = null;
+        $budget->save();    
+        }
+       
+    }
+    public function restaurarPresupuesto($id){
+        $budget=Budget::find($id);
+        $budget->categoriaEvento = 'otro';
+        $budget->save();
+
+    }
+
+    public function pdfCambioFecha(){
+        
+        $ultimoCambio = Cloud::orderBy('id', 'DESC')->first();
+
+        $budget = Budget::where('id', $ultimoCambio->budget_id)->first();
+
+        $cliente = Client::where('id', $budget->client_id)->first();
+
+        if($cliente->tipoPersona=='MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
+        
+
+        
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.cambio_fecha', compact('nombreCliente', 'budget', 'ultimoCambio'));
+
+        return $pdf->stream();
     }
 }
