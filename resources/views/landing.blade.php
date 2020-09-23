@@ -91,8 +91,8 @@
           </div>
         </div>
       </div>
-      <div class="container recent" id="activity">
-        <div class="row">
+      <div class="container recent" id="activity" style="display: none">
+        <div class="row" >
           <h2 style="color:black">Nuestros Servicios</h2>
           <div class="owl-carousel owl-carousel2 owl-theme">
             <div>
