@@ -25,7 +25,10 @@
                                 <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha del evento actualizada: </span><span>
                                     @if($ultimoCambio->fechaNueva==null)
                                     Pendiente<br>
-                                    <span style="font-weight: lighter; font-style: italic; font-size: 12px;">*Al No contar con una fecha establecida, el saldo abonado a este contrato tiene una vigencia de un año apartir de la fecha de la solicitud de cambio: </span>
+                                    <span style="font-weight: lighter; font-style: italic; font-size: 12px;">*Al No contar con una fecha establecida, el saldo abonado a este contrato tiene una vigencia hasta: @php
+                                        $vigencia =  Carbon\Carbon::parse($ultimoCambio->vigencia)->locale('es')->translatedFormat(' l j F Y');
+                                        echo $vigencia;
+                                    @endphp </span>
                                     @php
                                         $fechainicial =  Carbon\Carbon::parse($ultimoCambio->created_at)->locale('es')->translatedFormat(' l j F Y');
                                         echo $fechainicial;
