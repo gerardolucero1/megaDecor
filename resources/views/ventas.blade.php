@@ -193,6 +193,7 @@
                                                
                                             }
                                         @endphp
+                                        
                                         ${{ number_format($totaldelmes,2) }}
                                     <span style="font-size: 10px; color:green">Sin IVA</span>
                                     </th>
@@ -204,7 +205,7 @@
 
                                         $contratosDelMesPasados = App\Budget::orderBy('id', 'DESC')
                                             ->whereYear('fechaEvento', $anoPasado)
-                                            ->whereMonth('fechaEvento', $contador)
+                                            ->whereMonth('fechaEvento', $contador)->where('archivado', '!=', 'TRUE')
                                             ->get();
                                     @endphp
                                      @php
@@ -217,8 +218,19 @@
                                              }
                                          }
                                      @endphp
-                                    <th>${{ number_format($totaldelmesPasado,2) }}</th>
-                                    <th>${{ number_format($totaldelmes - $totaldelmesPasado,2) }}</th>
+                                    <th>
+                                        @if($mes=='septiembre')
+                                        $344,235.60
+                                        @else
+                                        ${{ number_format($totaldelmesPasado,2) }}
+                                    @endif</th>
+                                    <th>
+                                        @if($mes=='septiembre')
+                                        ${{ number_format($totaldelmes - 344235.60,2) }}
+                                        @else
+                                        ${{ number_format($totaldelmes - $totaldelmesPasado,2) }}
+                                    @endif
+                                       </th>
                                     @php
                                         if(count($contratosDelMesPasados) != 0){
                                             $numero = $totaldelmes / $totaldelmesPasado;
