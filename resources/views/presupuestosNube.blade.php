@@ -143,8 +143,8 @@
                                     <a style="margin-right:4px;" target="_blank" href="" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Restaurar" data-original-title="Restaurar Presupuesto">
                                         <i class="fa fa-share-square"></i> Restaurar
                                     </a>
-                                    <a style="margin-right:4px;" target="_blank" href="{{ route('cambio-fecha-reimpresion.pdf', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Reimpresion">
-                                        <i class="fa fa-update"></i>
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('cambio-fecha-reimpresion.pdf', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Reimpresion" data-original-title="Reimpresion">
+                                        <i class="fa fa-print"></i>
                                     </a>
                               
                                    
