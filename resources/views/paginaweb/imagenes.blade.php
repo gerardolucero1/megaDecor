@@ -87,12 +87,14 @@
 
 function eliminar(id){
     alert(id);
+
+    document.getElementById('btn-delete-'+id).style.display="none";
+                   alert('eliminado');
     let URL = '/photo/'+id;
 
             axios.delete(URL).then((response) => {
                 response.data.forEach((doc) => {
-                   document.getElementById('btn-delete-'+id).style.display="none";
-                   alert('eliminado')
+                   
                 })
             }).catch((error) => {
                 console.log(error.data);
