@@ -181,7 +181,7 @@
 
                                         $contratosDelMes = App\Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')
                                             ->whereYear('fechaEvento', $anoHoy)
-                                            ->whereMonth('fechaEvento', $contador)
+                                            ->whereMonth('fechaEvento', $contador)->where('archivado', '!=', 'TRUE')
                                             ->get();
                                     @endphp
                                     <th>
