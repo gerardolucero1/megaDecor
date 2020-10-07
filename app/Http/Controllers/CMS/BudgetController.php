@@ -1309,6 +1309,7 @@ class BudgetController extends Controller
     public function pdfCambioFecha(){
         
         $ultimoCambio = Cloud::orderBy('id', 'DESC')->first();
+        $totalCambios = Cloud::orderBy('id', 'DESC')->where('budget_id', $ultimoCambio->id)->get();
 
         $budget = Budget::where('id', $ultimoCambio->budget_id)->first();
 
@@ -1327,7 +1328,7 @@ class BudgetController extends Controller
 
         $pdf = App::make('dompdf');
 
-        $pdf = PDF::loadView('pdf.cambio_fecha', compact('nombreCliente', 'budget', 'ultimoCambio'));
+        $pdf = PDF::loadView('pdf.cambio_fecha', compact('nombreCliente', 'budget', 'ultimoCambio', 'totalCambios'));
 
         return $pdf->stream();
     }

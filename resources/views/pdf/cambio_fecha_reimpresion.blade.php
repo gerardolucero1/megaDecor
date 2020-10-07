@@ -44,11 +44,11 @@
 
                         </table>
 
-                        <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
+                        <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:200px;">Reimpresión</p>
 
                         <p style="font-weight: bold; padding:20px"> <span>Cmbios Previos Solicitados: {{count($totalCambios)}}</span><br>Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
                         
-                        <table style="width: 100%">
+                        <table style="width: 100%; text-align:center">
                             <tr>
                             <th>Fecha anterior</th>
                             <th>Fecha despues del cambio</th>
@@ -101,11 +101,23 @@
         
                                     </td>
                                 </tr>
-                               
-                            <p style="font-weight: bold; padding:20px">Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
+                                </table>
+                                <p style="font-weight: bold; padding:20px">Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
                             
-                        
-        
+
+                                <table style="width: 100%; text-align:center">
+                                    <tr>
+                                    <th>Fecha anterior</th>
+                                    <th>Fecha despues del cambio</th>
+                                    <th>Vigencia</th>
+                                    </tr>
+                                    @foreach ($totalCambios as $cambios)
+                                        <tr>
+                                        <td>{{$cambios->fechaAnterior}}</td>
+                                        <td>@if($cambios->fechaNueva==null) Pendiente @else{{$cambios->fechaNueva}} @endif</td>
+                                        <td>{{$cambios->vigencia}}</td>
+                                        </tr>
+                                    @endforeach
                                 </table>
                            
                                         <table style="width: 100%; margin-top: -10px">
