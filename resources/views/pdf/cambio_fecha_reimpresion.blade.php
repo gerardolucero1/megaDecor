@@ -44,7 +44,7 @@
 
                         </table>
 
-                        <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
+            
 
                         <p style="font-weight: bold; padding:20px"> <span>Cmbios Previos Solicitados: {{count($totalCambios)}}</span><br>Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
                         
