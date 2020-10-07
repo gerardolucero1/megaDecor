@@ -5,6 +5,7 @@
 @section('content')
 
     <section class="container">
+        
                 <a href="paginaweb"><button class="btn btn-info active">Galería</button></a>
                 <a href=""><button class="btn btn-info">Texto</button></a>
                 <a href="testimonials"><button class="btn btn-info">Testimonios</button></a>

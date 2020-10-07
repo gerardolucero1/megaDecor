@@ -24,6 +24,7 @@
     @endif
 
     <section class="container">
+        <a class="btn btn-info" href="/paginaweb">Volver</a>
         <div class="col-md-12">
             <div class="block">
                 <div class="block-header block-header-default">
