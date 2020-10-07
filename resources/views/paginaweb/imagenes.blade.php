@@ -89,7 +89,7 @@ function eliminar(id){
     alert(id);
     let URL = '/photo/'+id;
 
-            axios.get(URL).then((response) => {
+            axios.delete(URL).then((response) => {
                 response.data.forEach((doc) => {
                    document.getElementById('btn-delete-'+id).style.display="none";
                    alert('eliminado')
