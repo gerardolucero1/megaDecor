@@ -12,14 +12,13 @@
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%; margin-top;-20px">
-                <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:16px">Cambio de fecha</span></p>
+                <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:16px">Folio de contrato:</span> <span> {{$budget->folio}}</span></p>
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td>
                                 <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 150px">
                             </td>
                         <td style="text-align: right">
-                        <span style="font-weight: bold; font-size: 20px">Folio de contrato:</span> <span> {{$budget->folio}}</span><br>
                         <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha de cambio: </span>{{$fechaAntes->translatedFormat(' l j F Y')}}<span><span>
                                 <br>
                                 <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha nueva solicitada: </span><span>
