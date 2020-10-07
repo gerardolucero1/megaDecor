@@ -40,7 +40,8 @@
                                         <td>{{$galeria->name}}</td>
                                         <td></td>  
                                         <td><a href="{{ route('gallery.edit', $galeria->id) }}" class="btn btn-info">Editar</a>
-                                            <a href="{{ route('gallery.images', $galeria->id) }}" class="btn btn-info">Imagenes</a></td>  
+                                            <a href="{{ route('gallery.images', $galeria->id) }}" class="btn btn-info">Imagenes</a>
+                                        </td>  
                                     </tr>
                                     @endforeach
                             </tbody>

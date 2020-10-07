@@ -65,6 +65,7 @@
                                     <form id="delete-photo-{{ $imagen->id }}" action="{{ route('photo.delete', $imagen->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
+                                    <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar (t)</button>
                                 </form>
                             </td>
                                 </tr>
@@ -83,6 +84,21 @@
 @endsection
 @section("scripts")
 <script>
+
+function(id){
+    alert(id);
+    let URL = '/photo/'+id;
+
+            axios.get(URL).then((response) => {
+                response.data.forEach((doc) => {
+                   document.getElementById('btn-delete-'+id).style.display="none";
+                   alert('eliminado')
+                })
+            }).catch((error) => {
+                console.log(error.data);
+            });
+
+}
 
 Dropzone.options.myAwesomeDropzone = {
     paramName: "file", // Las imágenes se van a usar bajo este nombre de parámetro
