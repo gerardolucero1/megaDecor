@@ -29,10 +29,6 @@
                                         $vigencia =  Carbon\Carbon::parse($ultimoCambio->vigencia)->locale('es')->translatedFormat(' l j F Y');
                                         echo $vigencia;
                                     @endphp </span>
-                                    @php
-                                        $fechainicial =  Carbon\Carbon::parse($ultimoCambio->created_at)->locale('es')->translatedFormat(' l j F Y');
-                                        echo $fechainicial;
-                                    @endphp
                                     @else
                                     @php
                                         $fechaNew=Carbon\Carbon::parse($ultimoCambio->fechaNueva)->locale('es')->translatedFormat(' l j F Y');

@@ -2850,7 +2850,7 @@ padding: 0;
 
                 }).then((response) => {
         
-                  
+                  $('#subirNube').modal('hide');
                    // console.log(this.cliente);
                     Swal.fire({
                                 title: 'Operación Completa',
