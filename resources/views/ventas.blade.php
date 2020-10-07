@@ -189,7 +189,7 @@
                                         $totaldelmes=0;
                                             foreach($contratosDelMes as $contratoDelMes){
                                                 
-                                                $totaldelmes=$totaldelmes+($contratoDelMes->total);}
+                                                $totaldelmes=$totaldelmes+($contratoDelMes->total);
                                                
                                             }
                                         @endphp
