@@ -20,9 +20,9 @@
                             </td>
                         <td style="text-align: right">
                         <span style="font-weight: bold; font-size: 20px">Folio de contrato:</span> <span> {{$budget->folio}}</span><br>
-                        <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha del evento antes del cambio: </span>{{$fechaAntes->translatedFormat(' l j F Y')}}<span><span>
+                        <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha de cambio: </span>{{$fechaAntes->translatedFormat(' l j F Y')}}<span><span>
                                 <br>
-                                <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha del evento actualizada: </span><span>
+                                <span  style="font-style: italic; font-size: 14px; font-weight: bold">Fecha nueva solicitada: </span><span>
                                     @if($ultimoCambio->fechaNueva==null)
                                     Pendiente<br>
                                     <span style="font-weight: lighter; font-style: italic; font-size: 12px;">*Al No contar con una fecha establecida, el saldo abonado a este contrato tiene una vigencia hasta: @php

@@ -5,7 +5,7 @@
 @section('content')
 
     <section class="container">
-                
+        <a class="btn btn-info" href="/paginaweb">Volver</a>
             <div class="content" id="PresupuestosActivos">
             <div class="block" id="divLista">
                 <div class="block-header block-header-default">
