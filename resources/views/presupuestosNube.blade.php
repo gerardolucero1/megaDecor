@@ -57,7 +57,7 @@
                                     @if($permisos->contratosVersion==1)
                                     <th class="d-none d-sm-table-cell">Version</th>@endif
                                     @if($permisos->contratosUltimaModificacion==1)
-                                     <th class="d-none d-sm-table-cell">Cambio generado</th>@endif
+                                     <th class="d-none d-sm-table-cell">Vigencia</th>@endif
                                      @if($permisos->contratosTotal==1)
                                      <th class="d-none d-sm-table-cell">Total</th>@endif
                                      <th>Opciones</th>
@@ -68,7 +68,10 @@
                                 use Carbon\Carbon;
                             @endphp         
                             @if (!is_null($Presupuestos))
-                            @foreach ($Presupuestos as $budget)                          
+                            @foreach ($Presupuestos as $budget) 
+                            @php
+                                $ultimoCambio =  App\Cloud::where('budget_id', $budget->id)->first();
+                            @endphp                         
                             <tr role="row" class="odd" style="@if($budget->impresionBodega==2) background:#F9F7BF;@endif">
                                     @if($permisos->contratosFolio==1)
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}} 
@@ -103,7 +106,7 @@
                                 @endif
                             
                             @if($permisos->contratosUltimaModificacion==1)
-                                <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
+                                <td class="d-none d-sm-table-cell">{{$ultimoCambio->vigencia}}<br>
                                 </td>
                                 @endif
                                 
