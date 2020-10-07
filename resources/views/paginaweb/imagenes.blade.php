@@ -85,7 +85,7 @@
 @section("scripts")
 <script>
 
-function(id){
+function eliminar(id){
     alert(id);
     let URL = '/photo/'+id;
 
