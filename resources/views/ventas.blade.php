@@ -154,8 +154,8 @@
                         <thead>
                             <tr role="row">
                                 <th>MES</th>
-                                <th>#VENTAS</th>
-                                <th>#VENTAS AÑO PASADO</th>
+                                <th>#VENTAS 2020</th>
+                                <th>#VENTAS 2019</th>
                                 <th>DIFERENCIA</th>
                                 <th>% DE VENTAS</th>
                             </tr>

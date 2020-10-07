@@ -120,7 +120,7 @@
                             <td class="text-center d-none d-sm-table-cell" style="font-size:14px;">
                                     @if($permisos->presupuestosImpresionCliente==1)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
-                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime presupuesto cliente" @endif></i>
                                     </a>
                                     @endif
                                     @if($permisos->EnviarCorreo==1)
@@ -128,7 +128,7 @@
                                     @endif
                                     @if($permisos->presupuestosImprimirBodega==1)
                                 <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
-                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
                                 </a>
                                     @endif
                             </td>

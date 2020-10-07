@@ -20,8 +20,7 @@
     </table>
 
     @foreach ($contratos as $budgetArchivados)
-    <table style="border-bottom: solid; font-size: 12px; width: 100%; border-width: 1px; text-align: center">
-        @php
+    @php
             $fechaEvento = Carbon\Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
             $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
             $date = $budgetArchivados->fechaEvento." 11:00:00";
@@ -32,6 +31,8 @@
                                             @endphp
 
 @if(($budgetArchivados->total-$budgetArchivados->saldoPendiente)>0)
+    <table style="border-bottom: solid; font-size: 12px; width: 100%; border-width: 1px; text-align: center">
+        
 <tr >
     <td style=" font-weight: bold; padding-top:5px; width: 5%">{{$budgetArchivados->folio}}</td>
     <td style="width: 15%"><span style="display: none">{{$budgetArchivados->fechaEvento}}</span><br>{{$fechaEvento->translatedFormat(' l j F Y')}}</td>
@@ -90,9 +91,10 @@ ${{$total}}
 @endphp
 </td>
 </tr>
-@endif
+
 
 </table>
+@endif
 @endforeach
 
     </table>

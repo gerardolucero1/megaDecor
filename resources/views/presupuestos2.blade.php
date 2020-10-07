@@ -123,17 +123,17 @@
                             <td class="d-none d-sm-table-cell text-center" style="font-size:14px;">
                                     @if($permisos->contratosImpresionCliente==1)
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
-                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este presupuesto {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este contrato {{$budget->updated_at}}"  @else title="Aun no se imprime contrato cliente" @endif></i>
                                     </a>@endif
                                     @if($permisos->contratosEnviarCorreo==1)
                                     <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Contrato enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>   
                                  @endif
                                  @if($permisos->contratosImprimirBodega==1)
                                 <a style="display:none" target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
-                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                    <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
                                 </a>
                                 <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
-                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime" @endif></i>
+                                        <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
                                     </a>
                                     @endif
                             </td>
