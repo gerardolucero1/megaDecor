@@ -1289,6 +1289,7 @@ class BudgetController extends Controller
         $budget->categoriaEvento = 'nube';
         $budget->fechaEvento = null;
         $budget->pendienteFecha = true;
+        $budget->pendienteFecha = true;
         $budget->save();
         }else{
         $budget=Budget::find($request->budget_id);

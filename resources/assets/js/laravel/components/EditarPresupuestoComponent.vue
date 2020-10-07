@@ -1355,6 +1355,10 @@ padding: 0;
                         <label>Motivo</label>
                         <textarea class="form-control" v-model="nube.motivo" id="" cols="30" rows="5"></textarea>
                         </div>
+                        <div class="form-group">
+                        <label for="">Vigencia</label><br>
+                        <input v-model="nube.vigencia" class="form-control" type="date">
+                        </div>
                 <button @click="enviarANube()" class="btn btn-info">Confirmar</button>
                 </div>
                 
@@ -1385,7 +1389,8 @@ padding: 0;
             return{
                 nube:{
                     motivo:null,
-                    newDate:null
+                    newDate:null,
+                    vigencia:null
                 },
                 unlock: false,
                 limpiar: false,
@@ -2841,6 +2846,7 @@ padding: 0;
                     'fechaAnterior':this.presupuesto.fechaEvento,
                     'categoriaAnterior':this.presupuesto.categoria,
                     'fechaNueva':this.nube.newDate,
+                    'vigencia':this.nube.vigencia,
 
                 }).then((response) => {
         
