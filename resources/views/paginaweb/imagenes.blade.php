@@ -67,7 +67,7 @@
                                     @method('DELETE')
                                 </form>
                                 <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar</button>
-                            <p id="txt-delete-{{$imagen->id}}">Eliminado!</p>
+                            <p id="txt-delete-{{$imagen->id}}" style="display:none; color:red">Eliminado!</p>
                             </td>
                                 </tr>
                                 @endforeach
