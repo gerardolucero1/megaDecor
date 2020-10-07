@@ -46,9 +46,9 @@
                         </table>
 
 
-                        <p style="font-weight: bold; padding:0px; margin-top:-15px"> <span>Cambios Previos Solicitados: {{count($totalCambios)}}</span><br>Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
+                        <p style="font-weight: bold; padding:0px; margin-top:-5px"> <span>Cambios Previos Solicitados: {{count($totalCambios)}}</span><br>Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
                         
-                        <table style="width: 100%; text-align:center; margin-top:-20px">
+                        <table style="width: 100%; text-align:center; margin-top:-10px">
                             <tr>
                             <th>Fecha anterior</th>
                             <th>Fecha despues del cambio</th>
@@ -105,7 +105,7 @@
                                 <p style="font-weight: bold; padding:20px">Motivo de modificación en fecha: <br><span style="font-style: italic; font-weight:lighter">{{$ultimoCambio->motivo}}</span></p>
                             
 
-                                <table style="width: 100%; text-align:center; margin-top:-20px">
+                                <table style="width: 100%; text-align:center; margin-top:-10px">
                                     <tr>
                                     <th>Fecha anterior</th>
                                     <th>Fecha despues del cambio</th>
