@@ -197,6 +197,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Nube
     Route::post('/nube/create', 'CMS\BudgetController@nube')->name('nube.store');
     Route::get('cambio-fecha/', 'CMS\BudgetController@pdfCambioFecha')->name('cambio-fecha.pdf');
+    Route::get('cambio-fecha-reimpresion/{id}', 'CMS\BudgetController@pdfCambioFechaReimpresion')->name('cambio-fecha-reimpresion.pdf');
     Route::get('/presupuestos-nube', 'CMS\IndexController@presupuestosNube')->name('presupuestos-nube');
     
     // Todo lo referente a clientes

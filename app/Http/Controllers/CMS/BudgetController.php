@@ -1331,4 +1331,28 @@ class BudgetController extends Controller
 
         return $pdf->stream();
     }
+
+    public function pdfCambioFechaReimpresion($id){
+        
+        $ultimoCambio = Cloud::orderBy('id', 'DESC')->where('budget_id', $id)->first();
+        $totalCambios = Cloud::orderBy('id', 'DESC')->where('budget_id', $id)->get();
+
+        $budget = Budget::where('id', $ultimoCambio->budget_id)->first();
+
+        $cliente = Client::where('id', $budget->client_id)->first();
+
+        if($cliente->tipoPersona=='MORAL'){
+            $datosCliente = MoralPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre;
+        }else{
+            $datosCliente = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        }
+
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.cambio_fecha_reimpresion', compact('nombreCliente', 'budget', 'ultimoCambio', 'totalCambios'));
+
+        return $pdf->stream();
+    }
 }
