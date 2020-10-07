@@ -65,8 +65,8 @@
                                     <form id="delete-photo-{{ $imagen->id }}" action="{{ route('photo.delete', $imagen->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar (t)</button>
                                 </form>
+                                <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar (t)</button>
                             </td>
                                 </tr>
                                 @endforeach
