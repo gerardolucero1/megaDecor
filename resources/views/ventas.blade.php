@@ -188,14 +188,14 @@
                                         @php
                                         $totaldelmes=0;
                                             foreach($contratosDelMes as $contratoDelMes){
-                                                if($contratoDelMes->opcionIVA==1){
+                                                
                                                 $totaldelmes=$totaldelmes+($contratoDelMes->total);}
-                                                else{
-                                                    $totaldelmes=$totaldelmes+($contratoDelMes->total);
-                                                }
+                                               
                                             }
                                         @endphp
-                                        ${{ number_format($totaldelmes,2) }}</th>
+                                        ${{ number_format($totaldelmes,2) }}
+                                    <span style="font-size: 10px; color:green">Sin IVA</span>
+                                    </th>
                                     @php
 
                                         $fechaPasada = $fechaHoy->subYears(1);
