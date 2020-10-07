@@ -39,7 +39,7 @@
                                 <td><img style="width: 80px" src="{{ $imagen->imagen}}"></td>
                                 <td>{{$imagen->created_at}}</td>
                                 <td>
-                                    <button onclick="event.preventDefault();
+                                    <button style="display:none" onclick="event.preventDefault();
                                                         Swal.fire({
                                                             title: '¿Estas seguro?',
                                                             text: '¡No podras revertir esto!',
@@ -66,7 +66,8 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar (t)</button>
+                                <button class="btn btn-info" id="btn-delete-{{$imagen->id}}" onclick="eliminar({{$imagen->id}})">Eliminar</button>
+                            <p id="txt-delete-{{$imagen->id}}">Eliminado!</p>
                             </td>
                                 </tr>
                                 @endforeach
@@ -86,10 +87,11 @@
 <script>
 
 function eliminar(id){
-    alert(id);
+   
 
     document.getElementById('btn-delete-'+id).style.display="none";
-                   alert('eliminado');
+    document.getElementById('txt-delete-'+id).style.display="block";
+                   
     let URL = '/photo/'+id;
 
             axios.delete(URL).then((response) => {
