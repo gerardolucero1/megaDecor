@@ -498,6 +498,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <table style="width: 100%; font-size: 13px;">
                     <tr style="background: #F9E7A8">
                         <td style="text-align: center; padding: 4px;">Motivo</td>
+                        <td style="text-align: center; padding: 4px;">Contrato</td>
                         <td style="text-align: center; padding: 4px;">Descripción</td>
                         <td style="text-align: center; padding: 4px;">Metodo</td>
                         <td style="text-align: center; padding: 4px;">Entregado a</td>
@@ -511,6 +512,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                    @if($pago->tipo=="EGRESO")
                     <tr style="border: solid; border-color:black">
                     <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
+                    <td style="text-align: center; padding: 3px;">{{$pago->contrato}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->descripcion}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->metodo}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->responsable}}</td>

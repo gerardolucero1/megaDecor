@@ -232,6 +232,11 @@
                                     @endif
                                        </th>
                                     @php
+
+if($mes=='septiembre'){
+    
+}
+                                       else{
                                         if(count($contratosDelMesPasados) != 0){
                                             $numero = $totaldelmes / $totaldelmesPasado;
                                             $porcentaje = round($numero*100);
@@ -240,6 +245,8 @@
                                         }else if(count($contratosDelMesPasados) == 0 && count($contratosDelMes) != 0){
                                             $porcentaje = 100;
                                         }
+                                    }
+
                                         
                                     @endphp
                                     <th style="
