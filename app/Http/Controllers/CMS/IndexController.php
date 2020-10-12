@@ -900,9 +900,12 @@ public function archivarUsuario($id){
          
 
          foreach($clientes as $cliente){
-             $Presupuesto->email = $cliente->email;
+
+             
        
              if($cliente->id==$budget->client_id){
+                $Presupuesto->email = $cliente->email;
+
                     if($cliente->apellidoPaterno==$cliente->nombre){$Presupuesto->cliente = $cliente->nombre;}else{
                      $Presupuesto->cliente = $cliente->nombre.' '.$cliente->apellidoPaterno;}
 
