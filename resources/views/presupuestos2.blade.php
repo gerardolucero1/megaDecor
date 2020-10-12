@@ -126,7 +126,7 @@
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este contrato {{$budget->updated_at}}"  @else title="Aun no se imprime contrato cliente" @endif></i>
                                     </a>@endif
                                     @if($permisos->contratosEnviarCorreo==1)
-                                    <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Contrato enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>   
+                                    <i onclick="enviarCorreoCliente({{$budget->id}}, {{$budget->email}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Contrato enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>   
                                  @endif
                                  @if($permisos->contratosImprimirBodega==1)
                                 <a style="display:none" target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
@@ -543,8 +543,8 @@
 
     }
 
-    function enviarCorreoCliente(id){
-                let URL = '/enviar-email-cliente/'  + id;
+    function enviarCorreoCliente(id, email){
+                let URL = '/enviar-email-cliente/'  + id+ '&' + email;
 
                 axios.get(URL).then((response) => {
                     Swal.fire(
