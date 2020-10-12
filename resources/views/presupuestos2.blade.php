@@ -544,6 +544,7 @@
     }
 
     function enviarCorreoCliente(id, email){
+        alert(email);
                 let URL = '/enviar-email-cliente/'  + id+ '&' + email;
 
                 axios.get(URL).then((response) => {
