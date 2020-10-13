@@ -149,6 +149,7 @@
                      <th style="padding:3px;">Costo</th>
                      <th style="padding:3px;">Vueltas</th>
                      <th style="padding:3px;">Total</th>
+                     <th style="padding:3px;">Eliminar</th>
                  </tr>
 
                
@@ -161,6 +162,7 @@
                      <td style="text-align:center"><input style="border-color:red; text-align:center" type="text" v-if="(item.vueltas == '') || (indice == index && key == 'vueltas')" v-on:change="updateVueltasCaseta(index)" v-model="cantidadCostoCasetaActualizada">
                          <label style="background:#FEEE7C; border-radius:2px; min-width:80px" v-else v-on:click="editarVueltasCaseta(index, Object.keys(item))">{{item.vueltas}}</label></td>
                      <td style="text-align:center">{{item.vueltas*item.costo | currency}}</td>
+                     <td style="text-align:center"> <div class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarCaseta(index)"><i class="fa fa-remove"></i></div></td>
                     
                  </tr>
                  <tr style="padding-top:6px">
@@ -452,6 +454,9 @@ export default {
             this.cantidadKmActualizada = 0;
             this.key= '';
         },
+        eliminarCaseta(index){
+                this.casetas.splice(index, 1);
+            },
 
         obtenerVehiculos(){
             this.vehiculos=[];

@@ -1198,7 +1198,7 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <div  class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Cerrar</div>
-                    <div id="btnGuardarContrato"  class="btn btn-primary" @click="guardarContrato()">Guardar</div>
+                    <div  class="btn btn-primary" @click="guardarContrato()">Guardar</div>
                 </div>
                 </div>
             </div>
@@ -2944,11 +2944,8 @@ padding: 0;
 
             // Guardar como contrato
             guardarContrato(){
-
-                document.getElementById('btnGuardarContrato').style.display="none";
                 
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
-                    document.getElementById('btnGuardarContrato').style.display="block";
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
                 }
@@ -2956,7 +2953,7 @@ padding: 0;
 
                 if(!this.facturacion.entregaEnBodega){
                 if(isNaN(parseInt(this.facturacion.fechaRecoleccion))){
-                   document.getElementById('btnGuardarContrato').style.display="block";
+                   
                     Swal.fire(
                             'Hora de recolección',
                             'Especifica una hora de recoleccion y selecciona una opcion de recolección preferente',
@@ -2966,7 +2963,6 @@ padding: 0;
                    
                
                 if(this.inventarioLocal.length == 0){
-                    document.getElementById('btnGuardarContrato').style.display="block";
                     Swal.fire(
                             'Elementos',
                             'Agrega Elementos a tu contrato para continuar',
@@ -2975,7 +2971,6 @@ padding: 0;
                          
                     }else{
                 if(this.festejados.length == 0){
-                    document.getElementById('btnGuardarContrato').style.display="block";
                     Swal.fire(
                             'Festejados',
                             'Agrega almenos un festejado para continuar',
@@ -3025,7 +3020,6 @@ padding: 0;
                     this.imprimir = true;
                     
                     if(response.data == 1){
-                        document.getElementById('btnGuardarContrato').style.display="block";
                         Swal.fire(
                             'Error!',
                             'El salon de eventos ya esta ocupado para esta fecha',
@@ -3055,7 +3049,6 @@ padding: 0;
                         error.message='';
                         window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
-                        document.getElementById('btnGuardarContrato').style.display="block";
                         alrt(error.response.data.message);
                      Swal.fire(
                             'Error!',
