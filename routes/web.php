@@ -155,6 +155,7 @@ Route::group(['middleware' => ['auth']], function () {
         
     //API calculadora Gasolina vehiculos
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
+    Route::get('/obtener-casetas', 'CMS\IndexController@obtenerCasetas');
     Route::post('/vehiculos/agregarVehiculo', 'CMS\IndexController@agregarVehiculo');
     Route::delete('/vehiculos/eliminar-vehiculo/{id}', 'CMS\IndexController@deleteVehiculo');
 

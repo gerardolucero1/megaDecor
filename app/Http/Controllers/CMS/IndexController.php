@@ -403,6 +403,9 @@ public function archivarUsuario($id){
     public function obtenerVehiculos(){
         return Vehicle::orderBy('id', 'DESC')->where('tipo', 'Vehiculo')->get();
     }
+    public function obtenerCasetas(){
+        return Vehicle::orderBy('id', 'DESC')->where('tipo', 'Caseta')->get();
+    }
 
     public function agregarVehiculo(Request $request){
         //dd($request);

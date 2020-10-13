@@ -143,7 +143,9 @@
 
  <p style="background:orange; color:white; padding:4px; width:60%">Tomar en cuenta numero de ejes al consultar el costo de la caseta</p>
  <button v-on:click="obtenerCasetas()" class="btn btn-info oculto-impresion">Agregar Caseta</button>
-               <table style="width:60%">
+ <div class="row">
+ <div class="col-md-6">
+               <table style="width:100%">
                  <tr style="text-align:center; background:#252EEE; color:white">
                      <th style="padding:3px;">Caseta</th>
                      <th style="padding:3px;">Costo</th>
@@ -172,6 +174,20 @@
 
                 
              </table>
+             </div>
+             <div class="col-md-6">
+             <table>
+             <tr>
+             <th>Nombre</th>
+             <th>Costo</th>
+             </tr>
+             <tr v-for="(item, index) in casetas2" :key="index">
+             <td></td>
+             <td></td>
+             </tr>
+             </table>
+             </div>
+</div>
             </div>
             
         </div>
@@ -192,8 +208,8 @@
                     <div class="col-md-9">
                         <label>Selecciona lo que quieres registrar</label>
                         <select v-model="tipoRegistro" class="form-control">
-                        <option value="Vehiculo"></option>
-                        <option value="Caseta"></option>
+                        <option value="Vehiculo">Vehiculo</option>
+                        <option value="Caseta">Caseta</option>
                         </select>
                         <label>Nombre</label>
                         <input type="text" name="nombre" id="" class="form-control" aria-describedby="helpId" v-model="nuevoNombre">
@@ -268,6 +284,7 @@ export default {
            tipoRegistro:'',
            vehiculos:[],
            casetas:[],
+           casetas2:[],
            cantidadKmActualizada:0,
            cantidadCostoCasetaActualizada:0,
            key:'',
@@ -291,6 +308,7 @@ export default {
     created(){
         this.obtenerVehiculos();
         this.obtenerCasetas();
+        this.obtenerCasetas2();
       
     },
     computed: {
@@ -481,6 +499,19 @@ export default {
                     doc.costoGasolina=0;
                     doc.total=0;
                     this.vehiculos.push(doc)
+                })
+            }).catch((error) => {
+                console.log(error.data);
+            });
+        },
+
+        obtenerCasetasBD(){
+            this.casetas2=[];
+             let URL = '/obtener-casetas';
+
+            axios.get(URL).then((response) => {
+                response.data.forEach((doc) => {
+                    this.casetas2.push(doc)
                 })
             }).catch((error) => {
                 console.log(error.data);
