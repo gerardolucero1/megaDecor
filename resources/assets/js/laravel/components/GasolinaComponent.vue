@@ -36,7 +36,7 @@
                         <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right;" value="NM">
                         <input type="text" value="Cliente" style="border:none; font-weight:bold; font-size:18px; text-align:right"><br>
                         <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
-                        <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos <i class="fa fa-edit"></i></p>
+                        <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos y Casetas <i class="fa fa-edit"></i></p>
                          <p style="color:blue: cursor:pointer" v-on:click="updatePrecioGasolina()">Precio Gasolina: {{costoGasolina | currency}} <i class="fa fa-edit"></i></p>
                          <button class="btn btn-primary oculto-impresion" v-on:click="printDiv(contenedorGeneral2)"><i class="fa fa-print"></i> Imprimir</button>
                     </div>
@@ -190,8 +190,17 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-9">
-                        <input type="text" name="nombre" id="" class="form-control" placeholder="Nombre del Vehiculo" aria-describedby="helpId" v-model="nuevoNombre">
-                        <input type="text" name="rendimiento" id="" class="form-control" placeholder="Rendimiento" aria-describedby="helpId" v-model="nuevoRendimiento">
+                        <label>Selecciona lo que quieres registrar</label>
+                        <select v-model="tipoRegistro" class="form-control">
+                        <option value="Vehiculo"></option>
+                        <option value="Caseta"></option>
+                        </select>
+                        <label>Nombre</label>
+                        <input type="text" name="nombre" id="" class="form-control" aria-describedby="helpId" v-model="nuevoNombre">
+                        <label v-if="tipoRegistro=='Vehiculo'">Rendimiento</label>
+                        <label v-else>Costo</label>
+                        <input type="text" name="rendimiento" id="inputRendimiento" class="form-control" placeholder="" aria-describedby="helpId" v-model="nuevoRendimiento">
+                        
                     </div>
                     <div class="col-md-3 text-center">
                         <button class="btn btn-sm btn-info" @click="agregarVehiculo()">Agregar</button>
@@ -256,6 +265,7 @@ export default {
            gastoViaticos:0,
            gastoHorasViaje:0,
            gastoCasetas:0,
+           tipoRegistro:'',
            vehiculos:[],
            casetas:[],
            cantidadKmActualizada:0,
@@ -490,6 +500,7 @@ export default {
                 axios.post(URL, {
                     'nombre': this.nuevoNombre,
                     'rendimiento': this.nuevoRendimiento,
+                    'tipo': this.tipoRegistro,
                 }).then((response) => { 
                     Swal.fire({
                         title: 'Vehiculo registrado con exito',

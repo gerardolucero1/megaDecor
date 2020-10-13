@@ -401,7 +401,7 @@ public function archivarUsuario($id){
 
     //Funciones Calculadora Vehiculos
     public function obtenerVehiculos(){
-        return Vehicle::orderBy('id', 'DESC')->get();
+        return Vehicle::orderBy('id', 'DESC')->where('tipo', 'Vehiculo')->get();
     }
 
     public function agregarVehiculo(Request $request){
@@ -409,6 +409,7 @@ public function archivarUsuario($id){
         // Guardo un nueva categorÃ­a
         $tipo = new Vehicle(); 
         $tipo->nombre = $request->nombre;
+        $tipo->tipo = $request->tipo;
         $tipo->consumo = $request->rendimiento;
         $tipo->combustible = "gasolina";
         $tipo->save();
