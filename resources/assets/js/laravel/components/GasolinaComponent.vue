@@ -308,7 +308,7 @@ export default {
     created(){
         this.obtenerVehiculos();
         this.obtenerCasetas();
-        this.obtenerCasetas2();
+        this.obtenerCasetasBD();
       
     },
     computed: {
