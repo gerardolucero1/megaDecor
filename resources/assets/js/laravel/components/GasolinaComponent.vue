@@ -32,7 +32,7 @@
                     </tr>
                 </table>
                     </div>
-                    <div class="col-md-4" style="margin-top:-80px">
+                    <div class="col-md-4" style="margin-top:-50px">
                         <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right;" value="NM">
                         <input type="text" value="Cliente" style="border:none; font-weight:bold; font-size:18px; text-align:right"><br>
                         <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
@@ -182,7 +182,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border: solid; border-color: grey">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Nuevo Vehiculo</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Nuevo Vehicul o Caseta</h5>
                 <button type="button" class="close" onClick="$('#agregarVehiculo').modal('hide')" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
