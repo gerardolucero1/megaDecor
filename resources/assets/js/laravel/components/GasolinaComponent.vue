@@ -144,7 +144,7 @@
  <p style="background:orange; color:white; padding:4px; width:60%">Tomar en cuenta numero de ejes al consultar el costo de la caseta</p>
  <button v-on:click="obtenerCasetas()" class="btn btn-info oculto-impresion">Agregar Caseta</button>
  <div class="row">
- <div class="col-md-6">
+ <div class="col-md-7">
                <table style="width:100%">
                  <tr style="text-align:center; background:#252EEE; color:white">
                      <th style="padding:3px;">Caseta</th>
@@ -175,15 +175,15 @@
                 
              </table>
              </div>
-             <div class="col-md-6">
-             <table>
-             <tr>
+             <div class="col-md-5">
+             <table style="width:100%">
+             <tr style="text-align:center; background:#252EEE; color:white">
              <th>Nombre</th>
              <th>Costo</th>
              </tr>
              <tr v-for="(item, index) in casetas2" :key="index">
-             <td></td>
-             <td></td>
+             <td>{{item.nombre}}</td>
+             <td>${{item.consumo}}</td>
              </tr>
              </table>
              </div>
