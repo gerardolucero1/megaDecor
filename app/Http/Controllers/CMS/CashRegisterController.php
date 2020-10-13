@@ -152,7 +152,7 @@ class CashRegisterController extends Controller
     }
 
     public function obtenerPresupuestos(){
-        $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->get();
+        $presupuestos = Budget::with('payments')->with('client')->orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('archivado', false)->get();
         return $presupuestos;
     }
     public function obtenerUltimoPago(){
