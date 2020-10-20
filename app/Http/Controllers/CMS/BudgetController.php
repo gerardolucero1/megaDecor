@@ -36,7 +36,7 @@ class BudgetController extends Controller
     }
 
     public function inventario(){
-        return Inventory::orderBy('id', 'DESC')->where('archivar', '')->get();
+        return Inventory::orderBy('id', 'DESC')->where('archivar', null)->get();
     }
 
     public function inventarioPostres(){
