@@ -36,11 +36,11 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
-        $contratosHoy=App\Budget::where('created_at', $fechaApertura)->get();
+        $contratosHoy=App\Budget::whereDate('created_at', '>', $fechaApertura)->whereDate('created_at', '<', $fechaCierre)->get();
         $numContratosHoy=count($contratosHoy);
         $egresosDolaresExtraordinarios=0;
         
-        $numContratosHoy=count($contratosHoy);
+        
 
 
         $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', $registro->fechaApertura)->get();
@@ -440,7 +440,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @endif
     @endforeach
     </table>
-            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares: ${{number_format($ingresosContratosDolar,2)}}Dlls = {{number_format($ingresosContratosDolarMXN,2)}}</p>
+            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares: ${{number_format($ingresosContratosDolar,2)}}Dlls = {{number_format($ingresosContratosDolarMXN,2)}}MXN</p>
             @endif
     <!-- Termina pagos con dolares -->
    
