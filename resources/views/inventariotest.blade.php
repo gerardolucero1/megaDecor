@@ -136,6 +136,7 @@
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
+                                    <th>Ultima Modificación</th>
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -155,9 +156,10 @@
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 @endif
+                                <td class="d-none d-sm-table-cell">{{ $inventario->updated_at }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
-                                    @if (Auth::user()->id == 108 )
+                                    @if (Auth::user()->id == 17 )
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
