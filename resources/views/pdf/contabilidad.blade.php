@@ -398,9 +398,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <td style="text-align: center; padding: 4px;">Recibo No.</td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
-        <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
-        <td style="text-align: center; padding: 4px;">Monto</td>
+        <td style="text-align: center; padding: 4px;">Monto Dlls</td>
+        <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
+        <td style="text-align: center; padding: 4px;">Monto MXN</td>
     </tr>
     @foreach ($pagos as $pago)
     @if($pago->method=="DOLAR")
@@ -419,9 +420,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
-    <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}Dlls</td>
+    <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">$ {{$pago->amount*$pago->reference}}</td>
     @php
         if($pago->method=="EFECTIVO"){
         $ingresosContratos += $pago->amount;}
