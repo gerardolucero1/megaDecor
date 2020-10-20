@@ -197,7 +197,7 @@
 
 
 
-                                    <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
+                                    <form style="display:none" action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
@@ -285,7 +285,7 @@ function eliminar(id){
    document.getElementById('btn-delete-'+id).style.display="none";
    document.getElementById('txt-delete-'+id).style.display="block";
                   
-   /*let URL = '/photo/'+id;
+   let URL = '/budget-archivar/'+id;
 
            axios.delete(URL).then((response) => {
                response.data.forEach((doc) => {
@@ -293,7 +293,7 @@ function eliminar(id){
                })
            }).catch((error) => {
                console.log(error.data);
-           });*/
+           });
 
 }
     function updateStatus(id){
