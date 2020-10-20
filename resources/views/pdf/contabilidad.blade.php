@@ -600,6 +600,50 @@ $ingresosExtraordinarios += $pago->cantidad;}
         </div>
 
 
+        <div style="width: 100%; background: #FFFACC">
+            @if(count($contratosHoy)>0)
+        <p style="font-weight: bold">Contratos Nuevos:</p>
+        <table style="width: 100%; font-size:12px">
+        <tr>
+            <th>Folio</th>
+            <th>Cliente</th>
+            <th>Fecha Creación</th>
+            <th>motivo</th>
+        </tr>
+        
+        @foreach ($contratosHoy as $item)
+            <tr>
+            <td>{{$item->folio}}</td>
+            <td>
+                @php
+                                            $cliente = App\Client::where('id', $item->client_id)->first();
+
+                                            if($cliente->tipoPersona == "FISICA"){
+                                                $clienteFisico = App\PhysicalPerson::where('client_id', $item->client_id)->first();
+                                               echo $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                               // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                               
+                                            }else{
+                                                $clienteMoral = App\MoralPerson::where('client_id', $item->client_id)->first();
+                                                echo $clienteNombre = $clienteMoral->nombre;
+                                            }
+                                        @endphp
+            </td>
+            <td>
+                @php
+                     $vendedor = App\User::where('id', $item->vendedor_id)->first();
+                     echo $vendedor->name;
+                @endphp
+            </td>
+            <td>{{$item->created_at}}</td>
+            </tr>
+        @endforeach
+        
+        </table>
+        @endif
+    </div>
+
+
             @php
               $totalEfectivoEnCaja =  $registro->cantidadApertura+$ingresosContratos-$ingresosExtraordinarios-$egresosExtraordinarios 
             @endphp
