@@ -15,7 +15,6 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
-        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
@@ -36,7 +35,7 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
-        $contratosHoy=App\Budget::whereDate('created_at', '>', $fechaApertura)->whereDate('created_at', '<', $fechaCierre)->get();
+        $contratosHoy=App\Budget::where('tipo', 'CONTRATO')->where('archivado', false)->whereDate('created_at', '>', $fechaApertura)->whereDate('created_at', '<', $fechaCierre)->get();
         $numContratosHoy=count($contratosHoy);
         $egresosDolaresExtraordinarios=0;
         
