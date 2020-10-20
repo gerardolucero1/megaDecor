@@ -288,9 +288,7 @@ function eliminar(id){
    let URL = '/budget-archivar/'+id;
 
            axios.get(URL).then((response) => {
-               response.data.forEach((doc) => {
-                  
-               })
+              
            }).catch((error) => {
                console.log(error.data);
            });
