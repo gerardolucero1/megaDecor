@@ -423,7 +423,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}Dlls</td>
     <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
-    <td style="text-align: center; padding: 3px;">$ {{$pago->amount*$pago->reference}}</td>
+    <td style="text-align: center; padding: 3px;">$ {{number_format($pago->amount*$pago->reference, 2)}}</td>
     @php
         if($pago->method=="EFECTIVO"){
         $ingresosContratos += $pago->amount;}
@@ -432,13 +432,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
         if($pago->method=="CHEQUE"){
         $ingresosContratosCheque += $pago->amount;}
         if($pago->method=="DOLAR"){
-        $ingresosContratosDolar += $pago->amount;}
+        $ingresosContratosDolar += $pago->amount;
+        $ingresosContratosDolarMXN += $pago->amount*$pago->reference;}
     @endphp
     </tr>
     @endif
     @endforeach
     </table>
-            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}Dlls</p>
+            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares: ${{number_format($ingresosContratosDolar,2)}}Dlls = {{number_format($ingresosContratosDolarMXN,2)}}</p>
             @endif
     <!-- Termina pagos con dolares -->
    
