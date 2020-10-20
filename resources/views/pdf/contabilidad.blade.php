@@ -608,13 +608,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
             <th>Folio</th>
             <th>Cliente</th>
             <th>Vendedor</th>
+            <th>Fecha del Evento</th>
             <th>Fecha Creación</th>
         </tr>
         
         @foreach ($contratosHoy as $item)
             <tr>
             <td>{{$item->folio}}</td>
-            <td>
+            <td style="text-align:center">
                 @php
                                             $cliente = App\Client::where('id', $item->client_id)->first();
 
@@ -635,6 +636,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                      echo $vendedor->name;
                 @endphp
             </td>
+            <td>{{$item->fechaEvento}}</td>
             <td>{{$item->created_at}}</td>
             </tr>
         @endforeach
