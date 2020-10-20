@@ -161,6 +161,42 @@
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
+
+
+
+                                    <button style="display:none" onclick="event.preventDefault();
+                                                        Swal.fire({
+                                                            title: '¿Estas seguro?',
+                                                            text: '¡No podras revertir esto!',
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Eliminar'
+                                                            }).then((result) => {
+                                                            if (result.value) {
+                                                                document.getElementById('delete-photo-{{ $inventario->id }}').submit();
+                                                                Swal.fire(
+                                                                '¡Eliminado!',
+                                                                'Elemento Eliminado',
+                                                                'success'
+                                                                )
+                                                            }
+                                                        });
+                                                    "
+                                                    type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar elemento" data-original-title="Eliminar elemento">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                    <form id="delete-photo-{{ $inventario->id }}" action="{{ route('inventory.archivar', $inventario->id) }}" method="POST" class="d-inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button class="btn btn-info" id="btn-delete-{{$inventario->id}}" onclick="eliminar({{$inventario->id}})">Eliminar</button>
+                            <p id="txt-delete-{{$inventario->id}}" style="display:none; color:red">Eliminado!</p>
+
+
+
+
                                     <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
@@ -242,6 +278,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
 <script>
+
+function eliminar(id){
+   
+
+   document.getElementById('btn-delete-'+id).style.display="none";
+   document.getElementById('txt-delete-'+id).style.display="block";
+                  
+   /*let URL = '/photo/'+id;
+
+           axios.delete(URL).then((response) => {
+               response.data.forEach((doc) => {
+                  
+               })
+           }).catch((error) => {
+               console.log(error.data);
+           });*/
+
+}
     function updateStatus(id){
         let valor = null
 

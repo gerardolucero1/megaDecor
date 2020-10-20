@@ -53,7 +53,7 @@
                                                                 document.getElementById('delete-photo-{{ $imagen->id }}').submit();
                                                                 Swal.fire(
                                                                 '¡Eliminada!',
-                                                                'La Imagen ha sido eliminado',
+                                                                'Elemento Eliminado',
                                                                 'success'
                                                                 )
                                                             }
