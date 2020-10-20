@@ -607,8 +607,8 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <tr>
             <th>Folio</th>
             <th>Cliente</th>
+            <th>Vendedor</th>
             <th>Fecha Creación</th>
-            <th>motivo</th>
         </tr>
         
         @foreach ($contratosHoy as $item)
