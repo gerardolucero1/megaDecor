@@ -391,6 +391,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @if($ingresosContratosDolar>0)
     @php
        $ingresosContratosDolar=0; 
+       $ingresosContratosDolarMXN=0;
     @endphp
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
