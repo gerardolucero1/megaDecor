@@ -15,7 +15,6 @@
         use App\MoralPerson;
         use App\PhysicalPerson;
         $date = Carbon::now();
-        $contratosHoy = Budget::where('tipo', 'CONTRATO')->where('created_at', 'like', $registro->fechaApertura)->get();
         $fechaHoy = Carbon::parse($date->toDateString())->locale('es');  
         $fechaApertura = Carbon::parse($registro->fechaApertura)->locale('es');
         $fechaCierre = Carbon::parse($registro->updated_at)->locale('es');
@@ -36,11 +35,11 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
-        $contratosHoy=App\Budget::where('created_at', $fechaApertura)->get();
+        $contratosHoy=App\Budget::where('tipo', 'CONTRATO')->where('archivado', false)->whereDate('created_at', '>', $fechaApertura)->whereDate('created_at', '<', $fechaCierre)->get();
         $numContratosHoy=count($contratosHoy);
         $egresosDolaresExtraordinarios=0;
         
-        $numContratosHoy=count($contratosHoy);
+        
 
 
         $contratosCancelados = Budget::where('tipo', 'CONTRATO')->where('archivado', true)->whereDate('updated_at', $registro->fechaApertura)->get();
@@ -100,6 +99,12 @@ $ingresosExtraordinarios += $pago->cantidad;}
         @php
             if($pago->method=="TARJETA"){
             $ingresosContratosTarjeta += $pago->amount;}
+        @endphp
+    @endforeach
+    @foreach ($pagos as $pago)
+        @php
+            if($pago->method=="DOLAR"){
+            $ingresosContratosDolar += $pago->amount;}
         @endphp
     @endforeach
     <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
@@ -385,6 +390,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     @if($ingresosContratosDolar>0)
     @php
        $ingresosContratosDolar=0; 
+       $ingresosContratosDolarMXN=0;
     @endphp
     <label for="" style="font-style:italic">Dolares</label>
     <table style="width: 100%; font-size: 13px;">
@@ -392,9 +398,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
         <td style="text-align: center; padding: 4px;">Recibo No.</td>
         <td style="text-align: center; padding: 4px;">Folio de contrato</td>
         <td style="text-align: center; padding: 4px;">Cliente</td>
-        <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
         <td style="text-align: center; padding: 4px;">Hora de transacción</td>
-        <td style="text-align: center; padding: 4px;">Monto</td>
+        <td style="text-align: center; padding: 4px;">Monto Dlls</td>
+        <td style="text-align: center; padding: 4px;">Tipo de cambio</td>
+        <td style="text-align: center; padding: 4px;">Monto MXN</td>
     </tr>
     @foreach ($pagos as $pago)
     @if($pago->method=="DOLAR")
@@ -413,9 +420,10 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <td style="text-align: center; padding: 3px;">{{$pago->id}}</td>
 <td style="text-align: center; padding: 3px;">{{$contrato->folio}}</td>
 <td style="text-align: center; padding: 3px;">{{$nombreCliente}}</td>
-    <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
     <td style="text-align: center; padding: 3px;">{{$pago->created_at->translatedFormat(' h:m a')}}</td>
     <td style="text-align: center; padding: 3px;">${{$pago->amount}}Dlls</td>
+    <td style="text-align: center; padding: 3px;">$ @if($pago->reference!=''){{$pago->reference}}@else--@endif</td>
+    <td style="text-align: center; padding: 3px;">$ {{number_format($pago->amount*$pago->reference, 2)}}</td>
     @php
         if($pago->method=="EFECTIVO"){
         $ingresosContratos += $pago->amount;}
@@ -424,13 +432,14 @@ $ingresosExtraordinarios += $pago->cantidad;}
         if($pago->method=="CHEQUE"){
         $ingresosContratosCheque += $pago->amount;}
         if($pago->method=="DOLAR"){
-        $ingresosContratosDolar += $pago->amount;}
+        $ingresosContratosDolar += $pago->amount;
+        $ingresosContratosDolarMXN += $pago->amount*$pago->reference;}
     @endphp
     </tr>
     @endif
     @endforeach
     </table>
-            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares (cantidad en dolares): ${{number_format($ingresosContratosDolar,2)}}Dlls</p>
+            <p style="text-align: right; font-weight: bold; font-size:13px">Total pagos contrato en Dolares: ${{number_format($ingresosContratosDolar,2)}}Dlls = {{number_format($ingresosContratosDolarMXN,2)}}MXN</p>
             @endif
     <!-- Termina pagos con dolares -->
    
@@ -589,6 +598,52 @@ $ingresosExtraordinarios += $pago->cantidad;}
             </table>
             @endif
         </div>
+
+
+        <div style="width: 100%; background: #FFFACC">
+            @if(count($contratosHoy)>0)
+        <p style="font-weight: bold">Contratos Nuevos:</p>
+        <table style="width: 100%; font-size:12px">
+        <tr>
+            <th>Folio</th>
+            <th>Cliente</th>
+            <th>Vendedor</th>
+            <th>Fecha del Evento</th>
+            <th>Fecha Creación</th>
+        </tr>
+        
+        @foreach ($contratosHoy as $item)
+            <tr>
+            <td>{{$item->folio}}</td>
+            <td style="text-align:center">
+                @php
+                                            $cliente = App\Client::where('id', $item->client_id)->first();
+
+                                            if($cliente->tipoPersona == "FISICA"){
+                                                $clienteFisico = App\PhysicalPerson::where('client_id', $item->client_id)->first();
+                                               echo $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+                                               // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
+                                               
+                                            }else{
+                                                $clienteMoral = App\MoralPerson::where('client_id', $item->client_id)->first();
+                                                echo $clienteNombre = $clienteMoral->nombre;
+                                            }
+                                        @endphp
+            </td>
+            <td>
+                @php
+                     $vendedor = App\User::where('id', $item->vendedor_id)->first();
+                     echo $vendedor->name;
+                @endphp
+            </td>
+            <td>{{$item->fechaEvento}}</td>
+            <td>{{$item->created_at}}</td>
+            </tr>
+        @endforeach
+        
+        </table>
+        @endif
+    </div>
 
 
             @php

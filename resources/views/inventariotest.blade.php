@@ -136,6 +136,7 @@
                                     <th>Total exhibición</th>
                                     <th>Precio Unitario</th>
                                     <th>Proveedor</th>
+                                    <th>Ultima Modificación</th>
                                     <th>Familia</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -155,13 +156,50 @@
                                 <td style="background:#FFF9D3" class="d-none d-sm-table-cell">${{ $precioUnitario }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->proveedor1 }}</td>
                                 @endif
+                                <td class="d-none d-sm-table-cell">{{ $inventario->updated_at }}</td>
                                 <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                     @if (Auth::user()->id == 17 )
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('inventory.edit', $inventario->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" data-original-title="Editar Presupuesto">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    <form action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
+
+
+
+                                    <button style="display:none" onclick="event.preventDefault();
+                                                        Swal.fire({
+                                                            title: '¿Estas seguro?',
+                                                            text: '¡No podras revertir esto!',
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Eliminar'
+                                                            }).then((result) => {
+                                                            if (result.value) {
+                                                                document.getElementById('delete-photo-{{ $inventario->id }}').submit();
+                                                                Swal.fire(
+                                                                '¡Eliminado!',
+                                                                'Elemento Eliminado',
+                                                                'success'
+                                                                )
+                                                            }
+                                                        });
+                                                    "
+                                                    type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar elemento" data-original-title="Eliminar elemento">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                    <form id="delete-photo-{{ $inventario->id }}" action="{{ route('inventory.archivar', $inventario->id) }}" method="POST" class="d-inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button class="btn btn-info" id="btn-delete-{{$inventario->id}}" onclick="eliminar({{$inventario->id}})">Eliminar</button>
+                            <p id="txt-delete-{{$inventario->id}}" style="display:none; color:red">Eliminado!</p>
+
+
+
+
+                                    <form style="display:none" action="{{ route('inventory.archivar', $inventario->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" style="margin-right:4px;" onclick="return confirm('¿Deseas archivar este producto?')" class="btn btn-sm btn-danger archivar" data-toggle="tooltip" title="Archivar Elemento" data-original-title="View Customer">
@@ -242,6 +280,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
 <script>
+
+function eliminar(id){
+   
+
+   document.getElementById('btn-delete-'+id).style.display="none";
+   document.getElementById('txt-delete-'+id).style.display="block";
+                  
+   let URL = '/budget-archivar/'+id;
+
+           axios.get(URL).then((response) => {
+              
+           }).catch((error) => {
+               console.log(error.data);
+           });
+
+}
     function updateStatus(id){
         let valor = null
 

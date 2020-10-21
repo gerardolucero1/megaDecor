@@ -305,7 +305,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
          }
     
-        Mail::to('asamii149@gmail.com', 'Administrador')
+        Mail::to('ivonnearroyosdecor@hotmail.com', 'Administrador')
             ->send(new NuevoPresupuesto($presupuesto, $Telefonos, $Elementos));
     });
 
@@ -569,7 +569,7 @@ Route::group(['middleware' => ['auth']], function () {
         $otrosPagos = OtherPayments::orderBy('id', 'DESC')->whereDate('created_at', $fechaCorte)->whereTime('created_at', '>=', $registro->horaApertura)->whereTime('created_at', '<=', $registro->horaCierre)->get();
         
 
-        Mail::to('ivonnearroyosdecor@msn.com', 'Corte de caja')
+        Mail::to('ivonnearroyosdecor@hotmail.com', 'Corte de caja')
             ->send(new CorteCaja($registro, $pagos, $otrosPagos));
     });
 
