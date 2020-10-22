@@ -50,7 +50,7 @@
                                 }
                                 @endphp
                                 
-                       @if((($budgetArchivados->total*$banIva) - $adeudoTotal) > 0 )
+                       @if((($budgetArchivados->total*$banIva) - $budgetArchivados->saldoPendiente) > 0 )
                                     <tr role="row" class="odd">
                                         <td class="text-center sorting_1">{{$budgetArchivados->folio}}
                                                 <span>
