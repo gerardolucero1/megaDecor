@@ -29,8 +29,15 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                        
                         </table>
                     <p style="text-align: center; margin-top: 0px; font-size:12px"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
-                        <span style="text-align: center; line-height: 16px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( @php
+                        <span style="text-align: center; line-height: 16px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( 
+                            @php
+                            $moneda = 'PESOS';
                             $numero=$Pago->amount;
+                            if($Pago->method=='DOLAR'){
+                                $moneda = 'DOLARES';
+                            }else{
+                                $moneda = 'PESOS'; 
+                            }
                                 function unidad($numuero){
     switch ($numuero)
     {
@@ -364,7 +371,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
     
     $numf = milmillon($num);
     
-    return $numf." PESOS CON ".$cents."/100";
+    return $numf.' '.$moneda." CON ".$cents."/100";
     }
     
     echo convertir($numero);
