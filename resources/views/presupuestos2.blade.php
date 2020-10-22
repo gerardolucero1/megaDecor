@@ -161,7 +161,10 @@
                                     
                                         if(count($pagos)>0){
                                         foreach ($pagos as $pago) {
-                                            $abono = $abono + $pago->amount;
+                                            if($pago->method=='DOLAR'){
+                                                $abono = $abono + ($pago->amount*$pago->reference);
+                                            }else{
+                                                $abono = $abono + $pago->amount;}
                                         }
                                         $saldoPendiente = $budget->total-$abono;
                                     }
