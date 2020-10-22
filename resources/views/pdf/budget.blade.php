@@ -234,7 +234,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <td>{{$pago->reference}}</td>
   </tr>
   @php
-      $saldoPagado +=$pago->amoun;
+      $saldoPagado +=$pago->amount;
   @endphp
   @endforeach
   
