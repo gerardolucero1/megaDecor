@@ -165,8 +165,8 @@ padding: 0;
                                     </div>
                                     
                                 </div>
-                                <input   type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
-                                <label for="pendienteFecha">Pendiende</label><br>
+                                <input  v-if="presupuesto.tipo=='PRESUPUESTO'"  type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
+                                <label v-if="presupuesto.tipo=='PRESUPUESTO'" for="pendienteFecha">Pendiende</label><br>
                                 
                                 
                                 <button class="btn btn-info" data-toggle="modal" data-target="#subirNube"><i class="fa fa-cloud"></i> Cambio Fecha</button>
