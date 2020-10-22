@@ -9,6 +9,7 @@
 @php
 $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
 $cajero = Illuminate\Support\Facades\Auth::user()->name;
+$moneda = 'PESOS';
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%; margin-top;-20px">
