@@ -216,7 +216,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   $saldoPagado=0;
   @endphp
 
-<table style="width: 80%; text-align:center">
+<table style="width: 80%; text-align:center; margin-top:30px">
   <tr style="background: #cecece">
     <th colspan="4">Pagos Realizados</th>
   </tr>
