@@ -9,7 +9,6 @@
 @php
 $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
 $cajero = Illuminate\Support\Facades\Auth::user()->name;
-$moneda = 'PESOS';
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
         <div style="width: 100%; margin-top;-20px">
@@ -32,13 +31,13 @@ $moneda = 'PESOS';
                     <p style="text-align: center; margin-top: 0px; font-size:12px"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
                         <span style="text-align: center; line-height: 16px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( 
                             @php
-                            $moneda = 'PESOS';
-                            $numero=$Pago->amount;
-                            if($Pago->method=='DOLAR'){
-                                $moneda = 'DOLARES';
+                            if($Pago->method=="DOLAR"){
+                                $numero=$Pago->amount*$Pago->reference;
                             }else{
-                                $moneda = 'PESOS'; 
-                            }
+                                $numero=$Pago->amount;
+                            } 
+                            
+                            
                                 function unidad($numuero){
     switch ($numuero)
     {
@@ -372,7 +371,7 @@ $moneda = 'PESOS';
     
     $numf = milmillon($num);
     
-    return $numf.' '.$moneda." CON ".$cents."/100";
+    return $numf."PESOS CON ".$cents."/100";
     }
     
     echo convertir($numero);
