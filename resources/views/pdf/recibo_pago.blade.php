@@ -371,7 +371,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
     
     $numf = milmillon($num);
     
-    return $numf."PESOS CON ".$cents."/100";
+    return $numf." PESOS CON ".$cents."/100";
     }
     
     echo convertir($numero);

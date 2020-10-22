@@ -31,7 +31,11 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                         </table>
                     <p style="text-align: center; margin-top: 0px; font-size:12px"><span style="font-weight: bold;"> Recibimos de: {{$cliente->nombre}} {{$cliente->apellidoPaterno}} {{$cliente->apellidoMaterno}}</span> La cantidad de: 
                         <span style="text-align: center; line-height: 16px; margin: 0; margin-top: -10px; padding: 0; font-style: italic; font-size: 13px;padding-right:20px">( @php
-                            $numero=$Pago->amount;
+                            if($Pago->method=="DOLAR"){
+                                $numero=$Pago->amount*$Pago->reference;
+                            }else{
+                                $numero=$Pago->amount;
+                            } 
                                 function unidad($numuero){
     switch ($numuero)
     {
