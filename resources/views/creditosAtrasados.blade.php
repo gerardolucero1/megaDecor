@@ -42,7 +42,7 @@
                             <tbody>
                                 @foreach ($contratos as $budgetArchivados) 
                                 
-                                @if(($budgetArchivados->total-$budgetArchivados->saldoPendiente)>0)
+                       
                                     <tr role="row" class="odd">
                                         <td class="text-center sorting_1">{{$budgetArchivados->folio}}
                                                 <span>
@@ -126,7 +126,7 @@
                                                 
                                             </td>
                                         </tr>
-                                        @endif
+                                     
                                     @endforeach
                             </tbody>
                         </table>
