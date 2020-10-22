@@ -213,6 +213,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 
   //Obtenemos los pagos realizados al contrato
   $Pagos = App\Payment::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->get();
+  $saldoPagado=0;
   @endphp
 
 <table style="width: 80%; text-align:center">
@@ -228,10 +229,13 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @foreach ($Pagos as $pago)
   <tr>
   <td>{{$pago->created_at}}</td>
-    <td>{{number_format($pago->amount,2)}}</td>
+    <td>${{number_format($pago->amount,2)}}</td>
     <td>{{$pago->method}}</td>
     <td>{{$pago->reference}}</td>
   </tr>
+  @php
+      $saldoPagado +=$pago->amoun;
+  @endphp
   @endforeach
   
 </table>
@@ -240,21 +244,23 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <tr>
   <td><p>
     @php
-        $descuentoGeneral = number_format($descuento,00);
+        $descuentoGeneral = number_format($descuento,2);
         $subtotal=$presupuesto->total;
         $total=$subtotal + $iva;
         $total=number_format($total,2);
     @endphp
       @if($presupuesto->opcionDescuento==1)
-      Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
-    Subtotal: ${{$subtotal}}.00<br>
+      Ahorro total: ${{number_format($descuentoGeneral,2)}} @endif<br>
+    Subtotal: ${{number_format($subtotal,2)}}<br>
+    
   
     IVA: ${{$iva}}<br>
     @php
         
     @endphp
    
-     <span style="font-weight: bold">TOTAL:$ {{$total}}<span></p></td>
+     <span style="font-weight: bold">TOTAL:$ {{$total}}<span><br>
+      Saldo Pendiente: ${{number_format(($total-$saldoPagado),2)}}</p></td>
       </tr>
       <tr style="font-style: italic; text-align: left; font-size: 12px;">
           @if($presupuesto->tipo=='PRESUPUESTO')
