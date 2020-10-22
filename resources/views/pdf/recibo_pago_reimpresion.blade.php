@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Reimpresión Recibo De Pago</title>
 </head>
 @php
 $fechaEvento = Carbon\Carbon::parse($Budget->fechaEvento)->locale('es');
@@ -391,7 +391,12 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td>{{$pago->method}}</td>
                                 <td>{{$pago->bank}}</td>
                                 <td>{{$pago->reference}}</td>
+                                @if($pago->method=='DOLAR')
+                            <td>${{number_format($pago->amount,2)}}Dlls<br>
+                                ${{number_format($pago->amount*$pago->reference,2)}}</td>
+                            @else
                             <td>${{number_format($pago->amount,2)}}</td>
+                            @endif
                             <td>{{$pago->comentarios}}</td>
                             </tr>
                             @endforeach
@@ -415,7 +420,12 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                                 <td>{{$Pago->method}}</td>
                                 <td>{{$Pago->bank}}</td>
                                 <td>{{$Pago->reference}}</td>
-                            <td>${{number_format($Pago->amount,2)}}</td>
+                                @if($Pago->method=='DOLAR')
+                                <td>${{number_format($Pago->amount,2)}}Dlls<br>
+                                    ${{number_format($Pago->amount*$Pago->reference,2)}}MXN</td>
+                                @else
+                                <td>${{number_format($Pago->amount,2)}}</td>
+                                @endif
                             <td>{{$Pago->comentarios}}</td>
                             </tr>
                         </table>
