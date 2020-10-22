@@ -429,18 +429,27 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                         @endphp
                         @foreach ($Pagos as $pago)
                             @php
+                            if($pago->method=='DOLAR'){
+                                $totalPagosAnteriores=$totalPagosAnteriores+($pago->amount*$pago->reference);
+                            }else{
                                 $totalPagosAnteriores=$totalPagosAnteriores+$pago->amount;
+                            }
+                               
                                 
                             @endphp
                         @endforeach
                         @php
+                        if($Pago->method=='DOLAR'){
+                            $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-($Pago->amount*$Pago->reference);
+                        }else{
                             $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
+                        }
                         @endphp
                         <p style="text-align: right; font-weight: bold; padding-right:20px">
                         <span>Total del evento: @if($Budget->opcionIVA){{number_format($Budget->total*1.16,2)}}@else {{number_format($Budget->total,2)}}@endif</span>
                             <br><span style="font-weight: normal"> Saldo Anterior: ${{number_format($BudgetTotal-$totalPagosAnteriores,2)}}</span>
                             <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
-                            <br>Su abono: ${{number_format($Pago->amount,2)}}
+                            <br>Su abono: $ @if($Pago->method=='DOLAR'){{number_format($Pago->amount*$Pago->reference,2)}} @else {{number_format($Pago->amount,2)}} @endif
                             <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
 
                             <p style="text-align: center; width: 50%; margin-top:-100px"><span style="font-size:11px;">El Monto final del evento puede variar por modificaciones en aumento de servicios solicitados por parte del cliente despues de este recibo</span>
