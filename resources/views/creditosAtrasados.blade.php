@@ -41,8 +41,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($contratos as $budgetArchivados) 
+                                @php
+                                $banIva =1;
+                                if($budgetArchivados->opcionIVA){
+                                    $banIva =1.16;
+                                }else{
+                                    $banIva =1;
+                                }
+                                @endphp
                                 
-                       
+                       @if((($budgetArchivados->total*$banIva) - $adeudoTotal) > 0 )
                                     <tr role="row" class="odd">
                                         <td class="text-center sorting_1">{{$budgetArchivados->folio}}
                                                 <span>
@@ -126,7 +134,7 @@
                                                 
                                             </td>
                                         </tr>
-                                     
+                                     @endif
                                     @endforeach
                             </tbody>
                         </table>
