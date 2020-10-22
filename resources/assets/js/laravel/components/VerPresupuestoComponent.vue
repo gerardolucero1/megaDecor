@@ -880,7 +880,11 @@
                 var suma= 0;
                 //Recorriendo el objeto
                 for(let x in data){
+                    if(data[x].method=='DOLAR'){
+                        suma += parseFloat(data[x].amount)*parseFloat(data[x].reference)
+                    }else{
                     suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+                    }
                 }
                 let saldo=0;
                 if(this.presupuesto.opcionIVA){
