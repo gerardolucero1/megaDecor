@@ -1360,7 +1360,11 @@ public function archivarUsuario($id){
              if(count($PagosContratoAdeudo)>0){
                  $sumaPagos = 0;
                  foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
-                     $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+                     if($PagoContratoAdeudo->method=='DOLAR'){
+                     $sumaPagos=$sumaPagos+($PagoContratoAdeudo->amount*$PagoContratoAdeudo->reference);}
+                     else{
+                        $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+                     }
                  }
                  if($contratoAdeudo->opcionIVA){
                  $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
