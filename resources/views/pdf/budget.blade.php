@@ -229,12 +229,20 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @foreach ($Pagos as $pago)
   <tr>
   <td>{{$pago->created_at}}</td>
+  @if($pago->method=='DOLAR')
+    <td>${{number_format($pago->amount*$pago->reference,2)}}</td>
+    @else
     <td>${{number_format($pago->amount,2)}}</td>
+    @endif
     <td>{{$pago->method}}</td>
     <td>{{$pago->reference}}</td>
   </tr>
   @php
-      $saldoPagado +=$pago->amount;
+       if($pago->method=='DOLAR'){
+        $saldoPagado += ($pago->amount*$pago->reference);
+        }else{
+          $saldoPagado +=$pago->amount;}
+      
   @endphp
   @endforeach
   
