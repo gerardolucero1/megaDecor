@@ -155,7 +155,7 @@ padding: 0;
                                 <p v-text="presupuesto.categoriaEvento"></p>
                                  <p style="display: none;" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
-                                <div class="row mt-4">
+                                <div v-if="presupuesto.tipo=='PRESUPUESTO'" class="row mt-4">
                                     <div class="col-md-10">
                                         <label v-if="presupuesto.pendienteFecha" for="">Fecha Pendiente</label>
                                         <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" v-model="presupuesto.fechaEvento">
@@ -165,7 +165,7 @@ padding: 0;
                                     </div>
                                     
                                 </div>
-                                <input  type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
+                                <input   type="checkbox" name="" value="1" id="pendienteFecha" v-model="presupuesto.pendienteFecha">
                                 <label for="pendienteFecha">Pendiende</label><br>
                                 
                                 
