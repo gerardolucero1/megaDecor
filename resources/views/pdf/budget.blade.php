@@ -215,8 +215,8 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   $Pagos = App\Payment::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->get();
   @endphp
 
-<table>
-  <tr>
+<table style="width: 80%; text-align:center">
+  <tr style="background: #cecece">
     <th colspan="4">Pagos Realizados</th>
   </tr>
   <tr>
@@ -228,7 +228,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @foreach ($Pagos as $pago)
   <tr>
   <td>{{$pago->created_at}}</td>
-    <td>{{$pago->amount}}</td>
+    <td>{{number_format($pago->amount,2)}}</td>
     <td>{{$pago->method}}</td>
     <td>{{$pago->reference}}</td>
   </tr>
