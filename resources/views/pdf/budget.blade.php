@@ -230,12 +230,16 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   <tr>
   <td>{{$pago->created_at}}</td>
   @if($pago->method=='DOLAR')
-    <td>${{number_format($pago->amount*$pago->reference,2)}}</td>
+    <td>${{number_format($pago->amount,2)}}Dlls=${{number_format($pago->amount*$pago->reference,2)}}MXN</td>
     @else
     <td>${{number_format($pago->amount,2)}}</td>
     @endif
     <td>{{$pago->method}}</td>
+    @if($pago->method=='DOLAR')
+    <td><span style="font-size:10px; font-style: italic">Tipo de cambio:</span><br>${{$pago->reference}}</td>
+    @else
     <td>{{$pago->reference}}</td>
+    @endif
   </tr>
   @php
        if($pago->method=='DOLAR'){
