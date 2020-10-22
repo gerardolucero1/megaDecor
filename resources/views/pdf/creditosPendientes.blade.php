@@ -29,8 +29,15 @@
             $testdate = $datework->diffInDays($now);
                                              
                                             @endphp
-
-@if(($budgetArchivados->total-$budgetArchivados->saldoPendiente)>0)
+@php
+$banIva =1;
+if($budgetArchivados->opcionIVA){
+    $banIva =1.16;
+}else{
+    $banIva =1;
+}
+@endphp
+@if((($budgetArchivados->total*$banIva)-$budgetArchivados->saldoPendiente)>0)
     <table style="border-bottom: solid; font-size: 12px; width: 100%; border-width: 1px; text-align: center">
         
 <tr >
