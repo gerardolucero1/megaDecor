@@ -487,7 +487,8 @@
                                     </tr>
                                     <tr v-for="(pago, index) in pagos" :key="index">
                                         <td style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</td>
-                                        <td>{{ pago.amount | currency}}</td>
+                                        <td v-if="pago.method=='DOLAR'">{{ pago.amount | currency}}Dlls x ${{ pago.reference | currency}}MXN = {{ pago.reference * pago.amount | currency}}</td>
+                                        <td v-else>{{ pago.amount | currency}}</td>
                                         <td  style="font-size:10px; color:green">{{ pago.method }}</td>
                                         <td>{{ pago.bank }}</td>
                                     </tr>
