@@ -471,6 +471,8 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
 
 <p style="font-size: 100px; position:absolute; font-weight:bold; color:rgba(238,37,37,.2); text-align:center; transform: rotate(-45deg); margin-left:300px; margin-top:100px;">Reimpresión</p>
                 <div style="width: 100%; border-top: solid; border-top-style: dotted; border-top-width: 1px;">
+                    
+                    
                     <p style="text-align:center; font-weight:bold"><span style="font-style: italic; font-size:16px">Recibo de dinero</span></p>
                     <table style="width: 100%; font-family: Helvetica;">
                             <tr>
@@ -498,77 +500,91 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                             <div style="width: 100%; height: 0px"></div>
                             @if(intval(count($Pagos))>0)
                             <label for="" style="font-size: 10px; font-style: italic">Abonos Anteriores</label>
-                            <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
-                                <tr>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Ingreso a</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Comentarios</td>
-                                </tr>
-                                @foreach ($Pagos as $pago)
-                                <tr style="text-align: center">
-                                    <td>Abono a contrato</td>
-                                    <td>{{$pago->created_at}}</td>
-                                    <td>{{$pago->method}}</td>
-                                    <td>{{$pago->bank}}</td>
-                                    <td>{{$pago->reference}}</td>
-                                <td>${{number_format($pago->amount,2)}}</td>
-                                <td>{{$pago->comentarios}}</td>
-                                </tr>
-                                @php
-                                    $abonosAnteriores=$abonosAnteriores+$pago->amount;
-                                @endphp
-                                @endforeach
-                            </table>
-                            
-                            @endif
-    
-                            <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
-                            <table style="width: 100%; font-size: 13px"> 
-                                <tr>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Concepto</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Ingreso a</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
-                                    <td style="padding:4px; background:#E8E8E8; text-align: center">Comentarios</td>
-                                </tr>
-                                <tr style="text-align: center">
-                                    <td>Abono a contrato</td>
-                                    <td>{{$Pago->created_at}}</td>
-                                    <td>{{$Pago->method}}</td>
-                                    <td>{{$Pago->bank}}</td>
-                                    <td>{{$Pago->reference}}</td>
-                                <td>${{number_format($Pago->amount,2)}}</td>
-                                <td>{{$Pago->comentarios}}</td>
-                                </tr>
-                            </table>
-                            
-                            <div style="width: 100%; height: 0px; border-bottom:solid"></div>
-                            @php
-                                $totalPagosAnteriores=0;
-                                if($Budget->opcionIVA){
-                                $BudgetTotal=$Budget->total*1.16;}else{
-                                    $BudgetTotal=$Budget->total;
-                                }
-                            @endphp
+                        <table style="width: 100%; font-size: 11px; margin-bottom: 10px;"> 
+                            <tr>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Ingresa a</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Comentarios</td>
+                            </tr>
                             @foreach ($Pagos as $pago)
-                                @php
-                                    $totalPagosAnteriores=$totalPagosAnteriores+$pago->amount;
-                                    
-                                @endphp
+                            <tr style="text-align: center">
+                                <td>{{$pago->created_at}}</td>
+                                <td>{{$pago->method}}</td>
+                                <td>{{$pago->bank}}</td>
+                                <td>{{$pago->reference}}</td>
+                                @if($pago->method=='DOLAR')
+                            <td>${{number_format($pago->amount,2)}}Dlls<br>
+                                ${{number_format($pago->amount*$pago->reference,2)}}</td>
+                            @else
+                            <td>${{number_format($pago->amount,2)}}</td>
+                            @endif
+                            <td>{{$pago->comentarios}}</td>
+                            </tr>
                             @endforeach
+                        </table>
+                        
+                        @endif
+
+                        <label for="" style="font-size: 10px; font-style: italic">Abono actual</label>
+                        <table style="width: 100%; font-size: 13px"> 
+                            <tr>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Fecha y hora de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Metodo de pago</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Ingreso a</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Referencia</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Monto</td>
+                                <td style="padding:4px; background:#E8E8E8; text-align: center">Comentarios</td>
+
+                            </tr>
+                            <tr style="text-align: center">
+                                <td>{{$Pago->created_at}}</td>
+                                <td>{{$Pago->method}}</td>
+                                <td>{{$Pago->bank}}</td>
+                                <td>{{$Pago->reference}}</td>
+                                @if($Pago->method=='DOLAR')
+                                <td>${{number_format($Pago->amount,2)}}Dlls<br>
+                                    ${{number_format($Pago->amount*$Pago->reference,2)}}MXN</td>
+                                @else
+                                <td>${{number_format($Pago->amount,2)}}</td>
+                                @endif
+                            <td>{{$Pago->comentarios}}</td>
+                            </tr>
+                        </table>
+                        <div style="width: 100%; height: 0px; border-bottom:solid"></div>
+                        @php
+                            $totalPagosAnteriores=0;
+                            if($Budget->opcionIVA==true){
+                            $BudgetTotal=$Budget->total*1.16;}else{
+                                $BudgetTotal=$Budget->total;
+                            }
+                        @endphp
+                        @foreach ($Pagos as $pago)
                             @php
-                                $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
+                            if($pago->method=='DOLAR'){
+                                $totalPagosAnteriores=$totalPagosAnteriores+($pago->amount*$pago->reference);
+                            }else{
+                                $totalPagosAnteriores=$totalPagosAnteriores+$pago->amount;
+                            }
+                               
+                                
                             @endphp
-                            <p style="text-align: right; font-weight: bold; padding-right:20px"><span style="font-weight: normal"> Saldo Anterior: ${{number_format($BudgetTotal-$totalPagosAnteriores,2)}}</span>
-                                <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
-                                <br>Su abono: ${{number_format($Pago->amount,2)}}
-                                <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
+                        @endforeach
+                        @php
+                        if($Pago->method=='DOLAR'){
+                            $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-($Pago->amount*$Pago->reference);
+                        }else{
+                            $saldoPendiente=$BudgetTotal-$totalPagosAnteriores-$Pago->amount;
+                        }
+                        @endphp
+                        <p style="text-align: right; font-weight: bold; padding-right:20px">
+                        <span>Total del evento: @if($Budget->opcionIVA){{number_format($Budget->total*1.16,2)}}@else {{number_format($Budget->total,2)}}@endif</span>
+                            <br><span style="font-weight: normal"> Saldo Anterior: ${{number_format($BudgetTotal-$totalPagosAnteriores,2)}}</span>
+                            <br>Pagos anteriores: ${{number_format($totalPagosAnteriores,2)}}
+                            <br>Su abono: $ @if($Pago->method=='DOLAR'){{number_format($Pago->amount*$Pago->reference,2)}} @else {{number_format($Pago->amount,2)}} @endif
+                            <br>Saldo Pendiente${{number_format($saldoPendiente,2)}}</p>
     
                                 <p style="text-align: center; font-size: 11px; font-style: italic">El Monto final del evento puede variar por modificaciones en aumento de servicios solicitados por parte del cliente despues de este recibo</p>
                                 <table style="width: 100%; margin-top: -10px">
