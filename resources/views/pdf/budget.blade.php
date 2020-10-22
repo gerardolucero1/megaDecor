@@ -209,7 +209,33 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
      $iva=($presupuesto->total*.16);
      
   }else {$iva=0;}
+
+
+  //Obtenemos los pagos realizados al contrato
+  $Pagos = App\Payment::orderBy('id', 'DESC')->get();
   @endphp
+
+<table>
+  <tr>
+    <th colspan="4">Pagos Realizados</th>
+  </tr>
+  <tr>
+    <th>Fecha Pago</th>
+    <th>Monto</th>
+    <th>Metodo Pago</th>
+    <th>Referencia</th>
+  </tr>
+  @foreach ($Pagos as $pago)
+  <tr>
+  <td>{{$pago->created_at}}</td>
+    <td>{{$pago->created_at}}</td>
+    <td>{{$pago->created_at}}</td>
+    <td>{{$pago->created_at}}</td>
+  </tr>
+  @endforeach
+  
+</table>
+
 <table style="width: 100%; text-align: right">
 <tr>
   <td><p>
