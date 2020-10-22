@@ -1536,11 +1536,9 @@ public function archivarUsuario($id){
                 $saldoPendiente = 0;
                 foreach($pagos as $pago){
                     
-                    if($pago->method=='DOLAR'){
-                        $saldoPendiente = $saldoPendiente + ($pago->amount*$pago->reference);}
-                        else{
+                  
                             $saldoPendiente = $saldoPendiente + $pago->amount;
-                        }
+                        
                     
                 }
                 
