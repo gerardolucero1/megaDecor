@@ -1224,6 +1224,7 @@ if(element.tipo == 'INGRESO'){
                 let dolar = this.sesion.cantidadDolares;
                 let transferencias = 0;
                 let Ptarjeta = 0;
+                alert(this.sesion.cantidadDolares);
 
 
                 this.pagosCorte[0].forEach((element) => {
@@ -1235,7 +1236,7 @@ if(element.tipo == 'INGRESO'){
                         Ptarjeta = Ptarjeta + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.amount)+this.sesionActual.cantidadDolares);
+                           dolar = dolar + (parseFloat(element.amount));
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1262,7 +1263,7 @@ if(element.tipo == 'INGRESO'){
                              suma = suma + parseFloat(element.cantidad);
                             break;
                         case 'DOLAR':
-                             dolar = dolar + (parseFloat(element.cantidad))+this.sesionActual.cantidadDolares;
+                             dolar = dolar + (parseFloat(element.cantidad));
                             break;  
                     }
 }else{
