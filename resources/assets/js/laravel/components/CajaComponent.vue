@@ -1642,7 +1642,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.get(URL).then((response) => {
                 this.sesion = response.data;
-
+                alert(this.sesion.cantidadDolares);
                 this.cantidad.billete1000 = this.sesion.cierreBillete1000;
                 this.cantidad.billete500 = this.sesion.cierreBillete500;
                 this.cantidad.billete200 = this.sesion.cierreBillete200;
@@ -1655,8 +1655,8 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.cantidad.moneda2 = this.sesion.cierreMoneda2;
                 this.cantidad.moneda1 = this.sesion.cierreMoneda1;
                 this.cantidad.centavo50 = this.sesion.cierreCentavo50;
-                this.dolaresApertura = this.sesion.cantidadDolares;
-                this.chequesApertura = this.sesion.cantidadCheques;
+                this.cantidad.dolaresApertura = this.sesion.cantidadDolares;
+                this.cantidad.chequesApertura = this.sesion.cantidadCheques;
 
                 this.habilitarCaja();
                 
