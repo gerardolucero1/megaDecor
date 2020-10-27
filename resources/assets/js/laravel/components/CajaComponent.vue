@@ -846,6 +846,7 @@
                                         <label style="color:green"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]==sumarCantidad" for="">La cantidad es correcta</label>
                                         <label style="color:red" v-if="pagosCorte.length != 0 && cantidadPreCorte[0]<sumarCantidad" for="">Tienes un excedente de {{ sumarCantidad - cantidadPreCorte[0] | currency}}</label>
                                         <label style="color:red"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]>sumarCantidad" for="">Tienes un faltante de {{ cantidadPreCorte[0] - sumarCantidad | currency}}</label>
+                                        <label for="">Suma total de dolares en caja</label>
                                     </div>
                                     <div class="form-group">
                                         
@@ -1859,7 +1860,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.put(URL, {
                 cantidadRealCierre: diferencia,
-                cantidadCierre: this.sumarCantidad,
+                cantidadCierre: this.sumarCantidad
                 billetes: this.cantidad,
             }).then((response) => {
                 Swal.fire(

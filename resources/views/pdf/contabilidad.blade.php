@@ -35,7 +35,7 @@
         $ingresosContratosCheque=0;
         $ingresosContratosDolar=0;
         $ingresosContratosTransferencia=0;
-        $contratosHoy=App\Budget::where('tipo', 'CONTRATO')->where('archivado', false)->whereDate('created_at', '>', $fechaApertura)->whereDate('created_at', '<', $fechaCierre)->get();
+        $contratosHoy=App\Budget::where('tipo', 'CONTRATO')->where('archivado', false)->whereDate('created_at', '>=', $fechaApertura)->whereDate('created_at', '<=', $fechaCierre)->get();
         $numContratosHoy=count($contratosHoy);
         $egresosDolaresExtraordinarios=0;
         
