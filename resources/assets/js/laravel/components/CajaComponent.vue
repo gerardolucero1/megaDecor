@@ -846,7 +846,6 @@
                                         <label style="color:green"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]==sumarCantidad" for="">La cantidad es correcta</label>
                                         <label style="color:red" v-if="pagosCorte.length != 0 && cantidadPreCorte[0]<sumarCantidad" for="">Tienes un excedente de {{ sumarCantidad - cantidadPreCorte[0] | currency}}</label>
                                         <label style="color:red"  v-if="pagosCorte.length != 0 && cantidadPreCorte[0]>sumarCantidad" for="">Tienes un faltante de {{ cantidadPreCorte[0] - sumarCantidad | currency}}</label>
-                                        <label for="">Suma total de dolares en caja</label>
                                     </div>
                                     <div class="form-group">
                                         
@@ -1222,10 +1221,9 @@ if(element.tipo == 'INGRESO'){
                 let arrayDeDatos = [];
                 let suma = 0;
                 let cheques = 0;
-                let dolar = this.sesionActual.cantidadDolares;
+                let dolar = 0;
                 let transferencias = 0;
                 let Ptarjeta = 0;
-                
 
 
                 this.pagosCorte[0].forEach((element) => {
@@ -1237,7 +1235,7 @@ if(element.tipo == 'INGRESO'){
                         Ptarjeta = Ptarjeta + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.amount));
+                           dolar = dolar + (parseFloat(element.amount)+this.dolaresApertura);
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1644,7 +1642,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.get(URL).then((response) => {
                 this.sesion = response.data;
-                
+
                 this.cantidad.billete1000 = this.sesion.cierreBillete1000;
                 this.cantidad.billete500 = this.sesion.cierreBillete500;
                 this.cantidad.billete200 = this.sesion.cierreBillete200;
@@ -1656,9 +1654,9 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.cantidad.moneda5 = this.sesion.cierreMoneda5;
                 this.cantidad.moneda2 = this.sesion.cierreMoneda2;
                 this.cantidad.moneda1 = this.sesion.cierreMoneda1;
-                this.cantidad.centavo50 = this.sesion.cierreCentavo50;
-                this.cantidad.dolaresApertura = this.sesion.cantidadDolares;
-                this.cantidad.chequesApertura = this.sesion.cantidadCheques;
+                this.cantidad.centavo50 = this.sesion.cierreCentavo50;  
+
+                
 
                 this.habilitarCaja();
                 
@@ -1860,7 +1858,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.put(URL, {
                 cantidadRealCierre: diferencia,
-                cantidadCierre: this.sumarCantidad
+                cantidadCierre: this.sumarCantidad,
                 billetes: this.cantidad,
             }).then((response) => {
                 Swal.fire(
