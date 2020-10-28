@@ -1655,8 +1655,6 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.cantidad.moneda2 = this.sesion.cierreMoneda2;
                 this.cantidad.moneda1 = this.sesion.cierreMoneda1;
                 this.cantidad.centavo50 = this.sesion.cierreCentavo50;
-                this.dolaresApertura = this.sesion.cantidadDolares;
-                this.chequesApertura = this.sesion.cantidadCheques;
 
                 this.habilitarCaja();
                 
