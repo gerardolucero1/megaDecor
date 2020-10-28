@@ -1656,8 +1656,8 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.cantidad.moneda1 = this.sesion.cierreMoneda1;
                 this.cantidad.centavo50 = this.sesion.cierreCentavo50;  
 
+                
 
-    
                 this.habilitarCaja();
                 
             })
