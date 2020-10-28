@@ -1224,7 +1224,7 @@ if(element.tipo == 'INGRESO'){
                 let dolar = this.sesion.cantidadDolares;
                 let transferencias = 0;
                 let Ptarjeta = 0;
-                alert(this.sesionActual.cantidadDolares);
+                alert(this.sesion.cantidadDolares);
 
 
                 this.pagosCorte[0].forEach((element) => {
