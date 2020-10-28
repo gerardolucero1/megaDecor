@@ -1262,7 +1262,7 @@ if(element.tipo == 'INGRESO'){
                              suma = suma + parseFloat(element.cantidad);
                             break;
                         case 'DOLAR':
-                             dolar = dolar + (parseFloat(element.cantidad))+this.dolaresApertura;
+                             dolar = dolar + (parseFloat(element.cantidad));
                             break;  
                     }
 }else{
