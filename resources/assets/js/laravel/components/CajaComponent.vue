@@ -1221,7 +1221,7 @@ if(element.tipo == 'INGRESO'){
                 let arrayDeDatos = [];
                 let suma = 0;
                 let cheques = 0;
-                let dolar = this.sesion.cantidadDolares;
+                let dolar = 0;
                 let transferencias = 0;
                 let Ptarjeta = 0;
 
@@ -1642,7 +1642,7 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
 
             axios.get(URL).then((response) => {
                 this.sesion = response.data;
-                
+                alert(this.sesion.cantidadDolares);
                 this.cantidad.billete1000 = this.sesion.cierreBillete1000;
                 this.cantidad.billete500 = this.sesion.cierreBillete500;
                 this.cantidad.billete200 = this.sesion.cierreBillete200;
