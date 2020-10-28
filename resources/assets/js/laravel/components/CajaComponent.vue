@@ -1235,7 +1235,7 @@ if(element.tipo == 'INGRESO'){
                         Ptarjeta = Ptarjeta + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                           dolar = dolar + (parseFloat(element.amount)+this.sesionActual.cantidadDolares);
+                           dolar = dolar + (parseFloat(element.amount)+this.dolaresApertura);
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
@@ -1262,7 +1262,7 @@ if(element.tipo == 'INGRESO'){
                              suma = suma + parseFloat(element.cantidad);
                             break;
                         case 'DOLAR':
-                             dolar = dolar + (parseFloat(element.cantidad))+this.sesionActual.cantidadDolares;
+                             dolar = dolar + (parseFloat(element.cantidad))+this.dolaresApertura;
                             break;  
                     }
 }else{
