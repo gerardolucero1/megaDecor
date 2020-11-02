@@ -373,7 +373,7 @@ export default {
                     
                     this.key = key[6];
                     
-                    console.log(index);
+                    console.log(key);
                     //alert(key[2]);
                        
                 },
