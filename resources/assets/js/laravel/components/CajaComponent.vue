@@ -1879,6 +1879,10 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
             let URL = '/registrar-pago';
             let numero = this.totalEtiqueta - this.totalAbonado;
             
+            if(this.pago.amount<==0){
+                alert('Ingresa un monto mayor a 0');
+                return
+            }
             if(this.presupuestoSeleccionado==''){
                 alert('Selecciona un contrato');
             }else{
