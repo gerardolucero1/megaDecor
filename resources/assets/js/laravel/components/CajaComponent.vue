@@ -240,7 +240,7 @@
 
                 <div class="row" v-if="pagosPasados.length != 0">
                     <div class="col-md-12">
-                        <h4>Pagos a contratos</h4>
+                        <h4>Dolares y Cheques</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
                         <input v-on:change="updateChequesApertura()" type="input" v-model="arrayDatos[0]"><br>
                         <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
@@ -1155,7 +1155,7 @@ export default {
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                            dolar = dolar + (parseFloat(element.cantidad));
+                            dolar = dolar + (parseFloat(element.cantidad))+sesion.cantidadDolares;
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
