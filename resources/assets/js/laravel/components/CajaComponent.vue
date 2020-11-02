@@ -1155,7 +1155,7 @@ export default {
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                            dolar = dolar + (parseFloat(element.cantidad))+sesion.cantidadDolares;
+                            dolar = dolar + (parseFloat(element.cantidad))+this.sesion.cantidadDolares;
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
