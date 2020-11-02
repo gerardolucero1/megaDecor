@@ -245,7 +245,7 @@
                         <input v-on:change="updateChequesApertura()" type="input" v-model="arrayDatos[0]"><br>
                         <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
                         <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
-                        <label>Dolares: <span>{{ sumaPagosPasados[2] | currency }}</span></label><br>
+                        <label>Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
                         <input v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
                     </div>
                 </div>
@@ -1155,7 +1155,7 @@ export default {
                         transferencias = transferencias + parseFloat(element.amount);
                     }else{
                         if(element.method == 'DOLAR'){
-                            dolar = dolar + (parseFloat(element.cantidad))+this.sesion.cantidadDolares;
+                            dolar = dolar + (parseFloat(element.cantidad));
                         }else{
                             suma = suma + parseFloat(element.amount);
                         }
