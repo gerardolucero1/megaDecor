@@ -396,9 +396,9 @@ export default {
                     //console.log(key);
                     this.indice = index;
                     
-                    this.key = key[10];
+                    this.key = key[2];
                     
-                    console.log(key[10]);
+                    console.log(index);
                     //alert(key[2]);
                        
                 },
@@ -463,7 +463,7 @@ export default {
                     //console.log(key);
                     this.indice = index;
                     
-                    this.key = key[9];
+                    this.key = key[10];
                     
                     console.log(index);
                     //alert(key[2]);
