@@ -12,6 +12,10 @@
 @endsection
 
 @section('content')
+@php
+    $deudaTotal=0;
+ 
+@endphp
     <section class="container">
         <div class="content" id="PresupuestosHistorial">
             
@@ -110,10 +114,19 @@
                                         @endif
                                     </td>
                                     @if($budgetArchivados->opcionIVA == 1)
+                                    @php
+                                    $deudaTotal=$deudaTotal+(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente);
+                                    @endphp
                                     <td class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
                                     @else  
+                                    @php
+                                    $deudaTotal=$deudaTotal+($budgetArchivados->total-$budgetArchivados->saldoPendiente);
+                                    @endphp
                                     <td class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}</td>
                                     @endif
+
+
+
                                     <td>
                                         @php
                                             $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
@@ -141,6 +154,7 @@
                     </div>
                 </div>
             </div>
+        <div style="position: absolute; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:white">Monto Total: ${{number_format($deudaTotal,2)}}</div>
         </div>
     </section>
 @endsection

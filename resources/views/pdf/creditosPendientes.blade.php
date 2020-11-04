@@ -2,6 +2,7 @@
 <body style="font-family: Helvetica; ">
 @php
     $deudaTotal=0;
+    $testigo=0;
 @endphp
 <p style="width: 100%; font-size:35px; font-weight:bold">Cuentas por cobrar</p>
       <table style="width: 100%; font-size:12px; text-align:center;">
@@ -80,11 +81,13 @@ ${{$total}}
 @if($budgetArchivados->opcionIVA == 1)
 <td style="width: 6%" class="d-none d-sm-table-cell">${{number_format(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente,2)}}</td>
 @php
+$testigo++;
     $deudaTotal=$deudaTotal+(($budgetArchivados->total*1.16)-$budgetArchivados->saldoPendiente);
 @endphp
 @else  
 <td style="width: 6%;" class="d-none d-sm-table-cell">${{number_format($budgetArchivados->total-$budgetArchivados->saldoPendiente,2)}}
 @php
+$testigo++;
     $deudaTotal=$deudaTotal+($budgetArchivados->total-$budgetArchivados->saldoPendiente);
 @endphp
 </td>
