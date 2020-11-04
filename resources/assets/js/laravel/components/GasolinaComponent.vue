@@ -33,8 +33,8 @@
                 </table>
                     </div>
                     <div class="col-md-4" style="margin-top:-50px">
-                        <input type="text" style="border:none; font-weight:bold; font-size:18px; text-align:right;" value="NM">
-                        <input type="text" value="Cliente" style="border:none; font-weight:bold; font-size:18px; text-align:right"><br>
+                        <input type="text" style="display:none;border:none; font-weight:bold; font-size:18px; text-align:right;" value="NM">
+                        <input type="text" value="Cliente" style="display:none;border:none; font-weight:bold; font-size:18px; text-align:right"><br>
                         <label for="" style="width:100%; text-align:right">Fecha: {{fechaActual}}</label>
                         <p style="color:blue: cursor:pointer" data-toggle="modal" data-target="#agregarVehiculo">Administrar Vehiculos y Casetas <i class="fa fa-edit"></i></p>
                          <p style="color:blue: cursor:pointer" v-on:click="updatePrecioGasolina()">Precio Gasolina: {{costoGasolina | currency}} <i class="fa fa-edit"></i></p>
@@ -174,6 +174,8 @@
 
                 
              </table>
+
+              <button @click="guardarFlete()" style="margin-top:50px" class="btn btn-success">Guardar y Agregar a contrato</button>
              </div>
              <div class="col-md-5">
              <table style="width:100%">
@@ -187,7 +189,7 @@
              </tr>
              </table>
 
-              <button @click="guardarFlete()" class="btn btn-success">Guardar</button>
+             
              </div>
 </div>
             </div>
