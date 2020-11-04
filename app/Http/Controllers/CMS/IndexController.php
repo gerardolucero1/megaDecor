@@ -526,35 +526,31 @@ public function archivarUsuario($id){
     public function dashboard(){
          $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
-
+        
         //calculo adeudo total
         $adeudoTotal = 0;
-        $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+        $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
         foreach($contratosAdeudo as $contratoAdeudo){
-            $sumaPagos = 0;
-            $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
-            if(count($PagosContratoAdeudo)>0){
-                
-                foreach($PagosContratoAdeudo as $PagoContratoAdeudo){
-                    
-                    $sumaPagos=$sumaPagos+$PagoContratoAdeudo->amount;
+            $totalAbono=0;
+            $pagosContrato = Payment::where('budget_id', $contratoAdeudo->id)->get();
 
+            foreach($pagosContrato as $currentPayment){
+                if($currentPayment->method=='DOLAR'){
+                $totalAbono=$totalAbono+($currentPayment->amount*$currentPayment->reference);}
+                else{
+                    $totalAbono=$totalAbono+$currentPayment->amount;
                 }
-
-
-                if($contratoAdeudo->opcionIVA){
-                    
-                $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*1.16)-$sumaPagos);
-                
-                }else{
-                $adeudoTotal=$adeudoTotal+($contratoAdeudo->total-$sumaPagos);
-              
             }
-                
 
-            }else{
-                $adeudoTotal=$adeudoTotal+$contratoAdeudo->total;
-                
+            $banIva =1;
+                                if($contratoAdeudo->opcionIVA){
+                                    $banIva =1.16;
+                                }else{
+                                    $banIva =1;
+                                }
+            if((($contratoAdeudo->total*$banIva) - $totalAbono) > 0 ){
+                $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*$banIva) - $totalAbono);
+
             }
         }
        
@@ -650,7 +646,7 @@ public function archivarUsuario($id){
             }
             arsort($ElementosVendedores);
     
-            $adeudoTotal=$adeudoTotal-77197.9;
+           
         $tasks = Task::orderBy('id', 'DESC')->get();
         return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal'));
         
