@@ -52,13 +52,13 @@
       cursor: pointer;
     }
     .title-item-gallery{
-      color: white;
+      color: black;
       font-size: 20px;
       font-weight: bold;
       padding: 10px 30px;
       width: 100%;
       text-align: center;
-      background:rgba(0,0,0,.3);
+      
 
     }
   </style>

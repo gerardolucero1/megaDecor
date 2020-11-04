@@ -194,7 +194,7 @@
                                                                 Ventas {{ $mes }} {{ $anio }}</div>
                                                     </div>
                                                     <div class="col-6">
-                                                        <div class="font-size-h3 font-w600">71</div>
+                                                        <div class="font-size-h3 font-w600">55</div>
                                                     <div class="font-size-sm font-w600 text-uppercase text-muted"><br>Ventas {{ $mes }} {{ $anioPasado }}</div>
                                                     </div>
                                                 </div>
