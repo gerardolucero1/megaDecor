@@ -64,7 +64,7 @@
     }
   </style>
     </head>
-    <body>
+    <body class="roboto-font">
         <!-- Page Container -->
         <!--
             Available classes for #page-container:
