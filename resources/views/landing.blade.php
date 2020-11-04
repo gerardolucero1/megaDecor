@@ -40,7 +40,7 @@
     <div class="card"> <img class="card-img" src="img/portada2.jpg" alt="">
       <div class="card-img-overlay">
         <div class="center-text">
-          <h2 class="card-title">Pasando esta contingencia estamos listos para festejar a lo grande</h2>
+          <h2 class="card-title roboto-font">Pasando esta contingencia estamos listos para festejar a lo grande</h2>
           <a href="#contact" class="btn">
             <svg width="201" height="51" viewBox="0 0 201 51">
               <defs>

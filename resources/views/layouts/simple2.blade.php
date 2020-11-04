@@ -56,6 +56,7 @@
       font-size: 20px;
       font-weight: bold;
       padding: 10px 30px;
+      padding-bottom: 0;
       width: 100%;
       text-align: center;
       
