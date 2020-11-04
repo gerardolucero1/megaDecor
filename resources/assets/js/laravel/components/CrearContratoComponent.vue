@@ -391,7 +391,7 @@ padding: 0;
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
-                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fleteModal"><span class="fa fa-plus-circle"></span> Flete</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#gasolinaModal"><span class="fa fa-calculator"></span> Agregar Flete</div>
                                 </div>
                         </div>
                     </div>
@@ -743,6 +743,27 @@ padding: 0;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onClick="$('#bocadillosModal').modal('hide')">Cancelar</button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div  class="modal fade" id="gasolinaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div style="border:solid; border-color:gray" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Calculadora Flete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <gasolina-component @guardarFlete="recuperarFlete"></gasolina-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick="$('#gasolinaModal').modal('hide')">Cancelar</button>
                      
                     </div>
                 </div>
@@ -2102,6 +2123,38 @@ padding: 0;
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
+                        'success'
+                        ) ;
+            },
+
+             recuperarFlete(args){
+                //console.log(args);
+
+               
+                
+                   
+                    this.paquete.inventario.push({
+                            'externo': true,
+                            'nombre': 'Flete',
+                            'imagen': '',
+                            'precioUnitario': args,
+                            'precioFinal': args,
+                            'cantidad': '0',
+                            'id': '',
+                            'precioVenta': args,
+                            'proveedor': '',
+                            'autorizado': '',
+                            'precioEspecial': args,
+                            'precioAnterior' : args,
+                            'notas':'--',
+                        });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                
+                $('#gasolinaModal').modal('hide');
+                    Swal.fire(
+                        'Listo!',
+                        'Flete agregado con exito a presupuesto',
                         'success'
                         ) ;
             },

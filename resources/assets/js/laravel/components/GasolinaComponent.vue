@@ -246,6 +246,8 @@
                             </tbody>
                         </table>
 
+                        <button @click="guardarFlete()" class="btn btn-success">Guardar</button>
+
 
                         
                     </div>
@@ -296,6 +298,7 @@ export default {
            horas:0,
            viajes:0,
            hora:0,
+           totalFinal:0,
            
            
         
@@ -319,6 +322,7 @@ export default {
         },
         calcularTotalGeneral: function(){
             var totGral=parseInt(this.gastoFlete)+parseInt(this.gastoViaticos)+parseInt(this.gastoHorasViaje)+parseInt(this.gastoCasetas)
+             this.totalFinal=totGral;
              return totGral;
         },
         calcularHoras: function(){
@@ -366,6 +370,9 @@ export default {
              },
         },
     methods: {
+         guardarFlete(){
+            this.$emit('guardarFlete', this.totalFinal);
+        },
 
         editarCantidadKm(index, key){
                     //console.log(key);
