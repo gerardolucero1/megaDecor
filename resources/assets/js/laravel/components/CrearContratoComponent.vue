@@ -387,7 +387,7 @@ padding: 0;
                                 ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
