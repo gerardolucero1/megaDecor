@@ -20,7 +20,7 @@
         <div class="content" id="PresupuestosHistorial">
             
             <div class="block" id="divLista">
-                <div class="block-header block-header-default" style="background:#FCFFA9">
+                <div class="block-header block-header-default" style="background:#FCFFA9; display:none">
                     <div class="col-md-3">
                         <h3 class="block-title" style="color: green; font-weight: bold">Contratos con pago vencido</h3>
                     <h3 class="block-title" style="color:black; font-weight: bold">Adeudo total ${{number_format(($adeudoTotal-1531),2)}}</h3> <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir</a>
@@ -151,10 +151,14 @@
                                     @endforeach
                             </tbody>
                         </table>
+                        <div style="position: fixed; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:#fcffa9; top:30px; ">
+                            <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span><br>
+                            <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        <div style="position: absolute; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:white">Monto Total: ${{number_format($deudaTotal,2)}}</div>
+       
         </div>
     </section>
 @endsection
