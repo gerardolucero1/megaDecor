@@ -27,11 +27,11 @@
       <div id="my-nav" class="collapse navbar-collapse">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item active"> <a class="nav-link roboto-font" href="#">Inicio</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="#about" tabindex="-1" aria-disabled="true">Nosotros</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#activity" tabindex="-1" aria-disabled="true">Servicios</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#portfolio" tabindex="-1" aria-disabled="true">Galería</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#testimonial" tabindex="-1" aria-disabled="true">Testimonios</a></li>
-          <li class="nav-item"> <a class="nav-link" href="#contact" tabindex="-1" aria-disabled="true">Contact</a></li>
+          <li class="nav-item roboto-font"> <a class="nav-link roboto-font" href="#about" tabindex="-1" aria-disabled="true">Nosotros</a></li>
+          <li class="nav-item roboto-font"> <a class="nav-link roboto-font" href="#activity" tabindex="-1" aria-disabled="true">Servicios</a></li>
+          <li class="nav-item roboto-font"> <a class="nav-link roboto-font" href="#portfolio" tabindex="-1" aria-disabled="true">Galería</a></li>
+          <li class="nav-item roboto-font"> <a class="nav-link roboto-font" href="#testimonial" tabindex="-1" aria-disabled="true">Testimonios</a></li>
+          <li class="nav-item roboto-font"> <a class="nav-link roboto-font" href="#contact" tabindex="-1" aria-disabled="true">Contact</a></li>
         </ul>
       </div>
     </div>

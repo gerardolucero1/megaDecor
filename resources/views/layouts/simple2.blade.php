@@ -19,7 +19,7 @@
   font-family: 'Roboto', sans-serif;
 }
 .roboto-font{
-    font-family: 'Roboto', sans-serif;  
+    font-family: 'Roboto', sans-serif !important;  
 }
 .cls-1 {
                   fill: none;
