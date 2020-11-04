@@ -186,6 +186,8 @@
              <td>${{item.consumo}}</td>
              </tr>
              </table>
+
+              <button @click="guardarFlete()" class="btn btn-success">Guardar</button>
              </div>
 </div>
             </div>
@@ -246,7 +248,7 @@
                             </tbody>
                         </table>
 
-                        <button @click="guardarFlete()" class="btn btn-success">Guardar</button>
+                       
 
 
                         

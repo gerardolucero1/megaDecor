@@ -2133,7 +2133,7 @@ padding: 0;
                
                 
                    
-                    this.paquete.inventario.push({
+                    this.inventarioLocal.push({
                             'externo': true,
                             'nombre': 'Flete',
                             'imagen': '',
