@@ -132,8 +132,8 @@
                             </div>
                             <div class="col-md-3">
                                     <label style="font-weight: bold"><input id="I76" style="font-weight: bold" type="checkbox" name="inventarioInventario" value="1" @if($Permisos->inventarioInventario==1) checked @endif>-Opción inventario en menú</label><br>
-                                    <input id="I77" style="margin-left: 20px" type="checkbox" name="inventarioFamilias" value="1" @if($Permisos->inventarioFamilias==1) checked @endif>-Opción familias en men</label><br>
-                                    <input id="I78" style="margin-left: 20px" type="checkbox" name="inventarioGrupos" value="1" @if($Permisos->inventarioGrupos==1) checked @endif>-Opción grupos en men</label><br>
+                                    <input id="I77" style="margin-left: 20px" type="checkbox" name="inventarioFamilias" value="1" @if($Permisos->inventarioFamilias==1) checked @endif>-Opción familias en menu</label><br>
+                                    <input id="I78" style="margin-left: 20px" type="checkbox" name="inventarioGrupos" value="1" @if($Permisos->inventarioGrupos==1) checked @endif>-Opción grupos en menu</label><br>
                                     <input id="I79" style="margin-left: 20px" type="checkbox" name="inventarioAgregarFamilia" value="1" @if($Permisos->inventarioAgregarFamilia==1) checked @endif>-Agregar Familia</label><br>
                                     <input id="I80" style="margin-left: 20px" type="checkbox" name="inventarioAgregarProducto" value="1" @if($Permisos->inventarioAgregarProducto==1) checked @endif>-Agregar Producto</label><br>
                                     <input id="I81" style="margin-left: 20px" type="checkbox" name="inventarioCrearPaquete" value="1" @if($Permisos->inventarioCrearPaquete==1) checked @endif>-Crear Paquete</label><br>
