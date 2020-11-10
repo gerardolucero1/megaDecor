@@ -236,9 +236,7 @@
                             <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
                         </div>
                     </div>
-                </div>
-
-                <div class="row" v-if="pagosPasados.length != 0">
+                    <div class="row" v-if="pagosPasados.length != 0">
                     <div class="col-md-12">
                         <h4>Dolares y Cheques</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
@@ -250,6 +248,9 @@
                     </div>
                 </div>
             </div>
+                </div>
+
+                
 
             
         </div>
