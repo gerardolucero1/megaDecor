@@ -245,7 +245,7 @@
                         <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
                         <label>Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
                         <input v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
-                        
+
                     </div>
                 </div>
             </div>
@@ -1823,7 +1823,8 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.timer
                 ) {
-                    console.log('I was closed by the timer')
+                    console.log('I was closed by the timer');
+                    location.reload();
                 }
                 })
             })
