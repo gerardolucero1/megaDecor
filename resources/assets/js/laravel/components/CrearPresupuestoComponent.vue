@@ -387,10 +387,11 @@ padding: 0;
                                 ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
 
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#agregarElemento" @click="controlElementoExterno = false"><span class="fa fa-plus-circle"></span> Nuevo Elemento</div>
                                 <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bocadillosModal"><span class="fa fa-plus-circle"></span> Mesa de bocadillos</div>
+                                <div class="btn btn-sm btn-primary" data-toggle="modal" data-target="#gasolinaModal"><span class="fa fa-calculator"></span> Agregar Flete</div>
                                 </div>
                         </div>
                     </div>
@@ -484,9 +485,10 @@ padding: 0;
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
                                     <button v-if="producto.tipo == 'PAQUETE' && producto.servicio != 'Mesa de dulces'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
                                     <button v-if="producto.tipo == 'PAQUETE' && producto.servicio == 'Mesa de dulces'" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bocadillosModal">Editar</button>
-                                    
+                                
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
-                                    <div v-if="producto.externo" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
+                                    <div v-if="producto.externo && producto.servicio!='Flete'" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
+                                    <div v-if="producto.externo && producto.servicio=='Flete'" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#gasolinaModal">Editar</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -541,9 +543,10 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button>
+                       <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> 
+                       <!--
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
-                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
+                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>-->
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
@@ -742,6 +745,48 @@ padding: 0;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onClick="$('#bocadillosModal').modal('hide')">Cancelar</button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div  class="modal fade" id="gasolinaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div style="border:solid; border-color:gray" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Calculadora Flete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <gasolina-component @guardarFlete="recuperarFlete"></gasolina-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick="$('#gasolinaModal').modal('hide')">Cancelar</button>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<div  class="modal fade" id="fleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div style="border:solid; border-color:gray" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cacluladora Flete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <gasolina-component></gasolina-component>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onClick="$('#fleteModal').modal('hide')">Cancelar</button>
                      
                     </div>
                 </div>
@@ -1082,6 +1127,7 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                <option value="NO APLICA">No Aplica</option>
                             </select>
                         </div>
                         <br>
@@ -1107,6 +1153,7 @@ padding: 0;
                                 <option value="SIEMPRE HAY ALGUIEN">Siempre hay alguien</option>
                                 <option value="UN DIA ANTES">Un Dia Antes</option>
                                 <option value="DOS DIAS ANTES">Dos Dias Antes</option>
+                                <option value="NO APLICA">No Aplica</option>
                             </select>
                         </div>
                         <div class="col-md-12">
@@ -2082,6 +2129,42 @@ padding: 0;
                         ) ;
             },
 
+             recuperarFlete(args){
+                //console.log(args);
+
+               
+                
+                   
+                    this.inventarioLocal.push({
+                            'externo': true,
+                            'imagen': 'https://vivsimx.com/wp-content/uploads/2020/03/mudanzas-cerca-de-mi.jpg',
+                            'servicio': 'Flete',
+                            'cantidad': 1,
+                            'precioUnitario': args,
+                            'precioFinal': args,
+                            'ahorro': '0',
+                            'notas': '',
+                            'paquete': '',
+                            'tipo': 'PRODUCTO',
+                            'id': '',
+                            'precioVenta': args,
+                            'proveedor': 'Mega Decor',
+                            'autorizado': true,
+                            'precioEspecial': args,
+                            'precioAnterior' : args,
+                            'notas':'--',
+                        });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                
+                $('#gasolinaModal').modal('hide');
+                    Swal.fire(
+                        'Listo!',
+                        'Flete agregado con exito a presupuesto',
+                        'success'
+                        ) ;
+            },
+
             agregarProductoPaqueteEditado(producto){
                 this.paqueteEdicion.paquete.inventario.push({
                     'externo': false,
@@ -2444,7 +2527,7 @@ padding: 0;
                             'cantidad': 1,
                             'precioUnitario': this.productoExterno.precioUnitario,
                             'precioFinal': this.productoExterno.precioUnitario,
-                            'ahorro': 0,
+                            'ahorro': '0',
                             'notas': '',
                             'paquete': '',
                             'tipo': 'PRODUCTO',
@@ -2615,6 +2698,7 @@ padding: 0;
                     this.notasActualizadas = notas;
                     this.indice = index; 
                     this.key = key[8];
+                    console.log(key);
                     if(this.key=='paquete'){
                         this.key="notas";
                     }
@@ -2919,7 +3003,10 @@ padding: 0;
 
             // Guardar como contrato
             guardarContrato(){
-                
+                if(clienteSeleccionado.nombre==''){
+                     alert('selecciona cliente antes de continuar');
+                    return
+                }
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
@@ -3114,12 +3201,11 @@ padding: 0;
                         ) ;
     },
     ModalGuardarContrato(){
-      
-        if(this.clienteSeleccionado.id == ""){
-            alert('selecciona un cliente para continuar');
-                    return
-        }
 
+        if(this.clienteSeleccionado.nombre==""){
+                    alert('selecciona un cliente para continuar');
+                    return
+                }
         if(this.presupuesto.vendedor_id==""){
                     alert('selecciona un vendedor para continuar');
                     return
