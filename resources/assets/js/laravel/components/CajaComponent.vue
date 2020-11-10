@@ -239,11 +239,11 @@
                     <div class="block-content">
                         <div class="form-group">
                         <h4>Dolares y Cheques</h4>
-                        <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
+                        <label style="font-weight:bold">Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
                         <input v-on:change="updateChequesApertura()" type="input" v-model="arrayDatos[0]"><br>
                         <label style="display:none">Transferencias: <span>{{ sumaPagosPasados[1] | currency }}</span></label> <br>
                         <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
-                        <label>Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
+                        <label style="font-weight:bold">Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
                         <input v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
 
                     </div>

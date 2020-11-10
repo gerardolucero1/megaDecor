@@ -113,7 +113,9 @@
                 <p><span style="font-weight:bold">Notas de facturacion: </span> {{presupuesto.notasFacturacion}}</p>
             </div>
             </div>
-            <div v-else>
+
+
+            <div v-if="presupuesto.archivado==true">
                 <div class="col-md-12"><p style="font-weight:bold; color:red; margin-bottom:0; font-size:18px">CONTRATO CANCELADO POR: {{vendedor.name}}</p></div> 
             </div>
             

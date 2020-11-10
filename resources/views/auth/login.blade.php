@@ -5,7 +5,7 @@
     <div class="hero-static content content-full js-appear-enabled animated fadeIn" data-toggle="appear" style="background: url('https://wallpapercave.com/wp/z1e1yxC.jpg'); background-siz:200% 100%; width: 100vw; max-width: 100vw" >
         <div class="py-30 px-5 text-center" >
             <a class="font-w700" href="">
-                <img src="http://megamundodecor.com/images/mega-mundo-decor.png" width="30%" style="background:rgba(255,255,255,1); padding:20px; border-radius:40px">
+                <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" width="30%" style="background:rgba(255,255,255,1); padding:20px; border-radius:40px">
             </a>
             <h2 class="h4 font-w400 text-muted mb-0" style="color:white; font-style:italic; padding-top: 20px">Ingresa tus datos para acceder al sistema</h2>
         </div>
