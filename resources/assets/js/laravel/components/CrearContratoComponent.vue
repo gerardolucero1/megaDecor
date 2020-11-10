@@ -3001,7 +3001,10 @@ padding: 0;
 
             // Guardar como contrato
             guardarContrato(){
-                
+                if(clienteSeleccionado.nombre==''){
+                     alert('selecciona cliente antes de continuar');
+                    return
+                }
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
