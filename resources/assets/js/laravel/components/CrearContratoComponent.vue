@@ -3201,7 +3201,7 @@ padding: 0;
     ModalGuardarContrato(){
 
         if(this.clienteSeleccionado.nombre==""){
-                    alert('selecciona un vendedor para continuar');
+                    alert('selecciona un cliente para continuar');
                     return
                 }
         if(this.presupuesto.vendedor_id==""){
