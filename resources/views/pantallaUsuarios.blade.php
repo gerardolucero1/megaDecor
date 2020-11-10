@@ -46,7 +46,7 @@
                                     <td class="d-none d-sm-table-cell">{{$usuario->tipo}}</td>
                                     <td class="d-none d-sm-table-cell"><p style="color:@if($usuario->archivado==0) green @else red @endif">@if($usuario->archivado==0) Activo @else Inactivo @endif</p></td>
                                     <td class="text-center">
-                                        <a href="{{ route('usuario.permisos', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">
+                                        <a href="{{ route('usuario.permisos', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Permisos de usuario" data-original-title="View Customer">
                                             <i class="si si-settings"></i>
                                         </a>
                                         <a href="{{ route('users.edit', $usuario->id) }}" type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="Ver Perfil" data-original-title="View Customer">

@@ -17,11 +17,12 @@
                 <div class="form-material">
                 
                     <select name="grupo" id="" style="width: 100%;">
+                        <option value="">Selecciona Un Grupo</option>
                         @foreach ($grupos as $grupo)
                         @if (isset($familia))
                         <option value="{{ $familia->grupo }}">{{ $familia->grupo }}</option>
                     @else
-                        <option value="">Selecciona Un Grupo</option>
+                       
                     @endif
                             <option value="{{ $grupo->nombre }}">{{ $grupo->nombre }}</option>
                         @endforeach
