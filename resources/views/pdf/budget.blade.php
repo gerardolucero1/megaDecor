@@ -266,7 +266,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     Subtotal: ${{number_format($subtotal,2)}}<br>
     
   
-    IVA: ${{$iva}}<br>
+    IVA: ${{number_format($iva,2)}}<br>
     @php
         
     @endphp
