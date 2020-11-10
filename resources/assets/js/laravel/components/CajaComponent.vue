@@ -236,8 +236,8 @@
                             <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
                         </div>
                     </div>
-                    <div class="row" v-if="pagosPasados.length != 0">
-                    <div class="col-md-12">
+                    <div class="block-content">
+                        <div class="form-group">
                         <h4>Dolares y Cheques</h4>
                         <label>Cheques: <span>{{ sumaPagosPasados[0] | currency }}</span></label> <br>
                         <input v-on:change="updateChequesApertura()" type="input" v-model="arrayDatos[0]"><br>
@@ -245,6 +245,7 @@
                         <input style="display:none" type="input" v-model="sumaPagosPasados[1]"><br>
                         <label>Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
                         <input v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
+                        
                     </div>
                 </div>
             </div>
