@@ -83,6 +83,7 @@
                                     <input id="I44" style="margin-left: 20px" type="checkbox" name="contratosVistaCalendario" value="1" @if($Permisos->contratosVistaCalendario==1) checked @endif>-Vista Calendario</label><br>
                                     <input id="I45" style="margin-left: 20px" type="checkbox" name="contratosArchivados" value="1" @if($Permisos->contratosArchivados==1) checked @endif>-Contratos Archivados</label><br>
                                     <input id="I46" style="margin-left: 20px" type="checkbox" name="contratosHistorial" value="1" @if($Permisos->contratosHistorial==1) checked @endif>-Historial</label><br>
+                                    <input id="" style="margin-left: 20px" type="checkbox" name="contratosFlete" value="1" checked>-Fletes</label><br>
                                 
                             </div>
                             <div class="col-md-3">
