@@ -244,7 +244,7 @@
                         <label style="font-weight:bold">Dolares: <span>{{ sesion.cantidadDolares | currency }}</span></label><br>
                         <input class="form-control" v-on:change="updateDolaresApertura()" type="input" v-model="arrayDatos[1]">
                     
-                    <div class="form-group">
+                    <div class="form-group" style="padding-top:10px;">
                             <button class="btn btn-sm btn-block btn-info" @click="abrirCaja()">Abrir Caja</button>
                         </div>
                     </div>

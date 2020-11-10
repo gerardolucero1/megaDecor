@@ -272,7 +272,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @endphp
    
      <span style="font-weight: bold">TOTAL:$ {{$total}}<span><br>
-      Saldo Pendiente: ${{$subtotal + $iva-$saldoPagado}}</p></td>
+      Saldo Pendiente: ${{number_format($subtotal + $iva-$saldoPagado,2)}}</p></td>
       </tr>
       <tr style="font-style: italic; text-align: left; font-size: 12px;">
           @if($presupuesto->tipo=='PRESUPUESTO')
