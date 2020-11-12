@@ -170,7 +170,7 @@ export default {
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
-            producto.cantidad = this.cantidadActualizada;
+            producto.precioUnitario = this.cantidadActualizada;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
