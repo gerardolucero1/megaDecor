@@ -75,6 +75,7 @@ padding: 0;
                         <th scope="col">Imagen</th>
                         <th scope="col">Servicio</th>
                         <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -87,6 +88,9 @@ padding: 0;
                         <td>{{ item.servicio }}</td>
                         <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
+                        <td>
+                        <td><input v-if="(item.precio == '') || (indice == index && key == 'precio')" v-on:change="updatePrecio(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precio }}</span></td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
@@ -147,6 +151,23 @@ export default {
                        
                 },
         updateCantidad(index){
+            let producto = this.inventarioLocal.find(function(element, indice){
+                        return (indice == index);
+                    });
+            producto.cantidad = this.cantidadActualizada;
+            //alert(producto.servicio);
+            this.cantidadActualizada = '';
+            this.key= '';
+        },
+         editarPrecio(index, key){
+                    //console.log(key);
+                    this.indice = index;
+                    this.key = key[2];
+                    console.log(index);
+                    console.log(key[2]);
+                       
+                },
+        updatePrecio(index){
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
