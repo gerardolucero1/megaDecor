@@ -161,9 +161,9 @@ export default {
          editarPrecio(index, key){
                     //console.log(key);
                     this.indice = index;
-                    this.key = key[3];
+                    this.key = key[5];
                     console.log(index);
-                    console.log(key[3]);
+                    console.log(key[4]);
                        
                 },
         updatePrecio(index){
