@@ -164,6 +164,11 @@ export default {
                     this.key = key[2];
                     console.log(index);
                     console.log(key[2]);
+                    console.log(key[3]);
+                    console.log(key[4]);
+                    console.log(key[5]);
+                    console.log(key[6]);
+                    console.log(key[7]);
                        
                 },
         updatePrecio(index){
