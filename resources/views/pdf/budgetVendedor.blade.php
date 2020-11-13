@@ -238,7 +238,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
         
     @endphp
       @if($presupuesto->opcionDescuento==1)
-      Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
+      Ahorro total: ${{number_format($descuentoGeneral,2)}} @endif<br>
     Subtotal: ${{$subtotal}}.00<br>
   
     IVA: ${{number_format($iva,2)}}<br>
