@@ -72,7 +72,6 @@ padding: 0;
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" @click="demo()">#</th>
                         <th scope="col">Imagen</th>
                         <th scope="col">Servicio</th>
                         <th scope="col">Cantidad</th>
@@ -82,7 +81,6 @@ padding: 0;
                 </thead>
                 <tbody v-if="inventarioLocal.length != 0">
                     <tr v-for="(item, index) in inventarioLocal" :key="index">
-                        <th scope="row">{{ index }}</th>
                         <td>
                             <img :src="item.imagen" width="100px" alt="">
                         </td>
