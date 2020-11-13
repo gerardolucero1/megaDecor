@@ -159,8 +159,8 @@ export default {
                 //alert(suma);
               
                 return suma;
-             },
-    }
+             }
+    },
     methods: {
         editarCantidad(index, key){
                     //console.log(key);
