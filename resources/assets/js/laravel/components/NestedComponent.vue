@@ -86,17 +86,17 @@ padding: 0;
                             <img :src="item.imagen" width="100px" alt="">
                         </td>
                         <td>{{ item.servicio }}</td>
-                        <td><input v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
+                        <td><input style="background:#FBEE83; border-radius:3px;" v-if="(item.cantidad == '') || (indice == index && key == 'cantidad')" v-on:change="updateCantidad(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
-                        <td><input v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecio(index)" v-model="cantidadActualizada">
-                        <span v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario }}</span></td>
+                        <td><input style="background:#FBEE83; border-radius:3px;" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecio(index)" v-model="cantidadActualizada">
+                        <span v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</span></td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
                     </tr>
                     <tr>
                     <td colspan="5"></td>
-                    <td colspan="1">TOTAL: {{calcularTotalServicio | currency}}</td>
+                    <td colspan="1" style="font-weight:bold">TOTAL: {{calcularTotalServicio | currency}}</td>
                     </tr>
                 </tbody>
             </table>
