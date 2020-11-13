@@ -45,7 +45,7 @@ padding: 0;
                 :list="inventario"
                 :keys="['servicio', 'id', 'familia']"
             ></buscador-component>
-            <span>TOTAL: {{calcularTotalServicio | currency}}</span>
+            <span style="font-weight:bold">TOTAL: {{calcularTotalServicio | currency}}</span>
 
             <!-- Resultado Busqueda items -->
             <div class="row" v-if="results.length < inventario.length">
