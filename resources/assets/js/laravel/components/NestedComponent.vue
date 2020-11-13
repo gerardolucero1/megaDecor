@@ -94,6 +94,10 @@ padding: 0;
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
                     </tr>
+                    <tr>
+                    <td colspan="5"></td>
+                    <td colspan="1">TOTAL: {{calcularTotalServicio | currency}}</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -139,7 +143,24 @@ export default {
             this.results = results
         })
     },
-
+    computed:{
+        calcularTotalServicio: function(){
+            //Arreglo javascript de objetos json
+                let json = this.inventarioLocal;
+                //convirtiendo a json
+                json = JSON.stringify(json);
+                //Convirtiendo a objeto javascript
+                let data = JSON.parse(json);
+                var suma= 0;
+                //Recorriendo el objeto
+                for(let x in data){
+                    suma += parseInt(data[x].cantidad*data[x].precioUnitario); // Ahora que es un objeto javascript, tiene propiedades
+                }
+                //alert(suma);
+                this.gastoFlete = suma;
+                return suma;
+             },
+    }
     methods: {
         editarCantidad(index, key){
                     //console.log(key);
