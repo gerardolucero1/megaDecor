@@ -157,7 +157,7 @@ export default {
                     suma += parseInt(data[x].cantidad*data[x].precioUnitario); // Ahora que es un objeto javascript, tiene propiedades
                 }
                 //alert(suma);
-                this.gastoFlete = suma;
+              
                 return suma;
              },
     }
@@ -174,7 +174,7 @@ export default {
             let producto = this.inventarioLocal.find(function(element, indice){
                         return (indice == index);
                     });
-            producto.precioUnitario = this.cantidadActualizada;
+            producto.cantidad = this.cantidadActualizada;
             //alert(producto.servicio);
             this.cantidadActualizada = '';
             this.key= '';
