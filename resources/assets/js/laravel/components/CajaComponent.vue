@@ -385,12 +385,13 @@
                                                             
                                                         </div>
                                                         <div class="col-md-12 mt-3">
-                                                            
+                                                            <label style="color:white" v-if="pago.method=='EFECTIVO'">Paga con:</label>
                                                             <currency-input class="form-control" v-model="efectivoRecibido" v-if="pago.method=='EFECTIVO'" placeholder="Efectivo Recibido" currency="USD" locale="en"/>
-                                                            
+                                                           
+                                                            <label style="color:white" v-if="pago.method=='EFECTIVO'">Abona:</label>
                                                             <currency-input class="form-control" placeholder="Cantidad a abonar" v-model="pago.amount" currency="USD" locale="en"/>
 
-                                                            <p v-if="(efectivoRecibido-pago.amount)>0" style="color:white; padding-top:30px; font-weight:bold">Cambio: {{efectivoRecibido-pago.amount | currency}}</p>
+                                                            <p v-if="(efectivoRecibido-pago.amount)>0" style="color:white; padding-top:30px; font-weight:bold; font-size:20px">Cambio: {{efectivoRecibido-pago.amount | currency}}</p>
                                                             
                                                         </div>
                                                         <div class="col-md-12 mt-3">
