@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');
         Route::get('/budget-archivar/{id}', 'CMS\BudgetController@archivar')->name('presupuesto.archivar');
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+        Route::post('/obtener-adeudo', 'CMS\BudgetController@adeudo');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
         Route::get('/obtener-inventario-postres', 'CMS\BudgetController@inventarioPostres');

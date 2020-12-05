@@ -238,6 +238,9 @@ padding: 0;
                                     {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
                                 </label>
                             </p>
+                            <div v-for="deuda in clienteSeleccionado.deuda" v-bind:key="deuda.index">
+                            <p style="background:red; border-radius:10px; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4 text-right" v-if="clienteSeleccionado">
@@ -2415,8 +2418,22 @@ padding: 0;
                 }
 
             },
+
+
+            obtenerAdeudos(cliente){
+                let URL = '/obtener-adeudo';
+                axios.post(URL, {
+                    'id': cliente.id,
+                }).then((response) => {
+                    this.clienteSeleccionado.adeudo = response.data;    
+                }).catch((error) => {
+                    console.log(error.data);
+                });
+
+            },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
+                obtenerAdeudos(cliente);
                 this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';

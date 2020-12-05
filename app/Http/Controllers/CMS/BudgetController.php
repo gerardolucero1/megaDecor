@@ -52,7 +52,11 @@ class BudgetController extends Controller
         return Client::with('budgets')->orderBy('id', 'DESC')->get();
     }
 
+    public function adeudo(Request $request){
+        return Budget::orderBy('id', 'DESC')->where('client_id', $request->id)->where('pagado', false)->get();
+    }
     public function cliente(Request $request){
+
 
         if($request->accion == 'telefonos'){
             return Telephone::orderBy('id', 'DESC')->where('client_id', $request->id)->get();
