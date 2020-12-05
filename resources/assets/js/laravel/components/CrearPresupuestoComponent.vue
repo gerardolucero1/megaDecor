@@ -249,10 +249,10 @@ padding: 0;
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <p><span>{{  }}</span> eventos contratados</p>
-                            <p><span>{{  }}</span> presupuestos</p>
-                                <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
-                                <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
+                            <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos 0</div>
+                            <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos 0</div>
+                               
+                                
                         </div>
                     </div>
                     <div class="row">

@@ -237,10 +237,8 @@
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }}</p>
-                                <p>
-                                    <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span>
-                                </p>
+                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }} <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span></p>
+                               
                             <p>{{ clienteSeleccionado.email }}</p>
                                 <!-- <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p> -->
                             <p class="emailEnvio" v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index" v-if="telefono.email == presupuesto.emailEnvio">
