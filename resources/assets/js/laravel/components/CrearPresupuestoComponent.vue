@@ -2475,9 +2475,9 @@ padding: 0;
                 this.clienteSeleccionado.tipo = cliente.tipoPersona;
 
                 this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion+cliente.direccionEmpresa;
+                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion+cliente.numeroEmpresa;
+                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion+cliente.coloniaEmpresa;
 
                 this.presupuesto.client_id = cliente.id;
 
