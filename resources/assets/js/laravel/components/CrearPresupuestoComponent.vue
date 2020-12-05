@@ -2433,7 +2433,7 @@ padding: 0;
             },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
-                obtenerAdeudos(cliente);
+                this.obtenerAdeudos(cliente);
                 this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';
