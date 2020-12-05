@@ -416,7 +416,7 @@
 
                                 <div class="col-md-6 caja-2">
                                     <div class="block">
-                                        <div class="row">
+                                        <div class="row">  
                                             <div class="col-md-12">
                                                 <label for="" style="font-size:15px; padding:10px">Pagos realizados al contrato: {{presupuestoSeleccionado.folio}}</label>
                                                 <div class="registrosPagos" v-for="(item, index) in presupuestoSeleccionado.payments" :key="index">
