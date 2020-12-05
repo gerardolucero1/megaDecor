@@ -1044,6 +1044,7 @@ export default {
     },
     data(){
         return{
+            efectivoRecibido:0,
             controlDetalles: false,
             mostrarAbrirCaja: true,
             cajaAbiertaPorOtroUsuario:true,
