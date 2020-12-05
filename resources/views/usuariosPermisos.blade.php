@@ -50,6 +50,7 @@
                                     <input id="I15" style="margin-left: 20px" type="checkbox" name="dashboardCalendario" value="1" @if($Permisos->dashboardCalendario==1) checked @endif>-Calendario</label><br>
                                     <input id="I16" style="margin-left: 20px" type="checkbox" name="dashboardVendedorMes" value="1" @if($Permisos->dashboardVendedorMes==1) checked @endif>-Vendedor del mes</label><br>
                                     <input id="I17" style="margin-left: 20px" type="checkbox" name="dashboardVentasMes" value="1" @if($Permisos->dashboardVentasMes==1) checked @endif>-Ranking ventas del mes</label><br>
+                                    <input id="" style="margin-left: 20px" type="checkbox" name="" value="1" @if($Permisos->dashboardVentasMes==1) checked @endif>-Fletes</label><br>
                             </div>
                             <div class="col-md-3">
                                     <label id="I19" style="font-weight: bold"><input id="I18" style="font-weight: bold" type="checkbox" name="clientes" value="1" @if($Permisos->clientes==1) checked @endif>-Clientes</label><br>
