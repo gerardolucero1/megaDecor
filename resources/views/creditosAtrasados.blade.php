@@ -28,6 +28,7 @@
                 </div>
                 
                     <div style="padding:15px; padding-top:30px;">
+                        <button class="btn btn-primary">Creditos Incobrables</button>
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
