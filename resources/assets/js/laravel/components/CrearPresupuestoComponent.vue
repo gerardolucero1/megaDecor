@@ -239,7 +239,7 @@ padding: 0;
                                 </label>
                             </p>
                             <div v-for="deuda in clienteSeleccionado.adeudo" v-bind:key="deuda.index">
-                            <p style="background:red; border-radius:10px; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
+                            <p style="background:red; border-radius:10px; color:white; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
                             </div>
                         </div>
                     </div>
@@ -1782,7 +1782,7 @@ padding: 0;
                 
 
             },
-          /*  calcularContratos: function(){
+            calcularContratos: function(){
                 let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
                 this.clienteSeleccionadoContratos = contratos;
 
@@ -1798,8 +1798,8 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoContratos.length;
-            },*/
-           /* calcularPresupuestos: function(){
+            },
+            calcularPresupuestos: function(){
                 let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
                 this.clienteSeleccionadoPresupuestos = presupuestos;
 
@@ -1815,7 +1815,7 @@ padding: 0;
                     })
                 });
                 return this.clienteSeleccionadoPresupuestos.length;
-            }*/
+            }
         },
         filters: {
             
