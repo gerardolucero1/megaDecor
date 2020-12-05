@@ -386,6 +386,7 @@
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             
+                                                            <currency-input class="form-control" v-if="pago.method=='EFECTIVO'" currency="USD" locale="en"/>
                                                             <currency-input class="form-control" v-model="pago.amount" currency="USD" locale="en"/>
                                                             
                                                         </div>
