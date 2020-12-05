@@ -43,6 +43,11 @@
                     <label>Numero</label>
                     <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
+                <div class="col-md-4">
+                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
+            Nuevo telefono
+        </button>
+                </div>
             </div>
         </div>
         <div v-else>
@@ -72,11 +77,7 @@
                     <label>Email de la empresa</label>
                     <input type="email" placeholder="Email" v-model="cliente.email">
                 </div>
-                <div class="col-md-4">
-                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
-            Nuevo telefono
-        </button>
-                </div>
+                
             </div>
         </div>
         <h4 class="mt-4">Telefonos de contacto</h4>
