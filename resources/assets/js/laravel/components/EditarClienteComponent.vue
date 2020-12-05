@@ -43,9 +43,12 @@
                     <label>Numero</label>
                     <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="paading-top:30px">
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
             Nuevo telefono
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
+            Nuevo correo
         </button>
                 </div>
             </div>
