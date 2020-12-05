@@ -379,7 +379,7 @@
                                                                 <option value="EFECTIVO">Efectivo</option>
                                                                 <option value="CHEQUE">Cheque</option>
                                                                 <option value="TRANSFERENCIA">Transferencia</option>
-                                                                <option value="TARJETA">Tarjeta</option>
+                                                                <option value="TARJETA">Tarjeta</option>  
                                                                 <option value="DOLAR">Dolar</option>
                                                             </select>
                                                             
