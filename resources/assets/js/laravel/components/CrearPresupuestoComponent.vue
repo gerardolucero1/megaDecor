@@ -238,7 +238,7 @@ padding: 0;
                                     {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
                                 </label>
                             </p>
-                            <div v-for="deuda in clienteSeleccionado.deuda" v-bind:key="deuda.index">
+                            <div v-for="deuda in clienteSeleccionado.adeudo" v-bind:key="deuda.index">
                             <p style="background:red; border-radius:10px; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
                             </div>
                         </div>
