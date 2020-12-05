@@ -386,7 +386,8 @@
                                                         </div>
                                                         <div class="col-md-12 mt-3">
                                                             
-                                                            <currency-input class="form-control" v-if="pago.method=='EFECTIVO'" currency="USD" locale="en"/>
+                                                            <currency-input class="form-control" v-model="efectivoRecibido" v-if="pago.method=='EFECTIVO'" placeholder="Efectivo Recibido" currency="USD" locale="en"/>
+                                                            <p v-if="(((efectivoRecibido)-(totalEtiqueta - totalAbonado)))>0">Cambio: {{(efectivoRecibido)-(totalEtiqueta - totalAbonado) | currency}}</p>
                                                             <currency-input class="form-control" v-model="pago.amount" currency="USD" locale="en"/>
                                                             
                                                         </div>
