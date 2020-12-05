@@ -53,7 +53,7 @@ class BudgetController extends Controller
     }
 
     public function adeudo(Request $request){
-        return Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', '!=', true)->get();
+        return Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('client_id', $request->id)->get();
     }
     public function cliente(Request $request){
 
