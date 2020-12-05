@@ -28,7 +28,7 @@
                 </div>
                 
                     <div style="padding:15px; padding-top:30px;">
-                        <button class="btn btn-primary">Creditos Incobrables</button>
+                        
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
@@ -155,6 +155,7 @@
                         <div style="position: fixed; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:#fcffa9; top:30px; ">
                             <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
+                            <a class="btn btn-primary">Creditos Incobrables</a>
                         </div>
                     </div>
                 </div>
