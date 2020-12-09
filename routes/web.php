@@ -752,6 +752,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobarPaquete');
 
     Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
+    Route::get('creditos-atrasados2', 'CMS\IndexController@creditosAtrasados2')->name('creditosAtrasados2');
 
     //Pagina web
     Route::get('paginaweb', 'CMS\IndexController@paginaweb')->name('administrador.paginaweb');

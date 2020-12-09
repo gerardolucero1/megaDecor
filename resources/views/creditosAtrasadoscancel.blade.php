@@ -157,7 +157,7 @@
                             <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
                             <span>Saldo Incobrable: $0.00</span>
-                            <a href="/creditosatrasados2" class="btn btn-primary">Creditos Incobrables</a>
+                            <a class="btn btn-primary">Creditos Incobrables</a>
                         </div>
                     </div>
                 </div>
