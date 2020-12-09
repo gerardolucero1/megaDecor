@@ -42,7 +42,7 @@
         "js-cookie": "^2.2.1",
         "simplebar": "^2.6.1",
         "vue-currency-filter": "^3.4.3",
-        "vue-currency-input": "^1.20.3",
+        "vue-currency-input": "^1.22.4",
         "vuelidate": "^0.7.5"
     }
 }
