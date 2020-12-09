@@ -44,10 +44,10 @@
                     <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
                 <div class="col-md-4" style="paading-top:30px">
-                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
+                <button type="button" class="btn btn-sm btn-primary" style="margin-top:40px" data-toggle="modal" data-target="#crearTelefono">
             Nuevo telefono
         </button>
-        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
+        <button type="button" class="btn btn-sm btn-primary" style="margin-top:40px" data-toggle="modal" data-target="#crearTelefono">
             Nuevo correo
         </button>
                 </div>
@@ -327,7 +327,7 @@
                 </div>
             </div>
         </div>
-        <button onclick="alert('cliente vetado con exito!');">Vetar cliente</button>
+        <button class="btn btn-danger" onclick="alert('cliente vetado con exito!');">Vetar cliente</button>
   </section>
 </template>
 
