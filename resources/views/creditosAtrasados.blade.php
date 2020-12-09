@@ -142,9 +142,10 @@
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
 
-                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Vetar" data-original-title="View Customer">
                                                     <i style="color: white" class="si si-trash"></i> 
                                                 </a>
+                                                
                                                 
                                             </td>
                                         </tr>
