@@ -327,7 +327,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-danger" @click="vetar()</button>
+        <button onclick="alert('cliente vetado con exito!');">Vetar cliente</button>
   </section>
 </template>
 
@@ -364,9 +364,6 @@
             },
         },
         methods:{
-            vetar(){
-                alert('contrato archivado');
-            },
             obtenerCliente: function(){
                 let path = window.location.pathname.split('/');
                 let URL = '/obtener-cliente-editar/' + path[3];
