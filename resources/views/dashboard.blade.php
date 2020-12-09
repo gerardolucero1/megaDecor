@@ -350,7 +350,7 @@
         @include('../modals/categoriaTareaModal')
         @include('../modals/tiposEmpresaModal')
         @include('../modals/comoSupoModal')
-        @include('../modals/gasolinaModal')
+        @include('../modals/gasolinaModal2')
    
     
 @endsection
