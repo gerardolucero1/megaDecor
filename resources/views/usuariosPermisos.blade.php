@@ -55,6 +55,7 @@
                                     <input id="" style="margin-left: 20px" type="checkbox" name="" value="1" @if($Permisos->dashboardVentasMes==1) checked @endif>-Fletes Administrar casetas</label><br>
                                     <input id="" style="margin-left: 20px" type="checkbox" name="" value="1" @if($Permisos->dashboardVentasMes==1) checked @endif>-Vetar Clientes</label><br>
                                     <input id="" style="margin-left: 20px" type="checkbox" name="" value="1" @if($Permisos->dashboardVentasMes==1) checked @endif>-Restaurar Cliente Vetado</label><br>
+                                    <input id="" style="margin-left: 20px" type="checkbox" name="" value="1" checked >-Contratos a nube para cambio de fecha</label><br>
                             </div>
                             <div class="col-md-3">
                                     <label id="I19" style="font-weight: bold"><input id="I18" style="font-weight: bold" type="checkbox" name="clientes" value="1" @if($Permisos->clientes==1) checked @endif>-Clientes</label><br>
