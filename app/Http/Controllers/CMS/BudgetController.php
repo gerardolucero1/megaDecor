@@ -1262,6 +1262,19 @@ class BudgetController extends Controller
         $budget->save();
         return back();
     }
+    public function archivarVetar($id){
+        $datos=explode("-", $id);
+        
+        $budget=Budget::find($datos[0]);
+        $budget->archivado='1';
+        $budget->notasPresupuesto=$datos[1];
+        $budget->save();
+
+        $cliente=Client::find($budget->client_id);
+        $cliente->clave = 'vetado';
+        $cliente->save();
+        return back();
+    }
     public function facturaEnviada($id){
         $budget=Budget::find($id);
         $budget->fechaEnvioFactura= $date = Carbon::now();

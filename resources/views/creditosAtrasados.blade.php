@@ -157,7 +157,7 @@
                             <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
                             <span>Saldo Incobrable: $0.00</span>
-                            <a href="/creditosatrasados2" class="btn btn-primary">Creditos Incobrables</a>
+                            <a href="/creditos-atrasados2" class="btn btn-primary">Creditos Incobrables</a>
                         </div>
                     </div>
                 </div>
@@ -171,12 +171,13 @@
 
 function archivarPresupuesto(id){
         //alert(id);
-        let motivo = prompt('¿Motivo de cancelación?')
-        let URL = '/budget-archivar/'  + id+'-'+motivo;
+        let motivo = prompt('Teclea "VETADO" para continuar')
+        let URL = '/budget-archivar-vetar/'  + id+'-'+motivo;
+        if(motivo == 'VETADO'){
         axios.get(URL).then((response) => {
                     Swal.fire(
-                            'Eliminado',
-                            'El presupuesto ha sido eliminado correctamente',
+                            'Cliente Vetado',
+                            'Presupuesto archivado y cliente vetado correctamente',
                             'success'
                         ); 
                         location.reload();
@@ -188,6 +189,13 @@ function archivarPresupuesto(id){
                             'Danger'
                         ); 
                 })
+            }else{
+                Swal.fire(
+                            'Cancelado',
+                            'Se cancelo la accion de vetar al cliente o no se ingreso la confirmacion correctamente',
+                            'error'
+                        ); 
+            }
 
     }
 </script>
