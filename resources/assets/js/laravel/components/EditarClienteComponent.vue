@@ -96,6 +96,7 @@
                         <th scope="col">NUMERO</th>
                         <th scope="col">EXT</th>
                         <th scope="col">DEPARTAMENTO</th>
+                        <th scope="col">CORREO</th>
                         <th scope="col" class="text-center">OPCIONES</th>
                     </tr>
                 </thead>
@@ -107,6 +108,7 @@
                         <td>{{ telefono.numero }}</td>
                         <td>{{ telefono.ext }}</td>
                         <td>{{ telefono.departamento }}</td>
+                        <td>{{ telefono.email }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-info text-center" v-on:click.prevent="editarTelefono(telefono)">Editar</button>
                             <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(telefono.id)">Eliminar</button>
@@ -248,7 +250,7 @@
                             <label for="">Apellido Materno</label>
                             <input type="text" v-model="telefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                        <div class="col-md-4">
                             <label for="">Email del contacto</label>
                             <input type="text" v-model="telefono.email">
                         </div>
@@ -309,7 +311,7 @@
                             <label for="">Apellido Materno</label>
                             <input type="text" v-model="nuevoTelefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
+                        <div class="col-md-4">
                             <label for="">Email de contacto</label>
                             <input type="text" v-model="nuevoTelefono.email">
                         </div>
@@ -471,7 +473,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Si, Borrar!'
                     }).then((result) => {
                     if (result.value) {
                         axios.delete(URL).then((response) => {
