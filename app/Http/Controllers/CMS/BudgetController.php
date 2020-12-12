@@ -1280,7 +1280,7 @@ class BudgetController extends Controller
         $budget->save();
 
         $cliente=Client::find($budget->client_id);
-        $cliente->clave = 'vetado';
+        $cliente->clave = 'VETADO';
         $cliente->save();}else{
         
         $budget->archivado='0';
