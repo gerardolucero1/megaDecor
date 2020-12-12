@@ -175,17 +175,19 @@
                 
              </table>
 
-             
+            
              </div>
              <div class="col-md-5">
              <table style="width:100%">
              <tr style="text-align:center; background:#252EEE; color:white">
              <th>Nombre</th>
              <th>Costo</th>
+             <th>Km</th>
              </tr>
              <tr v-for="(item, index) in casetas2" :key="index">
              <td>{{item.nombre}}</td>
              <td>${{item.consumo}}</td>
+             <td>{{item.combustible}} km</td>
              </tr>
              </table>
 
@@ -202,7 +204,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" style="border: solid; border-color: grey">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Nuevo Vehicul o Caseta</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Nuevo Vehiculo o Caseta</h5>
                 <button type="button" class="close" onClick="$('#agregarVehiculo').modal('hide')" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -220,6 +222,8 @@
                         <label v-if="tipoRegistro=='Vehiculo'">Rendimiento</label>
                         <label v-else>Costo</label>
                         <input type="text" name="rendimiento" id="inputRendimiento" class="form-control" placeholder="" aria-describedby="helpId" v-model="nuevoRendimiento">
+                        <label v-if="tipoRegistro=='Caseta'">Kilometros</label>
+                        <input v-if="tipoRegistro=='Caseta'" type="number" class="form-control" v-model="nuevoCombustible" placeholder="kilometros">
                         
                     </div>
                     <div class="col-md-3 text-center">
@@ -285,6 +289,7 @@ export default {
         return{
            gastoFlete:0,
            gastoViaticos:0,
+           nuevoCombustible: '',
            gastoHorasViaje:0,
            gastoCasetas:0,
            tipoRegistro:'',
@@ -374,7 +379,7 @@ export default {
              },
         },
     methods: {
-         
+      
 
         editarCantidadKm(index, key){
                     //console.log(key);
@@ -541,14 +546,16 @@ export default {
                     'nombre': this.nuevoNombre,
                     'rendimiento': this.nuevoRendimiento,
                     'tipo': this.tipoRegistro,
+                    'combustible': this.nuevoCombustible
                 }).then((response) => { 
                     Swal.fire({
-                        title: 'Vehiculo registrado con exito',
-                        text: "Se registro tu nuevo vehiculo",
+                        title: 'Elemento registrado con exito',
+                        text: "Se registro un nuevo elemento",
                         type: 'success',
                         showCancelButton: false, 
                     });
                     this.obtenerVehiculos();
+                    $('#agregarVehiculo').modal('hide')
                 }).catch((error) => {
                    // console.log(error.data);
                 });
@@ -557,6 +564,7 @@ export default {
                 var url= '/vehiculos/eliminar-vehiculo/'+item.id;
                 axios.delete(url).then(response =>{
                     this.obtenerVehiculos();    
+                    
                 })
             },
         updatePrecioGasolina(){

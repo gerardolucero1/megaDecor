@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="gasolinaModal" tabindex="-1" role="dialog" aria-labelledby="gasolinaCenterTitle" aria-hidden="true">
+<div class="modal fade" id="gasolinaModal2" tabindex="-1" role="dialog" aria-labelledby="gasolinaCenterTitle" aria-hidden="true">
         <div  class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div style="border: solid; border-color: grey" class="modal-content">
             <div class="modal-header">

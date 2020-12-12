@@ -414,7 +414,10 @@ public function archivarUsuario($id){
         $tipo->nombre = $request->nombre;
         $tipo->tipo = $request->tipo;
         $tipo->consumo = $request->rendimiento;
-        $tipo->combustible = "gasolina";
+        if($request->combustible == ''){
+            $tipo->combustible = 'Gasolina';
+        }else{
+        $tipo->combustible = $request->combustible;}
         $tipo->save();
     }
     public function deleteVehiculo($id){

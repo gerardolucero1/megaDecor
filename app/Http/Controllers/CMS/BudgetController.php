@@ -53,7 +53,8 @@ class BudgetController extends Controller
     }
 
     public function adeudo(Request $request){
-        return Budget::orderBy('id', 'DESC')->where('archivado', false)->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->get();
+        $fechaHoy = Carbon::yesterday();
+        return Budget::orderBy('id', 'DESC')->where('archivado', false)->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->whereDate('fechaEvento', '>', $fechaHoy)->get();
     }
     public function cliente(Request $request){
 
