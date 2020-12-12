@@ -1264,15 +1264,29 @@ class BudgetController extends Controller
     }
     public function archivarVetar($id){
         $datos=explode("-", $id);
+
+
         
         $budget=Budget::find($datos[0]);
+
+        if($budget->archivado == '0'){
         $budget->archivado='1';
         $budget->notasPresupuesto=$datos[1];
         $budget->save();
 
         $cliente=Client::find($budget->client_id);
         $cliente->clave = 'vetado';
+        $cliente->save();}else{
+        
+        $budget->archivado='0';
+        $budget->notasPresupuesto=$datos[1];
+        $budget->save();
+
+        $cliente=Client::find($budget->client_id);
+        $cliente->clave = 'No vetado';
         $cliente->save();
+
+        }
         return back();
     }
     public function facturaEnviada($id){

@@ -142,7 +142,7 @@
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
 
-                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Vetar" data-original-title="View Customer">
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Restaurar" data-original-title="View Customer">
                                                     <i style="color: white" class="si si-trash"></i> 
                                                 </a>
                                                 
@@ -171,13 +171,13 @@
 
 function archivarPresupuesto(id){
         //alert(id);
-        let motivo = prompt('Teclea "VETADO" para continuar')
+        let motivo = prompt('Teclea "RESTAURAR" para confirmar')
         let URL = '/budget-archivar-vetar/'  + id+'-'+motivo;
-        if(motivo == 'VETADO'){
+        if(motivo == 'RESTAURAR'){
         axios.get(URL).then((response) => {
                     Swal.fire(
-                            'Cliente Vetado',
-                            'Presupuesto archivado y cliente vetado correctamente',
+                            'Cliente restaurado',
+                            'Presupuesto restaurado y cliente sin veto',
                             'success'
                         ); 
                         location.reload();
@@ -192,7 +192,7 @@ function archivarPresupuesto(id){
             }else{
                 Swal.fire(
                             'Cancelado',
-                            'Se cancelo la accion de vetar al cliente o no se ingreso la confirmacion correctamente',
+                            'Se cancelo la accion de restaurar al cliente o no se ingreso la confirmacion correctamente',
                             'error'
                         ); 
             }
