@@ -171,13 +171,13 @@
 
 function archivarPresupuesto(id){
         //alert(id);
-        let motivo = prompt('Teclea "RESTAURAR" para confirmar')
+        let motivo = prompt('Teclea "VETAR" para confirmar')
         let URL = '/budget-archivar-vetar/'  + id+'-'+motivo;
-        if(motivo == 'RESTAURAR'){
+        if(motivo == 'VETAR'){
         axios.get(URL).then((response) => {
                     Swal.fire(
-                            'Cliente restaurado',
-                            'Presupuesto restaurado y cliente sin veto',
+                            'Cliente vetado',
+                            'Presupuesto archivado y cliente vetado',
                             'success'
                         ); 
                         location.reload();
@@ -192,7 +192,7 @@ function archivarPresupuesto(id){
             }else{
                 Swal.fire(
                             'Cancelado',
-                            'Se cancelo la accion de restaurar al cliente o no se ingreso la confirmacion correctamente',
+                            'Se cancelo la accion de vetar al cliente o no se ingreso la confirmacion correctamente',
                             'error'
                         ); 
             }
