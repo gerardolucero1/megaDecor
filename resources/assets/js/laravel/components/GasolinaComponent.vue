@@ -183,11 +183,13 @@
              <th>Nombre</th>
              <th>Costo</th>
              <th>Km</th>
+             <th>Opciones</th>
              </tr>
              <tr v-for="(item, index) in casetas2" :key="index">
              <td>{{item.nombre}}</td>
              <td>${{item.consumo}}</td>
              <td>{{item.combustible}} km</td>
+             <td><button class="btn btn-sm btn-danger" @click="eliminarVehiculo(item)">Eliminar</button></td>
              </tr>
              </table>
 
