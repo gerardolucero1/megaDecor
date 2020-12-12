@@ -559,7 +559,7 @@ export default {
                         showCancelButton: false, 
                     });
                     this.obtenerVehiculos();
-                    this.obtenerCasetas();
+                    this.obtenerCasetasBD();
                     $('#agregarVehiculo').modal('hide')
                 }).catch((error) => {
                    // console.log(error.data);
@@ -569,7 +569,7 @@ export default {
                 var url= '/vehiculos/eliminar-vehiculo/'+item.id;
                 axios.delete(url).then(response =>{
                     this.obtenerVehiculos(); 
-                    this.obtenerCasetas();   
+                    this.obtenerCasetasBD();   
                     
                 })
             },
