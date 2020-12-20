@@ -261,11 +261,11 @@
                                             <a href="{{ route('paquetes') }}">Paquetes</a>
                                         </li>
                                         @endif
-                                        @if($permisos->inventarioProximos==1)
+                                       
                                         <li>
                                             <a href="{{ route('proximos') }}">Proximos</a>
                                         </li>
-                                        @endif
+                                       
                                         @if($permisos->inventarioFamilias==1)
                                         <li>
                                             <a href="{{ route('familia.index') }}">Familias</a>
