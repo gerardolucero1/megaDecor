@@ -1055,55 +1055,7 @@ public function archivarUsuario($id){
         }
 
 
-        //Obtenemos los archivados
-        $budgetsArchivados = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '1')->get();
-        $PresupuestosArchivados=[];
-      
-        //No obtenemos clientes por que ya los tenemos arriba
-        foreach($budgetsArchivados as $budgetArchivados){
-         $PresupuestoArchivados   = new stdClass();
-         $PresupuestoArchivados->id = $budgetArchivados->id;
-         $PresupuestoArchivados->folio = $budgetArchivados->folio;
-         $PresupuestoArchivados->fechaEvento = $budgetArchivados->fechaEvento;
-         //$Presupuesto->vendedor = $budget->vendedor_id;
-         $DatosVendedor = User::orderBy('id', 'DESC')->where('id', $budget->vendedor_id)->first();
-         $PresupuestoArchivados->vendedor = $DatosVendedor->name;
-         $PresupuestoArchivados->version = $budgetArchivados->version;
-         $PresupuestoArchivados->impresion = $budgetArchivados->impresion;
-         $PresupuestoArchivados->enviado = $budgetArchivados->enviado;
-         $PresupuestoArchivados->total = $budgetArchivados->total;
-         $PresupuestoArchivados->pendienteFecha = $budgetArchivados->pendienteFecha;
-         if($budgetArchivados->opcionIVA==1){
-            $PresupuestoArchivados->total = ($budgetArchivados->total)+($budgetArchivados->total*.16);
-            $PresupuestoArchivados->IVA = true;
-        }else{
-            $PresupuestoArchivados->total = $budget->total;
-            $PresupuestoArchivados->IVA = false;
-        }
-         $PresupuestoArchivados->impresionBodega = $budgetArchivados->impresionBodega;
-         $PresupuestoArchivados->updated_at = $budgetArchivados->updated_at;
-
-         
-         
-
-         foreach($clientes as $cliente){
        
-             if($cliente->id==$budgetArchivados->client_id){
-                    if($cliente->apellidoPaterno==$cliente->nombre){$PresupuestoArchivados->cliente = $cliente->nombre;}else{
-                     $PresupuestoArchivados->cliente = $cliente->nombre.' '.$cliente->apellidoPaterno;}
-
-                if($budget->lugarEvento = 'MISMA'){
-                    $PresupuestoArchivados->lugarEvento = $cliente->direccionFacturacion; 
-                    
-                }else{
-                    $PresupuestoArchivados->lugarEvento = $budgetArchivados->lugarEvento;
-                }
-                
-        }
-        }
-
-         array_push($PresupuestosArchivados,$PresupuestoArchivados);
-        }
 
         //dd($clientes);
         return view('presupuestos3',compact('Presupuestos', 'presupuestosHistorial'));
