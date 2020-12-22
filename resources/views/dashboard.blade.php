@@ -32,7 +32,7 @@
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
                             @endif
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#gasolinaModal">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#gasolinaModal2">
                                 <i class="fa fa-calculator"></i> <i>Calculadora Fletes</i> 
                             </button>
                             

@@ -1133,8 +1133,8 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary" v-if="editado==1" @click="guardarContrato()">Guardar</button>
-                    <label for="" v-if="editado==0">No hay cambios que guardar</label>
+                    <button type="button" class="btn btn-primary"  @click="guardarContrato()">Guardar</button>
+                    
                 </div>
                 </div>
             </div>

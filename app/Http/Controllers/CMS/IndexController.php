@@ -414,7 +414,10 @@ public function archivarUsuario($id){
         $tipo->nombre = $request->nombre;
         $tipo->tipo = $request->tipo;
         $tipo->consumo = $request->rendimiento;
-        $tipo->combustible = "gasolina";
+        if($request->combustible == ''){
+            $tipo->combustible = 'Gasolina';
+        }else{
+        $tipo->combustible = $request->combustible;}
         $tipo->save();
     }
     public function deleteVehiculo($id){
@@ -1514,18 +1517,18 @@ public function archivarUsuario($id){
         return view('paquetes', compact('paquetes', 'paquetesAuth'));
     }
 
-    public function creditosAtrasados(){
+    public function creditosAtrasados2(){
         $date = Carbon::now();
         $fechaActual = $date->format('Y-m-d');
         $contratos = [];
 
          //calculo adeudo total
          $adeudoTotal = 0;
-         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', '1')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
          
           //Fincalculo adeudo total
 
-        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', '1')->where('fechaEvento', '!=', null)->get();
         foreach ($creditos as $credito) {
             if(!is_null($credito->fechaEvento)){
 
@@ -1629,7 +1632,124 @@ public function archivarUsuario($id){
     $adeudoTotal=$adeudoTotal-25855;
 
         //dd($contratos);
-        return view('creditosAtrasados', compact('contratos', 'adeudoTotal'));
+        return view('creditosAtrasadoscancel', compact('contratos', 'adeudoTotal'));
+}
+public function creditosAtrasados(){
+    $date = Carbon::now();
+    $fechaActual = $date->format('Y-m-d');
+    $contratos = [];
+
+     //calculo adeudo total
+     $adeudoTotal = 0;
+     $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+     
+      //Fincalculo adeudo total
+
+    $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+    foreach ($creditos as $credito) {
+        if(!is_null($credito->fechaEvento)){
+
+        $cliente = Client::findOrFail($credito->client_id);
+        if($cliente->tipoPersona == 'FISICA'){
+            $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
+            $vendedor = User::where('id', $credito->vendedor_id)->first();
+            $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+            $fechaFormato = date('Y-m-d',$fechaEvento);
+            $pagos = Payment::where('budget_id', $credito->id)->get();
+            
+            $saldoPendiente = 0;
+            foreach($pagos as $pago){
+                
+                if($pago->method=='DOLAR'){
+                    $saldoPendiente = $saldoPendiente + ($pago->amount*$pago->reference);}
+                    else{
+                        $saldoPendiente = $saldoPendiente + $pago->amount;
+                    }
+                
+            }
+            
+            if($credito->opcionIVA){
+                if((($credito->total*1.16)-$saldoPendiente)>0){
+            $adeudoTotal=$adeudoTotal+(($credito->total*1.16)-$saldoPendiente);}
+        }else{
+            if(($credito->total-$saldoPendiente)>0){
+            $adeudoTotal=$adeudoTotal+($credito->total-$saldoPendiente);}
+            }
+
+            if($fechaFormato < $fechaActual){
+
+                $contrato = new stdClass();
+                $contrato->id = $credito->id;
+                $contrato->fechaLimite = $fechaFormato;
+                $contrato->diasCredito = $persona->diasCredito;
+                $contrato->fechaEvento = $credito->fechaEvento;
+                $contrato->folio = $credito->folio;
+                $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                $contrato->vendedor = $vendedor->name;
+                $contrato->total = $credito->total;
+                $contrato->pagado = $credito->pagado;
+                $contrato->pendienteFecha = $credito->pendienteFecha;
+                $contrato->client_id = $credito->client_id;
+                $contrato->user = $credito->user;
+                $contrato->version = $credito->version;
+                $contrato->impresion = $credito->impresion;
+                $contrato->impresionBodega = $credito->impresionBodega;
+                $contrato->enviado = $credito->enviado;
+                $contrato->updated_at = $credito->updated_at;
+                $contrato->opcionIVA = $credito->opcionIVA;
+                $contrato->saldoPendiente = $saldoPendiente;
+       
+                array_push($contratos, $contrato);
+            }
+            
+        }else{
+            $persona = MoralPerson::where('client_id', $cliente->id)->first();
+            $fechaEvento = strtotime($credito->fechaEvento . '+' . $persona->diasCredito . '  days');
+            $fechaFormato = date('Y-m-d',$fechaEvento);
+            $vendedor = User::where('id', $credito->vendedor_id)->first();
+            $pagos = Payment::where('budget_id', $credito->id)->get();
+
+            $saldoPendiente = 0;
+            foreach($pagos as $pago){
+                if($pago->method=='DOLAR'){
+                    $saldoPendiente = $saldoPendiente + ($pago->amount*$pago->reference);}
+                    else{
+                        $saldoPendiente = $saldoPendiente + $pago->amount;
+                    }
+            }
+            if($fechaFormato < $fechaActual){
+                $contrato = new stdClass();
+                $contrato->id = $credito->id;
+                $contrato->fechaLimite = $fechaFormato;
+                $contrato->diasCredito = $persona->diasCredito;
+                $contrato->fechaEvento = $credito->fechaEvento;
+                $contrato->folio = $credito->folio;
+                $contrato->cliente = $persona->nombre.' '.$persona->apellidoPaterno.' '.$persona->apellidoMaterno;
+                $contrato->vendedor = $vendedor->name;
+                $contrato->total = $credito->total;
+                $contrato->pagado = $credito->pagado;
+                $contrato->pendienteFecha = $credito->pendienteFecha;
+                $contrato->client_id = $credito->client_id;
+                $contrato->user = $credito->user;
+                $contrato->version = $credito->version;
+                $contrato->impresion = $credito->impresion;
+                $contrato->impresionBodega = $credito->impresionBodega;
+                $contrato->updated_at = $credito->updated_at;
+                $contrato->enviado = $credito->enviado;
+                $contrato->opcionIVA = $credito->opcionIVA;
+                $contrato->saldoPendiente = $saldoPendiente;
+              
+                array_push($contratos, $contrato);
+            }
+            
+        }
+    }
+}
+
+$adeudoTotal=$adeudoTotal-25855;
+
+    //dd($contratos);
+    return view('creditosAtrasados', compact('contratos', 'adeudoTotal'));
 }
 
     public function proveedores(){

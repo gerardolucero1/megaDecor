@@ -53,7 +53,13 @@ class BudgetController extends Controller
     }
 
     public function adeudo(Request $request){
-        return Budget::orderBy('id', 'DESC')->where('archivado', false)->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->get();
+        $fechaHoy = Carbon::yesterday();
+        return Budget::orderBy('id', 'DESC')->where('archivado', false)->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->whereDate('fechaEvento', '>', $fechaHoy)->get();
+    }
+    public function adeudoStatus(Request $request){
+        $fechaHoy = Carbon::yesterday();
+        $cliente = Client::find($request->id);
+        return $cliente->clave;
     }
     public function cliente(Request $request){
 
@@ -1259,6 +1265,33 @@ class BudgetController extends Controller
         $budget->archivado='1';
         $budget->notasPresupuesto=$datos[1];
         $budget->save();
+        return back();
+    }
+    public function archivarVetar($id){
+        $datos=explode("-", $id);
+
+
+        
+        $budget=Budget::find($datos[0]);
+
+        if($budget->archivado == '0'){
+        $budget->archivado='1';
+        $budget->notasPresupuesto=$datos[1];
+        $budget->save();
+
+        $cliente=Client::find($budget->client_id);
+        $cliente->clave = 'VETADO';
+        $cliente->save();}else{
+        
+        $budget->archivado='0';
+        $budget->notasPresupuesto=$datos[1];
+        $budget->save();
+
+        $cliente=Client::find($budget->client_id);
+        $cliente->clave = 'No vetado';
+        $cliente->save();
+
+        }
         return back();
     }
     public function facturaEnviada($id){

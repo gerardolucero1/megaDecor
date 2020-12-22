@@ -142,9 +142,10 @@
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
 
-                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Restaurar" data-original-title="View Customer">
                                                     <i style="color: white" class="si si-trash"></i> 
                                                 </a>
+                                                
                                                 
                                             </td>
                                         </tr>
@@ -156,7 +157,7 @@
                             <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
                             <span>Saldo Incobrable: $0.00</span>
-                            <a class="btn btn-primary">Creditos Incobrables</a>
+                            <a href="/creditos-atrasados2" class="btn btn-primary">Creditos Incobrables</a>
                         </div>
                     </div>
                 </div>
@@ -170,12 +171,13 @@
 
 function archivarPresupuesto(id){
         //alert(id);
-        let motivo = prompt('¿Motivo de cancelación?')
-        let URL = '/budget-archivar/'  + id+'-'+motivo;
+        let motivo = prompt('Teclea "VETAR" para confirmar')
+        let URL = '/budget-archivar-vetar/'  + id+'-'+motivo;
+        if(motivo == 'VETAR'){
         axios.get(URL).then((response) => {
                     Swal.fire(
-                            'Eliminado',
-                            'El presupuesto ha sido eliminado correctamente',
+                            'Cliente vetado',
+                            'Presupuesto archivado y cliente vetado',
                             'success'
                         ); 
                         location.reload();
@@ -187,6 +189,13 @@ function archivarPresupuesto(id){
                             'Danger'
                         ); 
                 })
+            }else{
+                Swal.fire(
+                            'Cancelado',
+                            'Se cancelo la accion de vetar al cliente o no se ingreso la confirmacion correctamente',
+                            'error'
+                        ); 
+            }
 
     }
 </script>
