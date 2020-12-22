@@ -572,17 +572,17 @@
                 })
             }
     function presupuestosArchivados(){
-     
+        document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";
         document.getElementById('PresupuestosHistorial').style.display="none";
     }
     function PresupuestosActivos(){
-    
+        document.getElementById('presupuestosArchivados').style.display="none";
         document.getElementById('PresupuestosActivos').style.display="block";
         document.getElementById('PresupuestosHistorial').style.display="none";
     }
     function PresupuestosHistorial(){
-      
+        document.getElementById('presupuestosArchivados').style.display="none";
         document.getElementById('PresupuestosActivos').style.display="none";
         document.getElementById('PresupuestosHistorial').style.display="block";
     }
