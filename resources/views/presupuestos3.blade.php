@@ -37,26 +37,18 @@
                             $usuario = Auth::user()->id;    
                         @endphp 
                         
-                        @if($permisos->contratosCrearContrato==1)
+                       
                             <button class="btn btn-primary" data-toggle="modal" data-target="#nuevoPresupuestoModal">
                                 <i class="fa fa-calendar-plus-o"></i> <i>Crear Contrato</i> 
                             </button>
-                        @endif
-                        @if($permisos->contratosVistaCalendario==1)
-                            <button style="display: none" class="btn btn-primary"  onclick="vista_calendario()">
-                                <i class="fa fa-calendar"></i> <i>Vista Calendario</i> 
-                            </button>
-                        @endif
-                        @if($permisos->contratosHistorial==1)
+                      
+                     
+                      
+                      
                             <button onclick="PresupuestosHistorial()" class="btn btn-info">
                                 <i class="fa fa-calendar-minus-o"></i> <i>Historial</i> 
                             </button>
-                        @endif
-                        @if($permisos->contratosArchivados==1)
-                        <button onclick="presupuestosArchivados()" class="btn btn-secondary">
-                            <i class="fa fa-trash"></i> <i>Contratos Eliminados</i> 
-                        </button>
-                    @endif
+               
                    
                     </div>
                     </div>
@@ -64,21 +56,21 @@
                      <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestos" role="grid" >
                             <thead>
                                 <tr role="row">
-                                    @if($permisos->contratosFolio==1)
-                                    <th>Folio</th>@endif
-                                    @if($permisos->contratosFecha==1)
-                                    <th>Fecha Evento</th>@endif
-                                    @if($permisos->contratosCliente==1)
-                                    <th class="d-none d-sm-table-cell">Cliente</th>@endif
-                                    @if($permisos->contratosVendedor==1)
-                                    <th class="d-none d-sm-table-cell">Vendedor</th>@endif
-                                    @if($permisos->contratosVersion==1)
-                                    <th class="d-none d-sm-table-cell">Version</th>@endif
+                                  
+                                    <th>Folio</th>
+                                  
+                                    <th>Fecha Evento</th>
+                                    
+                                    <th class="d-none d-sm-table-cell">Cliente</th>
+                                    
+                                    <th class="d-none d-sm-table-cell">Vendedor</th>
+                                   
+                                    <th class="d-none d-sm-table-cell">Version</th>
                                     <th class="d-none d-sm-table-cell">Etiquetas</th>
-                                    @if($permisos->contratosUltimaModificacion==1)
-                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>@endif
-                                     @if($permisos->contratosTotal==1)
-                                     <th class="d-none d-sm-table-cell">Total</th>@endif
+                                
+                                     <th class="d-none d-sm-table-cell">Ultima Modificación</th>
+                             
+                                     <th class="d-none d-sm-table-cell">Total</th>
                                      <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -89,15 +81,15 @@
                             @if (!is_null($Presupuestos))
                             @foreach ($Presupuestos as $budget)                          
                             <tr role="row" class="odd" style="@if($budget->impresionBodega==2) background:#F9F7BF;@endif">
-                                    @if($permisos->contratosFolio==1)
+                                    
                                 <td class="text-center sorting_1"><span style="display:none; font-size:2px;">{{$budget->id}}</span><br>{{$budget->folio}} 
                                     <span>
                                         @if ($budget->pagado)
                                             <i class="fa fa-check" data-toggle="tooltip" title="Contrato pagado"></i> 
                                         @endif
                                     </span>
-                                </td>@endif
-                                @if($permisos->contratosFecha==1)
+                                </td>
+                              
                                 @if ($budget->pendienteFecha!=1)
                                     @php
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
@@ -109,39 +101,39 @@
                                     @else
                                     <td class="">Pendiente</td>
                                 @endif
-                                @endif
-                                @if($permisos->contratosCliente==1)
-                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>@endif
-                                @if($permisos->contratosVendedor==1)
-                                <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>@endif
-                                @if($permisos->contratosVersion==1)
+                               
+                              
+                                <td class="d-none d-sm-table-cell">{{$budget->cliente}}</td>
+                              
+                                <td style="font-size:11px;" class="d-none d-sm-table-cell">{{$budget->vendedor}}</td>
+                            
                                 <td class="d-none d-sm-table-cell text-center">
                                         @if($budget->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                     {{$budget->version}}
                                 </td>
-                                @endif
+                               
                             <td class="d-none d-sm-table-cell text-center" style="font-size:14px;">
-                                    @if($permisos->contratosImpresionCliente==1)
+                                  
                                     <a target="_blank" href="{{route('imprimir.budget', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresion==1) title="Se Imprimió este contrato {{$budget->updated_at}}"  @else title="Aun no se imprime contrato cliente" @endif></i>
-                                    </a>@endif
-                                    @if($permisos->contratosEnviarCorreo==1)
+                                    </a>
+                                
                                     <i onclick="enviarCorreoCliente({{$budget->id}}, '{{$budget->email}}')" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Contrato enviado al cliente"  @else title="Aun no se envia al cliente {{$budget->email}}" @endif></i>   
-                                 @endif
-                                 @if($permisos->contratosImprimirBodega==1)
+                               
+                                
                                 <a style="display:none" target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
                                 </a>
                                 <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
                                         <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
                                     </a>
-                                    @endif
+                                   
                             </td>
-                            @if($permisos->contratosUltimaModificacion==1)
+                           
                                 <td class="d-none d-sm-table-cell">{{$budget->updated_at}}<br>
                                 @if($budget->version>1)por: Ivonne Arroyos @endif
                                 </td>
-                                @endif
+                               
                                 
                                 @if($permisos->contratosTotal==1)
                                 @php
