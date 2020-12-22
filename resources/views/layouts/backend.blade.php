@@ -237,6 +237,7 @@
                                     <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
                                     @endif
                                     @if($permisos->contratos==1)
+                                    <a class="nav-menu" href="{{ route('presupuestos3') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos Rapido</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos-nube') }}"><i class="fa fa-cloud"></i><span class="sidebar-mini-hide">Contratos en nube</span></a>
                                     @endif

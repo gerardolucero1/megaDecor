@@ -172,6 +172,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos2', 'CMS\IndexController@presupuestos2')->name('presupuestos2');
+    Route::get('/presupuestos3', 'CMS\IndexController@presupuestos3')->name('presupuestos3');
     Route::get('/facturas', 'CMS\IndexController@facturas')->name('facturas');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
