@@ -532,7 +532,7 @@ public function archivarUsuario($id){
         
         //calculo adeudo total
         $adeudoTotal = 0;
-        $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+        $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', false)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
       
 
 
@@ -556,8 +556,6 @@ public function archivarUsuario($id){
                                 }
             if((($contratoAdeudo->total*$banIva) - $totalAbono) > 0 ){
                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*$banIva) - $totalAbono);
-               
-
             }
         }
        
