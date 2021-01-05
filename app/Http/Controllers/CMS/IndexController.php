@@ -572,6 +572,7 @@ public function archivarUsuario($id){
             $pagos = Payment::where('budget_id', $credito->id)->get();
             
             $saldoPendiente = 0;
+          
             foreach($pagos as $pago){
                 
                 if($pago->method=='DOLAR'){
@@ -582,13 +583,7 @@ public function archivarUsuario($id){
                 
             }
             
-            if($credito->opcionIVA){
-                if((($credito->total*1.16)-$saldoPendiente)>0){
-            $adeudoTotal=$adeudoTotal+(($credito->total*1.16)-$saldoPendiente);}
-        }else{
-            if(($credito->total-$saldoPendiente)>0){
-            $adeudoTotal=$adeudoTotal+($credito->total-$saldoPendiente);}
-            }
+            
 
             if(!is_null($credito->fechaEvento)){
                
