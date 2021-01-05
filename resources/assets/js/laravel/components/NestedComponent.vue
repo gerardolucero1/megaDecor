@@ -167,6 +167,11 @@ export default {
                     this.key = key[1];
                     console.log(index);
                     console.log(key[1]);
+                    console.log(key[2]);
+                    console.log(key[3]);
+                    console.log(key[4]);
+                    console.log(key[5]);
+                    console.log(key[6]);
                        
                 },
         updateCantidad(index){
@@ -183,7 +188,12 @@ export default {
                     this.indice = index;
                     this.key = key[5];
                     console.log(index);
+                    console.log(key[1]);
+                    console.log(key[2]);
+                    console.log(key[3]);
                     console.log(key[4]);
+                    console.log(key[5]);
+                    console.log(key[6]);
                        
                 },
         updatePrecio(index){
