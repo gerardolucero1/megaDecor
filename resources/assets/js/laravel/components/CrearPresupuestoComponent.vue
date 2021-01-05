@@ -551,9 +551,9 @@ padding: 0;
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> 
-                       <!--
+                      
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
-                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>-->
+                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
