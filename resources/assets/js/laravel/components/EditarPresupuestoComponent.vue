@@ -182,7 +182,8 @@ padding: 0;
                         
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
+                
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
@@ -265,9 +266,11 @@ padding: 0;
                     </div>
                 </div>
                 </div>
+
+
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -356,17 +359,12 @@ padding: 0;
 
                 </div>
                 
-                <h4>Archivos de Referencia</h4>
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="file" name="" id="">
-                    </div>
-                </div>
+                
 
                 <hr>
 
                 <!-- SECTION 2 -->
-                <div class="row">
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
                     <div class="col-md-10 ">
                         <div class="row">
                             <div class="col-md-4">
@@ -408,7 +406,7 @@ padding: 0;
                     </div>
                 </div>
                 <!--Table-->
-                <div class="row">
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
                     <div class="col-md-12">
                         <table class="table table-striped">
                         <thead>
@@ -481,7 +479,7 @@ padding: 0;
                     </div>
                 </div>
 
-                <div class="row">
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
                     <div class="col-md-12">
                        
                         <div class="row">
@@ -536,7 +534,7 @@ padding: 0;
                      </div>
                 </div>
 
-                <div class="row">
+                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
