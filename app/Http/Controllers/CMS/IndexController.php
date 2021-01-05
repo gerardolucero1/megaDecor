@@ -501,6 +501,9 @@ public function archivarUsuario($id){
     }
 
 
+
+    
+
     // Nueva Version Comisiones---------------------------------------->
     $date = Carbon::now();
     $ContratosDelMes = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->whereMonth('fechaEvento', $date)->get();
@@ -523,10 +526,60 @@ public function archivarUsuario($id){
 
 
 
+    public function creditosAtrasadoslll(){
+        $date = Carbon::now();
+        $fechaActual = $date->format('Y-m-d');
+        $contratos = [];
+        $numCreditos = 0;
+          //Fincalculo adeudo total
+        
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+        foreach ($creditos as $credito) {
+            if(!is_null($credito->fechaEvento)){
+               
+                if($credito->opcionIVA == 1){
+                    $total = $credito->total * 1.16;
+                }else{
+                    $total = $credito->total;
+                    
+                }
+                $numcreditos++;
+        }
+
+    }
+    
+  
+    
+    }
+
+
+
 
 
     //Vista dasboard
     public function dashboard(){
+
+        $date = Carbon::now();
+        $fechaActual = $date->format('Y-m-d');
+        $contratos = [];
+        $numCreditos = 0;
+          //Fincalculo adeudo total
+        
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+        foreach ($creditos as $credito) {
+            if(!is_null($credito->fechaEvento)){
+               
+                if($credito->opcionIVA == 1){
+                    $total = $credito->total * 1.16;
+                }else{
+                    $total = $credito->total;
+                    
+                }
+                $numcreditos++;
+        }
+
+    }
+
          $fecha_actual= date('Y-m-d',time());
         //Presupuestos activos
         
@@ -653,7 +706,7 @@ public function archivarUsuario($id){
     
            
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos','numeroPresupuestosF', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal', 'numcreditos'));
         
         $ventas=0;
         if(count($EmpleadoDelMes) != 0){
@@ -734,7 +787,7 @@ public function archivarUsuario($id){
 
 
         $tasks = Task::orderBy('id', 'DESC')->get();
-        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal'));
+        return view('dashboard', compact('tasks', 'numeroPresupuestos', 'numeroPresupuestosDiaActual', 'ArrayEmpleadoDelMes', 'presupuestosAnoPasado', 'presupuestosAnoActual', 'porcentajeActual', 'ventasAnoActual', 'ventasAnoPasado', 'porcentajeActualDinero', 'ElementosVendedores', 'diferenciaDinero', 'adeudoTotal', 'numcreditos'));
     }
 
     public function presupuestos(){
