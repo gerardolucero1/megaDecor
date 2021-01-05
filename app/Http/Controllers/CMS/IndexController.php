@@ -563,6 +563,7 @@ public function archivarUsuario($id){
         $fechaActual = $date->format('Y-m-d');
         $contratos = [];
         $numCreditos = 0;
+        $adeudoTotal = 0;
           //Fincalculo adeudo total
         
         $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
@@ -593,6 +594,7 @@ public function archivarUsuario($id){
                 }
 
                 if(($total-$saldoPendiente) > 0){
+                    $adeudoTotal = $adeudoTotal + ($total-$saldoPendiente);
                 $numCreditos++;}
         }
 
@@ -626,7 +628,7 @@ public function archivarUsuario($id){
                                     $banIva =1;
                                 }
             if((($contratoAdeudo->total*$banIva) - $totalAbono) > 0 ){
-                $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*$banIva) - $totalAbono);
+               // $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*$banIva) - $totalAbono);
             }
         }
        
