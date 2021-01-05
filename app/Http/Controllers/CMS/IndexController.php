@@ -582,8 +582,6 @@ public function archivarUsuario($id){
                     }
                 
             }
-            
-            
 
             if(!is_null($credito->fechaEvento)){
                
