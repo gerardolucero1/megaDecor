@@ -140,7 +140,7 @@
                                             if (isset($telefono->numero)) {
                                             echo $telefono->numero;
                                             }else{
-                                                echo $telefonoCliente;
+                                                //echo $telefonoCliente;
                                             }
 
                                         @endphp
