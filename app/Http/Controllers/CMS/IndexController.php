@@ -604,7 +604,6 @@ public function archivarUsuario($id){
         //Presupuestos activos
         
         //calculo adeudo total
-        $adeudoTotal = 0;
         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('archivado', false)->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
       
 
