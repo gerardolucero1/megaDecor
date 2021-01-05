@@ -1273,7 +1273,7 @@ class BudgetController extends Controller
         $datos=$id;
         
         $budget=Inventory::find($id);
-        $budget->archivado='1';
+        $budget->archivar=true;
         $budget->save();
         return back();
     }
