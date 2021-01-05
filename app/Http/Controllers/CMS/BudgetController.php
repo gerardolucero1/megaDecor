@@ -1355,8 +1355,8 @@ class BudgetController extends Controller
         }
        
     }
-    public function restaurarPresupuesto($id){
-        $budget=Budget::find($id);
+    public function restaurarPresupuesto(Request $request){
+        $budget=Budget::find($request->id);
         $budget->categoriaEvento = 'otro';
         $budget->save();
 

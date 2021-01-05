@@ -1357,7 +1357,8 @@ padding: 0;
                         <label for="">Vigencia</label><br>
                         <input v-model="nube.vigencia" class="form-control" type="date">
                         </div>
-                <button @click="enviarANube()" class="btn btn-info">Confirmar</button>
+                <button v-if="presupuesto.categoriaEvento != 'nube'" @click="enviarANube()" class="btn btn-info">Confirmar</button>
+                <button v-if="presupuesto.categoriaEvento == 'nube'" @click="restaurarNube()" class="btn btn-info">Confirmar</button>
                 </div>
                 
                 <div class="modal-footer">
@@ -2861,6 +2862,59 @@ padding: 0;
                 var myParameters = window.location.search;// Get the parameters from the current page
 
                 var URL = "/cambio-fecha/"
+
+                var W = window.open(URL);
+
+                W.window.print(); 
+                         
+                            
+                }).catch((error) => {
+                    console.log(error);
+                });
+               
+            },
+
+
+            restaurarNube(){
+                let URL = '/nube/create';
+                //alert('funciona');
+                
+                axios.post(URL, {
+                    'budget_id': this.presupuesto.id,
+                    'motivo':this.nube.motivo,
+                    'fechaAnterior':this.presupuesto.fechaEvento,
+                    'categoriaAnterior':this.presupuesto.categoria,
+                    'fechaNueva':this.nube.newDate,
+                    'vigencia':this.nube.vigencia,
+
+                }).then((response) => {
+        
+                  $('#subirNube').modal('hide');
+                   // console.log(this.cliente);
+                    Swal.fire({
+                                title: 'Operación Completa',
+                                text: "",
+                                type: 'success',
+                                showCancelButton: false,
+                                cancelButtonColor: '#d33',
+                                
+                            })
+                var myParameters = window.location.search;// Get the parameters from the current page
+
+                var URL = "/nube/restore"
+
+
+                axios.post(URL, {
+                    'id': this.presupuesto.id,
+                  
+
+                }).then((response) => {
+        
+                }).catch((error) => {
+                    console.log(error);
+                });
+
+
 
                 var W = window.open(URL);
 
