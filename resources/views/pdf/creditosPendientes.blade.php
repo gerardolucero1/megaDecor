@@ -22,6 +22,7 @@
 
     @foreach ($contratos as $budgetArchivados)
     @php
+            $telefonoCliente = 0;
             $fechaEvento = Carbon\Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
             $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
             $date = $budgetArchivados->fechaEvento." 11:00:00";

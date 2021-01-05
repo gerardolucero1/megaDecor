@@ -46,7 +46,7 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $telefonoCliente = '';
+                                    $telefonoCliente = 0;
                                 @endphp
                                 @foreach ($contratos as $budgetArchivados) 
                                 @php
@@ -93,12 +93,12 @@
                                             $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
                                            // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                            //$telefonoCliente = $clienteFisico->telefono;
+                                           $telefonoCliente = $clienteFisico->telefono;
 
                                         }else{
                                             $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteMoral->nombre;
-                                            //$telefonoCliente = $clienteMoral->telefono;
+                                            $telefonoCliente = $clienteMoral->telefono;
                                         }
                                     @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
@@ -140,7 +140,7 @@
                                             if (isset($telefono->numero)) {
                                             echo $telefono->numero;
                                             }else{
-                                                //echo $telefonoCliente;
+                                                echo $telefonoCliente;
                                             }
 
                                         @endphp
