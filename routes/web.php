@@ -139,6 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
         Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');
         Route::get('/budget-archivar/{id}', 'CMS\BudgetController@archivar')->name('presupuesto.archivar');
+        Route::get('/product-archivar/{id}', 'CMS\BudgetController@archivarProducto')->name('producto.archivar');
         Route::get('/budget-archivar-vetar/{id}', 'CMS\BudgetController@archivarVetar')->name('presupuesto.archivar');
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::post('/obtener-adeudo', 'CMS\BudgetController@adeudo');

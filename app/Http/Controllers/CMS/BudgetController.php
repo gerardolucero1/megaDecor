@@ -1269,6 +1269,14 @@ class BudgetController extends Controller
         $budget->save();
         return back();
     }
+    public function archivarProducto($id){
+        $datos=$id;
+        
+        $budget=Inventory::find($id);
+        $budget->archivado='1';
+        $budget->save();
+        return back();
+    }
     public function archivar($id){
         $datos=explode("-", $id);
         

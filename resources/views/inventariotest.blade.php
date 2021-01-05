@@ -287,7 +287,7 @@ function eliminar(id){
    document.getElementById('btn-delete-'+id).style.display="none";
    document.getElementById('txt-delete-'+id).style.display="block";
                   
-   let URL = '/budget-archivar/'+id;
+   let URL = '/product-archivar/'+id;
 
            axios.get(URL).then((response) => {
               
