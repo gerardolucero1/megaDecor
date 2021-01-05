@@ -71,7 +71,7 @@
                         @endphp
                     @endforeach
                     
-                <td>
+                <td >
                     @if ($presupuesto->opcionIVA)
                     ${{number_format(($presupuesto->total*1.16)-$totalPagos,2)}}
                     @else
