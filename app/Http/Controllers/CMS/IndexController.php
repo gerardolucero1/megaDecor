@@ -553,6 +553,7 @@ public function archivarUsuario($id){
                                 }
             if((($contratoAdeudo->total*$banIva) - $totalAbono) > 0 ){
                 $adeudoTotal=$adeudoTotal+(($contratoAdeudo->total*$banIva) - $totalAbono);
+                dd($adeudoTotal);
 
             }
         }
