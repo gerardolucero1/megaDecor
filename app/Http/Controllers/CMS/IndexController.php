@@ -1709,11 +1709,13 @@ public function archivarUsuario($id){
         }
     }
 
-    $adeudoTotal=$adeudoTotal-25855;
+    $adeudoTotal=$adeudoTotal;
 
         //dd($contratos);
         return view('creditosAtrasadoscancel', compact('contratos', 'adeudoTotal'));
 }
+
+
 public function creditosAtrasados(){
     $date = Carbon::now();
     $fechaActual = $date->format('Y-m-d');
@@ -1826,7 +1828,7 @@ public function creditosAtrasados(){
     }
 }
 
-$adeudoTotal=$adeudoTotal-25855;
+$adeudoTotal=$adeudoTotal;
 
     //dd($contratos);
     return view('creditosAtrasados', compact('contratos', 'adeudoTotal'));
