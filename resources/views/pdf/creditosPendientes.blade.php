@@ -102,7 +102,7 @@ $testigo++;
     }else{
         
     }
-    echo $clienteTelefono;
+    echo $clienteTelefono+1;
 @endphp
 
 </td>
