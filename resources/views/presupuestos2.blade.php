@@ -323,6 +323,12 @@
                     </div>
                         <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="fecha1" class="form-control" >
                         <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
+                        <select name="tipoImpresion" id="">
+                            <option value="TODO">Imprimir todo</option>
+                            <option value="RECOLECCION">Imprimir solo recolecciones</option>
+                            <option value="BODEGA">Imprimir solo entregas en bodega</option>
+                            <option value=""></option>
+                        </select>
                          <button class="btn btn-info">Obtener Recolecciones</button><br>
                          
                         </div>

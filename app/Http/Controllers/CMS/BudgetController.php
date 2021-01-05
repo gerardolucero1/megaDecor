@@ -748,12 +748,23 @@ class BudgetController extends Controller
     public function pdfRecolecciones(){        
         $fecha1 = $_GET['fecha_1'];
         $fecha2 = $_GET['fecha_2'];
+        $tipoImpresion = $_GET['tipoImpresion'];
         
+        if($tipoImpresion == 'TODO'){
         $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        }
+
+        if($tipoImpresion == 'RECOLECCION'){
+        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', FALSE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        }
+
+        if($tipoImpresion == 'BODEGA'){
+        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', TRUE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        }
 
         //dd($presupuestos);
         $pdf = App::make('dompdf');
-        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2'))->setPaper('a4', 'landscape');;
+        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2'))->setPaper('a4', 'landscape', 'tipoImpresion');;
         return $pdf->stream();
     }
 
