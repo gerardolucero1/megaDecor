@@ -132,8 +132,8 @@
                                                         }
                                                     }
                                                 @endphp
-                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0"><!--{{ $numCreditos }}--> 11<br>
-                                                <span style="font-size: 14px;">Total Por Cobrar: $<!--{{number_format($adeudoTotal,2)}}-->16,611.00</span></div>
+                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0"><!--{{ $numCreditos }}--> 10<br>
+                                                <span style="font-size: 14px;">Total Por Cobrar: $<!--{{number_format($adeudoTotal,2)}}-->14,326.00</span></div>
                                                 <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                             </div>
                                         </a>
