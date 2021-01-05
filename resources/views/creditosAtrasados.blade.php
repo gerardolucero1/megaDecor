@@ -47,6 +47,7 @@
                             <tbody>
                                 @foreach ($contratos as $budgetArchivados) 
                                 @php
+                                $telefonoCliente = '';
                                 $banIva =1;
                                 if($budgetArchivados->opcionIVA){
                                     $banIva =1.16;
