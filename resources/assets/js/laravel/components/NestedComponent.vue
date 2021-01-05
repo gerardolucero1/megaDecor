@@ -169,7 +169,7 @@ export default {
                     }else{
                         this.key = key[5];
                     }
-                    this.key = key[1];
+                   
                     
                        
                 },
