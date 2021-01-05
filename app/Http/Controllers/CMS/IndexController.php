@@ -575,7 +575,7 @@ public function archivarUsuario($id){
                     $total = $credito->total;
                     
                 }
-                $numcreditos++;
+                $numCreditos++;
         }
 
     }
