@@ -100,8 +100,9 @@ $testigo++;
     if($telefono->numero!=''){
     echo $telefono->numero;
     }else{
-        echo $clienteTelefono;
+        
     }
+    echo $clienteTelefono;
 @endphp
 
 </td>
