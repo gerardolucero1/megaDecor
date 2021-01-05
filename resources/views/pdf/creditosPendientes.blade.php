@@ -97,7 +97,7 @@ $testigo++;
 <td style="width: 13%">
     @php
     $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
-    if(isset($telefono)>0){
+    if($telefono->numero!=''){
     echo $telefono->numero;
     }else{
         echo $clienteTelefono;
