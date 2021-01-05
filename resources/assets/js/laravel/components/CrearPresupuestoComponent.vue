@@ -286,8 +286,8 @@ padding: 0;
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div v-if="presupuesto.pendienteLugar!=1" v-on:click.prevent="comprobarRecoleccionBodega()" class="col-md-3">
-                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
+                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-3">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-on:change="comprobarRecoleccionBodega()" v-model="presupuesto.lugarEvento">
                         <label for="lugarBodega">Recoleccion en bodega</label>
                     </div>
                     <div  class="col-md-2">
