@@ -286,7 +286,7 @@ padding: 0;
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Otra</label>
                     </div>
-                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-3">
+                    <div v-if="presupuesto.pendienteLugar!=1" v-on:click.prevent="comprobarRecoleccionBodega()" class="col-md-3">
                         <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
                         <label for="lugarBodega">Recoleccion en bodega</label>
                     </div>
@@ -1910,6 +1910,13 @@ padding: 0;
             },
         },
         methods:{
+            comprobarRecoleccionBodega(){
+                if(this.presupuesto.lugarEvento=='BODEGA'){
+                    this.facturacion.entregaEnBodega = true;
+                }else{
+                    this.facturacion.entregaEnBodega = false;
+                }
+            },
             editarProductoExterno(paquete, index){
                 this.editarElementoExt = paquete
                 this.editarElementoIndex = index
@@ -2260,7 +2267,7 @@ padding: 0;
                     this.limpiar = false;
                 }, 1000);
             },
-                    actualizarPrecioSugerido(){
+            actualizarPrecioSugerido(){
                          this.precioSugerido=0;
                         this.utilidad=0;
                         this.costoProveedor=0;
@@ -2273,7 +2280,7 @@ padding: 0;
                         this.paquete.precioFinal = this.precioSugerido;
                     },
                     //Eliminar producto de paquete
-                    eliminarProductoPaquete(index){
+            eliminarProductoPaquete(index){
                         this.paquete.inventario.splice(index, 1);
 
                         this.precioSugerido = 0;
@@ -2289,12 +2296,12 @@ padding: 0;
                     },
 
                     //Actualizar los datos del paquete
-                    editarCantidadPaquete(index, key){
+            editarCantidadPaquete(index, key){
                         this.indice = index;
                         this.key = key[5];                       
                     },
 
-                    editarPrecioEspecialPaquete(index, key, producto){
+            editarPrecioEspecialPaquete(index, key, producto){
                         if(producto.externo){
                             this.key = key[10]; 
                         }else{
@@ -2303,7 +2310,7 @@ padding: 0;
                         this.indice = index;
                     },
 
-                    editarPrecioUnitarioPaquete(index, key, producto){
+            editarPrecioUnitarioPaquete(index, key, producto){
                         console.log(key);
                         if(producto.externo){
                             this.key = key[3]; 
@@ -2313,7 +2320,7 @@ padding: 0;
                         this.indice = index;
                     },
 
-                    updateCantidadPaquete(index){
+            updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
@@ -2331,7 +2338,7 @@ padding: 0;
                         
                     },
 
-                    updatePrecioUnitarioPaquete(index){
+            updatePrecioUnitarioPaquete(index){
                         let producto = this.paquete.inventario.find(function(element, indice){
                             return (indice == index);
                         });
@@ -2347,7 +2354,7 @@ padding: 0;
                         this.actualizarPrecioSugerido();
                     },
 
-                    updatePrecioEspecialPaquete(index){
+            updatePrecioEspecialPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
