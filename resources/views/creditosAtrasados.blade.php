@@ -89,10 +89,12 @@
                                             $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
                                            // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                           
+                                           $telefonoCliente = $clienteFisico->telefono;
+
                                         }else{
                                             $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteMoral->nombre;
+                                            $telefonoCliente = $clienteMoral->telefono;
                                         }
                                     @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
@@ -133,7 +135,10 @@
                                             $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
                                             if (isset($telefono->numero)) {
                                             echo $telefono->numero;
+                                            }else{
+                                                echo $telefonoCliente;
                                             }
+
                                         @endphp
                                     </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
