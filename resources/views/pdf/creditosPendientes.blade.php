@@ -53,11 +53,13 @@ if($budgetArchivados->opcionIVA){
         if($cliente->tipoPersona == "FISICA"){
             $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
             $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
+            $clienteTelefono = $clienteFisico->telefono;
            // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
            
         }else{
             $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
             $clienteNombre = $clienteMoral->nombre;
+            $clienteTelefono = $clienteMoral->telefono;
         }
     @endphp {{$clienteNombre}}</td>
     <td style="width: 10%">{{$budgetArchivados->vendedor}}</td>
@@ -97,8 +99,11 @@ $testigo++;
     $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
     if(isset($telefono)>0){
     echo $telefono->numero;
+    }else{
+        echo $clienteTelefono;
     }
 @endphp
+
 </td>
 </tr>
 
