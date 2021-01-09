@@ -755,7 +755,7 @@ class BudgetController extends Controller
         }
 
         if($tipoImpresion == 'RECOLECCION'){
-        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', FALSE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
+        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', '!=', TRUE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
         }
 
         if($tipoImpresion == 'BODEGA'){
