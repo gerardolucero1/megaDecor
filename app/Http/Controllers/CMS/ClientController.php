@@ -207,14 +207,14 @@ class ClientController extends Controller
         $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
 
         $data->vetado = true;
-        $data.save();
+        $data->save();
 
     }
     public function desvetar($id){
         $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
 
         $data->vetado = false;
-        $data.save();
+        $data->save();
 
     }
 
