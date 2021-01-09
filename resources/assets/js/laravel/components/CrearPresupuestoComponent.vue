@@ -227,7 +227,7 @@ padding: 0;
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado.length != 0" class="info" style="padding-top:15px;">
-                            <p>{{ clienteSeleccionado.nombre }}<span v-if="clienteSeleccionado.vetado" style="color:white; bakckground:red; padding:5px;">CLIENTE VETADO</span></p>
+                            <p>{{ clienteSeleccionado.nombre }}<span v-if="clienteSeleccionado.vetado2" style="color:white; bakckground:red; padding:5px;">CLIENTE VETADO</span></p>
                             <p>
                                 <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
                             </p>
@@ -2493,7 +2493,7 @@ padding: 0;
                 });
 
                 this.clienteSeleccionado.id = cliente.id;
-                this.clienteSeleccionado.vetado = cliente.vetado;
+                this.clienteSeleccionado.vetado2 = cliente.vetado;
                 if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
               }else{
