@@ -124,7 +124,7 @@
                                     </a>
                                     @endif
                                    
-                                    <i onclick="enviarCorreoCliente({{$budget->id}})" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>             
+                                    <i onclick="enviarCorreoCliente({{$budget->id}}, '{{$budget->email}}')" class="fa fa-send-o" style="@if($budget->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budget->enviado==1) title="Presupuesto enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i>             
                                    
                                 <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budget->id)}}">
                                     <i class="si si-printer" style="margin-right:8px; @if($budget->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budget->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budget->updated_at}}"  @else title="Aun no se imprime bodega" @endif></i>
@@ -414,7 +414,7 @@
                             
         })
     }
-    function enviarCorreoCliente(id){
+   /* function enviarCorreoCliente(id){
                 let URL = '/enviar-email-cliente/'  + id;
 
                 axios.get(URL).then((response) => {
@@ -431,7 +431,27 @@
                             'Danger'
                         ); 
                 })
-            }
+            }*/
+    function enviarCorreoCliente(id, email){
+
+let URL = '/enviar-email-cliente/'  + id+ '&' + email;
+
+axios.get(URL).then((response) => {
+    Swal.fire(
+            'Enviado!',
+            'El contrato ha sido enviado por correo',
+            'success'
+        ); 
+        location.reload();
+}).catch((error) => {
+    console.log(error.data);
+    Swal.fire(
+            'Error!',
+            'A ocurrido un error al enviar el correo, intentar mas tarde',
+            'Danger'
+        ); 
+})
+}
     function presupuestosArchivados(){
         document.getElementById('presupuestosArchivados').style.display="block";
         document.getElementById('PresupuestosActivos').style.display="none";
