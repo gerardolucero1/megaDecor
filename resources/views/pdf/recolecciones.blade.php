@@ -47,11 +47,11 @@
     if($cliente->tipoPersona=='FISICA'){
         $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
         $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
-        $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefonos = App\Telephone::where('client_id', $cliente->id)->first();
         $telefono = $telefonos->numero;
     }else{
         $nombreCliente =  $cliente->nombreCliente;
-        $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefonos = App\Telephone::where('client_id', $cliente->id)->first();
         $telefono = $telefonos->numero;
     }
 @endphp
@@ -117,11 +117,11 @@
         if($cliente->tipoPersona=='FISICA'){
             $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
             $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
-            $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+            $telefonos = App\Telephone::where('client_id', $cliente->id)->first();
         $telefono = $telefonos->numero;
         }else{
             $nombreCliente =  $cliente->nombreCliente;
-            $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+            $telefonos = App\Telephone::where('client_id', $cliente->id)->first();
         $telefono = $telefonos->numero;
         }
     @endphp
