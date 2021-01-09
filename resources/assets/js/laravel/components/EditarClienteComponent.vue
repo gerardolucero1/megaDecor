@@ -374,7 +374,7 @@
                 let URL = '/obtener-cliente-editar/' + path[3];
                  axios.get(URL).then((response) => {
                      this.cliente = response.data;
-                     
+                     console.log(this.cliente);
                      let arreglo = this.cliente.client.budgets
                             arreglo.sort(function(a,b){
                                     return new Date(b.fechaEvento) - new Date(a.fechaEvento);
