@@ -104,6 +104,7 @@ class ClientController extends Controller
         }else{
             $cliente->tipoPersona = 'MORAL';
         }
+
         $cliente->save();
 
         // Obtengo el ultimo cliente guardado en la base de datos.
@@ -205,6 +206,10 @@ class ClientController extends Controller
 
     public function update(Request $request, $id){
         $cliente = Client::find($id);
+        $cliente->vetado = true;
+        $cliente->save();
+
+
         if($cliente->tipoPersona == 'FISICA'){
             $persona = PhysicalPerson::where('client_id', $cliente->id)->first();
 
