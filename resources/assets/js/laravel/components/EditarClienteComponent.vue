@@ -332,7 +332,8 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-danger" onclick="alert('cliente vetado con exito!');">Vetar cliente</button>
+        <button class="btn btn-danger" @click="vetar()">Vetar cliente</button>
+        <button class="btn btn-danger" @click="desvetar()">desVetar cliente</button>
   </section>
 </template>
 
@@ -405,6 +406,16 @@
                    console.log('vetado');
                 }).catch((error) => {
                     console.log('Error al vetar: ', error.data);
+                })
+            },
+            desvetar: function(){
+                let path = window.location.pathname.split('/');
+                let URL = '/obtener-cliente-desvetar/' + path[3];
+
+                axios.get(URL).then((response) => {
+                   console.log('desvetado');
+                }).catch((error) => {
+                    console.log('Error al desvetar: ', error.data);
                 })
             },
             verBudgets: function(tipo){
