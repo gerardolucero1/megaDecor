@@ -332,8 +332,8 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-danger" @click="vetar()">Vetar cliente</button>
-        <button class="btn btn-danger" @click="desvetar()">desVetar cliente</button>
+        <button  v-if="!cliente.vetado" class="btn btn-danger" @click="vetar()">Vetar cliente</button>
+        <button v-if="cliente.vetado" class="btn btn-danger" @click="desvetar()">desVetar cliente</button>
   </section>
 </template>
 
@@ -425,7 +425,9 @@
 
                 axios.get(URL).then((response) => {
                    console.log('desvetado');
+                    location.reload();
                 }).catch((error) => {
+
                     console.log('Error al desvetar: ', error.data);
                 })
             },
