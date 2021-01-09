@@ -2923,10 +2923,12 @@ padding: 0;
                 this.testigoGuardando =1;
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
+                    his.testigoGuardando =0;
                     return;
                 }
                 if(this.presupuesto.pendienteHora=="" && this.presupuesto.inicioAmPm=="" && this.presupuesto.finAmPm=="" ){
                     alert('selecciona una hora o marcala como pendiente para continuar');
+                    his.testigoGuardando =0;
                     return
                 }
 
@@ -2936,7 +2938,7 @@ padding: 0;
                             'Agrega Elementos a tu presupuesto para continuar',
                             'error'
                         );
-                         
+                         his.testigoGuardando =0;
                     }else{
                 if(this.festejados.length == 0){
                     Swal.fire(
@@ -2944,7 +2946,7 @@ padding: 0;
                             'Agrega almenos un festejado para continuar',
                             'error'
                         );
-                         
+                         his.testigoGuardando =0;
                     }else{
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
