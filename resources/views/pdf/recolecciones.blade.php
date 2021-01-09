@@ -92,7 +92,7 @@
                 @endif
                 @if($tipoImpresion == 'RECOLECCION')
                 <td >
-                {{$telefono}}
+                {{$datosCliente->telefono}}
                     
                 </td>
                 @endif
@@ -160,7 +160,7 @@
                     @endif
                     @if($tipoImpresion == 'RECOLECCION')
                     <td >
-                        {{$telefono}}
+                        {{$datosCliente->telefono}}
                         
                     </td>
                     @endif
