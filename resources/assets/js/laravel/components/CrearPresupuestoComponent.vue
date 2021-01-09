@@ -227,7 +227,7 @@ padding: 0;
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado.length != 0" class="info" style="padding-top:15px;">
-                            <p>{{ clienteSeleccionado.nombre }}{{clienteSeleccionado.vetado2}}<span v-if="clienteSeleccionado.vetado2==true" style="color:white; bakckground:red; padding:5px;">CLIENTE VETADO</span></p>
+                            <p>{{ clienteSeleccionado.nombre }}<span v-if="clienteSeleccionado.vetado2=='true'" style="color:white; bakckground:red; padding:5px;">CLIENTE VETADO</span></p>
                             <p>
                                 <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
                             </p>
