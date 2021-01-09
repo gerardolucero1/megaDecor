@@ -132,7 +132,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
                 <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
-                @if($precorte > $registro->cantidadCierre)
+                @if($precorte > $registro->cantidadCierre && ($precorte - $registro->cantidadCierre)<.01)
             <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{number_format($precorte,2)}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             
             @elseif($precorte < $registro->cantidadCierre)
