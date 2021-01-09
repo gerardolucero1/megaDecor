@@ -203,6 +203,20 @@ class ClientController extends Controller
             return $cliente;
         }
     }
+    public function vetar($id){
+        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        $data->vetado = true;
+        $data.save();
+
+    }
+    public function desvetar($id){
+        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        $data->vetado = false;
+        $data.save();
+
+    }
 
     public function obtenerTelefonos($id){
         $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();

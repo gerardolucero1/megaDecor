@@ -396,6 +396,17 @@
                     console.log('Error al obtener telefonos: ', error.data);
                 })
             },
+
+            vetar: function(){
+                let path = window.location.pathname.split('/');
+                let URL = '/obtener-cliente-vetar/' + path[3];
+
+                axios.get(URL).then((response) => {
+                   console.log('vetado');
+                }).catch((error) => {
+                    console.log('Error al vetar: ', error.data);
+                })
+            },
             verBudgets: function(tipo){
                 $('#verBudgets').modal('show');
                 if(this.cliente.client.budgets.length !== 0){

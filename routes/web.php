@@ -211,6 +211,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes2', 'CMS\IndexController@clientes2')->name('clientes2');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
+    Route::get('/clientes/vetar/{id}', 'CMS\ClientController@vetar')->name('cliente.vetar');
+    Route::get('/clientes/desvetar/{id}', 'CMS\ClientController@desvetar')->name('cliente.desvetar');
     Route::delete('/clientes/delete/{id}', 'CMS\ClientController@destroy')->name('cliente.delete');
 
         // API de clientes
