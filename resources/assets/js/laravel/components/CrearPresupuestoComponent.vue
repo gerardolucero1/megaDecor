@@ -2886,6 +2886,7 @@ padding: 0;
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
+                    console.log(this.clientes);
                 })
             },
             obtenerPermisos(){
