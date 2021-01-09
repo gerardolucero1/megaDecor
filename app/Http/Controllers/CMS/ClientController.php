@@ -186,15 +186,21 @@ class ClientController extends Controller
         $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
 
         if($data->tipoPersona == 'FISICA'){
-            return $cliente = PhysicalPerson::where('client_id', $data->id)->with(['client' => function($query){
+             $cliente = PhysicalPerson::where('client_id', $data->id)->with(['client' => function($query){
                 $query->with(['budgets']); 
             }])->first();
+            $cliente->vetado=$data->vetado;
+            $cliente->motivo=$data->motivo;
+            return $cliente;
             //return $cliente->client->budgets;
             
         }else{
-            return $cliente = MoralPerson::where('client_id', $data->id)->with(['client' => function($query){
+            $cliente = MoralPerson::where('client_id', $data->id)->with(['client' => function($query){
                 $query->with(['budgets']); 
             }])->first();
+            $cliente->vetado=$data->vetado;
+            $cliente->motivo=$data->motivo;
+            return $cliente;
         }
     }
 
