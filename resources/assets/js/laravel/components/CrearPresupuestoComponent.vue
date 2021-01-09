@@ -2984,6 +2984,7 @@ padding: 0;
                     
                     
                     if(response.data == 1){
+                        this.testigoGuardando =0;
                         Swal.fire(
                             'Error!',
                             'El salon de eventos ya esta ocupado en esta fecha',
@@ -3017,6 +3018,7 @@ padding: 0;
                         error.message='';
                         window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
+                    this.testigoGuardando =0;
                      Swal.fire(
                             'Error!',
                             'Verifica que agregaste un cliente o categoria a tu presupuesto',
