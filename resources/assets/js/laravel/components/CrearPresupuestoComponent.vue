@@ -2920,6 +2920,7 @@ padding: 0;
 
             // Guardar como presupuesto
             guardarPresupuesto(){
+                this.testigoGuardando =1;
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return;
