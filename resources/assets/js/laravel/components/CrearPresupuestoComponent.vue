@@ -649,7 +649,8 @@ padding: 0;
                                     <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
+                                            
+                                            <currency-input class="form-control" v-model="paquete.precioFinal" currency="USD" locale="en"/>
                                         </div>
                                     </div>
 
