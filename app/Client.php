@@ -15,6 +15,8 @@ class Client extends Model
         'clave',
         'tipoPersona',
         'nombreCliente',
+        'vetado',
+        'motivo',
     ];
 
     public function telephones(){
