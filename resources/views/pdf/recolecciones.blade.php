@@ -10,7 +10,7 @@
     $date = Carbon\Carbon::now();
     $desde = $fechaEvento = Carbon\Carbon::parse($fecha1)->locale('es');
     $hasta = $fechaEvento = Carbon\Carbon::parse($fecha2)->locale('es');
-    $telefono='';
+    $telefono=0;
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif" style="border:solid;">
         <div style="width: 100%;">
@@ -92,7 +92,7 @@
                 @endif
                 @if($tipoImpresion == 'RECOLECCION')
                 <td >
-                {{$datosCliente->telefono}}
+                {{$telefono}}
                     
                 </td>
                 @endif
@@ -160,7 +160,7 @@
                     @endif
                     @if($tipoImpresion == 'RECOLECCION')
                     <td >
-                        {{$datosCliente->telefono}}
+                        {{$telefono}}
                         
                     </td>
                     @endif
