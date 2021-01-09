@@ -185,7 +185,7 @@ padding: 0;
                 
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none">
                     <div class="col-md-8">
-                        <h4>Cliente</h4>
+                        <h4>Cliente <span v-if="clienteSeleccionado.vetado2==true" class="badge badge-pill badge-info" style="background:red">CLIENTE VETADO</span></h4>
                         <div class="row">
                             <div class="col-md-7" style="">
                                 <buscador-component
@@ -227,7 +227,8 @@ padding: 0;
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado.length != 0" class="info" style="padding-top:15px;">
-                            <p>{{ clienteSeleccionado.nombre }}</p>
+                            <p>{{ clienteSeleccionado.nombre }}<span style="color:white; bakckground:red; padding:5px;">CLIENTE VETADO</span></p>
+                           
                             <p>
                                 <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
                             </p>
@@ -490,8 +491,8 @@ padding: 0;
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-primary" @click="editarPaquete(producto, index)">Editar</div>
                                     -->
                                     <div v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</div>
-                                    <button v-if="producto.tipo == 'PAQUETE' && producto.servicio != 'Mesa de dulces'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</button>
-                                    <button v-if="producto.tipo == 'PAQUETE' && producto.servicio == 'Mesa de dulces'" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bocadillosModal">Editar</button>
+                                    <div v-if="producto.tipo == 'PAQUETE' && producto.servicio != 'Mesa de dulces'" class="btn btn-sm btn-success" @click="editarPaquete(producto)">Editar</div>
+                                    <div v-if="producto.tipo == 'PAQUETE' && producto.servicio == 'Mesa de dulces'" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bocadillosModal">Editar</div>
                                 
                                     <div class="btn btn-sm btn-danger" @click="eliminarProductoLocal(index)">Eliminar</div>
                                     <div v-if="producto.externo && producto.servicio!='Flete'" class="btn btn-sm btn-primary" @click="editarProductoExterno(producto, index)">Editar</div>
@@ -550,9 +551,9 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                       <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> -->
+                       <button v-if="testigoGuardando==0" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> -->
                       
-                        <div v-if="permisos.creacionGuardarComoContrato==1 && presupuesto.pendienteFecha==false" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
+                        <div v-if="permisos.creacionGuardarComoContrato==1 && presupuesto.pendienteFecha==false && clienteSeleccionado.vetado2!=true" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
@@ -649,7 +650,8 @@ padding: 0;
                                     <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paquete.precioFinal" style="background:#FFECA7">
+                                            
+                                            <currency-input class="form-control" v-model="paquete.precioFinal" currency="USD" locale="en"/>
                                         </div>
                                     </div>
 
@@ -1298,7 +1300,7 @@ padding: 0;
                                     <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paqueteEdicion.precioFinal" style="background:#FFECA7">
+                                             <currency-input class="form-control" v-model="paqueteEdicion.precioFinal" currency="USD" locale="en"/>
                                         </div>
                                     </div>
 
@@ -1499,6 +1501,7 @@ padding: 0;
         },
         data(){
             return{
+                testigoGuardando:0,
                 currencyValue: 0,
                 nestedClass: 'nested',
                 limpiar: false,
@@ -2491,6 +2494,7 @@ padding: 0;
                 });
 
                 this.clienteSeleccionado.id = cliente.id;
+                this.clienteSeleccionado.vetado2 = cliente.vetado;
                 if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
               }else{
@@ -2861,14 +2865,14 @@ padding: 0;
                             'externo': false,
                             'nombre': doc.servicio,
                             'imagen': doc.imagen,
-                            'precioUnitario': doc.precioUnitario,
-                            'precioFinal': doc.precioUnitario,
+                            'precioUnitario': 1,
+                            'precioFinal': 1,
                             'cantidad': doc.cantidad,
                             'id': doc.id,
-                            'precioVenta': doc.precioVenta,
+                            'precioVenta': 1,
                             'proveedor': '',
-                            'precioEspecial': doc.precioUnitario,
-                            'precioAnterior': doc.precioUnitario,
+                            'precioEspecial': 1,
+                            'precioAnterior': 1,
                         });
                         
                     })
@@ -2883,6 +2887,7 @@ padding: 0;
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
                     this.clientes = response.data;
+                    console.log(this.clientes);
                 })
             },
             obtenerPermisos(){
@@ -2918,12 +2923,15 @@ padding: 0;
 
             // Guardar como presupuesto
             guardarPresupuesto(){
+                this.testigoGuardando =1;
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
+                    this.testigoGuardando =0;
                     return;
                 }
                 if(this.presupuesto.pendienteHora=="" && this.presupuesto.inicioAmPm=="" && this.presupuesto.finAmPm=="" ){
                     alert('selecciona una hora o marcala como pendiente para continuar');
+                    this.testigoGuardando =0;
                     return
                 }
 
@@ -2933,7 +2941,7 @@ padding: 0;
                             'Agrega Elementos a tu presupuesto para continuar',
                             'error'
                         );
-                         
+                         this.testigoGuardando =0;
                     }else{
                 if(this.festejados.length == 0){
                     Swal.fire(
@@ -2941,7 +2949,7 @@ padding: 0;
                             'Agrega almenos un festejado para continuar',
                             'error'
                         );
-                         
+                         this.testigoGuardando =0;
                     }else{
                 this.presupuesto.tipo = 'PRESUPUESTO';
                 if(this.presupuesto.tipoEvento == 'INTERNO'){
@@ -2976,6 +2984,7 @@ padding: 0;
                     
                     
                     if(response.data == 1){
+                        this.testigoGuardando =0;
                         Swal.fire(
                             'Error!',
                             'El salon de eventos ya esta ocupado en esta fecha',
@@ -3009,6 +3018,7 @@ padding: 0;
                         error.message='';
                         window.open('login',"ventana1","width=350,height=350,scrollbars=NO");
                     }else{
+                    this.testigoGuardando =0;
                      Swal.fire(
                             'Error!',
                             'Verifica que agregaste un cliente o categoria a tu presupuesto',
@@ -3045,7 +3055,7 @@ padding: 0;
 
             // Guardar como contrato
             guardarContrato(){
-               
+               this.testigoGuardando=1;
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
