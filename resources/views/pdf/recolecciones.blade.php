@@ -115,8 +115,10 @@
         if($cliente->tipoPersona=='FISICA'){
             $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
             $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+            $telefono=$datosCliente=$telefono;
         }else{
             $nombreCliente =  $cliente->nombreCliente;
+            $telefono=$datosCliente=$telefono;
         }
     @endphp
     <p style="font-size: 10px">
@@ -158,7 +160,7 @@
                     @endif
                     @if($tipoImpresion == 'RECOLECCION')
                     <td >
-                       telefono
+                        {{$telefono}}
                         
                     </td>
                     @endif
