@@ -184,7 +184,7 @@ padding: 0;
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
-                        <h4>Cliente</h4>
+                        <h4>Cliente <span v-if="clienteSeleccionado.vetado2 == true" class="badge badge-pill badge-info" style="background:red" >CLIENTE VETADO</span></h4>
                         <div class="row">
                             <div class="col-md-7" style="">
                                 <buscador-component
@@ -229,7 +229,6 @@ padding: 0;
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellidoPaterno}} {{clienteSeleccionado.apellidoMaterno}}</p>
                             <p>
-                            <span v-if="clienteSeleccionado.vetado2 == true" class="badge badge-pill badge-info" style="background:red" >CLIENTE VETADO</span>
                                 <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
                             </p>
                             <p>{{ clienteSeleccionado.email }}</p>
