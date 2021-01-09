@@ -47,10 +47,12 @@
     if($cliente->tipoPersona=='FISICA'){
         $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
         $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
-        $telefono = $datosCliente->telefono;
+        $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefono = $telefonos->numero;
     }else{
         $nombreCliente =  $cliente->nombreCliente;
-        $telefono = $datosCliente->telefono;
+        $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefono = $telefonos->numero;
     }
 @endphp
 <p style="font-size: 10px">
@@ -115,10 +117,12 @@
         if($cliente->tipoPersona=='FISICA'){
             $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
             $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
-            $telefono=$datosCliente=$telefono;
+            $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefono = $telefonos->numero;
         }else{
             $nombreCliente =  $cliente->nombreCliente;
-            $telefono=$datosCliente=$telefono;
+            $telefonos = App\Phone::where('client_id', $cliente->id)->first();
+        $telefono = $telefonos->numero;
         }
     @endphp
     <p style="font-size: 10px">
