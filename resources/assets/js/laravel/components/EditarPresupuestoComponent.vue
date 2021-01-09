@@ -229,7 +229,7 @@ padding: 0;
                         <div v-if="clienteSeleccionado" class="info">
                             <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }} {{clienteSeleccionado.apellidoPaterno}} {{clienteSeleccionado.apellidoMaterno}}</p>
                             <p>
-                            <span class="badge badge-pill badge-info" style="background:red" v-if="clienteSeleccionado.vetado2 == true" ></span>
+                            <span v-if="clienteSeleccionado.vetado2 == true" class="badge badge-pill badge-info" style="background:red" >CLIENTE VETADO</span>
                                 <span class="badge badge-pill badge-info">Persona {{ clienteSeleccionado.tipo }}</span>
                             </p>
                             <p>{{ clienteSeleccionado.email }}</p>
@@ -2153,6 +2153,7 @@ padding: 0;
 
                 this.clienteSeleccionado.id = cliente.id;
                 this.clienteSeleccionado.vetado2 = cliente.vetado;
+
                 if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
                 this.clienteSeleccionado.nombre = cliente.nombre;
               }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
@@ -2630,6 +2631,7 @@ padding: 0;
                 });
 
                 this.clienteSeleccionado.id = cliente.id;
+                this.clienteSeleccionado.vetado2 = cliente.vetado;
                 this.clienteSeleccionado.nombre = cliente.nombre;
                 this.clienteSeleccionado.apellidoPaterno = cliente.apellidoPaterno;
                 this.clienteSeleccionado.apellidoMaterno = cliente.apellidoMaterno;
