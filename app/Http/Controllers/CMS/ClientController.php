@@ -204,9 +204,11 @@ class ClientController extends Controller
         }
     }
     public function vetar($id){
-        $data = Client::orderBy('id', 'DESC')->where('id', $id)->first();
+        $arr = split("-", $id);
+        $data = Client::orderBy('id', 'DESC')->where('id', $arr[0])->first();
 
         $data->vetado = true;
+        $data->motivo = $arr[1];
         $data->save();
 
     }

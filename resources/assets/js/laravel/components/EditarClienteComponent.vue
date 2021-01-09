@@ -399,14 +399,25 @@
             },
 
             vetar: function(){
-                let path = window.location.pathname.split('/');
-                let URL = '/clientes/vetar/' + path[3];
+
+                
+  var txt;
+  var person = prompt("Ingresa el Motivo");
+  if (person == null || person == "") {
+    return
+  } else {
+     let path = window.location.pathname.split('/');
+                let URL = '/clientes/vetar/' + path[3]+'-'+person;
 
                 axios.get(URL).then((response) => {
-                   console.log('vetado');
+                   location.reload();
                 }).catch((error) => {
                     console.log('Error al vetar: ', error.data);
                 })
+  }
+ 
+
+               
             },
             desvetar: function(){
                 let path = window.location.pathname.split('/');
