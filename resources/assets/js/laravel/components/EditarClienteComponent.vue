@@ -400,7 +400,7 @@
 
             vetar: function(){
                 let path = window.location.pathname.split('/');
-                let URL = '/obtener-cliente-vetar/' + path[3];
+                let URL = '/clientes/vetar/' + path[3];
 
                 axios.get(URL).then((response) => {
                    console.log('vetado');
@@ -410,7 +410,7 @@
             },
             desvetar: function(){
                 let path = window.location.pathname.split('/');
-                let URL = '/obtener-cliente-desvetar/' + path[3];
+                let URL = '/clientes/desvetar/' + path[3];
 
                 axios.get(URL).then((response) => {
                    console.log('desvetado');
