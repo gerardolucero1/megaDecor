@@ -182,10 +182,12 @@
              <tr style="text-align:center; background:#252EEE; color:white">
              <th>Nombre</th>
              <th>Costo</th>
+            <th>Km</th>
              </tr>
              <tr v-for="(item, index) in casetas2" :key="index">
              <td>{{item.nombre}}</td>
              <td>${{item.consumo}}</td>
+             <td>0Km</td>
              </tr>
              </table>
 
@@ -220,6 +222,9 @@
                         <label v-if="tipoRegistro=='Vehiculo'">Rendimiento</label>
                         <label v-else>Costo</label>
                         <input type="text" name="rendimiento" id="inputRendimiento" class="form-control" placeholder="" aria-describedby="helpId" v-model="nuevoRendimiento">
+                        <label v-if="tipoRegistro!='Vehiculo'">Kilometros</label>
+                        <input type="text"  class="form-control" placeholder="Kilometros" aria-describedby="helpId" >
+                        
                         
                     </div>
                     <div class="col-md-3 text-center">
