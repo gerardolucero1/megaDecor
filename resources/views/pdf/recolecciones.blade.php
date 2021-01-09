@@ -10,6 +10,7 @@
     $date = Carbon\Carbon::now();
     $desde = $fechaEvento = Carbon\Carbon::parse($fecha1)->locale('es');
     $hasta = $fechaEvento = Carbon\Carbon::parse($fecha2)->locale('es');
+    $telefono=0;
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif" style="border:solid;">
         <div style="width: 100%;">
@@ -46,8 +47,10 @@
     if($cliente->tipoPersona=='FISICA'){
         $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
         $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
+        $telefono = $datosCliente->telefono;
     }else{
         $nombreCliente =  $cliente->nombreCliente;
+        $telefono = $datosCliente->telefono;
     }
 @endphp
 <p style="font-size: 10px">
@@ -89,7 +92,7 @@
                 @endif
                 @if($tipoImpresion == 'RECOLECCION')
                 <td >
-                   telefono
+                {{$telefono}}
                     
                 </td>
                 @endif
