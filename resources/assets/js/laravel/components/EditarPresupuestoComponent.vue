@@ -1155,7 +1155,6 @@ padding: 0;
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio Unitario</th>
@@ -1166,7 +1165,6 @@ padding: 0;
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
-                                <th scope="row">{{ index }}</th>
                                 <td>{{ item.nombre }}</td>
                                 <td>{{ item.cantidad }}</td>
                                 <td>{{ item.precioUnitario | currency}}</td>
