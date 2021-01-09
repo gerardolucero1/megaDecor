@@ -10,7 +10,7 @@
 
                     <div class="form-group">
                         <label for="">Precio Unitario</label>
-                        <input class="form-control" type="text" v-model="paquete.precioUnitario">
+                        <currency-input class="form-control" v-model="paquete.precioUnitario" currency="USD" locale="en"/>
                     </div>
 
                     <div class="form-group">
