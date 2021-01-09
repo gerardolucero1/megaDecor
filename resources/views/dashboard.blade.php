@@ -10,7 +10,7 @@
 
    
         <!-- Page Content -->
-        <div class="content">
+        <div class="content"> 
             
         
             
