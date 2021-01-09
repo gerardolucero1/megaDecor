@@ -2865,14 +2865,14 @@ padding: 0;
                             'externo': false,
                             'nombre': doc.servicio,
                             'imagen': doc.imagen,
-                            'precioUnitario': doc.precioUnitario,
-                            'precioFinal': doc.precioUnitario,
+                            'precioUnitario': 1,
+                            'precioFinal': 1,
                             'cantidad': doc.cantidad,
                             'id': doc.id,
-                            'precioVenta': doc.precioVenta,
+                            'precioVenta': 1,
                             'proveedor': '',
-                            'precioEspecial': doc.precioUnitario,
-                            'precioAnterior': doc.precioUnitario,
+                            'precioEspecial': 1,
+                            'precioAnterior': 1,
                         });
                         
                     })
