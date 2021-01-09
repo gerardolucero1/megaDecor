@@ -550,7 +550,7 @@ padding: 0;
                         <div class="btn btn-primary" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar como presupuesto</div>
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
-                       <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> 
+                       <button v-if="testigoGuardando=0" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> 
                       
                         <div v-if="permisos.creacionGuardarComoContrato==1 && presupuesto.pendienteFecha==false" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
                         <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
@@ -1299,7 +1299,7 @@ padding: 0;
                                     <div class="form-group row" >
                                         <label class="col-12" for="example-text-input">Precio del paquete</label>
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control" id="example-text-input" name="example-text-input" placeholder="Precio de paquete" v-model="paqueteEdicion.precioFinal" style="background:#FFECA7">
+                                             <currency-input class="form-control" v-model="paqueteEdicion.precioFinal" currency="USD" locale="en"/>
                                         </div>
                                     </div>
 
@@ -1500,6 +1500,7 @@ padding: 0;
         },
         data(){
             return{
+                testigoGuardando:0,
                 currencyValue: 0,
                 nestedClass: 'nested',
                 limpiar: false,
@@ -3046,7 +3047,7 @@ padding: 0;
 
             // Guardar como contrato
             guardarContrato(){
-               
+               this.testigoGuardando=1;
                 if(this.presupuesto.pendienteFecha=="" && this.presupuesto.fechaEvento=="" ){
                     alert('selecciona una fecha o marcala como pendiente para continuar');
                     return
