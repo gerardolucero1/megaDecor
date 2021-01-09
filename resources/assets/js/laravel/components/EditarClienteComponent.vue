@@ -1,10 +1,13 @@
 <template>
   <section class="container editarCliente" v-if="cliente.length !== 0"> 
         <div class="row">
-            <div class="col-md-6 text-left" v-if="ultimoEvento">
+            <div class="col-md-4 text-left" v-if="ultimoEvento">
                 <h5>Ultimo evento: <a :href="'/presupuestos/ver/' + ultimoEvento.id"><span class="badge badge-pill badge-danger">{{ ultimoEvento.fechaEvento | dateFilter }}</span></a></h5>
             </div>
-            <div class="col-md-6 text-right">
+            <div v-if="cliente.vetado" class="col-md-4 text-right">
+                <h5>CLIENTE VETADO: {{cliente.motivo}}</h5>
+            </div>
+            <div class="col-md-4 text-right">
                 <h5>Ultima edicion: <span class="badge badge-pill badge-info">{{ cliente.updated_at | dateFilter }}</span></h5>
             </div>
         </div>
