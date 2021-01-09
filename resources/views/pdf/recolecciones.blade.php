@@ -23,7 +23,9 @@
                 <th>Vendedor</th>
                 <th>Versión</th>
                 <th>Recolección</th>
+                @if(tipoImpresion != 'RECOLECCION')
                 <th>Saldo</th>
+                @endif
             </tr>
             @foreach ($presupuestos as $presupuesto)
             <tr style="border:solid; text-align: center">
@@ -70,7 +72,7 @@
                             $totalPagos = $totalPagos+$pago->amount;
                         @endphp
                     @endforeach
-                    
+                    @if(tipoImpresion != 'RECOLECCION')
                 <td >
                     @if ($presupuesto->opcionIVA)
                     ${{number_format(($presupuesto->total*1.16)-$totalPagos,2)}}
@@ -79,6 +81,7 @@
                     @endif
                     
                 </td>
+                @endif
             </tr>
             @endforeach
             

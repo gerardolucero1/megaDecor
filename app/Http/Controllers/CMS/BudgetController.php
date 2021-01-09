@@ -764,7 +764,7 @@ class BudgetController extends Controller
 
         //dd($presupuestos);
         $pdf = App::make('dompdf');
-        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2'))->setPaper('a4', 'landscape', 'tipoImpresion');;
+        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2', 'tipoImpresion'))->setPaper('a4', 'landscape', 'tipoImpresion');;
         return $pdf->stream();
     }
 
