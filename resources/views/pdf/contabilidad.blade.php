@@ -135,7 +135,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                 @if($precorte > $registro->cantidadCierre && ($precorte - $registro->cantidadCierre)<.01)
             <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{number_format($precorte,2)}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             
-            @elseif($precorte < $registro->cantidadCierre)
+            @elseif($precorte < $registro->cantidadCierre && ($precorte - $registro->cantidadCierre)>.01)
             <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{number_format($precorte,2)}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             @else
              <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{number_format($precorte,2)}}</span>
