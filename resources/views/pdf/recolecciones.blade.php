@@ -90,12 +90,12 @@
                     
                 </td>
                 @endif
-                @if($tipoImpresion == 'RECOLECCION' && $tipoImpresion == 'TODO')
+               
                 <td >
                 {{$telefono}}
                     
                 </td>
-                @endif
+               
             </tr>
             @endforeach
             @else
