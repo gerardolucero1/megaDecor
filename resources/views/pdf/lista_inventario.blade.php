@@ -47,7 +47,7 @@ use Carbon\Carbon;
 
 <table style="width: 100%; margin-top: 20px">
   <tr style="text-align: center">
-    <td>_____________________________<br>Firma Aaron Bodega</td>
+    <td>_____________________________<br>Firma y Nombre Encargado de Bodega</td>
     <td>_____________________________<br>Ivonne C. Arroyos P.</td>
   </tr>
   <tr>

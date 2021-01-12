@@ -27,7 +27,7 @@
                 @if($tipoImpresion != 'RECOLECCION')
                 <th>Saldo</th>
                 @endif
-                @if($tipoImpresion == 'RECOLECCION')
+                @if($tipoImpresion == 'RECOLECCION' && $tipoImpresion == 'TODO')
                 <th>Teléfono</th>
                 @endif
             </tr>
@@ -90,7 +90,7 @@
                     
                 </td>
                 @endif
-                @if($tipoImpresion == 'RECOLECCION')
+                @if($tipoImpresion == 'RECOLECCION' && $tipoImpresion == 'TODO')
                 <td >
                 {{$telefono}}
                     
