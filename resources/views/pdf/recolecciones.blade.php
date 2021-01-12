@@ -47,7 +47,7 @@
     if($cliente->tipoPersona=='FISICA'){
         $datosCliente = App\PhysicalPerson::where('client_id', $cliente->id)->first();
         $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
-        echo $telefono = $datosCliente->telefono;
+        echo $datosCliente->telefono;
     }else{
         $nombreCliente =  $cliente->nombreCliente;
         echo $telefono = $datosCliente->telefono;
