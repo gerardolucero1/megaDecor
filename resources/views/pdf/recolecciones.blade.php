@@ -29,6 +29,7 @@
                 @endif
                 @if($tipoImpresion == 'RECOLECCION' || $tipoImpresion == 'TODO')
                 <th>Teléfono</th>
+                @endif
               
             </tr>
             @if($tipoImpresion != 'RECOLECCION')
