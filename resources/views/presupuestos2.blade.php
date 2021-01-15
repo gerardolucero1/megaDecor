@@ -219,7 +219,7 @@
                     </div>
                     </div>
                     <div style="padding:15px; padding-top:30px;">
-                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados" role="grid" >
+                     <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaInventario" role="grid" >
                             <thead>
                                 <tr role="row">
                                     <th>#Folio</th>
@@ -229,10 +229,9 @@
                                     <th>Version</th>
                                     <th>Opciones</th>
                                      <th>Última Modificación</th>
-                                     <th>Total</th>
                                      <th>Opciones</th>
                                 </tr>
-                            
+                                </tr>
                             </thead>
                             <tbody>                    
                                         
@@ -252,7 +251,7 @@
                                         {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                     @else
                                     <td class="">Pendiente</td>
-                                 @endif
+                                @endif
                                     
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->cliente}}</td>
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->vendedor}}</td>
@@ -260,18 +259,17 @@
                                             @if($budgetArchivados->version>1)<i data-toggle="tooltip" title="Nueva Versión" class="fa fa-star" style="font-size: 8px; color:red"></i>@endif
                                         {{$budgetArchivados->version}}
                                     </td>
-                                 <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
-                                  <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
+                                <td class="d-none d-sm-table-cell text-center d-flex" style="font-size:14px;">
+                                <a target="_blank" href="{{route('imprimir.budget', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresion==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresion==1) title="Se Imprimió este presupuesto {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
                                     <a href=""><i class="fa fa-send-o" style="@if($budgetArchivados->enviado==1) color:green; @else color:#3f9ce8 @endif"  data-toggle="tooltip" @if($budgetArchivados->enviado==1) title="Contrato enviado al cliente"  @else title="Aun no se envia al cliente" @endif></i></a>
-                                    <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a>
-                                 </td>
+                                    <a target="_blank" href="{{route('imprimir.budgetBodegaCliente', $budgetArchivados->id)}}"><i class="si si-printer" style="margin-right:8px; @if($budgetArchivados->impresionBodega==1) color:green; @endif"  data-toggle="tooltip" @if($budgetArchivados->impresionBodega==1) title="Se Imprimió ficha de bodega {{$budgetArchivados->updated_at}}"  @else title="Aun no se imprime" @endif></i></a></td>
                                     <td class="d-none d-sm-table-cell">{{$budgetArchivados->updated_at}}<br>
                                             @if($budgetArchivados->version>1)por: Ivonne Arroyos @endif
                                     </td>
                                     @php
                                         $total=number_format($budgetArchivados->total,2);
                                     @endphp
-                                 <td>${{$total}}<br>
+                                <td>${{$total}}<br>
                                     Saldo: 
                                     @php
                                         $abono=0;
@@ -286,7 +284,7 @@
                                     }
                                     @endphp
                                     ${{number_format($saldoPendiente,2)}}
-                                 </td>
+                                </td>
                                     <td class="d-flex" style="box-sizing: content-box;">
                                         @if($permisos->contratosEditar==1)
                                         <button disabled style="margin-right:4px;" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Este presupuesto esta archivado" data-original-title="Editar Presupuesto">
@@ -323,12 +321,6 @@
                     </div>
                         <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_1" id="fecha1" class="form-control" >
                         <input class="form-control col-md-3" required style="margin-right:10px" type="date" name="fecha_2" id="fecha2" class="form-control">
-                        <select name="tipoImpresion" id="tipoImpresion">
-                            <option value="TODO">Imprimir todo</option>
-                            <option value="RECOLECCION">Imprimir solo recolecciones</option>
-                            <option value="BODEGA">Imprimir solo entregas en bodega</option>
-                            <option value=""></option>
-                        </select>
                          <button class="btn btn-info">Obtener Recolecciones</button><br>
                          
                         </div>
@@ -349,7 +341,7 @@
                     </div>
                 </div>
                 <div style="padding:15px; padding-top:30px;">
-                    <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados2" role="grid" >
+                    <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosArchivados" role="grid" >
                         <thead>
                             <tr role="row">
                                 <th>#Folio</th>

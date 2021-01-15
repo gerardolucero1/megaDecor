@@ -237,7 +237,6 @@
                                     <a class="nav-menu" href="{{ route('clientes') }}"><i class="si si-users"></i><span class="sidebar-mini-hide">Clientes</span></a>
                                     @endif
                                     @if($permisos->contratos==1)
-                                    <a class="nav-menu" href="{{ route('presupuestos3') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos Rapido</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos2') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Contratos</span></a>
                                     <a class="nav-menu" href="{{ route('presupuestos-nube') }}"><i class="fa fa-cloud"></i><span class="sidebar-mini-hide">Contratos en nube</span></a>
                                     @endif
@@ -262,11 +261,11 @@
                                             <a href="{{ route('paquetes') }}">Paquetes</a>
                                         </li>
                                         @endif
-                                       
+                                        @if($permisos->inventarioProximos==1)
                                         <li>
                                             <a href="{{ route('proximos') }}">Proximos</a>
                                         </li>
-                                       
+                                        @endif
                                         @if($permisos->inventarioFamilias==1)
                                         <li>
                                             <a href="{{ route('familia.index') }}">Familias</a>
@@ -491,32 +490,6 @@ $(document).ready( function () {
 } ); 
 $(document).ready( function () {
     $('#TablaPresupuestosArchivados').DataTable({
-        "order": [[ 1, "desc" ]],
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-        "pageLength": 100,
-        "language": {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }}
-    });
-} ); 
-$(document).ready( function () {
-    $('#TablaPresupuestosArchivados2').DataTable({
         "order": [[ 1, "desc" ]],
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
         "pageLength": 100,

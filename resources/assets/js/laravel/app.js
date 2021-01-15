@@ -72,7 +72,6 @@ Vue.component('editar-proveedor-component', require('./components/EditarProveedo
 Vue.component('nested-component', require('./components/NestedComponent.vue').default);
 Vue.component('bocadillos-component', require('./components/BocadillosComponent.vue').default);
 Vue.component('gasolina-component', require('./components/GasolinaComponent.vue').default);
-Vue.component('gasolina-component2', require('./components/GasolinaComponent2.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

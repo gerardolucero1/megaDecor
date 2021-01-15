@@ -43,14 +43,6 @@
                     <label>Numero</label>
                     <input type="text" placeholder="text" v-model="cliente.numeroEmpresa">
                 </div>
-                <div class="col-md-4" style="paading-top:30px">
-                <button type="button" class="btn btn-sm btn-primary" style="margin-top:40px" data-toggle="modal" data-target="#crearTelefono">
-            Nuevo telefono
-        </button>
-        <button type="button" class="btn btn-sm btn-primary" style="margin-top:40px" data-toggle="modal" data-target="#crearTelefono">
-            Nuevo correo
-        </button>
-                </div>
             </div>
         </div>
         <div v-else>
@@ -80,42 +72,7 @@
                     <label>Email de la empresa</label>
                     <input type="email" placeholder="Email" v-model="cliente.email">
                 </div>
-                
             </div>
-        </div>
-        <h4 class="mt-4">Telefonos de contacto</h4>
-        
-        {{cliente.client.tipoPersona}}
-         <div class="row" v-if="telefonos.length !== 0">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">NOMBRE</th>
-                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">EMAIL</th>
-                        <th scope="col">TIPO</th>
-                        <th scope="col">NUMERO</th>
-                        <th scope="col">EXT</th>
-                        <th scope="col">DEPARTAMENTO</th>
-                        <th scope="col">CORREO</th>
-                        <th scope="col" class="text-center">OPCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="telefono in telefonos" v-bind:key="telefono.index">
-                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.nombre}} {{telefono.apellidoPaterno}} {{telefono.apellidoMaterno}}</td>
-                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.email }}</td>
-                        <td>{{ telefono.tipo }}</td>
-                        <td>{{ telefono.numero }}</td>
-                        <td>{{ telefono.ext }}</td>
-                        <td>{{ telefono.departamento }}</td>
-                        <td>{{ telefono.email }}</td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-info text-center" v-on:click.prevent="editarTelefono(telefono)">Editar</button>
-                            <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(telefono.id)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>  
         </div>
         <h4>Datos de facturacion</h4>
         <div class="row">
@@ -163,8 +120,40 @@
         </div>
         <button class="btn btn-sm btn-success" @click="actualizarDatos()">Actualizar datos</button>
 
-        
-       
+        <h4 class="mt-4">Telefonos de contacto</h4>
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#crearTelefono">
+            Nuevo telefono
+        </button>
+        {{cliente.client.tipoPersona}}
+        <div class="row" v-if="telefonos.length !== 0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">NOMBRE</th>
+                        <th scope="col" v-if="cliente.client.tipoPersona == 'MORAL'">EMAIL</th>
+                        <th scope="col">TIPO</th>
+                        <th scope="col">NUMERO</th>
+                        <th scope="col">EXT</th>
+                        <th scope="col">DEPARTAMENTO</th>
+                        <th scope="col" class="text-center">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="telefono in telefonos" v-bind:key="telefono.index">
+                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.nombre}} {{telefono.apellidoPaterno}} {{telefono.apellidoMaterno}}</td>
+                        <td v-if="cliente.client.tipoPersona == 'MORAL'">{{ telefono.email }}</td>
+                        <td>{{ telefono.tipo }}</td>
+                        <td>{{ telefono.numero }}</td>
+                        <td>{{ telefono.ext }}</td>
+                        <td>{{ telefono.departamento }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-info text-center" v-on:click.prevent="editarTelefono(telefono)">Editar</button>
+                            <button class="btn btn-sm btn-danger text-center" v-on:click.prevent="eliminarTelefono(telefono.id)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="verBudgets" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
@@ -250,7 +239,7 @@
                             <label for="">Apellido Materno</label>
                             <input type="text" v-model="telefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
                             <label for="">Email del contacto</label>
                             <input type="text" v-model="telefono.email">
                         </div>
@@ -311,7 +300,7 @@
                             <label for="">Apellido Materno</label>
                             <input type="text" v-model="nuevoTelefono.apellidoMaterno">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" v-if="cliente.client.tipoPersona == 'MORAL'">
                             <label for="">Email de contacto</label>
                             <input type="text" v-model="nuevoTelefono.email">
                         </div>
@@ -329,7 +318,6 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-danger" onclick="alert('cliente vetado con exito!');">Vetar cliente</button>
   </section>
 </template>
 
@@ -473,7 +461,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Borrar!'
+                    confirmButtonText: 'Yes, delete it!'
                     }).then((result) => {
                     if (result.value) {
                         axios.delete(URL).then((response) => {

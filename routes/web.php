@@ -139,11 +139,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/budget-convertir-contrato/{id}', 'CMS\BudgetController@convertirContrato')->name('convertir.contrato');
         Route::get('/budget-desarchivar/{id}', 'CMS\BudgetController@desarchivar')->name('presupuesto.desarchivar');
         Route::get('/budget-archivar/{id}', 'CMS\BudgetController@archivar')->name('presupuesto.archivar');
-        Route::get('/product-archivar/{id}', 'CMS\BudgetController@archivarProducto')->name('producto.archivar');
-        Route::get('/budget-archivar-vetar/{id}', 'CMS\BudgetController@archivarVetar')->name('presupuesto.archivar');
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::post('/obtener-adeudo', 'CMS\BudgetController@adeudo');
-        Route::post('/obtener-adeudo-status', 'CMS\BudgetController@adeudoStatus');
         Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
         Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
         Route::get('/obtener-inventario-postres', 'CMS\BudgetController@inventarioPostres');
@@ -173,7 +170,6 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a presupuestos
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos2', 'CMS\IndexController@presupuestos2')->name('presupuestos2');
-    Route::get('/presupuestos3', 'CMS\IndexController@presupuestos3')->name('presupuestos3');
     Route::get('/facturas', 'CMS\IndexController@facturas')->name('facturas');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
@@ -202,8 +198,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Nube
     Route::post('/nube/create', 'CMS\BudgetController@nube')->name('nube.store');
-    Route::post('/nube/restore', 'CMS\BudgetController@restaurarPresupuesto')->name('nube.restore');
-    
     Route::get('cambio-fecha/', 'CMS\BudgetController@pdfCambioFecha')->name('cambio-fecha.pdf');
     Route::get('cambio-fecha-reimpresion/{id}', 'CMS\BudgetController@pdfCambioFechaReimpresion')->name('cambio-fecha-reimpresion.pdf');
     Route::get('/presupuestos-nube', 'CMS\IndexController@presupuestosNube')->name('presupuestos-nube');
@@ -758,7 +752,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('aprobar-paquete/{id}', 'CMS\PackController@aprobarPaquete')->name('aprobarPaquete');
 
     Route::get('creditos-atrasados', 'CMS\IndexController@creditosAtrasados')->name('creditosAtrasados');
-    Route::get('creditos-atrasados2', 'CMS\IndexController@creditosAtrasados2')->name('creditosAtrasados2');
 
     //Pagina web
     Route::get('paginaweb', 'CMS\IndexController@paginaweb')->name('administrador.paginaweb');

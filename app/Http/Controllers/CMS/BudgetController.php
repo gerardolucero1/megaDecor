@@ -53,13 +53,7 @@ class BudgetController extends Controller
     }
 
     public function adeudo(Request $request){
-        $fechaHoy = Carbon::yesterday();
-        return Budget::orderBy('id', 'DESC')->where('archivado', false)->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->whereDate('fechaEvento', '>', $fechaHoy)->get();
-    }
-    public function adeudoStatus(Request $request){
-        $fechaHoy = Carbon::yesterday();
-        $cliente = Client::find($request->id);
-        return $cliente->clave;
+        return Budget::orderBy('id', 'DESC')->where('tipo', 'CONTRATO')->where('client_id', $request->id)->where('pagado', null)->get();
     }
     public function cliente(Request $request){
 
@@ -748,23 +742,12 @@ class BudgetController extends Controller
     public function pdfRecolecciones(){        
         $fecha1 = $_GET['fecha_1'];
         $fecha2 = $_GET['fecha_2'];
-        $tipoImpresion = $_GET['tipoImpresion'];
         
-        if($tipoImpresion == 'TODO'){
         $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
-        }
-
-        if($tipoImpresion == 'RECOLECCION'){
-        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', FALSE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
-        }
-
-        if($tipoImpresion == 'BODEGA'){
-        $presupuestos = Budget::orderBy('fechaEvento', 'ASC')->where('entregaEnBodega', TRUE)->where('archivado', FALSE)->where('tipo', 'CONTRATO')->whereDate('fechaEvento','>=', $fecha1)->WhereDate('fechaEvento','<=', $fecha2)->get();
-        }
 
         //dd($presupuestos);
         $pdf = App::make('dompdf');
-        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2'))->setPaper('a4', 'landscape', 'tipoImpresion');;
+        $pdf = PDF::loadView('pdf.recolecciones', compact('presupuestos', 'fecha1', 'fecha2'))->setPaper('a4', 'landscape');;
         return $pdf->stream();
     }
 
@@ -1269,14 +1252,6 @@ class BudgetController extends Controller
         $budget->save();
         return back();
     }
-    public function archivarProducto($id){
-        $datos=$id;
-        
-        $budget=Inventory::find($id);
-        $budget->archivar=true;
-        $budget->save();
-        return back();
-    }
     public function archivar($id){
         $datos=explode("-", $id);
         
@@ -1284,33 +1259,6 @@ class BudgetController extends Controller
         $budget->archivado='1';
         $budget->notasPresupuesto=$datos[1];
         $budget->save();
-        return back();
-    }
-    public function archivarVetar($id){
-        $datos=explode("-", $id);
-
-
-        
-        $budget=Budget::find($datos[0]);
-
-        if($budget->archivado == '0'){
-        $budget->archivado='1';
-        $budget->notasPresupuesto=$datos[1];
-        $budget->save();
-
-        $cliente=Client::find($budget->client_id);
-        $cliente->clave = 'VETADO';
-        $cliente->save();}else{
-        
-        $budget->archivado='0';
-        $budget->notasPresupuesto=$datos[1];
-        $budget->save();
-
-        $cliente=Client::find($budget->client_id);
-        $cliente->clave = 'No vetado';
-        $cliente->save();
-
-        }
         return back();
     }
     public function facturaEnviada($id){
@@ -1345,18 +1293,18 @@ class BudgetController extends Controller
         $budget->categoriaEvento = 'nube';
         $budget->fechaEvento = null;
         $budget->pendienteFecha = true;
+        $budget->pendienteFecha = true;
         $budget->save();
         }else{
         $budget=Budget::find($request->budget_id);
-        $budget->categoriaEvento = 'nube';
         $budget->fechaEvento = $request->fechaNueva;
         $budget->pendienteFecha = null;
         $budget->save();    
         }
        
     }
-    public function restaurarPresupuesto(Request $request){
-        $budget=Budget::find($request->id);
+    public function restaurarPresupuesto($id){
+        $budget=Budget::find($id);
         $budget->categoriaEvento = 'otro';
         $budget->save();
 

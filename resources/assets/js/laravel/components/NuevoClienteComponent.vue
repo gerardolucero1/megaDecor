@@ -716,7 +716,6 @@ function emailCopy(){
                                 
                             })
                             this.telefonos = [];
-                            $('#nuevoClienteModal').modal('hide')
                             
                 }).catch((error) => {
                     console.log(error);

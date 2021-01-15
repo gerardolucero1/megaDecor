@@ -164,13 +164,9 @@ export default {
         editarCantidad(index, key){
                     //console.log(key);
                     this.indice = index;
-                    if(key[1]=='cantidad'){
-                         this.key = key[1];
-                    }else{
-                        this.key = key[5];
-                    }
-                   
-                    
+                    this.key = key[1];
+                    console.log(index);
+                    console.log(key[1]);
                        
                 },
         updateCantidad(index){
@@ -186,13 +182,8 @@ export default {
                     //console.log(key);
                     this.indice = index;
                     this.key = key[5];
-
-                    if(key[5]=='precioUnitario'){
-                         this.key = key[5];
-                    }else{
-                        this.key = key[2];
-                    }
-                  
+                    console.log(index);
+                    console.log(key[4]);
                        
                 },
         updatePrecio(index){

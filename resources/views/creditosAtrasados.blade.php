@@ -28,7 +28,6 @@
                 </div>
                 
                     <div style="padding:15px; padding-top:30px;">
-                        
                         <table  style="font-size: 11px" class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer" id="TablaPresupuestosHistorial" role="grid" >
                             <thead>
                                 <tr role="row">
@@ -45,12 +44,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $telefonoCliente = 0;
-                                @endphp
                                 @foreach ($contratos as $budgetArchivados) 
                                 @php
-                                
                                 $banIva =1;
                                 if($budgetArchivados->opcionIVA){
                                     $banIva =1.16;
@@ -93,12 +88,10 @@
                                             $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
                                            // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
-                                           $telefonoCliente = $clienteFisico->telefono;
-
+                                           
                                         }else{
                                             $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
                                             $clienteNombre = $clienteMoral->nombre;
-                                            $telefonoCliente = $clienteMoral->telefono;
                                         }
                                     @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
@@ -139,10 +132,7 @@
                                             $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
                                             if (isset($telefono->numero)) {
                                             echo $telefono->numero;
-                                            }else{
-                                                echo $telefonoCliente;
                                             }
-
                                         @endphp
                                     </td>
                                             <td class="d-flex" style="box-sizing: content-box;">
@@ -151,10 +141,9 @@
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
 
-                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Restaurar" data-original-title="View Customer">
+                                                <a style="margin-right:4px;" onclick="archivarPresupuesto({{$budgetArchivados->id}})" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Archivar Presupuesto" data-original-title="View Customer">
                                                     <i style="color: white" class="si si-trash"></i> 
                                                 </a>
-                                                
                                                 
                                             </td>
                                         </tr>
@@ -165,8 +154,6 @@
                         <div style="position: fixed; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:#fcffa9; top:30px; ">
                             <span style="font-weight: bold">Monto Total: ${{number_format($deudaTotal,2)}} </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
-                            <span>Saldo Incobrable: $0.00</span>
-                            <a href="/creditos-atrasados2" class="btn btn-primary">Creditos Incobrables</a>
                         </div>
                     </div>
                 </div>
@@ -180,13 +167,12 @@
 
 function archivarPresupuesto(id){
         //alert(id);
-        let motivo = prompt('Teclea "VETAR" para confirmar')
-        let URL = '/budget-archivar-vetar/'  + id+'-'+motivo;
-        if(motivo == 'VETAR'){
+        let motivo = prompt('¿Motivo de cancelación?')
+        let URL = '/budget-archivar/'  + id+'-'+motivo;
         axios.get(URL).then((response) => {
                     Swal.fire(
-                            'Cliente vetado',
-                            'Presupuesto archivado y cliente vetado',
+                            'Eliminado',
+                            'El presupuesto ha sido eliminado correctamente',
                             'success'
                         ); 
                         location.reload();
@@ -198,13 +184,6 @@ function archivarPresupuesto(id){
                             'Danger'
                         ); 
                 })
-            }else{
-                Swal.fire(
-                            'Cancelado',
-                            'Se cancelo la accion de vetar al cliente o no se ingreso la confirmacion correctamente',
-                            'error'
-                        ); 
-            }
 
     }
 </script>

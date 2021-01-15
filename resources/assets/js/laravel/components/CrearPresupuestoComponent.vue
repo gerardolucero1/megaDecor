@@ -238,7 +238,6 @@ padding: 0;
                                     {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
                                 </label>
                             </p>
-                            <div v-if="clienteSeleccionado.vetado=='VETADO'" style="width:300px; border-radius:10px; text-align:center; color:white; background:orange">Se necesita autorización de personal administrativo para dar sevicio a este cliente</div>
                             <div v-for="deuda in clienteSeleccionado.adeudo" v-bind:key="deuda.index">
                             <p style="background:red; border-radius:10px; color:white; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
                             </div>
@@ -250,10 +249,10 @@ padding: 0;
                                 <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
                                 <span v-else>Primer Evento</span>
                             </p>
-                            <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos 0</div>
-                            <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos 0</div>
-                               
-                                
+                            <p><span>{{  }}</span> eventos contratados</p>
+                            <p><span>{{  }}</span> presupuestos</p>
+                                <div v-if="1==1" class="btn btn-sm btn-primary d-inline-block" data-toggle="modal" data-target="#verContratos">Ver Contratos</div>
+                                <div v-if="1==1" class="btn btn-sm btn-info d-inline-block" data-toggle="modal" data-target="#verPresupuestos">Ver Presupuestos</div>
                         </div>
                     </div>
                     <div class="row">
@@ -270,27 +269,24 @@ padding: 0;
                 </div>
                 </div>
                 
-                
-                
+                <h4>Lugar del Evento</h4>
+                <br>
                 
   
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
-                <div class="col-md-3">
-                <h4>Lugar del Evento</h4>
-                </div>
-                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-2">
+                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
                         <label for="lugarMismo">Misma Direccion</label>
                     </div>
-                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-2">
+                    <div v-if="presupuesto.pendienteLugar!=1" class="col-md-3">
                         <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento">
                         <label for="lugarOtro">Otra</label>
                     </div>
                     <div v-if="presupuesto.pendienteLugar!=1" class="col-md-3">
-                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-on:change="comprobarRecoleccionBodega()" v-model="presupuesto.lugarEvento">
+                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento">
                         <label for="lugarBodega">Recoleccion en bodega</label>
                     </div>
-                    <div  class="col-md-2">
+                    <div  class="col-md-3">
                         <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar">
                         <label for="pendienteLugar">Pendiente</label>
                     </div>
@@ -551,9 +547,9 @@ padding: 0;
                         -->
                         <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" id="LoadingImage" style="width:100px; display:none">
                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Guardar como presupuesto</button> 
-                      
+                       <!--
                         <div v-if="permisos.creacionGuardarComoContrato==1" class="btn btn-primary" @click="ModalGuardarContrato()"><i class="fa fa-check"></i> Guardar como contrato</div>
-                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>
+                        <div v-if="permisos.creacionSettings==1" class="btn btn-secondary" @click="mostrarSettings()"><i class="si si-settings"></i> Settings</div>-->
                 </div>
                 <div class="col-md-4" style="padding-top:20px">
                     <h2 v-if="verSettings">Settings </h2>
@@ -1910,13 +1906,6 @@ padding: 0;
             },
         },
         methods:{
-            comprobarRecoleccionBodega(){
-                if(this.presupuesto.lugarEvento=='BODEGA'){
-                    this.facturacion.entregaEnBodega = true;
-                }else{
-                    this.facturacion.entregaEnBodega = false;
-                }
-            },
             editarProductoExterno(paquete, index){
                 this.editarElementoExt = paquete
                 this.editarElementoIndex = index
@@ -2267,7 +2256,7 @@ padding: 0;
                     this.limpiar = false;
                 }, 1000);
             },
-            actualizarPrecioSugerido(){
+                    actualizarPrecioSugerido(){
                          this.precioSugerido=0;
                         this.utilidad=0;
                         this.costoProveedor=0;
@@ -2280,7 +2269,7 @@ padding: 0;
                         this.paquete.precioFinal = this.precioSugerido;
                     },
                     //Eliminar producto de paquete
-            eliminarProductoPaquete(index){
+                    eliminarProductoPaquete(index){
                         this.paquete.inventario.splice(index, 1);
 
                         this.precioSugerido = 0;
@@ -2296,12 +2285,12 @@ padding: 0;
                     },
 
                     //Actualizar los datos del paquete
-            editarCantidadPaquete(index, key){
+                    editarCantidadPaquete(index, key){
                         this.indice = index;
                         this.key = key[5];                       
                     },
 
-            editarPrecioEspecialPaquete(index, key, producto){
+                    editarPrecioEspecialPaquete(index, key, producto){
                         if(producto.externo){
                             this.key = key[10]; 
                         }else{
@@ -2310,7 +2299,7 @@ padding: 0;
                         this.indice = index;
                     },
 
-            editarPrecioUnitarioPaquete(index, key, producto){
+                    editarPrecioUnitarioPaquete(index, key, producto){
                         console.log(key);
                         if(producto.externo){
                             this.key = key[3]; 
@@ -2320,7 +2309,7 @@ padding: 0;
                         this.indice = index;
                     },
 
-            updateCantidadPaquete(index){
+                    updateCantidadPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
@@ -2338,7 +2327,7 @@ padding: 0;
                         
                     },
 
-            updatePrecioUnitarioPaquete(index){
+                    updatePrecioUnitarioPaquete(index){
                         let producto = this.paquete.inventario.find(function(element, indice){
                             return (indice == index);
                         });
@@ -2354,7 +2343,7 @@ padding: 0;
                         this.actualizarPrecioSugerido();
                     },
 
-            updatePrecioEspecialPaquete(index){
+                    updatePrecioEspecialPaquete(index){
                         this.precioSugerido = 0;
                         this.utilidad = 0;
                         let producto = this.paquete.inventario.find(function(element, indice){
@@ -2442,23 +2431,9 @@ padding: 0;
                 });
 
             },
-            obtenerStatusCliente(cliente){
-                let URL = '/obtener-adeudo-status';
-                axios.post(URL, {
-                    'id': cliente.id,
-                }).then((response) => {
-                    this.clienteSeleccionado.vetado = response.data;
-                     
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-                
-
-            },
             // Metodo para obtener el cliente seleccionado
             obtenerCliente(cliente){
                 this.obtenerAdeudos(cliente);
-                this.obtenerStatusCliente(cliente);
                 this.limpiar = true;
                 //let URL = '/obtener-cliente/' + cliente.id;
                 let URL = '/obtener-cliente';

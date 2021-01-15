@@ -10,7 +10,7 @@
 
    
         <!-- Page Content -->
-        <div class="content">
+        <div class="content">  
             
         
             
@@ -32,7 +32,7 @@
                                         <i class="si si-cloud-download"></i> <i>Reporte de ventas</i> 
                                 </a>
                             @endif
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#gasolinaModal2">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#gasolinaModal">
                                 <i class="fa fa-calculator"></i> <i>Calculadora Fletes</i> 
                             </button>
                             
@@ -132,8 +132,8 @@
                                                         }
                                                     }
                                                 @endphp
-                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0"><!--{{ $numCreditos }}--> 10<br>
-                                                <span style="font-size: 14px;">Total Por Cobrar: $<!--{{number_format($adeudoTotal,2)}}-->14,326.00</span></div>
+                                                <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0">{{ $contador-15 }}<br>
+                                                <span style="font-size: 14px;">Total Por Cobrar: ${{number_format((81719.19),2)}}</span></div>
                                                 <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                             </div>
                                         </a>
@@ -350,7 +350,7 @@
         @include('../modals/categoriaTareaModal')
         @include('../modals/tiposEmpresaModal')
         @include('../modals/comoSupoModal')
-        @include('../modals/gasolinaModal2')
+        @include('../modals/gasolinaModal')
    
     
 @endsection

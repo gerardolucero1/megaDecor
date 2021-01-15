@@ -127,18 +127,18 @@ $ingresosExtraordinarios += $pago->cantidad;}
             
             <p><span style="font-weight: bold">Efectivo del cierre del corte del dia anterior: </span> ${{ $registro->cantidadApertura}}<br>
                 <span>Contratos nuevos: {{$numContratosHoy}}</span><br>
-                <span>Total Ingresos hoy: ${{ number_format($ingresosContratos+$ingresosContratosTarjeta+$ingresosContratosTransferencia+$ingresosExtraordinarios,2)}}</span><br></p>
+                <span>Total Ingresos hoy: ${{ number_format(($ingresosContratos+$ingresosExtraordinarios),2)}}</span><br></p>
             
             </td>
             <td> <p><span style="font-weight: bold">Efectivo al cerrar caja: </span> ${{ number_format($registro->cantidadCierre,2)}}<br>
                 <span style="font-size:10px; font-style:italic">(Definido por el usuario)</span><br>
                 @if($precorte > $registro->cantidadCierre)
-            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{number_format($precorte,2)}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">FALTANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             
             @elseif($precorte < $registro->cantidadCierre)
-            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{number_format($precorte,2)}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
+            <span style="color:red; font-style: italic; font-size: 13px">*Monto final definido por el usuario no concuerda con calculo del sistema de: ${{$precorte}}<br><span style="color:red; font-size: 16px">SOBRANTE: ${{number_format($registro->cantidadCierre-$precorte,2)}}</span></span>
             @else
-             <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{number_format($precorte,2)}}</span>
+             <span style="color:green; font-style: italic; font-size: 13px">*Monto final definido por el usuario concuerda con calculo del sistema de: ${{$precorte}}</span>
              @endif</p> </td>
         </tr>
     </table>

@@ -182,8 +182,7 @@ padding: 0;
                         
                     </div>
                 </div>
-                
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
+                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente</h4>
                         <div class="row">
@@ -266,11 +265,9 @@ padding: 0;
                     </div>
                 </div>
                 </div>
-
-
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -359,12 +356,17 @@ padding: 0;
 
                 </div>
                 
-                
+                <h4>Archivos de Referencia</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="file" name="" id="">
+                    </div>
+                </div>
 
                 <hr>
 
                 <!-- SECTION 2 -->
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
+                <div class="row">
                     <div class="col-md-10 ">
                         <div class="row">
                             <div class="col-md-4">
@@ -406,7 +408,7 @@ padding: 0;
                     </div>
                 </div>
                 <!--Table-->
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
+                <div class="row">
                     <div class="col-md-12">
                         <table class="table table-striped">
                         <thead>
@@ -479,7 +481,7 @@ padding: 0;
                     </div>
                 </div>
 
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
+                <div class="row">
                     <div class="col-md-12">
                        
                         <div class="row">
@@ -534,7 +536,7 @@ padding: 0;
                      </div>
                 </div>
 
-                <div v-if="presupuesto.categoriaEvento != 'nube'" class="row">
+                <div class="row">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
@@ -1131,8 +1133,8 @@ padding: 0;
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onClick="$('#guardarContrato').modal('hide')">Close</button>
-                    <button type="button" class="btn btn-primary"  @click="guardarContrato()">Guardar</button>
-                    
+                    <button type="button" class="btn btn-primary" v-if="editado==1" @click="guardarContrato()">Guardar</button>
+                    <label for="" v-if="editado==0">No hay cambios que guardar</label>
                 </div>
                 </div>
             </div>
@@ -1357,8 +1359,7 @@ padding: 0;
                         <label for="">Vigencia</label><br>
                         <input v-model="nube.vigencia" class="form-control" type="date">
                         </div>
-                <button v-if="presupuesto.categoriaEvento != 'nube'" @click="enviarANube()" class="btn btn-info">Confirmar</button>
-                <button v-if="presupuesto.categoriaEvento == 'nube'" @click="restaurarNube()" class="btn btn-info">Confirmar</button>
+                <button @click="enviarANube()" class="btn btn-info">Confirmar</button>
                 </div>
                 
                 <div class="modal-footer">
@@ -2862,59 +2863,6 @@ padding: 0;
                 var myParameters = window.location.search;// Get the parameters from the current page
 
                 var URL = "/cambio-fecha/"
-
-                var W = window.open(URL);
-
-                W.window.print(); 
-                         
-                            
-                }).catch((error) => {
-                    console.log(error);
-                });
-               
-            },
-
-
-            restaurarNube(){
-                let URL = '/nube/create';
-                //alert('funciona');
-                
-                axios.post(URL, {
-                    'budget_id': this.presupuesto.id,
-                    'motivo':this.nube.motivo,
-                    'fechaAnterior':this.presupuesto.fechaEvento,
-                    'categoriaAnterior':this.presupuesto.categoria,
-                    'fechaNueva':this.nube.newDate,
-                    'vigencia':this.nube.vigencia,
-
-                }).then((response) => {
-        
-                  $('#subirNube').modal('hide');
-                   // console.log(this.cliente);
-                    Swal.fire({
-                                title: 'Operación Completa',
-                                text: "",
-                                type: 'success',
-                                showCancelButton: false,
-                                cancelButtonColor: '#d33',
-                                
-                            })
-                var myParameters = window.location.search;// Get the parameters from the current page
-
-                var URL = "/nube/restore"
-
-
-                axios.post(URL, {
-                    'id': this.presupuesto.id,
-                  
-
-                }).then((response) => {
-        
-                }).catch((error) => {
-                    console.log(error);
-                });
-
-
 
                 var W = window.open(URL);
 

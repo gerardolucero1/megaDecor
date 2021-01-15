@@ -22,7 +22,6 @@
 
     @foreach ($contratos as $budgetArchivados)
     @php
-            $telefonoCliente = 0;
             $fechaEvento = Carbon\Carbon::parse($budgetArchivados->fechaEvento)->locale('es');
             $fechaLimite = Carbon\Carbon::parse($budgetArchivados->fechaLimite)->locale('es');
             $date = $budgetArchivados->fechaEvento." 11:00:00";
@@ -54,13 +53,11 @@ if($budgetArchivados->opcionIVA){
         if($cliente->tipoPersona == "FISICA"){
             $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
             $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
-            $telefonoCliente = $clienteFisico->telefono;
            // $clienteCompleto = App\PhysicalPerson::where('client_id', $cliente->id)->first();
            
         }else{
             $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
             $clienteNombre = $clienteMoral->nombre;
-            $telefonoCliente = $clienteMoral->telefono;
         }
     @endphp {{$clienteNombre}}</td>
     <td style="width: 10%">{{$budgetArchivados->vendedor}}</td>
@@ -100,11 +97,8 @@ $testigo++;
     $telefono = App\Telephone::where('client_id', $budgetArchivados->client_id)->first();
     if(isset($telefono)>0){
     echo $telefono->numero;
-    }else{
-        echo $telefonoCliente;
     }
 @endphp
-
 </td>
 </tr>
 
