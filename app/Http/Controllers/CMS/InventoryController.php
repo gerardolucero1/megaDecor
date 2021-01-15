@@ -280,10 +280,15 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->take(50)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'DESC')->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->take(50)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
+
+        if($Inventario){
+
+        }
+
         $familia = $request->familia;
         
         $pdf = App::make('dompdf');
