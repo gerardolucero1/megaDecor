@@ -97,7 +97,7 @@
             <div v-if="presupuesto.archivado==false" class="row">
             <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
             <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recoleccoón en bodega</span></p>
+                <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recolección en bodega</span></p>
                 <p><span style="font-weight:bold">Recolección: </span><span v-if="presupuesto.entregaEnBodega!=1 && presupuesto.recoleccionPreferente!='OTRO'">{{presupuesto.recoleccionPreferente}}</span><span v-if="presupuesto.entregaEnBodega==1">Cliente entrega en bodega</span><span v-if="presupuesto.recoleccionPreferente=='OTRO' && presupuesto.entregaEnBodega!=1">{{presupuesto.fechaRecoleccion}} {{presupuesto.horaRecoleccion}}</span></p>
             </div>
             <div class="col-md-4">
