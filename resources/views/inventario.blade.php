@@ -245,13 +245,13 @@ $(document).ready( function () {
         function seleccionarFamilia(){
             
            NombreFamilia = document.getElementById('familia2').value;
-           document.getElementById('inputfamiliapt2').style.display='none';
+           document.getElementById('pdfpt2').style.display='none';
            
            //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         document.getElementById('inputfamiliapt2').value=NombreFamilia;
         if(NombreFamilia=='Centros de Mesa'){
-        document.getElementById('inputfamiliapt2').style.display='block';
+        document.getElementById('pdfpt2').style.display='block';
         }
         }
         function editarCantidad(id){
