@@ -286,6 +286,9 @@ class InventoryController extends Controller
              }
 
         $familia = $request->familia;
+        if($familia=='Centros de Mesa' || $familia =='FLORES, FOLLAJES Y TRONCOS' || $familia = "MOBILIARIO Y EQUIPO"){
+            $familia = $familia.' Prte 1 de 2';
+            }
         
         $pdf = App::make('dompdf');
 
@@ -304,7 +307,7 @@ class InventoryController extends Controller
         $Inventario = Inventory::orderBy('id', 'ASC')->latest()->take(150)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
 
-        $familia = $request->familia;
+        $familia = $request->familia.' Parte 2 de 2';
         
         $pdf = App::make('dompdf');
 

@@ -26,6 +26,7 @@ use Carbon\Carbon;
        <th style="padding: 4px;">Bodega</th>
        <th style="padding: 4px;">Exhibición</th>
        <th style="padding: 4px;">Exhibición</th>
+       <th style="padding: 4px;">Total</th>
     </tr>
     
     @foreach ($Inventario as $item)
@@ -37,6 +38,8 @@ use Carbon\Carbon;
 <td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
 <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$item->exhibicion}}</td>
 <td style="padding: 4px; border-bottom:solid; border-right:solid; border-left:solid; border-width: 1px; "></td>
+<td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$item->exhibicion+$item->cantidad}}</td>
+
 
 
 
