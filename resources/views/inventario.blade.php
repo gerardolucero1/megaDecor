@@ -96,7 +96,7 @@
                         <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
                         </form>    
 
-                        <form id="pdfpt2" method="POST" target="_blank" action="{{route('imprimir.familiapt2')}}" >
+                        <form id="pdfpt2" style="display: none" method="POST" target="_blank" action="{{route('imprimir.familiapt2')}}" >
                             @method('POST')
                             @csrf 
                         <input type="hidden" name="familia" id="inputfamiliapt2" value="">
