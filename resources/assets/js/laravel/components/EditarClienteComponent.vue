@@ -5,7 +5,7 @@
                 <h5>Ultimo evento: <a :href="'/presupuestos/ver/' + ultimoEvento.id"><span class="badge badge-pill badge-danger">{{ ultimoEvento.fechaEvento | dateFilter }}</span></a></h5>
             </div>
             <div v-if="cliente.vetado" class="col-md-4 text-right">
-                <h5 style="colo:white; background:red; padding:10px; border-radius:6px">CLIENTE VETADO: {{cliente.motivo}}</h5>
+                <h5 style="color:white; background:red; padding:10px; border-radius:6px">CLIENTE VETADO: {{cliente.motivo}}</h5>
                 <button v-if="cliente.vetado" class="btn btn-danger" @click="desvetar()">Quitar Veto</button>
                 <button  v-if="!cliente.vetado" class="btn btn-danger" @click="vetar()">Vetar cliente</button>
             </div>
