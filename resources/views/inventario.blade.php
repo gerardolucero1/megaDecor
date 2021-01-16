@@ -259,7 +259,7 @@ $(document).ready( function () {
         document.getElementById('inputfamilia').value=NombreFamilia;
         document.getElementById('inputfamiliapt2').value=NombreFamilia;
         document.getElementById('inputfamiliapt3').value=NombreFamilia;
-        if(NombreFamilia == 'Centros de Mesa' || NombreFamilia == 'FLORES, FOLLAJES Y TRONCOS' || NombreFamilia == "MOBILIARIO Y EQUIPO"){
+        if(NombreFamilia == 'Centros de Mesa' || NombreFamilia == 'FLORES, FOLLAJES Y TRONCOS' || NombreFamilia == "MOBILIARIO Y EQUIPO" || NombreFamilia == "DECORACION AMBIENTAL"){
         document.getElementById('pdfpt2').style.display='block';
         document.getElementById('pdfpt3').style.display='block';
         }
