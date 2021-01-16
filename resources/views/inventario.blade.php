@@ -102,6 +102,13 @@
                         <input type="hidden" name="familia" id="inputfamiliapt2" value="">
                     <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico pt2</button>    
                     </form>  
+
+                    <form id="pdfpt3" style="display: none" method="POST" target="_blank" action="{{route('imprimir.familiapt3')}}" >
+                        @method('POST')
+                        @csrf 
+                    <input type="hidden" name="familia" id="inputfamiliapt3" value="">
+                <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico pt3</button>    
+                </form>  
                     
                     
                     </div>
@@ -246,12 +253,15 @@ $(document).ready( function () {
             
            NombreFamilia = document.getElementById('familia2').value;
            document.getElementById('pdfpt2').style.display='none';
+           document.getElementById('pdfpt3').style.display='none';
            
            //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         document.getElementById('inputfamiliapt2').value=NombreFamilia;
+        document.getElementById('inputfamiliapt3').value=NombreFamilia;
         if(NombreFamilia == 'Centros de Mesa' || NombreFamilia == 'FLORES, FOLLAJES Y TRONCOS' || NombreFamilia == "MOBILIARIO Y EQUIPO"){
         document.getElementById('pdfpt2').style.display='block';
+        document.getElementById('pdfpt3').style.display='block';
         }
         }
         function editarCantidad(id){

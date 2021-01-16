@@ -280,9 +280,9 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->take(150)->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->take(100)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'DESC')->take(150)->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->take(100)->Where('archivar', null)->orWhere('archivar', false)->get();
              }
 
         $familia = $request->familia;
@@ -302,9 +302,27 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'ASC')->latest()->take(150)->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->skip(100)->take(100)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'ASC')->latest()->take(150)->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->skip(100)->take(100)->Where('archivar', null)->orWhere('archivar', false)->get();
+        }
+
+        $familia = $request->familia.' Parte 2 de 2';
+        
+        $pdf = App::make('dompdf');
+
+        $pdf = PDF::loadView('pdf.lista_inventario', compact('Inventario', 'familia'));
+
+        return $pdf->stream();
+
+    }
+    public function pdfpt3(Request $request){        
+        
+        // dd($request->familia);
+        if(!is_null($request->familia)){
+            $Inventario = Inventory::orderBy('id', 'DESC')->skip(200)->take(100)->where('familia', $request->familia)->get();
+        }else{
+        $Inventario = Inventory::orderBy('id', 'DESC')->skip(200)->take(100)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
 
         $familia = $request->familia.' Parte 2 de 2';
