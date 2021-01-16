@@ -250,7 +250,7 @@ $(document).ready( function () {
            //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
         document.getElementById('inputfamiliapt2').value=NombreFamilia;
-        if(NombreFamilia=='Centros de Mesa' || NombreFamilia =='FLORES, FOLLAJES Y TRONCOS' || NombreFamilia = "MOBILIARIO Y EQUIPO"){
+        if(NombreFamilia == 'Centros de Mesa' || NombreFamilia == 'FLORES, FOLLAJES Y TRONCOS' || NombreFamilia == "MOBILIARIO Y EQUIPO"){
         document.getElementById('pdfpt2').style.display='block';
         }
         }
