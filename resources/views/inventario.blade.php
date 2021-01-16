@@ -87,12 +87,23 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form method="POST" action="{{route('imprimir.familia')}}" >
+
+
+                        <form method="POST" target="_blank" action="{{route('imprimir.familia')}}" >
                                 @method('POST')
                                 @csrf 
                             <input type="hidden" name="familia" id="inputfamilia" value="">
                         <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>    
                         </form>    
+
+                        <form id="pdfpt2" method="POST" target="_blank" action="{{route('imprimir.familiapt2')}}" >
+                            @method('POST')
+                            @csrf 
+                        <input type="hidden" name="familia" id="inputfamiliapt2" value="">
+                    <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico pt2</button>    
+                    </form>  
+                    
+                    
                     </div>
                     <div class="col-md-9 text-right">
                         
@@ -234,9 +245,14 @@ $(document).ready( function () {
         function seleccionarFamilia(){
             
            NombreFamilia = document.getElementById('familia2').value;
+           document.getElementById('inputfamiliapt2').style.display='none';
            
            //alert(NombreFamilia);
         document.getElementById('inputfamilia').value=NombreFamilia;
+        document.getElementById('inputfamiliapt2').value=NombreFamilia;
+        if(NombreFamilia=='Centros de Mesa'){
+        document.getElementById('inputfamiliapt2').style.display='block';
+        }
         }
         function editarCantidad(id){
             let nuevaCantidad = prompt('Ingresa la cantidad que quedara en bodega, si ingresas una cantidad menor a la actual, el sobrante pasara automaticamente a exhibicion, si ingresas una cantidad mayor, la diferencia se descontara a exhibición: ');

@@ -299,7 +299,7 @@ class InventoryController extends Controller
 
     }
 
-    public function pdfPt2(Request $request){        
+    public function pdfpt2(Request $request){        
         
         // dd($request->familia);
         if(!is_null($request->familia)){
