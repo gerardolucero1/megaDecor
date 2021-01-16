@@ -316,6 +316,7 @@ class InventoryController extends Controller
         return $pdf->stream();
 
     }
+    
     public function pdfpt3(Request $request){        
         
         // dd($request->familia);
