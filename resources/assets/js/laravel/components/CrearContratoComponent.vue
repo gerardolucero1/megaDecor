@@ -239,7 +239,7 @@ padding: 0;
                                     {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }} - {{ telefono.departamento }}
                                 </label>
                             </p>
-                            <div v-if="clienteSeleccionado.vetado=='VETADO'" style="width:300px; border-radius:10px; text-align:center; color:white; background:orange">Se necesita autorización de personal administrativo para dar sevicio a este cliente</div>
+                            <div v-if="clienteSeleccionado.vetado2==true" style="width:300px; border-radius:10px; text-align:center; color:white; background:orange">Se necesita autorización de personal administrativo para dar sevicio a este cliente</div>
                             <div v-for="deuda in clienteSeleccionado.adeudo" v-bind:key="deuda.index">
                             <p style="background:red; border-radius:10px; color:white; text-align:center; padding:10px">Este Cliente cuenta con un saldo pendiente: {{deuda.folio}}</p>
                             </div>

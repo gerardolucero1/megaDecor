@@ -97,7 +97,6 @@ padding: 0;
                             <p style="text-align:right; font-size:23px; width:100%; padding-right:25px"><span style="font-weight:bold">Fecha del evento: </span> <span >{{ mostrarFechaEvento }}</span></p>
                         </div>
                         <div class="row">
-
                             <div class="col-md-4 text-right">
                                 <label>Vendedor: </label>
                             </div>
