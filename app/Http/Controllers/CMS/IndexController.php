@@ -77,7 +77,7 @@ class IndexController extends Controller
                         }
                     
 
-                        $CompleteClient->email = $cliente->vetado;
+                        $CompleteClient->vetado = $cliente->vetado;
                         $CompleteClient->email = $cliente->email;
                         $CompleteClient->created_at = $createdAt;
                         $CompleteClient->presupuestos = $Presupuestos;
@@ -129,7 +129,7 @@ class IndexController extends Controller
                         }
                     
 
-                        $CompleteClient->email = $cliente->vetado;
+                        $CompleteClient->vetado = $cliente->vetado;
                         $CompleteClient->email = $cliente->email;
                         $CompleteClient->created_at = $createdAt;
                         $CompleteClient->presupuestos = $Presupuestos;
