@@ -265,8 +265,10 @@ padding: 0;
                     </div>
                 </div>
                 </div>
+                <div v-if="presupuesto.categoriaEvento!='nube'">
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>
+                </div>
                 <div v-if="presupuesto.categoriaEvento!='nube'" class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
                     <div class="col-md-3">
