@@ -84,7 +84,11 @@
                             </thead>
                             <tbody>                   
                                     @foreach ($CompleteClients as $cliente)                     
-                                <tr role="row" class="odd">
+                                <tr role="row" class="odd" @php
+                                    if($cliente->vetado == 1){
+                                        echo "style='background:#FF8D8D'"
+                                    }
+                                @endphp>
                                         @if($permisos->clientesId==1)
                                 <td class="text-center sorting_1">{{$cliente->id}}</td>
                                 @endif
