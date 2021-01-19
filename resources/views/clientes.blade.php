@@ -53,7 +53,7 @@
                             @if($permisos->clientesArchivados==1)
                                     <button onclick="VerArchivados()" class="btn btn-secondary">
                                                 <i class="fa fa-user-times"></i> <i>Clientes Archivados</i> 
-                                            </button>
+                                    </button>
                             @endif
                     </div>
                     </div>
@@ -79,6 +79,7 @@
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Contratos</th>
                                     <th rowspan="1" colspan="1">Opciones</th></tr>
+                                    <th rowspan="1" colspan="1">Vetado</th></tr>
                                 </tr>
                             </thead>
                             <tbody>                   
@@ -155,6 +156,7 @@
                                             @method('DELETE')
                                         </form>
                                     </td>
+                                    <td>{{$cliente->vetado}}</td>
                                 </tr>
                                 @endforeach
                             
