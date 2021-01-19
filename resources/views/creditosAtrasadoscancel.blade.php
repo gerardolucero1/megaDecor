@@ -154,7 +154,7 @@
                             </tbody>
                         </table>
                         <div style="position: fixed; z-index: 20; padding: 15px; border:solid; border-width: 1px; background:#fcffa9; top:30px; ">
-                            <span style="font-weight: bold">Monto Total: $58,006.55 </span>
+                            <span style="font-weight: bold">Monto Total: $12,543.00 </span>
                             <a href="{{route('imprimir.creditosAtrasados')}}" class="btn btn-primary">Imprimir PDF</a>
                             <span>Saldo Incobrable: ${{number_format($deudaTotal,2)}}</span>
                             <a href="/creditos-atrasados" class="btn btn-primary">Volver a creditos atrasados</a>
