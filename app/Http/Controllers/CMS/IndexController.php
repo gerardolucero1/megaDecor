@@ -46,7 +46,7 @@ class IndexController extends Controller
         ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
         ->select('clients.id', 'moral_people.nombre', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.created_at', 'clients.vetado')
         ->get();
-        $clientes_fisicos = DB::table('clients')->take(950)
+        $clientes_fisicos = DB::table('clients')->take(1000)
         ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.created_at', 'clients.vetado')
         ->get();
