@@ -156,7 +156,7 @@
                                             @method('DELETE')
                                         </form>
                                     </td>
-                                    <td>{{$cliente->vetado}}</td>
+                                    <td>{{$cliente->id}}</td>
                                 </tr>
                                 @endforeach
                             
