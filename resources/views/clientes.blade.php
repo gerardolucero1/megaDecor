@@ -79,7 +79,6 @@
                                     <th rowspan="1" colspan="1">Presupuestos</th>
                                     <th rowspan="1" colspan="1">Contratos</th>
                                     <th rowspan="1" colspan="1">Opciones</th>
-                                    <th rowspan="1" colspan="1">Vetado</th>
                                 </tr>
                             </thead>
                             <tbody>                   
@@ -160,7 +159,6 @@
                                             @method('DELETE')
                                         </form>
                                     </td>
-                                    <td>{{$cliente->vetado}}</td>
                                     
                                 </tr>
                                 @endforeach
