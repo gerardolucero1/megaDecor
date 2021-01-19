@@ -111,7 +111,7 @@ padding: 0;
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
-                    <div class="col-md-4">
+                    <div class="col-md-4" v-if="presupuesto.categoriaEvento!='nube'">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
                             <label for="salonMega">Salon Mega Mundo</label>
@@ -126,7 +126,7 @@ padding: 0;
                                 <label for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
-                    <div class="col-md-4 row">
+                    <div class="col-md-4 row" v-if="presupuesto.categoriaEvento!='nube'">
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
