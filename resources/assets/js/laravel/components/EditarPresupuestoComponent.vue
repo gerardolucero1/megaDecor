@@ -153,7 +153,7 @@ padding: 0;
                             <div class="col-md-12">
                                 <h4 class="">Categoria del evento</h4>
                                 <p v-text="presupuesto.categoriaEvento"></p>
-                                 <p style="display: none;" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
+                                <p style="display: none;" class="btn-text" data-toggle="modal" data-target="#agregarCategoria"><i class="fa fa-edit"></i> Administrar Categorias</p>
                                 
                                 <div v-if="presupuesto.tipo=='PRESUPUESTO'" class="row mt-4">
                                     <div class="col-md-10">
@@ -182,7 +182,7 @@ padding: 0;
                         
                     </div>
                 </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
+                <div v-if="presupuesto.categoriaEvento!='nube'" class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente <span v-if="clienteSeleccionado.vetado2 == true" class="badge badge-pill badge-info" style="background:red" >CLIENTE VETADO</span></h4>
                         <div class="row">
@@ -267,7 +267,7 @@ padding: 0;
                 </div>
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                <div v-if="presupuesto.categoriaEvento!='nube'" class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -356,17 +356,9 @@ padding: 0;
 
                 </div>
                 
-                <h4>Archivos de Referencia</h4>
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="file" name="" id="">
-                    </div>
-                </div>
-
-                <hr>
 
                 <!-- SECTION 2 -->
-                <div class="row">
+                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
                     <div class="col-md-10 ">
                         <div class="row">
                             <div class="col-md-4">
@@ -387,8 +379,9 @@ padding: 0;
                         </div>
                     </div>
                 </div>
+
                 <!-- Resultado Busqueda items -->
-                <div class="row" v-if="results.length < inventario.length">
+                <div class="row" v-if="results.length < inventario.length && presupuesto.categoriaEvento!='nube'">
                     <div v-if="results.length !== 0" class="col-md-4 resultadoInventario">
                         <div class="list-group" v-for="producto in results.slice(0,20)" :key="producto.id">
                             <div class="row contenedor-producto" style="cursor:auto;" >
@@ -408,7 +401,7 @@ padding: 0;
                     </div>
                 </div>
                 <!--Table-->
-                <div class="row">
+                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
                     <div class="col-md-12">
                         <table class="table table-striped">
                         <thead>
@@ -481,7 +474,7 @@ padding: 0;
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
                     <div class="col-md-12">
                        
                         <div class="row">
@@ -536,7 +529,7 @@ padding: 0;
                      </div>
                 </div>
 
-                <div class="row">
+                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>

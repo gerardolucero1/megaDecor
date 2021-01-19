@@ -146,7 +146,7 @@
                                     <a style="margin-right:4px;" target="_blank" href="{{ route('cambio-fecha-reimpresion.pdf', $budget->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Reimpresion" data-original-title="Reimpresion">
                                         <i class="fa fa-print"></i>
                                     </a>
-                                    <a style="margin-right:4px;" target="_blank" href="{{ route('ver.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
+                                    <a style="margin-right:4px;" target="_blank" href="{{ route('editar.presupuesto', $budget->id) }}"  class="btn btn-sm btn-primary" data-toggle="tooltip" title="Ver Ficha Tecnica" data-original-title="View Customer">
                                         <i class="fa fa-eye"></i> 
                                     </a> 
                               
