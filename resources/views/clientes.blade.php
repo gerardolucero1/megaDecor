@@ -86,7 +86,7 @@
                                     @foreach ($CompleteClients as $cliente)                     
                                 <tr role="row" class="odd" @php
                                     if($cliente->vetado == 1){
-                                        echo "style='background:#FF8D8D'"
+                                        echo "style='background:#FF8D8D'";
                                     }
                                 @endphp>
                                         @if($permisos->clientesId==1)
