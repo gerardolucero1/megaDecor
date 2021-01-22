@@ -156,7 +156,7 @@ padding: 0;
                                 <div v-if="presupuesto.tipo=='PRESUPUESTO'" class="row mt-4">
                                     <div class="col-md-10">
                                         <label v-if="presupuesto.pendienteFecha" for="">Fecha Pendiente</label>
-                                        <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" min="2021-01-21" v-model="presupuesto.fechaEvento">
+                                        <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" min="new Date().toDateInputValue()" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
