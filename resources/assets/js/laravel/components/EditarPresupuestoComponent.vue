@@ -1340,7 +1340,7 @@ padding: 0;
                 <div class="modal-body">
                         <div class="form-group">
                         <label for="">Nueva Fecha (dejar en blanco para dejar fecha pendiente)</label><br>
-                        <input v-model="nube.newDate" class="form-control" type="date">
+                        <input v-model="nube.newDate" class="form-control" type="date" min="2021-01-22">
                         </div>
                         <div class="form-group">
                         <label>Motivo</label>
