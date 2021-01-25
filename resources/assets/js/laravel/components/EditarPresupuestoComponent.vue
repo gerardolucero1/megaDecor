@@ -109,7 +109,7 @@ padding: 0;
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">
-                    <div class="col-md-4" v-if="presupuesto.categoriaEvento!='nube'">
+                    <div class="col-md-4">
                         <h4>Informacion del evento</h4>
                             <input id="salonMega" type="radio" name="tipoSalon" value="INTERNO" v-model="presupuesto.tipoEvento">
                             <label for="salonMega">Salon Mega Mundo</label>
@@ -124,7 +124,7 @@ padding: 0;
                                 <label for="servicioInfantil">Servicio Infantil</label>
                             </div>
                     </div>
-                    <div class="col-md-4 row" v-if="presupuesto.categoriaEvento!='nube'">
+                    <div class="col-md-4 row" >
                                 <h4>Horario del evento</h4>
                             <div class="col-md-6" style="padding-left:0">
                                 <label>Inicio del evento</label><br>
@@ -180,7 +180,7 @@ padding: 0;
                         
                     </div>
                 </div>
-                <div v-if="presupuesto.categoriaEvento!='nube'" class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
+                <div  class="row" style="border-bottom:solid; border-width:1px; padding:5px; border-top:none; border-right:none; border-left:none; padding-top:25px">
                     <div class="col-md-8">
                         <h4>Cliente <span v-if="clienteSeleccionado.vetado2 == true" class="badge badge-pill badge-info" style="background:red" >CLIENTE VETADO</span></h4>
                         <div class="row">
@@ -263,11 +263,11 @@ padding: 0;
                     </div>
                 </div>
                 </div>
-                <div v-if="presupuesto.categoriaEvento!='nube'">
+                <div >
                 <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
                 <h4 v-else>Recolección en bodega</h4>
                 </div>
-                <div v-if="presupuesto.categoriaEvento!='nube'" class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
+                <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding-bottom:20px">
                 
                     <div class="col-md-3">
                         <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento">
@@ -358,7 +358,7 @@ padding: 0;
                 
 
                 <!-- SECTION 2 -->
-                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
+                <div class="row" >
                     <div class="col-md-10 ">
                         <div class="row">
                             <div class="col-md-4">
@@ -401,7 +401,7 @@ padding: 0;
                     </div>
                 </div>
                 <!--Table-->
-                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
+                <div class="row">
                     <div class="col-md-12">
                         <table class="table table-striped">
                         <thead>
@@ -474,7 +474,7 @@ padding: 0;
                     </div>
                 </div>
 
-                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
+                <div class="row" >
                     <div class="col-md-12">
                        
                         <div class="row">
@@ -529,7 +529,7 @@ padding: 0;
                      </div>
                 </div>
 
-                <div class="row" v-if="presupuesto.categoriaEvento!='nube'">
+                <div class="row" >
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
