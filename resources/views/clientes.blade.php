@@ -42,7 +42,7 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <div class="col-md-7">
-                        <h3 class="block-title" style="color:green">Clientes Activos</h3>
+                        <h3 class="block-title" style="color:green">Clientes Activos <span style="padding-left: 30px; color:red">●</span><span style="font-style: italic; font-size: 12px">Clientes Vetados</span></h3>
                     </div>
                     <div class="col-md-5 text-right">
                             @if($permisos->clientesNuevoCliente==1)

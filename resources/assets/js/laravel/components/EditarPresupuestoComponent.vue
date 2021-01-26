@@ -156,7 +156,7 @@ padding: 0;
                                 <div v-if="presupuesto.tipo=='PRESUPUESTO'" class="row mt-4">
                                     <div class="col-md-10">
                                         <label v-if="presupuesto.pendienteFecha" for="">Fecha Pendiente</label>
-                                        <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" min="2021-01-22" v-model="presupuesto.fechaEvento">
+                                        <input v-if="presupuesto.pendienteFecha==false || presupuesto.pendienteFecha==null" type="date" min="2021-01-26" v-model="presupuesto.fechaEvento">
                                     </div>
                                     <div class="col-md-2 text-left">
                                         <i class="si si-calendar" style="font-size: 24px;"></i>
@@ -1340,14 +1340,14 @@ padding: 0;
                 <div class="modal-body">
                         <div class="form-group">
                         <label for="">Nueva Fecha (Cambio con fecha definida)</label><br>
-                        <input v-model="nube.newDate" class="form-control" type="date" min="2021-01-22">
+                        <input v-model="nube.newDate" class="form-control" type="date" min="2021-01-26">
                         </div>
                         <div class="form-group">
                         <label>Motivo</label>
                         <textarea required class="form-control" v-model="nube.motivo" id="" cols="30" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                        <label for="">Enviar a nube (Cambio con fecha indefinida)</label><br>
+                        <h5 class="modal-title" id="exampleModalCenterTitle" style="text-align:center; width:100%">Enviar a nube (Cambio con fecha indefinida)</h5><br>
                         <label v-if="nube.newDate==null" for="">Vigencia de credito a favor</label><br>
                         <input v-if="nube.newDate==null" v-model="nube.vigencia" class="form-control" type="date">
                         </div>
