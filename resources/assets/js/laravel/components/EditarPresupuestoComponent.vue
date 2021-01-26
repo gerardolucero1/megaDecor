@@ -531,12 +531,12 @@ padding: 0;
 
                 <div class="row" >
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" v-if="editado==1" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
+                        <button class="btn btn-sm btn-block btn-success" v-if="editado==1 && presupuesto.categoria!='nube'" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
                          <button style="" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar por correo</button>
                          <a target="_blank" class="btn btn-primary" style="width:100%; margin-top:15px;" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO' && clienteSeleccionado.vetado2 != true && presupuesto.pendienteFecha==false && this.presupuesto.fechaEvento!=''" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
-                        <button v-if="presupuesto.tipo == 'CONTRATO'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
+                        <button v-if="presupuesto.tipo == 'CONTRATO' && presupuesto.categoria!='nube'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
                         
                     </div>
                 </div>
@@ -1332,23 +1332,24 @@ padding: 0;
             <div id="app" class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content" style="border: solid gray">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Enviar Contrato a la nube</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle" style="text-align:center; width:100%">Cambio de fecha</h5>
                     <button type="button" class="close" onClick="$('#subirNube').modal('hide')" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                         <div class="form-group">
-                        <label for="">Nueva Fecha (dejar en blanco para dejar fecha pendiente)</label><br>
+                        <label for="">Nueva Fecha (Cambio con fecha definida)</label><br>
                         <input v-model="nube.newDate" class="form-control" type="date" min="2021-01-22">
                         </div>
                         <div class="form-group">
                         <label>Motivo</label>
-                        <textarea class="form-control" v-model="nube.motivo" id="" cols="30" rows="5"></textarea>
+                        <textarea required class="form-control" v-model="nube.motivo" id="" cols="30" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                        <label for="">Vigencia</label><br>
-                        <input v-model="nube.vigencia" class="form-control" type="date">
+                        <label for="">Enviar a nube (Cambio con fecha indefinida)</label><br>
+                        <label v-if="nube.newDate==null" for="">Vigencia de credito a favor</label><br>
+                        <input v-if="nube.newDate==null" v-model="nube.vigencia" class="form-control" type="date">
                         </div>
                 <button @click="enviarANube()" class="btn btn-info">Confirmar</button>
                 </div>
