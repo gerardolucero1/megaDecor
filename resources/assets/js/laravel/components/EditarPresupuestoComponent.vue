@@ -105,7 +105,7 @@ padding: 0;
                                 </select>
                             </div>
                         </div>
-                        <p class="mt-3">Fecha de creación: <span>{{ obtenerFecha }}</span></p>
+                        <p class="mt-3">Fecha de creación: <span> {{ presupuesto.created_at }}</span></p>
                     </div>
                 </div>
                 <div class="row" style="border-bottom:solid; border-width:1px; border-top:none; border-right:none; border-left:none; padding:5px;">

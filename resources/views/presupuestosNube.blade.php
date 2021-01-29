@@ -30,7 +30,7 @@
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Contratos en Nube</h3>
+                        <h3 class="block-title" style="color:green">Contratos en Nube <span style="padding-left: 30px; color:red">●</span><span style="font-style: italic; font-size: 12px">Clientes Vetados</span></h3>
                     </div>
                     <div class="col-md-9 text-right">
                         @php
@@ -49,7 +49,7 @@
                                     @if($permisos->contratosFolio==1)
                                     <th>Folio</th>@endif
                                     @if($permisos->contratosFecha==1)
-                                    <th>Fecha Evento</th>@endif
+                                    <th>Motivo</th>@endif
                                     @if($permisos->contratosCliente==1)
                                     <th class="d-none d-sm-table-cell">Cliente</th>@endif
                                     @if($permisos->contratosVendedor==1)
@@ -87,7 +87,7 @@
                                         $fechaEvento = Carbon::parse($budget->fechaEvento)->locale('es');
                                     @endphp
                                     <td class="">
-                                        <span style="display:none; font-size:2px;">{{$fechaEvento}}</span>
+                                        <span style="display:none; font-size:2px;">{{$ultimoCambio->motivo}}</span>
                                         <br>
                                         {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
                                     @else
