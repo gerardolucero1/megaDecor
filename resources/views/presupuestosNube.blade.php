@@ -30,15 +30,12 @@
                 <div class="block" id="divLista">
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Contratos en Nube <span style="padding-left: 30px; color:red">●</span><span style="font-style: italic; font-size: 12px">Clientes Vetados</span></h3>
+                        <h3 class="block-title" style="color:green">Contratos en Nube <span style="padding-left: 30px; color:red">●</span><span style="font-style: italic; font-size: 12px">Vigencias Vencidas</span></h3>
                     </div>
                     <div class="col-md-9 text-right">
                         @php
                             $usuario = Auth::user()->id;    
                         @endphp 
-                        
-                     
-                      
                    
                     </div>
                     </div>
