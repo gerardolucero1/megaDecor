@@ -537,7 +537,6 @@ padding: 0;
                          <a target="_blank" class="btn btn-primary" style="width:100%; margin-top:15px;" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
                         <button v-if="presupuesto.tipo == 'PRESUPUESTO' && clienteSeleccionado.vetado2 != true && presupuesto.pendienteFecha!=true" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Guardar como contrato</button>
                         <button v-if="presupuesto.tipo == 'CONTRATO' && presupuesto.categoria!='nube'" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#guardarContrato"><i class="fa fa-check"></i> Editar datos de facturacion</button>
-                        
                     </div>
                 </div>
                 
