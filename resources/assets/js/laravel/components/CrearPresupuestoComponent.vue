@@ -510,19 +510,19 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
-                                <input hidden  type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
-                                <label hidden for="precio">Precios Totales</label>
+                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                <label for="precio">Precios Totales</label>
                                 <br>
-                                <input hidden   type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
-                                <label hidden for="precioUnitario">Precios Unitarios</label>
+                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
+                                <label for="precioUnitario">Precios Unitarios</label>
                                 <br>
                                 <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
-                                <input style="display:none"  checked type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
-                                <label style="display:none" for="descuento">Descuento General</label>
+                                <input checked type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
+                                <label for="descuento">Descuento General</label>
                             </div>
                             <div class="col-md-3">
                                 
