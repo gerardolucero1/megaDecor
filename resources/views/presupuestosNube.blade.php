@@ -86,9 +86,9 @@
                                     <td class="">
                                         <span style="display:none; font-size:2px;">{{$ultimoCambio->motivo}}</span>
                                         <br>
-                                        {{$fechaEvento->translatedFormat(' l j F Y')}}</td>
+                                        {{$ultimoCambio->motivo}}</td>
                                     @else
-                                    <td class="">Pendiente</td>
+                                    <td class="">{{$ultimoCambio->motivo}}</td>
                                 @endif
                                 @endif
                                 @if($permisos->contratosCliente==1)
