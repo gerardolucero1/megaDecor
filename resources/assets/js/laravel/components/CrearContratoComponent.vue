@@ -521,6 +521,7 @@ padding: 0;
                                 <br>
                                 <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
+                                <br>
                                 <input  checked type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
                                 <label for="descuento">Descuento General</label>
                             </div>
