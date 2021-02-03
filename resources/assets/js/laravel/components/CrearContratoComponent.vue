@@ -1406,22 +1406,20 @@ padding: 0;
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Cantidad Charolas</th>
-                                <th scope="col">Bocadillos Charola</th>
+                                <th scope="col">Cantidad</th>
                                 <th scope="col">Precio Charola</th>
                                 <th scope="col">Precio Final</th>
-                                <th scope="col">Total Bocadillos</th>
+                         
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
                                 <td><img v-bind:src="item.imagen" alt="" width="50px"></td>
                                 <td>{{ item.servicio }}</td>
-                                <td>{{ item.cantidadPaquetes }}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>${{ item.precioUnitario }}</td>
-                                <td>${{ item.precioUnitario*item.cantidadPaquetes }}</td>
-                                <td>{{ item.cantidadTotal }}</td>
+                                <td>${{ item.precioUnitario | currency}}</td>
+                                <td>${{ item.precioUnitario*item.cantidad | currency }}</td>
+                             
                             </tr>
                         </tbody>
                     </table>
