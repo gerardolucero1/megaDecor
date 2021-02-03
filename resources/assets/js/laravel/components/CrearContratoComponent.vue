@@ -1414,7 +1414,7 @@ padding: 0;
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in viendoPaquete.paquete" :key="index">
+                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
                                 <td><img v-bind:src="item.imagen" alt="" width="50px"></td>
                                 <td>{{ item.servicio }}</td>
                                 <td>{{ item.cantidadPaquetes }}</td>

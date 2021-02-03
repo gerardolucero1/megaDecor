@@ -90,7 +90,7 @@ padding: 0;
                         <span v-else v-on:click="editarCantidad(index, Object.keys(item))">{{ item.cantidad }}</span></td>
                         <td><input style="background:#FBEE83; border-radius:3px;" v-if="(item.precioUnitario == '') || (indice == index && key == 'precioUnitario')" v-on:change="updatePrecio(index)" v-model="cantidadActualizada">
                         <span v-else v-on:click="editarPrecio(index, Object.keys(item))">{{ item.precioUnitario | currency}}</span></td>
-                        <td>{{item.precioUnitario*item.cantidad}}</td>
+                        <td>{{item.precioUnitario*item.cantidad | currency}}</td>
                         <td>
                            <button @click="eliminarProducto(index)">Eliminar</button> 
                         </td>
