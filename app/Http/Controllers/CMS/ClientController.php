@@ -99,6 +99,7 @@ class ClientController extends Controller
         $cliente = new Client();
         $cliente->clave = $aleatoria;
         $cliente->nombreCliente = $request->nombreCliente;
+        $cliente->vetado = false;
         if($request->tipoPersona == 'fisica'){
             $cliente->tipoPersona = 'FISICA';
         }else{
@@ -228,7 +229,7 @@ class ClientController extends Controller
 
     public function update(Request $request, $id){
         $cliente = Client::find($id);
-        $cliente->vetado = true;
+        
         $cliente->save();
 
 
