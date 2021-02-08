@@ -15,7 +15,7 @@ class FamilyGroupController extends Controller
      */
     public function index()
     {
-        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        $grupos = FamilyGroup::orderBy('nombre', 'ASC')->get();
         return view('groups.index', compact('grupos'));
     }
 

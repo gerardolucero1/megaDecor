@@ -13,12 +13,22 @@
                         @foreach ($grupos as $grupo)
                             <div class="card">
                                 <div class="card-header" id="headingOne">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#grupo{{ $grupo->id }}" aria-expanded="true" aria-controls="collapse{{ $grupo->id }}">
-                                            {{ $grupo->nombre }}
-                                        </button>
-                                        <a href="{{ route('grupo.edit', $grupo->id) }}" class="btn btn-sm btn-info">Editar</a>
-                                    </h2>
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <th>Nombre del grupo</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#grupo{{ $grupo->id }}" aria-expanded="true" aria-controls="collapse{{ $grupo->id }}">
+                                                {{ $grupo->nombre }}
+                                                </button>
+                                            </td>
+                                            <td>
+                                            <a href="{{ route('grupo.edit', $grupo->id) }}" class="btn btn-sm btn-info">Editar</a>
+                                            </td>
+                                    </tr>
+                                    </table>
                                 </div>
                             
                                 <div id="grupo{{ $grupo->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
