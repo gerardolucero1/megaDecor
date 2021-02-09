@@ -2861,17 +2861,17 @@ padding: 0;
                     
                     response.data.forEach((doc) => {
                         this.paquete.inventario.push({
-                            'externo': false,
+                             'externo': false,
                             'nombre': doc.servicio,
                             'imagen': doc.imagen,
-                            'precioUnitario': 1,
-                            'precioFinal': 1,
+                            'precioUnitario': doc.precioUnitario,
+                            'precioFinal': doc.precioFinal*doc.cantidad,
                             'cantidad': doc.cantidad,
                             'id': doc.id,
-                            'precioVenta': 1,
-                            'proveedor': '',
-                            'precioEspecial': 1,
-                            'precioAnterior': 1,
+                            'precioVenta': doc.precioUnitario,
+                            'proveedor': 'MEGAMUNDO',
+                            'precioEspecial': doc.precioUnitario,
+                            'precioAnterior': doc.precioUnitario,
                         });
                         
                     })
