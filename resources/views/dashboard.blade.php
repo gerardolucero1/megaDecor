@@ -43,12 +43,9 @@
                         @php
                             $registro = App\CashRegister::orderBy('id', 'DESC')->first();
                         @endphp
-                        @if ($registro->estatus)
-                            <a href="{{ route('caja.index') }}" class="btn btn-info">Caja abierta</a>
-                            
-                        @else
+                      
                             <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
-                        @endif
+                      
                     </div>
                     @endif
                     
