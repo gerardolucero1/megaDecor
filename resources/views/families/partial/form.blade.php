@@ -18,12 +18,13 @@
                 
                     <select name="grupo" id="" style="width: 100%;">
                         <option value="">Selecciona Un Grupo</option>
-                        @foreach ($grupos as $grupo)
+                       
                         @if (isset($familia))
                         <option selected value="{{ $familia->grupo }}">{{ $familia->grupo }}</option>
                         @else
                        
                     @endif
+                    @foreach ($grupos as $grupo)
                             <option value="{{ $grupo->nombre }}">{{ $grupo->nombre }}</option>
                         @endforeach
                     </select> 
