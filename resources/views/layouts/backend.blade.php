@@ -274,7 +274,7 @@
                                         @endif
                                         @if($permisos->inventarioGrupos==1)
                                         <li>
-                                            <a href="{{ route('grupo.index') }}">Grupos para contratos</a>
+                                            <a href="{{ route('grupo.index') }}">Requerimientos de familia</a>
                                         </li>
                                         @endif
                                         

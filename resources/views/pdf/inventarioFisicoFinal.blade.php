@@ -19,6 +19,7 @@ use Carbon\Carbon;
        
        
        <th style="padding: 4px;">Fisico Exhibición</th>
+       <th style="padding: 4px;">Total</th>
       
       
     </tr>
@@ -73,6 +74,8 @@ use Carbon\Carbon;
   <td style="padding: 4px; border-bottom:solid; border-width: 1px; text-align: center">{{$registro->fisicoBodega}}</td>
  
   <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion}}</td>
+  <td style="padding: 4px; border-bottom:solid; text-align: center; border-width: 1px; ">{{$registro->fisicoExhibicion+$registro->fisicoBodega}}</td>
+
   
   
   </tr>

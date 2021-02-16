@@ -5,7 +5,7 @@
         <div class="block">
             <div class="block-header block-header-default">
                 <a href="{{ route('familia.create') }}" class="btn btn-sm btn-primary">Agregar Familia</a>
-                <a href="{{ route('grupo.index') }}" class="btn btn-sm btn-info">Ver Grupos</a>
+                <a href="{{ route('grupo.index') }}" class="btn btn-sm btn-info">Ver Requerimentos de Familia</a>
             </div>
             <div class="row">
                 <div class="col-md-12 p-4">

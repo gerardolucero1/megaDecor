@@ -29,6 +29,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Estas editando el grupo: {{ $grupo->nombre }}</h3>
                 </div>
+                <a href="{{ route('grupo.index') }}" class="btn btn-primary">Volver a Grupos</a>
                 <div class="block-content">
                     {!! Form::model($grupo, ['route' => ['grupo.update', $grupo->id], 'method' => 'PUT', 'files' => 'true']) !!}
             

@@ -29,6 +29,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Crear nueva familia</h3>
                 </div>
+                <a href="{{ route('familia.index') }}" class="btn btn-primary">Volver a familias</a>
                 <div class="block-content">
                     {!! Form::open(['route' => 'familia.store', 'files' => 'true']) !!}
             

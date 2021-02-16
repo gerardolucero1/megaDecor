@@ -34,6 +34,6 @@
     </section>
     <section class="row">
         <div class="col-md-4 offset-md-4">
-            <button type="submit" class="btn btn-sm btn-primary btn-block">Enviar</button>
+            <button type="submit" class="btn btn-sm btn-primary btn-block">Guardar</button>
         </div>
 </section>

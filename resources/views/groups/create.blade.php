@@ -29,6 +29,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Crear nuevo grupo</h3>
                 </div>
+                <a href="{{ route('grupo.index') }}" class="btn btn-primary">Volver a Grupos</a>
                 <div class="block-content">
                     {!! Form::open(['route' => 'grupo.store', 'files' => 'true']) !!}
             

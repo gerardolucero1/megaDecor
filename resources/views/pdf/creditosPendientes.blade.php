@@ -4,6 +4,7 @@
     $deudaTotal=0;
     $testigo=0;
 @endphp
+<p style="font-size:13px; font-style:italic">{{Carbon\Carbon::now()}}</p>
 <p style="width: 100%; font-size:35px; font-weight:bold">Cuentas por cobrar</p>
       <table style="width: 100%; font-size:12px; text-align:center;">
         <tr style="background: cornsilk; padding:5px">

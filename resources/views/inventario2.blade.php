@@ -249,15 +249,15 @@
                             <td class="">{{ $inventario->servicio }}</td>
                             <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                             <td>{{$inventario->cantidad}}
-                                <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                </td>
                             <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
-                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"><span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                             <td>{{$inventario->exhibicion}}
-                                <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                </td>
                             <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
-                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"><span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                             @php
                                 $precioUnitario=number_format($inventario->precioUnitario,2);
                             @endphp

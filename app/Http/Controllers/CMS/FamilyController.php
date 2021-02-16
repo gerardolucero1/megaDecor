@@ -17,7 +17,7 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        $familias = Family::orderBy('id', 'DESC')->get();
+        $familias = Family::orderBy('nombre', 'ASC')->get();
         return view('families.index', compact('familias'));
     }
 
@@ -28,7 +28,7 @@ class FamilyController extends Controller
      */
     public function create()
     {
-        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        $grupos = FamilyGroup::orderBy('nombre', 'ASC')->get();
         return view('families.create', compact('grupos'));
     }
 
@@ -77,7 +77,7 @@ class FamilyController extends Controller
     public function edit($id)
     {
         $familia = Family::findOrFail($id);
-        $grupos = FamilyGroup::orderBy('id', 'DESC')->get();
+        $grupos = FamilyGroup::orderBy('nombre', 'ASC')->get();
         return view('families.edit', compact('familia', 'grupos'));
     }
 

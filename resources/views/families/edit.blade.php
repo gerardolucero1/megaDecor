@@ -29,6 +29,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Estas editando la familia: {{ $familia->nombre }}</h3>
                 </div>
+                <a href="{{ route('familia.index') }}" class="btn btn-primary">Volver a familias</a>
                 <div class="block-content">
                     {!! Form::model($familia, ['route' => ['familia.update', $familia->id], 'method' => 'PUT', 'files' => 'true']) !!}
             
