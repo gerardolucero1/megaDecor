@@ -110,22 +110,23 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
-                                @if(isset($familiaSeleccionada))
-                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
-                                @endif
-                                @method('POST')
-                                @csrf 
-                        @if(isset($familiaSeleccionada))
-                            <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>   
-                        @endif 
-                        </form>    
+                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
                     </div>
                     <div class="col-md-9 text-right">
                         <button onclick="marcar()">Marcar/Desmarcar</button>
                         @if(isset($ultimoInventario))
-                        <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
-                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        <p>Ultimo Inventario Miercoles 2 de abril 2020</p>
+                       
+                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
+                            @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            @endif
+                            @method('POST')
+                            @csrf 
+                    @if(isset($familiaSeleccionada))
+                        <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>   
+                    @endif 
+                    </form>    
                         <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
@@ -136,7 +137,7 @@
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            Impresion (Todos) <li class="fa fa-print"></li>
+                            Impresión con faltantes <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
@@ -150,7 +151,7 @@
                         @csrf 
                 @if(isset($familiaSeleccionada))
                     <button class="btn btn-sm btn-info" type="submit">
-                        Impresion Entrega <li class="fa fa-print"></li>
+                        Finalizar inventario e impresión firma bodeguero <li class="fa fa-print"></li>
                     </button>
                 @endif  
                 </form>
