@@ -226,7 +226,6 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Familia</th>
                                     <th>Actual en bodega</th>
                                     <th>Conteo Fisico Bodega</th>
                                     <th>Diferencia Bodega</th>
@@ -234,6 +233,7 @@
                                     <th>Conteo Fisico exhibición</th>
                                     <th>Diferencia Exhibición</th>
                                     <th>Total Diferencia</th>
+                                    <th>TotalGeneral</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -248,7 +248,6 @@
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td class="">{{ $inventario->servicio }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                             <td>{{$inventario->cantidad}}
                                 </td>
                             <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
@@ -311,7 +310,7 @@
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
                                     {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
-                                
+                                <td class="d-none d-sm-table-cell">{{ $servicioDatos->antesBodega }} / {{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
