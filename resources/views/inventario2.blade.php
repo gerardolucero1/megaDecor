@@ -266,7 +266,7 @@
                             <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
                                     {{ ($inventario->cantidad + $inventario->exhibicion) }}
                                 </td>
-                            <td class="d-none d-sm-table-cell">{{ $servicioDatos->antesBodega }} / {{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
+                            <td class="d-none d-sm-table-cell"></td>
                             <td class="d-flex" style="box-sizing: content-box;">
                                     <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
                                             <i class="fa fa-check"></i> 
