@@ -233,8 +233,7 @@
                                     <th>Conteo Fisico exhibición</th>
                                     <th>Diferencia Exhibición</th>
                                     <th>Total Diferencia</th>
-                                    <th>Total Bodega</th>
-                                    <th>Total Final</th>
+                                    <th>TotalGeneral</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -311,8 +310,7 @@
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
                                     {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
-                                <td class="d-none d-sm-table-cell">{{ $servicioDatos->antesBodega }}</td>
-                                <td class="d-none d-sm-table-cell">{{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
+                                <td class="d-none d-sm-table-cell">{{ $servicioDatos->antesBodega }} / {{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
