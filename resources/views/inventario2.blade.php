@@ -312,7 +312,7 @@
                                 </td>
                                 <td class="d-none d-sm-table-cell">Inv. Ant: {{ $servicioDatos->antesBodega+$servicioDatos->antesExhibicion }} 
                                     <br> cont. Fisico: {{$servicioDatos->fisicoBodega+$servicioDatos->fisicoExhibicion}} 
-                                    <br> {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
+                                    <br> Dif:{{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
