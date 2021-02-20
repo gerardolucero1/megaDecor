@@ -310,7 +310,7 @@
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
                                     {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
-                                <td class="d-none d-sm-table-cell">{{ $servicioDatos->antesBodega }} / {{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
+                                <td class="d-none d-sm-table-cell"><span>{{ $servicioDatos->antesBodega+$servicioDatos->antesExhibicion }}</span><br> <span>Cont. Fisico: {{$servicioDatos->fisicoBodega+$servicioDatos->fisicoExhibicion-$servicioDatos}}</span><br><span> {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}</span></td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
