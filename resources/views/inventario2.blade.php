@@ -110,22 +110,23 @@
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
-                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
-                                @if(isset($familiaSeleccionada))
-                                <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
-                                @endif
-                                @method('POST')
-                                @csrf 
-                        @if(isset($familiaSeleccionada))
-                            <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>   
-                        @endif 
-                        </form>    
+                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
                     </div>
                     <div class="col-md-9 text-right">
                         <button onclick="marcar()">Marcar/Desmarcar</button>
                         @if(isset($ultimoInventario))
-                        <p>Inventario Finalizado Miercoles 2 de abril 2020</p>
-                        <button class="btn btn-primary">Hacer Inventario Nuevamente</button>
+                        <p>Ultimo Inventario Miercoles 2 de abril 2020</p>
+                       
+                        <form target="_blank" method="POST" action="{{route('imprimir.familia')}}" >
+                            @if(isset($familiaSeleccionada))
+                            <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
+                            @endif
+                            @method('POST')
+                            @csrf 
+                    @if(isset($familiaSeleccionada))
+                        <button class="btn btn-sm btn-info" type="submit">PDF inventario fisico</button>   
+                    @endif 
+                    </form>    
                         <form target="_blank" method="POST" action="{{route('imprimir.familiaInventarioFisico2')}}" style="display: inline-block;">
                             @if(isset($familiaSeleccionada))
                                 <input type="hidden" name="familia" value="{{ $familiaSeleccionada }}">
@@ -136,7 +137,7 @@
                             @csrf 
                     @if(isset($familiaSeleccionada))
                         <button class="btn btn-sm btn-info" type="submit">
-                            Impresion (Todos) <li class="fa fa-print"></li>
+                            Impresión con faltantes <li class="fa fa-print"></li>
                         </button>
                     @endif  
                     </form>
@@ -150,7 +151,7 @@
                         @csrf 
                 @if(isset($familiaSeleccionada))
                     <button class="btn btn-sm btn-info" type="submit">
-                        Impresion Entrega <li class="fa fa-print"></li>
+                        Finalizar inventario e impresión firma bodeguero <li class="fa fa-print"></li>
                     </button>
                 @endif  
                 </form>
@@ -225,7 +226,6 @@
                                 <tr role="row">
                                     <th>Imagen</th>
                                     <th>Servicio</th>
-                                    <th>Familia</th>
                                     <th>Actual en bodega</th>
                                     <th>Conteo Fisico Bodega</th>
                                     <th>Diferencia Bodega</th>
@@ -233,6 +233,7 @@
                                     <th>Conteo Fisico exhibición</th>
                                     <th>Diferencia Exhibición</th>
                                     <th>Total Diferencia</th>
+                                    <th>TotalGeneral</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -247,17 +248,16 @@
                         <tr role="row" class="odd">
                         <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                             <td class="">{{ $inventario->servicio }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                             <td>{{$inventario->cantidad}}
-                                <span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                </td>
                             <td style="text-align:center; font-weight: bold" class="td-bodega" id="cantidad-{{ $inventario->id }}"  @if($usuario != 2) onclick="RegistrarActualizado({{ $inventario->id }}, {{ $inventario->cantidad }})" @endif></td>
-                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td id="dif1-{{ $inventario->id }}" style="background: #FFFEDD"><span id="aumentoBodega-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionBodega-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                             <td>{{$inventario->exhibicion}}
-                                <span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
-                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
+                                </td>
                             <td style="text-align:center; font-weight: bold" class="td-ex" id="exhibicion-{{ $inventario->id }}" onclick="RegistrarExhibicionActualizado({{ $inventario->id }}, {{ $inventario->exhibicion }})"  @if($usuario != 2)  @endif></td>
-                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"></td>
+                            <td id="dif2-{{ $inventario->id }}" style="background: #FFFEDD"><span id="aumentoExhibicion-{{ $inventario->id }}" style="color:green; display:none" class="fa fa-arrow-up"></span>
+                                <span id="disminucionExhibicion-{{ $inventario->id }}" style="color:red; display:none" class="fa fa-arrow-down"></span></td>
                             @php
                                 $precioUnitario=number_format($inventario->precioUnitario,2);
                             @endphp
@@ -266,6 +266,7 @@
                             <td id="totalDif-{{ $inventario->id }}" style="text-align:center; font-weight: bold">
                                     {{ ($inventario->cantidad + $inventario->exhibicion) }}
                                 </td>
+                            <td class="d-none d-sm-table-cell"></td>
                             <td class="d-flex" style="box-sizing: content-box;">
                                     <button onclick="RegistrarActualizado2({{ $inventario->id }}, {{ $inventario->cantidad }})" type="button" style="margin-right:4px;" class="btn btn-sm btn-success archivar" data-toggle="tooltip" title="Confirmar Elemento" id="btn-check-{{ $inventario->id }}" data-original-title="Confirmar Elemento">
                                             <i class="fa fa-check"></i> 
@@ -282,7 +283,6 @@
                         <tr role="row" class="odd">
                             <td class="text-center sorting_1"><img style="width: 80px" src="{{ $inventario->imagen}}"></td>
                                 <td class="">{{ $inventario->servicio }}</td>
-                                <td class="d-none d-sm-table-cell">{{ $inventario->familia }}</td>
                                 <td>{{$servicioDatos->antesBodega}}
                                     @if($servicioDatos->antesBodega == $servicioDatos->fisicoBodega)
                                         <span style="color: blue; font-weight: bold;">=</span>
@@ -310,7 +310,7 @@
                                 <td style="text-align:center; font-weight: bold" id="totalDif-{{ $inventario->id }}">
                                     {{ ($servicioDatos->fisicoBodega-$servicioDatos->antesBodega) + ($servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion) }}
                                 </td>
-                                
+                                <td class="d-none d-sm-table-cell">Inv. Ant: {{ $servicioDatos->antesBodega }} <br> cont. Fisico: {{$servicioDatos->fisicoBodega-$servicioDatos->antesBodega+$servicioDatos->fisicoExhibicion-$servicioDatos->antesExhibicion}}</td>
                                 <td class="d-flex" style="box-sizing: content-box;">
                                   
                                         
