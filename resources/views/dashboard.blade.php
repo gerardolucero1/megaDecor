@@ -43,8 +43,18 @@
                         @php
                             $registro = App\CashRegister::orderBy('id', 'DESC')->first();
                         @endphp
-                      
+                            @if($registro->horaCierre == null)
+                                @if($usuario == $registro->user_id)
+                                <a href="{{ route('caja.index') }}" class="btn btn-info">Ver Mi Caja</a>
+                                @else
+                                <p>Caja abierta por otro usuario</p>
+                                @endif
+
+                            @else
                             <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
+                            @endif
+
+                            
                       
                     </div>
                     @endif

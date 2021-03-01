@@ -59,7 +59,6 @@
                     <div class="block-header block-header-default">
                         <h3 class="block-title">Apertura de caja</h3>
                         <div class="block-options">
-                            
                         </div>
                     </div>
                     <div class="block-content">
