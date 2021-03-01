@@ -481,7 +481,7 @@ $cajero = Illuminate\Support\Facades\Auth::user()->name;
                     <table style="width: 100%; font-family: Helvetica;">
                             <tr>
                                 <td>
-                                    <img src="http://megamundodecor.com/images/mega-mundo-decor.png" alt="" style="width: 200px">
+                                    <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
                                 </td>
                             <td style="text-align: right">
                                     <span style="font-weight: bold; font-size: 12px">Folio de contrato:</span> <span>{{$Budget->folio}} </span><br>
