@@ -130,7 +130,7 @@
                                                     }
                                                 @endphp
                                                 <div class="font-size-h3 font-w600 text-white js-count-to-enabled" data-toggle="countTo" data-speed="" data-to="0"><!--{{ $numCreditos }}--> 14<br>
-                                                <span style="font-size: 14px;">Total Por Cobrar: $<!--{{number_format($adeudoTotal,2)}}-->15,060.60</span></div>
+                                                <span style="font-size: 14px;">Total Por Cobrar: $<!--{{number_format($adeudoTotal,2)}}-->20,256.00</span></div>
                                                 <div class="font-size-sm font-w600 text-uppercase text-white-op">Créditos Atrasados</div>
                                             </div>
                                         </a>

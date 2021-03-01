@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-5">
-                                <img src="http://cdn.kaltura.com/p/0/thumbnail/entry_id/1_m98xxec5/quality/80/width/800/height/349" alt="" width="100%">
+                                <img src="https://media.informabtl.com/wp-content/uploads/2017/04/Captura-de-pantalla-2017-04-20-a-las-6.21.24-p.m..png" alt="" width="100%">
                             </div>
                             <div class="col-md-1 text-center">
                                 {{sesion.cierreBillete500}}
@@ -1916,6 +1916,8 @@ this.sumaPagosPasados[2]=this.dolaresApertura;
                 this.pago.reference='';
                 this.pago.bank='';
                 this.pago.comentarios='';
+                this.presupuestoSeleccionado='';
+                this.pago.method=''
                 
                 this.obtenerPagosPasados()
                 this.obtenerPresupuestos();

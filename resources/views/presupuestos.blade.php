@@ -160,7 +160,7 @@
                                     </a> 
                                     @endif
                                     @if($permisos->presupuestosArchivar==1)
-                                    <a href="{{route('presupuesto.archivar', $budget->id)}}" style="margin-right:4px;" onclick="archivarPresupuesto()" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar Presupuesto" data-original-title="View Customer">
+                                    <a onclick="archivarPresupuesto({{$budget->id}})" style="margin-right:4px;"  class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar Presupuesto" data-original-title="View Customer">
                                         <i class="si si-trash"></i> 
                                     </a>
                                     @endif
@@ -413,6 +413,27 @@
             }
                             
         })
+    }
+    function archivarPresupuesto(id){
+        //alert(id);
+        let motivo = prompt('¿Motivo de cancelación?')
+        let URL = '/budget-archivar/'  + id+'-'+motivo;
+        axios.get(URL).then((response) => {
+                    Swal.fire(
+                            'Eliminado',
+                            'El contrato ha sido eliminado correctamente',
+                            'success'
+                        ); 
+                        location.reload();
+                }).catch((error) => {
+                    console.log(error.data);
+                    Swal.fire(
+                            'Error!',
+                            'A ocurrido un error al eliminar',
+                            'Danger'
+                        ); 
+                })
+
     }
    /* function enviarCorreoCliente(id){
                 let URL = '/enviar-email-cliente/'  + id;
