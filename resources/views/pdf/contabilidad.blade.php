@@ -513,13 +513,13 @@ $ingresosExtraordinarios += $pago->cantidad;}
                         <td style="text-align: center; padding: 4px;">Metodo</td>
                         <td style="text-align: center; padding: 4px;">Entregado a</td>
                         <td style="text-align: center; padding: 4px;">Devolución</td>
-                        <td style="text-align: center; padding: 4px;">Monto sin devolición</td>
+                        <td style="text-align: center; padding: 4px;">Monto sin devolución</td>
                     </tr>
                     @php
                         $egresosExtraordinarios =0;
                     @endphp
                     @foreach ($otrosPagos as $pago)
-                   @if($pago->tipo=="EGRESO")
+                   @if($pago->tipo=="EGRESO" || $pago->tipo=="INGRESO")
                     <tr style="border: solid; border-color:black">
                     <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->contrato}}</td>
