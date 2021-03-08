@@ -70,7 +70,9 @@
     @php
     if($pago->tipo=="INGRESO"){
     if($pago->metodo=="EFECTIVO"){
-$ingresosExtraordinarios += $pago->cantidad;}
+$ingresosExtraordinarios += $pago->cantidad;}else{
+    $ingresosExtraordinarios++;
+}
 }else{
     if($pago->metodo=="EFECTIVO"){
             $egresosExtraordinarios += $pago->cantidad - $pago->resto;}
@@ -519,7 +521,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
                         $egresosExtraordinarios =0;
                     @endphp
                     @foreach ($otrosPagos as $pago)
-                   @if($pago->tipo=="EGRESO" || $pago->tipo=="INGRESO")
+                   @if($pago->tipo=="EGRESO")
                     <tr style="border: solid; border-color:black">
                     <td style="text-align: center; padding: 3px;">{{$pago->motivo}}</td>
                     <td style="text-align: center; padding: 3px;">{{$pago->contrato}}</td>
