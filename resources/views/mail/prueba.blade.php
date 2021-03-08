@@ -134,8 +134,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
       @if($presupuesto->opcionPrecioUnitario==1)  
       <td style="text-align: center">${{ (strtolower($elemento->precioUnitario)) }}</td>
-      @endif
+      
       <td style="text-align: center">@if($elemento->precioUnitario!=$elemento->precioEspecial)${{ (strtolower($elemento->precioEspecial)) }}@else -- @endif</td>
+      @endif
       @if($presupuesto->opcionPrecioUnitario==1) 
       <td style="text-align: center">${{ (strtolower($elemento->precioFinal)) }}</td>
       @endif
