@@ -54,8 +54,6 @@
                             <a href="{{ route('caja.index') }}" class="btn btn-info">Apertura de caja</a>
                             @endif
 
-                            
-                      
                     </div>
                     @endif
                     
