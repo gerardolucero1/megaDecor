@@ -112,9 +112,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <td style="font-size: 13px; padding: 4px;">Cantidad</td>
     @if($presupuesto->opcionPrecioUnitario==1) 
     <td style="font-size: 13px; padding: 4px;">Precio Unitario</td>
+    <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
     @endif
     @if($presupuesto->opcionPrecio==1) 
-    <td style="font-size: 13px; padding: 4px;">Precio Especial</td>
     <td style="font-size: 13px; padding: 4px;">Total Con Descuento</td>
     @endif
     <td style="font-size: 13px; padding: 4px;">Notas</td>
