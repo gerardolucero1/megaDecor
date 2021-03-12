@@ -128,7 +128,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @endphp
     <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
         @if($presupuesto->opcionImagen==1)  
-    <td><img src="{{$elemento->imagen}}" width="60px" alt=""></td>
+    <td style="width: 60px;"><div style="width: 60px; overflow:hidden"><img src="{{$elemento->imagen}}" width="60px" alt=""></div></td>
         @endif
     <td style="padding: 5px;">{{ (strtolower($elemento->servicio)) }}</td>
       <td style="text-align: center">{{ (strtolower($elemento->cantidad)) }}</td>
@@ -170,7 +170,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @foreach ($arregloEmentos as $ElementoPaquete)
     @if($ElementoPaquete->budget_pack_id==$paquete->id)
     <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-        <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
+        <td style="width: 40px"><div style="width: 40px; overflow:hidden"><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></div></td>
         <td colspan="3" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
           <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
           
@@ -203,7 +203,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     @endphp
       @if($presupuesto->opcionDescuento==1)
       Ahorro total: ${{$descuentoGeneral}}.00 @endif<br>
-    Subtotal: ${{$subtotal}}.00<br>
+    Subtotal: $ {{$subtotal}}.00<br>
   
     IVA: ${{$iva}}<br>
     @php
