@@ -480,19 +480,19 @@ padding: 0;
                         <div class="row">
                             <div class="col-md-5">
                                 <h4>Mostrar en presupuesto de cliente</h4>
-                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio">
+                                <input type="checkbox" id="precio" @click="editado=1" v-model="presupuesto.opcionPrecio">
                                 <label for="precio">Precios Finales</label>
                                 <br>
-                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario">
+                                <input type="checkbox" id="precioUnitario" @click="editado=1" v-model="presupuesto.opcionPrecioUnitario">
                                 <label for="precioUnitario">Precios Unitarios</label>
                                 <br>
-                                <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete">
+                                <input type="checkbox" id="descripcionPaquete" @click="editado=1" v-model="presupuesto.opcionDescripcionPaquete">
                                 <label for="descripcionPaquete">Descripcion Paquetes</label>
                                 <br>
-                                <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento">
+                                <input type="checkbox" id="descuento" @click="editado=1" v-model="presupuesto.opcionDescuento">
                                 <label for="descuento">Descuento General</label>
                                 <br>
-                                <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen">
+                                <input type="checkbox" id="imagenes" @click="editado=1" v-model="presupuesto.opcionImagen">
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-3">
@@ -503,7 +503,7 @@ padding: 0;
                                 
                                <h3><span style="font-style:italic; font-size:13px; font-weight:normal; display:none">Notas de contrato: $0.00</span></h3>
 
-                                <input type="checkbox" id="iva" v-model="presupuesto.opcionIVA">
+                                <input type="checkbox" id="iva" @click="editado=1" v-model="presupuesto.opcionIVA">
                                 <label for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
@@ -531,7 +531,7 @@ padding: 0;
 
                 <div class="row" >
                     <div class="col-md-4 offset-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" v-if="editado==1 && presupuesto.categoria!='nube'" @click="guardarPresupuesto()"><i class="fa fa-save"></i> Guardar</button>
+                        <button class="btn btn-sm btn-block btn-success" v-if="editado==1 && presupuesto.categoria!='nube'" @click="guardarPresupuesto()"><i class="fa fa-save"></i>Guardar</button>
                         <label for="" v-else style="text-align:center">No hay cambios para guardar</label><br><br>
                          <button style="" class="btn btn-sm btn-block btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar por correo</button>
                          <a target="_blank" class="btn btn-primary" style="width:100%; margin-top:15px;" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
