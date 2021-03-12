@@ -230,7 +230,7 @@
                     </div>
                      <div class="row float-right">
                             <button style="margin-right:10px" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button class="btn btn-success" type="submit">Agregar Cliente</button>
+                            <button class="btn btn-success" type="submit" v-if="!creando">Agregar Cliente</button>
                         </div>
                 </div>
             </form>
@@ -301,6 +301,7 @@ function emailCopy(){
     export default {
         data(){
             return {
+                creando: false,
                 comoSupo: '',
                 comoSupoArray: [],
                 //Como lo supo
@@ -660,6 +661,7 @@ function emailCopy(){
                 
             },
             crearCliente(){
+                this.creando = true;
                 let URL = '/clientes/create';
 
                    
@@ -715,13 +717,16 @@ function emailCopy(){
                                 cancelButtonColor: '#d33',
                                 
                             })
+                            this.creando = false;
                             this.telefonos = [];
                             $('#nuevoClienteModal').modal('hide')
                             
                 }).catch((error) => {
+                    this.creando = false;
                     console.log(error);
                 });
-                }else{alert('No hay telefonos registrados, recuerda presionar "Agregar" para insertar un numero');}
+                }else{alert('No hay telefonos registrados, recuerda presionar "Agregar" para insertar un numero');
+                this.creando = false;}
             },
             eliminarTelefono(index){
               //  console.log(index);
