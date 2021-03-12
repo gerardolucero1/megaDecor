@@ -429,15 +429,14 @@
                                 <label for="imagenes">Imagenes</label>
                             </div>
                             <div class="col-md-4 offset-md-3 mt-4">
-                                <span v-if="presupuesto.opcionIVA==false" style="font-style:italic">Este contrato no lleva IVA </span>
+                                <span v-if="presupuesto.opcionIVA!=true" style="font-style:italic">Este contrato no lleva IVA </span>
                                 <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
                                 <input v-if="presupuesto.opcionIVA==true" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
                                 <label v-if="presupuesto.opcionIVA==true" for="iva">IVA: <span>{{ calcularIva | currency }}</span>
                                 </label>
 
                                 <div class="info mt-3">
-                                   
-                                    <p>TOTAL <span v-if="presupuesto.opcionIVA==true">con IVA </span>: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <p style="font-weight:bold; font-size:20px">TOTAL <span v-if="presupuesto.opcionIVA==true">con IVA </span>: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     
                                     <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>
