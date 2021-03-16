@@ -436,7 +436,9 @@
                                 </label>
 
                                 <div class="info mt-3">
-                                    <p style="font-weight:bold; font-size:20px">TOTAL <span v-if="presupuesto.opcionIVA==true">con IVA </span>: <span>{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
+                                    <p style="font-weight:bold; font-size:20px">TOTAL <span v-if="presupuesto.opcionIVA==true">con IVA </span>: 
+                                    <span v-if="presupuesto.opcionIVA!=true">{{ (calcularSubtotal) | currency }}</span>
+                                    <span v-if="presupuesto.opcionIVA==true">{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
                                     <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
                                     
                                     <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>
