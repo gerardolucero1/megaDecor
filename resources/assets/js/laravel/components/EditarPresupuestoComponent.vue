@@ -221,7 +221,6 @@ padding: 0;
                                 -->
                             </div>
                             <div class="col-md-5">
-                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#nuevoClienteModal"><span class="fa fa-user-plus"></span> Registrar Nuevo Cliente</button>
                             </div>
                         </div>
                         <div v-if="clienteSeleccionado" class="info">

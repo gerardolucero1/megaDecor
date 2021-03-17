@@ -21,10 +21,12 @@
                 @endif</p>
           </td>
           <td colspan="3" style="text-align: right; width: 70%">
-            <p><span style="font-weight: ;">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+            <p><span style="font-weight: ;"></span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
+              <span style="font-weight: normal; font-size: 13px;"></span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
+              <span style="font-weight: normal; font-size: 13px;"></span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
+              <br>
+              <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
             </p>
             </td>
         </tr>

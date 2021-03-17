@@ -38,7 +38,7 @@
 <!--INFORMACION DE CLIENTE-->
 @if($presupuesto->archivado==true)
 <div style="width: 100%; background:#FCD4D4; padding:10px; border-radius:10px">
-<p style="font-weight:bold">Contrato Cancelado por: YAKIN PENA RAMIREZ</p>
+<p style="font-weight:bold">Contrato Cancelado por: IVONNE ARROYOS</p>
 <p>{{$presupuesto->notasPresupuesto}}<p>
 </div>
 @endif
