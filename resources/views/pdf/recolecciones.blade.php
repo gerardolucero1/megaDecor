@@ -50,6 +50,7 @@
         $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
         $telefono = $datosCliente->telefono;
     }else{
+        $datosCliente = App\MoralPerson::where('client_id', $cliente->id)->first();
         $nombreCliente =  $cliente->nombreCliente;
         $telefono = $datosCliente->telefono;
     }
@@ -118,6 +119,7 @@
             $nombreCliente = $datosCliente->nombre.' '.$datosCliente->apellidoPaterno.' '.$datosCliente->apellidoMaterno;
             $telefono = $datosCliente->telefono;
         }else{
+            $datosCliente = App\MoralPerson::where('client_id', $cliente->id)->first();
             $nombreCliente =  $cliente->nombreCliente;
             $telefono = $datosCliente->telefono;
         }
