@@ -27,7 +27,9 @@
               <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
-              <span style="font-weight: normal; font-size: 13px;">Copia Mega Mundo</span>
+              <span style="font-weight: normal; font-size: 13px;">Copia Mega Mundo</span><br>
+              <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
+           
               
             </p>
             </td>
@@ -243,7 +245,9 @@
               <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
-              <span style="font-weight: normal; font-size: 13px;">Copia Cliente</span>
+              <span style="font-weight: normal; font-size: 13px;">Copia Cliente</span><br>
+              <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
+           
             
             </p>
             </td>
