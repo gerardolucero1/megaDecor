@@ -25,7 +25,7 @@
           <td colspan="3" style="text-align: right; width: 70%">
             <p><span style="font-weight: ; display:none">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
               <span style="font-weight: normal; font-size: 13px; display:none">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
               <span style="font-weight: normal; font-size: 13px;">Copia Mega Mundo</span><br>
               <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
@@ -243,7 +243,7 @@
           <td colspan="3" style="text-align: right; width: 70%">
             <p><span style="font-weight: ; display:none">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
               <span style="font-weight: normal; font-size: 13px; display:none">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
               <span style="font-weight: normal; font-size: 13px;">Copia Cliente</span><br>
               <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
@@ -351,17 +351,17 @@
 <!--///////////////////////////////////////////prueba paquetes -->
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
-
-<p>{{ (strtolower($paquete->servicio)) }}</p>
-<p>Cantidad: {{ (strtolower($paquete->cantidad)) }}</p>
-<p style="font-style: italic">{{ (strtolower($paquete->notas)) }}</p>
-
 <table style="width: 100%; text-align: center">
   <tr>
 <th>Servicio</th>
 <th>Cantidad</th>
 <th>Recibido</th>
 <th>Recolectado</th>
+</tr>
+<tr>
+  <td colspan="2" style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
+  <td>Cantidad: {{ (strtolower($paquete->cantidad)) }}</td>
+  <td>{{ (strtolower($paquete->notas)) }}</td>
 </tr>
 @foreach ($arregloEmentos as $ElementoPaquete)
 @if($ElementoPaquete->budget_pack_id==$paquete->id)
