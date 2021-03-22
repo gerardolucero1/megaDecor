@@ -804,12 +804,12 @@ class BudgetController extends Controller
          //Obtenemos clientes morales y fisicos
          $clientes_morales = DB::table('clients')
          ->join('moral_people', 'moral_people.client_id', '=', 'clients.id')
-         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito')
+         ->select('clients.id', 'moral_people.nombre', 'moral_people.nombre as apellidoPaterno','moral_people.nombre as apellidoMaterno', 'moral_people.emailFacturacion as email', 'moral_people.nombreFacturacion','moral_people.direccionFacturacion', 'moral_people.coloniaFacturacion', 'moral_people.numeroFacturacion', 'moral_people.tipoCredito', 'moral_people.telefono')
          ->get();
  
          $clientes_fisicos = DB::table('clients')
          ->join('physical_people', 'physical_people.client_id', '=', 'clients.id')
-         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito')
+         ->select( 'clients.id', 'physical_people.nombre', 'physical_people.apellidoPaterno', 'physical_people.apellidoMaterno', 'physical_people.email', 'physical_people.nombreFacturacion', 'physical_people.direccionFacturacion', 'physical_people.coloniaFacturacion', 'physical_people.numeroFacturacion', 'physical_people.tipoCredito', 'physical_people.telefono')
          ->get();
          
          $clientes = $clientes_morales->merge($clientes_fisicos);
@@ -847,11 +847,13 @@ class BudgetController extends Controller
                  if($cliente->apellidoPaterno==$cliente->nombre){
                 $presupuesto->cliente=$cliente->nombre;
                 $presupuesto->emailCliente=$cliente->email;
+                $presupuesto->telefonoPrincipal = $cliente->telefono;
                 $presupuesto->creditoCliente=$cliente->tipoCredito;
                  }else{
                 $presupuesto->cliente=$cliente->nombre." ".$cliente->apellidoPaterno." ".$cliente->apellidoMaterno;}
                 $presupuesto->emailCliente=$cliente->email;
                 $presupuesto->creditoCliente=$cliente->tipoCredito;
+                $presupuesto->telefonoPrincipal = $cliente->telefono;
             }
          }
 

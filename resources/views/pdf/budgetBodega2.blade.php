@@ -297,7 +297,7 @@
 <tr>
   <td colspan="4">
     <br>Telefonos de contacto:<br>
-    <p>Telefono principal: </p>
+    <p>Telefono principal: {{$presupuesto->telefonoPrincipal}}</p>
       @foreach($Telefonos as $telefono)
       @php
         $lada=substr($telefono->numero, 0,3);
