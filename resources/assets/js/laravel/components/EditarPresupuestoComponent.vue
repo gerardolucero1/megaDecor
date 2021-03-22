@@ -1553,6 +1553,8 @@ padding: 0;
                 iva: 16,
                 verSettings: false,
 
+
+                pagos: [],
                 // Ultimo presupuesto
                 ultimoPresupuesto: '',
 
@@ -1602,6 +1604,7 @@ padding: 0;
             this.obtenerUsuario();
             this.obtenerUsuarios();
             this.obtenerConfiguraciones();
+            this.obtenerPagos();
             
             //this.obtenerCategorias();
             
@@ -1618,6 +1621,37 @@ padding: 0;
             
         },
         computed:{
+            pagarAntesDe: function () {
+      let fechaLimite = moment(this.presupuesto.fechaEvento)
+        .add(this.clienteSeleccionado.diasCredito, "days")
+        .format("MMMM Do, YYYY");
+      return fechaLimite;
+    },
+            saldoPendiente: function () {
+      //Arreglo javascript de objetos json
+      let json = this.pagos;
+      //convirtiendo a json
+      json = JSON.stringify(json);
+      //Convirtiendo a objeto javascript
+      let data = JSON.parse(json);
+      var suma = 0;
+      //Recorriendo el objeto
+      for (let x in data) {
+        if (data[x].method == "DOLAR") {
+          suma += parseFloat(data[x].amount) * parseFloat(data[x].reference);
+        } else {
+          suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+        }
+      }
+      let saldo = 0;
+      if (this.presupuesto.opcionIVA) {
+        saldo = this.presupuesto.total * 1.16 - suma;
+      } else {
+        saldo = this.presupuesto.total - suma;
+      }
+
+      return saldo;
+    },
             imagen: function(){
                 return this.productoExterno.imagen;
             },
@@ -1781,6 +1815,21 @@ padding: 0;
             },
         },
         methods:{
+            obtenerPagos() {
+      this.original = true;
+      let data = window.location.pathname.split("/");
+      let path = data[3];
+      let URL = "/obtener-pagos/" + path;
+
+      axios
+        .get(URL)
+        .then((response) => {
+          this.pagos = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
             editarProductoExterno(paquete, index){
                 this.editarElementoExt = paquete
                 this.editarElementoIndex = index
