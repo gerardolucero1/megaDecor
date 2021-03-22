@@ -1,674 +1,1267 @@
 <style>
-    .logo-presupuesto{
-        width: 25%;
-        height: 130px;
-        background-position: center;
-        background-size: cover;
-    }
+.logo-presupuesto {
+  width: 25%;
+  height: 130px;
+  background-position: center;
+  background-size: cover;
+}
 
-    .verPresupuesto .row{
-        margin-bottom: 15px;
-    }
+.verPresupuesto .row {
+  margin-bottom: 15px;
+}
 
-    .verPresupuesto input[type="date"]{
-        background-color: transparent;
-        border: none;
-    }
+.verPresupuesto input[type="date"] {
+  background-color: transparent;
+  border: none;
+}
 
-    .verPresupuesto input[type="time"]{
-        width: 100%;
-        background-color: transparent;
-        border: none;
-    }
+.verPresupuesto input[type="time"] {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
 
-    .modalAgregarPaquete input[type="text"],
-    .verPresupuesto input[type="text"], 
-    .verPresupuesto input[type="email"], 
-    .verPresupuesto input[type="number"], 
-    .verPresupuesto input[type="date"], 
-    .verPresupuesto select{
-        width: 100%;
-        background-color: transparent;
-        border: none;
-    }
+.modalAgregarPaquete input[type="text"],
+.verPresupuesto input[type="text"],
+.verPresupuesto input[type="email"],
+.verPresupuesto input[type="number"],
+.verPresupuesto input[type="date"],
+.verPresupuesto select {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
 
-    .verPresupuesto .info p{
-        line-height: 4px;
-    }
+.verPresupuesto .info p {
+  line-height: 4px;
+}
 
-    .resultadoInventario{
-        position: absolute;
-        z-index: 3000;
-        background-color: white;
-        overflow: scroll;
-        max-height: 300px;
-    }
+.resultadoInventario {
+  position: absolute;
+  z-index: 3000;
+  background-color: white;
+  overflow: scroll;
+  max-height: 300px;
+}
 
-    table tr td input{
-        border: none;
-        background-color: transparent;
-    }
+table tr td input {
+  border: none;
+  background-color: transparent;
+}
 
-    .producto{
-        background-color: white;
-        border-bottom: 1px dotted gray;
-    }
-    .container-version{
-        -webkit-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
-        -moz-box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
-        box-shadow: 7px 7px 5px -4px rgba(135,135,135,1);
-        position:fixed; 
-        background:white; 
-        margin-top:-70px; 
-        margin-left:-15px; 
-        padding:10px; 
-        border:solid; 
-        border-color:orange; 
-        border-width:1px; 
-        z-index:30
-    }
+.producto {
+  background-color: white;
+  border-bottom: 1px dotted gray;
+}
+.container-version {
+  -webkit-box-shadow: 7px 7px 5px -4px rgba(135, 135, 135, 1);
+  -moz-box-shadow: 7px 7px 5px -4px rgba(135, 135, 135, 1);
+  box-shadow: 7px 7px 5px -4px rgba(135, 135, 135, 1);
+  position: fixed;
+  background: white;
+  margin-top: -70px;
+  margin-left: -15px;
+  padding: 10px;
+  border: solid;
+  border-color: orange;
+  border-width: 1px;
+  z-index: 30;
+}
 
-    .nuevo{
-        position: absolute;
-        font-size: 14px;
-    }
+.nuevo {
+  position: absolute;
+  font-size: 14px;
+}
 
-    .emailEnvio{
-        background-color: #D0EFCF;
-        padding: 10px;
-    }
+.emailEnvio {
+  background-color: #d0efcf;
+  padding: 10px;
+}
 </style>
 
 <template>
-    <section class="container block mt-3">
-        <div class="container-version" v-if="presupuesto.length != 0">
-    Estas viendo la versión de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span> {{ presupuesto.version }} de {{ versionesOrdenadas.length }}
-            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('pasado')" class="fa fa-chevron-left"></i>   
-            <i style="cursor: pointer; margin-left: 10px;" @click="obtenerVersionPresupuesto('futuro')" class="fa fa-chevron-right"></i> 
+  <section class="container block mt-3">
+    <div class="container-version" v-if="presupuesto.length != 0">
+      Estas viendo la versión de
+      <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color: green"
+        >presupuesto</span
+      >
+      <span v-else style="color: green">contrato</span>
+      {{ presupuesto.version }} de {{ versionesOrdenadas.length }}
+      <i
+        style="cursor: pointer; margin-left: 10px"
+        @click="obtenerVersionPresupuesto('pasado')"
+        class="fa fa-chevron-left"
+      ></i>
+      <i
+        style="cursor: pointer; margin-left: 10px"
+        @click="obtenerVersionPresupuesto('futuro')"
+        class="fa fa-chevron-right"
+      ></i>
+    </div>
+
+    <div
+      class="container-version"
+      v-if="presupuesto.length != 0"
+      style="margin-left: 400px"
+    >
+      Edición hecha por: {{ presupuesto.quienEdito }}<br />
+      <span style="font-size: 10px; font-style: italic">{{
+        presupuesto.updated_at
+      }}</span>
+    </div>
+    <div
+      v-if="presupuesto.pagado"
+      style="
+        width: 100%;
+        background: green;
+        text-align: center;
+        color: white;
+        padding: 5px;
+      "
+    >
+      CONTRATO PAGADO
+    </div>
+    <div
+      v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id != 2"
+      class="row"
+      style="background: rgb(254, 249, 216); padding: 10px; border-radius: 10px"
+    >
+      <div v-if="presupuesto.archivado == false" class="row">
+        <div class="col-md-12">
+          <p style="font-weight: bold; margin-bottom: 0; font-size: 18px">
+            Datos generales de contrato
+          </p>
         </div>
-
-        <div class="container-version" v-if="presupuesto.length != 0" style="margin-left: 400px;">
-            Edición hecha por: {{ presupuesto.quienEdito }}<br>
-            <span style="font-size:10px; font-style:italic">{{presupuesto.updated_at}}</span>
+        <div class="col-md-4">
+          <p>
+            <span style="font-weight: bold">Entrega de mobiliario:</span
+            ><span v-if="presupuesto.lugarEvento != 'BODEGA'"
+              >{{ presupuesto.horaEntrega }} {{ presupuesto.horaInicio }}-{{
+                presupuesto.horaFin
+              }}</span
+            ><span v-else>Recoleccoón en bodega</span>
+          </p>
+          <p>
+            <span style="font-weight: bold">Recolección: </span
+            ><span
+              v-if="
+                presupuesto.entregaEnBodega != 1 &&
+                presupuesto.recoleccionPreferente != 'OTRO'
+              "
+              >{{ presupuesto.recoleccionPreferente }}</span
+            ><span v-if="presupuesto.entregaEnBodega == 1"
+              >Cliente entrega en bodega</span
+            ><span
+              v-if="
+                presupuesto.recoleccionPreferente == 'OTRO' &&
+                presupuesto.entregaEnBodega != 1
+              "
+              >{{ presupuesto.fechaRecoleccion }}
+              {{ presupuesto.horaRecoleccion }}</span
+            >
+          </p>
         </div>
-        <div v-if="presupuesto.pagado" style="width:100%; background:green; text-align:center; color:white; padding:5px;">CONTRATO PAGADO</div> 
-        <div v-if="presupuesto.tipo == 'CONTRATO' && usuarioActual.id!=2" class="row" style="background:rgb(254, 249, 216); padding:10px; border-radius:10px">
-
-            <div v-if="presupuesto.archivado==false" class="row">
-            <div class="col-md-12"><p style="font-weight:bold; margin-bottom:0; font-size:18px">Datos generales de contrato</p></div>
-            <div class="col-md-4">
-                <p><span style="font-weight:bold">Entrega de mobiliario:</span><span v-if="presupuesto.lugarEvento!='BODEGA'">{{presupuesto.horaEntrega}} {{presupuesto.horaInicio}}-{{presupuesto.horaFin}}</span><span v-else>Recoleccoón en bodega</span></p>
-                <p><span style="font-weight:bold">Recolección: </span><span v-if="presupuesto.entregaEnBodega!=1 && presupuesto.recoleccionPreferente!='OTRO'">{{presupuesto.recoleccionPreferente}}</span><span v-if="presupuesto.entregaEnBodega==1">Cliente entrega en bodega</span><span v-if="presupuesto.recoleccionPreferente=='OTRO' && presupuesto.entregaEnBodega!=1">{{presupuesto.fechaRecoleccion}} {{presupuesto.horaRecoleccion}}</span></p>
-            </div>
-            <div class="col-md-4">
-                <p><span style="font-weight:bold">Nombre Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
-                <p><span style="font-weight:bold">Dirección Facturación: </span>{{presupuesto.direccionFacturacion}} {{presupuesto.numeroFacturacion}} {{presupuesto.coloniaFacturacion}}</p>
-            </div>
-            <div class="col-md-4">
-                <p><span style="font-weight:bold">Email Facturación: </span>{{presupuesto.nombreFacturacion}}</p>
-                <p><span style="font-weight:bold">RFC: </span>{{presupuesto.rfcFacturacion}}</p>
-                <p><span style="font-weight:bold">CP: </span>{{presupuesto.cp}}</p>
-            </div>
-            <div class="col-md-8" style="background:#FFD5C8; border-radius:5px">
-                <p><span style="font-weight:bold">Notas de facturacion: </span> {{presupuesto.notasFacturacion}}</p>
-            </div>
-            </div>
-
-
-            <div v-if="presupuesto.archivado==true">
-                <div class="col-md-12"><p style="font-weight:bold; color:red; margin-bottom:0; font-size:18px">CONTRATO CANCELADO POR: {{vendedor.name}}</p></div> 
-            </div>
-            
-            
+        <div class="col-md-4">
+          <p>
+            <span style="font-weight: bold">Nombre Facturación: </span
+            >{{ presupuesto.nombreFacturacion }}
+          </p>
+          <p>
+            <span style="font-weight: bold">Dirección Facturación: </span
+            >{{ presupuesto.direccionFacturacion }}
+            {{ presupuesto.numeroFacturacion }}
+            {{ presupuesto.coloniaFacturacion }}
+          </p>
         </div>
-        <div class="row"><div class="col-md-6"><p style="padding:20px; background: #FFEFEB; width:100%; margin-top:10px; border-radius:10px"><span style="font-weight:bold">Notas (solo visible para vendedores):</span> {{ presupuesto.notasPresupuesto }}</p></div>
-                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span style="font-weight:bold">Requiere factura:</span> {{ presupuesto.requiereFactura }}</p></div>
-                <div class="col-md-3"><p style="padding:5px; background:#FEF9D8; border-radius:5px; margin-top:15px; width:100%;"><span  style="font-weight:bold">Requiere montaje:</span> {{ presupuesto.requiereMontaje }}</p></div></div>
+        <div class="col-md-4">
+          <p>
+            <span style="font-weight: bold">Email Facturación: </span
+            >{{ presupuesto.nombreFacturacion }}
+          </p>
+          <p>
+            <span style="font-weight: bold">RFC: </span
+            >{{ presupuesto.rfcFacturacion }}
+          </p>
+          <p><span style="font-weight: bold">CP: </span>{{ presupuesto.cp }}</p>
+        </div>
+        <div class="col-md-8" style="background: #ffd5c8; border-radius: 5px">
+          <p>
+            <span style="font-weight: bold">Notas de facturacion: </span>
+            {{ presupuesto.notasFacturacion }}
+          </p>
+        </div>
+      </div>
+
+      <div v-if="presupuesto.archivado == true">
+        <div class="col-md-12">
+          <p
+            style="
+              font-weight: bold;
+              color: red;
+              margin-bottom: 0;
+              font-size: 18px;
+            "
+          >
+            CONTRATO CANCELADO POR: {{ vendedor.name }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p
+          style="
+            padding: 20px;
+            background: #ffefeb;
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 10px;
+          "
+        >
+          <span style="font-weight: bold"
+            >Notas (solo visible para vendedores):</span
+          >
+          {{ presupuesto.notasPresupuesto }}
+        </p>
+      </div>
+      <div class="col-md-3">
+        <p
+          style="
+            padding: 5px;
+            background: #fef9d8;
+            border-radius: 5px;
+            margin-top: 15px;
+            width: 100%;
+          "
+        >
+          <span style="font-weight: bold">Requiere factura:</span>
+          {{ presupuesto.requiereFactura }}
+        </p>
+      </div>
+      <div class="col-md-3">
+        <p
+          style="
+            padding: 5px;
+            background: #fef9d8;
+            border-radius: 5px;
+            margin-top: 15px;
+            width: 100%;
+          "
+        >
+          <span style="font-weight: bold">Requiere montaje:</span>
+          {{ presupuesto.requiereMontaje }}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="float: left">
+        <textarea
+          name=""
+          id=""
+          style="width: 50%; display: none"
+          placeholder="Notas"
+          v-model="presupuesto.notasPresupuesto"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 verPresupuesto">
         <div class="row">
-            <div class="col-md-12" style="float: left">
-                <textarea name="" id="" style="width:50%; display:none" placeholder="Notas" v-model="presupuesto.notasPresupuesto" readonly></textarea>
-                
-                
-            
-            
-            
+          <div class="col-md-5 text-left">
+            <div
+              v-if="presupuesto.tipoEvento == 'INTERNO'"
+              class="img-fluid logo-presupuesto"
+              style="
+                background-image: url('http://megamundodecor.com/images/mega-mundo.png');
+                background-size: 100% auto;
+                background-position: center;
+                background-repeat: no-repeat;
+              "
+            ></div>
+            <div
+              v-else
+              class="img-fluid logo-presupuesto"
+              style="
+                background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png');
+                background-size: 100% auto;
+                background-position: center;
+                background-repeat: no-repeat;
+              "
+            ></div>
+          </div>
+          <div class="col-md-7 text-right info">
+            <p style="font-weight: bold; font-size: 25px">
+              Folio de
+              <span
+                v-if="presupuesto.tipo == 'PRESUPUESTO'"
+                style="color: green"
+                >presupuesto</span
+              >
+              <span v-else style="color: green">contrato</span>:
+              {{ presupuesto.folio }}
+            </p>
+            <div class="row">
+              <div>
+                <p
+                  style="
+                    text-align: right;
+                    font-size: 23px;
+                    width: 100%;
+                    padding-right: 15px;
+                  "
+                >
+                  <span style="font-weight: bold">Fecha del evento: </span>
+                  {{ mostrarFechaEvento }}
+                </p>
+              </div>
+              <div class="col-md-12 text-right">
+                <p>
+                  Vendedor: <span>{{ vendedor.name }}</span>
+                </p>
+              </div>
+            </div>
+            <p class="mt-3">
+              Fecha de presupuesto:
+              <span>{{ presupuesto.created_at | formatearFecha }}</span>
+            </p>
+          </div>
+        </div>
+        <div
+          class="row"
+          style="
+            border-bottom: solid;
+            border-width: 1px;
+            border-style: dotted;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+          "
+        >
+          <div class="col-md-4">
+            <h4>Informacion del evento</h4>
+
+            <label v-if="presupuesto.tipoEvento == 'INTERNO'" for="salonMega"
+              >Salon Mega Mundo</label
+            >
+            <br />
+
+            <label v-if="presupuesto.tipoEvento == 'EXTERNO'" for="salonFuera"
+              >Evento Fuera</label
+            >
+            <div
+              class="text-left"
+              v-if="presupuesto.tipoEvento == 'EXTERNO'"
+              style="padding-left: 30px"
+            >
+              <label
+                v-if="presupuesto.tipoServicio == 'FORMAL'"
+                for="servicioFormal"
+                >Servicio Formal</label
+              >
+              <br />
+              <label
+                v-if="presupuesto.tipoServicio == 'INFANTIL'"
+                for="servicioInfantil"
+                >Servicio Infantil</label
+              >
+            </div>
+          </div>
+          <div class="col-md-4 row">
+            <h4>Horario del evento</h4>
+            <p style="width: 100%" v-if="presupuesto.pendienteHora">
+              Horario Pendiente
+            </p>
+            <div
+              v-if="!presupuesto.pendienteHora"
+              class="col-md-6"
+              style="padding-left: 0"
+            >
+              <label>Inicio del evento</label><br />
+              <input
+                type="time"
+                v-model="presupuesto.horaEventoInicio"
+                readonly
+              />
+              <label for="">{{ presupuesto.inicioAmPm }}</label>
             </div>
 
+            <div
+              v-if="!presupuesto.pendienteHora"
+              class="col-md-6"
+              style="padding-left: 0"
+            >
+              <label>Fin del evento</label><br />
+              <input type="time" v-model="presupuesto.horaEventoFin" readonly />
+              <label for="">{{ presupuesto.finAmPm }}</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                <h4 class="">Categoria del evento</h4>
+                <p>{{ presupuesto.categoriaEvento }}</p>
+                <p
+                  style="display: none"
+                  class="btn-text"
+                  data-toggle="modal"
+                  data-target="#categoriaEventoModal"
+                >
+                  <i class="fa fa-edit"></i> Administrar Categorias
+                </p>
+
+                <div
+                  class="row mt-4"
+                  style="background: #d0efcf; border-radius: 5px; padding: 10px"
+                >
+                  <div class="col-md-10">
+                    <p v-if="presupuesto.pendienteFecha == null">
+                      {{ mostrarFechaEvento }}
+                    </p>
+                    <label v-if="presupuesto.pendienteFecha"
+                      >Fecha Pendiente</label
+                    >
+                  </div>
+                  <div class="col-md-2 text-left">
+                    <i class="si si-calendar" style="font-size: 24px"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row">
-            <div class="col-md-12 verPresupuesto">
-                <div class="row">
-                    <div class="col-md-5 text-left">
-                        <div v-if="presupuesto.tipoEvento == 'INTERNO'" class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
-
-                        </div>
-                        <div v-else class="img-fluid logo-presupuesto" style="background-image: url('http://megamundodecor.com/images/mega-mundo-decor.png'); background-size:100% auto; background-position:center; background-repeat:no-repeat">
-
-                        </div>
-                    </div>
-                    <div class="col-md-7 text-right info">
-                        <p style="font-weight:bold; font-size:25px">Folio de <span v-if="presupuesto.tipo == 'PRESUPUESTO'" style="color:green">presupuesto</span> <span v-else style="color:green">contrato</span>: {{ presupuesto.folio }}</p>
-                        <div class="row">
-                            <div> 
-                                 <p style="text-align:right; font-size:23px; width:100%; padding-right:15px"><span style="font-weight:bold">Fecha del evento: </span> {{ mostrarFechaEvento }}</p>
-                                 </div>
-                            <div class="col-md-12 text-right">
-                                <p>Vendedor: <span>{{ vendedor.name }}</span></p>
-                            </div>
-                        </div>
-                        <p class="mt-3">Fecha de presupuesto: <span>{{ presupuesto.created_at | formatearFecha }}</span></p>
-                    </div>
-                </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-4">
-                        <h4>Informacion del evento</h4>
-                           
-                            <label v-if="presupuesto.tipoEvento=='INTERNO'" for="salonMega">Salon Mega Mundo</label>
-                        <br>
-                        
-                        <label v-if="presupuesto.tipoEvento=='EXTERNO'" for="salonFuera">Evento Fuera</label>
-                            <div class="text-left" v-if="presupuesto.tipoEvento == 'EXTERNO'" style="padding-left:30px;">
-                                <label v-if="presupuesto.tipoServicio=='FORMAL'" for="servicioFormal">Servicio Formal</label>
-                                <br>
-                                <label v-if="presupuesto.tipoServicio=='INFANTIL'" for="servicioInfantil">Servicio Infantil</label>
-                            </div>
-                    </div>
-                    <div class="col-md-4  row">
-                                <h4>Horario del evento</h4>
-                                <p style="width:100%" v-if="presupuesto.pendienteHora">Horario Pendiente</p>
-                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
-                                <label>Inicio del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoInicio" readonly>
-                                <label for="">{{presupuesto.inicioAmPm}}</label>
-                            </div>
-                           
-                            <div v-if="!presupuesto.pendienteHora" class="col-md-6" style="padding-left:0">
-                                <label>Fin del evento</label><br>
-                                <input type="time" v-model="presupuesto.horaEventoFin" readonly>
-                                <label for="">{{presupuesto.finAmPm}}</label>
-                            </div>
-                             
-                            </div>
-                    <div class="col-md-4">
-                        
-                        <div class="row" >
-                            <div class="col-md-12">
-                                <h4 class="">Categoria del evento</h4>
-                                <p>{{ presupuesto.categoriaEvento }}</p>
-                                 <p style="display:none" class="btn-text" data-toggle="modal" data-target="#categoriaEventoModal"><i class="fa fa-edit"></i> Administrar Categorias</p>
-                                
-                                <div class="row mt-4" style="background:#D0EFCF; border-radius:5px; padding:10px">
-                                    <div class="col-md-10">
-                                        <p v-if="presupuesto.pendienteFecha==null">{{ mostrarFechaEvento }}</p>
-                                        <label v-if="presupuesto.pendienteFecha">Fecha Pendiente</label>
-                                    </div>
-                                    <div class="col-md-2 text-left">
-                                        <i class="si si-calendar" style="font-size: 24px;"></i>
-                                    </div>
-                                    
-                                </div>
-                                
-                                
-
-                            </div>
-                        </div>
-                        
-                       
-                        
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        
-                    </div>
-                </div>
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-6">
-                        <h4>Cliente</h4>
-                        <div class="row" style="display: none;">
-                            <div class="col-md-9">
-                                <buscador-component
-                                    placeholder="Buscar Clientes Existentes"
-                                    event-name="clientResults"
-                                    :list="clientes"
-                                    :keys="['nombre', 'email']"
-                                    
-                                ></buscador-component>
-                            </div>
-                        </div>
-                        <div v-if="clienteSeleccionado" class="info">
-                            <p style="font-size:25px; color:blue; line-height:27px">{{ clienteSeleccionado.nombre }} <span class="badge badge-pill badge-info">Persona {{ presupuesto.client.tipoPersona.toLowerCase() }}</span></p>
-                               
-                            <p>{{ clienteSeleccionado.email }}</p>
-                                <!-- <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p> -->
-                            <p class="emailEnvio" v-for="telefono in clienteSeleccionado.telefonos" v-bind:key="telefono.index" v-if="telefono.email == presupuesto.emailEnvio">
-                                {{ telefono.email }} - {{ telefono.numero }} - {{ telefono.nombre }} - {{ telefono.tipo }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-right mt-4" v-if="clienteSeleccionado">
-                        <div class="info">
-                            <p>Ultimo evento: 
-                                <span v-if="clienteSeleccionado && ultimoEvento">{{ ultimoEvento.fechaEvento }}</span>
-                                <span v-else>Primer Evento</span>
-                            </p>
-                            <p><span>{{ calcularContratos }}</span> eventos contratados</p>
-                            <p><span>{{ calcularPresupuestos }}</span> presupuestos</p>
-                        </div>
-                    </div>
-                </div>
-                <h4 v-if="presupuesto.lugarEvento!='BODEGA'">Lugar del Evento</h4>
-                <h4 v-else>Recolección en bodega</h4>
-
-                <div class="row" style="border-bottom:solid; border-width:1px; border-style:dotted; border-top:none; border-right:none; border-left:none">
-                    <div class="col-md-3">
-                        <input type="radio" id="lugarMismo" name="lugarEvento" value="MISMA" v-model="presupuesto.lugarEvento" disabled>
-                        <label for="lugarMismo">Misma Direccion</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="radio" id="lugarOtro" name="lugarEvento" value="OTRA" v-model="presupuesto.lugarEvento" disabled>
-                        <label for="lugarOtro">Otra</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="radio" id="lugarBodega" name="lugarEvento" value="BODEGA" v-model="presupuesto.lugarEvento" disabled>
-                        <label for="lugarOtro">Recoge en bodega</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="checkbox" id="pendienteLugar" value="1" v-model="presupuesto.pendienteLugar" disabled>
-                        <label for="pendienteLugar">Pendiente</label>
-                    </div>
-
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-10 mt-4">
-                        <input type="text" placeholder="Nombre" v-model="presupuesto.nombreLugar" readonly>
-                    </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
-                        <input type="text" placeholder="Direccion" v-model="presupuesto.direccionLugar" readonly>
-                    </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
-                        <input type="text" placeholder="Numero" v-model="presupuesto.numeroLugar" readonly>
-                    </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-4 mt-4">
-                        <input type="text" placeholder="Colonia" v-model="presupuesto.coloniaLugar" readonly>
-                    </div>
-                    <div v-if="presupuesto.lugarEvento!='BODEGA'" class="col-md-2 mt-4">
-                        <input type="text" placeholder="C.P" v-model="presupuesto.CPLugar" readonly>
-                    </div>
-                    <div class="col-md-12 mt-4">
-                        <p style="width: 100%; background:#FFE3D5; padding:10px"><span style="font-weight:bold">Observaciones Lugar: </span>{{ presupuesto.observacionesLugar }}</p>
-                    </div>
-
-                    <div class="col-md-2 mt-4">
-                        <label for=""># Invitados</label>
-                        <input type="number" name="" id="" v-model="presupuesto.numeroInvitados" readonly>
-                    </div>
-                    <div class="col-md-3 mt-4">
-                        <label for="">Tono del evento</label>
-                        <input type="text" name="" id="" v-model="presupuesto.colorEvento" readonly>
-                    </div>
-                    <div class="col-md-3 mt-4">
-                        <label for="">Tema del evento</label>
-                        <input type="text" name="" id="" v-model="presupuesto.temaEvento" readonly>
-                    </div>
-                </div>
-                <!-- Tabla de festejados -->
-                <div class="row" v-if="festejados.length !== 0">
-                    <div class="col-md-6 offset-md-3">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">NOMBRE</th>
-                                    <th scope="col">EDAD</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(festejado) in festejados" v-bind:key="festejado.index">
-                                    <td>{{ festejado.nombre }}</td>
-                                    <td>{{ festejado.edad }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>  
-                </div>
-
-                <!-- SECTION 2 -->
-
-                <!-- Resultado Busqueda -->
-
-                <!--Table-->
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Imagen</th>
-                                <th scope="col">Servicio</th>
-                                <th scope="col">Cantidad</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Especial</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Ahorro</th>
-                                <th scope="col" width="252">Notas</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(producto, index) in inventarioLocal" v-bind:key="producto.index">
-                                <td>
-                                    <div class="nuevo" v-if="producto.nuevo">
-                                        <span class="badge badge-pill badge-danger">Nuevo</span>
-                                    </div>
-                                    <div class="nuevo" v-if="producto.existe>0">
-                                        <span class="badge badge-pill badge-success">Aumento {{producto.existe}}</span>
-                                    </div>
-                                    <div class="nuevo" v-if="producto.existe<0">
-                                        <span class="badge badge-pill badge-warning">Reducción {{producto.existe}}</span>
-                                    </div>
-                                    
-                                    <img v-bind:src="producto.imagen" alt="" width="80px">
-                                </td>
-                                <td>{{ producto.servicio }}<br>
-                                   <span style="font-size:10px; font-style:italic">Proveedor: {{producto.proveedor}}</span><br>
-                                <span style="font-size:10px; font-style:italic">Costo: {{producto.precioVenta|currency}}</span>
-                                </td>
-                                <td data-name="cantidad">
-                                    <input v-if="(producto.cantidad == '') || (indice == index && key == 'cantidad')" type="text" v-model="cantidadActualizada" v-on:keyup.enter="updateCantidad(index)">
-                                    <span v-else v-on:click="editarCantidad(index, Object.keys(producto))">{{ producto.cantidad }}</span>
-                                    
-                                </td>
-                                <td v-if="usuarioActual.id!=2">
-                                    {{ producto.precioUnitario | currency}} <br>
-                                    <del v-if="producto.precioUnitario != producto.precioAnterior">{{ producto.precioAnterior | currency}}</del>
-                                </td>
-                                <td v-if="usuarioActual.id!=2">
-                                    {{ producto.precioEspecial | currency}}
-                                    
-                                </td>
-                                <td v-if="usuarioActual.id!=2">
-                                    <input v-if="(producto.precioFinal == '') || (indice == index && key == 'precioFinal')" type="text" v-model="precioFinalActualizado" v-on:keyup.enter="updatePrecioFinal(index)">
-                                    <span v-else v-on:click="editarPrecioFinal(index, Object.keys(producto))">{{ producto.precioFinal | currency }}</span>
-                                </td>
-                                <td v-if="usuarioActual.id!=2">
-                                    <input v-if="(producto.ahorro == '') || (indice == index && key == 'ahorro')" type="text" v-model="ahorroActualizado" v-on:keyup.enter="updateAhorro(index)">
-                                    <span v-else v-on:click="editarAhorro(index, Object.keys(producto))">{{ producto.ahorro | currency}}</span>
-                                </td>
-                                <td>
-                                    <textarea name="" id="" cols="30" rows="2" v-if="(producto.notas == '') || (indice == index && key == 'notas')" v-model="notasActualizadas" v-on:keyup.enter="updateNotas(index)">
-                                        
-                                    </textarea>
-                                    <span v-else v-on:click="editarNotas(index, Object.keys(producto))">
-                                        {{ producto.notas }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button v-if="producto.tipo == 'PAQUETE'" class="btn btn-sm btn-info" @click="verPaquete(producto, index)">Ver</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div v-if="usuarioActual.id!=2" class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h4>Mostrar en presupuesto de cliente</h4>
-                                <input type="checkbox" id="precio" v-model="presupuesto.opcionPrecio" disabled>
-                                <label for="precio">Precios</label>
-                                <br>
-                                <input type="checkbox" id="precioUnitario" v-model="presupuesto.opcionPrecioUnitario" disabled>
-                                <label for="precioUnitario">Precios Unitarios</label>
-                                <br>
-                                <input type="checkbox" id="descripcionPaquete" v-model="presupuesto.opcionDescripcionPaquete" disabled>
-                                <label for="descripcionPaquete">Descripcion Paquetes</label>
-                                <br>
-                                <input type="checkbox" id="descuento" v-model="presupuesto.opcionDescuento" disabled>
-                                <label for="descuento">Descuentos</label>
-                                <br>
-                                <input type="checkbox" id="imagenes" v-model="presupuesto.opcionImagen" disabled>
-                                <label for="imagenes">Imagenes</label>
-                            </div>
-                            <div class="col-md-4 offset-md-3 mt-4">
-                                <span v-if="presupuesto.opcionIVA!=true" style="font-style:italic">Este contrato no lleva IVA </span>
-                                <h5>Subtotal: <span>{{ calcularSubtotal | currency }}</span></h5>
-                                <input v-if="presupuesto.opcionIVA==true" type="checkbox" id="iva" v-model="presupuesto.opcionIVA" disabled>
-                                <label v-if="presupuesto.opcionIVA==true" for="iva">IVA: <span>{{ calcularIva | currency }}</span>
-                                </label>
-
-                                <div class="info mt-3">
-                                    <p style="font-weight:bold; font-size:20px">TOTAL <span v-if="presupuesto.opcionIVA==true">con IVA </span>: 
-                                    <span v-if="presupuesto.opcionIVA!=true">{{ (calcularSubtotal) | currency }}</span>
-                                    <span v-if="presupuesto.opcionIVA==true">{{ (calcularSubtotal + calcularIva) | currency }}</span></p>
-                                    <p>Ahorro General: <span>{{ calcularAhorro | currency }}</span></p>
-                                    
-                                    <p v-if="TotalComision.lenght!=0">Total Comisionable:  <span v-if="TotalComision[0]>=TotalComision[2]">{{TotalComision[0] | currency}}</span><span v-else>$0.00</span></p>
-                                    <p v-if="TotalComision.lenght!=0">Minimo de venta:  {{TotalComision[2] | currency}}</p>
-                                    <p v-if="TotalComision.lenght!=0">Comision Total:  {{(TotalComision[0]-TotalComision[2])*(TotalComision[1]/100) | currency}}</p>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Registro de pagos -->
-
-            
-                <div class="row" style="display:none">
-                    <div class="col-md-4" style="border-radius:5px; background:#FCF8D7; padding:20px">
-                        <label for="">Metodo de pago: </label>
-                        <select name="method" id="" style="border: 1px solid gray; background:white;" v-model="pago.method">
-                            <option value="EFECTIVO">Efectivo</option>
-                            <option value="TARJETA DE CREDITO">Tarjeta de Credito</option>
-                            <option value="TARJETA DE DEBITO">Tarjeta de Debito</option>
-                            <option value="CHEQUE">Cheque</option>
-                            <option value="TRANSFERENCIA">Transferencia</option>
-                        </select>
-                        
-                        <label class="mt-3" for="">Cantidad: </label>
-                        <input type="number" class="form-control" style="border: 1px solid gray; background:white" v-model="pago.amount">
-
-                        <button class="mt-3 btn btn-sm btn-block btn-info" @click="registrarPago()">Registrar Pago</button>
-                    </div>
-                </div>
-               
-
-                <div v-if="pagos.length != 0 && 
-                usuarioActual.id!=2" class="row" style="padding-top:15px; padding-bottom:15px;">
-                    
-                        <div class="col-md-6" style="background:#F8C6B8; border-radius:10px; padding:25px;">
-                                <p style="font-size: 20px; font-weight:bold">Registro de pagos</p>
-
-                                <div style="width:100%; padding-bottom:20px">
-                                <table style="width:100%;">
-                                    <tr>
-                                       <th>Fecha</th>
-                                       <th>Monto</th>
-                                       <th>Metodo</th>
-                                       <th>Banco</th>
-                                    </tr>
-                                    <tr v-for="(pago, index) in pagos" :key="index">
-                                        <td style="font-style:italic">{{ pago.created_at | formatearFecha2 }}</td>
-                                        <td v-if="pago.method=='DOLAR'"><span style="font-style:italic;">{{ pago.amount | currency}}Dlls x {{ pago.reference | currency}}MXN = {{ pago.reference * pago.amount | currency}}</span></td>
-                                        <td v-else>{{ pago.amount | currency}}</td>
-                                        <td  style="font-size:10px; color:green">{{ pago.method }}</td>
-                                        <td>{{ pago.bank }}</td>
-                                    </tr>
-                                </table>
-                           </div>
-                           <div v-if="saldoPendiente>0">
-                            <label style="background:red; color: white; border-radius:5px; padding:5px" v-if="presupuesto.opcionIVA">Saldo pendiente: {{ saldoPendiente | currency }}</label>
-                            <label style="background:red; color: white; border-radius:5px; padding:5px" v-else>Saldo pendiente: {{ saldoPendiente | currency }}</label>
-                            </div>
-                            <div v-else>
-                             <label style="background:green; color: white; border-radius:5px; padding:5px">Pagado</label>   
-                            </div>
-                            <br>
-                            <label style="font-style:italic">Pagar antes del {{ pagarAntesDe }}</label>
-                        </div>
-
-                       
-                       
-
-                   
-                </div>
-
-                <div v-if="usuarioActual.id!=2" class="row">
-                   
-                    <div class="col-md-4">
-                        <button class="btn btn-sm btn-block btn-success" data-toggle="modal" data-target="#verVersiones">Ver versiones</button>
-                    </div>
-                    <div class="col-md-8">
-                        <button class="btn btn-primary" @click="enviarCorreoCliente()"><i class="fa fa-send-o"></i> Enviar budget por correo</button>
-                        <a target="_blank" class="btn btn-primary" :href="'/imprimir-budgetVentas/'+presupuesto.id"><i class="si si-printer"></i> Imprimir (No para cliente)</a>
-                        <button v-if="presupuesto.facturaSolicitada!=true" class="btn btn-primary" @click="solicitarFactura()"><i class="fa fa-check"></i> Solicitar Factura</button>
-                        <span v-if="presupuesto.facturaSolicitada" style="color:green"> <i class="fa fa-check"></i>Factura Solicitada</span>
-                    </div>
-                    
-                    
-                    <div v-if="!original" class="col-md-4 mt-4">
-                        <button class="btn btn-sm btn-block btn-success" @click="usarVersion()">Usar esta version</button>
-                    </div>
-                </div>
-            </div>
+          <div class="col-md-12"></div>
         </div>
-       
-       <!-- Modal -->
-        <div class="modal fade" id="verVersiones" tabindex="-1" role="dialog" aria-labelledby="verVersiones" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Versiones</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+        <div
+          class="row"
+          style="
+            border-bottom: solid;
+            border-width: 1px;
+            border-style: dotted;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+          "
+        >
+          <div class="col-md-6">
+            <h4>Cliente</h4>
+            <div class="row" style="display: none">
+              <div class="col-md-9">
+                <buscador-component
+                  placeholder="Buscar Clientes Existentes"
+                  event-name="clientResults"
+                  :list="clientes"
+                  :keys="['nombre', 'email']"
+                ></buscador-component>
+              </div>
+            </div>
+            <div v-if="clienteSeleccionado" class="info">
+              <p style="font-size: 25px; color: blue; line-height: 27px">
+                {{ clienteSeleccionado.nombre }}
+                <span class="badge badge-pill badge-info"
+                  >Persona
+                  {{ presupuesto.client.tipoPersona.toLowerCase() }}</span
+                >
+              </p>
+
+              <p>{{ clienteSeleccionado.email }}</p>
+              <!-- <p class="emailEnvio">{{ presupuesto.emailEnvio }}</p> -->
+              <p
+                class="emailEnvio"
+                v-for="telefono in clienteSeleccionado.telefonos"
+                v-bind:key="telefono.index"
+                v-if="telefono.email == presupuesto.emailEnvio"
+              >
+                {{ telefono.email }} - {{ telefono.numero }} -
+                {{ telefono.nombre }} - {{ telefono.tipo }}
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 text-right mt-4" v-if="clienteSeleccionado">
+            <div class="info">
+              <p>
+                Ultimo evento:
+                <span v-if="clienteSeleccionado && ultimoEvento">{{
+                  ultimoEvento.fechaEvento
+                }}</span>
+                <span v-else>Primer Evento</span>
+              </p>
+              <p>
+                <span>{{ calcularContratos }}</span> eventos contratados
+              </p>
+              <p>
+                <span>{{ calcularPresupuestos }}</span> presupuestos
+              </p>
+            </div>
+          </div>
+        </div>
+        <h4 v-if="presupuesto.lugarEvento != 'BODEGA'">Lugar del Evento</h4>
+        <h4 v-else>Recolección en bodega</h4>
+
+        <div
+          class="row"
+          style="
+            border-bottom: solid;
+            border-width: 1px;
+            border-style: dotted;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+          "
+        >
+          <div class="col-md-3">
+            <input
+              type="radio"
+              id="lugarMismo"
+              name="lugarEvento"
+              value="MISMA"
+              v-model="presupuesto.lugarEvento"
+              disabled
+            />
+            <label for="lugarMismo">Misma Direccion</label>
+          </div>
+          <div class="col-md-3">
+            <input
+              type="radio"
+              id="lugarOtro"
+              name="lugarEvento"
+              value="OTRA"
+              v-model="presupuesto.lugarEvento"
+              disabled
+            />
+            <label for="lugarOtro">Otra</label>
+          </div>
+          <div class="col-md-3">
+            <input
+              type="radio"
+              id="lugarBodega"
+              name="lugarEvento"
+              value="BODEGA"
+              v-model="presupuesto.lugarEvento"
+              disabled
+            />
+            <label for="lugarOtro">Recoge en bodega</label>
+          </div>
+          <div class="col-md-3">
+            <input
+              type="checkbox"
+              id="pendienteLugar"
+              value="1"
+              v-model="presupuesto.pendienteLugar"
+              disabled
+            />
+            <label for="pendienteLugar">Pendiente</label>
+          </div>
+
+          <div
+            v-if="presupuesto.lugarEvento != 'BODEGA'"
+            class="col-md-10 mt-4"
+          >
+            <input
+              type="text"
+              placeholder="Nombre"
+              v-model="presupuesto.nombreLugar"
+              readonly
+            />
+          </div>
+          <div v-if="presupuesto.lugarEvento != 'BODEGA'" class="col-md-4 mt-4">
+            <input
+              type="text"
+              placeholder="Direccion"
+              v-model="presupuesto.direccionLugar"
+              readonly
+            />
+          </div>
+          <div v-if="presupuesto.lugarEvento != 'BODEGA'" class="col-md-2 mt-4">
+            <input
+              type="text"
+              placeholder="Numero"
+              v-model="presupuesto.numeroLugar"
+              readonly
+            />
+          </div>
+          <div v-if="presupuesto.lugarEvento != 'BODEGA'" class="col-md-4 mt-4">
+            <input
+              type="text"
+              placeholder="Colonia"
+              v-model="presupuesto.coloniaLugar"
+              readonly
+            />
+          </div>
+          <div v-if="presupuesto.lugarEvento != 'BODEGA'" class="col-md-2 mt-4">
+            <input
+              type="text"
+              placeholder="C.P"
+              v-model="presupuesto.CPLugar"
+              readonly
+            />
+          </div>
+          <div class="col-md-12 mt-4">
+            <p style="width: 100%; background: #ffe3d5; padding: 10px">
+              <span style="font-weight: bold">Observaciones Lugar: </span
+              >{{ presupuesto.observacionesLugar }}
+            </p>
+          </div>
+
+          <div class="col-md-2 mt-4">
+            <label for=""># Invitados</label>
+            <input
+              type="number"
+              name=""
+              id=""
+              v-model="presupuesto.numeroInvitados"
+              readonly
+            />
+          </div>
+          <div class="col-md-3 mt-4">
+            <label for="">Tono del evento</label>
+            <input
+              type="text"
+              name=""
+              id=""
+              v-model="presupuesto.colorEvento"
+              readonly
+            />
+          </div>
+          <div class="col-md-3 mt-4">
+            <label for="">Tema del evento</label>
+            <input
+              type="text"
+              name=""
+              id=""
+              v-model="presupuesto.temaEvento"
+              readonly
+            />
+          </div>
+        </div>
+        <!-- Tabla de festejados -->
+        <div class="row" v-if="festejados.length !== 0">
+          <div class="col-md-6 offset-md-3">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">NOMBRE</th>
+                  <th scope="col">EDAD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="festejado in festejados"
+                  v-bind:key="festejado.index"
+                >
+                  <td>{{ festejado.nombre }}</td>
+                  <td>{{ festejado.edad }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 2 -->
+
+        <!-- Resultado Busqueda -->
+
+        <!--Table-->
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Imagen</th>
+                  <th scope="col">Servicio</th>
+                  <th scope="col">Cantidad</th>
+                  <th v-if="usuarioActual.id != 2" scope="col">
+                    Precio Unitario
+                  </th>
+                  <th v-if="usuarioActual.id != 2" scope="col">
+                    Precio Especial
+                  </th>
+                  <th v-if="usuarioActual.id != 2" scope="col">Precio Final</th>
+                  <th v-if="usuarioActual.id != 2" scope="col">Ahorro</th>
+                  <th scope="col" width="252">Notas</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(producto, index) in inventarioLocal"
+                  v-bind:key="producto.index"
+                >
+                  <td>
+                    <div class="nuevo" v-if="producto.nuevo">
+                      <span class="badge badge-pill badge-danger">Nuevo</span>
+                    </div>
+                    <div class="nuevo" v-if="producto.existe > 0">
+                      <span class="badge badge-pill badge-success"
+                        >Aumento {{ producto.existe }}</span
+                      >
+                    </div>
+                    <div class="nuevo" v-if="producto.existe < 0">
+                      <span class="badge badge-pill badge-warning"
+                        >Reducción {{ producto.existe }}</span
+                      >
+                    </div>
+
+                    <img v-bind:src="producto.imagen" alt="" width="80px" />
+                  </td>
+                  <td>
+                    {{ producto.servicio }}<br />
+                    <span style="font-size: 10px; font-style: italic"
+                      >Proveedor: {{ producto.proveedor }}</span
+                    ><br />
+                    <span style="font-size: 10px; font-style: italic"
+                      >Costo: {{ producto.precioVenta | currency }}</span
+                    >
+                  </td>
+                  <td data-name="cantidad">
+                    <input
+                      v-if="
+                        producto.cantidad == '' ||
+                        (indice == index && key == 'cantidad')
+                      "
+                      type="text"
+                      v-model="cantidadActualizada"
+                      v-on:keyup.enter="updateCantidad(index)"
+                    />
+                    <span
+                      v-else
+                      v-on:click="editarCantidad(index, Object.keys(producto))"
+                      >{{ producto.cantidad }}</span
+                    >
+                  </td>
+                  <td v-if="usuarioActual.id != 2">
+                    {{ producto.precioUnitario | currency }} <br />
+                    <del
+                      v-if="producto.precioUnitario != producto.precioAnterior"
+                      >{{ producto.precioAnterior | currency }}</del
+                    >
+                  </td>
+                  <td v-if="usuarioActual.id != 2">
+                    {{ producto.precioEspecial | currency }}
+                  </td>
+                  <td v-if="usuarioActual.id != 2">
+                    <input
+                      v-if="
+                        producto.precioFinal == '' ||
+                        (indice == index && key == 'precioFinal')
+                      "
+                      type="text"
+                      v-model="precioFinalActualizado"
+                      v-on:keyup.enter="updatePrecioFinal(index)"
+                    />
+                    <span
+                      v-else
+                      v-on:click="
+                        editarPrecioFinal(index, Object.keys(producto))
+                      "
+                      >{{ producto.precioFinal | currency }}</span
+                    >
+                  </td>
+                  <td v-if="usuarioActual.id != 2">
+                    <input
+                      v-if="
+                        producto.ahorro == '' ||
+                        (indice == index && key == 'ahorro')
+                      "
+                      type="text"
+                      v-model="ahorroActualizado"
+                      v-on:keyup.enter="updateAhorro(index)"
+                    />
+                    <span
+                      v-else
+                      v-on:click="editarAhorro(index, Object.keys(producto))"
+                      >{{ producto.ahorro | currency }}</span
+                    >
+                  </td>
+                  <td>
+                    <textarea
+                      name=""
+                      id=""
+                      cols="30"
+                      rows="2"
+                      v-if="
+                        producto.notas == '' ||
+                        (indice == index && key == 'notas')
+                      "
+                      v-model="notasActualizadas"
+                      v-on:keyup.enter="updateNotas(index)"
+                    >
+                    </textarea>
+                    <span
+                      v-else
+                      v-on:click="editarNotas(index, Object.keys(producto))"
+                    >
+                      {{ producto.notas }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      v-if="producto.tipo == 'PAQUETE'"
+                      class="btn btn-sm btn-info"
+                      @click="verPaquete(producto, index)"
+                    >
+                      Ver
                     </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">version</th>
-                                <th scope="col">Fecha de creacion</th>
-                                <th scope="col">Quien Edito</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="version in versiones" :key="version.index">
-                                <th scope="row">{{ version.id }}</th>
-                                <td>{{ version.version }}</td>
-                                <td>{{ version.created_at }}</td>
-                                <td>{{ version.quienEdito }}</td>
-                                <td>
-                                    <button class="btm btn-success btn-sm" @click="obtenerVersion(version.id)">Ver version</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="obtenerPresupuesto()">Volver a version actual</button>
-                </div>
-                </div>
-            </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="verPaquete" tabindex="-1" role="dialog" aria-labelledby="verPaquete" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content" style="border: solid gray">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
-                    <button type="button" class="close" onClick="$('#verPaquete').modal('hide')" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+        <div v-if="usuarioActual.id != 2" class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-5">
+                <h4>Mostrar en presupuesto de cliente</h4>
+                <input
+                  type="checkbox"
+                  id="precio"
+                  v-model="presupuesto.opcionPrecio"
+                  disabled
+                />
+                <label for="precio">Precios</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="precioUnitario"
+                  v-model="presupuesto.opcionPrecioUnitario"
+                  disabled
+                />
+                <label for="precioUnitario">Precios Unitarios</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="descripcionPaquete"
+                  v-model="presupuesto.opcionDescripcionPaquete"
+                  disabled
+                />
+                <label for="descripcionPaquete">Descripcion Paquetes</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="descuento"
+                  v-model="presupuesto.opcionDescuento"
+                  disabled
+                />
+                <label for="descuento">Descuentos</label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="imagenes"
+                  v-model="presupuesto.opcionImagen"
+                  disabled
+                />
+                <label for="imagenes">Imagenes</label>
+              </div>
+              <div class="col-md-4 offset-md-3 mt-4">
+                <span
+                  v-if="presupuesto.opcionIVA != true"
+                  style="font-style: italic"
+                  >Este contrato no lleva IVA
+                </span>
+                <h5>
+                  Subtotal: <span>{{ calcularSubtotal | currency }}</span>
+                </h5>
+                <input
+                  v-if="presupuesto.opcionIVA == true"
+                  type="checkbox"
+                  id="iva"
+                  v-model="presupuesto.opcionIVA"
+                  disabled
+                />
+                <label v-if="presupuesto.opcionIVA == true" for="iva"
+                  >IVA: <span>{{ calcularIva | currency }}</span>
+                </label>
+
+                <div class="info mt-3">
+                  <p style="font-weight: bold; font-size: 20px">
+                    TOTAL
+                    <span v-if="presupuesto.opcionIVA == true">con IVA </span>:
+                    <span v-if="presupuesto.opcionIVA != true">{{
+                      calcularSubtotal | currency
+                    }}</span>
+                    <span v-if="presupuesto.opcionIVA == true">{{
+                      (calcularSubtotal + calcularIva) | currency
+                    }}</span>
+                  </p>
+                  <p>
+                    Ahorro General: <span>{{ calcularAhorro | currency }}</span>
+                  </p>
+
+                  <p v-if="TotalComision.lenght != 0">
+                    Total Comisionable:
+                    <span v-if="TotalComision[0] >= TotalComision[2]">{{
+                      TotalComision[0] | currency
+                    }}</span
+                    ><span v-else>$0.00</span>
+                  </p>
+                  <p v-if="TotalComision.lenght != 0">
+                    Minimo de venta: {{ TotalComision[2] | currency }}
+                  </p>
+                  <p v-if="TotalComision.lenght != 0">
+                    Comision Total:
+                    {{
+                      ((TotalComision[0] - TotalComision[2]) *
+                        (TotalComision[1] / 100))
+                        | currency
+                    }}
+                  </p>
                 </div>
-                <div class="modal-body" v-if="viendoPaquete.length != 0">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Externo</th>
-                                <th scope="col">Nombre</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Unitario</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Final</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Precio Venta</th>
-                                <th v-if="usuarioActual.id!=2" scope="col">Proveedor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in viendoPaquete.paquete.inventario" :key="index">
-                                <th scope="row">{{ index }}</th>
-                                <td v-if="item.externo">
-                                    <input type="checkbox" checked>
-                                </td>
-                                <td v-else>
-                                    <input type="checkbox">
-                                </td>
-                                <td>
-                                    {{ item.nombre }}
-                                </td>
-                                <td>{{ item.precioUnitario | currency}}</td>
-                                <td>{{ item.precioFinal | currency}}</td>
-                                <td>{{ item.precioVenta | currency}}</td>
-                                <td>{{ item.proveedor }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onClick="$('#verPaquete').modal('hide')">Close</button>
-                </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
-    </section>
+
+        <!-- Registro de pagos -->
+
+        <div class="row" style="display: none">
+          <div
+            class="col-md-4"
+            style="border-radius: 5px; background: #fcf8d7; padding: 20px"
+          >
+            <label for="">Metodo de pago: </label>
+            <select
+              name="method"
+              id=""
+              style="border: 1px solid gray; background: white"
+              v-model="pago.method"
+            >
+              <option value="EFECTIVO">Efectivo</option>
+              <option value="TARJETA DE CREDITO">Tarjeta de Credito</option>
+              <option value="TARJETA DE DEBITO">Tarjeta de Debito</option>
+              <option value="CHEQUE">Cheque</option>
+              <option value="TRANSFERENCIA">Transferencia</option>
+            </select>
+
+            <label class="mt-3" for="">Cantidad: </label>
+            <input
+              type="number"
+              class="form-control"
+              style="border: 1px solid gray; background: white"
+              v-model="pago.amount"
+            />
+
+            <button
+              class="mt-3 btn btn-sm btn-block btn-info"
+              @click="registrarPago()"
+            >
+              Registrar Pago
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-if="pagos.length != 0 && usuarioActual.id != 2"
+          class="row"
+          style="padding-top: 15px; padding-bottom: 15px"
+        >
+          <div
+            class="col-md-6"
+            style="background: #f8c6b8; border-radius: 10px; padding: 25px"
+          >
+            <p style="font-size: 20px; font-weight: bold">Registro de pagos</p>
+
+            <div style="width: 100%; padding-bottom: 20px">
+              <table style="width: 100%">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Metodo</th>
+                  <th>Banco</th>
+                </tr>
+                <tr v-for="(pago, index) in pagos" :key="index">
+                  <td style="font-style: italic">
+                    {{ pago.created_at | formatearFecha2 }}
+                  </td>
+                  <td v-if="pago.method == 'DOLAR'">
+                    <span style="font-style: italic"
+                      >{{ pago.amount | currency }}Dlls x
+                      {{ pago.reference | currency }}MXN =
+                      {{ (pago.reference * pago.amount) | currency }}</span
+                    >
+                  </td>
+                  <td v-else>{{ pago.amount | currency }}</td>
+                  <td style="font-size: 10px; color: green">
+                    {{ pago.method }}
+                  </td>
+                  <td>{{ pago.bank }}</td>
+                </tr>
+              </table>
+            </div>
+            <div v-if="saldoPendiente > 0">
+              <label
+                style="
+                  background: red;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                v-if="presupuesto.opcionIVA"
+                >Saldo pendiente: {{ saldoPendiente | currency }}</label
+              >
+              <label
+                style="
+                  background: red;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                v-else
+                >Saldo pendiente: {{ saldoPendiente | currency }}</label
+              >
+            </div>
+            <div v-else>
+              <label
+                style="
+                  background: green;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                >Pagado</label
+              >
+            </div>
+            <br />
+            <label style="font-style: italic"
+              >Pagar antes del {{ pagarAntesDe }}</label
+            >
+          </div>
+        </div>
+
+        <div v-if="usuarioActual.id != 2" class="row">
+          <div class="col-md-4">
+            <button
+              class="btn btn-sm btn-block btn-success"
+              data-toggle="modal"
+              data-target="#verVersiones"
+            >
+              Ver versiones
+            </button>
+          </div>
+          <div class="col-md-8">
+            <button class="btn btn-primary" @click="enviarCorreoCliente()">
+              <i class="fa fa-send-o"></i> Enviar budget por correo
+            </button>
+            <a
+              target="_blank"
+              class="btn btn-primary"
+              :href="'/imprimir-budgetVentas/' + presupuesto.id"
+              ><i class="si si-printer"></i> Imprimir (No para cliente)</a
+            >
+            <button
+              v-if="presupuesto.facturaSolicitada != true"
+              class="btn btn-primary"
+              @click="solicitarFactura()"
+            >
+              <i class="fa fa-check"></i> Solicitar Factura
+            </button>
+            <span v-if="presupuesto.facturaSolicitada" style="color: green">
+              <i class="fa fa-check"></i>Factura Solicitada</span
+            >
+          </div>
+
+          <div v-if="!original" class="col-md-4 mt-4">
+            <button
+              class="btn btn-sm btn-block btn-success"
+              @click="usarVersion()"
+            >
+              Usar esta version
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="verVersiones"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="verVersiones"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Versiones</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">version</th>
+                  <th scope="col">Fecha de creacion</th>
+                  <th scope="col">Quien Edito</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="version in versiones" :key="version.index">
+                  <th scope="row">{{ version.id }}</th>
+                  <td>{{ version.version }}</td>
+                  <td>{{ version.created_at }}</td>
+                  <td>{{ version.quienEdito }}</td>
+                  <td>
+                    <button
+                      class="btm btn-success btn-sm"
+                      @click="obtenerVersion(version.id)"
+                    >
+                      Ver version
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="obtenerPresupuesto()"
+            >
+              Volver a version actual
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="verPaquete"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="verPaquete"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" style="border: solid gray">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Paquete</h5>
+            <button
+              type="button"
+              class="close"
+              onClick="$('#verPaquete').modal('hide')"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" v-if="viendoPaquete.length != 0">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Externo</th>
+                  <th scope="col">Nombre</th>
+                  <th v-if="usuarioActual.id != 2" scope="col">
+                    Precio Unitario
+                  </th>
+                  <th v-if="usuarioActual.id != 2" scope="col">Precio Final</th>
+                  <th v-if="usuarioActual.id != 2" scope="col">Precio Venta</th>
+                  <th v-if="usuarioActual.id != 2" scope="col">Proveedor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item, index) in viendoPaquete.paquete.inventario"
+                  :key="index"
+                >
+                  <th scope="row">{{ index }}</th>
+                  <td v-if="item.externo">
+                    <input type="checkbox" checked />
+                  </td>
+                  <td v-else>
+                    <input type="checkbox" />
+                  </td>
+                  <td>
+                    {{ item.nombre }}
+                  </td>
+                  <td>{{ item.precioUnitario | currency }}</td>
+                  <td>{{ item.precioFinal | currency }}</td>
+                  <td>{{ item.precioVenta | currency }}</td>
+                  <td>{{ item.proveedor }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onClick="$('#verPaquete').modal('hide')"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-    import SearchComponent from './SearchComponent';
-    import ListaInventarioComponent from './ListaInventarioComponent';
-    import BuscadorComponent from './BuscadorComponent.vue';
-    // Importamos el evento Bus.
-    import { EventBus } from '../eventBus.js';
+import SearchComponent from "./SearchComponent";
+import ListaInventarioComponent from "./ListaInventarioComponent";
+import BuscadorComponent from "./BuscadorComponent.vue";
+// Importamos el evento Bus.
+import { EventBus } from "../eventBus.js";
 
-    export default {
-        components: {
-            SearchComponent,
-            ListaInventarioComponent,
-            BuscadorComponent,
-        },
-        data(){
-            return{
-                viendoPaquete: [],
-                results: [],
-                resultsPaquetes: [],
-                clientResults: [],
-                TotalComision:'',
-                clienteSeleccionado: {
-                    id: '',
-                    nombre: '',
-                    email: '',
-                    nombreLugar: '',
-                    direccionLugar: '',
-                    numeroLugar: '',
-                    coloniaLugar: '',
-                    telefonos: [],
-                    presupuestos: [],
-                },
-                clienteSeleccionadoContratos: [],
-                clienteSeleccionadoPresupuestos: [],
-                ultimoEvento: '',
+export default {
+  components: {
+    SearchComponent,
+    ListaInventarioComponent,
+    BuscadorComponent,
+  },
+  data() {
+    return {
+      viendoPaquete: [],
+      results: [],
+      resultsPaquetes: [],
+      clientResults: [],
+      TotalComision: "",
+      clienteSeleccionado: {
+        id: "",
+        nombre: "",
+        email: "",
+        nombreLugar: "",
+        direccionLugar: "",
+        numeroLugar: "",
+        coloniaLugar: "",
+        telefonos: [],
+        presupuestos: [],
+      },
+      clienteSeleccionadoContratos: [],
+      clienteSeleccionadoPresupuestos: [],
+      ultimoEvento: "",
 
-                //Usuario y usuarios
-                usuarioActual: '',
-                usuarios: [],
+      //Usuario y usuarios
+      usuarioActual: "",
+      usuarios: [],
 
-                presupuesto: ''
-                    /*
+      presupuesto: "",
+      /*
                     id: '',
                     folio: '',
                     vendedor_id: '',
@@ -717,1018 +1310,1063 @@
                     comision: '',
                     budget_id: '',
                     */
-                ,
-                guardarVersion: true,
-                clientes: [],
-                festejado: {
-                    nombre: '',
-                    edad: '',
-                },
-                inventario: [],
+      guardarVersion: true,
+      clientes: [],
+      festejado: {
+        nombre: "",
+        edad: "",
+      },
+      inventario: [],
 
-                //Control de elemento externo
-                controlElementoExterno: false,
-                //Agregar al invenatrio producto externo
-                thumbnail: '',
-                productoExterno: {
-                    'externo': true,
-                    'imagen': '',
-                    'servicio': '',
-                    'precioUnitario': '',
-                    'precioVenta': '',
-                    'proveedor': '',
-                    'autorizado': false,
-                    'precioEspecial': '',
-                },
+      //Control de elemento externo
+      controlElementoExterno: false,
+      //Agregar al invenatrio producto externo
+      thumbnail: "",
+      productoExterno: {
+        externo: true,
+        imagen: "",
+        servicio: "",
+        precioUnitario: "",
+        precioVenta: "",
+        proveedor: "",
+        autorizado: false,
+        precioEspecial: "",
+      },
 
-                pago: {
-                    budget_id: '',
-                    method: '',
-                    amount: '',
-                },
-                pagos: [],
-                
-                inventarioLocal: [],
-                festejados: [],
+      pago: {
+        budget_id: "",
+        method: "",
+        amount: "",
+      },
+      pagos: [],
 
-                //Edicion de paquete
-                indicePaqueteEdicion: '',
-                paqueteEdicion:{
-                    externo: '',
-                    imagen: '',
-                    servicio: '',
-                    cantidad: '',
-                    precioUnitario: '',
-                    precioFinal: '',
-                    ahorro: '',
-                    notas: '',
-                    paquete: '',
-                    tipo: '',
-                    id: '',
-                },
+      inventarioLocal: [],
+      festejados: [],
 
-                //Control sobre las ediciones en la tabla de productos
-                indice: '',
-                key: '',
+      //Edicion de paquete
+      indicePaqueteEdicion: "",
+      paqueteEdicion: {
+        externo: "",
+        imagen: "",
+        servicio: "",
+        cantidad: "",
+        precioUnitario: "",
+        precioFinal: "",
+        ahorro: "",
+        notas: "",
+        paquete: "",
+        tipo: "",
+        id: "",
+      },
 
-                cantidadActualizada: '',
-                ahorroActualizado: '',
-                precioFinalActualizado: '',
-                notasActualizadas: '',
+      //Control sobre las ediciones en la tabla de productos
+      indice: "",
+      key: "",
 
-                //Paquetes
-                paquete: {
-                    servicio: '',
-                    precioFinal: '',
-                    precioVenta: '',
-                    guardarPaquete: false,
-                    categoria: '',
-                    inventario: [],
-                },
-                precioSugerido: 0,
-                cantidadPaquete: '',
+      cantidadActualizada: "",
+      ahorroActualizado: "",
+      precioFinalActualizado: "",
+      notasActualizadas: "",
 
-                //IVA
-                iva: 16,
-                verSettings: false,
+      //Paquetes
+      paquete: {
+        servicio: "",
+        precioFinal: "",
+        precioVenta: "",
+        guardarPaquete: false,
+        categoria: "",
+        inventario: [],
+      },
+      precioSugerido: 0,
+      cantidadPaquete: "",
 
-                // Ultimo presupuesto
-                ultimoPresupuesto: '',
+      //IVA
+      iva: 16,
+      verSettings: false,
 
-                //Imprimir presupuesto
-                imprimir: false,
+      // Ultimo presupuesto
+      ultimoPresupuesto: "",
 
-                //Datos facturacion
-                requiereFactura: false,
+      //Imprimir presupuesto
+      imprimir: false,
 
-                emailSeleccionado: '',
-                facturacion: {
-                    //Tiempos
-                    horaInicio: '',
-                    horaFin: '',
-                    horaEntrega: '',
-                    fechaRecoleccion: '',
-                    notasFacturacion: '',
+      //Datos facturacion
+      requiereFactura: false,
 
-                    //Datos
-                    nombreFacturacion: '',
-                    direccionFacturacion: '',
-                    numeroFacturacion: '',
-                    coloniaFacturacion: '',
-                    emailFacturacion: '',
-                },
-                versionesOrdenadas: [],
+      emailSeleccionado: "",
+      facturacion: {
+        //Tiempos
+        horaInicio: "",
+        horaFin: "",
+        horaEntrega: "",
+        fechaRecoleccion: "",
+        notasFacturacion: "",
 
-                demoP: '',
+        //Datos
+        nombreFacturacion: "",
+        direccionFacturacion: "",
+        numeroFacturacion: "",
+        coloniaFacturacion: "",
+        emailFacturacion: "",
+      },
+      versionesOrdenadas: [],
 
-                //Versiones
+      demoP: "",
 
-                versiones: [],
+      //Versiones
 
-                vendedor: '',
+      versiones: [],
 
-                original: true,
-                inventarioPasado: '',
-            }
-        },
-        created(){
-            this.obtenerUltimoPresupuesto();
-            this.obtenerUsuarios();
-            this.obtenerComision();
-            //Obtenemos todos los clientes para el buscados
-            this.obtenerClientes();
-            this.obtenerInventario();
-            this.obtenerUsuario();
-            this.obtenerPagos();
-            
-            this.$on('results', results => {
-                this.results = results
-            });
-            this.$on('clientResults', clientResults => {
-                this.clientResults = clientResults
-            });
-            this.$on('resultsPaquetes', resultsPaquetes => {
-                this.resultsPaquetes = resultsPaquetes
-            });
+      vendedor: "",
 
-            
-        },
-        computed:{
-            emailEnvio: function(){
-                return
-            },
+      original: true,
+      inventarioPasado: "",
+    };
+  },
+  created() {
+    this.obtenerUltimoPresupuesto();
+    this.obtenerUsuarios();
+    this.obtenerComision();
+    //Obtenemos todos los clientes para el buscados
+    this.obtenerClientes();
+    this.obtenerInventario();
+    this.obtenerUsuario();
+    this.obtenerPagos();
 
-            mostrarFechaEvento: function(){
-                let fecha = this.presupuesto.fechaEvento;
-                moment.locale('es'); 
-                let date = moment(fecha).format('dddd, LL');
-                if(date == 'Invalid date'){
-                    date = 'pendiente';
-                } 
+    this.$on("results", (results) => {
+      this.results = results;
+    });
+    this.$on("clientResults", (clientResults) => {
+      this.clientResults = clientResults;
+    });
+    this.$on("resultsPaquetes", (resultsPaquetes) => {
+      this.resultsPaquetes = resultsPaquetes;
+    });
+  },
+  computed: {
+    emailEnvio: function () {
+      return;
+    },
 
-                return date;
-            },
-            pagarAntesDe: function(){
-                let fechaLimite = moment(this.presupuesto.fechaEvento).add(this.clienteSeleccionado.diasCredito, 'days').format('MMMM Do, YYYY');
-                return fechaLimite;
-            },
+    mostrarFechaEvento: function () {
+      let fecha = this.presupuesto.fechaEvento;
+      moment.locale("es");
+      let date = moment(fecha).format("dddd, LL");
+      if (date == "Invalid date") {
+        date = "pendiente";
+      }
 
-            saldoPendiente: function(){
-                //Arreglo javascript de objetos json
-                let json = this.pagos;
-                //convirtiendo a json
-                json = JSON.stringify(json);
-                //Convirtiendo a objeto javascript
-                let data = JSON.parse(json);
-                var suma= 0;
-                //Recorriendo el objeto
-                for(let x in data){
-                    if(data[x].method=='DOLAR'){
-                        suma += parseFloat(data[x].amount)*parseFloat(data[x].reference)
-                    }else{
-                    suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
-                    }
-                }
-                let saldo=0;
-                if(this.presupuesto.opcionIVA){
-                   saldo  = (this.presupuesto.total*1.16) - suma;
-                }else{
-                 saldo = this.presupuesto.total - suma;}
-                
-                return saldo;
-            },
-            obtenerVendedor: function(){
+      return date;
+    },
+    pagarAntesDe: function () {
+      let fechaLimite = moment(this.presupuesto.fechaEvento)
+        .add(this.clienteSeleccionado.diasCredito, "days")
+        .format("MMMM Do, YYYY");
+      return fechaLimite;
+    },
 
-            },
-            imagen: function(){
-                return this.productoExterno.imagen;
-            },
-            calcularSubtotal: function(){
-                //Arreglo javascript de objetos json
-                let json = this.inventarioLocal;
-                //convirtiendo a json
-                json = JSON.stringify(json);
-                //Convirtiendo a objeto javascript
-                let data = JSON.parse(json);
-                var suma= 0;
-                //Recorriendo el objeto
-                for(let x in data){
-                    suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
-                }
+    saldoPendiente: function () {
+      //Arreglo javascript de objetos json
+      let json = this.pagos;
+      //convirtiendo a json
+      json = JSON.stringify(json);
+      //Convirtiendo a objeto javascript
+      let data = JSON.parse(json);
+      var suma = 0;
+      //Recorriendo el objeto
+      for (let x in data) {
+        if (data[x].method == "DOLAR") {
+          suma += parseFloat(data[x].amount) * parseFloat(data[x].reference);
+        } else {
+          suma += parseFloat(data[x].amount); // Ahora que es un objeto javascript, tiene propiedades
+        }
+      }
+      let saldo = 0;
+      if (this.presupuesto.opcionIVA) {
+        saldo = this.presupuesto.total * 1.16 - suma;
+      } else {
+        saldo = this.presupuesto.total - suma;
+      }
 
-                this.presupuesto.total = suma;
-                return suma;
-            },
-            calcularIva: function(){
-                return this.calcularSubtotal * (this.iva / 100);
-            },
-            calcularAhorro: function(){
-                let ahorro = 0;
-                this.inventarioLocal.forEach(function(element){
-                    let precioNormal = parseInt(element.cantidad * element.precioUnitario);
-                    ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
-                })
+      return saldo;
+    },
+    obtenerVendedor: function () {},
+    imagen: function () {
+      return this.productoExterno.imagen;
+    },
+    calcularSubtotal: function () {
+      //Arreglo javascript de objetos json
+      let json = this.inventarioLocal;
+      //convirtiendo a json
+      json = JSON.stringify(json);
+      //Convirtiendo a objeto javascript
+      let data = JSON.parse(json);
+      var suma = 0;
+      //Recorriendo el objeto
+      for (let x in data) {
+        suma += parseInt(data[x].precioFinal); // Ahora que es un objeto javascript, tiene propiedades
+      }
 
-                return ahorro;
-            },
-            obtenerFecha: function(){
-                let fecha = moment().format("DD/MM/YYYY");
-                return fecha;
-            },
-            obtenerFolio: function(){
-                if(this.ultimoPresupuesto.length !== 0){
-                    let cadena = this.ultimoPresupuesto.folio,
-                        separador = "M",
-                        data = cadena.split(separador);
-                    if(this.presupuesto.tipoEvento == 'EXTERNO'){
-                        let nuevoFolio = ('NM' + (parseInt(data[1]) + 1));
-                        return nuevoFolio
-                    }else{
-                        let nuevoFolio = ('M' + (parseInt(data[1]) + 1));
-                        return nuevoFolio
-                    }
-                    //return nuevoFolio;
-                }
-                
+      this.presupuesto.total = suma;
+      return suma;
+    },
+    calcularIva: function () {
+      return this.calcularSubtotal * (this.iva / 100);
+    },
+    calcularAhorro: function () {
+      let ahorro = 0;
+      this.inventarioLocal.forEach(function (element) {
+        let precioNormal = parseInt(element.cantidad * element.precioUnitario);
+        ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
+      });
 
-            },
-            calcularContratos: function(){
-                let contratos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'CONTRATO');
-                this.clienteSeleccionadoContratos = contratos;
-                return this.clienteSeleccionadoContratos.length;
-            },
-            calcularPresupuestos: function(){
-                let presupuestos = this.clienteSeleccionado.presupuestos.filter(element => element.tipo == 'PRESUPUESTO');
-                this.clienteSeleccionadoPresupuestos = presupuestos;
-                return this.clienteSeleccionadoPresupuestos.length;
-            }
-        },
-        filters: {
-            formatearFecha: function(data){
-                let fecha = moment(data).format("DD/MM/YYYY");
-                return fecha;
-            },
+      return ahorro;
+    },
+    obtenerFecha: function () {
+      let fecha = moment().format("DD/MM/YYYY");
+      return fecha;
+    },
+    obtenerFolio: function () {
+      if (this.ultimoPresupuesto.length !== 0) {
+        let cadena = this.ultimoPresupuesto.folio,
+          separador = "M",
+          data = cadena.split(separador);
+        if (this.presupuesto.tipoEvento == "EXTERNO") {
+          let nuevoFolio = "NM" + (parseInt(data[1]) + 1);
+          return nuevoFolio;
+        } else {
+          let nuevoFolio = "M" + (parseInt(data[1]) + 1);
+          return nuevoFolio;
+        }
+        //return nuevoFolio;
+      }
+    },
+    calcularContratos: function () {
+      let contratos = this.clienteSeleccionado.presupuestos.filter(
+        (element) => element.tipo == "CONTRATO"
+      );
+      this.clienteSeleccionadoContratos = contratos;
+      return this.clienteSeleccionadoContratos.length;
+    },
+    calcularPresupuestos: function () {
+      let presupuestos = this.clienteSeleccionado.presupuestos.filter(
+        (element) => element.tipo == "PRESUPUESTO"
+      );
+      this.clienteSeleccionadoPresupuestos = presupuestos;
+      return this.clienteSeleccionadoPresupuestos.length;
+    },
+  },
+  filters: {
+    formatearFecha: function (data) {
+      let fecha = moment(data).format("DD/MM/YYYY");
+      return fecha;
+    },
 
-            formatearFecha2: function(data){
-                moment.locale('es'); 
-                let fecha = moment(data).format('MMMM Do YYYY');
-                return fecha;
-            },
-            decimales: function (x, posiciones = 2) {
-                var s = x.toString()
-                var l = s.length
-                var decimalLength = s.indexOf('.') + 1
+    formatearFecha2: function (data) {
+      moment.locale("es");
+      let fecha = moment(data).format("MMMM Do YYYY");
+      return fecha;
+    },
+    decimales: function (x, posiciones = 2) {
+      var s = x.toString();
+      var l = s.length;
+      var decimalLength = s.indexOf(".") + 1;
 
-                if (l - decimalLength <= posiciones){
-                    return x
-                }
-                // Parte decimal del número
-                var isNeg  = x < 0
-                var decimal =  x % 1
-                var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
-                // Parte decimal como número entero
-                // Ejemplo: parte decimal = 0.77
-                // decimalFormated = 0.77 * (10^posiciones)
-                // si posiciones es 2 ==> 0.77 * 100
-                // si posiciones es 3 ==> 0.77 * 1000
-                var decimalFormated = Math.floor(
-                    Math.abs(decimal) * Math.pow(10, posiciones)
-                )
-                // Sustraemos del número original la parte decimal
-                // y le sumamos la parte decimal que hemos formateado
-                var finalNum = entera + 
-                    ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
-                
-                return finalNum;
-            }
-        },
-        watch: {
-            'presupuesto.lugarEvento': function(val){
-                if(val == 'MISMA'){
-                    /*
+      if (l - decimalLength <= posiciones) {
+        return x;
+      }
+      // Parte decimal del número
+      var isNeg = x < 0;
+      var decimal = x % 1;
+      var entera = isNeg ? Math.ceil(x) : Math.floor(x);
+      // Parte decimal como número entero
+      // Ejemplo: parte decimal = 0.77
+      // decimalFormated = 0.77 * (10^posiciones)
+      // si posiciones es 2 ==> 0.77 * 100
+      // si posiciones es 3 ==> 0.77 * 1000
+      var decimalFormated = Math.floor(
+        Math.abs(decimal) * Math.pow(10, posiciones)
+      );
+      // Sustraemos del número original la parte decimal
+      // y le sumamos la parte decimal que hemos formateado
+      var finalNum =
+        entera +
+        (decimalFormated / Math.pow(10, posiciones)) * (isNeg ? -1 : 1);
+
+      return finalNum;
+    },
+  },
+  watch: {
+    "presupuesto.lugarEvento": function (val) {
+      if (val == "MISMA") {
+        /*
                     this.presupuesto.nombreLugar = this.clienteSeleccionado.nombreLugar;
                     this.presupuesto.direccionLugar = this.clienteSeleccionado.direccionLugar;
                     this.presupuesto.numeroLugar = this.clienteSeleccionado.numeroLugar;
                     this.presupuesto.coloniaLugar = this.clienteSeleccionado.coloniaLugar;
                     */
+      } else {
+        this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
+        this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
+        this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
+        this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
+      }
+    },
+    requiereFactura: function (val) {
+      if (val) {
+        this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
+        this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
+        this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
+        this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
+        this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
+      } else {
+        this.facturacion.nombreFacturacion = "";
+        this.facturacion.direccionFacturacion = "";
+        this.facturacion.numeroFacturacion = "";
+        this.facturacion.coloniaFacturacion = "";
+        this.facturacion.emailFacturacion = "";
+      }
+    },
+  },
+  methods: {
+    obtenerInventarioPasado: function () {
+      let URL = "/obtener-inventario-pasado/" + this.presupuesto.id;
 
-                }else{
-                     this.presupuesto.nombreLugar = this.presupuesto.nombreLugar;
-                    this.presupuesto.direccionLugar = this.presupuesto.direccionLugar;
-                    this.presupuesto.numeroLugar = this.presupuesto.numeroLugar;
-                    this.presupuesto.coloniaLugar = this.presupuesto.coloniaLugar;
-                }
-                
-            },
-            'requiereFactura': function(val){
-                if(val){
+      axios
+        .get(URL)
+        .then((response) => {
+          this.inventarioPasado = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
+    obtenerComision() {
+      let path = window.location.pathname.split("/");
+      let id = path[3];
+      let URL = "/obtener-comision-contrato/" + id;
+      axios
+        .get(URL)
+        .then((response) => {
+          this.TotalComision = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
+    obtenerVersionPresupuesto(direccion) {
+      let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version);
+      console.log(posicion);
+      if (direccion == "futuro") {
+        let version = this.versionesOrdenadas[posicion + 1];
+        if (typeof version === "undefined") {
+          alert("No hay mas versiones");
+        } else {
+          let presupuesto = this.versiones.find((element) => {
+            return element.version == version;
+          });
+          if (typeof presupuesto == "undefined") {
+            this.obtenerPresupuesto();
+          } else {
+            this.obtenerVersion(presupuesto.id);
+          }
+        }
+      } else {
+        let version = this.versionesOrdenadas[posicion - 1];
 
-                    
-                    this.facturacion.nombreFacturacion = this.clienteSeleccionado.nombreLugar;
-                    this.facturacion.direccionFacturacion = this.clienteSeleccionado.direccionLugar;
-                    this.facturacion.numeroFacturacion = this.clienteSeleccionado.numeroLugar;
-                    this.facturacion.coloniaFacturacion = this.clienteSeleccionado.coloniaLugar;
-                    this.facturacion.emailFacturacion = this.clienteSeleccionado.email;
-                    
+        if (typeof version === "undefined") {
+          alert("No hay mas versiones");
+        } else {
+          let presupuesto = this.versiones.find((element) => {
+            return element.version == version;
+          });
+          if (typeof presupuesto == "undefined") {
+            this.obtenerPresupuesto();
+          } else {
+            this.obtenerVersion(presupuesto.id);
+          }
+        }
+      }
+    },
 
-                }else{
-                    this.facturacion.nombreFacturacion = '';
-                    this.facturacion.direccionFacturacion = '';
-                    this.facturacion.numeroFacturacion = '';
-                    this.facturacion.coloniaFacturacion = '';
-                    this.facturacion.emailFacturacion = '';
-                }
-                
-            },
-        },
-        methods:{
-            obtenerInventarioPasado: function(){
-                let URL = '/obtener-inventario-pasado/' + this.presupuesto.id
+    registrarPago() {
+      let URL = "/registrar-pago";
 
-                axios.get(URL).then((response) => {
-                    this.inventarioPasado = response.data
-                    
-                }).catch((error) => {
-                    console.log(error.data)
-                })
-            },
-            obtenerComision(){
-                    let path = window.location.pathname.split('/');
-                    let id = path[3];
-                    let URL = '/obtener-comision-contrato/' + id
-                    axios.get(URL).then((response) => {
-                    this.TotalComision = response.data
-                    
-                }).catch((error) => {
-                    console.log(error.data)
-                })
-            },
-            obtenerVersionPresupuesto(direccion){
-                let posicion = this.versionesOrdenadas.indexOf(this.presupuesto.version)
-                console.log(posicion);
-                if(direccion == 'futuro'){
-                    let version = this.versionesOrdenadas[posicion + 1]
-                    if(typeof version === 'undefined'){
-                        alert('No hay mas versiones');
-                    }else{
-                        let presupuesto = this.versiones.find((element) => {
-                            return element.version == version;
-                        });
-                        if(typeof presupuesto == 'undefined'){
-                            this.obtenerPresupuesto()
-                        }else{
-                            this.obtenerVersion(presupuesto.id);
-                        }
-                    }
-                }else{
-                    let version = this.versionesOrdenadas[posicion - 1]
+      this.pago.budget_id = this.presupuesto.id;
+      axios
+        .post(URL, this.pago)
+        .then((response) => {
+          alert("Pago registrado");
 
-                    if(typeof version === 'undefined'){
-                        alert('No hay mas versiones');
-                    }else{
-                        let presupuesto = this.versiones.find((element) => {
-                            return element.version == version;
-                        });
-                        if(typeof presupuesto == 'undefined'){
-                            this.obtenerPresupuesto()
-                        }else{
-                            this.obtenerVersion(presupuesto.id);
-                        }
-                    }
-                }
-            },
+          this.obtenerPagos();
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
 
-            registrarPago(){
-                let URL = '/registrar-pago';
-                
-                this.pago.budget_id = this.presupuesto.id;
-                axios.post(URL, this.pago).then((response) => {
-                    alert('Pago registrado');
+    obtenerPagos() {
+      this.original = true;
+      let data = window.location.pathname.split("/");
+      let path = data[3];
+      let URL = "/obtener-pagos/" + path;
 
-                    this.obtenerPagos();
-                }).catch((error) => {
-                    console.log(error.data)
-                })
-            },
+      axios
+        .get(URL)
+        .then((response) => {
+          this.pagos = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
 
-            obtenerPagos(){
-                this.original = true;
-                let data = window.location.pathname.split('/');
-                let path = data[3];
-                let URL = '/obtener-pagos/' + path;
+    verPaquete(paquete) {
+      this.viendoPaquete = paquete;
+      $("#verPaquete").modal("show");
+    },
+    obtenerUsuario() {
+      let URL = "/obtener-usuario";
 
-                axios.get(URL).then((response) => {
-                    this.pagos = response.data;
-                }).catch((error) => {
-                    console.log(error.data);
-                })
-            },
+      axios
+        .get(URL)
+        .then((response) => {
+          this.usuarioActual = response.data;
+          this.presupuesto.vendedor_id = this.usuarioActual.id;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
+    obtenerUsuarios() {
+      let URL = "/obtener-usuarios";
 
-            verPaquete(paquete){
-                this.viendoPaquete = paquete;
-                $('#verPaquete').modal('show');
-            },
-            obtenerUsuario(){
-                let URL = '/obtener-usuario';
+      axios
+        .get(URL)
+        .then((response) => {
+          this.usuarios = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
+    obtenerUltimoPresupuesto() {
+      let URL = "/obtener-ultimo-presupuesto";
 
-                axios.get(URL).then((response) => {
-                    this.usuarioActual = response.data;
-                    this.presupuesto.vendedor_id = this.usuarioActual.id;
-                }).catch((error) => {
-                    console.log(error.data);
-                })
-            },
-            obtenerUsuarios(){
-                let URL = '/obtener-usuarios';
+      axios
+        .get(URL)
+        .then((response) => {
+          this.ultimoPresupuesto = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
 
-                axios.get(URL).then((response) => {
-                    this.usuarios = response.data;
-                }).catch((error) => {
-                    console.log(error.data);
-                })
-            },
-            obtenerUltimoPresupuesto(){
-                let URL = '/obtener-ultimo-presupuesto';
+    //Otros metodos
+    obtenerInventario() {
+      let URL = "/obtener-inventario";
+      axios
+        .get(URL)
+        .then((response) => {
+          this.inventario = response.data;
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
 
-                axios.get(URL).then((response) => {
-                    this.ultimoPresupuesto = response.data;
-                }).catch((error) => {
-                    console.log(error.data)
+    obtenerClientes() {
+      let URL = "/obtener-clientes";
+      axios.get(URL).then((response) => {
+        this.clientes = response.data;
+        this.obtenerPresupuesto();
+      });
+    },
+
+    obtenerPresupuesto() {
+      this.original = true;
+      let data = window.location.pathname.split("/");
+      let path = data[3];
+      let URL = "/obtener-presupuesto/" + path;
+
+      axios
+        .get(URL)
+        .then((response) => {
+          this.presupuesto = response.data;
+          this.obtenerInventarioPasado();
+          let cliente = this.clientes.find(function (element) {
+            return element.id == response.data.client_id;
+          });
+
+          //Obtener el cliente seleccionado
+          let URL = "/obtener-cliente";
+          axios
+            .post(URL, {
+              id: cliente.id,
+              accion: "telefonos",
+            })
+            .then((response) => {
+              this.clienteSeleccionado.telefonos = response.data;
+            })
+            .catch((error) => {
+              console.log(error.data);
+            });
+
+          axios
+            .post(URL, {
+              id: cliente.id,
+              accion: "presupuestos",
+            })
+            .then((response) => {
+              this.clienteSeleccionado.presupuestos = [];
+              this.ultimoEvento = "";
+              if (response.data.length !== 0) {
+                this.clienteSeleccionado.presupuestos = response.data;
+                let arreglo = response.data;
+                arreglo.sort(function (a, b) {
+                  return new Date(b.fechaEvento) - new Date(a.fechaEvento);
                 });
-            },
+                this.ultimoEvento = arreglo.shift();
+                this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
+              }
+            })
+            .catch((error) => {
+              console.log(error.data);
+            });
 
+          this.clienteSeleccionado.id = cliente.id;
+          if (
+            cliente.apellidoPaterno == undefined &&
+            cliente.apellidoMaterno == undefined
+          ) {
+            this.clienteSeleccionado.nombre = cliente.nombre;
+          } else {
+            this.clienteSeleccionado.nombre =
+              cliente.nombre +
+              " " +
+              cliente.apellidoPaterno +
+              " " +
+              cliente.apellidoMaterno;
+          }
+          this.clienteSeleccionado.email = cliente.email;
 
-            //Otros metodos
-            obtenerInventario(){
-                let URL = '/obtener-inventario';
+          this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+          this.clienteSeleccionado.direccionLugar =
+            cliente.direccionFacturacion;
+          this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+          this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+          this.clienteSeleccionado.diasCredito = cliente.diasCredito;
+
+          this.presupuesto.client_id = cliente.id;
+
+          //Obtener los festejados
+          let direction = "/obtener-festejados/" + this.presupuesto.id;
+
+          axios
+            .get(direction)
+            .then((response) => {
+              this.festejados = response.data;
+            })
+            .catch((error) => {
+              console.log(error.data);
+            });
+
+          //Obtener el inventario
+
+          let direction2 = "/obtener-inventario-1/" + this.presupuesto.id;
+
+          axios.get(direction2).then((response) => {
+            let arreglo = [];
+            response.data.forEach(function (element) {
+              if (!element.externo) {
+                let objeto = {
+                  externo: false,
+                  imagen: element.imagen,
+                  servicio: element.servicio,
+                  cantidad: element.cantidad,
+                  precioUnitario: element.precioUnitario,
+                  precioFinal: element.precioFinal,
+                  ahorro: element.ahorro,
+                  notas: element.notas,
+                  paquete: "",
+                  tipo: "PRODUCTO",
+                  id: element.id,
+                  precioAnterior: element.precioAnterior,
+                  precioEspecial: element.precioEspecial,
+                  precioVenta: element.precioVenta,
+                  proveedor: element.proveedor,
+                };
+                arreglo.push(objeto);
+              } else {
+                let objeto = {
+                  externo: true,
+                  imagen: element.imagen,
+                  servicio: element.servicio,
+                  cantidad: element.cantidad,
+                  precioUnitario: element.precioUnitario,
+                  precioFinal: element.precioFinal,
+                  ahorro: element.ahorro,
+                  notas: element.notas,
+                  paquete: "",
+                  tipo: "PRODUCTO",
+                  id: element.id,
+                  precioAnterior: element.precioAnterior,
+                  precioEspecial: element.precioEspecial,
+                  precioVenta: element.precioVenta,
+                  proveedor: element.proveedor,
+                };
+                arreglo.push(objeto);
+              }
+
+              return arreglo;
+            });
+            this.inventarioLocal = arreglo;
+          });
+
+          let direction3 = "/obtener-paquetes/" + this.presupuesto.id;
+
+          axios
+            .get(direction3)
+            .then((response) => {
+              let arregloPaquetes = [];
+
+              response.data.forEach(function (element) {
+                let URL = "/obtener-elementos-paquetes/" + element.id;
+
+                var arregloElementos = [];
                 axios.get(URL).then((response) => {
-                    this.inventario = response.data;
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-            
-            },
-
-            obtenerClientes(){
-                let URL = '/obtener-clientes';
-                axios.get(URL).then((response) => {
-                    this.clientes = response.data;
-                    this.obtenerPresupuesto()
-                })
-            },
-
-            obtenerPresupuesto(){
-                this.original = true;
-                let data = window.location.pathname.split('/');
-                let path = data[3];
-                let URL = '/obtener-presupuesto/' + path;
-
-              axios.get(URL).then((response) => {
-                this.presupuesto = response.data;
-                this.obtenerInventarioPasado();
-                let cliente = this.clientes.find(function(element){
-                  return element.id == response.data.client_id;
-                })
-
-                //Obtener el cliente seleccionado
-                let URL = '/obtener-cliente';
-                axios.post(URL, {
-                    'id': cliente.id,
-                    'accion': 'telefonos',
-                }).then((response) => {
-                    this.clienteSeleccionado.telefonos = response.data;    
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-
-                axios.post(URL, {
-                    'id': cliente.id,
-                    'accion': 'presupuestos',
-                }).then((response) => {
-                    this.clienteSeleccionado.presupuestos = [];
-                    this.ultimoEvento = '';
-                    if(response.data.length !== 0){
-                        this.clienteSeleccionado.presupuestos = response.data;
-                        let arreglo = response.data
-                            arreglo.sort(function(a,b){
-                                    return new Date(b.fechaEvento) - new Date(a.fechaEvento);
-                            });
-                        this.ultimoEvento = arreglo.shift();
-                        this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
+                  response.data.forEach(function (element) {
+                    if (element.externo) {
+                      let demo = {
+                        externo: true,
+                        nombre: element.servicio,
+                        imagen: element.imagen,
+                        precioUnitario: element.precioUnitario,
+                        precioFinal: element.precioFinal,
+                        cantidad: element.cantidad,
+                        id: "",
+                        precioVenta: element.precioVenta,
+                        proveedor: element.proveedor,
+                        precioAnterior: element.precioAnterior,
+                        precioEspecial: element.precioEspecial,
+                      };
+                      arregloElementos.push(demo);
+                    } else {
+                      let demo = {
+                        externo: false,
+                        nombre: element.servicio,
+                        imagen: element.imagen,
+                        precioUnitario: element.precioUnitario,
+                        precioFinal: element.precioFinal,
+                        cantidad: element.cantidad,
+                        id: "",
+                        precioVenta: element.precioVenta,
+                        proveedor: element.proveedor,
+                        precioAnterior: element.precioAnterior,
+                        precioEspecial: element.precioEspecial,
+                      };
+                      arregloElementos.push(demo);
                     }
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-               
-                this.clienteSeleccionado.id = cliente.id;
-                if(cliente.apellidoPaterno==undefined && cliente.apellidoMaterno==undefined){
-                this.clienteSeleccionado.nombre = cliente.nombre;
-              }else{this.clienteSeleccionado.nombre = cliente.nombre+" "+cliente.apellidoPaterno+" "+cliente.apellidoMaterno;}
-                this.clienteSeleccionado.email = cliente.email;
-
-                this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-                this.clienteSeleccionado.diasCredito = cliente.diasCredito;
-
-                this.presupuesto.client_id = cliente.id;
-
-                //Obtener los festejados
-                let direction = '/obtener-festejados/' + this.presupuesto.id;
-
-                axios.get(direction).then((response) => {
-                  this.festejados = response.data;
-                }).catch((error) => {
-                  console.log(error.data);
-                })
-
-                //Obtener el inventario
-
-                let direction2 = '/obtener-inventario-1/' + this.presupuesto.id;
-
-                axios.get(direction2).then((response) => {
-                  let arreglo = [];
-                  response.data.forEach(function(element){
-                    if(!element.externo){
-                      let objeto = {
-                        'externo': false,
-                        'imagen': element.imagen,
-                        'servicio': element.servicio,
-                        'cantidad': element.cantidad,
-                        'precioUnitario': element.precioUnitario,
-                        'precioFinal': element.precioFinal,
-                        'ahorro': element.ahorro,
-                        'notas': element.notas,
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': element.id,
-                        'precioAnterior': element.precioAnterior,
-                        'precioEspecial': element.precioEspecial,
-                        'precioVenta': element.precioVenta,
-                        'proveedor': element.proveedor,
-                      }
-                      arreglo.push(objeto);
-                    }else{
-                      let objeto = {
-                        'externo': true,
-                        'imagen': element.imagen,
-                        'servicio': element.servicio,
-                        'cantidad': element.cantidad,
-                        'precioUnitario': element.precioUnitario,
-                        'precioFinal': element.precioFinal,
-                        'ahorro': element.ahorro,
-                        'notas': element.notas,
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': element.id,
-                        'precioAnterior': element.precioAnterior,
-                        'precioEspecial': element.precioEspecial,
-                        'precioVenta': element.precioVenta,
-                        'proveedor': element.proveedor,
-                      }
-                      arreglo.push(objeto);
-                    }
-                    
-                    return arreglo;
+                    return arregloElementos;
                   });
-                this.inventarioLocal = arreglo;
-                })
+                  return arregloElementos;
+                });
 
-                let direction3 = '/obtener-paquetes/' + this.presupuesto.id;
+                let objeto = {
+                  externo: false,
+                  imagen:
+                    "http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif",
+                  servicio: element.servicio,
+                  cantidad: element.cantidad,
+                  precioUnitario: element.precioUnitario,
+                  precioFinal: element.precioFinal,
+                  ahorro: element.ahorro,
+                  notas: element.notas,
+                  paquete: {
+                    categoria: element.categoria,
+                    guardarPaquete: element.guardarPaquete,
+                    precioFinal: element.precioFinal,
+                    servicio: element.servicio,
+                    inventario: arregloElementos,
+                  },
+                  tipo: "PAQUETE",
+                  id: element.id,
+                  precioAnterior: element.precioAnterior,
+                  precioEspecial: element.precioEspecial,
+                  precioVenta: element.precioVenta,
+                  proveedor: element.proveedor,
+                };
+                arregloPaquetes.push(objeto);
+              });
+              this.inventarioLocal = this.inventarioLocal.concat(
+                arregloPaquetes
+              );
 
-                axios.get(direction3).then((response) => {
-                    
-                    let arregloPaquetes = [];
+              console.log("Inventario pasado: ", this.inventarioPasado);
+              console.log("Inventario local: ", this.inventarioLocal);
 
-                    response.data.forEach(function(element){
-                        let URL = '/obtener-elementos-paquetes/' + element.id;
-
-                        var arregloElementos = [];
-                        axios.get(URL).then((response) => {
-                            
-                            
-                            response.data.forEach(function(element){
-                                if(element.externo){
-                                    let demo = {
-                                        'externo': true,
-                                        'nombre': element.servicio,
-                                        'imagen': element.imagen,
-                                        'precioUnitario': element.precioUnitario,
-                                        'precioFinal': element.precioFinal,
-                                        'cantidad': element.cantidad,
-                                        'id': '',
-                                        'precioVenta': element.precioVenta,
-                                        'proveedor': element.proveedor,
-                                        'precioAnterior': element.precioAnterior,
-                                        'precioEspecial': element.precioEspecial,
-                                    }
-                                arregloElementos.push(demo);
-                                }else{
-                                    let demo = {
-                                        'externo': false,
-                                        'nombre': element.servicio,
-                                        'imagen': element.imagen,
-                                        'precioUnitario': element.precioUnitario,
-                                        'precioFinal': element.precioFinal,
-                                        'cantidad': element.cantidad,
-                                        'id': '',
-                                        'precioVenta': element.precioVenta,
-                                        'proveedor': element.proveedor,
-                                        'precioAnterior': element.precioAnterior,
-                                        'precioEspecial': element.precioEspecial,
-                                    }
-                                arregloElementos.push(demo);
-                                }
-                                return arregloElementos;
-                            });
-                           return arregloElementos; 
-                        })
-
-                        let objeto = {
-                            'externo': false,
-                            'imagen': 'http://contrapoderweb.com/wp-content/uploads/2014/10/default-img-768x461.gif',
-                            'servicio': element.servicio,
-                            'cantidad': element.cantidad,
-                            'precioUnitario': element.precioUnitario,
-                            'precioFinal': element.precioFinal,
-                            'ahorro': element.ahorro,
-                            'notas': element.notas,
-                            'paquete': {
-                                'categoria': element.categoria,
-                                'guardarPaquete': element.guardarPaquete,
-                                'precioFinal': element.precioFinal,
-                                'servicio': element.servicio,
-                                'inventario': arregloElementos,
-                            },
-                            'tipo': 'PAQUETE',
-                            'id': element.id,
-                            'precioAnterior': element.precioAnterior,
-                            'precioEspecial': element.precioEspecial,
-                            'precioVenta': element.precioVenta,
-                            'proveedor': element.proveedor,
-                        }
-                        arregloPaquetes.push(objeto);   
-                    }); 
-                this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
-
-                console.log('Inventario pasado: ', this.inventarioPasado);
-                console.log('Inventario local: ', this.inventarioLocal);
-
-                    this.inventarioLocal.forEach((element) => {
-                        if(element.tipo == 'PRODUCTO'){
-                            if(this.inventarioPasado[0].some((item) => {
-                                return item.servicio == element.servicio
-                            })){
-                                let found = this.inventarioPasado[0].find((item) => {
-                                    return item.servicio == element.servicio
-                                })
-
-                                    let valorexiste = element.cantidad - found.cantidad;
-                                Object.defineProperty(element, 'existe', {
-                                    enumerable: true,
-                                    configurable: true,
-                                    writable: true,
-                                    value: valorexiste,
-                                })
-
-                            }else{
-                                let found = this.inventarioLocal.find((item) => {
-                                    return item.servicio == element.servicio
-                                })
-                                
-                                Object.defineProperty(found, 'nuevo', {
-                                    enumerable: true,
-                                    configurable: true,
-                                    writable: true,
-                                    value: true,
-                                })
-                            
-                            }
-                        }else if(element.tipo == 'PRODUCTO'){
-                            if(this.inventarioPasado[1].sime((item) => {
-                                return item.servicio == element.servicio
-                            })){
-                                console.log('Existe el paquete')
-                                
-                            }
-                        }
-                        
+              this.inventarioLocal.forEach((element) => {
+                if (element.tipo == "PRODUCTO") {
+                  if (
+                    this.inventarioPasado[0].some((item) => {
+                      return item.servicio == element.servicio;
                     })
-                }).catch((error) => {
-                    console.log(error.data);
-                })
-                
-                let vendedor_id = this.presupuesto.vendedor_id;
-                this.vendedor = this.usuarios.find(function(element){
-                    return element.id == vendedor_id;
-                });
-
-
-              }).catch((error) => {
-                console.log(error.data);
-              })
-
-              //Obtener las versiones del presupuesto
-
-              let direction4 = '/obtener-versiones/' + path;
-
-              axios.get(direction4).then((response) => {
-                    this.versiones = response.data;
-
-                    
-                    
-                
-                    this.versionesOrdenadas = [];
-                    this.versiones.forEach((element) => {
-                        this.versionesOrdenadas.push(element.version);
-                    })
-                    this.versionesOrdenadas.push(this.presupuesto.version);
-                    this.versionesOrdenadas.sort();
-              })  
-            },
-
-            obtenerVersion(id){
-                
-            let path = id;
-            let URL = '/obtener-version/' + path;
-
-              axios.get(URL).then((response) => {
-
-                this.presupuesto = response.data;
-                
-
-                let cliente = this.clientResults.find(function(element){
-                  return element.id == response.data.client_id;
-                })
-
-
-                //Obtener el cliente seleccionado
-                let URL = '/obtener-cliente';
-                axios.post(URL, {
-                    'id': cliente.id,
-                    'accion': 'telefonos',
-                }).then((response) => {
-                    this.clienteSeleccionado.telefonos = response.data;    
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-
-                axios.post(URL, {
-                    'id': cliente.id,
-                    'accion': 'presupuestos',
-                }).then((response) => {
-                    this.clienteSeleccionado.presupuestos = [];
-                    this.ultimoEvento = '';
-                    if(response.data.length !== 0){
-                        this.clienteSeleccionado.presupuestos = response.data;
-                        let arreglo = response.data
-                            arreglo.sort(function(a,b){
-                                    return new Date(b.fechaEvento) - new Date(a.fechaEvento);
-                            });
-                        this.ultimoEvento = arreglo.shift();
-                        this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
-                    }
-                }).catch((error) => {
-                    console.log(error.data);
-                });
-
-                this.clienteSeleccionado.id = cliente.id;
-                this.clienteSeleccionado.nombre = cliente.nombre;
-                this.clienteSeleccionado.email = cliente.email;
-
-                this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
-                this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
-                this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
-                this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
-
-                this.presupuesto.client_id = cliente.id;
-
-                //Obtener los festejados
-                let direction = '/obtener-festejados-version/' + this.presupuesto.id;
-
-                axios.get(direction).then((response) => {
-                  this.festejados = response.data;
-                }).catch((error) => {
-                  console.log(error.data);
-                })
-
-                //Obtener el inventario
-
-                let direction2 = '/obtener-inventario-version-1/' + this.presupuesto.id;
-
-                axios.get(direction2).then((response) => {
-                  let arreglo = [];
-                  response.data.forEach(function(element){
-                    if(!element.externo){
-                      let objeto = {
-                        'externo': false,
-                        'imagen': element.imagen,
-                        'servicio': element.servicio,
-                        'cantidad': element.cantidad,
-                        'precioUnitario': element.precioUnitario,
-                        'precioFinal': element.precioFinal,
-                        'ahorro': element.ahorro,
-                        'notas': element.notas,
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': element.id,
-                        'precioAnterior': element.precioAnterior,
-                        'precioEspecial': element.precioEspecial,
-                        'precioVenta': element.precioVenta,
-                        'proveedor': element.proveedor,
-                      }
-                      arreglo.push(objeto);
-                    }else{
-                      let objeto = {
-                        'externo': true,
-                        'imagen': element.imagen,
-                        'servicio': element.servicio,
-                        'cantidad': element.cantidad,
-                        'precioUnitario': element.precioUnitario,
-                        'precioFinal': element.precioFinal,
-                        'ahorro': element.ahorro,
-                        'notas': element.notas,
-                        'paquete': '',
-                        'tipo': 'PRODUCTO',
-                        'id': element.id,
-                        'precioAnterior': element.precioAnterior,
-                        'precioEspecial': element.precioEspecial,
-                        'precioVenta': element.precioVenta,
-                        'proveedor': element.proveedor,
-                      }
-                      arreglo.push(objeto);
-                    }
-                    
-                    return arreglo;
-                  });
-                this.inventarioLocal = arreglo;
-                })
-
-                let direction3 = '/obtener-paquetes-version/' + this.presupuesto.id;
-
-                axios.get(direction3).then((response) => {
-                    
-                    let arregloPaquetes = [];
-
-                    response.data.forEach(function(element){
-                        let URL = '/obtener-elementos-paquetes/' + element.id;
-
-                        var arregloElementos = [];
-                        axios.get(URL).then((response) => {
-                            
-                            
-                            response.data.forEach(function(element){
-                                if(element.externo){
-                                    let demo = {
-                                        'externo': true,
-                                        'nombre': element.servicio,
-                                        'imagen': element.imagen,
-                                        'precioUnitario': element.precioUnitario,
-                                        'precioFinal': element.precioFinal,
-                                        'cantidad': element.cantidad,
-                                        'id': '',
-                                        'precioAnterior': element.precioAnterior,
-                                        'precioEspecial': element.precioEspecial,
-                                        'precioVenta': element.precioVenta,
-                                        'proveedor': element.proveedor,
-                                    }
-                                arregloElementos.push(demo);
-                                }else{
-                                    let demo = {
-                                        'externo': false,
-                                        'nombre': element.servicio,
-                                        'imagen': element.imagen,
-                                        'precioUnitario': element.precioUnitario,
-                                        'precioFinal': element.precioFinal,
-                                        'cantidad': element.cantidad,
-                                        'id': '',
-                                        'precioAnterior': element.precioAnterior,
-                                        'precioEspecial': element.precioEspecial,
-                                        'precioVenta': element.precioVenta,
-                                        'proveedor': element.proveedor,
-                                    }
-                                arregloElementos.push(demo);
-                                }
-                                return arregloElementos;
-                            });
-                           return arregloElementos; 
-                        })
-
-                        let objeto = {
-                            'externo': false,
-                            'imagen': 'https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg',
-                            'servicio': element.servicio,
-                            'cantidad': element.cantidad,
-                            'precioUnitario': element.precioUnitario,
-                            'precioFinal': element.precioFinal,
-                            'ahorro': element.ahorro,
-                            'notas': element.notas,
-                            'paquete': {
-                                'categoria': element.categoria,
-                                'guardarPaquete': element.guardarPaquete,
-                                'precioFinal': element.precioFinal,
-                                'servicio': element.servicio,
-                                'inventario': arregloElementos,
-                            },
-                            'tipo': 'PAQUETE',
-                            'id': element.id,
-                            'precioAnterior': element.precioAnterior,
-                            'precioEspecial': element.precioEspecial,
-                            'precioVenta': element.precioVenta,
-                            'proveedor': element.proveedor,
-                        }
-                        arregloPaquetes.push(objeto);   
-                    }); 
-                this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
-
-                })
-
-                this.original = false;
-                this.presupuesto.guardarVersion = true;
-              })
-            },
-
-            usarVersion(){
-                if(this.presupuesto.tipoEvento == 'INTERNO'){
-                    this.presupuesto.tipoServicio = ''
-                }
-
-                let URL = '/presupuestos/create/version';
-                axios.post(URL, {
-                    'presupuesto': this.presupuesto,
-                    'festejados': this.festejados,
-                    'inventario': this.inventarioLocal,
-                    'guardarVersion': this.guardarVersion,
-                }).then((response) => {
-                    this.imprimir = true;
-                    let URL = '/enviar-email';
-
-                    axios.post(URL, {
-                        'presupuesto': this.presupuesto,
-                        'festejados': this.festejados,
-                        'inventario': this.inventarioLocal,
-                    }).then((response) => {
-                        console.log('Email Enviado');
-                    }).catch((error) => {
-                        console.log(error.data);
+                  ) {
+                    let found = this.inventarioPasado[0].find((item) => {
+                      return item.servicio == element.servicio;
                     });
-                    
-                    if(response.data == 1){
-                        Swal.fire(
-                            'Error!',
-                            'No puede haber dos eventos en salon en la misma fecha',
-                            'error'
-                        );
-                    }else{
-                        Swal.fire(
-                            'Creado!',
-                            'El presupuesto ha sido creado',
-                            'success'
-                        );                    }   
-                    
-                }).catch((error) => {
-                    console.log(error.data);
-                    Swal.fire(
-                        'Error!',
-                        'Algo ha ocurrido mal',
-                        'error'
-                    );
-                });
-            },
 
-            enviarCorreoCliente(){
-                let URL = '/enviar-email-cliente/'  + this.presupuesto.id + '&' + this.emailSeleccionado;
+                    let valorexiste = element.cantidad - found.cantidad;
+                    Object.defineProperty(element, "existe", {
+                      enumerable: true,
+                      configurable: true,
+                      writable: true,
+                      value: valorexiste,
+                    });
+                  } else {
+                    let found = this.inventarioLocal.find((item) => {
+                      return item.servicio == element.servicio;
+                    });
 
-                axios.get(URL).then((response) => {
-                    Swal.fire(
-                            'Enviado!',
-                            'El presupuesto ha sido enviado por correo',
-                            'success'
-                        ); 
-                }).catch((error) => {
-                    console.log(error.data);
-                })
-            },
-            solicitarFactura(){
-                let URL = '/solicitar-factura/'  + this.presupuesto.id;
+                    Object.defineProperty(found, "nuevo", {
+                      enumerable: true,
+                      configurable: true,
+                      writable: true,
+                      value: true,
+                    });
+                  }
+                } else if (element.tipo == "PRODUCTO") {
+                  if (
+                    this.inventarioPasado[1].sime((item) => {
+                      return item.servicio == element.servicio;
+                    })
+                  ) {
+                    console.log("Existe el paquete");
+                  }
+                }
+              });
+            })
+            .catch((error) => {
+              console.log(error.data);
+            });
 
-                axios.put(URL).then((response) => {
-                    Swal.fire(
-                            'Enviado!',
-                            'Se a solicitado la factura del contrato',
-                            'success'
-                        ); 
-                        obtenerUltimoPresupuesto();
-                }).catch((error) => {
-                    Swal.fire(
-                            'Enviado!',
-                            'Se a solicitado la factura del contrato',
-                            'success'
-                        ); 
-                })
+          let vendedor_id = this.presupuesto.vendedor_id;
+          this.vendedor = this.usuarios.find(function (element) {
+            return element.id == vendedor_id;
+          });
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+
+      //Obtener las versiones del presupuesto
+
+      let direction4 = "/obtener-versiones/" + path;
+
+      axios.get(direction4).then((response) => {
+        this.versiones = response.data;
+
+        this.versionesOrdenadas = [];
+        this.versiones.forEach((element) => {
+          this.versionesOrdenadas.push(element.version);
+        });
+        this.versionesOrdenadas.push(this.presupuesto.version);
+        this.versionesOrdenadas.sort();
+      });
+    },
+
+    obtenerVersion(id) {
+      let path = id;
+      let URL = "/obtener-version/" + path;
+
+      axios.get(URL).then((response) => {
+        this.presupuesto = response.data;
+
+        let cliente = this.clientResults.find(function (element) {
+          return element.id == response.data.client_id;
+        });
+
+        //Obtener el cliente seleccionado
+        let URL = "/obtener-cliente";
+        axios
+          .post(URL, {
+            id: cliente.id,
+            accion: "telefonos",
+          })
+          .then((response) => {
+            this.clienteSeleccionado.telefonos = response.data;
+          })
+          .catch((error) => {
+            console.log(error.data);
+          });
+
+        axios
+          .post(URL, {
+            id: cliente.id,
+            accion: "presupuestos",
+          })
+          .then((response) => {
+            this.clienteSeleccionado.presupuestos = [];
+            this.ultimoEvento = "";
+            if (response.data.length !== 0) {
+              this.clienteSeleccionado.presupuestos = response.data;
+              let arreglo = response.data;
+              arreglo.sort(function (a, b) {
+                return new Date(b.fechaEvento) - new Date(a.fechaEvento);
+              });
+              this.ultimoEvento = arreglo.shift();
+              this.clienteSeleccionado.presupuestos.push(this.ultimoEvento);
             }
-        },
-    }
+          })
+          .catch((error) => {
+            console.log(error.data);
+          });
+
+        this.clienteSeleccionado.id = cliente.id;
+        this.clienteSeleccionado.nombre = cliente.nombre;
+        this.clienteSeleccionado.email = cliente.email;
+
+        this.clienteSeleccionado.nombreLugar = cliente.nombreFacturacion;
+        this.clienteSeleccionado.direccionLugar = cliente.direccionFacturacion;
+        this.clienteSeleccionado.numeroLugar = cliente.numeroFacturacion;
+        this.clienteSeleccionado.coloniaLugar = cliente.coloniaFacturacion;
+
+        this.presupuesto.client_id = cliente.id;
+
+        //Obtener los festejados
+        let direction = "/obtener-festejados-version/" + this.presupuesto.id;
+
+        axios
+          .get(direction)
+          .then((response) => {
+            this.festejados = response.data;
+          })
+          .catch((error) => {
+            console.log(error.data);
+          });
+
+        //Obtener el inventario
+
+        let direction2 = "/obtener-inventario-version-1/" + this.presupuesto.id;
+
+        axios.get(direction2).then((response) => {
+          let arreglo = [];
+          response.data.forEach(function (element) {
+            if (!element.externo) {
+              let objeto = {
+                externo: false,
+                imagen: element.imagen,
+                servicio: element.servicio,
+                cantidad: element.cantidad,
+                precioUnitario: element.precioUnitario,
+                precioFinal: element.precioFinal,
+                ahorro: element.ahorro,
+                notas: element.notas,
+                paquete: "",
+                tipo: "PRODUCTO",
+                id: element.id,
+                precioAnterior: element.precioAnterior,
+                precioEspecial: element.precioEspecial,
+                precioVenta: element.precioVenta,
+                proveedor: element.proveedor,
+              };
+              arreglo.push(objeto);
+            } else {
+              let objeto = {
+                externo: true,
+                imagen: element.imagen,
+                servicio: element.servicio,
+                cantidad: element.cantidad,
+                precioUnitario: element.precioUnitario,
+                precioFinal: element.precioFinal,
+                ahorro: element.ahorro,
+                notas: element.notas,
+                paquete: "",
+                tipo: "PRODUCTO",
+                id: element.id,
+                precioAnterior: element.precioAnterior,
+                precioEspecial: element.precioEspecial,
+                precioVenta: element.precioVenta,
+                proveedor: element.proveedor,
+              };
+              arreglo.push(objeto);
+            }
+
+            return arreglo;
+          });
+          this.inventarioLocal = arreglo;
+        });
+
+        let direction3 = "/obtener-paquetes-version/" + this.presupuesto.id;
+
+        axios.get(direction3).then((response) => {
+          let arregloPaquetes = [];
+
+          response.data.forEach(function (element) {
+            let URL = "/obtener-elementos-paquetes/" + element.id;
+
+            var arregloElementos = [];
+            axios.get(URL).then((response) => {
+              response.data.forEach(function (element) {
+                if (element.externo) {
+                  let demo = {
+                    externo: true,
+                    nombre: element.servicio,
+                    imagen: element.imagen,
+                    precioUnitario: element.precioUnitario,
+                    precioFinal: element.precioFinal,
+                    cantidad: element.cantidad,
+                    id: "",
+                    precioAnterior: element.precioAnterior,
+                    precioEspecial: element.precioEspecial,
+                    precioVenta: element.precioVenta,
+                    proveedor: element.proveedor,
+                  };
+                  arregloElementos.push(demo);
+                } else {
+                  let demo = {
+                    externo: false,
+                    nombre: element.servicio,
+                    imagen: element.imagen,
+                    precioUnitario: element.precioUnitario,
+                    precioFinal: element.precioFinal,
+                    cantidad: element.cantidad,
+                    id: "",
+                    precioAnterior: element.precioAnterior,
+                    precioEspecial: element.precioEspecial,
+                    precioVenta: element.precioVenta,
+                    proveedor: element.proveedor,
+                  };
+                  arregloElementos.push(demo);
+                }
+                return arregloElementos;
+              });
+              return arregloElementos;
+            });
+
+            let objeto = {
+              externo: false,
+              imagen:
+                "https://webmediums.com/media/max_1600/1*-z6mbBzxB4Htfj0-5JPqIw.jpeg",
+              servicio: element.servicio,
+              cantidad: element.cantidad,
+              precioUnitario: element.precioUnitario,
+              precioFinal: element.precioFinal,
+              ahorro: element.ahorro,
+              notas: element.notas,
+              paquete: {
+                categoria: element.categoria,
+                guardarPaquete: element.guardarPaquete,
+                precioFinal: element.precioFinal,
+                servicio: element.servicio,
+                inventario: arregloElementos,
+              },
+              tipo: "PAQUETE",
+              id: element.id,
+              precioAnterior: element.precioAnterior,
+              precioEspecial: element.precioEspecial,
+              precioVenta: element.precioVenta,
+              proveedor: element.proveedor,
+            };
+            arregloPaquetes.push(objeto);
+          });
+          this.inventarioLocal = this.inventarioLocal.concat(arregloPaquetes);
+        });
+
+        this.original = false;
+        this.presupuesto.guardarVersion = true;
+      });
+    },
+
+    usarVersion() {
+      if (this.presupuesto.tipoEvento == "INTERNO") {
+        this.presupuesto.tipoServicio = "";
+      }
+
+      let URL = "/presupuestos/create/version";
+      axios
+        .post(URL, {
+          presupuesto: this.presupuesto,
+          festejados: this.festejados,
+          inventario: this.inventarioLocal,
+          guardarVersion: this.guardarVersion,
+        })
+        .then((response) => {
+          this.imprimir = true;
+          let URL = "/enviar-email";
+
+          axios
+            .post(URL, {
+              presupuesto: this.presupuesto,
+              festejados: this.festejados,
+              inventario: this.inventarioLocal,
+            })
+            .then((response) => {
+              console.log("Email Enviado");
+            })
+            .catch((error) => {
+              console.log(error.data);
+            });
+
+          if (response.data == 1) {
+            Swal.fire(
+              "Error!",
+              "No puede haber dos eventos en salon en la misma fecha",
+              "error"
+            );
+          } else {
+            Swal.fire("Creado!", "El presupuesto ha sido creado", "success");
+          }
+        })
+        .catch((error) => {
+          console.log(error.data);
+          Swal.fire("Error!", "Algo ha ocurrido mal", "error");
+        });
+    },
+
+    enviarCorreoCliente() {
+      let URL =
+        "/enviar-email-cliente/" +
+        this.presupuesto.id +
+        "&" +
+        this.emailSeleccionado;
+
+      axios
+        .get(URL)
+        .then((response) => {
+          Swal.fire(
+            "Enviado!",
+            "El presupuesto ha sido enviado por correo",
+            "success"
+          );
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    },
+    solicitarFactura() {
+      let URL = "/solicitar-factura/" + this.presupuesto.id;
+
+      axios
+        .put(URL)
+        .then((response) => {
+          Swal.fire(
+            "Enviado!",
+            "Se a solicitado la factura del contrato",
+            "success"
+          );
+          obtenerUltimoPresupuesto();
+        })
+        .catch((error) => {
+          Swal.fire(
+            "Enviado!",
+            "Se a solicitado la factura del contrato",
+            "success"
+          );
+        });
+    },
+  },
+};
 </script>
 

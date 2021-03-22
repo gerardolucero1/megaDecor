@@ -23,6 +23,7 @@
       <p><span style="font-weight: bolder; font-size:24px">@if($presupuesto->tipo=='PRESUPUESTO') Presupuesto @else Contrato @endif</span></p>
       <p><span style="font-weight: bolder">Folio:</span>  <span style="font-weight:normal">{{$presupuesto->folio}}</span></p>
       <p><span style="font-weight: bolder">Vendedor:</span> <span style="font-weight:normal">{{$presupuesto->vendedor}}</span></p>
+      <p><span style="font-weight: bolder">Categoria:</span> <span style="font-weight:normal">{{$presupuesto->categoriaEvento}}</span></p>
       </td>
   </tr>
   <tr>

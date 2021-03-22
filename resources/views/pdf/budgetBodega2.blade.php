@@ -23,9 +23,9 @@
               @endif</p>
           </td>
           <td colspan="3" style="text-align: right; width: 70%">
-            <p><span style="font-weight: ;">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+            <p><span style="font-weight: ; display:none">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
               <span style="font-weight: normal; font-size: 13px;">Copia Mega Mundo</span><br>
               <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>
@@ -71,7 +71,7 @@
     </td>
   </tr>
 <tr style="font-weight: bold; font-size: 14px; padding-top:10px">
-<td colspan="2"><span>Fecha y Hora del evento: </span><br><span style="font-weight: normal">
+<td colspan="2"><span style="display: none">Fecha y Hora del evento: </span><br><span style="font-weight: normal">
     {{$fechaEvento->translatedFormat(' l j F Y')}} <br>@if($presupuesto->pendienteHora==0){{$presupuesto->horaEventoInicio}}{{$presupuesto->inicioAmPm}}- {{$presupuesto->horaEventoFin}}{{$presupuesto->finAmPm}} @else HORARIO DEL EVENTO PENDIENTE @endif<br>
    </td>
 <td colspan="2"><span>Recolección de Mobiliario: <br><span style="font-weight: normal">@if($presupuesto->entregaEnBodega==1) Cliente entrega a bodega @else @if($presupuesto->recoleccionPreferente!=null){{$presupuesto->recoleccionPreferente}}@else Por Definir @endif @endif</span><br>
@@ -241,9 +241,9 @@
                 @endif</p>
           </td>
           <td colspan="3" style="text-align: right; width: 70%">
-            <p><span style="font-weight: ;">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
-              <span style="font-weight: normal; font-size: 13px;">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
+            <p><span style="font-weight: ; display:none">Numero de contrato:</span>  <span style="font-weight:bold;  font-size:20px">{{$presupuesto->folio}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Cliente:</span> <span style="font-style: italic; font-weight: bold;  font-size: 20px;">{{$presupuesto->cliente}}</span><br>
+              <span style="font-weight: normal; font-size: 13px; display:none">Fecha del evento:</span><br> <span style="font-style: italic; font-weight: normal;  font-size: 20px; font-weight: bolder">{{$fechaEvento->translatedFormat(' l j F Y')}}</span><br>
               <span style="font-weight: normal; font-size: 13px;">Vendedor:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->vendedor}}</span>
               <span style="font-weight: normal; font-size: 13px;">Copia Cliente</span><br>
               <span style="font-weight: normal; font-size: 13px;">Categoria:</span> <span style="font-style: italic; font-weight: bold;  font-size: 13px;">{{$presupuesto->categoriaEvento}}</span>

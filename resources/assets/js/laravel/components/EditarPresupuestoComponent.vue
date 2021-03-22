@@ -528,6 +528,83 @@ padding: 0;
                      </div>
                 </div>
 
+<div
+          v-if="pagos.length != 0 && usuarioActual.id != 2"
+          class="row"
+          style="padding-top: 15px; padding-bottom: 15px"
+        >
+          <div
+            class="col-md-6"
+            style="background: #f8c6b8; border-radius: 10px; padding: 25px"
+          >
+            <p style="font-size: 20px; font-weight: bold">Registro de pagos</p>
+
+            <div style="width: 100%; padding-bottom: 20px">
+              <table style="width: 100%">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Metodo</th>
+                  <th>Banco</th>
+                </tr>
+                <tr v-for="(pago, index) in pagos" :key="index">
+                  <td style="font-style: italic">
+                    {{ pago.created_at | formatearFecha2 }}
+                  </td>
+                  <td v-if="pago.method == 'DOLAR'">
+                    <span style="font-style: italic"
+                      >{{ pago.amount | currency }}Dlls x
+                      {{ pago.reference | currency }}MXN =
+                      {{ (pago.reference * pago.amount) | currency }}</span
+                    >
+                  </td>
+                  <td v-else>{{ pago.amount | currency }}</td>
+                  <td style="font-size: 10px; color: green">
+                    {{ pago.method }}
+                  </td>
+                  <td>{{ pago.bank }}</td>
+                </tr>
+              </table>
+            </div>
+            <div v-if="saldoPendiente > 0">
+              <label
+                style="
+                  background: red;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                v-if="presupuesto.opcionIVA"
+                >Saldo pendiente: {{ saldoPendiente | currency }}</label
+              >
+              <label
+                style="
+                  background: red;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                v-else
+                >Saldo pendiente: {{ saldoPendiente | currency }}</label
+              >
+            </div>
+            <div v-else>
+              <label
+                style="
+                  background: green;
+                  color: white;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+                >Pagado</label
+              >
+            </div>
+            <br />
+            <label style="font-style: italic"
+              >Pagar antes del {{ pagarAntesDe }}</label
+            >
+          </div>
+        </div>
                 <div class="row" >
                     <div class="col-md-4 offset-md-4 mt-4">
                         <button class="btn btn-sm btn-block btn-success" v-if="editado==1 && presupuesto.categoria!='nube'" @click="guardarPresupuesto()"><i class="fa fa-save"></i>Guardar</button>
