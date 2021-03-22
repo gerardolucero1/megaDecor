@@ -351,17 +351,16 @@
 <!--///////////////////////////////////////////prueba paquetes -->
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
-<table style="width: 100%; text-align: center">
+<table style="width: 100%;">
   <tr>
 <th>Servicio</th>
 <th>Cantidad</th>
 <th>Recibido</th>
 <th>Recolectado</th>
 </tr>
-<tr>
+<tr style="background:#FFF9C8 ">
   <td colspan="2" style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
-  <td>Cantidad: {{ (strtolower($paquete->cantidad)) }}</td>
-  <td>{{ (strtolower($paquete->notas)) }}</td>
+  <td colspan="2" style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
 </tr>
 @foreach ($arregloEmentos as $ElementoPaquete)
 @if($ElementoPaquete->budget_pack_id==$paquete->id)
