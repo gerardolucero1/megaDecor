@@ -166,47 +166,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 @endforeach
  
 
-<!--
-@if(!is_null($Paquetes))
-@foreach ($Paquetes as $paquete)
-    <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
-    <td style="padding: 5px; text-align:center; font-weight: bold">Paquete:</td>
-    <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
-      <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
-      @if($presupuesto->opcionPrecio==1) 
-      <td style="text-align: center">${{ (strtolower($paquete->precioUnitario)) }}</td>
-      @endif
-      <td style="text-align: center">@if($paquete->precioUnitario!=$paquete->precioEspecial)${{ (strtolower($paquete->precioEspecial)) }}@else -- @endif</td>
-      @if($presupuesto->opcionPrecio==1) 
-      <td style="text-align: center">${{ (strtolower($paquete->precioFinal)) }}</td>
-      @endif
-    <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
-    </tr>
-    @if($presupuesto->opcionDescripcionPaquete==1)
-    <tr style="text-align: center; font-size: 12px;">
-        <td style="border-left:solid; border-left-width: 1px;">Imagen</td>
-        <td colspan="3" style="border-left:solid; border-left-width: 1px;">Servicio</td>
-        <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
-        <td style="border-left:solid; border-left-width: 1px;" colspan="2">Notas</td>
-      </tr>
-    @foreach ($arregloEmentos as $ElementoPaquete)
-    @if($ElementoPaquete->budget_pack_id==$paquete->id)
-    <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-        <td><img src="{{$ElementoPaquete->imagen}}" width="40px" alt="" style="margin-left: 15px; "></td>
-        <td colspan="3" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
-          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
-          
-          
-        <td colspan="2" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
-        </tr> 
-        @endif
-        
-    @endforeach
-    @endif
-@endforeach
 
-    @endif
-      -->
 </table>
 
 
