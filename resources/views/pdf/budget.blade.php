@@ -164,7 +164,9 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
 @endforeach
+ 
 
+<!--
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
     <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
@@ -204,7 +206,46 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 @endforeach
 
     @endif
+      -->
 </table>
+
+
+<!--///////////////////////////////////////////prueba paquetes -->
+@if(!is_null($Paquetes))
+<h2>Paquetes: </h2>
+@foreach ($Paquetes as $paquete)
+<table style="width: 100%;">
+  <tr>
+<th>Servicio</th>
+<th>Cantidad</th>
+<th>Entrega</th>
+<th>Recolectado</th>
+<th>Faltante</th>
+</tr>
+<tr style="background:#FFF9C8 ">
+  <td colspan="2" style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
+  <td colspan="3" style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
+</tr>
+@foreach ($arregloEmentos as $ElementoPaquete)
+@if($ElementoPaquete->budget_pack_id==$paquete->id)
+<tr>
+  <td>{{ (strtolower($ElementoPaquete->servicio)) }}</td>
+  <td>{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+  <td>_________</td>
+  <td>_________</td>
+  <td>_________</td>
+</tr>
+@endif 
+    @endforeach
+     
+@endforeach
+@endif
+</table>
+  <!--///////////////////////////////////////////prueba paquetes -->  
+
+
+
+
 @php
   if($presupuesto->opcionIVA==1){
      $iva=($presupuesto->total*.16);
