@@ -728,7 +728,7 @@ class BudgetController extends Controller
         $producto = Inventory::orderBy('id', 'ASC')->where('servicio', $data['id'])->first();
         $disponible=$producto->cantidad+$producto->exhibicion;
 
-    //segunda opcion
+  
     foreach($budgets as $budget){
         $elementos = BudgetInventory::orderBy('id', 'ASC')->where('budget_id', $budget->id)->where('version', $budget->version)->get();
         foreach($elementos as $elemento){
@@ -908,7 +908,6 @@ class BudgetController extends Controller
     public function obtenerElementosPaquetes($id){
         return BudgetPackInventory::orderBy('id', 'DESC')->where('budget_pack_id', $id)->get();
     }
-
 
     //Versiones
     public function storeVersion(Request $request){

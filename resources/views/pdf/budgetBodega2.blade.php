@@ -344,38 +344,42 @@
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
 @endforeach
+
+
+
+
+<!--///////////////////////////////////////////prueba paquetes -->
 @if(!is_null($Paquetes))
 @foreach ($Paquetes as $paquete)
-    <tr style="margin-top: 2px; background: #FFF8CD; font-size:13px">
-    <td style="padding: 5px; text-align:center">{{ (strtolower($paquete->servicio)) }}</td>
-      <td style="text-align: center">{{ (strtolower($paquete->cantidad)) }}</td>
-    <td style="padding: 5px;">{{ (strtolower($paquete->notas)) }}</td>
-    </tr>
-    @if(1==1)
-    <tr style="text-align: center; font-size: 12px;">
-        <td colspan="1" style="border-left:solid; border-left-width: 1px;">Servicio</td>
-        <td style="border-left:solid; border-left-width: 1px;">Cantidad</td>
-        <td style="border-left:solid; border-left-width: 1px;" colspan="1">Notas</td>
-       
-      </tr>
-    @foreach ($arregloEmentos as $ElementoPaquete)
-    @if($ElementoPaquete->budget_pack_id==$paquete->id)
-    <tr style="margin-top: 2px; background: #FFFCE9; font-size:12px; border:solid;">
-        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->servicio)) }}<br><span style="font-weight: lighter; font-size: 11px; font-style: italic">Pertenece a: {{ (strtolower($paquete->servicio)) }}</span></td>
-          <td colspan="1" style="text-align: center">{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
-          
-          
-        <td colspan="1" style="padding: 5px;">{{ (strtolower($ElementoPaquete->notas)) }}</td>
-        </tr> 
-        @endif
-        
+
+<p>{{ (strtolower($paquete->servicio)) }}</p>
+<p>Cantidad: {{ (strtolower($paquete->cantidad)) }}</p>
+<p style="font-style: italic">{{ (strtolower($paquete->notas)) }}</p>
+
+<table style="width: 100%; text-align: center">
+  <tr>
+<th>Servicio</th>
+<th>Cantidad</th>
+<th>Recibido</th>
+<th>Recolectado</th>
+</tr>
+@foreach ($arregloEmentos as $ElementoPaquete)
+@if($ElementoPaquete->budget_pack_id==$paquete->id)
+<tr>
+  <td>{{ (strtolower($ElementoPaquete->servicio)) }}</td>
+  <td>{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
+  <td>_________</td>
+  <td>_________</td>
+</tr>
+@endif 
     @endforeach
-    @endif
+     
 @endforeach
-
-    @endif
-
+@endif
 </table>
+  <!--///////////////////////////////////////////prueba paquetes -->  
+
+
 
 <div style="width: 100%">
     <p style="font-style:italic; text-align: center; font-size:11px">*Indicar con un "S", los articulos entregados correctamente y con una "X" los productos que cuenten con un problema al momento de la entrega o la recolección, firmar unicamente los espacios de entrega al momento de la entrega y firmar y completas los campos faltantes al momento de la recolección</p>
