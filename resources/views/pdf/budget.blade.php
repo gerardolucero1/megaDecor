@@ -218,22 +218,18 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   <tr>
 <th>Servicio</th>
 <th>Cantidad</th>
-<th>Entrega</th>
-<th>Recolectado</th>
-<th>Faltante</th>
+
 </tr>
 <tr style="background:#FFF9C8 ">
-  <td colspan="2" style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
-  <td colspan="3" style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
+  <td style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
+  <td style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
 </tr>
 @foreach ($arregloEmentos as $ElementoPaquete)
 @if($ElementoPaquete->budget_pack_id==$paquete->id)
 <tr>
   <td>{{ (strtolower($ElementoPaquete->servicio)) }}</td>
   <td>{{ (strtolower($ElementoPaquete->cantidad)) }}</td>
-  <td>_________</td>
-  <td>_________</td>
-  <td>_________</td>
+  
 </tr>
 @endif 
     @endforeach
