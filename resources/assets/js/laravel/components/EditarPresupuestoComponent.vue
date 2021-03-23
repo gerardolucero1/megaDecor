@@ -2639,6 +2639,7 @@ padding: 0;
                             'success'
                         );
                         this.obtenerPresupuesto();
+                        location.reload();
                     }       
                 }).catch((error) => {
                     console.log(error.data);
