@@ -184,7 +184,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <tr style="background:#FFF9C8 ">
   <td style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
   <td style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
-  <td style="font-style: italic">{{ (strtolower($paquete->precioUnitario)) }}</td>
+  <td style="font-style: italic">${{ (number_format($paquete->precioUnitario,2)) }}</td>
 </tr>
 @foreach ($arregloEmentos as $ElementoPaquete)
 @if($ElementoPaquete->budget_pack_id==$paquete->id)
