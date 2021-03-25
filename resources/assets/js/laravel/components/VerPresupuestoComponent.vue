@@ -1173,7 +1173,7 @@ table tr td input {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Externo</th>
+              
                   <th scope="col">Nombre</th>
                   <th v-if="usuarioActual.id != 2" scope="col">
                     Precio Unitario
@@ -1189,12 +1189,6 @@ table tr td input {
                   :key="index"
                 >
                   <th scope="row">{{ index }}</th>
-                  <td v-if="item.externo">
-                    <input type="checkbox" checked />
-                  </td>
-                  <td v-else>
-                    <input type="checkbox" />
-                  </td>
                   <td>
                     {{ item.nombre }}
                   </td>

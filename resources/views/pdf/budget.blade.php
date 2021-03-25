@@ -175,16 +175,20 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
 <h2>Paquetes: </h2>
 @foreach ($Paquetes as $paquete)
 <table style="width: 100%;">
-  <tr>
+<tr>
 <th>Servicio</th>
 <th>Cantidad</th>
+@if($presupuesto->opcionPrecioUnitario==1)
 <th>Precio</th>
+@endif
 
 </tr>
 <tr style="background:#FFF9C8 ">
   <td style="font-weight: bold">{{ (strtolower($paquete->servicio)) }}</td>
   <td style="font-style: italic">{{ (strtolower($paquete->notas)) }}</td>
+  @if($presupuesto->opcionPrecioUnitario==1)
   <td style="font-style: italic">${{ (number_format($paquete->precioUnitario,2)) }}</td>
+  @endif
 </tr>
 @foreach ($arregloEmentos as $ElementoPaquete)
 @if($ElementoPaquete->budget_pack_id==$paquete->id)
