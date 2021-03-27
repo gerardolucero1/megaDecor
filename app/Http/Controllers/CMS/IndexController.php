@@ -1533,7 +1533,7 @@ public function archivarUsuario($id){
          }
           //Fincalculo adeudo total
 
-        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
         foreach ($creditos as $credito) {
             if(!is_null($credito->fechaEvento)){
 
