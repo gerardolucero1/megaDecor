@@ -203,13 +203,13 @@ table tr td input {
               font-size: 18px;
             "
           >
-            CONTRATO CANCELADO POR: {{ vendedor.name }}
+            CONTRATO CANCELADO POR: {{ vendedor.name }} , Motivo:  {{ presupuesto.notasPresupuesto }}
           </p>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6" v-if="presupuesto.archivado != true">
         <p
           style="
             padding: 20px;
