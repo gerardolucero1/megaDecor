@@ -219,7 +219,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   $Pagos = App\Payment::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->get();
   $saldoPagado=0;
   @endphp
-
+@if($presupuesto->tipo!='PRESUPUESTO') 
 <table style="width: 80%; text-align:center; margin-top:30px">
   <tr style="background: #cecece">
     <th colspan="4">Pagos Realizados</th>
@@ -255,6 +255,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @endforeach
   
 </table>
+ @else  @endif
 
 <table style="width: 100%; text-align: right">
 <tr>
