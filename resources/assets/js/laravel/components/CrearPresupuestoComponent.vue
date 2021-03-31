@@ -393,7 +393,7 @@ padding: 0;
                                     :keys="['servicio', 'id', 'familia']"
                                     
                                 ></buscador-component><span><i class="fa fa-remove" @click="limpiarInput()" style="color:red; position:absolute; right:0;"></i></span>
-
+<p @click="obtenerInventario()" style="color:blue; cursor:pointer">Actualizar Productos</p>   
                             </div>
                             <div class="col-md-8">
                                 <div class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#agregarPaquete"><span class="fa fa-plus-circle"></span> Nuevo Paquete</div>
