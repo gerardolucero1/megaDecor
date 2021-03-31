@@ -1154,6 +1154,7 @@ class BudgetController extends Controller
                 $paquete->version = $ultimoPresupuesto->version;
                 $paquete->save();
 
+
                 //Obtenemos el ultimo paquete guardado
                 $ultimoPack = BudgetPack::orderBy('id', 'DESC')->pluck('id')->first();
 

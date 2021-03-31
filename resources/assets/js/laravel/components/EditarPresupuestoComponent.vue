@@ -2194,10 +2194,12 @@ padding: 0;
                         this.actualizarPrecioSugeridoEdicion();
                     },
 
-            guardarPaquete(){
+           guardarPaquete(){
                 let count;
-                
-                
+                if(this.paquete.servicio != '') {}else{
+                    alert('Ingresa un nombre de paquete');
+                    return
+                }
                 if(this.inventarioLocal.some((element) => {
                     return element.servicio == this.paquete.servicio;
                 })){
@@ -2208,28 +2210,41 @@ padding: 0;
                         )
                 }else{
                     let paquete = JSON.parse( JSON.stringify(this.paquete) );
-
+                    console.log(this.precioSugerido);
                     this.inventarioLocal.push({
                         externo: false,
-                        imagen: 'https://i.redd.it/a0pfd0ajy5t01.jpghttp://saveabandonedbabies.org/wp-content/uploads/2015/08/default.png',
+                        imagen: this.paquete.imagen,
                         servicio: this.paquete.servicio,
                         cantidad: 1,
                         precioUnitario: this.precioSugerido,
                         precioFinal: this.precioSugerido,
+                        precioAnterior: '0',
                         ahorro: '0',
                         notas: '',
                         paquete: paquete,
                         tipo: 'PAQUETE',
                         id: '',
-                        precioVenta: this.paquete.precioVenta,
+                        precioVenta: this.costoProveedor,
                         precioEspecial: this.precioSugerido,
                         precioAnterior: this.precioSugerido,
                     });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                    
+                this.paquete.externo = '';
+                this.paquete.imagen = '';
+                this.paquete.servicio = '';
+                this.paquete.cantidad = '';
+                this.paquete.precioUnitario = '';
+                this.paquete.precioFinal = '';
+                this.paquete.ahorro = '';
+                this.paquete.inventario= [];
+                $('#agregarPaquete').modal('hide');
                     Swal.fire(
                         'Listo!',
                         'Paquete agregado con exito a presupuesto',
                         'success'
-                        ) 
+                        ) ;
+                
                 }
 
             },
