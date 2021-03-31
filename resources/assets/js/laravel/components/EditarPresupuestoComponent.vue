@@ -2553,7 +2553,40 @@ padding: 0;
             
             agregarProducto(producto){
 
+                let URL = '/obtener-disponibles';
+                axios.post(URL, {id:producto.servicio, fecha:this.presupuesto.fechaEvento}).then((response) => {
+                    this.cantidad_disponible = response.data;
+                    
+                if(producto.anidado){
+                    let producto_anidado = {
+                        'externo': false,
+                        'imagen': producto.imagen,
+                        'servicio': producto.servicio,
+                        'cantidad': '1',
+                        'precioUnitario': producto.precioUnitario,
+                        'precioFinal': producto.precioUnitario,
+                        'precioAnterior':producto.precioUnitario,
+                        'ahorro': '0',
+                        'notas': '-',
+                        'paquete': '',
+                        'disponible': this.cantidad_disponible,
+                        'tipo': 'PRODUCTO',
+                        'id': producto.id,
+                        'precioVenta': producto.precioVenta,
+                        'proveedor': '',
+                        'precioEspecial': producto.precioUnitario,
+                        
+                    }
+
+                    this.obtenerNesteds(producto_anidado)
+                    this.limpiar = true;
+                    return
+                }
+
                 this.limpiar = true;
+                
+                if(producto.precioVenta==null){
+                producto.precioVenta=0;}
                 this.inventarioLocal = this.inventarioLocal.reverse();
                 this.inventarioLocal.push({
                     'externo': false,
@@ -2563,8 +2596,9 @@ padding: 0;
                     'precioUnitario': producto.precioUnitario,
                     'precioFinal': producto.precioUnitario,
                     'ahorro': '0',
-                    'notas': '--',
+                    'notas': '-',
                     'paquete': '',
+                    'disponible': this.cantidad_disponible,
                     'tipo': 'PRODUCTO',
                     'id': producto.id,
                     'precioVenta': producto.precioVenta,
@@ -2572,16 +2606,58 @@ padding: 0;
                     'precioEspecial': producto.precioUnitario,
                     'precioAnterior': producto.precioUnitario,
                 });
+                    this.inventarioLocal = this.inventarioLocal.reverse();
+                })
 
-                this.inventarioLocal = this.inventarioLocal.reverse();
-                
                 setTimeout(() => {
                     this.limpiar = false;
                 }, 1000);
-                console.log(this.inventarioLocal);
-                this.editado=1;
                 
             },
+
+            obtenerNesteds(producto){
+
+                this.precioSugerido = producto.precioUnitario;
+                console.log(producto.precioUnitario);
+                console.log(this.precioSugerido);
+
+                this.paquete.imagen = producto.imagen;
+                this.paquete.servicio = producto.servicio;
+                this.paquete.precioFinal = producto.precioUnitario;
+                this.paquete.precioAnterior = producto.precioUnitario;
+                this.paquete.precioVenta = producto.PrecioVenta;
+                this.paquete.guardarPaquete = false;
+                this.paquete.categoria = 'Anidado';
+
+
+
+                let URL = '/obtener-nesteds/' + producto.id
+
+                axios.get(URL).then((response) => {
+                    
+                    response.data.forEach((doc) => {
+                        this.paquete.inventario.push({
+                            'externo': false,
+                            'nombre': doc.servicio,
+                            'imagen': doc.imagen,
+                            'precioUnitario': doc.precioUnitario,
+                            'precioFinal': doc.precioUnitario*doc.cantidad,
+                            'cantidad': doc.cantidad,
+                            'id': doc.id,
+                            'precioVenta': doc.precioUnitario,
+                            'proveedor': 'MEGAMUNDO',
+                            'precioEspecial': doc.precioUnitario,
+                            'precioAnterior': doc.precioUnitario,
+                        });
+                        
+                    })
+                    
+                this.guardarPaquete()
+                }).catch((error) => {
+
+                })
+            },
+
             obtenerClientes(){
                 let URL = '/obtener-clientes';
                 axios.get(URL).then((response) => {
