@@ -118,10 +118,11 @@
     
       <td style="font-size: 13px; padding: 4px; width: 15px">Cantidad</td>
     <td style="font-size: 13px; padding: 4px;">Servicio</td>
-    <td style="font-size: 11px; padding: 4px; width: 60px">Entrega</td>
-    <td style="font-size: 11px; padding: 4px; width: 60px">Recolección</td>
-    <td style="font-size: 11px; padding: 4px; width: 60px">Faltante</td>
-    <td style="font-size: 11px; padding: 4px; width: 200px">Notas</td>
+    <td style="font-size: 11px; padding: 4px; width: 50px">Entrega</td>
+    <td style="font-size: 11px; padding: 4px; width: 50px">Recolección</td>
+    <td style="font-size: 11px; padding: 4px; width: 50px">Faltante</td>
+    <td style="font-size: 11px; padding: 4px; width: 150px">Notas</td>
+    <td style="font-size: 11px;">Notas Sis.</td>
   </tr>
   @php
       $descuento=0;
@@ -138,6 +139,7 @@
     <td style="border-bottom:solid; border-right:solid; border-right-style: dotted; border-width: 2px; border-right-width: 1px;  background:white"></td>
     <td style="border-bottom:solid; border-right:solid; border-right-style: dotted; border-width: 2px; border-right-width: 1px;  background:white"></td>
     <td style="border-bottom:solid; border-right:solid; border-right-style: dotted; border-width: 2px; border-right-width: 1px;  background:white; width: 150px"></td>
+    <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
 @endforeach
 @if(!is_null($Paquetes))
