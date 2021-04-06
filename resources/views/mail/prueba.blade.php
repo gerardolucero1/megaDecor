@@ -124,7 +124,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @endphp
   @foreach ($Elementos as $elemento)
   @php
-      $descuento=$descuento+($elemento->precioUnitario-$elemento->precioEspecial);
+      $descuento=$descuento+($elemento->ahorro*$elemento->cantidad);
   @endphp
     <tr style="margin-top: 2px; background: #F3F3F3; font-size:13px">
         @if($presupuesto->opcionImagen==1)  
