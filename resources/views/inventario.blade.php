@@ -44,41 +44,7 @@
                                      
                                     </div>
                                  </form>
-                                
                                  @endif
-                            <form action="{{ route('inventario.filtro') }}" method="POST">
-                                @method('POST')
-                                @csrf   
-                                <div class="row" style="padding: 10px">
-                                <div class="col-md-3">
-                                    <label for="">Familias:</label>
-                                    <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
-                                        <option value="">Todas las familias</option>
-                                        @foreach($familias as $familia)    
-                                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3" style="display: none">
-                                    <div class="form-group">
-                                        <label for="">Editado Desde:</label>
-                                        <input type="date" name="fecha_1" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="display: none">
-                                    <div class="form-group">
-                                            <label for="">Editado Hasta:</label>
-                                        <input type="date" name="fecha_2" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3" style="padding-top:30px">
-                                        <div class="form-group">
-                                    <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
-                                        </div>
-                                </div>
-                            </div>
-                            </form>
-                           
                         </div>
                     </div>
                     @php
@@ -90,7 +56,7 @@
                                 @method('POST')
                                 @csrf   
                                 <div class="row" style="padding: 10px">
-                                <div class="col-md-3">
+                                <div class="col-md-8">
                                     <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         <option value="">Todas las familias</option>
@@ -111,7 +77,7 @@
                                         <input type="date" name="fecha_2" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3" style="padding-top:30px">
+                                <div class="col-md-4" style="padding-top:30px">
                                         <div class="form-group">
                                     <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
                                         </div>
