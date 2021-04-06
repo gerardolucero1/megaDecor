@@ -1507,12 +1507,13 @@ export default {
     calcularIva: function () {
       return this.calcularSubtotal * (this.iva / 100);
     },
-    calcularAhorro: function () {
-      let ahorro = 0;
-      this.inventarioLocal.forEach(function (element) {
-        let precioNormal = parseInt(element.cantidad * element.precioUnitario);
-        ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
-      });
+    calcularAhorro: function(){
+                let ahorro = 0;
+                this.inventarioLocal.forEach(function(element){
+                    ahorro = ahorro + parseInt(element.cantidad * element.ahorro);
+                    //let precioNormal = parseInt(element.cantidad * element.precioUnitario);
+                    //ahorro = parseInt(ahorro + (precioNormal - element.precioFinal));
+                });
 
       return ahorro;
     },
