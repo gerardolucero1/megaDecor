@@ -51,7 +51,7 @@
                                 @csrf   
                                 <div class="row" style="padding: 10px">
                                 <div class="col-md-3">
-                                        <label for="">Familias:</label>
+                                    <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
                                         <option value="">Todas las familias</option>
                                         @foreach($familias as $familia)    
@@ -86,6 +86,40 @@
                         @endphp 
                     <div class="block-header block-header-default">
                         <div class="col-md-3">
+                            <form action="{{ route('inventario.filtro') }}" method="POST">
+                                @method('POST')
+                                @csrf   
+                                <div class="row" style="padding: 10px">
+                                <div class="col-md-3">
+                                    <label for="">Familias:</label>
+                                    <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
+                                        <option value="">Todas las familias</option>
+                                        @foreach($familias as $familia)    
+                                            <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <div class="form-group">
+                                        <label for="">Editado Desde:</label>
+                                        <input type="date" name="fecha_1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <div class="form-group">
+                                            <label for="">Editado Hasta:</label>
+                                        <input type="date" name="fecha_2" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="padding-top:30px">
+                                        <div class="form-group">
+                                    <input type="submit" class="btn btn-sm btn-info" value="BUSCAR">
+                                        </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        <div class="col-md-3">
                         <h3 class="block-title" style="color:green">Inventario</h3>
 
 
@@ -112,7 +146,7 @@
                     
                     
                     </div>
-                    <div class="col-md-9 text-right">
+                    <div class="col-md-6 text-right">
                         
 
                          @if($permisos->inventarioAgregarFamilia==1)
