@@ -280,14 +280,14 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->take(100)->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->take(80)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'DESC')->take(100)->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->take(80)->Where('archivar', null)->orWhere('archivar', false)->get();
              }
 
         $familia = $request->familia;
         if($familia=='Centros de Mesa' || $familia =='FLORES, FOLLAJES Y TRONCOS' || $familia = "MOBILIARIO Y EQUIPO"){
-            $familia = $familia.' Prte 1 de 3';
+            $familia = $familia.' Prte 1 de 2';
             }
         
         $pdf = App::make('dompdf');
@@ -302,12 +302,12 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->skip(100)->take(100)->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->skip(80)->take(80)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'DESC')->skip(100)->take(100)->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->skip(80)->take(80)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
 
-        $familia = $request->familia.' Parte 2 de 3';
+        $familia = $request->familia.' Parte 2 de 2';
         
         $pdf = App::make('dompdf');
 
@@ -321,9 +321,9 @@ class InventoryController extends Controller
         
         // dd($request->familia);
         if(!is_null($request->familia)){
-            $Inventario = Inventory::orderBy('id', 'DESC')->skip(200)->where('familia', $request->familia)->get();
+            $Inventario = Inventory::orderBy('id', 'DESC')->skip(160)->where('familia', $request->familia)->get();
         }else{
-        $Inventario = Inventory::orderBy('id', 'DESC')->skip(200)->Where('archivar', null)->orWhere('archivar', false)->get();
+        $Inventario = Inventory::orderBy('id', 'DESC')->skip(160)->Where('archivar', null)->orWhere('archivar', false)->get();
         }
 
         $familia = $request->familia.' Parte 3 de 3';
