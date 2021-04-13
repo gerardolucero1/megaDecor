@@ -145,7 +145,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @foreach ($Elementos as $elemento)
   @php
       if(is_numeric($elemento->cantidad)){
-      $descuento=$descuento+intval($elemento->cantidad);
+      $descuento=$descuento+0;
       }
       $c++;
       $familias[$c]=$elemento->familia;
