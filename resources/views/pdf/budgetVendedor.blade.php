@@ -133,7 +133,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
   @endphp
   @foreach ($Elementos as $elemento)
   @php
-      $descuento=$descuento+($elemento->ahorro*$elemento->cantidad);
+      $descuento=$descuento+0;
       $c++;
       $familias[$c]=$elemento->familia;
   @endphp
