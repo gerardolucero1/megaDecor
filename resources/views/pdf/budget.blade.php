@@ -165,7 +165,7 @@ Dias de credito: {{$presupuesto->diasCredito}}  <br>
       @endif
     <td style="padding: 5px;">{{ (strtolower($elemento->notas)) }}</td>
     </tr>
-@endforeach
+  @endforeach
  
 
 
