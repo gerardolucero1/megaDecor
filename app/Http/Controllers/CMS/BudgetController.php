@@ -1060,6 +1060,9 @@ class BudgetController extends Controller
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->version = ($presupuesto->version) + 1;
         $presupuesto->quienEdito = Auth::user()->name;
+        if($version->total>$presupuesto->total){
+            $presupuesto->pagado = false;
+        }
         $presupuesto->save();
 
         //Buscamos el ultimo presupuesto actualizado guardado
