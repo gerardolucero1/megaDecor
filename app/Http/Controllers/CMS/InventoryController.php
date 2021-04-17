@@ -451,6 +451,7 @@ class InventoryController extends Controller
 
 
     public function inventarioFiltro2(Request $request){
+        $familiaSeleccionada = "";
         $Inventario = Inventory::orderBy('id', 'DESC')->where('familia', $request->familia)->Where('archivar', null)->orWhere('archivar', false)->get();
         $familiaSeleccionada = $request->familia;
         return view('inventario2', compact('Inventario' , 'familiaSeleccionada'));

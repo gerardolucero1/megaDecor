@@ -59,8 +59,11 @@
                                 <div class="col-md-8">
                                     <label for="">Familias:</label>
                                     <select name="familia" class="form-control" id="familia2" style="width: 100%" onchange="seleccionarFamilia()">
+                                        @if(isset($familiaSeleccionada))
+                                        <option value="">{{$familiaSeleccionada}}</option>
+                                        @endif
                                         <option value="">Todas las familias</option>
-                                        @foreach($familias as $familia)    
+                                        @foreach($familias as $familia) 
                                             <option value="{{$familia->nombre}}">{{$familia->nombre}}</option>
                                         @endforeach
                                     </select>
@@ -86,7 +89,6 @@
                             </form>
                         </div>
                         <div class="col-md-3">
-                        <h3 class="block-title" style="color:green">Inventario</h3>
 
 
                         <form method="POST" target="_blank" action="{{route('imprimir.familia')}}" >
