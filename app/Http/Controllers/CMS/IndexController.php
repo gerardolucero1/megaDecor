@@ -1510,7 +1510,7 @@ public function archivarUsuario($id){
 
          //calculo adeudo total
          $adeudoTotal = 0;
-         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado',null)->where('pagado', false)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('archivado', 'FALSE')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
          foreach($contratosAdeudo as $contratoAdeudo){
              
              $PagosContratoAdeudo = Payment::orderBy('id', 'DESC')->where('budget_id', $contratoAdeudo->id)->get();
@@ -1682,11 +1682,11 @@ public function archivarUsuario($id){
 
          //calculo adeudo total
          $adeudoTotal = 0;
-         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado', null)->orWhere('pagado', false)->where('archivado', '1')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
+         $contratosAdeudo = Budget::orderBy('id', 'DESC')->where('pagado',z null)->where('archivado', '1')->where('tipo', 'CONTRATO')->where('fechaEvento', '!=', null)->get();
          
           //Fincalculo adeudo total
 
-        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->orWhere('pagado', false)->where('tipo', 'CONTRATO')->where('archivado', '1')->where('fechaEvento', '!=', null)->get();
+        $creditos = Budget::orderBy('id', 'DESC')->where('pagado', null)->where('tipo', 'CONTRATO')->where('archivado', '1')->where('fechaEvento', '!=', null)->get();
         foreach ($creditos as $credito) {
             if(!is_null($credito->fechaEvento)){
 
@@ -1805,7 +1805,7 @@ public function creditosAtrasados(){
      
       //Fincalculo adeudo total
 
-    $creditos = Budget::orderBy('id', 'DESC')->where('pagado', "!=", true)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
+    $creditos = Budget::orderBy('id', 'DESC')->where('pagado', '!=', true)->where('tipo', 'CONTRATO')->where('archivado', 'FALSE')->where('fechaEvento', '!=', null)->get();
     foreach ($creditos as $credito) {
         if(!is_null($credito->fechaEvento)){
 
