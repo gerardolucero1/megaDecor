@@ -47,10 +47,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 
 Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
-
-Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
-Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
-Route::get('/inventario', 'CMS\IndexController@inventario')->name('inventario');
+Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 
 Auth::routes();
 
@@ -105,7 +102,7 @@ Route::group(['middleware' => ['auth']], function () {
                 return;
             });
 
-    
+    Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
     Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
