@@ -46,7 +46,7 @@ Route::get('/', 'CMS\IndexController@landing')->name('homepage');
 Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeria');
 
 
-
+Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 
 Auth::routes();
 
@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-cliente-presupuesto/{id}', 'CMS\BudgetController@obtenerClientePresupuesto');
         
     //API calculadora Gasolina vehiculos
-    Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
+    
     Route::get('/obtener-casetas', 'CMS\IndexController@obtenerCasetas');
     Route::post('/vehiculos/agregarVehiculo', 'CMS\IndexController@agregarVehiculo');
     Route::delete('/vehiculos/eliminar-vehiculo/{id}', 'CMS\IndexController@deleteVehiculo');
