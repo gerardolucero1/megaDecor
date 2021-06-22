@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
+Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 
 Auth::routes();
 
@@ -145,8 +146,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
         Route::post('/obtener-adeudo', 'CMS\BudgetController@adeudo');
         Route::post('/obtener-adeudo-status', 'CMS\BudgetController@adeudoStatus');
-        Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
-        Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+        
         Route::get('/obtener-inventario-postres', 'CMS\BudgetController@inventarioPostres');
         Route::get('/obtener-inventario-botanas', 'CMS\BudgetController@inventarioBotanas');
         Route::get('/obtener-inventarioBocadillos', 'CMS\BudgetController@inventarioBocadillos');
