@@ -51,6 +51,7 @@ Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
+Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
 
 Auth::routes();
 
