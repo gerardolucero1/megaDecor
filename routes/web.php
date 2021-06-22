@@ -49,7 +49,8 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
-Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos')->name('presupuestos');
+Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
+Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 
 Auth::routes();
 
