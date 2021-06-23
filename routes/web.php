@@ -49,6 +49,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
+Route::get('/obtener-inventario-familia/{familia}', 'CMS\BudgetController@inventarioFamilia');
 Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
