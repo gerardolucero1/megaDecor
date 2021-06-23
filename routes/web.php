@@ -45,13 +45,15 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/', 'CMS\IndexController@landing')->name('homepage');
 Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeria');
 
-
-Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
+Route::group(['middleware' => ['cors']], function () {
+    Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
+});
+
 
 Auth::routes();
 
