@@ -21,6 +21,12 @@ class FamilyController extends Controller
         return view('families.index', compact('familias'));
     }
 
+    public function obtenerFamilias()
+    {
+        $familias = Family::orderBy('nombre', 'ASC')->get();
+        return $familias;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
