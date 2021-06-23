@@ -35,12 +35,12 @@ class BudgetController extends Controller
         return User::orderBy('id', 'DESC')->get();
     }
 
-    public function inventario(Request $familia){
-        return Inventory::orderBy('id', 'DESC')->where('familia'-> $familia)->where('archivar', null)->get();
+    public function inventario(){
+        return Inventory::orderBy('id', 'DESC')->where('archivar', null)->get();
     }
 
-    public function inventarioFamilia(){
-        return Inventory::orderBy('id', 'DESC')->where('archivar', null)->get();
+    public function inventarioFamilia(Request $familia){
+        return Inventory::orderBy('id', 'DESC')->where('familia'-> $familia)->where('archivar', null)->get();
     }
 
     public function inventarioPostres(){
