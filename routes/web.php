@@ -52,6 +52,8 @@ Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
 Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
+Route::resource('familia', 'CMS\FamilyController');
+Route::resource('grupo', 'CMS\FamilyGroupController');
 });
 
 
@@ -553,8 +555,7 @@ Route::group(['middleware' => ['auth']], function () {
         return;
     });
 
-    Route::resource('familia', 'CMS\FamilyController');
-    Route::resource('grupo', 'CMS\FamilyGroupController');
+   
 
     //Generar PDF's
     Route::get('/presupuestos/generar-pdf/{id}', 'CMS\BudgetController@pdf')->name('budget.pdf');
