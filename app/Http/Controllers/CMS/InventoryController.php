@@ -85,8 +85,7 @@ class InventoryController extends Controller
         $registro->user_id = Auth::user()->id;
         $registro->save();
 
-        return redirect()->route('inventory.create')
-            ->with('info', 'Producto creado con exito');
+        return $producto;
 
     }
 
