@@ -58,6 +58,7 @@ Route::get('obtener-proveedores', function(){
     $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
     return $proveedores;
 });
+Route::post('/crear-producto', 'CMS\InventoryController@insertarProducto');
 });
 
 
