@@ -48,48 +48,6 @@ class InventoryController extends Controller
         return view('Inventories.create', compact('familias', 'proveedores'));
     }
 
-
-    public function insertarProducto(Request $request)
-    {
-         //Comprobamos que el slug no se repita pero ignoramos el slug propio
-         $v = \Validator::make($request->all(), [
-            'cantidad' => 'required',
-            'servicio' => 'required',
-            'precioUnitario' => 'required',
-            'precioVenta' => 'required',
-            'precioVenta' => 'required',
-            'familia' => 'required',
-        ]);
-            
-        if ($v->fails())
-        {
-            return redirect()->back()->withInput()->withErrors($v->errors());
-        }
-        
-        $inventory = Inventory::create($request->all());
-
-        
-
-        $producto = Inventory::orderBy('id', 'DESC')->first();
-        
-        $registro = new Register();
-        $registro->tipo = 'alta';
-        $registro->antes = 0;
-        $registro->proveedor = $producto->proveedor1;
-        $registro->precio = $producto->precioVenta;
-        $registro->fechaCompra = $request->fechaCompra;
-        $registro->factura = $request->factura;
-        $registro->antesExhibicion = 0;
-        $registro->cantidad = $producto->cantidad;
-        $registro->producto = $producto->id;
-        $registro->user_id = Auth::user()->id;
-        $registro->save();
-
-        return redirect()->route('inventory.create')
-            ->with('info', 'Producto creado con exito');
-
-    }
-
     /**
      * Store a newly created resource in storage.
      *
