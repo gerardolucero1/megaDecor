@@ -59,7 +59,6 @@ Route::get('obtener-proveedores', function(){
     return $proveedores;
 });
 Route::post('/crear-producto', 'CMS\InventoryController@insertarProducto');
-Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
 });
 
 
@@ -447,7 +446,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('inventario/create', 'CMS\InventoryController@create')->name('inventory.create');
     Route::get('inventario/edit/{id}', 'CMS\InventoryController@edit')->name('inventory.edit');
-    
+    Route::post('inventario/store', 'CMS\InventoryController@store')->name('inventory.store');
     Route::put('inventario/edit/{id}', 'CMS\InventoryController@update')->name('inventory.update');
     Route::put('inventario/archivar/{id}', 'CMS\InventoryController@archivar')->name('inventory.archivar');
     Route::put('inventario/no-aplica/{id}', 'CMS\InventoryController@noAplica')->name('inventory.NA');
