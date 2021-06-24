@@ -51,7 +51,8 @@ class InventoryController extends Controller
 
     public function insertarProducto(Request $request)
     {
-         //Comprobamos que el slug no se repita pero ignoramos el slug propio
+        dd($request);
+         //C$Romprobamos que el slug no se repita pero ignoramos el slug propio
          $v = \Validator::make($request->all(), [
             'cantidad' => 'required',
             'servicio' => 'required',
