@@ -54,6 +54,10 @@ Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
+Route::get('obtener-proveedores', function(){
+    $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
+    return $proveedores;
+});
 });
 
 
@@ -795,10 +799,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('proveedores/update/{id}', 'CMS\IndexController@actualizarProveedor')->name('proveedores.update');
     Route::delete('proveedores/{id}', 'CMS\IndexController@borrarProveedor')->name('proveedores.delete');
 
-        Route::get('obtener-proveedores', function(){
-            $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
-            return $proveedores;
-        });
+        
     Route::post('aprobar-producto/{id}', 'CMS\InventoryController@aprobarProducto')->name('aprobarProducto');
     Route::post('aprobar-producto-paquete/{id}', 'CMS\InventoryController@aprobarProductoPaquete')->name('aprobarProductoPaquete');
 
