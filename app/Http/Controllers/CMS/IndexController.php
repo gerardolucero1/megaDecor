@@ -423,6 +423,12 @@ public function archivarUsuario($id){
         $tipo->combustible = $request->combustible;}
         $tipo->save();
     }
+
+
+
+
+
+
     public function deleteVehiculo($id){
         $tipo = Vehicle::find($id);
         $tipo->delete();
@@ -1258,6 +1264,8 @@ public function archivarUsuario($id){
         return $presupuestosHistorial;
     }
 
+
+    
 
 
 ///////////TERMINA FUNCIONES API
@@ -2540,5 +2548,21 @@ $adeudoTotal=$adeudoTotal;
         return redirect()->route('testimonial.edit', $testimonial->id)
             ->with('info', 'Testimonio actualizado con exito');
 
+    }
+
+
+
+    public function agregarTest(Request $request){
+        dd($request);
+        // Guardo un nueva categorÃ­a
+       /* $tipo = new Vehicle(); 
+        $tipo->nombre = $request->nombre;
+        $tipo->tipo = $request->tipo;
+        $tipo->consumo = $request->rendimiento;
+        if($request->combustible == ''){
+            $tipo->combustible = 'Gasolina';
+        }else{
+        $tipo->combustible = $request->combustible;}
+        $tipo->save();*/
     }
 }
