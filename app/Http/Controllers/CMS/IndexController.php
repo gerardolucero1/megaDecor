@@ -2558,7 +2558,7 @@ $adeudoTotal=$adeudoTotal;
         
         //dd($request);
         // Guardo un nueva categorÃ­a
-        $tipo = new Inventory(); 
+        $inventario = new Inventory(); 
         $inventario->servicio = $request->servicio;
         $inventario->imagen = $request->imagen;
         $inventario->precioUnitario = $request->precioUnitario;
@@ -2569,7 +2569,7 @@ $adeudoTotal=$adeudoTotal;
         $inventario->exhibicion = 0;
         $inventario->cantidad = 0;
         $inventario->disponible = 0;
-        return $inventario;
+        
         $inventario->save();
 
 
