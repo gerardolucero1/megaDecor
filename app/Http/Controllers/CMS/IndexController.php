@@ -2554,19 +2554,22 @@ $adeudoTotal=$adeudoTotal;
 
     public function agregarTest(Request $request){
 
-        return $request->nombre;
+        
         
         //dd($request);
         // Guardo un nueva categorÃ­a
-       /* $tipo = new Vehicle(); 
+        $tipo = new Vehicle(); 
         $tipo->nombre = $request->nombre;
         $tipo->tipo = $request->tipo;
-        $tipo->consumo = $request->rendimiento;
+        $tipo->consumo = $request->consumo;
         if($request->combustible == ''){
             $tipo->combustible = 'Gasolina';
         }else{
         $tipo->combustible = $request->combustible;}
-        $tipo->save();*/
+
+        $tipo->save();
+        $UltimoVehiculo = Vehicle::orderBy('id', 'DESC')->first();
+        return $UltimoVehiculo;
 
     }
 }
