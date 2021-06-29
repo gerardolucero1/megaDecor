@@ -54,6 +54,7 @@ Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
+Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
 Route::get('obtener-producto/{id}', function($id){
     $producto = Inventory::findOrFail($id);
     return $producto;
@@ -202,7 +203,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-permisos', 'CMS\IndexController@obtenerPermisos');
 
     //Route::resource('budget-categorias', 'CMS\BudgetCategoryController');
-    Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
+    
     Route::post('budget-categorias', 'CMS\BudgetCategoryController@store')->name('budgetCategoria.store');
     Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@destroy')->name('budgetCategoria.delete');
 
