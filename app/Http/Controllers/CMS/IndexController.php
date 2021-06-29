@@ -2592,7 +2592,7 @@ $adeudoTotal=$adeudoTotal;
         $inventario->exhibicion = $request->exhibicion;
         $inventario->cantidad = $request->cantidad;
         $inventario->disponible = $request->disponible;
-        $producto->save();
+        $inventario->save();
 
        
 
