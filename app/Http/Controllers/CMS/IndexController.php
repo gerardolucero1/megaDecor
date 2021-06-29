@@ -2564,6 +2564,7 @@ $adeudoTotal=$adeudoTotal;
         $inventario->tipoCambio = $request->tipoCambio;
         $inventario->proveedor1 = $request->proveedor1;
         $inventario->proveedor2 = $request->proveedor2;
+        $inventario->familia = $request->familia;
         $inventario->exhibicion = 0;
         $inventario->cantidad = 0;
         $inventario->disponible = 0;
