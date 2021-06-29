@@ -2552,6 +2552,8 @@ $adeudoTotal=$adeudoTotal;
 
 
 
+    ///////////////////////////  FUNCIONES API  ///////////////////////////////
+
     public function agregarProducto(Request $request){
 
         //dd($request);
