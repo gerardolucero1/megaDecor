@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/', 'CMS\IndexController@landing')->name('homepage');
 Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeria');
 
-Route::group(['middleware' => ['cors']], function () {
+//Route::group(['middleware' => ['cors']], function () {
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
@@ -71,7 +71,7 @@ Route::get('/obtener-vendedores', function(){
 
 Route::post('/agregar-producto', 'CMS\IndexController@agregarProducto');
 Route::post('/editar-producto', 'CMS\IndexController@editarProducto');
-});
+//});
 
 
 Auth::routes();
