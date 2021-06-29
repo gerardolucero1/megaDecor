@@ -13,6 +13,7 @@
         "barryvdh/laravel-dompdf": "^0.8.4",
         "fideloper/proxy": "^4.0",
         "filp/whoops": "^2.7",
+        "fruitcake/laravel-cors": "^2.0",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
