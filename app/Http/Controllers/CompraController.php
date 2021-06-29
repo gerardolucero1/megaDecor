@@ -14,7 +14,7 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   public function index()
+   public function obtenerCompras()
    {
        $compras = Compra::orderBy('id', 'DESC')->get();
        return $compras;
