@@ -1793,6 +1793,12 @@ public function archivarUsuario($id){
         return view('presupuesto', compact('presupuesto'));
     }
 
+    public function editarPresupuestoData($id){
+        $presupuesto = Budget::orderBy('id', 'DESC')->where('id', $id)->first();
+
+        return $presupuesto;
+    }
+
     public function ticketSalida($id){
         $salida = OtherPayments::orderBy('id', 'DESC')->where('id', $id)->first();
 

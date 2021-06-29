@@ -63,8 +63,8 @@ Route::get('obtener-proveedores', function(){
     return $proveedores;
 });
 Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
-Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
-    
+Route::get('obtener-presupuesto/{id}', 'CMS\IndexController@editarPresupuestoData')->name('editar.presupuesto');
+
 });
 
 
@@ -72,7 +72,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
 
- 
+    Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::match(['get', 'post'], '/dashboard', function(){
         return view('dashboard');
     });
