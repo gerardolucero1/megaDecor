@@ -63,8 +63,7 @@ Route::get('obtener-proveedores', function(){
     return $proveedores;
 });
 Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
-Route::get('/obtener-presupuesto/{id}', 'CMS\IndexController@editarPresupuestoData')->name('editar.presupuesto');
-
+Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
 });
 
 
@@ -167,7 +166,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/obtener-inventario-botanas', 'CMS\BudgetController@inventarioBotanas');
         Route::get('/obtener-inventarioBocadillos', 'CMS\BudgetController@inventarioBocadillos');
         Route::get('/obtener-ultimo-presupuesto', 'CMS\BudgetController@obtenerUltimoPresupuesto');
-        Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
+        
         Route::get('/obtener-festejados/{id}', 'CMS\BudgetController@obtenerFestejados');
         Route::get('/obtener-inventario-1/{id}', 'CMS\BudgetController@obtenerInventario1');
         Route::get('/obtener-paquetes/{id}', 'CMS\BudgetController@obtenerPaquetes');
