@@ -2558,18 +2558,23 @@ $adeudoTotal=$adeudoTotal;
         
         //dd($request);
         // Guardo un nueva categorÃ­a
-        $tipo = new Vehicle(); 
-        $tipo->nombre = $request->nombre;
-        $tipo->tipo = $request->tipo;
-        $tipo->consumo = $request->consumo;
-        if($request->combustible == ''){
-            $tipo->combustible = 'Gasolina';
-        }else{
-        $tipo->combustible = $request->combustible;}
+        $tipo = new Inventory(); 
+        $inventario->servicio = $request->servicio;
+        $inventario->imagen = $request->imagen;
+        $inventario->precioUnitario = $request->precioUnitario;
+        $inventario->precioVenta = $request->precioVenta;
+        $inventario->tipoCambio = $request->tipoCambio;
+        $inventario->proveedor1 = $request->proveedor1;
+        $inventario->proveedor2 = $request->proveedor2;
+        $inventario->exhibicion = $request->exhibicion;
+        $inventario->cantidad = $request->cantidad;
+        $inventario->disponible = $request->disponible;
+        $inventario->familia = $request->familia;
+        $inventario->save();
 
-        $tipo->save();
-        $UltimoVehiculo = Vehicle::orderBy('id', 'DESC')->first();
-        return $UltimoVehiculo;
+
+        $response = Inventory::orderBy('id', 'DESC')->first();
+        return $response;
 
     }
 }
