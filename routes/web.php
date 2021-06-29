@@ -56,6 +56,9 @@ Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHist
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
 Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
 Route::get('obtener-compras', 'CompraController@obtenerCompras');
+Route::post('/agregar-compra', 'CompraController@agregarCompra');
+
+
 Route::get('obtener-producto/{id}', function($id){
     $producto = Inventory::findOrFail($id);
     return $producto;
@@ -73,6 +76,11 @@ Route::get('/obtener-vendedores', function(){
 Route::post('/agregar-producto', 'CMS\IndexController@agregarProducto');
 Route::post('/editar-producto', 'CMS\IndexController@editarProducto');
 });
+
+
+
+
+
 
 
 Auth::routes();
