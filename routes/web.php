@@ -63,7 +63,7 @@ Route::get('obtener-proveedores', function(){
     return $proveedores;
 });
 Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
-Route::get('obtener-presupuesto/{id}', 'CMS\IndexController@editarPresupuestoData')->name('editar.presupuesto');
+Route::get('/obtener-presupuesto/{id}', 'CMS\IndexController@editarPresupuestoData')->name('editar.presupuesto');
 
 });
 
