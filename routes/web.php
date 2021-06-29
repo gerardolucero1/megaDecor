@@ -70,6 +70,7 @@ Route::get('/obtener-vendedores', function(){
 });
 
 Route::post('/agregar-producto', 'CMS\IndexController@agregarProducto');
+Route::post('/editar-producto', 'CMS\IndexController@editarProducto');
 });
 
 
