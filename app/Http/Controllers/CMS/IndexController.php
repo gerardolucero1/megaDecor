@@ -2578,7 +2578,7 @@ $adeudoTotal=$adeudoTotal;
 
     public function editarProducto(Request $request){
 
-        $producto = Inventory::findOrFail($request->id);
+        $inventario = Inventory::findOrFail($request->id);
         $inventario->servicio = $request->servicio;
         $inventario->imagen = $request->imagen;
         $inventario->precioUnitario = $request->precioUnitario;
@@ -2595,7 +2595,7 @@ $adeudoTotal=$adeudoTotal;
        
 
 
-        $response = Inventory::orderBy('id', 'DESC')->first();
+        $response =Inventory::findOrFail($request->id);
         return $response;
 
     }
