@@ -54,6 +54,10 @@ Route::get('/obtener-presupuestos', 'CMS\IndexController@GetPresupuestos');
 Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
+Route::get('obtener-producto/{id}', function($id){
+    $producto = Inventory::findOrFail($id);
+    return $producto;
+});
 });
 
 
@@ -694,10 +698,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('missing', 'MissingProductsController');
     
-    Route::get('obtener-producto/{id}', function($id){
-        $producto = Inventory::findOrFail($id);
-        return $producto;
-    });
+    
 
     Route::resource('registrar-alta', 'CMS\RegisterController');
 
