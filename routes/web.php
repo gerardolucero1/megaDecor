@@ -62,6 +62,8 @@ Route::get('obtener-proveedores', function(){
     $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
     return $proveedores;
 });
+Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
+
 });
 
 
@@ -136,8 +138,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/inventario', 'CMS\InventoryController@inventarioFiltro')->name('inventario.filtro');
     Route::post('/inventario/update-product-na/{id}', 'CMS\InventoryController@updateNA')->name('inventario.updateNA');
     Route::post('/inventario/anidados/{id}', 'CMS\InventoryController@anidados')->name('inventario.anidados');
-    Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
-
+    
    
 
     //Imprimir budget
