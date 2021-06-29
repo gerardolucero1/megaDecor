@@ -55,7 +55,7 @@ Route::get('/obtener-contratos', 'CMS\IndexController@GetContratos');
 Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHistorial');
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
 Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
-Route::get('obtener-compras', 'CMS\CompraController@obtenerCompras');
+Route::get('obtener-compras', 'CompraController@obtenerCompras');
 Route::get('obtener-producto/{id}', function($id){
     $producto = Inventory::findOrFail($id);
     return $producto;
