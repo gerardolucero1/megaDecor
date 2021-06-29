@@ -68,6 +68,8 @@ Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto
 Route::get('/obtener-vendedores', function(){
     return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->where('archivado', '!=', '1')->get();
 });
+
+Route::post('/vehiculos/agregarVehiculo', 'CMS\IndexController@agregarVehiculo');
 });
 
 
@@ -180,7 +182,6 @@ Route::group(['middleware' => ['auth']], function () {
     //API calculadora Gasolina vehiculos
     
     Route::get('/obtener-casetas', 'CMS\IndexController@obtenerCasetas');
-    Route::post('/vehiculos/agregarVehiculo', 'CMS\IndexController@agregarVehiculo');
     Route::delete('/vehiculos/eliminar-vehiculo/{id}', 'CMS\IndexController@deleteVehiculo');
 
 
