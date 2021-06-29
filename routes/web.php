@@ -56,7 +56,7 @@ Route::get('/obtener-contratos-historial', 'CMS\IndexController@GetContratosHist
 Route::get('obtener-familias', 'CMS\FamilyController@obtenerFamilias');
 Route::get('budget-categorias', 'CMS\BudgetCategoryController@index')->name('budgetCategoria.index');
 Route::get('obtener-compras', 'CompraController@obtenerCompras');
-Route::post('/agregar-compra', 'CompraController@agregarCompra');
+Route::post('agregar-compra', 'CompraController@agregarCompra');
 
 
 Route::get('obtener-producto/{id}', function($id){
