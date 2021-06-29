@@ -2553,7 +2553,9 @@ $adeudoTotal=$adeudoTotal;
 
 
     public function agregarTest(Request $request){
-        dd($request);
+        return "Hola mundo";
+        
+        //dd($request);
         // Guardo un nueva categorÃ­a
        /* $tipo = new Vehicle(); 
         $tipo->nombre = $request->nombre;
@@ -2564,5 +2566,6 @@ $adeudoTotal=$adeudoTotal;
         }else{
         $tipo->combustible = $request->combustible;}
         $tipo->save();*/
+
     }
 }
