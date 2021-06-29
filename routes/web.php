@@ -63,7 +63,8 @@ Route::get('obtener-proveedores', function(){
     return $proveedores;
 });
 Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
-
+Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
+    
 });
 
 
@@ -123,7 +124,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/presupuestos', 'CMS\IndexController@presupuestos')->name('presupuestos');
     Route::get('/presupuestos-hoy', 'CMS\IndexController@presupuestosHoy')->name('presupuestos-hoy');
-    Route::get('/presupuesto/edit/{id}', 'CMS\IndexController@editarPresupuesto')->name('editar.presupuesto');
     Route::get('/contratos', 'CMS\IndexController@contratos')->name('contratos');
     Route::get('/contratos/obtener-contratos-todos', 'CMS\IndexController@contratosTodos');
     Route::get('/contratos/obtener-presupuestos-todos', 'CMS\IndexController@presupuestosTodos');
