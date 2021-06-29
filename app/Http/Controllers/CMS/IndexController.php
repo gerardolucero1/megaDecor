@@ -2554,7 +2554,7 @@ $adeudoTotal=$adeudoTotal;
 
     public function agregarTest(Request $request){
 
-        return $request;
+        return $request->nombre;
         
         //dd($request);
         // Guardo un nueva categorÃ­a
