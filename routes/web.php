@@ -69,7 +69,7 @@ Route::get('/obtener-vendedores', function(){
     return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->where('archivado', '!=', '1')->get();
 });
 
-Route::post('/agregarTest', 'CMS\IndexController@agregarTest');
+Route::post('/agregar-producto', 'CMS\IndexController@agregarProducto');
 });
 
 

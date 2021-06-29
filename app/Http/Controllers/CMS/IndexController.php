@@ -2552,10 +2552,8 @@ $adeudoTotal=$adeudoTotal;
 
 
 
-    public function agregarTest(Request $request){
+    public function agregarProducto(Request $request){
 
-        
-        
         //dd($request);
         // Guardo un nueva categorÃ­a
         $inventario = new Inventory(); 
@@ -2563,13 +2561,12 @@ $adeudoTotal=$adeudoTotal;
         $inventario->imagen = $request->imagen;
         $inventario->precioUnitario = $request->precioUnitario;
         $inventario->precioVenta = $request->precioVenta;
-        $inventario->tipoCambio = 'MXN';
-        $inventario->proveedor1 = 'MegaMundo';
-        $inventario->proveedor2 = 'MegaMundo';
+        $inventario->tipoCambio = $request->tipoCambio;
+        $inventario->proveedor1 = $request->proveedor1;
+        $inventario->proveedor2 = $request->proveedor2;
         $inventario->exhibicion = 0;
         $inventario->cantidad = 0;
         $inventario->disponible = 0;
-        
         $inventario->save();
 
 
