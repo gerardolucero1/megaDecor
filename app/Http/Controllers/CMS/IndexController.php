@@ -2575,4 +2575,28 @@ $adeudoTotal=$adeudoTotal;
         return $response;
 
     }
+
+    public function editarProducto(Request $request){
+
+        $producto = Inventory::findOrFail($request->id);
+        $inventario->servicio = $request->servicio;
+        $inventario->imagen = $request->imagen;
+        $inventario->precioUnitario = $request->precioUnitario;
+        $inventario->precioVenta = $request->precioVenta;
+        $inventario->tipoCambio = $request->tipoCambio;
+        $inventario->proveedor1 = $request->proveedor1;
+        $inventario->proveedor2 = $request->proveedor2;
+        $inventario->familia = $request->familia;
+        $inventario->exhibicion = $request->exhibicion;
+        $inventario->cantidad = $request->cantidad;
+        $inventario->disponible = $request->disponible;
+        $producto->save();
+
+       
+
+
+        $response = Inventory::orderBy('id', 'DESC')->first();
+        return $response;
+
+    }
 }
