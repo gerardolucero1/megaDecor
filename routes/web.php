@@ -46,6 +46,7 @@ Route::get('/', 'CMS\IndexController@landing')->name('homepage');
 Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeria');
 
 Route::group(['middleware' => ['cors']], function () {
+    Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
 Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
 Route::get('/obtener-inventario', 'CMS\BudgetController@inventario');
@@ -158,7 +159,7 @@ Route::group(['middleware' => ['auth']], function () {
    
 
     //Imprimir budget
-    Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
+    
     Route::get('/creditos-atrasadospdf', 'CMS\IndexController@pdfCreditosAtrasados')->name('imprimir.creditosAtrasados');
     Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
     Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
