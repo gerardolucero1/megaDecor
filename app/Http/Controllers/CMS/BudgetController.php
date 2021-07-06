@@ -79,9 +79,9 @@ class BudgetController extends Controller
         if($request->accion == 'cliente'){
          $cliente = Client::find($request->id);
          if($cliente->tipoPersona == 'FISICA'){
-            return $cliente = PhysicalPerson::where('client_id', $data->id)->first();
+            return $cliente = PhysicalPerson::where('client_id', $cliente->id)->first();
         }else{
-            return $cliente = MoralPerson::where('client_id', $data->id)->first();
+            return $cliente = MoralPerson::where('client_id', $cliente->id)->first();
         }
         }
         
