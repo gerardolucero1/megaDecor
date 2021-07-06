@@ -75,6 +75,15 @@ class BudgetController extends Controller
         if($request->accion == 'presupuestos'){
             return Budget::orderBy('id', 'DESC')->where('client_id', $request->id)->get();
         }
+
+        if($request->accion == 'cliente'){
+         $cliente = Client::find($request->id);
+         if($data->tipoPersona == 'FISICA'){
+            return $cliente = PhysicalPerson::where('client_id', $data->id)->first();
+        }else{
+            return $cliente = MoralPerson::where('client_id', $data->id)->first();
+        }
+        }
         
     }
     // Retorna todos los clientes a la vista
