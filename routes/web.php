@@ -77,6 +77,14 @@ Route::get('/obtener-vendedores', function(){
 Route::post('/agregar-producto', 'CMS\IndexController@agregarProducto');
 Route::post('/editar-producto', 'CMS\IndexController@editarProducto');
 Route::post('/agregar-comprav2', 'CMS\IndexController@agregarCompra');
+
+Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+
+//IMPRIMIR BUDGET
+Route::get('/creditos-atrasadospdf', 'CMS\IndexController@pdfCreditosAtrasados')->name('imprimir.creditosAtrasados');
+Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
+Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
+Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
 });
 
 
@@ -160,10 +168,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Imprimir budget
     
-    Route::get('/creditos-atrasadospdf', 'CMS\IndexController@pdfCreditosAtrasados')->name('imprimir.creditosAtrasados');
-    Route::get('/imprimir-budgetVentas/{id}', 'CMS\BudgetController@pdfVentas')->name('imprimir.budgetVentas');
-    Route::get('/imprimir-budgetBodega/{id}', 'CMS\BudgetController@pdfBodega')->name('imprimir.budgetBodega');
-    Route::get('/imprimir-budgetBodegaCliente/{id}', 'CMS\BudgetController@pdfBodegaCliente')->name('imprimir.budgetBodegaCliente');
+   
         
     //Imprimir transferencias de inventario
     Route::get('/imprimir-transferencias', 'CMS\InventoryController@pdfTransferencias')->name('imprimir.transferencias');
@@ -176,7 +181,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/budget-archivar/{id}', 'CMS\BudgetController@archivar')->name('presupuesto.archivar');
         Route::get('/product-archivar/{id}', 'CMS\BudgetController@archivarProducto')->name('producto.archivar');
         Route::get('/budget-archivar-vetar/{id}', 'CMS\BudgetController@archivarVetar')->name('presupuesto.archivar');
-        Route::post('/obtener-cliente', 'CMS\BudgetController@cliente');
+        
         Route::post('/obtener-adeudo', 'CMS\BudgetController@adeudo');
         Route::post('/obtener-adeudo-status', 'CMS\BudgetController@adeudoStatus');
         
