@@ -60,10 +60,15 @@ Route::get('obtener-compras', 'CompraController@obtenerCompras');
 Route::post('/agregar-compra', 'CompraController@agregarCompra');
 
 
+
+
 Route::get('obtener-producto/{id}', function($id){
     $producto = Inventory::findOrFail($id);
     return $producto;
 });
+
+
+//comentarios
 Route::get('obtener-proveedores', function(){
     $proveedores = Supplier::orderBy('id', 'DESC')->where('tipo', 'NORMAL')->get();
     return $proveedores;
