@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
     Route::get('/obtener-clientes', 'CMS\BudgetController@clientes');
@@ -255,7 +256,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-cliente-editar/{id}', 'CMS\ClientController@obtenerCliente');
     Route::get('/obtener-telefonos-editar/{id}', 'CMS\ClientController@obtenerTelefonos');
     Route::post('/crear-nuevo-telefono', 'CMS\ClientController@crearTelefono');
-    Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
     Route::put('/guardar-nuevo-telefono/{id}', 'CMS\ClientController@updateTelefono');
     Route::delete('/eliminar-nuevo-telefono/{id}', 'CMS\ClientController@deleteTelefono');
 
