@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
     Route::put('/clientes/update/{id}', 'CMS\ClientController@update');
     Route::get('/imprimir-budget/{id}', 'CMS\BudgetController@pdf')->name('imprimir.budget');
     Route::get('/obtener-vehiculos', 'CMS\IndexController@obtenerVehiculos');
@@ -246,7 +247,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Todo lo referente a clientes
     Route::get('/clientes', 'CMS\IndexController@clientes')->name('clientes');
     Route::get('/clientes2', 'CMS\IndexController@clientes2')->name('clientes2');
-    Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
+    
     Route::get('/clientes/edit/{id}', 'CMS\ClientController@edit')->name('cliente.edit');
     Route::get('/clientes/vetar/{id}', 'CMS\ClientController@vetar')->name('cliente.vetar');
     Route::get('/clientes/desvetar/{id}', 'CMS\ClientController@desvetar')->name('cliente.desvetar');
