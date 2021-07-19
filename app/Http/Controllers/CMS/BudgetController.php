@@ -883,7 +883,10 @@ class BudgetController extends Controller
     }
 
     public function obtenerPresupuesto($id){
-        return Budget::with('client')->orderBy('id', 'DESC')->where('id', $id)->first();
+        $presupuesto =  Budget::with('client')->orderBy('id', 'DESC')->where('id', $id)->first();
+        $presupuesto->servicios = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+        $presupuesto->paquetes = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+        return $presupuesto;
     }
 
     public function obtenerFestejados($id){
