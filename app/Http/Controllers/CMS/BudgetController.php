@@ -208,7 +208,7 @@ class BudgetController extends Controller
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->notasPresupuesto = $request->presupuesto['notasPresupuesto'];
-        $presupuesto->quienEdito = Auth::user()->name;
+        //$presupuesto->quienEdito = Auth::user()->name;
         $presupuesto->save();
 
         $ultimoPresupuesto = Budget::orderBy('id', 'DESC')->first();
@@ -885,6 +885,7 @@ class BudgetController extends Controller
     public function obtenerPresupuesto($id){
         $presupuesto =  Budget::with('client')->orderBy('id', 'DESC')->where('id', $id)->first();
         $presupuesto->servicios = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+        $presupuesto->festejados = Celebrated::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
         $presupuesto->paquetes = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
         return $presupuesto;
     }

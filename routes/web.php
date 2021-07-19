@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/categorias', 'CMS\ClientController@categorias');
     Route::get('/obtener-telefonos-editar/{id}', 'CMS\ClientController@obtenerTelefonos');
     Route::post('/clientes/create', 'CMS\ClientController@store')->name('cliente.store');
@@ -215,7 +216,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/presupuestos2', 'CMS\IndexController@presupuestos2')->name('presupuestos2');
     Route::get('/presupuestos3', 'CMS\IndexController@presupuestos3')->name('presupuestos3');
     Route::get('/facturas', 'CMS\IndexController@facturas')->name('facturas');
-    Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/presupuestos/ver/{id}', 'CMS\BudgetController@verPresupuesto')->name('ver.presupuesto');
     Route::get('/obtener-festejados-version/{id}', 'CMS\BudgetController@obtenerFestejadosVersion');
     Route::get('/obtener-inventario-version-1/{id}', 'CMS\BudgetController@obtenerInventarioVersion1');
