@@ -19,7 +19,7 @@
                 <table style="width: 100%; font-family: Helvetica;" >
                         <tr>
                             <td>
-                                <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 150px">
+                                <img src="https://caledro.com/megamundo/mega-mundo-decor.png" alt="" style="width: 150px">
                             </td>
                         <td style="text-align: right">
                             <span style="font-style: italic; font-size:16px; font-weight:bold">Folio de cambio de fecha:</span> <span> {{$ultimoCambio->id}}</span><br>
@@ -81,7 +81,7 @@
                             <table style="width: 100%; font-family: Helvetica;" >
                                     <tr>
                                         <td>
-                                            <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 150px">
+                                            <img src="https://caledro.com/megamundo/mega-mundo-decor.png" alt="" style="width: 150px">
                                         </td>
                                     <td style="text-align: right">
                                         <span style="font-style: italic; font-size:16px; font-weight:bold">Folio de cambio de fecha:</span> <span> {{$ultimoCambio->id}}</span><br>

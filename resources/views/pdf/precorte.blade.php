@@ -105,7 +105,7 @@ $ingresosExtraordinarios += $pago->cantidad;}
     <table style="width: 100%; font-family: Helvetica;" >
     <tr>
         <td colspan="1">
-            <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
+            <img src="https://caledro.com/megamundo/mega-mundo-decor.png" alt="" style="width: 200px">
         </td>
     <td colspan="3">
         <span style="font-weight: bold; font-size:22px">Precorte: </span><br> <span> {{ $fechaApertura->translatedFormat(' l j F Y ')}} {{ $horaApertura }} a {{ $fechaCierre->translatedFormat(' l j F Y ')}} {{ $horaCierre }}</span><br>
