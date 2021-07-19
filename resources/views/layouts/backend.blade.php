@@ -19,9 +19,9 @@
         <meta name="user" content="{{ Auth::user() }}">
 
         <!-- Icons -->
-        <link rel="shortcut icon" href="http://adpro3d-os.com/megamundo/favicon.ico">
-        <link rel="icon" sizes="192x192" type="image/png" href="http://adpro3d-os.com/megamundo/favicon.ico">
-        <link rel="apple-touch-icon" sizes="180x180" href="http://adpro3d-os.com/megamundo/favicon.ico">
+        <link rel="shortcut icon" href="http://caledro.com/megamundo/favicon.ico">
+        <link rel="icon" sizes="192x192" type="image/png" href="http://caledro.com/megamundo/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="http://caledro.com/megamundo/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
@@ -176,7 +176,7 @@
                             <!-- Logo -->
                             <div class="content-header-item">
                                 <a class="link-effect font-w700" href="/dashboard">
-                                    <img src="https://adpro3d-os.com/megamundo/mega-mundo-decor.png" alt="" style="width: 100%">
+                                    <img src="https://caledro.com/megamundo/mega-mundo-decor.png" alt="" style="width: 100%">
                                     <span class="font-size-xl text-dual-primary-dark">Mega</span><span class="font-size-xl text-primary">Mundo</span>
                                 </a>
                             </div>
