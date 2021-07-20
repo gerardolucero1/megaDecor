@@ -1077,7 +1077,10 @@ class BudgetController extends Controller
         $presupuesto->comision = $request->presupuesto['comision'];
         $presupuesto->total = $request->presupuesto['total'];
         $presupuesto->version = ($presupuesto->version) + 1;
-        $presupuesto->quienEdito = Auth::user()->name;
+
+
+        //$presupuesto->quienEdito = Auth::user()->name;
+        $presupuesto->quienEdito = "Ivonne Arroyos";
 
             $presupuesto->pagado = false;
         
