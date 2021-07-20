@@ -85,6 +85,7 @@ class BudgetController extends Controller
         }
         }
         
+        
     }
     // Retorna todos los clientes a la vista
     public function clientes(){

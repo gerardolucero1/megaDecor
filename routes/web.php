@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
     Route::get('contabilidad/cortesdecaja', 'CMS\IndexController@cortesDeCaja')->name('contabilidad.cortesdecaja');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/categorias', 'CMS\ClientController@categorias');
@@ -232,7 +233,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('budget-categorias/{id}', 'CMS\BudgetCategoryController@destroy')->name('budgetCategoria.delete');
 
     //Versiones
-    Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
+    
     Route::get('/obtener-versiones/{id}', 'CMS\BudgetController@getVersions')->name('presupuestos.index.version');
     Route::get('/obtener-version/{id}', 'CMS\BudgetController@obtenerVersion');
     //Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
