@@ -1998,6 +1998,11 @@ public function archivarUsuario($id){
         return view('cortesCaja', compact('cortes'));
     }
 
+    public function cortesDeCaja(){
+        $cortes = CashRegister::orderBy('id', 'DESC')->where('estatus', false)->get();
+        return $cortes;
+    }
+
     public function danados(){
         $productos = Missing::orderBy('id', 'DESC')->where('danados', '>', 0)->orwhere('faltante', '>', 0)->get();
         

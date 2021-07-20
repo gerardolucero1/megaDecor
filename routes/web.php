@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::get('contabilidad/cortesdecaja', 'CMS\IndexController@cortesDeCaja')->name('contabilidad.cortesdecaja');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
     Route::get('/categorias', 'CMS\ClientController@categorias');
     Route::get('/obtener-telefonos-editar/{id}', 'CMS\ClientController@obtenerTelefonos');
