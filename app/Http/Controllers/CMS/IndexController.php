@@ -1060,7 +1060,7 @@ public function archivarUsuario($id){
     }
 
     public function GetContratos(){
-        $budgets = Budget::orderBy('id', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '0')->where('categoriaEvento', '!=', 'nube')->get();
+        $budgets = Budget::orderBy('fechaEvento', 'ASC')->where('tipo', 'CONTRATO')->where('archivado', '0')->where('categoriaEvento', '!=', 'nube')->get();
 
         $fechaHoy = Carbon::yesterday();
         $presupuestosHistorial = Budget::orderBy('fechaEvento', 'ASC')->take(250)->where('tipo', 'CONTRATO')->where('archivado', 0)->whereDate('fechaEvento', '<=', $fechaHoy)->get();
