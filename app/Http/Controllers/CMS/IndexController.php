@@ -867,6 +867,8 @@ public function archivarUsuario($id){
 
          foreach($clientes as $cliente){
        
+
+            try {
              if($cliente->id==$budget->client_id){
                 $Presupuesto->email = $cliente->email;
                     if($cliente->apellidoPaterno==$cliente->nombre){$Presupuesto->cliente = $cliente->nombre;}else{
@@ -880,6 +882,10 @@ public function archivarUsuario($id){
                 }
                 
         }
+
+    } catch (Exception $e) {
+        
+    }
         }
 
          array_push($Presupuestos,$Presupuesto);
