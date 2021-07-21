@@ -315,7 +315,9 @@
                                         @endif
                                             @php
                                                 $cliente = App\Client::where('id', $budgetArchivados->client_id)->first();
-
+                                                try {
+                                                    //code...
+                                                
                                                 if($cliente->tipoPersona == "FISICA"){
                                                     $clienteFisico = App\PhysicalPerson::where('client_id', $budgetArchivados->client_id)->first();
                                                     $clienteNombre = $clienteFisico->nombre.' '.$clienteFisico->apellidoPaterno.' '.$clienteFisico->apellidoMaterno;
@@ -324,6 +326,9 @@
                                                 }else{
                                                     $clienteMoral = App\MoralPerson::where('client_id', $budgetArchivados->client_id)->first();
                                                     $clienteNombre = $clienteMoral->nombre;
+                                                }
+                                            } catch (\Throwable $th) {
+                                                   
                                                 }
                                             @endphp
                                             <td class="d-none d-sm-table-cell">{{$clienteNombre}}</td>
