@@ -892,9 +892,9 @@ class BudgetController extends Controller
     }
     public function obtenerPresupuestoFolio($id){
         $presupuesto =  Budget::with('client')->orderBy('id', 'DESC')->where('folio', $id)->first();
-        $presupuesto->servicios = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
-        $presupuesto->festejados = Celebrated::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
-        $presupuesto->paquetes = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $id)->where('version', $presupuesto->version)->get();
+        $presupuesto->servicios = BudgetInventory::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+        $presupuesto->festejados = Celebrated::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
+        $presupuesto->paquetes = BudgetPack::orderBy('id', 'DESC')->where('budget_id', $presupuesto->id)->where('version', $presupuesto->version)->get();
         return $presupuesto;
     }
 
