@@ -48,6 +48,7 @@ Route::get('/gallery/ver/{id}', 'CMS\IndexController@gallery')->name('ver.galeri
 
 //FUNCIONES DE API
 Route::group(['middleware' => ['cors']], function () {
+    Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
     Route::post('/presupuestos/create/version', 'CMS\BudgetController@storeVersion')->name('presupuestos.store.version');
     Route::get('contabilidad/cortesdecaja', 'CMS\IndexController@cortesDeCaja')->name('contabilidad.cortesdecaja');
     Route::post('/presupuestos/create', 'CMS\BudgetController@store')->name('presupuestos.store');
@@ -198,7 +199,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/obtener-festejados/{id}', 'CMS\BudgetController@obtenerFestejados');
     Route::get('/obtener-inventario-1/{id}', 'CMS\BudgetController@obtenerInventario1');
     Route::get('/obtener-paquetes/{id}', 'CMS\BudgetController@obtenerPaquetes');
-    Route::get('/obtener-elementos-paquetes/{id}', 'CMS\BudgetController@obtenerElementosPaquetes');
+   
     Route::get('/obtener-cliente-presupuesto/{id}', 'CMS\BudgetController@obtenerClientePresupuesto');
 
     //API calculadora Gasolina vehiculos
