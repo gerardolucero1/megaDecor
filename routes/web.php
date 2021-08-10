@@ -79,6 +79,7 @@ Route::group(['middleware' => ['cors']], function () {
     });
     Route::get('/obtener-nesteds/{id}', 'CMS\InventoryController@obtenerAnidados')->name('inventario.getAnidados');
     Route::get('/obtener-presupuesto/{id}', 'CMS\BudgetController@obtenerPresupuesto');
+    Route::get('/obtener-presupuesto-folio/{id}', 'CMS\BudgetController@obtenerPresupuestoFolio');
     Route::get('/obtener-vendedores', function () {
         return User::orderBy('id', 'DESC')->where('tipo', '!=', 'BODEGA')->where('tipo', '!=', 'CONTABILIDAD')->where('archivado', '!=', '1')->get();
     });
