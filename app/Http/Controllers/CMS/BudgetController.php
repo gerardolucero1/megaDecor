@@ -340,6 +340,7 @@ class BudgetController extends Controller
                     }
             }
         }
+        return Budget::orderBy('id', 'DESC')->first();
 
     }
 
