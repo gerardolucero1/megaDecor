@@ -15,7 +15,7 @@
     <table style="width: 100%; border-bottom:solid; border-bottom-width: 1px; padding-bottom: 15px">
         <tr>
           <td style="width: 30%">
-              <img src="https://caledro.com/megamundo/mega-mundo-decor.png" style="width:200px">
+              <img src="http://caledro.com/megamundo/mega-mundo-decor.png" style="width:200px">
              <p style="text-align: left; font-style: italic; font-size:13px; width: 300px"> Versión de @if($presupuesto->tipo=='PRESUPUESTO') presupuesto @else contrato @endif {{$presupuesto->version}} de {{$presupuesto->version  }}<br><span style="font-style: italic">Fecha de creación: </span> {{$presupuesto->created_at}}<br>@if($presupuesto->pagado!=1)
               <span style="color:red">*Este contrato aun no esta pagado en su totalidad, por lo que es necesario confirmar con vendedor asignado su liberación </span> </td>
                 @endif</p>

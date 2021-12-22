@@ -11,7 +11,7 @@
   <tr>
     @if($presupuesto->tipoEvento == 'Externo' && $presupuesto->tipoServicio == 'Formal')
     <td style="padding-right:100px;">
-        <img src="https://caledro.com/megamundo/mega-mundo-decor.png" style="width:200px">
+        <img src="http://caledro.com/megamundo/mega-mundo-decor.png" style="width:200px">
     </td>
     @else
     <td style="padding-right:100px;">
